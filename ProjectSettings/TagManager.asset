@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Barter
+  - Thing
   layers:
   - Default
   - TransparentFX
