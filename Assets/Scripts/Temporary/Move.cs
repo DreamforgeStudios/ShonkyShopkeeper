@@ -12,9 +12,9 @@ public class Move : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Thing")) {
-            rs.Add(obj.GetComponent<Rigidbody>());
-        }
+        //foreach (GameObject obj in transform.GetComponentsInChildren) {
+        //}
+        rs.AddRange(transform.GetComponentsInChildren<Rigidbody>());
 	}
 	
 	// Update is called once per frame
@@ -28,4 +28,8 @@ public class Move : MonoBehaviour {
             yes = false;
         }
 	}
+
+    public void AddToCollection(Rigidbody ri) {
+        rs.Add(ri);
+    }
 }
