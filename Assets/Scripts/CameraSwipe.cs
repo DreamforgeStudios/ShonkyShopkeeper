@@ -22,12 +22,18 @@ public class CameraSwipe : MonoBehaviour {
     //Point/touch variables
     private bool mouseDown;
 
+    //Particle System
+    public ParticleSystem particle;
+    public int amountOfParticles;
+    private ParticleSystem.EmitParams emitParams;
+
     // Use this for initialization
     void Start () {
         mainCamera = Camera.main;
         SetupLineRenderer();
         position1 = new Vector3(0, 0, 0);
         position2 = new Vector3(rotationAmount, 0, 0);
+        emitParams = new ParticleSystem.EmitParams();
         //mainCamera.transform.eulerAngles = new Vector3(rotationAmount, 0, 0);
     }
 	
@@ -53,6 +59,8 @@ public class CameraSwipe : MonoBehaviour {
 
         if (mouseDown) {
             if (!playerSwipePoints.Contains(mWorldPosition) && playerSwipePoints.Count <= 40) {
+                emitParams.position = mWorldPosition;
+                particle.Emit(emitParams, amountOfParticles);
                 playerSwipePoints.Add(mWorldPosition);
                 lineRenderer.positionCount = playerSwipePoints.Count;
                 lineRenderer.SetPosition(playerSwipePoints.Count - 1, playerSwipePoints[playerSwipePoints.Count - 1]);
@@ -68,7 +76,11 @@ public class CameraSwipe : MonoBehaviour {
             for (int i = 0; i < playerSwipePoints.Count; i++) {
                 if (Math.Abs((playerSwipePoints[i] - startingPoint).x) <= leeway) {
                     if (playerSwipePoints[i].y >= startingPoint.y) {
-                        validPoints += 1;
+                        if (i == 0) {
+                            validPoints += 1;
+                        } else if (playerSwipePoints[i].y >= playerSwipePoints[i - 1].y) {
+                            validPoints += 1;
+                        }
                     }
                 }
             }
@@ -79,8 +91,12 @@ public class CameraSwipe : MonoBehaviour {
             for (int i = 0; i < playerSwipePoints.Count; i++) {
                 if (Math.Abs((playerSwipePoints[i] - startingPoint).x) <= leeway) {
                     if (playerSwipePoints[i].y <= startingPoint.y) {
-                        validPoints += 1;
-                        Debug.Log("Valid points to go up is" + validPoints);
+                        if (i == 0) {
+                            validPoints += 1;
+                        }
+                        else if (playerSwipePoints[i].y <= playerSwipePoints[i - 1].y) {
+                            validPoints += 1;
+                        }
                     }
                 }
             }
