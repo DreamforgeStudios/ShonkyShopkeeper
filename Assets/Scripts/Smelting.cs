@@ -78,10 +78,12 @@ public class Smelting : MonoBehaviour {
 		rb.AddTorque(0, 0, -tapForce);
 
 		// Alternate approach.
-		//Vector3 rotAdd = new Vector3(0, 0, tapForce);
-		//Vector3 rot = transform.eulerAngles;
-		//rot = rot + rotAdd;
-		//transform.eulerAngles = rot;
-		//transform.eulerAngles = Vector3.RotateTowards(transform.eulerAngles, transform.eulerAngles + rotAdd, negativeMomentum, negativeMomentum);
+		/*
+		Vector3 rotAdd = new Vector3(0, 0, tapForce);
+		Vector3 rot = transform.eulerAngles;
+		rot = rot + rotAdd;
+		transform.eulerAngles = rot;
+		transform.eulerAngles = Vector3.RotateTowards(transform.eulerAngles, transform.eulerAngles + rotAdd, negativeMomentum, negativeMomentum);
+		*/
 	}
 }
