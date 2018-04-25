@@ -1,12 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 // INFO: Don't use InputManager (which will be event based) in this class.  It needs more precision and more details.
 public class Cutting : MonoBehaviour {
 	public Vector3[] cutOrigins;
 	public Vector3[] cutVectors;
+	// Currently not a factor.
 	public float[] cutTimes;
+
+	// Player's score for each cut.
+	private float[] scores;
 
 	// The maximum distance that the cut origin can be from the intended origin to be considered a fail.
 	public float maximumDistance;
@@ -22,12 +27,17 @@ public class Cutting : MonoBehaviour {
 
 	public float maximumTimeDiff;
 
+
+	public TextMeshProUGUI directorText;
+	public TextMeshProUGUI gradeText;
+	public TextMeshProUGUI percentText;
+
 	// (?) Allow these vectors to be nullable, so we can reset them more conveniently later.
 	// This also means that we have to use .Value to get the value of these vectors.
 	private Vector3? touchOrigin;
 	private Vector3? touchVector;
 
-	// Current index of the point we're cutting.
+	// Current index of the point we're cutting.h
 	private int currentIndex;
 
 	// DEBUG.
@@ -36,25 +46,46 @@ public class Cutting : MonoBehaviour {
 	private float lCloseness;
 	public GameObject debugObject;
 
+	public bool debug;
+
+	private enum Grades {
+		// Mystic and magical won't exist in the vertical slice, and this will be moved by the time they do.
+		Sturdy,
+		Passable,
+		Brittle,
+		Junk
+	}
+
 	// Use this for initialization
 	void Start () {
 		currentIndex = 0;
+		// Initialize to the size we need.
+		scores = new float[cutOrigins.Length];
+		// for debug.
+		DrawCuts(200);
+
+		UpdateDirector();
+	}
+
+	private void DrawCuts(float lifetime) {
 		// DEBUG.
 		for (int i = 0; i < cutOrigins.Length; i++) {
 			// Place objects at start and end positions.
-			Instantiate(debugObject, cutOrigins[i], Quaternion.identity);
+			Destroy(Instantiate(debugObject, cutOrigins[i], Quaternion.identity), lifetime);
 			//Instantiate(debugObject, cutOrigins[i] + cutVectors[i], Quaternion.identity);
 			Vector3 start = cutOrigins[i];
 			Vector3 end = start + cutVectors[i];
 			if (i == currentIndex)
-				Debug.DrawLine(start, end, Color.red, 200);
+				Debug.DrawLine(start, end, Color.red, lifetime);
 			else
-				Debug.DrawLine(start, end, Color.blue, 200);
+				Debug.DrawLine(start, end, Color.blue, lifetime);
 		}
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		// Mostly to make it easier to place cut points.
+		if (debug) DrawCuts(1);
 		// Check if we are running either in the Unity editor or in a standalone build.
 		#if UNITY_STANDALONE || UNITY_WEBPLAYER
 		// Process mouse inputs.
@@ -92,7 +123,10 @@ public class Cutting : MonoBehaviour {
 			Vector2 mousePos = Input.mousePosition;
 			touchVector = ConvertToWorldPoint(mousePos) - touchOrigin;
 			float close = CalculateCloseness(touchOrigin.Value, touchVector.Value);
+			Debug.Log(close);
+			scores[currentIndex++] = close;
 			DrawDebugLine(touchOrigin.Value);
+			UpdateDirector();
 			//Debug.Log(close);
 
 			// Reset the origin.
@@ -113,7 +147,69 @@ public class Cutting : MonoBehaviour {
 			Debug.DrawLine(Camera.main.ScreenToWorldPoint(start), Camera.main.ScreenToWorldPoint(end), Color.blue, 1f);
 			*/
 
+		if (currentIndex >= cutVectors.Length) {
+			GradeAndFinish();
 		}
+
+		}
+	}
+
+	private void GradeAndFinish() {
+		// Calculate the average cut grade.
+		float sum = 0;
+		foreach (float score in scores) {
+			sum += score;
+		}
+
+		// Average.
+		sum /= scores.Length;
+		// Use as a percentage.
+		sum = 1-sum;
+		Debug.Log(sum);
+
+		percentText.text = ((int)(sum*100f)).ToString() + "%";
+		percentText.color = Color.Lerp(Color.red, Color.green, sum);
+
+		// TODO, this will go in the grading class.
+		// TODO, in the grading class, should be able to get string version of grade...
+		// leaving this here as a reminder.
+		Grades grade;
+		if (sum >= 0.95) {
+			grade = Grades.Sturdy;
+		} else if (sum >= 0.85) {
+			grade = Grades.Passable;
+		} else if (sum >= 0.20) {
+			grade = Grades.Brittle;
+		} else {
+			grade = Grades.Junk;
+		}
+
+		switch (grade) {
+			case Grades.Sturdy:
+				gradeText.text = "Sturdy";
+				gradeText.color = Color.green;
+				break;
+			case Grades.Passable:
+				gradeText.text = "Passable";
+				gradeText.color = Color.white;
+				break;
+			case Grades.Brittle:
+				gradeText.text = "Brittle";
+				gradeText.color = Color.yellow;
+				break;
+			case Grades.Junk:
+				gradeText.text = "Junk";
+				gradeText.color = Color.red;
+				break;
+		}
+
+		gradeText.gameObject.SetActive(true);
+
+		//TODO: build an enum class for the grading.
+	}
+
+	private void UpdateDirector() {
+		directorText.text = "Line to cut: " + (currentIndex+1);
 	}
 
 	private void DrawDebugLine(Vector3 origin) {
@@ -149,7 +245,6 @@ public class Cutting : MonoBehaviour {
 		Vector3 vn = Vector3.Normalize(vec);
 		Vector3 cn = Vector3.Normalize(cutVectors[currentIndex]);
 		float vSimilarity = 1-Vector3.Dot(vn, cn);
-		Debug.Log(vSimilarity);
 		vectorCloseness = Mathf.InverseLerp(0, maximumCloseness, vSimilarity);
 		this.vCloseness = vectorCloseness;
 
