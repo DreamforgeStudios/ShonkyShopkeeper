@@ -35,3 +35,4 @@ sysinfo.txt
 *.unitypackage
 Library/
 .vscode/
+UnityPlayer.dll

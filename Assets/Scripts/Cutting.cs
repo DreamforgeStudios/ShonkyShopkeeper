@@ -7,8 +7,6 @@ using TMPro;
 public class Cutting : MonoBehaviour {
 	public Vector3[] cutOrigins;
 	public Vector3[] cutVectors;
-	// Currently not a factor.
-	public float[] cutTimes;
 
 	// Player's score for each cut.
 	private float[] scores;
@@ -28,7 +26,12 @@ public class Cutting : MonoBehaviour {
 	public float maximumTimeDiff;
 
 
+	// The time the player has to cut each line.
+	public float timePerLine;
+	private float currentLineTime;
+
 	public TextMeshProUGUI directorText;
+	public TextMeshProUGUI timerText;
 	public TextMeshProUGUI gradeText;
 	public TextMeshProUGUI percentText;
 
@@ -40,11 +43,17 @@ public class Cutting : MonoBehaviour {
 	// Current index of the point we're cutting.h
 	private int currentIndex;
 
+	// Keep a reference around to despawn later.
+	private GameObject currentCutPoint;
+
+	// Defecit towards the goal.
+	public float defecit;
+
 	// DEBUG.
 	private float oCloseness;
 	private float vCloseness;
 	private float lCloseness;
-	public GameObject debugObject;
+	public GameObject cutIndicator;
 
 	public bool debug;
 
@@ -59,30 +68,26 @@ public class Cutting : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		currentIndex = 0;
+		SpawnCut(cutOrigins[currentIndex], cutVectors[currentIndex]);
+
+		currentLineTime = timePerLine;
+
 		// Initialize to the size we need.
 		scores = new float[cutOrigins.Length];
-		// for debug.
-		DrawCuts(200);
 
 		UpdateDirector();
+		timerTicking = true;
 	}
 
-	private void DrawCuts(float lifetime) {
-		// DEBUG.
-		for (int i = 0; i < cutOrigins.Length; i++) {
-			// Place objects at start and end positions.
-			Destroy(Instantiate(debugObject, cutOrigins[i], Quaternion.identity), lifetime);
-			//Instantiate(debugObject, cutOrigins[i] + cutVectors[i], Quaternion.identity);
-			Vector3 start = cutOrigins[i];
-			Vector3 end = start + cutVectors[i];
-			if (i == currentIndex)
-				Debug.DrawLine(start, end, Color.red, lifetime);
-			else
-				Debug.DrawLine(start, end, Color.blue, lifetime);
-		}
+	private void SpawnCut(Vector3 origin, Vector3 cut) {
+		// Instantiate cut at point.
+		currentCutPoint = Instantiate(cutIndicator, origin, Quaternion.identity);
+		CutPoint point = currentCutPoint.GetComponent<CutPoint>();
+		point.SetCutVector(cut);
 	}
 	
 	// Update is called once per frame
+	private bool timerTicking;
 	void Update () {
 		// Mostly to make it easier to place cut points.
 		if (debug) DrawCuts(1);
@@ -97,6 +102,18 @@ public class Cutting : MonoBehaviour {
 
 		// End platform dependant input.
 		#endif
+
+		// Take away from the time given on the current line.
+		if (timerTicking) {
+			if (currentLineTime <= 0) {
+				currentLineTime = 0;
+				defecit += Time.deltaTime;
+			} else {
+				currentLineTime -= Time.deltaTime;
+			}
+		}
+
+		UpdateTimerText();
 	}
 
 	// TODO, program for touch events.
@@ -113,7 +130,6 @@ public class Cutting : MonoBehaviour {
 	}
 
 	private void ProcessMouse() {
-		// TODO: record time.
 		if (Input.GetMouseButtonDown(0)) {
 			//Debug.Log("Clicked the screen at position: " + Input.mousePosition);
 			touchOrigin = ConvertToWorldPoint(Input.mousePosition);
@@ -127,7 +143,8 @@ public class Cutting : MonoBehaviour {
 			scores[currentIndex++] = close;
 			DrawDebugLine(touchOrigin.Value);
 			UpdateDirector();
-			//Debug.Log(close);
+			// Reset the timer but keep it ticking.
+			ResetTimer(true);
 
 			// Reset the origin.
 			touchOrigin = null;
@@ -147,11 +164,23 @@ public class Cutting : MonoBehaviour {
 			Debug.DrawLine(Camera.main.ScreenToWorldPoint(start), Camera.main.ScreenToWorldPoint(end), Color.blue, 1f);
 			*/
 
-		if (currentIndex >= cutVectors.Length) {
-			GradeAndFinish();
+			if (currentIndex >= cutVectors.Length) {
+				GradeAndFinish();
+			} else {
+				Debug.Log("Spawning");
+				Destroy(currentCutPoint);
+				SpawnCut(cutOrigins[currentIndex], cutVectors[currentIndex]);
+			}
 		}
+	}
 
-		}
+	private void UpdateTimerText() {
+		timerText.text = "Time: " + currentLineTime;
+	}
+
+	private void ResetTimer(bool ticking) {
+		currentLineTime = timePerLine;
+		timerTicking = ticking;
 	}
 
 	private void GradeAndFinish() {
@@ -165,6 +194,8 @@ public class Cutting : MonoBehaviour {
 		sum /= scores.Length;
 		// Use as a percentage.
 		sum = 1-sum;
+		// Take away using the time defecit.
+		sum -= (.01f * defecit);
 		Debug.Log(sum);
 
 		percentText.text = ((int)(sum*100f)).ToString() + "%";
@@ -261,9 +292,23 @@ public class Cutting : MonoBehaviour {
 		return (originCloseness + vectorCloseness + lengthCloseness) / 3f;
 	}
 
+	// Debug function.
+	private void DrawCuts(float lifetime) {
+		for (int i = 0; i < cutOrigins.Length; i++) {
+			// Place objects at start and end positions.
+			Destroy(Instantiate(cutIndicator, cutOrigins[i], Quaternion.identity), lifetime);
+			//Instantiate(debugObject, cutOrigins[i] + cutVectors[i], Quaternion.identity);
+			Vector3 start = cutOrigins[i];
+			Vector3 end = start + cutVectors[i];
+			if (i == currentIndex)
+				Debug.DrawLine(start, end, Color.red, lifetime);
+			else
+				Debug.DrawLine(start, end, Color.blue, lifetime);
+		}
+	}
+
     void OnGUI()
     {
-        Vector3 p = new Vector3();
         Camera  c = Camera.main;
         Event   e = Event.current;
         Vector2 mousePos = new Vector2();
@@ -272,8 +317,6 @@ public class Cutting : MonoBehaviour {
         // Note that the y position from Event is inverted.
         mousePos.x = e.mousePosition.x;
         mousePos.y = c.pixelHeight - e.mousePosition.y;
-
-        p = c.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, c.nearClipPlane));
 
         GUILayout.BeginArea(new Rect(20, 20, 250, 120));
         GUILayout.Label("Origin Closeness: " + oCloseness);
