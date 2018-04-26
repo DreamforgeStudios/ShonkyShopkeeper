@@ -25,7 +25,6 @@ public class Cutting : MonoBehaviour {
 
 	public float maximumTimeDiff;
 
-
 	// The time the player has to cut each line.
 	public float timePerLine;
 	private float currentLineTime;
@@ -56,14 +55,6 @@ public class Cutting : MonoBehaviour {
 	public GameObject cutIndicator;
 
 	public bool debug;
-
-	private enum Grades {
-		// Mystic and magical won't exist in the vertical slice, and this will be moved by the time they do.
-		Sturdy,
-		Passable,
-		Brittle,
-		Junk
-	}
 
 	// Use this for initialization
 	void Start () {
@@ -98,7 +89,9 @@ public class Cutting : MonoBehaviour {
 
 		#elif UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE
 		// Process touch inputs.
-		ProcessTouch();
+		// TODO, program for touch events.
+		//ProcessTouch();
+		ProcessMouse;
 
 		// End platform dependant input.
 		#endif
@@ -116,7 +109,6 @@ public class Cutting : MonoBehaviour {
 		UpdateTimerText();
 	}
 
-	// TODO, program for touch events.
 	private void ProcessTouch() {
 		// Loop through all current touch events.
 		foreach (Touch touch in Input.touches) {
@@ -148,21 +140,6 @@ public class Cutting : MonoBehaviour {
 
 			// Reset the origin.
 			touchOrigin = null;
-
-			/* DEBUG --
-			Vector2 mousePos = Input.mousePosition;
-			Vector3 pos = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, 10));
-			transform.position = pos;
-
-			// Get the vector of the current input.
-			touchVector = touchOrigin - Input.mousePosition;
-			Vector3 start = touchOrigin.Value;
-			start.z = 10;
-
-			Vector3 end = Input.mousePosition;
-			end.z = 10;
-			Debug.DrawLine(Camera.main.ScreenToWorldPoint(start), Camera.main.ScreenToWorldPoint(end), Color.blue, 1f);
-			*/
 
 			if (currentIndex >= cutVectors.Length) {
 				GradeAndFinish();
@@ -201,42 +178,11 @@ public class Cutting : MonoBehaviour {
 		percentText.text = ((int)(sum*100f)).ToString() + "%";
 		percentText.color = Color.Lerp(Color.red, Color.green, sum);
 
-		// TODO, this will go in the grading class.
-		// TODO, in the grading class, should be able to get string version of grade...
-		// leaving this here as a reminder.
-		Grades grade;
-		if (sum >= 0.95) {
-			grade = Grades.Sturdy;
-		} else if (sum >= 0.85) {
-			grade = Grades.Passable;
-		} else if (sum >= 0.20) {
-			grade = Grades.Brittle;
-		} else {
-			grade = Grades.Junk;
-		}
-
-		switch (grade) {
-			case Grades.Sturdy:
-				gradeText.text = "Sturdy";
-				gradeText.color = Color.green;
-				break;
-			case Grades.Passable:
-				gradeText.text = "Passable";
-				gradeText.color = Color.white;
-				break;
-			case Grades.Brittle:
-				gradeText.text = "Brittle";
-				gradeText.color = Color.yellow;
-				break;
-			case Grades.Junk:
-				gradeText.text = "Junk";
-				gradeText.color = Color.red;
-				break;
-		}
+		Quality.QualityGrade grade = Quality.FloatToGrade(sum, 1);
+		gradeText.text = Quality.GradeToString(grade);
+		gradeText.color = Quality.GradeToColor(grade);
 
 		gradeText.gameObject.SetActive(true);
-
-		//TODO: build an enum class for the grading.
 	}
 
 	private void UpdateDirector() {
