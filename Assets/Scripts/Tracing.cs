@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Tracing : MonoBehaviour {
     //Tracing & Vector Lists
@@ -29,10 +30,7 @@ public class Tracing : MonoBehaviour {
     private Camera mainCamera;
     private bool isMouseDown = false;
     private float mouseDownTime;
-    public enum Quality {
-        NotGraded, F, E, D, C, B, A
-    }
-    public Quality itemQuality = Quality.NotGraded;
+    private SceneManager scemeManager;
 
     //Distance and tracking variables
     public int hitPoints = 0;
@@ -47,6 +45,8 @@ public class Tracing : MonoBehaviour {
     private float accuracyScore = 0;
     private float score = 0;
     public float finalScore = 0;
+    public Quality.QualityGrade grade;
+    public static Quality.QualityGrade finalGrade;
 
     //Tming Variables
     public float startTime;
@@ -70,6 +70,7 @@ public class Tracing : MonoBehaviour {
         if (canTrace) {
             currentTime = Time.time;
             GetInput();
+            finalGrade = grade;
         }
     }
 
@@ -158,9 +159,8 @@ public class Tracing : MonoBehaviour {
             //Debug.Log("Accuracy Score is " + score);
             if (score > 0) {
                 finalScore = CalculateTimeScore(score);
-                Debug.Log("final score is " + finalScore);
                 DetermineQuality(finalScore);
-                //Debug.Log(itemQuality);
+                this.GetComponent<UISliderAndBehaviour>().QualityText();
             }
         }
 
@@ -174,28 +174,13 @@ public class Tracing : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.R)) {
             ResetOptimalPoints();
+            SceneManager.LoadScene("Tracing");
         }
     }
 
     private void DetermineQuality(float finalScore) {
-        if (finalScore == 1000) {
-            itemQuality = Quality.A;
-        }
-        else if (finalScore < 1000 && finalScore >= 835) {
-            itemQuality = Quality.B;
-        }
-        else if (finalScore < 835 && finalScore >= 670) {
-            itemQuality = Quality.C;
-        }
-        else if (finalScore < 670 && finalScore >= 505) {
-            itemQuality = Quality.D;
-        }
-        else if (finalScore < 505 && finalScore >= 340) {
-            itemQuality = Quality.E;
-        }
-        else {
-            itemQuality = Quality.F;
-        }
+        float decimalScore = finalScore / 1000;
+        grade = Quality.FloatToGrade(decimalScore, 1);
     }
 
     private float CalculateTimeScore(float accuracyScore) {
@@ -290,11 +275,6 @@ public class Tracing : MonoBehaviour {
 
     private void ResetOptimalPoints() {
         hitPoints = 0;
-        /*
-        foreach (GameObject cube in cubes) {
-            cube.GetComponent<Renderer>().material.color = Color.gray;
-        }
-        */
         lineRenderer.positionCount = 0;
         playerPoints.RemoveRange(0, playerPoints.Count);
         optimalPointIndex.RemoveRange(0, optimalPointIndex.Count);

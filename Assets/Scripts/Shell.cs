@@ -8,12 +8,11 @@ public class Shell : Item {
         Rune1, Rune2
     }
     private ItemType type;
-    private Quality quality;
     private RuneType rune;
 
-    public Shell(Quality quality, RuneType rune) {
+    public Shell(Quality.QualityGrade quality, RuneType rune) {
         type = ItemType.Shell;
-        this.quality = quality;
+        qualityGrade = quality;
         this.rune = rune;
         quantity = 1;
         stackLimit = 1;

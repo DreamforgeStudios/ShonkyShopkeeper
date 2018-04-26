@@ -12,8 +12,7 @@ public class UISliderAndBehaviour : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         mainCamera = Camera.main;
-
-
+        qualityText.enabled = false;
 	}
 	
 	// Update is called once per frame
@@ -23,10 +22,11 @@ public class UISliderAndBehaviour : MonoBehaviour {
         timerSlider.maxValue = tracer.GetComponent<Tracing>().finishTime;
         Color sliderColour = Color.Lerp(Color.green, Color.red, timerSlider.value / timerSlider.maxValue);
         sliderImage.color = sliderColour;
-        QualityText();
     }
 
     public void QualityText() {
-        qualityText.text = "Quality = " + tracer.GetComponent<Tracing>().itemQuality;
+        qualityText.enabled = true;
+        qualityText.text = "Quality: " + Quality.GradeToString(tracer.GetComponent<Tracing>().grade);
+        qualityText.color = Quality.GradeToColor(tracer.GetComponent<Tracing>().grade);
     }
 }
