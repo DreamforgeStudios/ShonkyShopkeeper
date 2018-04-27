@@ -23,6 +23,8 @@ public class Tracing : MonoBehaviour {
     public Material material;
     public Color chosenStartColour;
     public Color chosenFinishColour;
+    public GameObject Button1Group;
+    public GameObject Button2Group;
 
     //Misc Variables
     private int zero = 0;
@@ -60,6 +62,8 @@ public class Tracing : MonoBehaviour {
     // Use this for initialization
     void Start() {
         mainCamera = Camera.main;
+        Button1Group.SetActive(false);
+        Button2Group.SetActive(false);
         SetupLineRenderer();
         GetNecessaryPositions(1);
         StartCoroutine(ShowOrder(cubeRune1.Length));
@@ -160,6 +164,8 @@ public class Tracing : MonoBehaviour {
             if (score > 0) {
                 finalScore = CalculateTimeScore(score);
                 DetermineQuality(finalScore);
+                Button1Group.SetActive(true);
+                Button2Group.SetActive(true);
                 this.GetComponent<UISliderAndBehaviour>().QualityText();
             }
         }

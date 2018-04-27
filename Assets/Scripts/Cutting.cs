@@ -91,7 +91,7 @@ public class Cutting : MonoBehaviour {
 		// Process touch inputs.
 		// TODO, program for touch events.
 		//ProcessTouch();
-		ProcessMouse;
+		ProcessMouse();
 
 		// End platform dependant input.
 		#endif

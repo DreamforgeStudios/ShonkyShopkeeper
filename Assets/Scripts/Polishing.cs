@@ -2,20 +2,43 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using TMPro;
 
 public class Polishing : MonoBehaviour {
 
+    //Misc variables and objects
     private Camera mainCamera;
     public GameObject gemObject;
-    public int numberOfSwipes = 0;
-    public static Quality.QualityGrade finalGrade;
-    public float timeLimit;
-    private bool isMouseDown;
+    public Color colourStart;
+    public Color ColourEnd;
+
+    //Time Variables
     private float startTime;
     private float currentTime;
     private float finishTime;
+    public float timeLimit;
+
+    //Score and Grading
+    public int numberOfSwipes = 0;
+    public static Quality.QualityGrade finalGrade;
+
+    //State Tracking
+    private bool isMouseDown;
     private bool coroutineRunning = false;
+    private bool gameOver = false;
     private Vector3 mWorldPosition;
+
+    //UI elements
+    public TextMeshProUGUI text;
+    public TextMeshProUGUI qualityText;
+    public Slider timerSlider;
+    public Image sliderImage;
+    public Button nextScene;
+    public Button retryScene;
+    public GameObject nextButtonGroup;
+    public GameObject retrySceneGroup;
 
     //Vector to swipe over
     private Vector3 keyPoint;
@@ -28,25 +51,45 @@ public class Polishing : MonoBehaviour {
     void Start() {
         mainCamera = Camera.main;
         keyPoint = gemObject.transform.position;
+        nextScene.enabled = false;
+        retryScene.enabled = false;
+        qualityText.enabled = false;
     }
 
     // Update is called once per frame
     void Update() {
-        GetInput();
+        if (!gameOver) {
+            GetInput();
+            ObjectColourLerp();
+            timerSlider.value = currentTime;
+            timerSlider.minValue = startTime;
+            timerSlider.maxValue = finishTime;
+            Color sliderColour = Color.Lerp(Color.green, Color.red, timerSlider.value / timerSlider.maxValue);
+            sliderImage.color = sliderColour;
+        } else {
+            GameOver();
+        }
+    }
+
+    private void ObjectColourLerp() {
+        gemObject.GetComponent<Renderer>().material.color = Color.Lerp(colourStart, ColourEnd, (numberOfSwipes + 1) / (timeLimit * 10));
     }
 
     private void GetInput() {
         Vector3 mPosition = Input.mousePosition;
         mWorldPosition = mainCamera.ScreenToWorldPoint(mPosition);
         currentTime = Time.time;
+        text.text = "Number of Swipes: " + numberOfSwipes;
+        //if (Input.touchCount > 0) {
         if (Input.GetMouseButtonDown(0)) {
             isMouseDown = true;
-            startTime = Time.time;
-            finishTime = currentTime + timeLimit;
-            coroutineRunning = false;
+            if (!coroutineRunning) {
+                startTime = Time.time;
+                finishTime = currentTime + timeLimit;
+                coroutineRunning = false;
+            }
         }
-
-        if (Input.GetMouseButtonUp(0)) {
+        else {
             isMouseDown = false;
         }
 
@@ -56,7 +99,7 @@ public class Polishing : MonoBehaviour {
                 StartCoroutine(CalculateSwipes(true));
                 coroutineRunning = true;
             }
-            else if (mWorldPosition.x > keyPoint.x && !coroutineRunning){
+            else if (mWorldPosition.x > keyPoint.x && !coroutineRunning) {
                 StartCoroutine(CalculateSwipes(false));
                 coroutineRunning = true;
             }
@@ -65,19 +108,53 @@ public class Polishing : MonoBehaviour {
     //Calculate number of swipes
     IEnumerator CalculateSwipes(bool leftSideStart) {
         while (currentTime < finishTime) {
+            //for (int i = 0; i < Input.touchCount; i++) {
             if (leftSideStart) {
                 if (mWorldPosition.x > keyPoint.x) {
                     numberOfSwipes++;
                     leftSideStart = false;
                 }
-            } else {
+            }
+            else {
                 if (mWorldPosition.x < keyPoint.x) {
                     numberOfSwipes++;
                     leftSideStart = true;
                 }
+                //}
             }
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.05f);
         }
+        coroutineRunning = false;
+        gameOver = true;
         StopCoroutine(CalculateSwipes(false));
+    }
+
+    private void GameOver() {
+        if (gameOver) {
+            CalculateGrade();
+            nextButtonGroup.SetActive(true);
+            retrySceneGroup.SetActive(true);
+            qualityText.text = Quality.GradeToString(finalGrade);
+            qualityText.color = Quality.GradeToColor(finalGrade);
+            qualityText.enabled = true;
+            nextScene.enabled = true;
+            retryScene.enabled = true;
+        }
+    }
+
+    private void CalculateGrade() {
+        float finalScore = numberOfSwipes / timeLimit;
+        if (finalScore >= 10) {
+            finalGrade = Quality.FloatToGrade(1f, 1);
+        }
+        else if (finalScore >= 8.5 && finalScore < 10) {
+            finalGrade = Quality.FloatToGrade(0.85f, 1);
+        }
+        else if (finalScore < 8.5 && finalScore > 5) {
+            finalGrade = Quality.FloatToGrade(0.5f, 1);
+        }
+        else {
+            finalGrade = Quality.FloatToGrade(0, 1);
+        }
     }
 }
