@@ -5,12 +5,10 @@ using UnityEngine;
 public class Brick : Item {
 
     private ItemType type;
-    private Quality quality;
 
-
-    public Brick(Quality quality) {
+    public Brick(Quality.QualityGrade refinedGrade) {
         type = ItemType.Brick;
-        this.quality = quality;
+        qualityGrade = refinedGrade;
         quantity = 1;
         stackLimit = 1;
         merging = false;

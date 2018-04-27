@@ -5,12 +5,11 @@ using UnityEngine;
 public class Jewel : Item {
 
     private ItemType type;
-    private Quality quality;
     private GemType gem;
 
-    public Jewel(GemType gemType, Quality refinedQuality) {
+    public Jewel(GemType gemType, Quality.QualityGrade refinedQuality) {
         type = ItemType.Jewel;
-        quality = refinedQuality;
+        qualityGrade = refinedQuality;
         gem = gemType;
         quantity = 1;
         stackLimit = 1;
