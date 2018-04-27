@@ -95,13 +95,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bfcee20939c2f94eafcee8909283d7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radiusTransitionTime: 2
-  thicknessTransitionTime: 2
+  radiusTransitionTime: 1.5
+  thicknessTransitionTime: 1.5
   startRadius: 1
-  lineStartThickness: 1.5
+  lineStartThickness: 5
   endRadius: 0.11
   lineEndThickness: 0.25
   thickness: 0.02
+  cutVector: {x: 0, y: 0, z: 0}
   afterlife: 0
 --- !u!120 &120107321528967872
 LineRenderer:
@@ -189,7 +190,7 @@ LineRenderer:
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     numCornerVertices: 0
-    numCapVertices: 6
+    numCapVertices: 8
     alignment: 0
     textureMode: 1
     generateLightingData: 0

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 // INFO: Don't use InputManager (which will be event based) in this class.  It needs more precision and more details.
@@ -23,14 +24,18 @@ public class Cutting : MonoBehaviour {
 	public float maximumLength;
 	public float impactLength;
 
-	public float maximumTimeDiff;
+	// The best possible swipe time that the player can get.
+	public float baseTime;
+	// The maximum time before the time component of a swipe is considered "worthless".
+	public float maximumTime;
+	// The impact that time should have on the score.
+	public float impactTime;
 
-	// The time the player has to cut each line.
-	public float timePerLine;
-	private float currentLineTime;
+	// TODO: this might not need to be a global.
+	private float swipeTime;
+	//private float swipeEndTime;
 
 	public TextMeshProUGUI directorText;
-	public TextMeshProUGUI timerText;
 	public TextMeshProUGUI gradeText;
 	public TextMeshProUGUI percentText;
 
@@ -45,29 +50,23 @@ public class Cutting : MonoBehaviour {
 	// Keep a reference around to despawn later.
 	private GameObject currentCutPoint;
 
-	// Defecit towards the goal.
-	public float defecit;
-
 	// DEBUG.
 	private float oCloseness;
 	private float vCloseness;
 	private float lCloseness;
+	private float tCloseness;
 	public GameObject cutIndicator;
 
 	public bool debug;
 
 	// Use this for initialization
 	void Start () {
+		// Should probably do more initialization here...
 		currentIndex = 0;
 		SpawnCut(cutOrigins[currentIndex], cutVectors[currentIndex]);
 
-		currentLineTime = timePerLine;
-
 		// Initialize to the size we need.
 		scores = new float[cutOrigins.Length];
-
-		UpdateDirector();
-		timerTicking = true;
 	}
 
 	private void SpawnCut(Vector3 origin, Vector3 cut) {
@@ -78,65 +77,74 @@ public class Cutting : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	private bool timerTicking;
 	void Update () {
 		// Mostly to make it easier to place cut points.
 		if (debug) DrawCuts(1);
-		// Check if we are running either in the Unity editor or in a standalone build.
-		#if UNITY_STANDALONE || UNITY_WEBPLAYER
-		// Process mouse inputs.
-		ProcessMouse();
 
-		#elif UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE
-		// Process touch inputs.
-		// TODO, program for touch events.
-		//ProcessTouch();
-		ProcessMouse;
-
-		// End platform dependant input.
-		#endif
-
-		// Take away from the time given on the current line.
-		if (timerTicking) {
-			if (currentLineTime <= 0) {
-				currentLineTime = 0;
-				defecit += Time.deltaTime;
-			} else {
-				currentLineTime -= Time.deltaTime;
-			}
-		}
-
-		UpdateTimerText();
+		// Check where we are running the program.
+		RuntimePlatform p = Application.platform;
+		if (p == RuntimePlatform.WindowsEditor || p == RuntimePlatform.WindowsPlayer)
+			// Process mouse inputs.
+			ProcessMouse();
+		else if (p == RuntimePlatform.IPhonePlayer || p == RuntimePlatform.Android)
+			// Process touch inputs.
+			ProcessTouch();
 	}
 
 	private void ProcessTouch() {
-		// Loop through all current touch events.
-		foreach (Touch touch in Input.touches) {
-			Debug.Log("Touched the screen at position: " + touch.position);
-			// Construct a ray from the current touch coordinates.
-			Ray ray = Camera.main.ScreenPointToRay(touch.position);
-			if (Physics.Raycast(ray)) {
-				// Do something if hit.
+		// Don't let the player use multiple fingers, and don't run if there's no input.
+		if (Input.touchCount > 1 || Input.touchCount == 0) {
+			return;
+		}
+
+		Touch touch = Input.GetTouch(0);
+		if (touch.phase == TouchPhase.Began) {
+			InitiateTouch(touch);
+		} else if (touch.phase == TouchPhase.Ended || touch.phase == TouchPhase.Canceled) {
+			ConcludeTouch(touch);
+
+			if (currentIndex >= cutVectors.Length) {
+				GradeAndFinish();
+			} else {
+				Destroy(currentCutPoint);
+				SpawnCut(cutOrigins[currentIndex], cutVectors[currentIndex]);
 			}
+		} else {
+			// The player must be holding down.
+			// Perhaps we should move this to something like IdleTouch()... but no point rn.
+			swipeTime += Time.deltaTime;
 		}
 	}
 
+	private void InitiateTouch(Touch touch) {
+		swipeTime = 0;
+		touchOrigin = ConvertToWorldPoint(touch.position);
+	}
+
+	private void ConcludeTouch(Touch touch) {
+		Vector2 touchPos = touch.position;
+		touchVector = ConvertToWorldPoint(touchPos) - touchOrigin;
+		float close = CalculateCloseness(touchOrigin.Value, touchVector.Value, swipeTime);
+		scores[currentIndex++] = close;
+		touchOrigin = null;
+	}
+
+	// Only here for debugging on PC.
+	private bool holding = false;
 	private void ProcessMouse() {
 		if (Input.GetMouseButtonDown(0)) {
-			//Debug.Log("Clicked the screen at position: " + Input.mousePosition);
+			holding = true;
+			swipeTime = 0;
 			touchOrigin = ConvertToWorldPoint(Input.mousePosition);
 		}
 
 		if (Input.GetMouseButtonUp(0)) {
+			holding = false;
 			Vector2 mousePos = Input.mousePosition;
 			touchVector = ConvertToWorldPoint(mousePos) - touchOrigin;
-			float close = CalculateCloseness(touchOrigin.Value, touchVector.Value);
-			Debug.Log(close);
+			float close = CalculateCloseness(touchOrigin.Value, touchVector.Value, swipeTime);
 			scores[currentIndex++] = close;
 			DrawDebugLine(touchOrigin.Value);
-			UpdateDirector();
-			// Reset the timer but keep it ticking.
-			ResetTimer(true);
 
 			// Reset the origin.
 			touchOrigin = null;
@@ -144,20 +152,14 @@ public class Cutting : MonoBehaviour {
 			if (currentIndex >= cutVectors.Length) {
 				GradeAndFinish();
 			} else {
-				Debug.Log("Spawning");
 				Destroy(currentCutPoint);
 				SpawnCut(cutOrigins[currentIndex], cutVectors[currentIndex]);
 			}
 		}
-	}
 
-	private void UpdateTimerText() {
-		timerText.text = "Time: " + currentLineTime;
-	}
-
-	private void ResetTimer(bool ticking) {
-		currentLineTime = timePerLine;
-		timerTicking = ticking;
+		if (holding) {
+			swipeTime += Time.deltaTime;
+		}
 	}
 
 	private void GradeAndFinish() {
@@ -171,9 +173,6 @@ public class Cutting : MonoBehaviour {
 		sum /= scores.Length;
 		// Use as a percentage.
 		sum = 1-sum;
-		// Take away using the time defecit.
-		sum -= (.01f * defecit);
-		Debug.Log(sum);
 
 		percentText.text = ((int)(sum*100f)).ToString() + "%";
 		percentText.color = Color.Lerp(Color.red, Color.green, sum);
@@ -183,10 +182,6 @@ public class Cutting : MonoBehaviour {
 		gradeText.color = Quality.GradeToColor(grade);
 
 		gradeText.gameObject.SetActive(true);
-	}
-
-	private void UpdateDirector() {
-		directorText.text = "Line to cut: " + (currentIndex+1);
 	}
 
 	private void DrawDebugLine(Vector3 origin) {
@@ -202,7 +197,7 @@ public class Cutting : MonoBehaviour {
 		return Camera.main.ScreenToWorldPoint(screenPoint);
 	}
 
-	private float CalculateCloseness(Vector3 origin, Vector3 vec) {
+	private float CalculateCloseness(Vector3 origin, Vector3 vec, float time) {
 		//origin = ConvertToWorldPoint(origin);
 
 		// 0 = close, 1 = far.
@@ -231,11 +226,15 @@ public class Cutting : MonoBehaviour {
 		lengthCloseness = Mathf.InverseLerp(0, maximumLength, Mathf.Abs(vl-cl));
 		this.lCloseness = lengthCloseness;
 
+		float timeCloseness = Mathf.InverseLerp(baseTime, maximumTime, time);
+		this.tCloseness = timeCloseness;
+
 		originCloseness *= impactDistance;
 		vectorCloseness *= impactCloseness;
 		lengthCloseness *= impactLength;
+		timeCloseness *= impactTime;
 
-		return (originCloseness + vectorCloseness + lengthCloseness) / 3f;
+		return (originCloseness + vectorCloseness + lengthCloseness + timeCloseness) / 4f;
 	}
 
 	// Debug function.
@@ -253,6 +252,10 @@ public class Cutting : MonoBehaviour {
 		}
 	}
 
+	public void Reset() {
+		SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+	}
+
     void OnGUI()
     {
         Camera  c = Camera.main;
@@ -268,6 +271,7 @@ public class Cutting : MonoBehaviour {
         GUILayout.Label("Origin Closeness: " + oCloseness);
         GUILayout.Label("Vector Closeness: " + vCloseness);
         GUILayout.Label("Length Closeness: " + lCloseness);
+        GUILayout.Label("Time Closeness: " + tCloseness);
         GUILayout.EndArea();
     }
 }

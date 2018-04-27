@@ -25,7 +25,7 @@ public class CutPoint : MonoBehaviour {
 	private float currentThicknessTime;
 
 	// The vector to draw with a line renderer.
-	private Vector3 cutVector;
+	public Vector3 cutVector;
 
 	// How long the circle should stick around after its reached the final circle.
 	// Not sure about this one.
@@ -45,6 +45,8 @@ public class CutPoint : MonoBehaviour {
 		lr = GetComponent<LineRenderer>();
 		r = GetComponent<Renderer>();
 		r.material.SetFloat("_RadiusWidth", thickness);
+
+		SetCutVector(cutVector);
 	}
 	
 	// Update is called once per frame
@@ -55,7 +57,13 @@ public class CutPoint : MonoBehaviour {
 
 		currentThicknessTime += Time.deltaTime;
 		float w = Mathf.Lerp(lineStartThickness, lineEndThickness, currentThicknessTime / thicknessTransitionTime);
-		lr.startWidth = w;
+
+		// Use this until Unity 2018.2 to work around a bug.
+		//lr.startWidth = w; -- should work but buggy sometimes.
+		AnimationCurve curve = new AnimationCurve();
+		curve.AddKey(0, w);
+		curve.AddKey(1, 0);
+		lr.widthCurve = curve;
 	}
 
 	public void SetCutVector(Vector3 cut) {
