@@ -139,6 +139,10 @@ public class Polishing : MonoBehaviour {
             qualityText.enabled = true;
             nextScene.enabled = true;
             retryScene.enabled = true;
+            // For transfering quality between scenes.
+            if (GameManager.instance) {
+                GameManager.instance.UpdateQuality(numberOfSwipes / timeLimit, 3);
+            }
         }
     }
 

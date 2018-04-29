@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using TMPro;
 
 public class Barter : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerDownHandler {
     public GameObject background;
-    public Text txtPrice;
+    public TextMeshProUGUI txtPrice;
     public Text txtDebug;
     //private float prevPlayerOffer; // debug.
 
@@ -56,6 +57,9 @@ public class Barter : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     // Multiply the force that NPCs shove the slider.  Would be nice to not have to hard code this, maybe make the wheel work more closely with values?
     public float shoveMultiplier = 1f;
 
+    // Keep track of the NPC personality so that we can trigger events for them (shake, talk, etc).
+    private Personality personality;
+
     // Use this for initialization
     void Start () {
         this.backgroundrb = this.background.GetComponent<Rigidbody2D>();
@@ -77,6 +81,8 @@ public class Barter : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         // AKA, bidding has gone on too long.
         if (this.currentMaxPrice < this.currentOffer) {
             counter = 0f;
+            personality.Shake(1f, 1.2f);
+            personality.TalkReject(1f);
             return false;
         }
 
@@ -98,9 +104,15 @@ public class Barter : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         float rand = Random.value;
         // Chance is kind, we accept the offer.
         if (rand <= acceptChance) {
+            // TODO: use variables to guide this.
+            // TODO: use DenyOffer() or something like that?
+            personality.Shake(1.1f-acceptChance, 0.5f);
+            personality.TalkAccept(acceptChance);
             counter = offer;
             return false;
         } else if (rand <= rejectChance) {
+            personality.Shake(1-acceptChance, 1.2f);
+            personality.TalkReject(rejectChance);
             counter = 0f;
             return false;
         } else {
@@ -115,6 +127,9 @@ public class Barter : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
             this.currentOffer += change;
             this.currentMaxPrice -= this.overflowStep;
             this.absoluteMaxPrice -= this.absoluteOverflowStep;
+
+            personality.Shake(change * 0.1f, 1f);
+            personality.TalkCounter(acceptChance);
 
             // Shove the slider to give some feedback on the offer.
             Debug.Log("Should shove the slider back " + (this.fPrice - this.currentOffer) + " points.");
@@ -168,15 +183,8 @@ public class Barter : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         this.deal.SetActive(true);
     }
 
-    public void ResetButtons() {
-        this.noDeal.SetActive(false);
-        this.deal.SetActive(false);
-        this.offerButton.interactable = true;
-    }
-
     // SYSTEM / DRAGGING / SLIDER STUFF
     //*******************************//
-
     // Make it so that the player stops the wheel as soon as they tap.
     public void OnPointerDown(PointerEventData eventData) {
         if (!wheelActive) return;
@@ -212,8 +220,6 @@ public class Barter : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
 
     private void MoveSliderBack(float val) {
         StartCoroutine(InterpolateSliderMove(0, val));
-        //Vector3 move = new Vector3(val * this.priceChangeMultiplier, 0, 0);
-        //this.backgroundrb.MovePosition(this.transform.position - move);
     }
 
     IEnumerator InterpolateSliderMove(float from, float to) {
@@ -252,6 +258,7 @@ public class Barter : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
 
     public void LoadPersonality(Personality personality) {
         Debug.Log("loading new personality");
+        this.personality = personality;
         this.acceptGradient = personality.acceptGradient;
         this.declineGradient = personality.acceptGradient;
         this.wantsItem = personality.wantsItem;
@@ -268,17 +275,7 @@ public class Barter : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         UpdateDebug();
     }
     
-    public void ResetSystem() {
-        this.dx = 0f;
-        this.fPrice = this.currentOffer;
-        this.wheelActive = true;
-        this.currentMaxPrice = this.initialMaxPrice;
-        this.currentOffer = this.initialOffer;
-        this.ResetButtons();
-    }
-
     // Update is called once per frame
-    // TODO, optimize this so we don't need to use update.
     void Update () {
         float xPos = this.background.transform.position.x;
         float xDiff = this.prevXPos - xPos;

@@ -6,6 +6,10 @@ using UnityEngine;
 public class Smelting : MonoBehaviour {
 	// Timer object.
 	public TextMeshProUGUI timer;
+	// Grade object.
+	public TextMeshProUGUI grade;
+	// Debug object.
+	public TextMeshProUGUI debug;
 	// Amount of time that the player should hold the position.
 	public float holdTime;
 	private float timeToGo;
@@ -24,6 +28,11 @@ public class Smelting : MonoBehaviour {
 	public float successRange;
 	// Debug.
 	public Material debugMaterial;
+	// Grade based on how close player was to the middle.
+	// The score that results in a perfect.
+	public float bestScore;
+	// The score that results in junk.
+	public float worstScore;
 
 	// The rigidbody attached to this game object.
 	private Rigidbody rb;
@@ -34,10 +43,14 @@ public class Smelting : MonoBehaviour {
     public GameObject nextScene;
     public GameObject retryScene;
 
+	private bool started;
+	private float runningTotal;
+
 	void Start () {
 		rb = transform.GetComponent<Rigidbody>();
 		prevRotation = transform.eulerAngles;
 		timeToGo = holdTime;
+		started = false;
         nextScene.SetActive(false);
         retryScene.SetActive(false);
 	}
@@ -67,11 +80,28 @@ public class Smelting : MonoBehaviour {
 	private void UpdateTimer() {
 		float closeness = 1 - Mathf.Abs(transform.eulerAngles.z - successPoint) / successRange;
 		if (closeness > 0 && timeToGo > 0) {
+			started = true;
 			float newTime = timeToGo - Time.deltaTime;
 			timeToGo = newTime < 0 ? 0 : newTime;
 			timer.text = timeToGo.ToString("n3");
 		}
+		
+		if (started && timeToGo > 0) {
+			// There should be a faster/more efficient way to do this.
+			runningTotal += Mathf.Lerp(-1f, 1f, closeness);
+			debug.text = runningTotal.ToString("n2");
+		}
+
         if (timeToGo <= 0) {
+			float quality = Mathf.InverseLerp(worstScore, bestScore, runningTotal);
+			Quality.QualityGrade grade = Quality.FloatToGrade(quality, 1);
+			this.grade.text = Quality.GradeToString(grade);
+			this.grade.color = Quality.GradeToColor(grade);
+			this.grade.gameObject.SetActive(true);
+			if (GameManager.instance) {
+				GameManager.instance.UpdateQuality(quality, 0);
+			}
+			
             ShowUIButtons();
         }
 	}

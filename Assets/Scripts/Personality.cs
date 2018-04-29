@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using TMPro;
 
 public class Personality : MonoBehaviour {
     // The "accept-offer-chance"-scale.
@@ -23,8 +24,93 @@ public class Personality : MonoBehaviour {
     // A test for now.
     public float offerMultiplier = 10f;
 
+    // Dialogue box for the NPC to talk with.
+    public TextMeshProUGUI dialogueText;
+
+    [Header("Important!  These lists should be ORDERED.  Higher chance items come first.")]
+    public List<Dialogue> acceptLines;
+    public List<Dialogue> counterLines;
+    public List<Dialogue> rejectLines;
+
+    private Shake shake;
+
+    void Start() {
+        shake = GetComponent<Shake>();
+        if (GameManager.instance) {
+            InfluencePersonality(GameManager.instance.GetQuality());
+        }
+
+        InjectPersonality();
+    }
+
+    public void Shake(float intensity, float duration) {
+        shake.ShakeTransform(intensity, duration);
+    }
+
+    public void TalkAccept(float chance) {
+        // This relies on the list being sorted.
+        // Could move this to its own function but its not worth it at the moment.
+        foreach(Dialogue line in acceptLines) {
+            if (chance >= line.chance) {
+                DisplayDialogue(line.line);
+                break;
+            }
+        }
+    }
+
+    public void TalkCounter(float chance) {
+        // This relies on the list being sorted.
+        foreach(Dialogue line in counterLines) {
+            if (chance >= line.chance) {
+                DisplayDialogue(line.line);
+                break;
+            }
+        }
+    }
+
+    public void TalkReject(float chance) {
+        // This relies on the list being sorted.
+        foreach(Dialogue line in rejectLines) {
+            if (chance >= line.chance) {
+                DisplayDialogue(line.line);
+                break;
+            }
+        }
+    }
+
+    private void DisplayDialogue(string dialogue) {
+        dialogueText.text = dialogue;
+    }
+
     public void InjectPersonality() {
-        Debug.Log("click");
         GameObject.FindGameObjectWithTag("Barter").GetComponent<Barter>().LoadPersonality(this);
     }
+
+    private void InfluencePersonality(Quality.QualityGrade grade) {
+        // TODO: don't hardcode this.
+        switch (grade) {
+            case Quality.QualityGrade.Junk: 
+                MultiplyPersonality(0.1f);
+                break;
+            case Quality.QualityGrade.Brittle: 
+                MultiplyPersonality(0.75f);
+                break;
+            case Quality.QualityGrade.Passable: 
+                MultiplyPersonality(1.0f);
+                break;
+            case Quality.QualityGrade.Sturdy: 
+                MultiplyPersonality(1.5f);
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void MultiplyPersonality(float multiplier) {
+        wantsItem *= multiplier;
+        initialMaxPrice *= multiplier;
+        absoluteMaxPrice *= multiplier;
+        initialOffer *= multiplier;
+    }
+
 }

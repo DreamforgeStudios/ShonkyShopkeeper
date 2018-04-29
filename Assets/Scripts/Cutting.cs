@@ -59,6 +59,10 @@ public class Cutting : MonoBehaviour {
 
 	public bool debug;
 
+    //Two objects to show and hide for restart and scene change
+    public GameObject nextScene;
+    public GameObject retryScene;
+
 	// Use this for initialization
 	void Start () {
 		// Should probably do more initialization here...
@@ -182,6 +186,10 @@ public class Cutting : MonoBehaviour {
 		gradeText.color = Quality.GradeToColor(grade);
 
 		gradeText.gameObject.SetActive(true);
+		if (GameManager.instance) {
+			GameManager.instance.UpdateQuality(sum, 2);
+		}
+		ShowUIButtons();
 	}
 
 	private void DrawDebugLine(Vector3 origin) {
@@ -256,6 +264,12 @@ public class Cutting : MonoBehaviour {
 		SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 	}
 
+    public void ShowUIButtons() {
+        nextScene.SetActive(true);
+        retryScene.SetActive(true);
+    }
+
+/*
     void OnGUI()
     {
         Camera  c = Camera.main;
@@ -274,4 +288,5 @@ public class Cutting : MonoBehaviour {
         GUILayout.Label("Time Closeness: " + tCloseness);
         GUILayout.EndArea();
     }
+	*/
 }

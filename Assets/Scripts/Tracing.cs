@@ -186,6 +186,10 @@ public class Tracing : MonoBehaviour {
 
     private void DetermineQuality(float finalScore) {
         float decimalScore = finalScore / 1000;
+        // For transferring quality between scenes.
+        if (GameManager.instance) {
+            GameManager.instance.UpdateQuality(decimalScore, 1);
+        }
         grade = Quality.FloatToGrade(decimalScore, 1);
     }
 

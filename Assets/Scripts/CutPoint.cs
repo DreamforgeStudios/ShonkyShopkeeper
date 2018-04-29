@@ -36,7 +36,6 @@ public class CutPoint : MonoBehaviour {
 
 	// Use this for initialization
 	void Awake () {
-		Debug.Log("waking");
 		currentRadius = startRadius;
 		currentRadiusTime = 0;
 		currentThickness = lineStartThickness;

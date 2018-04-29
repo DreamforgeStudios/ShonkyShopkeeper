@@ -158,8 +158,7 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-  Android: com.Dreamforge.ShonkyShopkeeper
-  Standalone: com.dreamforge.shonkyshopkeeper
+    Android: com.Dreamforge.ShonkyShopkeeper
   buildNumber: {}
   AndroidBundleVersionCode: 1
   AndroidMinSdkVersion: 16
