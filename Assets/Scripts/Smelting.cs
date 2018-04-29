@@ -30,10 +30,16 @@ public class Smelting : MonoBehaviour {
 	// Previous rotation.
 	private Vector3 prevRotation;
 
+    //Two objects to show and hide for restart and scene change
+    public GameObject nextScene;
+    public GameObject retryScene;
+
 	void Start () {
 		rb = transform.GetComponent<Rigidbody>();
 		prevRotation = transform.eulerAngles;
 		timeToGo = holdTime;
+        nextScene.SetActive(false);
+        retryScene.SetActive(false);
 	}
 	
 	// Don't waste frames on mobile...
@@ -65,6 +71,9 @@ public class Smelting : MonoBehaviour {
 			timeToGo = newTime < 0 ? 0 : newTime;
 			timer.text = timeToGo.ToString("n3");
 		}
+        if (timeToGo <= 0) {
+            ShowUIButtons();
+        }
 	}
 
 	private void UpdateDebug() {
@@ -86,4 +95,9 @@ public class Smelting : MonoBehaviour {
 		transform.eulerAngles = Vector3.RotateTowards(transform.eulerAngles, transform.eulerAngles + rotAdd, negativeMomentum, negativeMomentum);
 		*/
 	}
+
+    public void ShowUIButtons() {
+        nextScene.SetActive(true);
+        retryScene.SetActive(true);
+    }
 }
