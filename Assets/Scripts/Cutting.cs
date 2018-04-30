@@ -181,7 +181,7 @@ public class Cutting : MonoBehaviour {
 		percentText.text = ((int)(sum*100f)).ToString() + "%";
 		percentText.color = Color.Lerp(Color.red, Color.green, sum);
 
-		Quality.QualityGrade grade = Quality.FloatToGrade(sum, 1);
+		Quality.QualityGrade grade = Quality.FloatToGrade(sum, 3);
 		gradeText.text = Quality.GradeToString(grade);
 		gradeText.color = Quality.GradeToColor(grade);
 

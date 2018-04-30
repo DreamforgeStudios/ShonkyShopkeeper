@@ -190,7 +190,7 @@ public class Tracing : MonoBehaviour {
         if (GameManager.instance) {
             GameManager.instance.UpdateQuality(decimalScore, 1);
         }
-        grade = Quality.FloatToGrade(decimalScore, 1);
+        grade = Quality.FloatToGrade(decimalScore, 3);
     }
 
     private float CalculateTimeScore(float accuracyScore) {

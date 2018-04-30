@@ -139,26 +139,28 @@ public class Polishing : MonoBehaviour {
             qualityText.enabled = true;
             nextScene.enabled = true;
             retryScene.enabled = true;
-            // For transfering quality between scenes.
-            if (GameManager.instance) {
-                GameManager.instance.UpdateQuality(numberOfSwipes / timeLimit, 3);
-            }
         }
     }
 
     private void CalculateGrade() {
         float finalScore = numberOfSwipes / timeLimit;
         if (finalScore >= 10) {
-            finalGrade = Quality.FloatToGrade(1f, 1);
+            finalGrade = Quality.FloatToGrade(1f, 3);
         }
         else if (finalScore >= 8.5 && finalScore < 10) {
-            finalGrade = Quality.FloatToGrade(0.85f, 1);
+            finalGrade = Quality.FloatToGrade(0.85f, 3);
         }
         else if (finalScore < 8.5 && finalScore > 5) {
-            finalGrade = Quality.FloatToGrade(0.5f, 1);
+            finalGrade = Quality.FloatToGrade(0.5f, 3);
         }
         else {
-            finalGrade = Quality.FloatToGrade(0, 1);
+            finalGrade = Quality.FloatToGrade(0, 3);
+        }
+
+        // For transfering quality between scenes.
+        if (GameManager.instance) {
+            // This should probably be calculated better.
+            GameManager.instance.UpdateQuality((numberOfSwipes / timeLimit) / 10f, 3);
         }
     }
 }

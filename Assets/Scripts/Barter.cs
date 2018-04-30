@@ -31,6 +31,11 @@ public class Barter : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
 
     public Material mat;
 
+
+    // for prototype.
+    public GameObject next;
+    public GameObject retry;
+
     // NPC / BARTER STUFF
     //*****************//
 
@@ -159,10 +164,12 @@ public class Barter : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         if (!cont && counter == 0f) {
             this.noDeal.SetActive(true);
             this.offerButton.interactable = false;
+            ShowUIButtons();
         // NPC has taken the offer --
         } else if (!cont) {
             this.deal.SetActive(true);
             this.offerButton.interactable = false;
+            ShowUIButtons();
         // NPC has countered.
         } else {
             //while (this.backgroundrb.velocity.x != 0f)
@@ -181,6 +188,9 @@ public class Barter : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         this.offerButton.interactable = false;
 
         this.deal.SetActive(true);
+        personality.Shake(0.1f, 0.5f);
+        personality.TalkAccept(1f);
+        ShowUIButtons();
     }
 
     // SYSTEM / DRAGGING / SLIDER STUFF
@@ -273,6 +283,11 @@ public class Barter : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         this.currentMaxPrice = personality.initialMaxPrice;
         UpdatePrice();
         UpdateDebug();
+    }
+
+    private void ShowUIButtons() {
+        next.SetActive(true);
+        retry.SetActive(true);
     }
     
     // Update is called once per frame

@@ -94,7 +94,7 @@ public class Smelting : MonoBehaviour {
 
         if (timeToGo <= 0) {
 			float quality = Mathf.InverseLerp(worstScore, bestScore, runningTotal);
-			Quality.QualityGrade grade = Quality.FloatToGrade(quality, 1);
+			Quality.QualityGrade grade = Quality.FloatToGrade(quality, 3);
 			this.grade.text = Quality.GradeToString(grade);
 			this.grade.color = Quality.GradeToColor(grade);
 			this.grade.gameObject.SetActive(true);

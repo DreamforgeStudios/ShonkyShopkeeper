@@ -31,8 +31,9 @@ public class GameManager : MonoBehaviour {
 		}
 
 		sum /= gameScores.Length;
+		Debug.Log("Grade: " + sum);
 
-		return Quality.FloatToGrade(sum, 1);
+		return Quality.FloatToGrade(sum, 3);
 	}
 	
 	// Update is called once per frame

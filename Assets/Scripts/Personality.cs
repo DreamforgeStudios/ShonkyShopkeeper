@@ -99,6 +99,12 @@ public class Personality : MonoBehaviour {
                 MultiplyPersonality(1.0f);
                 break;
             case Quality.QualityGrade.Sturdy: 
+                MultiplyPersonality(1.15f);
+                break;
+            case Quality.QualityGrade.Magical:
+                MultiplyPersonality(1.3f);
+                break;
+            case Quality.QualityGrade.Mystic:
                 MultiplyPersonality(1.5f);
                 break;
             default:
