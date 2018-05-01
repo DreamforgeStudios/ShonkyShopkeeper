@@ -6,6 +6,11 @@ TagManager:
   tags:
   - Barter
   - Thing
+  - Town
+  - DiamondBag
+  - EmeraldBag
+  - SapphireBag
+  - RubyBag
   layers:
   - Default
   - TransparentFX
