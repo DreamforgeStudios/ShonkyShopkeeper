@@ -39,7 +39,7 @@ public class ShonkyWander : MonoBehaviour {
     }
 
     private Vector3 GetNewPosition() {
-        Debug.Log("Getting new position");
+        //Debug.Log("Getting new position");
         Vector3 newPosition = UnityEngine.Random.insideUnitSphere * maxDistance;
         newPosition += transform.position;
         newPosition.y = 1;

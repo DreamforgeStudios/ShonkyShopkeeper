@@ -12,6 +12,7 @@ TagManager:
   - SapphireBag
   - RubyBag
   - Shonky
+  - NPC
   layers:
   - Default
   - TransparentFX

@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 212413014549984866}
   - component: {fileID: 114514335743205262}
   m_Layer: 0
-  m_Name: Potion Wizard
+  m_Name: Potion Wizard Walker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
