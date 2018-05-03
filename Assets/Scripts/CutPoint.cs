@@ -19,9 +19,9 @@ public class CutPoint : MonoBehaviour {
 	public float thickness;
 
 	// Helper variables.
-	private float currentRadius;
+	//private float currentRadius;
 	private float currentRadiusTime;
-	private float currentThickness;
+	//private float currentThickness;
 	private float currentThicknessTime;
 
 	// The vector to draw with a line renderer.
@@ -36,9 +36,9 @@ public class CutPoint : MonoBehaviour {
 
 	// Use this for initialization
 	void Awake () {
-		currentRadius = startRadius;
+		//currentRadius = startRadius;
 		currentRadiusTime = 0;
-		currentThickness = lineStartThickness;
+		//currentThickness = lineStartThickness;
 		currentThicknessTime = 0;
 
 		lr = GetComponent<LineRenderer>();

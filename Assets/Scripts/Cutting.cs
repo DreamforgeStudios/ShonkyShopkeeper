@@ -51,10 +51,12 @@ public class Cutting : MonoBehaviour {
 	private GameObject currentCutPoint;
 
 	// DEBUG.
+	/*
 	private float oCloseness;
 	private float vCloseness;
 	private float lCloseness;
 	private float tCloseness;
+	*/
 	public GameObject cutIndicator;
 
 	public bool debug;
@@ -218,7 +220,7 @@ public class Cutting : MonoBehaviour {
 		float distance = Vector3.Distance(origin, cutOrigins[currentIndex]);
 		originCloseness = Mathf.InverseLerp(0, maximumDistance, distance);
 		// So the debugUI can use it.
-		this.oCloseness = originCloseness;
+		//this.oCloseness = originCloseness;
 
 		// Calculate how similar the vectors are (how close the player was to the correct swipe).
 		// Normalize so that distance doesn't affect the dot product.
@@ -226,16 +228,16 @@ public class Cutting : MonoBehaviour {
 		Vector3 cn = Vector3.Normalize(cutVectors[currentIndex]);
 		float vSimilarity = 1-Vector3.Dot(vn, cn);
 		vectorCloseness = Mathf.InverseLerp(0, maximumCloseness, vSimilarity);
-		this.vCloseness = vectorCloseness;
+		//this.vCloseness = vectorCloseness;
 
 		// Calculate how close the vector length is to the optimum length.  (did the player overshoot? undershoot? etc).
 		float vl = Vector3.Magnitude(vec);
 		float cl = Vector3.Magnitude(cutVectors[currentIndex]);
 		lengthCloseness = Mathf.InverseLerp(0, maximumLength, Mathf.Abs(vl-cl));
-		this.lCloseness = lengthCloseness;
+		//this.lCloseness = lengthCloseness;
 
 		float timeCloseness = Mathf.InverseLerp(baseTime, maximumTime, time);
-		this.tCloseness = timeCloseness;
+		//this.tCloseness = timeCloseness;
 
 		originCloseness *= impactDistance;
 		vectorCloseness *= impactCloseness;

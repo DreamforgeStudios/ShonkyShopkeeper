@@ -36,3 +36,7 @@ sysinfo.txt
 Library/
 .vscode/
 UnityPlayer.dll
+bin.exe
+bin_Data/
+shaded.data
+WinPixEventRuntime.dll
