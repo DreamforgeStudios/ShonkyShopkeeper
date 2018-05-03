@@ -6,18 +6,22 @@ public class GameManager : MonoBehaviour {
 	public static GameManager instance = null;
 
 	private float[] gameScores;
+	private int gold;
 
 	void Awake () {
-		if (instance == null)
+		if (instance == null) {
 			instance = this;
-		else if (instance != this)
+			SetupGameManager();
+		} else if (instance != this) {
 			Destroy(gameObject);
+		}
+	}
 
+	private void SetupGameManager() {
 		DontDestroyOnLoad(gameObject);
-
-        	Application.targetFrameRate = 60;
-
+		Application.targetFrameRate = 60;
 		gameScores = new float[4];
+		gold = 0;
 	}
 
 	public void UpdateQuality(float grade, int index) {
@@ -35,9 +39,12 @@ public class GameManager : MonoBehaviour {
 
 		return Quality.FloatToGrade(sum, 3);
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+
+	public int GetGold() {
+		return gold;
+	}
+
+	public void AddGold(int gold) {
+		this.gold += gold;
 	}
 }
