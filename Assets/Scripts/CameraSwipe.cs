@@ -10,6 +10,10 @@ public class CameraSwipe : MonoBehaviour {
     private Vector3 position2;
     private bool startingPosition = true;
     public float rotationAmount;
+    Quaternion rot1;
+    Quaternion rot2;
+    private float speed = 0.08f;
+    private bool movingCamera = false;
 
     //Line Renderer variables
     private LineRenderer lineRenderer;
@@ -21,6 +25,7 @@ public class CameraSwipe : MonoBehaviour {
 
     //Point/touch variables
     private bool mouseDown;
+    private int minimumPoints = 6;
 
     //Particle System
     public ParticleSystem particle;
@@ -31,8 +36,10 @@ public class CameraSwipe : MonoBehaviour {
     void Start () {
         mainCamera = Camera.main;
         SetupLineRenderer();
-        position1 = new Vector3(0, 0, 0);
-        position2 = new Vector3(rotationAmount, 0, 0);
+        rot1 = Camera.main.transform.rotation;
+        rot2 = Quaternion.Euler(rotationAmount, 0, 0);
+        //position1 = new Vector3(0, 0, 0);
+        //position2 = new Vector3(rotationAmount, 0, 0);
         emitParams = new ParticleSystem.EmitParams();
         //mainCamera.transform.eulerAngles = new Vector3(rotationAmount, 0, 0);
     }
@@ -41,6 +48,8 @@ public class CameraSwipe : MonoBehaviour {
 	void Update () {
         GetInput();
         //Debug.Log(mainCamera.ScreenToWorldPoint(Input.mousePosition));
+        if (movingCamera)
+            TransformCamera(startingPosition);
 	}
 
     private void GetInput() {
@@ -84,8 +93,8 @@ public class CameraSwipe : MonoBehaviour {
                     }
                 }
             }
-            if (validPoints == playerSwipePoints.Count) {
-                TransformCamera(firstScreen);
+            if (validPoints == playerSwipePoints.Count && validPoints >= minimumPoints) {
+                movingCamera = true;
             }
         } else {
             for (int i = 0; i < playerSwipePoints.Count; i++) {
@@ -100,19 +109,28 @@ public class CameraSwipe : MonoBehaviour {
                     }
                 }
             }
-            if (validPoints == playerSwipePoints.Count) {
-                TransformCamera(firstScreen);
+            if (validPoints == playerSwipePoints.Count && validPoints >= minimumPoints) {
+                movingCamera = true;
             }
         }
     }
 
     private void TransformCamera(bool firstScreen) {
         if (firstScreen) {
-            mainCamera.transform.eulerAngles = position2;
-            startingPosition = false;
+            if(mainCamera.transform.rotation == rot2) {
+                startingPosition = false;
+                movingCamera = false;
+            } else {
+                mainCamera.transform.rotation = Quaternion.Slerp(rot1, rot2, Time.time * speed);
+            }
         } else {
-            mainCamera.transform.eulerAngles = position1;
-            startingPosition = true;
+            if (mainCamera.transform.rotation == rot1) {
+                startingPosition = true;
+                movingCamera = false;
+            }
+            else {
+                mainCamera.transform.rotation = Quaternion.Slerp(rot2, rot1, Time.time * speed);
+            }
         }
     }
 
