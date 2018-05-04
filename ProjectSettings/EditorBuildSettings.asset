@@ -35,3 +35,6 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Junk/Cellshading.unity
     guid: 4a498110906079a4c8914940fc519612
+  - enabled: 1
+    path: Assets/Scenes/TravelScreen.unity
+    guid: c6558decf5802294d9f0ecaf782ed3a8

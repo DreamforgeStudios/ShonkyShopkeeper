@@ -5,7 +5,7 @@ using UnityEngine;
 public class ChargedJewel : Item {
 
     private ItemType type;
-    private GemType gem;
+    public GemType gem;
 
     public ChargedJewel(GemType gemType, Quality.QualityGrade refinedQuality) {
         type = ItemType.ChargedJewel;

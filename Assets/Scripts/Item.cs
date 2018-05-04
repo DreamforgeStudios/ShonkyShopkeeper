@@ -10,6 +10,7 @@ public class Item : MonoBehaviour {
         NotGem, Ruby, Diamond, Sapphire, Emerald
     }
     public Quality.QualityGrade qualityGrade;
+    public ItemType itemType;
     public int quantity;
     public int stackLimit;
     public bool merging;
