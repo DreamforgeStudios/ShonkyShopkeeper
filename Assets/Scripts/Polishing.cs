@@ -47,6 +47,11 @@ public class Polishing : MonoBehaviour {
     private Vector3 leftSide;
     private Vector3 rightSide;
 
+    //Particle System
+    public ParticleSystem particle;
+    public int amountOfParticles;
+    private ParticleSystem.EmitParams emitParams;
+
     // Use this for initialization
     void Start() {
         mainCamera = Camera.main;
@@ -54,6 +59,7 @@ public class Polishing : MonoBehaviour {
         nextScene.enabled = false;
         retryScene.enabled = false;
         qualityText.enabled = false;
+        emitParams = new ParticleSystem.EmitParams();
     }
 
     // Update is called once per frame
@@ -111,16 +117,19 @@ public class Polishing : MonoBehaviour {
             //for (int i = 0; i < Input.touchCount; i++) {
             if (leftSideStart) {
                 if (mWorldPosition.x > keyPoint.x) {
+                    particle.Emit(20);
                     numberOfSwipes++;
                     leftSideStart = false;
                 }
             }
             else {
                 if (mWorldPosition.x < keyPoint.x) {
+                    emitParams.startLifetime = 2.0f;
+                    particle.Emit(20);
+                    
                     numberOfSwipes++;
                     leftSideStart = true;
                 }
-                //}
             }
             yield return new WaitForSeconds(0.05f);
         }

@@ -66,7 +66,8 @@ public class Tracing : MonoBehaviour {
         Button2Group.SetActive(false);
         SetupLineRenderer();
         GetNecessaryPositions(1);
-        StartCoroutine(ShowOrder(cubeRune1.Length));
+        canTrace = true;
+        //StartCoroutine(ShowOrder(cubeRune1.Length));
     }
 
     // Update is called once per frame

@@ -43,7 +43,12 @@ public class Smelting : MonoBehaviour {
     public GameObject nextScene;
     public GameObject retryScene;
 
-	private bool started;
+    //Particle System
+    public ParticleSystem particle;
+    public int amountOfParticles = 5;
+    private ParticleSystem.EmitParams emitParams;
+
+    private bool started;
 	private float runningTotal;
 
 	void Start () {
@@ -53,7 +58,8 @@ public class Smelting : MonoBehaviour {
 		started = false;
         nextScene.SetActive(false);
         retryScene.SetActive(false);
-	}
+        emitParams = new ParticleSystem.EmitParams();
+    }
 	
 	// Don't waste frames on mobile...
 	void FixedUpdate() {
@@ -115,16 +121,16 @@ public class Smelting : MonoBehaviour {
 
 	public void Stow() {
 		rb.AddTorque(0, 0, -tapForce);
-
-		// Alternate approach.
-		/*
+        particle.Emit(10);
+        // Alternate approach.
+        /*
 		Vector3 rotAdd = new Vector3(0, 0, tapForce);
 		Vector3 rot = transform.eulerAngles;
 		rot = rot + rotAdd;
 		transform.eulerAngles = rot;
 		transform.eulerAngles = Vector3.RotateTowards(transform.eulerAngles, transform.eulerAngles + rotAdd, negativeMomentum, negativeMomentum);
 		*/
-	}
+    }
 
     public void ShowUIButtons() {
         nextScene.SetActive(true);
