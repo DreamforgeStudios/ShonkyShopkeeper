@@ -1157,7 +1157,7 @@ GameObject:
   - component: {fileID: 1290517909}
   - component: {fileID: 1290517908}
   m_Layer: 5
-  m_Name: Shony Header
+  m_Name: Shonky Header
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

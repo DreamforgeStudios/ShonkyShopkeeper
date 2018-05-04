@@ -4,11 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+// The inspector is basically just the magnifying glass detached from the toolbox.
 public class Inspector : MonoBehaviour {
 	// For debug.
 	private Ray previousRay;
 
 	public GameObject inspectionPanel;
+	public TextMeshProUGUI textHeading;
 	public TextMeshProUGUI textInfo;
 
 	// TODO: could use layermask for more efficiency / (better?) raycasts.
@@ -75,7 +77,8 @@ public class Inspector : MonoBehaviour {
 
 	private void ShowInspectionMenu(Shonky shonky) {
 		inspectionPanel.SetActive(true);
-		textInfo.text = shonky.GetInfoString();
+		textHeading.text = shonky.ItemName();
+		textInfo.text = shonky.ItemInfo();
 	}
 
 	private void HideInspectionMenu() {

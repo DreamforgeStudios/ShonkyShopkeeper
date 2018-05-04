@@ -14,4 +14,15 @@ public class Brick : Item {
         merging = false;
     }
 
+    public override string ItemName() {
+        return "Brick";
+    }
+
+    public override string ItemInfo() {
+        return string.Format("Quality: {0}" + System.Environment.NewLine +
+                             "Quantity: {1}" + System.Environment.NewLine +
+					         "Stack Limit: {2}" + System.Environment.NewLine +
+                             "Mergable: {3}", Quality.GradeToString(qualityGrade), quantity, stackLimit, merging);
+    }
+
 }

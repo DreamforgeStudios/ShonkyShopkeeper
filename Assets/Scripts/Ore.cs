@@ -20,4 +20,14 @@ public class Ore : Item {
         stackLimit = 3;
         merging = false;
     }
+
+    public override string ItemName() {
+        return "Ore";
+    }
+
+    public override string ItemInfo() {
+        return string.Format("Quantity: {0}" + System.Environment.NewLine +
+					         "Stack Limit: {1}" + System.Environment.NewLine +
+                             "Mergable: {2}", quantity, stackLimit, merging);
+    }
 }

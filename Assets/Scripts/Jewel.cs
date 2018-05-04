@@ -15,4 +15,26 @@ public class Jewel : Item {
         stackLimit = 1;
         merging = false;
     }
+
+    public override string ItemName() {
+        switch (gem) {
+            case GemType.Ruby:
+                return "Cut Ruby";
+            case GemType.Sapphire:
+                return "Cut Sapphire";
+            case GemType.Emerald:
+                return "Cut Emerald";
+            case GemType.Diamond:
+                return "Cut Diamond";
+            default:
+                return "";
+        }
+    }
+
+    public override string ItemInfo() {
+        return string.Format("Quality: {0}" + System.Environment.NewLine +
+                             "Quantity: {1}" + System.Environment.NewLine +
+					         "Stack Limit: {2}" + System.Environment.NewLine +
+                             "Mergable: {3}", Quality.GradeToString(qualityGrade), quantity, stackLimit, merging);
+    }
 }
