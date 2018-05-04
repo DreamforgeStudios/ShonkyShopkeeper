@@ -3,10 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CombiningShonky : Item{
+public class CombiningShonky : MonoBehaviour {
     //Selection holders
     private GameObject lastSelected;
-    private ItemType item;
+    private Item.ItemType item;
     private GameObject combiner;
     public GameObject shonky;
 
@@ -37,8 +37,8 @@ public class CombiningShonky : Item{
                     lastSelected = hit.transform.gameObject;
                     item = lastSelected.GetComponent<Item>().itemType;
                 } else if (hit.transform.gameObject && lastSelected != null) {
-                    if ((item == ItemType.Shell && hit.transform.gameObject.GetComponent<Item>().itemType == ItemType.ChargedJewel) ||
-                        (item == ItemType.ChargedJewel && hit.transform.gameObject.GetComponent<Item>().itemType == ItemType.Shell)) {
+                    if ((item == Item.ItemType.Shell && hit.transform.gameObject.GetComponent<Item>().itemType == Item.ItemType.ChargedJewel) ||
+                        (item == Item.ItemType.ChargedJewel && hit.transform.gameObject.GetComponent<Item>().itemType == Item.ItemType.Shell)) {
                         combiner = hit.transform.gameObject;
                         moving = true;
                     } else {

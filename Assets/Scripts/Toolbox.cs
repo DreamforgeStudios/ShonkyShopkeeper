@@ -51,6 +51,7 @@ public class Toolbox : MonoBehaviour {
 			previousRay = ray;
 		
 			if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask)) {
+				Debug.Log("Hit: " + hit.transform.name);
 				PickAndUseTool(hit.transform.GetComponent<Item>());
 			} else {
 				if (currentTool == Tool.Inspector) {
