@@ -19,7 +19,7 @@ public class Inspector : MonoBehaviour {
 	void Start () {
 		
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
 		// Check where we are running the program.
@@ -31,7 +31,7 @@ public class Inspector : MonoBehaviour {
 			// Process touch inputs.
 			ProcessTouch();
 	}
-
+    
 	private void ProcessMouse() {
 		if (Input.GetMouseButtonDown(0)) {
 			RaycastHit hit;
@@ -88,5 +88,5 @@ public class Inspector : MonoBehaviour {
 	private void OnDrawGizmos() {
 		Gizmos.color = Color.green;
 		Gizmos.DrawRay(previousRay);
-	}
+	} 
 }

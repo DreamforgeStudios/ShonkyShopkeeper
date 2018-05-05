@@ -13,7 +13,7 @@ public class InventoryPopulator : MonoBehaviour {
 		
 		inventorySlots.Sort((a, b) => a.index - b.index);
 
-		PopulateWithJunk();
+		//PopulateWithJunk();
 	}
 	
 	// Update is called once per frame
@@ -24,18 +24,19 @@ public class InventoryPopulator : MonoBehaviour {
 	public void Populate() {
 		for (int i = 0; i < inventorySlots.Count; i++) {
 			// Not using drawer tabs for now -- default to drawer 0.
-			inventorySlots[i].SetItem(Inventory.GetItem(0, i));
+			//inventorySlots[i].SetItem(Inventory.GetItem(0, i));
 		}
 	}
 
-	public void PopulateWithJunk() {
-		// Error.
-		Inventory.GenerateNewInventory();
-		Debug.Log("Inventory: " + Inventory.ReturnInventory());
+	public void PopulateWithJunk(Inventory inventory) {
+        // Error.
+        //Debug.Log("generating inventory");
+		//Inventory.GenerateNewInventory();
+		//Debug.Log("Inventory: " + Inventory.ReturnInventory());
 		// Should return null.
-		Debug.Log("Inventory[0,0]: " + Inventory.GetItem(0, 0));
+		//Debug.Log("Inventory[0,0]: " + Inventory.GetItem(0, 0));
 
-		/*
+		
 		for (int i = 0; i < inventorySlots.Count; i++) {
 			Item.ItemType type = (Item.ItemType)Random.Range(0, 7);
 			Item.GemType gemType = Item.GemType.NotGem;
@@ -47,10 +48,10 @@ public class InventoryPopulator : MonoBehaviour {
 				item = new Brick(Quality.QualityGrade.Passable);
 			}
 
-			Inventory.AddItem(item);
+			//inventory.AddItem(item);
 		}
 
 		Populate();
-		*/
+		
 	}
 }

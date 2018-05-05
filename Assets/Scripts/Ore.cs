@@ -2,10 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Ore : Item {
+[System.Serializable]
+public class Ore : ScriptableObject {
+    public enum ItemType {
+        Ore, Brick, Shell, Gem, Jewel, ChargedJewel, Shonky
+    }
 
-    private ItemType type;
-
+    public enum GemType {
+        NotGem, Ruby, Diamond, Sapphire, Emerald
+    }
+    public ItemType type;
+    public int quantity;
+    public int stackLimit;
+    public bool merging;
+    public GemType gemType;
 
     public Ore() {
         type = ItemType.Ore;
@@ -22,11 +32,11 @@ public class Ore : Item {
         merging = false;
     }
 
-    public override string ItemName() {
+    public string ItemName() {
         return "Ore";
     }
 
-    public override string ItemInfo() {
+    public string ItemInfo() {
         return string.Format("Quantity: {0}" + System.Environment.NewLine +
 					         "Stack Limit: {1}" + System.Environment.NewLine +
                              "Mergable: {2}", quantity, stackLimit, merging);
