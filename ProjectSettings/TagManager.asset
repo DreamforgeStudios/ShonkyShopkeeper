@@ -14,6 +14,7 @@ TagManager:
   - Shonky
   - NPC
   - point
+  - ItemLookup
   layers:
   - Default
   - TransparentFX
