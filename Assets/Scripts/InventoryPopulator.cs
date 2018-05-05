@@ -29,6 +29,13 @@ public class InventoryPopulator : MonoBehaviour {
 	}
 
 	public void PopulateWithJunk() {
+		// Error.
+		Inventory.GenerateNewInventory();
+		Debug.Log("Inventory: " + Inventory.ReturnInventory());
+		// Should return null.
+		Debug.Log("Inventory[0,0]: " + Inventory.GetItem(0, 0));
+
+		/*
 		for (int i = 0; i < inventorySlots.Count; i++) {
 			Item.ItemType type = (Item.ItemType)Random.Range(0, 7);
 			Item.GemType gemType = Item.GemType.NotGem;
@@ -44,5 +51,6 @@ public class InventoryPopulator : MonoBehaviour {
 		}
 
 		Populate();
+		*/
 	}
 }
