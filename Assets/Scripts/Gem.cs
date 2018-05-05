@@ -5,18 +5,18 @@ using UnityEngine;
 public class Gem : Item {
 
     private ItemType type;
-    private GemType gem;
+    //private GemType gem;
 
     public Gem(GemType gemType) {
         type = ItemType.Gem;
-        gem = gemType;
+        this.gemType = gemType;
         quantity = 1;
         stackLimit = 1;
         merging = false;
     }
 
     public override string ItemName() {
-        switch (gem) {
+        switch (gemType) {
             case GemType.Ruby:
                 return "Ruby";
             case GemType.Sapphire:

@@ -5,19 +5,19 @@ using UnityEngine;
 public class ChargedJewel : Item {
 
     private ItemType type;
-    public GemType gem;
+    //public GemType gem;
 
     public ChargedJewel(GemType gemType, Quality.QualityGrade refinedQuality) {
         type = ItemType.ChargedJewel;
         qualityGrade = refinedQuality;
-        gem = gemType;
+        this.gemType= gemType;
         quantity = 1;
         stackLimit = 1;
         merging = true;
     }
 
     public override string ItemName() {
-        switch (gem) {
+        switch (gemType) {
             case GemType.Ruby:
                 return "Charged Ruby";
             case GemType.Sapphire:

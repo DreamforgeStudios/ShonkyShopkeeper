@@ -14,6 +14,7 @@ public class Shell : Item {
         type = ItemType.Shell;
         qualityGrade = quality;
         this.rune = rune;
+        this.gemType = GemType.NotGem;
         quantity = 1;
         stackLimit = 1;
         merging = true;

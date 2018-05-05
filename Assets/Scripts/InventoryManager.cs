@@ -31,7 +31,7 @@ public class InventoryManager : object {
 public static class Inventory {
     public static Item[,] currentInventory;
     public static int numberOfDrawers = 3;
-    public static int numberOfSlots = 8;
+    public static int numberOfSlots = 15;
     public static int goldAmount;
 
     //Create initial empty inventory
