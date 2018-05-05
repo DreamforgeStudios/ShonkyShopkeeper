@@ -14,6 +14,8 @@ public abstract class Item : MonoBehaviour {
     public Quality.QualityGrade qualityGrade;
 
     public ItemType itemType;
+    public GemType gemType;
+
     public int quantity;
     public int stackLimit;
     public bool merging;
@@ -21,4 +23,3 @@ public abstract class Item : MonoBehaviour {
     public abstract string ItemName();
     public abstract string ItemInfo();
 }
-

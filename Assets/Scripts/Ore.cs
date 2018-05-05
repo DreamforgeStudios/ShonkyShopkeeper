@@ -17,6 +17,7 @@ public class Ore : Item {
     public Ore(int quantity) {
         type = ItemType.Ore;
         this.quantity = quantity;
+        this.gemType = GemType.NotGem;
         stackLimit = 3;
         merging = false;
     }

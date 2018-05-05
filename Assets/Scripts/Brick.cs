@@ -9,6 +9,7 @@ public class Brick : Item {
     public Brick(Quality.QualityGrade refinedGrade) {
         type = ItemType.Brick;
         qualityGrade = refinedGrade;
+        this.gemType = GemType.NotGem;
         quantity = 1;
         stackLimit = 1;
         merging = false;
