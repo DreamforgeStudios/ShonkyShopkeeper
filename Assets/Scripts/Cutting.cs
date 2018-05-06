@@ -59,21 +59,29 @@ public class Cutting : MonoBehaviour {
 	*/
 	public GameObject cutIndicator;
 
-	public bool debug;
+	public bool debug = false;
 
     //Two objects to show and hide for restart and scene change
     public GameObject nextScene;
     public GameObject retryScene;
 
-	// Use this for initialization
-	void Start () {
+    //Particle System
+    public ParticleSystem particle;
+    public int amountOfParticles = 5;
+    private ParticleSystem.EmitParams emitParams;
+
+    // Use this for initialization
+    void Start () {
 		// Should probably do more initialization here...
 		currentIndex = 0;
 		SpawnCut(cutOrigins[currentIndex], cutVectors[currentIndex]);
 
 		// Initialize to the size we need.
 		scores = new float[cutOrigins.Length];
-	}
+
+        //Initialize custom particle system parameters
+        emitParams = new ParticleSystem.EmitParams();
+    }
 
 	private void SpawnCut(Vector3 origin, Vector3 cut) {
 		// Instantiate cut at point.
@@ -104,7 +112,8 @@ public class Cutting : MonoBehaviour {
 		}
 
 		Touch touch = Input.GetTouch(0);
-		if (touch.phase == TouchPhase.Began) {
+        particle.Emit(amountOfParticles);
+        if (touch.phase == TouchPhase.Began) {
 			InitiateTouch(touch);
 		} else if (touch.phase == TouchPhase.Ended || touch.phase == TouchPhase.Canceled) {
 			ConcludeTouch(touch);
@@ -125,7 +134,7 @@ public class Cutting : MonoBehaviour {
 	private void InitiateTouch(Touch touch) {
 		swipeTime = 0;
 		touchOrigin = ConvertToWorldPoint(touch.position);
-	}
+    }
 
 	private void ConcludeTouch(Touch touch) {
 		Vector2 touchPos = touch.position;
@@ -142,7 +151,7 @@ public class Cutting : MonoBehaviour {
 			holding = true;
 			swipeTime = 0;
 			touchOrigin = ConvertToWorldPoint(Input.mousePosition);
-		}
+        }
 
 		if (Input.GetMouseButtonUp(0)) {
 			holding = false;
@@ -163,9 +172,10 @@ public class Cutting : MonoBehaviour {
 			}
 		}
 
-		if (holding) {
-			swipeTime += Time.deltaTime;
-		}
+        if (holding) {
+            swipeTime += Time.deltaTime;
+            particle.Emit(amountOfParticles);
+        }
 	}
 
 	private void GradeAndFinish() {

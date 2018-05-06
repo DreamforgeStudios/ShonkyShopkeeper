@@ -10,7 +10,7 @@ public class InventoryManager : object {
     public void SaveInventory() {
         BinaryFormatter bf = new BinaryFormatter();
         FileStream file = File.Create(Application.persistentDataPath + "/ShopInventory.dat");
-        currentInventory = Inventory.ReturnInventory();
+        //currentInventory = Inventory.ReturnInventory();
         bf.Serialize(file, currentInventory);
         file.Close();
     }
@@ -27,6 +27,7 @@ public class InventoryManager : object {
         return currentInventory;
     }
 }
+/*
 [System.Serializable]
 public static class Inventory {
     public static Item[,] currentInventory;
@@ -96,4 +97,7 @@ public static class Inventory {
     public static Item GetItem(int drawerIndex, int slotIndex) {
         return currentInventory[drawerIndex, slotIndex];
     }
+    
 }
+*/
+

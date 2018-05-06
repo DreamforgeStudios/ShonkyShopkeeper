@@ -15,6 +15,7 @@ TagManager:
   - NPC
   - point
   - ItemLookup
+  - CutGem
   layers:
   - Default
   - TransparentFX
