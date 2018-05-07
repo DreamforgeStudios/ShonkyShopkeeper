@@ -1312,7 +1312,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inspectionPanel: {fileID: 1022216383}
-  textHeading: {fileID: 0}
+  textHeading: {fileID: 1290517908}
   textInfo: {fileID: 1352520357}
 --- !u!4 &1321413242
 Transform:
