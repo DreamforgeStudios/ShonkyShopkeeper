@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class Jewel : Item {
 
-    private ItemType type;
+    //private ItemType type;
     //private GemType gem;
 
     public Jewel(GemType gemType, Quality.QualityGrade refinedQuality) {
-        type = ItemType.Jewel;
+        itemType = ItemType.Jewel;
         qualityGrade = refinedQuality;
         this.gemType = gemType;
         quantity = 1;

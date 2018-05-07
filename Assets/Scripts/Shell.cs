@@ -7,11 +7,11 @@ public class Shell : Item {
     public enum RuneType {
         Rune1, Rune2
     }
-    private ItemType type;
+    //private ItemType type;
     private RuneType rune;
 
     public Shell(Quality.QualityGrade quality, RuneType rune) {
-        type = ItemType.Shell;
+        itemType = ItemType.Shell;
         qualityGrade = quality;
         this.rune = rune;
         this.gemType = GemType.NotGem;

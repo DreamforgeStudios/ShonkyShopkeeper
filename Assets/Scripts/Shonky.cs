@@ -6,7 +6,7 @@ public class Shonky : Item {
 
     //public Quality.QualityGrade quality;
     public GemType type;
-    public ItemType itemType = ItemType.Shonky;
+    //public ItemType itemType = ItemType.Shonky;
 
     public override string ItemName() {
         return "Shonky";
