@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Brick : Item {
-
+public class Brick {
+    /*
     private ItemType type;
 
     public Brick(Quality.QualityGrade refinedGrade) {
@@ -25,5 +25,6 @@ public class Brick : Item {
 					         "Stack Limit: {2}" + System.Environment.NewLine +
                              "Mergable: {3}", Quality.GradeToString(qualityGrade), quantity, stackLimit, merging);
     }
+    */
 
 }

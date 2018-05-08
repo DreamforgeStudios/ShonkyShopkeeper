@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Shell : Item {
-
+public class Shell {
+    /*
     public enum RuneType {
         Rune1, Rune2
     }
@@ -41,4 +41,5 @@ public class Shell : Item {
 					         "Stack Limit: {3}" + System.Environment.NewLine +
                              "Mergable: {4}", Quality.GradeToString(qualityGrade), strRune, quantity, stackLimit, merging);
     }
+    */
 }

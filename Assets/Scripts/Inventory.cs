@@ -108,9 +108,9 @@ public class Inventory : MonoBehaviour {
         inv = ReturnInventory();
         //this.GetComponent<InventoryPopulator>().PopulateWithJunk(this);
         Debug.Log("adding item");
-        Ore itemAdd = new Ore(3);
+        //Ore itemAdd = new Ore(3);
         //ScriptableObject ore = ScriptableObject.CreateInstance("Ore");
-        AddItem(itemAdd);
+        //AddItem(itemAdd);
         //Debug.Log("Item at 0,0 is " + inv[0].quantity);
     }
 

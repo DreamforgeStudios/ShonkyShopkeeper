@@ -31,24 +31,26 @@ public class Inspector : MonoBehaviour {
 			// Process touch inputs.
 			ProcessTouch();
 	}
-    
-	private void ProcessMouse() {
-		if (Input.GetMouseButtonDown(0)) {
-			RaycastHit hit;
-			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-			previousRay = ray;
-		
-			// Get shonky and show inspector if we hit a shony, otherwise hide it.
-			if (Physics.Raycast(ray, out hit, Mathf.Infinity)) {
-				Shonky shonky = hit.transform.GetComponent<Shonky>();
-				if (shonky) {
-					ShowInspectionMenu(shonky);
-				}
-			} else {
-				HideInspectionMenu();
-			}
-		}
-	}
+
+    private void ProcessMouse() {
+        if (Input.GetMouseButtonDown(0)) {
+            RaycastHit hit;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            previousRay = ray;
+            //Commented out while fixing item and inventory
+            /*
+                // Get shonky and show inspector if we hit a shony, otherwise hide it.
+                if (Physics.Raycast(ray, out hit, Mathf.Infinity)) {
+                    Shonky shonky = hit.transform.GetComponent<Shonky>();
+                    if (shonky) {
+                        ShowInspectionMenu(shonky);
+                    }
+                } else {
+                    HideInspectionMenu();
+                }
+            }*/
+        }
+    }
 	
 
 	private void ProcessTouch() {
@@ -61,7 +63,8 @@ public class Inspector : MonoBehaviour {
 				RaycastHit hit;
 				Ray ray = Camera.main.ScreenPointToRay(touch.position);
 				previousRay = ray;
-		
+		//Commented out while fixing item and inventory
+        /*
 				// Get shonky and show inspector if we hit a shony, otherwise hide it.
 				if (Physics.Raycast(ray, out hit, Mathf.Infinity)) {
 					Shonky shonky = hit.transform.GetComponent<Shonky>();
@@ -71,14 +74,17 @@ public class Inspector : MonoBehaviour {
 				} else {
 					HideInspectionMenu();
 				}
+                */
 			}
+            
 		}
+        
 	}
 
 	private void ShowInspectionMenu(Shonky shonky) {
 		inspectionPanel.SetActive(true);
-		textHeading.text = shonky.ItemName();
-		textInfo.text = shonky.ItemInfo();
+		//textHeading.text = shonky.ItemName();
+		//textInfo.text = shonky.ItemInfo();
 	}
 
 	private void HideInspectionMenu() {

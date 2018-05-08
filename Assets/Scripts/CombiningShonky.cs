@@ -22,11 +22,12 @@ public class CombiningShonky : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        CheckForInput();
+        //CheckForInput();
         if (moving)
             MoveItemsTogether(lastSelected,combiner);
 	}
-
+    //Commented out while fixing item and inventory
+    /*
     private void CheckForInput() {
         if (Input.GetMouseButtonDown(0)) {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -49,7 +50,7 @@ public class CombiningShonky : MonoBehaviour {
             }
         }
     }
-
+    */
     private void MoveItemsTogether(GameObject a, GameObject b) {
         if (!inTransition) {
             Vector3 pos1 = a.transform.position;

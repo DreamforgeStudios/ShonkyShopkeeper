@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Shonky : Item {
-
+public class Shonky  {
+    /*
     //public Quality.QualityGrade quality;
     public GemType type;
     public ItemType itemType = ItemType.Shonky;
@@ -21,4 +21,5 @@ public class Shonky : Item {
         return string.Format("Quality: {0}{1}{2}" + System.Environment.NewLine +
 					         "Type: {3}{4}{5}", colString, qualityGrade, terminate, colString, type, terminate);
     }
+    */
 }

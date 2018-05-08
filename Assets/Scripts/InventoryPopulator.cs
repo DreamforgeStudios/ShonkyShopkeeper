@@ -43,9 +43,9 @@ public class InventoryPopulator : MonoBehaviour {
 			Item item;
 			if (type == Item.ItemType.Gem || type == Item.ItemType.Jewel || type == Item.ItemType.ChargedJewel) {
 				gemType = (Item.GemType)Random.Range(1, 5);
-				item = new Gem(gemType);
+				//item = new Gem(gemType);
 			} else {
-				item = new Brick(Quality.QualityGrade.Passable);
+				//item = new Brick(Quality.QualityGrade.Passable);
 			}
 
 			//inventory.AddItem(item);
