@@ -35,7 +35,7 @@ public class TravelSceneManager : MonoBehaviour {
         Setup();
         //Remove these 2 lines in actual game
         Travel.unlockedTowns.Add(Travel.Towns.Town1);
-        Inventory.AddGold(500000);
+        //Inventory.AddGold(500000);
 
         CheckUnlockedTowns();
 	}
@@ -171,6 +171,6 @@ public class TravelSceneManager : MonoBehaviour {
     }
 
     private void UpdateUI() {
-        goldAmount.text = "Gold Amount = " + Inventory.goldAmount;
+        //goldAmount.text = "Gold Amount = " + Inventory.goldAmount;
     }
 }

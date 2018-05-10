@@ -2,6 +2,75 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public class Item : ScriptableObject {
+    public enum ItemType {
+        Ore, Brick, Shell, Gem, Jewel, ChargedJewel, Shonky, ResourcePouch
+    }
+
+    public enum RuneType {
+        Rune1, Rune2, Rune3
+    }
+
+    public enum GemType {
+        Ruby, Diamond, Sapphire, Emerald
+    }
+
+    public string name;
+    public GameObject physicalRepresentation;
+    //public ItemType type;
+    //public int quantity;
+    public int stackLimit;
+    public bool mergeable;
+
+    private Quality.QualityGrade quality;
+
+    public void SetQuality(Quality.QualityGrade quality) {
+        this.quality = quality;
+    }
+}
+
+[System.Serializable]
+[CreateAssetMenu(menuName = "Items/Gem", fileName = "GemName.asset")]
+public class Gem : Item {
+    public GemType gemType;
+}
+
+[System.Serializable]
+[CreateAssetMenu(menuName = "Items/Jewel", fileName = "Jewel.asset")]
+public class Jewel : Item {
+    public GemType gemType;
+}
+
+[System.Serializable]
+[CreateAssetMenu(menuName = "Items/Charged Jewel", fileName = "Charged Jewel.asset")]
+public class ChargedJewel : Item {
+    public GemType gemType;
+}
+
+[System.Serializable]
+[CreateAssetMenu(menuName = "Items/Ore", fileName = "Ore.asset")]
+public class Ore : Item {
+}
+
+[System.Serializable]
+[CreateAssetMenu(menuName = "Items/Brick", fileName = "Brick.asset")]
+public class Brick : Item {
+}
+
+[System.Serializable]
+[CreateAssetMenu(menuName = "Items/Shell", fileName = "Shell.asset")]
+public class Shell : Item {
+    public RuneType runeType;
+}
+
+[System.Serializable]
+public class ItemInstance {
+    public Item item;
+    public Quality.QualityGrade quality;
+}
+
+/*
 [CreateAssetMenu(menuName = "Items", fileName = "NewItem.asset")]
 [System.Serializable]
 public class Item : ScriptableObject {
@@ -17,6 +86,8 @@ public class Item : ScriptableObject {
     public enum RuneType {
         NoRune, Rune1, Rune2, Rune3
     }
+
+    public GameObject physical;
 
     //Various attributes of Items
     [SerializeField]
@@ -101,3 +172,4 @@ public class Item : ScriptableObject {
         return qualityGrade;
     }
 }
+*/

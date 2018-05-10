@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChargedJewel {
     /*
+public class ChargedJewel {
     private ItemType type;
     //public GemType gem;
 
@@ -37,5 +37,5 @@ public class ChargedJewel {
 					         "Stack Limit: {2}" + System.Environment.NewLine +
                              "Mergable: {3}", Quality.GradeToString(qualityGrade), quantity, stackLimit, merging);
     }
-    */
 }
+    */

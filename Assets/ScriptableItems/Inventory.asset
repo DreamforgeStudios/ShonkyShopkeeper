@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24fb245bb9e81774f882f56341e40d9e, type: 3}
+  m_Name: Inventory
+  m_EditorClassIdentifier: 
+  goldCount: 10000
+  inventory:
+  - item: {fileID: 11400000, guid: 2367bc8b648e2284aad3c9d707a890a6, type: 2}
+    quality: 4
+  - item: {fileID: 11400000, guid: 02f89f1a2dd9d17428e63c6b0d62fcf7, type: 2}
+    quality: 2
+  - item: {fileID: 11400000, guid: 2367bc8b648e2284aad3c9d707a890a6, type: 2}
+    quality: 5
+  - item: {fileID: 0}
+    quality: 0
+  - item: {fileID: 0}
+    quality: 0
+  - item: {fileID: 0}
+    quality: 0
+  - item: {fileID: 0}
+    quality: 0
+  - item: {fileID: 0}
+    quality: 0
+  - item: {fileID: 0}
+    quality: 0
+  - item: {fileID: 0}
+    quality: 0
+  - item: {fileID: 0}
+    quality: 0
+  - item: {fileID: 0}
+    quality: 0
+  - item: {fileID: 0}
+    quality: 0
+  - item: {fileID: 0}
+    quality: 0
+  - item: {fileID: 0}
+    quality: 0

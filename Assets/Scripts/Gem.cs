@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Gem {
     /*
+public class Gem {
     private ItemType type;
     //private GemType gem;
 
@@ -35,5 +35,5 @@ public class Gem {
 					         "Stack Limit: {1}" + System.Environment.NewLine +
                              "Mergable: {2}", quantity, stackLimit, merging);
     }
-    */
 }
+    */

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
 public class ItemHelper : MonoBehaviour {
 
     //Used to determine correct model
@@ -148,3 +149,4 @@ public class ItemHelper : MonoBehaviour {
         return correctObject;
     }
 }
+*/

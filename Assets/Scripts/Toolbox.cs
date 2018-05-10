@@ -100,8 +100,8 @@ public class Toolbox : MonoBehaviour {
 
 	private void UseInspector(Item item) {
 		inspectionPanel.SetActive(true);
-		textHeading.text = item.ItemName();
-		textInfo.text = item.ItemInfo();
+		//textHeading.text = item.ItemName();
+		//textInfo.text = item.ItemInfo();
 
 		// TODO: bring item up to camera.
 	}

@@ -5,6 +5,7 @@ using UnityEngine;
 public class InventoryPopulator : MonoBehaviour {
 	// Maybe change this to slot evenutally.
 	public List<Slot> inventorySlots;
+	public Inventory InventoryTemplate;
 
 	// Use this for initialization
 	void Start () {
@@ -13,7 +14,7 @@ public class InventoryPopulator : MonoBehaviour {
 		
 		inventorySlots.Sort((a, b) => a.index - b.index);
 
-		//PopulateWithJunk();
+		PopulateInitial();
 	}
 	
 	// Update is called once per frame
@@ -21,13 +22,17 @@ public class InventoryPopulator : MonoBehaviour {
 		
 	}
 
-	public void Populate() {
+	public void PopulateInitial() {
 		for (int i = 0; i < inventorySlots.Count; i++) {
-			// Not using drawer tabs for now -- default to drawer 0.
-			//inventorySlots[i].SetItem(Inventory.GetItem(0, i));
+			ItemInstance instance;
+			// If an object exists at the specified location.
+			if (Inventory.Instance.GetItem(i, out instance)) {
+				inventorySlots[i].SetItem(instance.item.physicalRepresentation);
+			}
 		}
 	}
 
+	/*
 	public void PopulateWithJunk(Inventory inventory) {
         // Error.
         //Debug.Log("generating inventory");
@@ -39,8 +44,7 @@ public class InventoryPopulator : MonoBehaviour {
 		
 		for (int i = 0; i < inventorySlots.Count; i++) {
 			Item.ItemType type = (Item.ItemType)Random.Range(0, 7);
-			Item.GemType gemType = Item.GemType.NotGem;
-			Item item;
+			Item.GemType gemType = Item.GemType.Ruby;
 			if (type == Item.ItemType.Gem || type == Item.ItemType.Jewel || type == Item.ItemType.ChargedJewel) {
 				gemType = (Item.GemType)Random.Range(1, 5);
 				//item = new Gem(gemType);
@@ -54,4 +58,5 @@ public class InventoryPopulator : MonoBehaviour {
 		Populate();
 		
 	}
+		*/
 }

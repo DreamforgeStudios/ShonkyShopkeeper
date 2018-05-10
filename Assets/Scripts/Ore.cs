@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+    /*
 [System.Serializable]
 public class Ore {
-    /*
     public enum ItemType {
         Ore, Brick, Shell, Gem, Jewel, ChargedJewel, Shonky
     }
@@ -42,5 +42,5 @@ public class Ore {
 					         "Stack Limit: {1}" + System.Environment.NewLine +
                              "Mergable: {2}", quantity, stackLimit, merging);
     }
-    */
 }
+    */

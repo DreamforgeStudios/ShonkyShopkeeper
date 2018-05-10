@@ -38,7 +38,7 @@ public static class Travel {
     //Method to unlock new town
     public static bool UnlockNewTown(Towns newTown) {
         int newTownCost = costsToUnlock[(int)newTown];
-        if (Inventory.RemoveGold(newTownCost)) {
+        if (true){//Inventory.RemoveGold(newTownCost)) {
             unlockedTowns.Add(newTown);
             lockedTowns.Remove(newTown);
             return true;
