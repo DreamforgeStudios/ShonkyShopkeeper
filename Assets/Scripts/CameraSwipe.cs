@@ -12,7 +12,7 @@ public class CameraSwipe : MonoBehaviour {
     public float rotationAmount;
     Quaternion rot1;
     Quaternion rot2;
-    private float speed = 0.08f;
+    public float speed = 0.10f;
     private bool movingCamera = false;
 
     //Line Renderer variables
@@ -25,7 +25,7 @@ public class CameraSwipe : MonoBehaviour {
 
     //Point/touch variables
     private bool mouseDown;
-    private int minimumPoints = 6;
+    private int minimumPoints = 3;
 
     //Particle System
     public ParticleSystem particle;
@@ -37,7 +37,8 @@ public class CameraSwipe : MonoBehaviour {
         mainCamera = Camera.main;
         SetupLineRenderer();
         rot1 = Camera.main.transform.rotation;
-        rot2 = Quaternion.Euler(rotationAmount, 0, 0);
+        rot2 = Quaternion.Euler((Camera.main.transform.eulerAngles.x + rotationAmount), 0, 0);
+        Debug.Log(Camera.main.transform.eulerAngles.x);
         //position1 = new Vector3(0, 0, 0);
         //position2 = new Vector3(rotationAmount, 0, 0);
         emitParams = new ParticleSystem.EmitParams();
@@ -54,6 +55,7 @@ public class CameraSwipe : MonoBehaviour {
 
     private void GetInput() {
         Vector3 mPosition = Input.mousePosition;
+        mPosition.z = 10;
         Vector3 mWorldPosition = mainCamera.ScreenToWorldPoint(mPosition);
         mWorldPosition.z = 10;
         if (Input.GetMouseButton(0)) {
@@ -121,15 +123,23 @@ public class CameraSwipe : MonoBehaviour {
                 startingPosition = false;
                 movingCamera = false;
             } else {
-                mainCamera.transform.rotation = Quaternion.Slerp(rot1, rot2, Time.time * speed);
+                Quaternion rot = Quaternion.Lerp(mainCamera.transform.rotation, rot2, speed);
+                //Debug.Log("original slerp is " + rot + " current rotation is " + mainCamera.transform.rotation);
+                mainCamera.transform.rotation = rot;
+                //mainCamera.transform.rotation = rot2;
             }
         } else {
             if (mainCamera.transform.rotation == rot1) {
+                //Debug.Log("rotation = rot 1");
                 startingPosition = true;
                 movingCamera = false;
             }
             else {
-                mainCamera.transform.rotation = Quaternion.Slerp(rot2, rot1, Time.time * speed);
+                Quaternion rot = Quaternion.Lerp(mainCamera.transform.rotation, rot1, speed);
+                //Debug.Log("Going to rot 1");
+                //Debug.Log("slerp is " + rot + " current rotation is " + mainCamera.transform.rotation);
+                mainCamera.transform.rotation = rot;
+                //mainCamera.transform.rotation = rot1;
             }
         }
     }

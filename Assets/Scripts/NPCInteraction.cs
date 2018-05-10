@@ -43,20 +43,22 @@ public class NPCInteraction : MonoBehaviour {
     private void CheckForInput() {
         if (Input.GetMouseButtonDown(0)) {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            //Debug.Log(Input.mousePosition);
+            Debug.Log(Camera.main.ScreenPointToRay(Input.mousePosition));
             RaycastHit hit;
             Debug.DrawRay(ray.origin, ray.direction * 10, Color.red, 5f);
             if (Physics.Raycast(ray, out hit, 100)) {
                 Debug.Log(hit.transform.gameObject.name);
                 if (hit.transform.gameObject.tag == "NPC") {
                     int newRandom = generator.Next(0, 100);
+                    Debug.Log(newRandom);
                     if (newRandom <= baseChanceOfApproach && numberOfInteractionsLately <= maxInteractions) {
                         Debug.Log("Hit NPC and successfully got them to approach");
-                        int randomShonkyIndex = generator.Next(0, penShonkys.Length - 1);
+                        //Add when keeping list of shonkys
+                        //int randomShonkyIndex = generator.Next(0, penShonkys.Length - 1);
                         //Begin Barter Game with the shonky at penShonkys[randomShonkyIndex];
                         numberOfInteractionsLately += 1;
                     } else {
-                        Debug.Log("Hit NPC but did not approach");
+                        //Debug.Log("Hit NPC but did not approach ");
                     }
                 }
             }

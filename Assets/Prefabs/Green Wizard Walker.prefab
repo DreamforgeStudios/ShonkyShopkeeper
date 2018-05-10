@@ -21,9 +21,10 @@ GameObject:
   - component: {fileID: 4530663652416832}
   - component: {fileID: 212421554710464774}
   - component: {fileID: 114174724322695442}
+  - component: {fileID: 65110357107538002}
   m_Layer: 0
   m_Name: Green Wizard Walker
-  m_TagString: Untagged
+  m_TagString: NPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -41,6 +42,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &65110357107538002
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1799799285901888}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 10.13, y: 12.29, z: 0.2}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &114174724322695442
 MonoBehaviour:
   m_ObjectHideFlags: 1

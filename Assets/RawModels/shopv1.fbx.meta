@@ -1,0 +1,283 @@
+fileFormatVersion: 2
+guid: 84b17b6da1d68da479838b0ced070336
+timeCreated: 1525917886
+licenseType: Free
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: book1
+    100002: book2
+    100004: book3
+    100006: books
+    100008: Candles
+    100010: deskroots
+    100012: draw4x2_2
+    100014: draws
+    100016: pCylinder1
+    100018: pCylinder10
+    100020: pCylinder11
+    100022: pCylinder12
+    100024: pCylinder13
+    100026: pCylinder14
+    100028: pCylinder15
+    100030: pCylinder16
+    100032: pCylinder17
+    100034: pCylinder18
+    100036: pCylinder19
+    100038: pCylinder2
+    100040: pCylinder20
+    100042: pCylinder21
+    100044: pCylinder22
+    100046: pCylinder3
+    100048: pCylinder4
+    100050: pCylinder5
+    100052: pCylinder6
+    100054: pCylinder7
+    100056: pCylinder7 1
+    100058: pCylinder7 2
+    100060: pCylinder8
+    100062: pCylinder8 1
+    100064: pCylinder8 2
+    100066: pCylinder9
+    100068: pCylinder9 1
+    100070: pCylinder9 2
+    100072: roots
+    100074: rootsleft
+    100076: rootsright
+    100078: rootstop
+    100080: shop_working
+    100082: //RootNode
+    100084: walls1
+    400000: book1
+    400002: book2
+    400004: book3
+    400006: books
+    400008: Candles
+    400010: deskroots
+    400012: draw4x2_2
+    400014: draws
+    400016: pCylinder1
+    400018: pCylinder10
+    400020: pCylinder11
+    400022: pCylinder12
+    400024: pCylinder13
+    400026: pCylinder14
+    400028: pCylinder15
+    400030: pCylinder16
+    400032: pCylinder17
+    400034: pCylinder18
+    400036: pCylinder19
+    400038: pCylinder2
+    400040: pCylinder20
+    400042: pCylinder21
+    400044: pCylinder22
+    400046: pCylinder3
+    400048: pCylinder4
+    400050: pCylinder5
+    400052: pCylinder6
+    400054: pCylinder7
+    400056: pCylinder7 1
+    400058: pCylinder7 2
+    400060: pCylinder8
+    400062: pCylinder8 1
+    400064: pCylinder8 2
+    400066: pCylinder9
+    400068: pCylinder9 1
+    400070: pCylinder9 2
+    400072: roots
+    400074: rootsleft
+    400076: rootsright
+    400078: rootstop
+    400080: shop_working
+    400082: //RootNode
+    400084: walls1
+    2100000: Woodfinish
+    2100002: lightwood
+    2100004: rubybase1
+    2100006: lambert1
+    2100008: playpencolour
+    2100010: draw1
+    2100012: candle
+    2100014: white
+    2300000: book1
+    2300002: book2
+    2300004: book3
+    2300006: draw4x2_2
+    2300008: pCylinder1
+    2300010: pCylinder10
+    2300012: pCylinder11
+    2300014: pCylinder12
+    2300016: pCylinder13
+    2300018: pCylinder14
+    2300020: pCylinder15
+    2300022: pCylinder16
+    2300024: pCylinder17
+    2300026: pCylinder18
+    2300028: pCylinder19
+    2300030: pCylinder2
+    2300032: pCylinder20
+    2300034: pCylinder21
+    2300036: pCylinder22
+    2300038: pCylinder3
+    2300040: pCylinder4
+    2300042: pCylinder5
+    2300044: pCylinder6
+    2300046: pCylinder7
+    2300048: pCylinder7 1
+    2300050: pCylinder7 2
+    2300052: pCylinder8
+    2300054: pCylinder8 1
+    2300056: pCylinder8 2
+    2300058: pCylinder9
+    2300060: pCylinder9 1
+    2300062: pCylinder9 2
+    2300064: shop_working
+    2300066: walls1
+    3300000: book1
+    3300002: book2
+    3300004: book3
+    3300006: draw4x2_2
+    3300008: pCylinder1
+    3300010: pCylinder10
+    3300012: pCylinder11
+    3300014: pCylinder12
+    3300016: pCylinder13
+    3300018: pCylinder14
+    3300020: pCylinder15
+    3300022: pCylinder16
+    3300024: pCylinder17
+    3300026: pCylinder18
+    3300028: pCylinder19
+    3300030: pCylinder2
+    3300032: pCylinder20
+    3300034: pCylinder21
+    3300036: pCylinder22
+    3300038: pCylinder3
+    3300040: pCylinder4
+    3300042: pCylinder5
+    3300044: pCylinder6
+    3300046: pCylinder7
+    3300048: pCylinder7 1
+    3300050: pCylinder7 2
+    3300052: pCylinder8
+    3300054: pCylinder8 1
+    3300056: pCylinder8 2
+    3300058: pCylinder9
+    3300060: pCylinder9 1
+    3300062: pCylinder9 2
+    3300064: shop_working
+    3300066: walls1
+    4300000: shop_working
+    4300002: walls1
+    4300004: draw4x2_2
+    4300006: pCylinder1
+    4300008: pCylinder2
+    4300010: pCylinder3
+    4300012: pCylinder4
+    4300014: pCylinder5
+    4300016: pCylinder6
+    4300018: book1
+    4300020: book2
+    4300022: book3
+    4300024: pCylinder8
+    4300026: pCylinder9
+    4300028: pCylinder7
+    4300030: pCylinder10
+    4300032: pCylinder11
+    4300034: pCylinder8
+    4300036: pCylinder9
+    4300038: pCylinder7
+    4300040: pCylinder12
+    4300042: pCylinder13
+    4300044: pCylinder8
+    4300046: pCylinder9
+    4300048: pCylinder7
+    4300050: pCylinder14
+    4300052: pCylinder15
+    4300054: pCylinder16
+    4300056: pCylinder17
+    4300058: pCylinder18
+    4300060: pCylinder19
+    4300062: pCylinder20
+    4300064: pCylinder22
+    4300066: pCylinder21
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

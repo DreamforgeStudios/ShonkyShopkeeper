@@ -9,6 +9,8 @@ public class CombiningShonky : MonoBehaviour {
     private Item.ItemType item;
     private GameObject combiner;
     public GameObject shonky;
+    public GameObject pen;
+    private Vector3 penSpawnPosition;
 
     //Movement variables
     private bool moving = false;
@@ -17,7 +19,8 @@ public class CombiningShonky : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+        penSpawnPosition = pen.transform.position;
+        penSpawnPosition.y += 0.5f;
 	}
 	
 	// Update is called once per frame
@@ -68,7 +71,7 @@ public class CombiningShonky : MonoBehaviour {
             moving = false;
             lastSelected = null;
             combiner = null;
-            Instantiate(shonky, a.transform.position, a.transform.rotation);
+            Instantiate(shonky, pen.transform);
             Destroy(a, 2.0f);
             Destroy(b, 2.0f);
             
