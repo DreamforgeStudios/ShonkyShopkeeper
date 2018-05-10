@@ -8,7 +8,7 @@ public class CameraSwipe : MonoBehaviour {
     private Camera mainCamera;
     private Vector3 position1;
     private Vector3 position2;
-    private bool startingPosition = true;
+    public bool startingPosition = true;
     public float rotationAmount;
     Quaternion rot1;
     Quaternion rot2;
