@@ -22,7 +22,7 @@ public class Toolbox : MonoBehaviour {
 
 	// Helpers.
 	private Tool currentTool;
-	private Slot currentSelection;
+	private Slot currentSelection = null;
 
 	// Debug.
 	private Ray previousRay;
@@ -113,28 +113,30 @@ public class Toolbox : MonoBehaviour {
 			currentSelection = null;
 		}
 
-		this.currentSelection = slot;
-		if (inspectionPanel)
-		inspectionPanel.SetActive(true);
+		// To avoid null errors, always use the x.Get() methods, they check for you.
+		Item item;
+		if (slot.GetItem(out item)) {
+			this.currentSelection = slot;
+			inspectionPanel.SetActive(true);
 
-		if (textHeading)
-		textHeading.text = slot.itemInstance.item.GetItemName();
-		if (textInfo)
-		textInfo.text = slot.itemInstance.item.GetItemInfo();
+			textHeading.text = item.GetItemName();
+			textInfo.text = item.GetItemInfo();
 
-		// If the slot contains an item.
-		if (slot.prefabInstance) {
-			// Animate using tween library -> see https://easings.net/ for some animations to use.
-			Transform t = slot.prefabInstance.transform;
-			t.DOMove(t.position + (Vector3.up*3), 0.7f).SetEase(Ease.OutBack);
+			// Animate using tween library -> see https://easings.net/ for some animaions to use.
+			GameObject itemObj;
+			if (slot.GetPrefabInstance(out itemObj)) {
+				Transform t = itemObj.transform;
+				t.DOMove(t.position + (Vector3.up), 0.7f).SetEase(Ease.OutBack);
+			}
 		}
 	}
 
 	// Hide the inspector and the current item (if one is selected).
 	private void HideInspector() {
-		if (currentSelection) {
-			inspectionPanel.SetActive(false);
-			currentSelection.prefabInstance.transform.DOMove(currentSelection.transform.position, 1f).SetEase(Ease.OutBounce);
+		inspectionPanel.SetActive(false);
+		GameObject gameObj;
+		if (currentSelection && currentSelection.GetPrefabInstance(out gameObj)) {
+			gameObj.transform.DOMove(currentSelection.transform.position, 1f).SetEase(Ease.OutBounce);
 			currentSelection = null;
 		}
 	}

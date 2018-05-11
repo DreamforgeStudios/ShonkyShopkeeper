@@ -6,7 +6,6 @@ public class GameManager : MonoBehaviour {
 	public static GameManager instance = null;
 
 	private float[] gameScores;
-	private int gold;
 
 	void Awake () {
 		if (instance == null) {
@@ -21,7 +20,6 @@ public class GameManager : MonoBehaviour {
 		DontDestroyOnLoad(gameObject);
 		Application.targetFrameRate = 60;
 		gameScores = new float[4];
-		gold = 0;
 	}
 
 	public void UpdateQuality(float grade, int index) {
@@ -38,13 +36,5 @@ public class GameManager : MonoBehaviour {
 		Debug.Log("Grade: " + sum);
 
 		return Quality.FloatToGrade(sum, 3);
-	}
-
-	public int GetGold() {
-		return gold;
-	}
-
-	public void AddGold(int gold) {
-		this.gold += gold;
 	}
 }

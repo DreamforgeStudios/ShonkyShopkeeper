@@ -16,6 +16,6 @@ public class UpdateGold : MonoBehaviour {
 	void Update () {
 		// For optimal performance, it would probably be better to trigger
 		//  an update rather than doing it every frame.
-		text.text = spriteString + " " + GameManager.instance.GetGold();
+		text.text = spriteString + " " + Inventory.Instance.goldCount;
 	}
 }

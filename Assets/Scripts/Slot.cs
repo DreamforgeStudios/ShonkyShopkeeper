@@ -6,8 +6,8 @@ public class Slot : MonoBehaviour {
 	public int index = 0;
 
 	// Only public for debugging purposes.
-	public ItemInstance itemInstance;	// Inventory backend representation.
-	public GameObject prefabInstance;	// Inventory frontend representation.
+	public ItemInstance itemInstance = null;	// Inventory backend representation.
+	public GameObject prefabInstance = null;	// Inventory frontend representation.
 
 	// TODO: it would be better if we used SetActive() etc rather than Instantiate/Destroy.
 	// Use this method to set a slot's item.
@@ -35,6 +35,33 @@ public class Slot : MonoBehaviour {
 		this.prefabInstance = null;
 	}
 
+	public bool GetItemInstance(out ItemInstance itemInstance) {
+		if (this.itemInstance == null) {
+			itemInstance = null;
+			return false;
+		}
 
+		itemInstance = this.itemInstance;
+		return true;
+	}
 
+	public bool GetItem(out Item item) {
+		if (this.itemInstance.item == null) {
+			item = null;
+			return false;
+		}
+
+		item = this.itemInstance.item;
+		return true;
+	}
+
+	public bool GetPrefabInstance(out GameObject prefabInstance) {
+		if (this.prefabInstance == null) {
+			prefabInstance = null;
+			return false;
+		}
+
+		prefabInstance = this.prefabInstance;
+		return true;
+	}
 }
