@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SaveManager : MonoBehaviour {
-	public Inventory inventoryTemplate;
-
-	// Use this for initialization
-	void Start () {
+[CreateAssetMenu]
+public class SaveManager : ScriptableObject {
+	public void LoadOrInitializeInventory(Inventory inventoryTemplate) {
 		// Saving and loading.
 		if (System.IO.File.Exists(System.IO.Path.Combine(Application.persistentDataPath, "inventory.json"))) {
 			Debug.Log("Loading inventory.");
@@ -14,12 +12,9 @@ public class SaveManager : MonoBehaviour {
 		} else {
 			Inventory.InitializeFromDefault(inventoryTemplate);
 		}
-
-		Inventory.Instance.SaveToJSON(System.IO.Path.Combine(Application.persistentDataPath, "inventory.json"));
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+
+	public void SaveInventory() {
+		Inventory.Instance.SaveToJSON(System.IO.Path.Combine(Application.persistentDataPath, "inventory.json"));
 	}
 }

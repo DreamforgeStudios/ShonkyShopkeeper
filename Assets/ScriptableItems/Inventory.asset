@@ -11,35 +11,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24fb245bb9e81774f882f56341e40d9e, type: 3}
   m_Name: Inventory
   m_EditorClassIdentifier: 
-  goldCount: 10000
+  goldCount: 0
   inventory:
-  - item: {fileID: 11400000, guid: 2367bc8b648e2284aad3c9d707a890a6, type: 2}
+  - item: {fileID: 11400000, guid: dd8b52de8fe892b4a96a85b4ada8271d, type: 2}
+    quantity: 1
     quality: 4
-  - item: {fileID: 11400000, guid: 02f89f1a2dd9d17428e63c6b0d62fcf7, type: 2}
-    quality: 2
-  - item: {fileID: 11400000, guid: 2367bc8b648e2284aad3c9d707a890a6, type: 2}
+  - item: {fileID: 11400000, guid: a91967472be880b4fafa3391827a24e5, type: 2}
+    quantity: 1
     quality: 5
+  - item: {fileID: 11400000, guid: dd8b52de8fe892b4a96a85b4ada8271d, type: 2}
+    quantity: 1
+    quality: 3
   - item: {fileID: 0}
+    quantity: 0
     quality: 0
   - item: {fileID: 0}
+    quantity: 0
     quality: 0
   - item: {fileID: 0}
+    quantity: 0
     quality: 0
   - item: {fileID: 0}
+    quantity: 0
     quality: 0
   - item: {fileID: 0}
+    quantity: 0
     quality: 0
   - item: {fileID: 0}
+    quantity: 0
     quality: 0
   - item: {fileID: 0}
+    quantity: 0
     quality: 0
   - item: {fileID: 0}
+    quantity: 0
     quality: 0
   - item: {fileID: 0}
+    quantity: 0
     quality: 0
   - item: {fileID: 0}
+    quantity: 0
     quality: 0
   - item: {fileID: 0}
+    quantity: 0
     quality: 0
   - item: {fileID: 0}
+    quantity: 0
     quality: 0

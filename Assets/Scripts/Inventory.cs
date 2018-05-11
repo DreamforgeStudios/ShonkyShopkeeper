@@ -21,12 +21,6 @@ public class Inventory : ScriptableObject {
                 }
             }
 
-            //#if UNITY_EDITOR
-            //if (!_instance) {
-                //InitializeFromDefault(UnityEditor.AssetDatabase.LoadAssetAtPath<Inventory>("Assets/ScriptableItems/Inventory.asset"));
-            //}
-            //#endif
-
             return _instance;
         }
     }

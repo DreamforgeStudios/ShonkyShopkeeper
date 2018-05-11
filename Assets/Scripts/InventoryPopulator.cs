@@ -2,24 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// Simple inventory populator.
+// Might be moved to toolbox in future.
 public class InventoryPopulator : MonoBehaviour {
 	// Maybe change this to slot evenutally.
 	public List<Slot> inventorySlots;
-	public Inventory InventoryTemplate;
+	// In the situation where we haven't saved an inventory before.
+	public Inventory defaultInventory;
 
 	// Use this for initialization
 	void Start () {
+		// Load example.
+		SaveManager save = ScriptableObject.CreateInstance<SaveManager>();
+		save.LoadOrInitializeInventory(defaultInventory);
+
 		inventorySlots = new List<Slot>();
 		inventorySlots.AddRange(GameObject.FindObjectsOfType<Slot>());
 		
 		inventorySlots.Sort((a, b) => a.index - b.index);
 
 		PopulateInitial();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+
+		// Save example.
+		save.SaveInventory();
 	}
 
 	public void PopulateInitial() {
@@ -27,7 +32,7 @@ public class InventoryPopulator : MonoBehaviour {
 			ItemInstance instance;
 			// If an object exists at the specified location.
 			if (Inventory.Instance.GetItem(i, out instance)) {
-				inventorySlots[i].SetItem(instance.item.physicalRepresentation);
+				inventorySlots[i].SetItem(instance);
 			}
 		}
 	}

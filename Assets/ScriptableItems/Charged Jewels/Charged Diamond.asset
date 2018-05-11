@@ -8,11 +8,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac15dc611d0f45b4c866bc17a8413c9e, type: 3}
+  m_Script: {fileID: 11500000, guid: 835da6f6c1599f34f808aebfddf4ae68, type: 3}
   m_Name: Charged Diamond
   m_EditorClassIdentifier: 
-  name: 
+  itemName: Charged Diamond
   physicalRepresentation: {fileID: 0}
-  stackLimit: 0
-  mergeable: 0
-  gemType: 0
+  stackLimit: 1
+  mergeable: 1
+  gemType: 1

@@ -8,10 +8,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e47010408f62d3438b0fb87593a70cb, type: 3}
+  m_Script: {fileID: 11500000, guid: fe8a10e80c5157048b3a047c8e103f66, type: 3}
   m_Name: Brick
   m_EditorClassIdentifier: 
-  name: 
+  itemName: Brick
   physicalRepresentation: {fileID: 0}
   stackLimit: 1
-  mergeable: 1
+  mergeable: 0

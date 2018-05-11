@@ -8,10 +8,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce33210380dce584b95b51e21ed0b829, type: 3}
+  m_Script: {fileID: 11500000, guid: 009cbc8b0651f6f41ae966f68bf50389, type: 3}
   m_Name: Diamond
   m_EditorClassIdentifier: 
-  physicalRepresentation: {fileID: 0}
+  itemName: Diamond
+  physicalRepresentation: {fileID: 1497386098778806, guid: e9dfa5ce2d071e74e966b8bb7b39bb60,
+    type: 2}
   stackLimit: 1
   mergeable: 0
   gemType: 1

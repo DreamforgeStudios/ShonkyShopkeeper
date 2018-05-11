@@ -4,8 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-// The inspector is basically just the magnifying glass detached from the toolbox.
-public class Inspector : MonoBehaviour {
+// The ShonkyInspector is basically just the magnifying glass detached from the toolbox.
+// Is there a way we could make the toolbox useable for this situation?
+public class ShonkyInspector : MonoBehaviour {
 	// For debug.
 	private Ray previousRay;
 
@@ -14,11 +15,6 @@ public class Inspector : MonoBehaviour {
 	public TextMeshProUGUI textInfo;
 
 	// TODO: could use layermask for more efficiency / (better?) raycasts.
-
-	// Use this for initialization
-	void Start () {
-		
-	}
 
 	// Update is called once per frame
 	void Update () {
@@ -37,18 +33,15 @@ public class Inspector : MonoBehaviour {
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             previousRay = ray;
-            //Commented out while fixing item and inventory
-            /*
-                // Get shonky and show inspector if we hit a shony, otherwise hide it.
-                if (Physics.Raycast(ray, out hit, Mathf.Infinity)) {
-                    Shonky shonky = hit.transform.GetComponent<Shonky>();
-                    if (shonky) {
-                        ShowInspectionMenu(shonky);
-                    }
-                } else {
-                    HideInspectionMenu();
+            // Get shonky and show inspector if we hit a shony, otherwise hide it.
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity)) {
+                Shonky shonky = hit.transform.GetComponent<Shonky>();
+                if (shonky != null) {
+                    ShowInspectionMenu(shonky);
                 }
-            }*/
+            } else {
+                HideInspectionMenu();
+			}
         }
     }
 	
@@ -63,18 +56,15 @@ public class Inspector : MonoBehaviour {
 				RaycastHit hit;
 				Ray ray = Camera.main.ScreenPointToRay(touch.position);
 				previousRay = ray;
-		//Commented out while fixing item and inventory
-        /*
 				// Get shonky and show inspector if we hit a shony, otherwise hide it.
 				if (Physics.Raycast(ray, out hit, Mathf.Infinity)) {
 					Shonky shonky = hit.transform.GetComponent<Shonky>();
-					if (shonky) {
+					if (shonky != null) {
 						ShowInspectionMenu(shonky);
 					}
 				} else {
 					HideInspectionMenu();
 				}
-                */
 			}
             
 		}
