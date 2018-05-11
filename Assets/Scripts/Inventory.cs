@@ -2,117 +2,117 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(menuName = "Items/Inventory", fileName = "Inventory.asset")]
 [System.Serializable]
-public class Inventory : MonoBehaviour {
-    //public List<string> currentInventory = new List<string>();
-    public List<Ore> inv = new List<Ore>();
-    //public Ore testItem;
-    //private Item itemToAdd;
-    public static GameObject objectRepresentation;
-    public static int numberOfDrawers = 3;
-    public static int numberOfSlots = 15;
-    public static int goldAmount;
-    
-    //Create initial empty inventory
-    public void GenerateNewInventory() {
-        goldAmount = 0;
-        /*
-        string[,] currentInventory = new string[numberOfDrawers, numberOfSlots];
-        for (int i = 0; i < numberOfDrawers; i++) {
-            for (int j = 0; j < numberOfSlots; j++) {
-                currentInventory[i, j] = testItem;
-                Debug.Log(i + j + " is " + currentInventory[i, j]);
+public class Inventory : ScriptableObject {
+    // Saving using unity dev example.
+    // https://bitbucket.org/richardfine/scriptableobjectdemo/src/9a60686609a42fea4d00f5d20ffeb7ae9bc56eb9/Assets/ScriptableObject/GameSession/GameSettings.cs?at=default#GameSettings.cs-16,79,83,87,90
+    private static Inventory _instance;
+    public static Inventory Instance {
+        get {
+            if (!_instance) {
+                Inventory[] tmp = Resources.FindObjectsOfTypeAll<Inventory>();
+                if (tmp.Length > 0) {
+                    _instance = tmp[0];
+                    Debug.Log("Found inventory as: " + _instance);
+                } else {
+                    Debug.Log("did not find invenotry.");
+                    _instance = null;
+                }
             }
-        } */
-        for (int i = 0; i < numberOfSlots; i++) {
-            inv.Add(null);
+
+            return _instance;
         }
     }
 
-    public List<Ore> ReturnInventory() {
-        return inv;
+    public static void InitializeFromDefault(Inventory inventory) {
+		if (_instance) DestroyImmediate(_instance);
+		_instance = Instantiate(inventory);
+		_instance.hideFlags = HideFlags.HideAndDontSave;
+	}
+
+    public static void LoadFromJSON(string path) {
+        if (!_instance) DestroyImmediate(_instance);
+        _instance = ScriptableObject.CreateInstance<Inventory>();
+        JsonUtility.FromJsonOverwrite(System.IO.File.ReadAllText(path), _instance);
+        _instance.hideFlags = HideFlags.HideAndDontSave;
     }
 
-    //Add item to inventory if there is space
-    public bool AddItem(Ore itemToAdd) {
-        bool itemAdded = false;
-        if (EmptySlot()) {
-            /*
-            for (int i = 0; i < numberOfDrawers; i++) {
-                for (int j = 0; j < numberOfSlots; j++) {
-                    if (currentInventory[i, j] == null && !itemAdded) {
-                        currentInventory[i, j] = itemToAdd;
-                        itemAdded = true;
-                    }
-                }
-            }*/
-            for (int i = 0; i < numberOfSlots; i++) {
-                if (inv[i] == null && !itemAdded) {
-                    inv[i] = itemToAdd;
-                    itemAdded = true;
-                    Debug.Log("added item at " + i);
-                }
-            }
-        }
-        return itemAdded;
+    public void SaveToJSON(string path) {
+        Debug.LogFormat("Saving inventory to {0}", path);
+        System.IO.File.WriteAllText(path, JsonUtility.ToJson(this, true));
     }
 
-    //Add Gold
-    public static void AddGold(int amountToAdd) {
-        goldAmount = goldAmount + amountToAdd;
+
+
+
+    /* Inventory START */
+    public int goldCount;
+    //public int slots;
+    public ItemInstance[] inventory;
+
+    // Not used in vertical slice.
+    // public int drawers;
+
+    public void AddGold(int amount) {
+        goldCount += amount;
     }
 
-    //Remove Gold
-    public static bool RemoveGold(int amountToRemove) {
-        if ((goldAmount - amountToRemove) >= 0) {
-            goldAmount = goldAmount - amountToRemove;
+    public bool RemoveGold(int amount) {
+        if (goldCount - amount >= 0) {
+            goldCount -= amount;
             return true;
         }
-        else {
+
+        return false;
+    }
+
+    // Get an item if it exists.
+    public bool GetItem(int index, out ItemInstance item) {
+        // inventory[index] doesn't return null, so check item instead.
+        if (inventory[index].item == null) {
+            item = null;
             return false;
         }
+
+        item = inventory[index];
+        return true;
     }
-    
-    //Check if there is an empty slot
-    public bool EmptySlot() {
-        bool freeSlot = false;
-        /*
-        for (int i = 0; i < numberOfDrawers; i++) {
-            for (int j = 0; j < numberOfSlots; j++) {
-                if (currentInventory[i, j] == "null") {
-                    freeSlot = true;
-                }
+
+    // Remove an item at an index if one exists at that index.
+    public bool RemoveItem(int index) {
+        if (inventory[index] != null) {
+            inventory[index] = null;
+            return true;
+        }
+
+        // Nothing existed at the specified slot.
+        return false;
+    }
+
+    // Insert an item.
+    public bool InsertItem(ItemInstance item) {
+        for (int i = 0; i < inventory.Length; i++) {
+            if (inventory[i] == null) {
+                inventory[i] = item;
+                return true;
             }
         }
-        */
-        for (int i = 0; i < numberOfSlots; i++) {
-            if (inv[i] == null) {
-                freeSlot = true;
-            }
+
+        // Couldn't find a free slot.
+        return false;
+    }
+
+    // Swap two items.
+    public bool SwapItem(int index1, int index2) {
+        if (inventory[index1] == null || inventory[index2] == null) {
+            return false;
         }
-        return freeSlot;
-    }
 
-    /*
-    //Return item at index
-    public Ore GetItem(List<Ore> inventory, int slotIndex) {
-        //Debug.Log("Item in " + drawerIndex + " drawer and slot " + slotIndex + " is " + currentInventory[drawerIndex, slotIndex]);
-        //return currentInventory[drawerIndex, slotIndex];
-        return inventory[slotIndex];
-    }
-    */
+        ItemInstance temp = inventory[index1];
+        inventory[index1] = inventory[index2];
+        inventory[index2] = temp;
 
-    private void Start() {
-        GenerateNewInventory();
-        Debug.Log("Generated Inventory");
-        inv = ReturnInventory();
-        //this.GetComponent<InventoryPopulator>().PopulateWithJunk(this);
-        Debug.Log("adding item");
-        Ore itemAdd = new Ore(3);
-        //ScriptableObject ore = ScriptableObject.CreateInstance("Ore");
-        AddItem(itemAdd);
-        //Debug.Log("Item at 0,0 is " + inv[0].quantity);
+        return true;
     }
-
 }
-

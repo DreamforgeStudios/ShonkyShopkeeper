@@ -22,6 +22,7 @@ public class ItemLookup : MonoBehaviour {
 		}
 	}
 
+    /* Commented out while fixing item & inventory
 	public GameObject LookupItem(Item item) {
 		foreach (ItemDict dict in itemDict) {
 			if (item.itemType == dict.type && item.gemType == dict.gemType) {
@@ -31,4 +32,5 @@ public class ItemLookup : MonoBehaviour {
 
 		return null;
 	}
+    */
 }

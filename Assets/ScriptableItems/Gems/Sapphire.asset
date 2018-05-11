@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 009cbc8b0651f6f41ae966f68bf50389, type: 3}
+  m_Name: Sapphire
+  m_EditorClassIdentifier: 
+  itemName: Sapphire
+  physicalRepresentation: {fileID: 1497386098778806, guid: e9dfa5ce2d071e74e966b8bb7b39bb60,
+    type: 2}
+  stackLimit: 1
+  mergeable: 0
+  gemType: 2
