@@ -10,6 +10,9 @@ public class UIManager : MonoBehaviour {
     private Quaternion rot1;
     private Quaternion rot2;
     private Quaternion currentRotaton;
+    public Canvas mineDesignTravelIcons;
+    public GameObject toolboxTools;
+
 	// Use this for initialization
 	void Start () {
         main = Camera.main;
@@ -27,5 +30,12 @@ public class UIManager : MonoBehaviour {
             Arrow.transform.rotation = Quaternion.Lerp(currentRotaton, rot2, 0.05f);
         }
         currentRotaton = Arrow.transform.rotation;
+        if (main.GetComponent<CameraSwipe>().startingPosition) {
+            mineDesignTravelIcons.enabled = false;
+            toolboxTools.SetActive(false);
+        } else {
+            mineDesignTravelIcons.enabled = true;
+            toolboxTools.SetActive(true);
+        }
 	}
 }

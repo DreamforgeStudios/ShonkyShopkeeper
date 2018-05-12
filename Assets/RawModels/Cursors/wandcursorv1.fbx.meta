@@ -1,18 +1,24 @@
 fileFormatVersion: 2
-guid: 312e070fca9172147b43b44a44c8df6b
-timeCreated: 1525917885
+guid: 4ca89f800003f4d4180cb44246a5a3a7
+timeCreated: 1526078738
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
-    100000: ruby4
-    100002: //RootNode
-    400000: ruby4
-    400002: //RootNode
-    2100000: rubygem
-    2300000: ruby4
-    3300000: ruby4
-    4300000: ruby4
+    100000: pCube1
+    100002: pPlatonic1
+    100004: //RootNode
+    400000: pCube1
+    400002: pPlatonic1
+    400004: //RootNode
+    2100000: rubyshine
+    2100002: copper
+    2300000: pCube1
+    2300002: pPlatonic1
+    3300000: pCube1
+    3300002: pPlatonic1
+    4300000: pPlatonic1
+    4300002: pCube1
   externalObjects: {}
   materials:
     importMaterials: 1

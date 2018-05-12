@@ -43,9 +43,6 @@ public class Inventory : ScriptableObject {
         System.IO.File.WriteAllText(path, JsonUtility.ToJson(this, true));
     }
 
-
-
-
     /* Inventory START */
     public int goldCount;
     //public int slots;
@@ -95,6 +92,7 @@ public class Inventory : ScriptableObject {
         for (int i = 0; i < inventory.Length; i++) {
             if (inventory[i] == null) {
                 inventory[i] = item;
+                Debug.Log("Inserted at slot " + i);
                 return true;
             }
         }

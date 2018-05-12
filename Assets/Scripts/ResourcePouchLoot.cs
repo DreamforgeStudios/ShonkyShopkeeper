@@ -2,8 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ResourcePouchLoot : MonoBehaviour {
+public class ResourcePouchLoot {
+    // In the situation where we haven't saved an inventory before.
+    public Inventory defaultInventory;
 
+    //Test resource pouch
+    public ItemInstance resourcePouch;
     public enum MineVeinType {
         Diamond,
         Sapphire,
@@ -14,52 +18,49 @@ public class ResourcePouchLoot : MonoBehaviour {
     //Type of this bag
     private MineVeinType veinType;
 
-    public ResourcePouchLoot() {
-
-    }
     //Percentages for drops
     public float orePercentage;
     public float gemPercentage;
 
     //Total number of items to receive
-    public static float numberOfItems = 15;
+    public float numberItems = Random.Range(1, 5);
 
     //Total number of items received
     private int receivedSoFar;
 
-    public int CalculateOreDrop(MineVeinType vein, float oreDropRate) {
-        CalculateDropRates(vein);
+    public int CalculateOreDrop(float oreDropRate, float numberOfItems) {
+        //CalculateDropRates(vein);
         int oreAmount = (int)Mathf.Round((numberOfItems / 100) * oreDropRate);
         Debug.Log("Ore amount = " + oreAmount);
         return oreAmount;
     }
 
     public int CalculateGemDrop(int oreAmount, float totalNumberToDrop) {
+        Debug.Log("Gem amount = " + (int)(totalNumberToDrop - oreAmount));
         return (int)(totalNumberToDrop - oreAmount);
     }
 
-    public void CalculateDropRates(MineVeinType vein) {
+    public int CalculateDropRates() {
+        /*
         switch (vein) {
             case MineVeinType.Diamond:
-                orePercentage = 70;
-                gemPercentage = 30;
+                orePercentage = Random.Range(50, 70);
                 break;
             case MineVeinType.Sapphire:
-                orePercentage = 70;
-                gemPercentage = 30;
+                orePercentage = Random.Range(60, 80);
                 break;
             case MineVeinType.Emerald:
-                orePercentage = 70;
-                gemPercentage = 30;
+                orePercentage = Random.Range(40, 70);
                 break;
             case MineVeinType.Ruby:
-                orePercentage = 70;
-                gemPercentage = 30;
+                orePercentage = Random.Range(70, 75);
                 break;
             default:
-                orePercentage = 80;
-                gemPercentage = 20;
+                orePercentage = 50;
                 break;
         }
+        */
+        return (Random.Range(50, 70));
+        //gemPercentage = 100 - orePercentage;
     }
 }

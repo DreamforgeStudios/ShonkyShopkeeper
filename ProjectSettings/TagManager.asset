@@ -16,6 +16,9 @@ TagManager:
   - point
   - ItemLookup
   - CutGem
+  - forcep
+  - wand
+  - inspector
   layers:
   - Default
   - TransparentFX

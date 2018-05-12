@@ -20,17 +20,18 @@ public class ResourcePouch : ResourcePouchLoot {
     public TextMeshProUGUI helperText;
 
     private void Start() {
-        helperText.enabled = false;
-        this.GetComponent<Renderer>().material = unlocked;
-        FindVeinType();
+        //helperText.enabled = false;
+        //this.GetComponent<Renderer>().material = unlocked;
+        //FindVeinType();
     }
 
     private void Update() {
         //Debug.Log("This is of type: " + type + " and has ore drop % of " + orePercentage + " and gem % of " + gemPercentage);
-        CheckForInput();
+        //CheckForInput();
     }
 
     private void CheckForInput() {
+        /*
         if (Input.GetMouseButtonDown(0)) {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -46,9 +47,11 @@ public class ResourcePouch : ResourcePouchLoot {
                 }
             }
         }
+        */
     }
 
-    private void FindVeinType() {
+   // private void FindVeinType
+        /*) {
         switch (gameObject.tag) {
             case "DiamondBag":
                 CalculateDropRates(MineVeinType.Diamond);
@@ -67,5 +70,7 @@ public class ResourcePouch : ResourcePouchLoot {
                 type = MineVeinType.Sapphire;
                 break;
         }
+    */
     }
-}
+    
+

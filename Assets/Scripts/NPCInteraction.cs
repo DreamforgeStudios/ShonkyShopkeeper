@@ -43,11 +43,11 @@ public class NPCInteraction : MonoBehaviour {
     private void CheckForInput() {
         if (Input.GetMouseButtonDown(0)) {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            Debug.Log(Camera.main.ScreenPointToRay(Input.mousePosition));
+            //Debug.Log(Camera.main.ScreenPointToRay(Input.mousePosition));
             RaycastHit hit;
             Debug.DrawRay(ray.origin, ray.direction * 10, Color.red, 5f);
             if (Physics.Raycast(ray, out hit, 100)) {
-                Debug.Log(hit.transform.gameObject.name);
+                //Debug.Log(hit.transform.gameObject.name);
                 if (hit.transform.gameObject.tag == "NPC") {
                     int newRandom = generator.Next(0, 100);
                     Debug.Log(newRandom);

@@ -1,19 +1,17 @@
 fileFormatVersion: 2
-guid: 26f97de0a8b2cd94ea266b2359be7f72
-timeCreated: 1525917885
+guid: f9737366a2b6b7d4eb252875efbc5ac5
+timeCreated: 1526078739
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
-    100000: ruby2
-    100002: //RootNode
-    400000: ruby2
-    400002: //RootNode
-    2100000: rubyhollows
-    2100002: rubygem
-    2300000: ruby2
-    3300000: ruby2
-    4300000: ruby2
+    100000: //RootNode
+    400000: //RootNode
+    2100000: Woodfinish
+    2100002: copper
+    2300000: //RootNode
+    3300000: //RootNode
+    4300000: Forceps
   externalObjects: {}
   materials:
     importMaterials: 1

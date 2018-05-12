@@ -13,7 +13,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   goldCount: 10000
   inventory:
-  - item: {fileID: 11400000, guid: dd8b52de8fe892b4a96a85b4ada8271d, type: 2}
+  - item: {fileID: 11400000, guid: d5c3c8fd06aa79b4eaf82bcc83f8bb6d, type: 2}
     quantity: 1
     quality: 4
   - item: {fileID: 11400000, guid: a91967472be880b4fafa3391827a24e5, type: 2}
@@ -47,5 +47,5 @@ MonoBehaviour:
     quantity: 0
     quality: 0
   - item: {fileID: 0}
-    quantity: 0
+    quantity: 1
     quality: 0
