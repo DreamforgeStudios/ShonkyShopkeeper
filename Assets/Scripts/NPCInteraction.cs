@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class NPCInteraction : MonoBehaviour {
 
@@ -53,10 +54,11 @@ public class NPCInteraction : MonoBehaviour {
                     Debug.Log(newRandom);
                     if (newRandom <= baseChanceOfApproach && numberOfInteractionsLately <= maxInteractions) {
                         Debug.Log("Hit NPC and successfully got them to approach");
+                        SceneManager.LoadScene("Barter");
                         //Add when keeping list of shonkys
                         //int randomShonkyIndex = generator.Next(0, penShonkys.Length - 1);
                         //Begin Barter Game with the shonky at penShonkys[randomShonkyIndex];
-                        numberOfInteractionsLately += 1;
+                        //numberOfInteractionsLately += 1;
                     } else {
                         //Debug.Log("Hit NPC but did not approach ");
                     }

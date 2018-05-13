@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Name: Cut Emerald
   m_EditorClassIdentifier: 
   itemName: Cut Emerald
-  physicalRepresentation: {fileID: 0}
+  physicalRepresentation: {fileID: 1162846459946210, guid: 93cd41971dde6ff4894315e1228f36d7,
+    type: 2}
   stackLimit: 1
   mergeable: 0
   gemType: 3
