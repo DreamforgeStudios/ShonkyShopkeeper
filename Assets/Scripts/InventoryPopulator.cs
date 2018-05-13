@@ -13,8 +13,8 @@ public class InventoryPopulator : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		// Load example.
-		SaveManager save = ScriptableObject.CreateInstance<SaveManager>();
-		save.LoadOrInitializeInventory(defaultInventory);
+		//SaveManager save = ScriptableObject.CreateInstance<SaveManager>();
+		//save.LoadOrInitializeInventory(defaultInventory);
 
 		inventorySlots = new List<Slot>();
 		inventorySlots.AddRange(GameObject.FindObjectsOfType<Slot>());
@@ -24,7 +24,7 @@ public class InventoryPopulator : MonoBehaviour {
 		PopulateInitial();
 
 		// Save example.
-		save.SaveInventory();
+		//save.SaveInventory();
 	}
 
 	public void PopulateInitial() {
