@@ -24,7 +24,7 @@ public class PhysicalInventory : MonoBehaviour {
 		PopulateInitial();
 
 		// Save example.
-		save.SaveInventory();
+		//save.SaveInventory();
 	}
 
 	public void PopulateInitial() {

@@ -38,32 +38,32 @@ public class Toolbox : MonoBehaviour {
     //public TextMeshProUGUI beginMiniGame
 
     // Helpers.
-    private Inventory inventoryhelper;
+    //private Inventory inventoryhelper;
     private Tool currentTool;
 
     //Helpers to capture Items, transfoms, slot indexes, gameobjects, movement stages and instances when using forceps
     private Slot currentSelection = null;
-    private Slot secondSelection = null;
+    //private Slot secondSelection = null;
     private bool canSelect = true;
-    private Transform firstTransform;
-    private Transform secondTransform;
-    private Vector3 firstSelectionOriginal;
-    private Vector3 secondSelectionOriginal;
-    private Vector3 firstSelectHigh;
-    private Vector3 secondSelectHigh;
-    private int slot1SelectionIndex;
-    private int slot2SelectionIndex;
-    private ItemInstance instanceItem1;
-    private ItemInstance instanceItem2;
-    private ItemInstance tempHolder;
-    private bool inPosition1 = false;
-    private bool inPosition2 = false;
-    private bool inFinalPosition = false;
+    //private Transform firstTransform;
+    //private Transform secondTransform;
+    //private Vector3 firstSelectionOriginal;
+    //private Vector3 secondSelectionOriginal;
+    //private Vector3 firstSelectHigh;
+    //private Vector3 secondSelectHigh;
+    //private int slot1SelectionIndex;
+    //private int slot2SelectionIndex;
+    //private ItemInstance instanceItem1;
+    //private ItemInstance instanceItem2;
+    //private ItemInstance tempHolder;
+    //private bool inPosition1 = false;
+    //private bool inPosition2 = false;
+    //private bool inFinalPosition = false;
 
     //Two testing instances to showcase resource Pouch. Delete in final implementation once
     //we can create items through code correctly.
-    public ItemInstance ore;
-    public ItemInstance ruby;
+    //public ItemInstance ore;
+    //public ItemInstance ruby;
 
     // Debug.
     private Ray previousRay;
@@ -72,7 +72,7 @@ public class Toolbox : MonoBehaviour {
     void Start() {
         // TODO: Change this to the default tool.
         currentTool = Tool.None;
-        inventoryhelper = Inventory.Instance;
+        //inventoryhelper = Inventory.Instance;
         forcepPos = GameObject.FindGameObjectWithTag("forcep").transform.position;
         wandPos = GameObject.FindGameObjectWithTag("wand").transform.position;
         inspectPos = GameObject.FindGameObjectWithTag("inspector").transform.position;
@@ -264,24 +264,14 @@ public class Toolbox : MonoBehaviour {
             //If first selection
             if (currentSelection == null) {
                 this.currentSelection = slot;
-                //slot1SelectionIndex = slot.index;
-                //ItemInstance instance;
-                //if (slot.GetItemInstance(out instance)) {
-                    //instanceItem1 = instance;
-                //}
 
-                // Animate using tween library -> see https://easings.net/ for some animaions to use.
                 GameObject itemObj;
                 if (slot.GetPrefabInstance(out itemObj)) {
                     Transform t = itemObj.transform;
-                    //firstTransform = t;
-                    //firstSelectionOriginal = firstTransform.position;
                     t.DOMove(slot.transform.position + (Vector3.up), 0.7f).SetEase(Ease.OutBack);
                 }
-            }
-
-            //Else if second selection
-            else {//if (secondSelection == null) {
+            // Second selection.
+            } else {
                 // If the same item is selected, put it back.
                 if (currentSelection == slot) {
                     Debug.Log("Same slot.");
@@ -291,7 +281,6 @@ public class Toolbox : MonoBehaviour {
                     }
 
                     currentSelection = null;
-                    secondSelection = null;
                     return;
                 }
 
@@ -299,125 +288,39 @@ public class Toolbox : MonoBehaviour {
                 Slot slot1 = this.currentSelection;
                 Slot slot2 = slot;
 
-                //this.secondSelection = slot;
-                //slot2SelectionIndex = slot.index;
-                //ItemInstance instance;
-                //if (slot.GetItemInstance(out instance)) {
-                    //instanceItem2 = instance;
-                    //tempHolder = instanceItem1;
-                //}
-
                 // Move objects to other slot.
                 GameObject obj1;
                 GameObject obj2;
+                // Move 1 item.
                 if (slot1.GetPrefabInstance(out obj1) && slot2.GetPrefabInstance(out obj2)) {
+                    // Don't let user select while we're moving.
+                    // TODO: let user select while moving?
+                    canSelect = false;
+                    Debug.Log("here");
+
                     Transform t1 = obj1.transform,
                               t2 = obj2.transform;
 
-
                     t1.DOMove(slot1.transform.position + Vector3.up, 0.7f).SetEase(Ease.OutBack)
                         .OnComplete(() => t1.DOMove(slot2.transform.position + Vector3.up, 0.6f).SetEase(Ease.OutBack)
-                        .OnComplete(() => t1.DOMove(slot2.transform.position, 1f).SetEase(Ease.OutBounce)));
+                        .OnComplete(() => t1.DOMove(slot2.transform.position, 1f).SetEase(Ease.OutBounce).OnComplete(() => canSelect = true)));
 
                     t2.DOMove(slot2.transform.position + Vector3.up, 0.7f).SetEase(Ease.OutBack)
                         .OnComplete(() => t2.DOMove(slot1.transform.position + Vector3.up, 0.6f).SetEase(Ease.OutBack)
-                        .OnComplete(() => t2.DOMove(slot1.transform.position, 1f).SetEase(Ease.OutBounce)));
+                        .OnComplete(() => t2.DOMove(slot1.transform.position, 1f).SetEase(Ease.OutBounce).OnComplete(() => canSelect = true)));
 
                     ItemInstance inst1, inst2;
                     if (slot1.GetItemInstance(out inst1) && slot2.GetItemInstance(out inst2)) {
                         slot1.SetItemInstantiated(inst2, obj2);
                         slot2.SetItemInstantiated(inst1, obj1);
+                        Inventory.Instance.SwapItem(slot1.index, slot2.index);
                     }
 
                     currentSelection = null;
-                    //canSelect = false;
-
-                    //secondTransform = itemObj.transform;
-                    //secondSelectionOriginal = secondTransform.position;
-                    //secondTransform.DOMove(secondTransform.position + (Vector3.up), 0.7f).SetEase(Ease.OutBack);
-                    //secondSelectHigh = secondTransform.position;
-                    //firstSelectHigh = firstTransform.position;
-                    //StartCoroutine(Movement(secondTransform, firstTransform, itemObj, origGameObj));
                 }
-
-                //If same item selected, put back
-                /*
-                if (currentSelection == secondSelection && currentSelection.GetPrefabInstance(out gameObj) && canSelect) {
-                    Debug.Log("same item");
-                    gameObj.transform.DOMove(currentSelection.transform.position, 1f).SetEase(Ease.OutBounce);
-                    currentSelection = null;
-                    secondSelection = null;
-                }
-                */
-                //Else move the positions
-                //else if (canSelect) {
-                    //canSelect = false;
-                //}
             }
         }
     }
-
-    IEnumerator MoveIfNotAlready(Transform t, Vector3 to) {
-        if (DOTween.IsTweening(t)) {
-            //Debug.Log("already tweening");
-            var tweens = DOTween.TweensById(t);
-            yield return tweens[0].WaitForCompletion();
-            //yield return new WaitForSeconds(0.1f);
-        }
-
-        t.DOMove(to, 0.7f).SetEase(Ease.OutBack);
-    }
-
-    /*
-    //Coroutine to make the movement look better otherwise the two movements lerp together and go 
-    //through the drawer. It is split into the three separate stages of movement
-    IEnumerator Movement(Transform t, Transform b, GameObject itemObj, GameObject origGameObj) {
-        Debug.Log(firstSelectionOriginal + " first and second " + secondSelectionOriginal);
-        while (!canSelect) {
-            if (!inPosition1) {
-                inPosition1 = true;
-                yield return new WaitForSeconds(2.0f);
-            }
-            secondSelectHigh = secondTransform.position;
-            t.DOMove(firstSelectHigh, 3f).SetEase(Ease.OutBack);
-            b.DOMove(secondSelectHigh, 3f).SetEase(Ease.OutBack);
-            Debug.Log("Moving to other side");
-            if (!inPosition2) {
-                inPosition2 = true;
-                yield return new WaitForSeconds(2.0f);
-            }
-            Debug.Log("Moving Down");
-            t.DOMove(firstSelectionOriginal, 3f).SetEase(Ease.OutBack);
-            b.DOMove(secondSelectionOriginal, 3f).SetEase(Ease.OutBack);
-            if (!inFinalPosition) {
-                inFinalPosition = true;
-                canSelect = true;
-                Debug.Log("Should be out of coroutine");
-            }
-            Debug.Log("Out of coroutine");
-            inventoryhelper.SwapItem(slot1SelectionIndex, slot2SelectionIndex);
-            currentSelection.SetItemInstantiated(instanceItem2, itemObj);
-            secondSelection.SetItemInstantiated(tempHolder, origGameObj);
-            ResetForNextUse();
-            StopCoroutine("Movement");
-            yield return new WaitForSeconds(2.0f);
-        }
-    }
-
-    private void ResetForNextUse() {
-        currentSelection = null;
-        secondSelection = null;
-        canSelect = true;
-        firstTransform = null;
-        secondTransform = null;
-        instanceItem1 = null;
-        instanceItem2 = null;
-        tempHolder = null;
-        inPosition1 = false;
-        inPosition2 = false;
-        inFinalPosition = false;
-    }
-    */
 
     private void UseWand(Slot slot) {
         // Can't select 2 items at once.
@@ -454,10 +357,6 @@ public class Toolbox : MonoBehaviour {
     }
 
     private void ResourcePouchOpen(ItemInstance instance, Slot slot) {
-        //ResourcePouchLoot loot = new ResourcePouchLoot();
-        //float orePercentage = loot.CalculateDropRates();
-        //float gemPercentage = 100f - orePercentage;
-
         // Hard coded for now.  To do this dynamically, maybe put <names,chances> in a dictionary<string, float>.
         float rubyChance = 0.4f,
               oreChance = 1.00f;
@@ -498,63 +397,6 @@ public class Toolbox : MonoBehaviour {
 
             toSlot.SetItemInstantiated(drop, clone);
         }
-
-        /*
-        //get a copy of inventory for adding to and checking
-        //Inventory invInstance = Inventory.Instance;
-        //Helper and variables
-        //ResourcePouchLoot loot = new ResourcePouchLoot();
-        //float orePercentage;
-        //float gemPercentage;
-        int numOre;
-        int numGem;
-        float numberItems;
-
-        //Calculate drops and generate list of items
-        orePercentage = loot.CalculateDropRates();
-        gemPercentage = 100 - orePercentage;
-        numberItems = loot.numberItems;
-        //Debug.Log(orePercentage + " ore " + gemPercentage + " gem " + numberItems + " items ");
-        numOre = loot.CalculateOreDrop(orePercentage, numberItems);
-        numGem = loot.CalculateGemDrop(numOre, numberItems);
-        List<ItemInstance> possibleDrops = new List<ItemInstance>();
-        for (int i = 0; i < numOre; i++) {
-            possibleDrops.Add(ore);
-        }
-        for (int i = 0; i < numGem; i++) {
-            possibleDrops.Add(ruby);
-        }
-        */
-
-        /*
-        //Remove Pouch and replace with item
-        slot.RemoveItem();
-        invInstance.RemoveItem(slot.index);
-        int random = UnityEngine.Random.Range(0, possibleDrops.Count);
-        invInstance.InsertItem(possibleDrops[random]);
-        slot.SetItem(possibleDrops[random]);
-        possibleDrops.RemoveAt(random);
-
-        if (possibleDrops.Count > 0) {
-            for (int i = 0; i < possibleDrops.Count;) {
-                int continueRandom = UnityEngine.Random.Range(0, possibleDrops.Count);
-                if (invInstance.InsertItem(possibleDrops[continueRandom])) {
-                    Debug.Log("Inserting item");
-                    slot.SetItem(possibleDrops[continueRandom]);
-                    possibleDrops.RemoveAt(continueRandom);
-                }
-                else {
-                    i = possibleDrops.Count;
-                }
-            }
-        }
-        //save.SaveInventory();
-        //inventoryPopulaterObject.GetComponent<InventoryPopulator>().PopulateInitial();
-        //save.SaveInventory();
-        */
-
-
-
     }
 
     private void OnDrawGizmos() {
