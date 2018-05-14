@@ -39,6 +39,12 @@ public class ItemInstance {
     public int quantity = 1;
     public Quality.QualityGrade quality;
 
+    public ItemInstance(Item item, int quantity, Quality.QualityGrade quality) {
+        this.item = item;
+        this.quantity = quantity;
+        this.quality = quality;
+    }
+
     public void AddQuantity(int amount) {
         quantity = Mathf.Min(item.stackLimit, quantity + amount);
     }

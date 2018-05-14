@@ -4,7 +4,7 @@ using UnityEngine;
 
 // Simple inventory populator.
 // Might be moved to toolbox in future.
-public class InventoryPopulator : MonoBehaviour {
+public class PhysicalInventory : MonoBehaviour {
 	// Maybe change this to slot evenutally.
 	public List<Slot> inventorySlots;
 	// In the situation where we haven't saved an inventory before.
@@ -13,8 +13,8 @@ public class InventoryPopulator : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		// Load example.
-		//SaveManager save = ScriptableObject.CreateInstance<SaveManager>();
-		//save.LoadOrInitializeInventory(defaultInventory);
+		SaveManager save = ScriptableObject.CreateInstance<SaveManager>();
+		save.LoadOrInitializeInventory(defaultInventory);
 
 		inventorySlots = new List<Slot>();
 		inventorySlots.AddRange(GameObject.FindObjectsOfType<Slot>());
@@ -24,7 +24,7 @@ public class InventoryPopulator : MonoBehaviour {
 		PopulateInitial();
 
 		// Save example.
-		//save.SaveInventory();
+		save.SaveInventory();
 	}
 
 	public void PopulateInitial() {
@@ -35,6 +35,10 @@ public class InventoryPopulator : MonoBehaviour {
 				inventorySlots[i].SetItem(instance);
 			}
 		}
+	}
+
+	public Slot GetSlotAtIndex(int index) {
+		return inventorySlots[index];
 	}
 
 	/*

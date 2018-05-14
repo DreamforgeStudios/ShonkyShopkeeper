@@ -45,7 +45,6 @@ public class Inventory : ScriptableObject {
 
     /* Inventory START */
     public int goldCount;
-    //public int slots;
     public ItemInstance[] inventory;
 
     // Not used in vertical slice.
@@ -67,7 +66,7 @@ public class Inventory : ScriptableObject {
     // Get an item if it exists.
     public bool GetItem(int index, out ItemInstance item) {
         // inventory[index] doesn't return null, so check item instead.
-        if (inventory[index].item == null) {
+        if (SlotEmpty(index)) {
             item = null;
             return false;
         }
@@ -78,7 +77,7 @@ public class Inventory : ScriptableObject {
 
     // Remove an item at an index if one exists at that index.
     public bool RemoveItem(int index) {
-        if (inventory[index] != null) {
+        if (!SlotEmpty(index)) {
             inventory[index] = null;
             return true;
         }
@@ -87,18 +86,18 @@ public class Inventory : ScriptableObject {
         return false;
     }
 
-    // Insert an item.
-    public bool InsertItem(ItemInstance item) {
+    // Insert an item, return the index where it was inserted.  -1 if error.
+    public int InsertItem(ItemInstance item) {
         for (int i = 0; i < inventory.Length; i++) {
-            if (inventory[i] == null) {
+            if (SlotEmpty(i)) {
                 inventory[i] = item;
                 Debug.Log("Inserted at slot " + i);
-                return true;
+                return i;
             }
         }
 
         // Couldn't find a free slot.
-        return false;
+        return -1;
     }
 
     // Swap two items.
@@ -112,5 +111,13 @@ public class Inventory : ScriptableObject {
         inventory[index2] = temp;
 
         return true;
+    }
+
+    public bool SlotEmpty(int index) {
+        if (inventory[index] == null || inventory[index].item == null) {
+            return true;
+        }
+
+        return false;
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 
-public class InventoryManager : MonoBehaviour {
+public class _InventoryManager : MonoBehaviour {
     private Item[,] currentInventory;
     //Save Inventory
     public void SaveInventory() {

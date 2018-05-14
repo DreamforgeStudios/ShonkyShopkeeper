@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ResourcePouchLoot {
     // In the situation where we haven't saved an inventory before.
-    public Inventory defaultInventory;
+    //public Inventory defaultInventory;
 
     //Test resource pouch
     public ItemInstance resourcePouch;
