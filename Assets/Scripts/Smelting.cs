@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Smelting : MonoBehaviour {
 	// Timer object.
@@ -10,6 +11,10 @@ public class Smelting : MonoBehaviour {
 	public TextMeshProUGUI grade;
 	// Debug object.
 	public TextMeshProUGUI debug;
+    //Two sprites and their holder used to give feedback
+    public Sprite more;
+    public Sprite less;
+    public Image holder;
 	// Amount of time that the player should hold the position.
 	public float holdTime;
 	private float timeToGo;
@@ -34,6 +39,8 @@ public class Smelting : MonoBehaviour {
 	// The score that results in junk.
 	public float worstScore;
 
+    private bool holding = false;
+
 	// The rigidbody attached to this game object.
 	private Rigidbody rb;
 	// Previous rotation.
@@ -53,6 +60,7 @@ public class Smelting : MonoBehaviour {
 
 	void Start () {
 		rb = transform.GetComponent<Rigidbody>();
+        transform.eulerAngles = new Vector3(0, 0, 354);
 		prevRotation = transform.eulerAngles;
 		timeToGo = holdTime;
 		started = false;
@@ -63,14 +71,20 @@ public class Smelting : MonoBehaviour {
 	
 	// Don't waste frames on mobile...
 	void FixedUpdate() {
-		// Continually rotate backwards.
-		transform.eulerAngles = new Vector3(0, 0, transform.eulerAngles.z + negativeMomentum);
-		// Alternative method.
-		//transform.eulerAngles = Vector3.RotateTowards(transform.eulerAngles, maxRotation, negativeMomentum, negativeMomentum);
+        // Continually rotate backwards
+        if (transform.eulerAngles.z < 355 )
+            transform.eulerAngles = new Vector3(0, 0, transform.eulerAngles.z + negativeMomentum);
+
+        // Alternative method.
+        //transform.eulerAngles = Vector3.RotateTowards(transform.eulerAngles, maxRotation, negativeMomentum, negativeMomentum);
+        if (holding)
+            Stow();
 		// Constrain.
 		Constrain();
 		UpdateDebug();
 		UpdateTimer();
+
+        GiveFeedback();
 
 		// Record previous location.
 		prevRotation = transform.eulerAngles;
@@ -113,15 +127,33 @@ public class Smelting : MonoBehaviour {
 	}
 
 	private void UpdateDebug() {
-		float closeness = 1 - Mathf.Abs(transform.eulerAngles.z - successPoint) / successRange;
-		Color lerped = Color.Lerp(Color.red, Color.green, closeness);
-		debugMaterial.color = lerped;
+        if (transform.eulerAngles.z > 140) {
+            float closeness = 1 - Mathf.Abs(transform.eulerAngles.z - successPoint) / successRange;
+            Color lerped = Color.Lerp(Color.red, Color.green, closeness);
+            debugMaterial.color = lerped;
+        } else if (transform.eulerAngles.z < 130) {
+            float closeness = 1 - Mathf.Abs(transform.eulerAngles.z - successPoint) / successRange;
+            Color lerped = Color.Lerp(Color.black, Color.green, closeness);
+            debugMaterial.color = lerped;
+        } else {
+            debugMaterial.color = Color.green;
+        }
 		//Debug.Log("closeness:" + closeness + " pos: " + transform.eulerAngles.z);
 	}
 
+    public void ButtonDown() {
+        holding = true;
+    }
+
+    public void ButtonUp() {
+        holding = false;
+    }
 	public void Stow() {
-		rb.AddTorque(0, 0, -tapForce);
-        particle.Emit(10);
+        Debug.Log(transform.eulerAngles.z + " current vs max z " + maxRotation.z);
+        if (transform.eulerAngles.z > maxRotation.z) {
+            rb.AddTorque(0, 0, -tapForce);
+            particle.Emit(10);
+        }
         // Alternate approach.
         /*
 		Vector3 rotAdd = new Vector3(0, 0, tapForce);
@@ -136,4 +168,17 @@ public class Smelting : MonoBehaviour {
         nextScene.SetActive(true);
         retryScene.SetActive(true);
     }
+
+    private void GiveFeedback() {
+        if(transform.eulerAngles.z < 130) {
+            holder.enabled = true;
+            holder.sprite = less;
+        } else if (transform.eulerAngles.z > 140) {
+            holder.enabled = true;
+            holder.sprite = more;
+        } else {
+            holder.enabled = false;
+        }
+    }
+
 }
