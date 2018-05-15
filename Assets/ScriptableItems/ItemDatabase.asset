@@ -8,9 +8,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: b525575ee05931f4db2099477eb32cf7, type: 3}
   m_Name: ItemDatabase
-  m_EditorClassIdentifier: Assembly-CSharp::ItemDatabase
+  m_EditorClassIdentifier: 
   ruby: {fileID: 11400000, guid: dd8b52de8fe892b4a96a85b4ada8271d, type: 2}
   sapphire: {fileID: 11400000, guid: 824c07325a1c4b44e9dc482afe7ff690, type: 2}
   emerald: {fileID: 11400000, guid: a91967472be880b4fafa3391827a24e5, type: 2}

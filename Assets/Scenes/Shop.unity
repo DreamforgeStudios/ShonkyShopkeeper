@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4466297, g: 0.49647456, b: 0.5748497, a: 1}
+  m_IndirectSpecularColor: {r: 0.44662905, g: 0.49647397, b: 0.57484865, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -4414,7 +4414,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physicalInventory: {fileID: 548670425}
-  database: {fileID: 11400000, guid: 1a719d7110e0b8e418b5c75347015ace, type: 2}
+  database: {fileID: 11400000, guid: c80a381b36572400b8de5237884460b4, type: 2}
   forcep: {fileID: 832494667}
   inspectorObj: {fileID: 1006806394}
   wandObj: {fileID: 606622524}
@@ -4424,14 +4424,6 @@ MonoBehaviour:
   inspectionPanel: {fileID: 1606638400}
   textHeading: {fileID: 1525327212}
   textInfo: {fileID: 631501187}
-  ore:
-    item: {fileID: 11400000, guid: 2e5c685d5033eaf42b31c44aa410b117, type: 2}
-    quantity: 1
-    quality: 0
-  ruby:
-    item: {fileID: 11400000, guid: dd8b52de8fe892b4a96a85b4ada8271d, type: 2}
-    quantity: 1
-    quality: 0
 --- !u!4 &460379537
 Transform:
   m_ObjectHideFlags: 0

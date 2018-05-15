@@ -82,7 +82,7 @@ public class Toolbox : MonoBehaviour {
     void Update() {
         // Check where we are running the program.
         RuntimePlatform p = Application.platform;
-        if (p == RuntimePlatform.WindowsEditor || p == RuntimePlatform.WindowsPlayer)
+        if (p == RuntimePlatform.WindowsEditor || p == RuntimePlatform.WindowsPlayer || p == RuntimePlatform.OSXEditor || p == RuntimePlatform.OSXPlayer)
             // Process mouse inputs.
             ProcessMouse();
         else if (p == RuntimePlatform.IPhonePlayer || p == RuntimePlatform.Android)
@@ -226,7 +226,7 @@ public class Toolbox : MonoBehaviour {
         if (slot.GetItemInstance(out instance)) {
             //Debug.Log(instance.item.GetItemName());
             if (instance.item.GetItemName() == "ResourcePouch") {
-                ResourcePouchOpen(instance, slot);
+                ResourcePouchOpen(slot);
             }
             else {
                 if (slot.GetItem(out item)) {
@@ -356,7 +356,7 @@ public class Toolbox : MonoBehaviour {
         }
     }
 
-    private void ResourcePouchOpen(ItemInstance instance, Slot slot) {
+    private void ResourcePouchOpen(Slot slot) {
         // Hard coded for now.  To do this dynamically, maybe put <names,chances> in a dictionary<string, float>.
         float rubyChance = 0.4f,
               oreChance = 1.00f;
