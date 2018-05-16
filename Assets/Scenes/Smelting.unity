@@ -856,6 +856,12 @@ MonoBehaviour:
   debugMaterial: {fileID: 2100000, guid: 69174092190fc904db538c98e90350aa, type: 2}
   bestScore: 150
   worstScore: 0
+  animationCure:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   nextScene: {fileID: 1221059576}
   retryScene: {fileID: 1278907433}
   particle: {fileID: 1802316254}
@@ -1483,6 +1489,12 @@ MonoBehaviour:
   debugMaterial: {fileID: 2100000, guid: 69174092190fc904db538c98e90350aa, type: 2}
   bestScore: 150
   worstScore: 0
+  animationCure:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   nextScene: {fileID: 1221059576}
   retryScene: {fileID: 1278907433}
   particle: {fileID: 1802316254}

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -38,8 +39,13 @@ public class Smelting : MonoBehaviour {
 	public float bestScore;
 	// The score that results in junk.
 	public float worstScore;
-
+    //Hold speed variables;
+    public AnimationCurve animationCure;
+    private float heldTime;
+    private bool tapping;
     private bool holding = false;
+    private int frameCounter;
+    private Button button;
 
 	// The rigidbody attached to this game object.
 	private Rigidbody rb;
@@ -72,13 +78,15 @@ public class Smelting : MonoBehaviour {
 	// Don't waste frames on mobile...
 	void FixedUpdate() {
         // Continually rotate backwards
-        if (transform.eulerAngles.z < 355 )
+        if (transform.eulerAngles.z < 350 )
             transform.eulerAngles = new Vector3(0, 0, transform.eulerAngles.z + negativeMomentum);
 
         // Alternative method.
         //transform.eulerAngles = Vector3.RotateTowards(transform.eulerAngles, maxRotation, negativeMomentum, negativeMomentum);
-        if (holding)
+        
+        if (holding || tapping)
             Stow();
+            
 		// Constrain.
 		Constrain();
 		UpdateDebug();
@@ -142,17 +150,48 @@ public class Smelting : MonoBehaviour {
 	}
 
     public void ButtonDown() {
-        holding = true;
+        tapping = true;
+        DetermineIfTapping();
+        Stow();
+    }
+
+    private void DetermineIfTapping() {
+        if (!holding) {
+            frameCounter++;
+            Debug.Log(frameCounter);
+            if (frameCounter >= 15) {
+                tapping = false;
+                holding = true;
+                frameCounter = 0;
+            }
+            Stow();
+            if (tapping) {
+                DetermineIfTapping();
+            }
+        }
+
+        
     }
 
     public void ButtonUp() {
         holding = false;
+        tapping = false;
     }
 	public void Stow() {
-        Debug.Log(transform.eulerAngles.z + " current vs max z " + maxRotation.z);
+        //Debug.Log(transform.eulerAngles.z + " current vs max z " + maxRotation.z);
         if (transform.eulerAngles.z > maxRotation.z) {
-            rb.AddTorque(0, 0, -tapForce);
-            particle.Emit(10);
+            if (holding) {
+                Debug.Log("Holding");
+                rb.AddTorque(0, 0, -tapForce);
+                float tapAmount = animationCure.Evaluate(holdTime);
+                holdTime += Time.deltaTime;
+                particle.Emit(10);
+            } else {
+                holdTime = 0;
+                Debug.Log("tapping");
+                rb.AddTorque(0, 0, -tapForce);
+                particle.Emit(10);
+            }
         }
         // Alternate approach.
         /*
