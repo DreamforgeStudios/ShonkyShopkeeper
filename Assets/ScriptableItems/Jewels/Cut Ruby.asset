@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Name: Cut Ruby
   m_EditorClassIdentifier: 
   itemName: Cut Ruby
-  physicalRepresentation: {fileID: 0}
+  physicalRepresentation: {fileID: 100002, guid: 47f190c0254970b41b072ddc2fd4b918,
+    type: 3}
   stackLimit: 1
   mergeable: 0
   gemType: 0
