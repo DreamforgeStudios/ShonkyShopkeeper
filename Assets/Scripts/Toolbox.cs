@@ -228,7 +228,9 @@ public class Toolbox : MonoBehaviour {
             if (instance.item.GetItemName() == "ResourcePouch") {
                 ResourcePouchOpen(slot);
             }
-            else {
+            else if (instance.item.GetItemName() == "Empty") {
+                HideInspector();
+            } else { 
                 if (slot.GetItem(out item)) {
                     this.currentSelection = slot;
                     inspectionPanel.SetActive(true);
@@ -260,7 +262,8 @@ public class Toolbox : MonoBehaviour {
     //Move an Item to a new slot
     private void UseForceps(Slot slot) {
         Item item;
-        if (slot.GetItem(out item) && canSelect) {
+
+            if (slot.GetItem(out item) && canSelect) {
             //If first selection
             if (currentSelection == null) {
                 this.currentSelection = slot;
@@ -270,8 +273,9 @@ public class Toolbox : MonoBehaviour {
                     Transform t = itemObj.transform;
                     t.DOMove(slot.transform.position + (Vector3.up), 0.7f).SetEase(Ease.OutBack);
                 }
-            // Second selection.
-            } else {
+                // Second selection.
+            }
+            else {
                 // If the same item is selected, put it back.
                 if (currentSelection == slot) {
                     Debug.Log("Same slot.");
@@ -319,25 +323,23 @@ public class Toolbox : MonoBehaviour {
                     currentSelection = null;
                 }
             }
-        } //Else if selected one item and click empty slot
+        } //Else if selected one item and clicked on null slot
         else if (canSelect && currentSelection != null && !slot.GetItem(out item)) {
-            ItemInstance inst1;
-            GameObject obj;
-            if (currentSelection.GetPrefabInstance(out obj)) {
-                Transform t1 = obj.transform;
+            ItemInstance inst1, inst2;
+            GameObject obj1, obj2;
+            if (currentSelection.GetPrefabInstance(out obj1) && currentSelection.GetItemInstance(out inst1) &&
+                slot.GetItemInstance(out inst2) && slot.GetPrefabInstance(out obj2)) {
+                Debug.Log("got prefabs and instances");
+                Transform t1 = obj1.transform;
+                //Debug.Log(inst2.item.name);
                 t1.DOMove(currentSelection.transform.position + Vector3.up, 0.7f).SetEase(Ease.OutBack)
                        .OnComplete(() => t1.DOMove(slot.transform.position + Vector3.up, 0.6f).SetEase(Ease.OutBack)
                        .OnComplete(() => t1.DOMove(slot.transform.position, 1f).SetEase(Ease.OutBounce).OnComplete(() => canSelect = true)));
-            }
-            
-            if (currentSelection.GetItemInstance(out inst1)) {
-                Inventory.Instance.InsertItemAtSlot(currentSelection.index, slot.index);
-                currentSelection.RemoveDontDestroy();
-                slot.SetItemInstantiated(inst1, obj);
-                Debug.Log(obj.name);
+                slot.SetItemInstantiated(inst1, obj1);
+                currentSelection.SetItemInstantiated(inst2, obj2);
+                Inventory.Instance.SwapItem(currentSelection.index, slot.index);
             }
             currentSelection = null;
-            
         }
     }
 

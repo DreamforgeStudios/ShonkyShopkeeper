@@ -46,6 +46,7 @@ public class Inventory : ScriptableObject {
     /* Inventory START */
     public int goldCount;
     public ItemInstance[] inventory;
+    public ItemInstance empty;
 
     // Not used in vertical slice.
     // public int drawers;
@@ -78,7 +79,7 @@ public class Inventory : ScriptableObject {
     // Remove an item at an index if one exists at that index.
     public bool RemoveItem(int index) {
         if (!SlotEmpty(index)) {
-            inventory[index] = null;
+            inventory[index] = empty;
             return true;
         }
 
@@ -89,7 +90,7 @@ public class Inventory : ScriptableObject {
     // Insert an item, return the index where it was inserted.  -1 if error.
     public int InsertItem(ItemInstance item) {
         for (int i = 0; i < inventory.Length; i++) {
-            if (SlotEmpty(i)) {
+            if (SlotEmpty(i) || PossibleEmpties(i)) {
                 inventory[i] = item;
                 Debug.Log("Inserted at slot " + i);
                 return i;
@@ -117,9 +118,8 @@ public class Inventory : ScriptableObject {
     public bool InsertItemAtSlot(int currentIndex, int indexToBePlaced) {
         if (inventory[indexToBePlaced] == null && inventory[currentIndex] != null) {
             ItemInstance temp = inventory[currentIndex];
+            inventory[currentIndex] = null;
             inventory[indexToBePlaced] = temp;
-            RemoveItem(currentIndex);
-            Debug.Log("Placed new item");
             return true;
         } else {
             return false;
@@ -130,7 +130,13 @@ public class Inventory : ScriptableObject {
         if (inventory[index] == null || inventory[index].item == null) {
             return true;
         }
-
         return false;
+    }
+
+    public bool PossibleEmpties(int index) {
+        if (inventory[index].item.name == "Empty")
+            return true;
+        else
+            return false;
     }
 }
