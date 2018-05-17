@@ -319,6 +319,25 @@ public class Toolbox : MonoBehaviour {
                     currentSelection = null;
                 }
             }
+        } //Else if selected one item and click empty slot
+        else if (canSelect && currentSelection != null && !slot.GetItem(out item)) {
+            ItemInstance inst1;
+            GameObject obj;
+            if (currentSelection.GetPrefabInstance(out obj)) {
+                Transform t1 = obj.transform;
+                t1.DOMove(currentSelection.transform.position + Vector3.up, 0.7f).SetEase(Ease.OutBack)
+                       .OnComplete(() => t1.DOMove(slot.transform.position + Vector3.up, 0.6f).SetEase(Ease.OutBack)
+                       .OnComplete(() => t1.DOMove(slot.transform.position, 1f).SetEase(Ease.OutBounce).OnComplete(() => canSelect = true)));
+            }
+            
+            if (currentSelection.GetItemInstance(out inst1)) {
+                Inventory.Instance.InsertItemAtSlot(currentSelection.index, slot.index);
+                currentSelection.RemoveDontDestroy();
+                slot.SetItemInstantiated(inst1, obj);
+                Debug.Log(obj.name);
+            }
+            currentSelection = null;
+            
         }
     }
 

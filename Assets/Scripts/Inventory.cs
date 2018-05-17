@@ -113,6 +113,19 @@ public class Inventory : ScriptableObject {
         return true;
     }
 
+    // Insert item at specific slot
+    public bool InsertItemAtSlot(int currentIndex, int indexToBePlaced) {
+        if (inventory[indexToBePlaced] == null && inventory[currentIndex] != null) {
+            ItemInstance temp = inventory[currentIndex];
+            inventory[indexToBePlaced] = temp;
+            RemoveItem(currentIndex);
+            Debug.Log("Placed new item");
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public bool SlotEmpty(int index) {
         if (inventory[index] == null || inventory[index].item == null) {
             return true;
