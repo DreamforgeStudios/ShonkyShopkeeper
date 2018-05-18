@@ -40,12 +40,7 @@ public class Smelting : MonoBehaviour {
 	// The score that results in junk.
 	public float worstScore;
     //Hold speed variables;
-    public AnimationCurve animationCure;
-    private float heldTime;
-    private bool tapping;
-    private bool holding = false;
-    private int frameCounter;
-    private Button button;
+    public AnimationCurve animationCurve;
 
 	// The rigidbody attached to this game object.
 	private Rigidbody rb;
@@ -65,8 +60,8 @@ public class Smelting : MonoBehaviour {
 	private float runningTotal;
 
 	void Start () {
-		rb = transform.GetComponent<Rigidbody>();
-        transform.eulerAngles = new Vector3(0, 0, 354);
+		rb = GetComponent<Rigidbody>();
+        //transform.eulerAngles = new Vector3(0, 0, 354);
 		prevRotation = transform.eulerAngles;
 		timeToGo = holdTime;
 		started = false;
@@ -78,25 +73,80 @@ public class Smelting : MonoBehaviour {
 	// Don't waste frames on mobile...
 	void FixedUpdate() {
         // Continually rotate backwards
-        if (transform.eulerAngles.z < 350 )
-            transform.eulerAngles = new Vector3(0, 0, transform.eulerAngles.z + negativeMomentum);
-
+        transform.eulerAngles = new Vector3(0, 0, transform.eulerAngles.z + negativeMomentum);
         // Alternative method.
         //transform.eulerAngles = Vector3.RotateTowards(transform.eulerAngles, maxRotation, negativeMomentum, negativeMomentum);
         
-        if (holding || tapping)
-            Stow();
-            
-		// Constrain.
+		// Constrain to rotation boundaries.
 		Constrain();
 		UpdateDebug();
 		UpdateTimer();
 
-        GiveFeedback();
+        UpdateFeedback();
 
 		// Record previous location.
 		prevRotation = transform.eulerAngles;
 	}
+
+    void Update() {
+		// Check where we are running the program.
+		RuntimePlatform p = Application.platform;
+		if (p == RuntimePlatform.WindowsEditor || p == RuntimePlatform.WindowsPlayer || p == RuntimePlatform.OSXEditor || p == RuntimePlatform.OSXPlayer)
+			// Process mouse inputs.
+			ProcessMouse();
+		else if (p == RuntimePlatform.IPhonePlayer || p == RuntimePlatform.Android)
+			// Process touch inputs.
+			ProcessTouch();
+    }
+
+    private bool holding = false;
+    private float heldTime;
+    private float nextTick;
+    public float heldTickrate;
+    private void ProcessMouse() {
+        if (Input.GetMouseButtonDown(0)) {
+            Stow();
+            holding = true;
+            heldTime = 0f;
+            nextTick = heldTickrate;
+        }
+
+        if (Input.GetMouseButtonUp(0)) {
+            holding = false;
+        }
+
+        if (holding) {
+            heldTime += Time.deltaTime;
+            if (heldTime > nextTick) {
+                Stow();
+                nextTick += heldTickrate;
+            }
+        }
+    }
+
+    private void ProcessTouch() {
+        // You can use multiple fingers to stow faster... good or bad?
+        foreach (Touch touch in Input.touches) {
+            if (touch.phase == TouchPhase.Began) {
+                Stow();
+                holding = true;
+                heldTime = 0f;
+                nextTick = heldTickrate;
+            }
+
+            if (touch.phase == TouchPhase.Ended) {
+                holding = false;
+            }
+
+            if (holding) {
+                heldTime += Time.deltaTime;
+                if (heldTime > nextTick) {
+                    Stow();
+                    nextTick += heldTickrate;
+                }
+            }
+        }
+    }
 
 	private void Constrain() {
 		// If we've made too big of a jump (probably looped), then don't allow the rotation.
@@ -135,64 +185,17 @@ public class Smelting : MonoBehaviour {
 	}
 
 	private void UpdateDebug() {
-        if (transform.eulerAngles.z > 140) {
-            float closeness = 1 - Mathf.Abs(transform.eulerAngles.z - successPoint) / successRange;
-            Color lerped = Color.Lerp(Color.red, Color.green, closeness);
-            debugMaterial.color = lerped;
-        } else if (transform.eulerAngles.z < 130) {
-            float closeness = 1 - Mathf.Abs(transform.eulerAngles.z - successPoint) / successRange;
-            Color lerped = Color.Lerp(Color.black, Color.green, closeness);
-            debugMaterial.color = lerped;
-        } else {
-            debugMaterial.color = Color.green;
-        }
-		//Debug.Log("closeness:" + closeness + " pos: " + transform.eulerAngles.z);
+        float closeness = 1 - Mathf.Abs(transform.eulerAngles.z - successPoint) / successRange;
+        Color lerped = Color.Lerp(Color.red, Color.green, closeness);
+        debugMaterial.color = lerped;
 	}
 
-    public void ButtonDown() {
-        tapping = true;
-        DetermineIfTapping();
-        Stow();
-    }
-
-    private void DetermineIfTapping() {
-        if (!holding) {
-            frameCounter++;
-            Debug.Log(frameCounter);
-            if (frameCounter >= 15) {
-                tapping = false;
-                holding = true;
-                frameCounter = 0;
-            }
-            Stow();
-            if (tapping) {
-                DetermineIfTapping();
-            }
-        }
-
-        
-    }
-
-    public void ButtonUp() {
-        holding = false;
-        tapping = false;
-    }
 	public void Stow() {
-        //Debug.Log(transform.eulerAngles.z + " current vs max z " + maxRotation.z);
-        if (transform.eulerAngles.z > maxRotation.z) {
-            if (holding) {
-                Debug.Log("Holding");
-                rb.AddTorque(0, 0, -tapForce);
-                float tapAmount = animationCure.Evaluate(holdTime);
-                holdTime += Time.deltaTime;
-                particle.Emit(10);
-            } else {
-                holdTime = 0;
-                Debug.Log("tapping");
-                rb.AddTorque(0, 0, -tapForce);
-                particle.Emit(10);
-            }
-        }
+        float amountToStow = animationCurve.Evaluate(heldTime);
+        particle.Emit((int)(amountToStow * amountOfParticles));
+        
+        rb.AddTorque(0, 0, -tapForce * amountToStow);
+
         // Alternate approach.
         /*
 		Vector3 rotAdd = new Vector3(0, 0, tapForce);
@@ -208,11 +211,11 @@ public class Smelting : MonoBehaviour {
         retryScene.SetActive(true);
     }
 
-    private void GiveFeedback() {
-        if(transform.eulerAngles.z < 130) {
+    private void UpdateFeedback() {
+        if(transform.eulerAngles.z < successPoint) {
             holder.enabled = true;
             holder.sprite = less;
-        } else if (transform.eulerAngles.z > 140) {
+        } else if (transform.eulerAngles.z > successPoint) {
             holder.enabled = true;
             holder.sprite = more;
         } else {

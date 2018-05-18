@@ -9,6 +9,9 @@ public class Cutting : MonoBehaviour {
 	public Vector3[] cutOrigins;
 	public Vector3[] cutVectors;
 
+	// Persistent quality bar.
+	public QualityBar qualityBar;
+
 	// Player's score for each cut.
 	private float[] scores;
 
@@ -97,7 +100,7 @@ public class Cutting : MonoBehaviour {
 
 		// Check where we are running the program.
 		RuntimePlatform p = Application.platform;
-		if (p == RuntimePlatform.WindowsEditor || p == RuntimePlatform.WindowsPlayer)
+		if (p == RuntimePlatform.WindowsEditor || p == RuntimePlatform.WindowsPlayer || p == RuntimePlatform.OSXEditor || p == RuntimePlatform.OSXPlayer)
 			// Process mouse inputs.
 			ProcessMouse();
 		else if (p == RuntimePlatform.IPhonePlayer || p == RuntimePlatform.Android)
@@ -140,7 +143,10 @@ public class Cutting : MonoBehaviour {
 		Vector2 touchPos = touch.position;
 		touchVector = ConvertToWorldPoint(touchPos) - touchOrigin;
 		float close = CalculateCloseness(touchOrigin.Value, touchVector.Value, swipeTime);
-		scores[currentIndex++] = close;
+		qualityBar.Subtract(1f-close);
+		if (currentIndex < cutVectors.Length)
+			currentIndex++;
+		//scores[currentIndex++] = close;
 		touchOrigin = null;
 	}
 
@@ -158,7 +164,10 @@ public class Cutting : MonoBehaviour {
 			Vector2 mousePos = Input.mousePosition;
 			touchVector = ConvertToWorldPoint(mousePos) - touchOrigin;
 			float close = CalculateCloseness(touchOrigin.Value, touchVector.Value, swipeTime);
-			scores[currentIndex++] = close;
+			qualityBar.Subtract(close);
+			if (currentIndex < cutVectors.Length)
+				currentIndex++;
+			//scores[currentIndex++] = close;
 			DrawDebugLine(touchOrigin.Value);
 
 			// Reset the origin.
@@ -180,6 +189,7 @@ public class Cutting : MonoBehaviour {
 
 	private void GradeAndFinish() {
 		// Calculate the average cut grade.
+		/*
 		float sum = 0;
 		foreach (float score in scores) {
 			sum += score;
@@ -201,6 +211,14 @@ public class Cutting : MonoBehaviour {
 		if (GameManager.instance) {
 			GameManager.instance.UpdateQuality(sum, 2);
 		}
+		*/
+		var grade = qualityBar.Finish();
+		qualityBar.Disappear();
+		//Quality.QualityGrade grade = Quality.FloatToGrade(grade, 3);
+		gradeText.text = Quality.GradeToString(grade);
+		gradeText.color = Quality.GradeToColor(grade);
+		gradeText.gameObject.SetActive(true);
+
 		ShowUIButtons();
 	}
 

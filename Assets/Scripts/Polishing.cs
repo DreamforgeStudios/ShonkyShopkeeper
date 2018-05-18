@@ -7,12 +7,13 @@ using UnityEngine.SceneManagement;
 using TMPro;
 
 public class Polishing : MonoBehaviour {
-
     //Misc variables and objects
     private Camera mainCamera;
     public GameObject gemObject;
     public Color colourStart;
     public Color ColourEnd;
+
+    public QualityBar qualityBar;
 
     //Time Variables
     private float startTime;
@@ -23,6 +24,9 @@ public class Polishing : MonoBehaviour {
     //Score and Grading
     public int numberOfSwipes = 0;
     public static Quality.QualityGrade finalGrade;
+
+    // Hwom uch will swipes contribute to the grade increasing.
+    public float swipeContribution;
 
     //State Tracking
     private bool isMouseDown;
@@ -56,10 +60,11 @@ public class Polishing : MonoBehaviour {
     void Start() {
         mainCamera = Camera.main;
         keyPoint = gemObject.transform.position;
-        nextScene.enabled = false;
-        retryScene.enabled = false;
-        qualityText.enabled = false;
+        //nextScene.enabled = false;
+        //retryScene.enabled = false;
+        //qualityText.enabled = false;
         emitParams = new ParticleSystem.EmitParams();
+        Countdown.onComplete += GameOver;
     }
 
     // Update is called once per frame
@@ -85,7 +90,7 @@ public class Polishing : MonoBehaviour {
         Vector3 mPosition = Input.mousePosition;
         mWorldPosition = mainCamera.ScreenToWorldPoint(mPosition);
         currentTime = Time.time;
-        text.text = "Number of Swipes: " + numberOfSwipes;
+        text.text = "Swipes: " + numberOfSwipes;
         //if (Input.touchCount > 0) {
         if (Input.GetMouseButtonDown(0)) {
             isMouseDown = true;
@@ -113,12 +118,15 @@ public class Polishing : MonoBehaviour {
     }
     //Calculate number of swipes
     IEnumerator CalculateSwipes(bool leftSideStart) {
-        while (currentTime < finishTime) {
+        //while (currentTime < finishTime) {
+        // A dirty fix...
+        while (true) {
             //for (int i = 0; i < Input.touchCount; i++) {
             if (leftSideStart) {
                 if (mWorldPosition.x > keyPoint.x) {
                     particle.Emit(20);
-                    numberOfSwipes++;
+                    //numberOfSwipes++;
+                    AddSwipe();
                     leftSideStart = false;
                 }
             }
@@ -127,30 +135,42 @@ public class Polishing : MonoBehaviour {
                     emitParams.startLifetime = 2.0f;
                     particle.Emit(20);
                     
-                    numberOfSwipes++;
+                    //numberOfSwipes++;
+                    AddSwipe();
                     leftSideStart = true;
                 }
             }
-            yield return new WaitForSeconds(0.05f);
+            yield return new WaitForSeconds(0.025f);
         }
-        coroutineRunning = false;
-        gameOver = true;
-        StopCoroutine(CalculateSwipes(false));
+        //coroutineRunning = false;
+        //gameOver = true;
+        //StopCoroutine(CalculateSwipes(false));
+    }
+
+    private void AddSwipe() {
+        numberOfSwipes++;
+        qualityBar.Add(swipeContribution);
     }
 
     private void GameOver() {
-        if (gameOver) {
-            CalculateGrade();
-            nextButtonGroup.SetActive(true);
-            retrySceneGroup.SetActive(true);
-            qualityText.text = Quality.GradeToString(finalGrade);
-            qualityText.color = Quality.GradeToColor(finalGrade);
-            qualityText.enabled = true;
-            nextScene.enabled = true;
-            retryScene.enabled = true;
-        }
+        StopCoroutine(CalculateSwipes(false));
+        Countdown.onComplete -= GameOver;
+        //if (gameOver) {
+        //CalculateGrade();
+        gameOver = true;
+        nextButtonGroup.SetActive(true);
+        retrySceneGroup.SetActive(true);
+        var grade = qualityBar.Finish();
+        qualityText.text = Quality.GradeToString(grade);
+        qualityText.color = Quality.GradeToColor(grade);
+        qualityText.gameObject.SetActive(true);
+        qualityBar.Disappear();
+        //nextScene.enabled = true;
+        //retryScene.enabled = true;
+        //}
     }
 
+/*
     private void CalculateGrade() {
         float finalScore = numberOfSwipes / timeLimit;
         if (finalScore >= 10) {
@@ -172,4 +192,5 @@ public class Polishing : MonoBehaviour {
             GameManager.instance.UpdateQuality((numberOfSwipes / timeLimit) / 10f, 3);
         }
     }
+    */
 }
