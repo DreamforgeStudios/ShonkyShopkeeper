@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: Cut Emerald
   m_EditorClassIdentifier: 
   itemName: Cut Emerald
-  physicalRepresentation: {fileID: 1162846459946210, guid: 93cd41971dde6ff4894315e1228f36d7,
+  physicalRepresentation: {fileID: 1417875029199950, guid: 2e37914caca52ab4cb2bfe7d3047381b,
     type: 2}
   stackLimit: 1
   mergeable: 0

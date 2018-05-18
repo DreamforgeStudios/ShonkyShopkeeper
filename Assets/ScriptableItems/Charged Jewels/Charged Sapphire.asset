@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Name: Charged Sapphire
   m_EditorClassIdentifier: 
   itemName: Charged Sapphire
-  physicalRepresentation: {fileID: 0}
+  physicalRepresentation: {fileID: 100000, guid: 23eac26d2a7b7494e916b076f2da2047,
+    type: 3}
   stackLimit: 1
   mergeable: 1
   gemType: 2
