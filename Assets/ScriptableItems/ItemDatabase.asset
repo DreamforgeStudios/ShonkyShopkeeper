@@ -27,3 +27,5 @@ MonoBehaviour:
   brick: {fileID: 11400000, guid: 7238baafcaed55e4eb8d9f8974d86dbf, type: 2}
   shell: {fileID: 11400000, guid: 3e6ec106f10778c41a12a69097793763, type: 2}
   pouch: {fileID: 11400000, guid: d5c3c8fd06aa79b4eaf82bcc83f8bb6d, type: 2}
+  empty: {fileID: 11400000, guid: 0a38a434ad46eb4498786bb9801652cd, type: 2}
+  shonky: {fileID: 11400000, guid: 4c0fe2e566279604eb3e44cc4a8ca826, type: 2}

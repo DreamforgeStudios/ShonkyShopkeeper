@@ -26,6 +26,8 @@ public class ItemDatabase : ScriptableObject {
 	public Item pouch;
     public Item empty;
 
+    public Item shonky;
+
 	public Item GetActual(string name) {
 		switch (name) {
 			case "Ruby": return ruby;
@@ -45,6 +47,7 @@ public class ItemDatabase : ScriptableObject {
 			case "Shell": return shell;
 			case "Pouch": return pouch;
             case "Empty": return empty;
+            case "Shonky": return shonky;
 			default: return ruby;
 		}
 	}

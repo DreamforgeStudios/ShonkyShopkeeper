@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class Shonky  {
+[System.Serializable]
+[CreateAssetMenu(menuName = "Items/Shonky", fileName = "Shonky.asset")]
+public class Shonky : Item {
     //public Quality.QualityGrade quality;
-    public Item.GemType type;
-    //public ItemType itemType = ItemType.Shonky;
+    public GemType type;
 
     public string ItemName() {
         return "Shonky";
@@ -19,5 +19,9 @@ public class Shonky  {
         string terminate = "</color>";
         return string.Format("Quality: {0}{1}{2}" + System.Environment.NewLine +
 					         "Type: {3}{4}{5}", colString, Quality.QualityGrade.Passable, terminate, colString, type, terminate);
+    }
+
+    public override string GetItemInfo() {
+        throw new System.NotImplementedException();
     }
 }

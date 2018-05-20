@@ -2,80 +2,33 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
+using UnityEngine.AI;
 
-public class CombiningShonky : MonoBehaviour {
+public class CombiningShonky {
+    public static List<GameObject> shonkys;
     //Selection holders
-    private GameObject lastSelected;
-    private Item.ItemType item;
-    private GameObject combiner;
-    public GameObject shonky;
+    public GameObject newShonky;
     public GameObject pen;
-    private Vector3 penSpawnPosition;
+    public Vector3 penSpawnPosition = new Vector3(1,-1.68f,-4.6f);
+    private bool instantiated = false;
 
-    //Movement variables
-    private bool moving = false;
-    private bool inTransition;
-    private Vector3 midPoint;
 
-	// Use this for initialization
-	void Start () {
-        penSpawnPosition = pen.transform.position;
-        penSpawnPosition.y += 0.5f;
-	}
-	
-	// Update is called once per frame
-	void Update () {
-        //CheckForInput();
-        if (moving)
-            MoveItemsTogether(lastSelected,combiner);
-	}
-    //Commented out while fixing item and inventory
-    /*
-    private void CheckForInput() {
-        if (Input.GetMouseButtonDown(0)) {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            Debug.DrawRay(ray.origin, ray.direction * 10, Color.red, 5f);
-            if (Physics.Raycast(ray, out hit, 100)) {
-                if (hit.transform.gameObject && lastSelected == null) {
-                    lastSelected = hit.transform.gameObject;
-                    item = lastSelected.GetComponent<Item>().itemType;
-                } else if (hit.transform.gameObject && lastSelected != null) {
-                    if ((item == Item.ItemType.Shell && hit.transform.gameObject.GetComponent<Item>().itemType == Item.ItemType.ChargedJewel) ||
-                        (item == Item.ItemType.ChargedJewel && hit.transform.gameObject.GetComponent<Item>().itemType == Item.ItemType.Shell)) {
-                        combiner = hit.transform.gameObject;
-                        moving = true;
-                    } else {
-                        lastSelected = hit.transform.gameObject;
-                        item = lastSelected.GetComponent<Item>().itemType;
-                    }
-                }
-            }
+    public bool InitialiseList() {
+        if (!instantiated) {
+            shonkys = new List<GameObject>();
+            instantiated = true;
+            return true;
+        } else {
+            return false;
         }
     }
-    */
-    private void MoveItemsTogether(GameObject a, GameObject b) {
-        if (!inTransition) {
-            Vector3 pos1 = a.transform.position;
-            Vector3 pos2 = b.transform.position;
-            midPoint = (pos1 + pos2) / 2f;
-            inTransition = true;
-        }
 
-        if (inTransition) {
-            a.transform.position = Vector3.MoveTowards(a.transform.position, midPoint, 1.0f);
-            b.transform.position = Vector3.MoveTowards(b.transform.position, midPoint, 1.0f);
-        }
-
-        if (a.transform.position == midPoint && b.transform.position == midPoint) {
-            inTransition = false;
-            moving = false;
-            lastSelected = null;
-            combiner = null;
-            Instantiate(shonky, pen.transform);
-            Destroy(a, 2.0f);
-            Destroy(b, 2.0f);
-            
-        }
+    public void AddNewShonky (GameObject newShonky){
+        shonkys.Add(newShonky);
+        //newShonky.AddComponent<ShonkyWander>();
+        //newShonky.AddComponent<NavMeshAgent>();
+        Transform t1 = newShonky.transform;
+        t1.DOMove(penSpawnPosition, 2f).SetEase(Ease.InCubic).OnComplete(() => Debug.Log("In Pen"));
     }
 }
