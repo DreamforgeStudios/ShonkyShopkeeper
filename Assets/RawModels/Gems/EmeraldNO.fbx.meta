@@ -9,7 +9,12 @@ ModelImporter:
     2300000: //RootNode
     3300000: //RootNode
     4300000: pPlatonic3
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: EmeraldGreen
+    second: {fileID: 2100000, guid: ea0d42cd9d1a3d94991c448e3f2f7aa5, type: 2}
   materials:
     importMaterials: 1
     materialName: 0

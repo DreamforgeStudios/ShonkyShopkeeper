@@ -1,7 +1,5 @@
 fileFormatVersion: 2
 guid: 47f190c0254970b41b072ddc2fd4b918
-timeCreated: 1526078738
-licenseType: Free
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
@@ -13,7 +11,12 @@ ModelImporter:
     2300000: ruby4
     3300000: ruby4
     4300000: ruby4
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: rubygem
+    second: {fileID: 2100000, guid: bfc6eab2a0e506c41a1254befb6f9fd3, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -32,6 +35,7 @@ ModelImporter:
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5

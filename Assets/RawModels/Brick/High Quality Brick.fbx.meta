@@ -11,7 +11,12 @@ ModelImporter:
     2300000: pCube4
     3300000: pCube4
     4300000: pCube4
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Good_Brick
+    second: {fileID: 2100000, guid: cdb40e44f1a946e428657e0f2bd312dc, type: 2}
   materials:
     importMaterials: 1
     materialName: 0

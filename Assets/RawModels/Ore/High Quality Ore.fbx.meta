@@ -1,39 +1,43 @@
 fileFormatVersion: 2
-guid: 612991dfc139d784bb6595496eb26cad
+guid: a4b4d63592b99d74788e49c7c61561c0
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
     100000: //RootNode
-    100002: pPlatonic1
-    100004: pPlatonic2
-    100006: pPlatonic3
-    100008: pPlatonic7
-    100010: pSphere1
+    100002: pPlatonic10
+    100004: pPlatonic8
+    100006: pPlatonic9
+    100008: pSphere4
     400000: //RootNode
-    400002: pPlatonic1
-    400004: pPlatonic2
-    400006: pPlatonic3
-    400008: pPlatonic7
-    400010: pSphere1
+    400002: pPlatonic10
+    400004: pPlatonic8
+    400006: pPlatonic9
+    400008: pSphere4
     2100000: High_Quality_Rock
-    2100002: Black
-    2100004: High_Quality_Ore
-    2300000: pPlatonic1
-    2300002: pPlatonic2
-    2300004: pPlatonic3
-    2300006: pPlatonic7
-    2300008: pSphere1
-    3300000: pPlatonic1
-    3300002: pPlatonic2
-    3300004: pPlatonic3
-    3300006: pPlatonic7
-    3300008: pSphere1
-    4300000: pSphere1
-    4300002: pPlatonic1
-    4300004: pPlatonic2
-    4300006: pPlatonic3
-    4300008: pPlatonic7
-  externalObjects: {}
+    2100002: High_Quality_Ore
+    2300000: pPlatonic10
+    2300002: pPlatonic8
+    2300004: pPlatonic9
+    2300006: pSphere4
+    3300000: pPlatonic10
+    3300002: pPlatonic8
+    3300004: pPlatonic9
+    3300006: pSphere4
+    4300000: pSphere4
+    4300002: pPlatonic8
+    4300004: pPlatonic9
+    4300006: pPlatonic10
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: High_Quality_Ore
+    second: {fileID: 2100000, guid: 4120ca10d46f35242b51b526fce212c6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: High_Quality_Rock
+    second: {fileID: 2100000, guid: 398eaa2263ec45742a7c5c8877f5b13f, type: 2}
   materials:
     importMaterials: 1
     materialName: 0

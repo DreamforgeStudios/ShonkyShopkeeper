@@ -1,33 +1,26 @@
 fileFormatVersion: 2
-guid: a4b4d63592b99d74788e49c7c61561c0
+guid: b410b067646f4b44f99f9b3796668f0e
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
     100000: //RootNode
-    100002: pPlatonic10
-    100004: pPlatonic8
-    100006: pPlatonic9
-    100008: pSphere4
     400000: //RootNode
-    400002: pPlatonic10
-    400004: pPlatonic8
-    400006: pPlatonic9
-    400008: pSphere4
-    2100000: High_Quality_Rock
-    2100002: High_Quality_Ore
-    2300000: pPlatonic10
-    2300002: pPlatonic8
-    2300004: pPlatonic9
-    2300006: pSphere4
-    3300000: pPlatonic10
-    3300002: pPlatonic8
-    3300004: pPlatonic9
-    3300006: pSphere4
-    4300000: pSphere4
-    4300002: pPlatonic8
-    4300004: pPlatonic9
-    4300006: pPlatonic10
-  externalObjects: {}
+    2100000: lambert3SG.001
+    2100002: lambert8SG
+    2300000: //RootNode
+    3300000: //RootNode
+    4300000: Sapphire_Golem1_sapphire.001
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert3SG.001
+    second: {fileID: 2100000, guid: 0d130f92cb84a0545a7a2fd3555b8816, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert8SG
+    second: {fileID: 2100000, guid: 0d130f92cb84a0545a7a2fd3555b8816, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
