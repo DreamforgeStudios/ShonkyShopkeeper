@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d58c5823fca9c534a84e61afc43f273e, type: 3}
+  m_Name: Shonky
+  m_EditorClassIdentifier: 
+  itemName: Shonky
+  physicalRepresentation: {fileID: 1197697864997034, guid: 7e0630ef3cee8154784e877b2f9bdd70,
+    type: 2}
+  stackLimit: 1
+  mergeable: 0
+  type: 0

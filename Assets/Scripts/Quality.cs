@@ -39,6 +39,23 @@ public static class Quality {
 		.95f
 	};
 
+	public static List<QualityGrade> GetPossibleGrades(int shopLevel) {
+		var grades = new List<QualityGrade>();
+
+		int amnt = 0;
+		switch (shopLevel) {
+			case 1: amnt = gradeValues1.Length; break;
+			case 2: amnt = gradeValues2.Length; break;
+			case 3: amnt = gradeValues3.Length; break;
+		}
+
+		for (int i = amnt-1; i >= 0; i--) {
+			grades.Add((QualityGrade)i);
+		}
+
+		return grades;
+	}
+
 	public static QualityGrade FloatToGrade(float value, int shopLevel) {
 		switch (shopLevel) {
 			case 1:

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class CameraSwipe : MonoBehaviour {
     //Camera Variables
@@ -96,7 +97,10 @@ public class CameraSwipe : MonoBehaviour {
                 }
             }
             if (validPoints == playerSwipePoints.Count && validPoints >= minimumPoints) {
-                movingCamera = true;
+                // TODO: it's possible that this rotates incorrectly because we're using transform.rotation as a position (think race conditions).
+                transform.DORotate(transform.rotation.eulerAngles + new Vector3(rotationAmount, 0, 0), 0.25f);
+                startingPosition = false;
+                //movingCamera = true;
             }
         } else {
             for (int i = 0; i < playerSwipePoints.Count; i++) {
@@ -112,7 +116,9 @@ public class CameraSwipe : MonoBehaviour {
                 }
             }
             if (validPoints == playerSwipePoints.Count && validPoints >= minimumPoints) {
-                movingCamera = true;
+                transform.DORotate(transform.rotation.eulerAngles + new Vector3(-rotationAmount, 0, 0), 0.25f);
+                startingPosition = true;
+                //movingCamera = true;
             }
         }
     }

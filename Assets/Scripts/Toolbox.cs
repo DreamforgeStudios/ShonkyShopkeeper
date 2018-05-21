@@ -228,7 +228,9 @@ public class Toolbox : MonoBehaviour {
             if (instance.item.GetItemName() == "ResourcePouch") {
                 ResourcePouchOpen(slot);
             }
-            else {
+            else if (instance.item.GetItemName() == "Empty") {
+                HideInspector();
+            } else { 
                 if (slot.GetItem(out item)) {
                     this.currentSelection = slot;
                     inspectionPanel.SetActive(true);
@@ -260,7 +262,8 @@ public class Toolbox : MonoBehaviour {
     //Move an Item to a new slot
     private void UseForceps(Slot slot) {
         Item item;
-        if (slot.GetItem(out item) && canSelect) {
+
+            if (slot.GetItem(out item) && canSelect) {
             //If first selection
             if (currentSelection == null) {
                 this.currentSelection = slot;
@@ -270,8 +273,9 @@ public class Toolbox : MonoBehaviour {
                     Transform t = itemObj.transform;
                     t.DOMove(slot.transform.position + (Vector3.up), 0.7f).SetEase(Ease.OutBack);
                 }
-            // Second selection.
-            } else {
+                // Second selection.
+            }
+            else {
                 // If the same item is selected, put it back.
                 if (currentSelection == slot) {
                     Debug.Log("Same slot.");
@@ -319,43 +323,109 @@ public class Toolbox : MonoBehaviour {
                     currentSelection = null;
                 }
             }
+        } //Else if selected one item and clicked on null slot
+        else if (canSelect && currentSelection != null && !slot.GetItem(out item)) {
+            ItemInstance inst1, inst2;
+            GameObject obj1, obj2;
+            if (currentSelection.GetPrefabInstance(out obj1) && currentSelection.GetItemInstance(out inst1) &&
+                slot.GetItemInstance(out inst2) && slot.GetPrefabInstance(out obj2)) {
+                Debug.Log("got prefabs and instances");
+                Transform t1 = obj1.transform;
+                //Debug.Log(inst2.item.name);
+                t1.DOMove(currentSelection.transform.position + Vector3.up, 0.7f).SetEase(Ease.OutBack)
+                       .OnComplete(() => t1.DOMove(slot.transform.position + Vector3.up, 0.6f).SetEase(Ease.OutBack)
+                       .OnComplete(() => t1.DOMove(slot.transform.position, 1f).SetEase(Ease.OutBounce).OnComplete(() => canSelect = true)));
+                slot.SetItemInstantiated(inst1, obj1);
+                currentSelection.SetItemInstantiated(inst2, obj2);
+                Inventory.Instance.SwapItem(currentSelection.index, slot.index);
+            }
+            currentSelection = null;
         }
     }
 
     private void UseWand(Slot slot) {
+        /*
         // Can't select 2 items at once.
         if (currentSelection) {
             // Maybe this will cause flickering, might be better to just hide the object.
             HideInspector();
             currentSelection = null;
         }
+        */
 
         Item item;
         ItemInstance instance;
         if (slot.GetItem(out item)) {
-            this.currentSelection = slot;
+            if (currentSelection == null) {
+                currentSelection = slot;
+                //Move selection up
+                GameObject itemObj;
+                if (currentSelection.GetPrefabInstance(out itemObj)) {
+                    Transform t = itemObj.transform;
+                    t.DOMove(t.position + (Vector3.up), 0.7f).SetEase(Ease.OutBack);
+                }
+                //Used for minigames
+                if (slot.GetItemInstance(out instance)) {
+                    switch (instance.item.GetType().ToString()) {
+                        case "Gem":
+                            SceneManager.LoadScene("Cutting");
+                            break;
+                        case "Ore":
+                            SceneManager.LoadScene("Smelting");
+                            break;
+                        case "Jewel":
+                            SceneManager.LoadScene("Polishing");
+                            break;
+                        case "Brick":
+                            SceneManager.LoadScene("Tracing");
+                            break;
+                    }
+                }
+            } else {
+                GameObject obj1;
+                GameObject obj2;
+                Vector3 midPoint;
+                if (currentSelection.GetPrefabInstance(out obj1) && slot.GetPrefabInstance(out obj2)) {
+                    Transform t1 = obj1.transform;
+                    Transform t2 = obj2.transform;
+                    midPoint = ((t1.transform.position + t2.transform.position) / 2f);
 
-            if(slot.GetItemInstance(out instance)) {
-                Debug.Log(instance.item.GetType());
+                    t2.DOMove(slot.transform.position + Vector3.up, 0.7f).SetEase(Ease.OutBack);
 
-                switch (instance.item.GetType().ToString()) {
-                    case "Gem":
-                        SceneManager.LoadScene("Cutting");
-                        break;
-                    case "Ore":
-                        SceneManager.LoadScene("Smelting");
-                        break;
-                    case "Jewel":
-                        SceneManager.LoadScene("Polishing");
-                        break;
-                    case "Brick":
-                        SceneManager.LoadScene("Tracing");
-                        break;
+                    t2.DOMove(midPoint, 0.6f).SetEase(Ease.OutBack).OnComplete(() => t1.DOMove(midPoint, 0.6f).SetEase(
+                        Ease.OutBack).OnComplete(() => CombineItems(slot)));
                 }
             }
         }
     }
+    //Method used to combine shonkys
+    private void CombineItems(Slot slot) {
+        //Find index of items and remove from inventory backend
+        int index1, index2;
+        index1 = currentSelection.index;
+        index2 = slot.index;
+        Inventory.Instance.RemoveItem(index1);
+        Inventory.Instance.RemoveItem(index2);
+        //Spawn a golem to show item creation 
+        Item drop = database.GetActual("Shonky");
+        //CombiningShonky combiner = new CombiningShonky();
+        //Quaternion rot = new Quaternion(0, 0, 0,0);
+        //Instantiate(drop.physicalRepresentation, combiner.penSpawnPosition, rot);
+        CombiningShonky manager = new CombiningShonky();
+        Instantiate(drop.physicalRepresentation, manager.penSpawnPosition,currentSelection.transform.rotation);
+        
+        if (manager.InitialiseList()) {
+            manager.AddNewShonky(drop.physicalRepresentation);
+        } else {
+            manager.AddNewShonky(drop.physicalRepresentation);
+        }
+        //Remove front end items
+        currentSelection.RemoveItem();
+        slot.RemoveItem();
+        //reset selection
+        currentSelection = null;
 
+    }
     private void ResourcePouchOpen(Slot slot) {
         // Hard coded for now.  To do this dynamically, maybe put <names,chances> in a dictionary<string, float>.
         float rubyChance = 0.4f,
