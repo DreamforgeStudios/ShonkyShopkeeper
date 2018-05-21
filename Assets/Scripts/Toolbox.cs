@@ -356,50 +356,70 @@ public class Toolbox : MonoBehaviour {
         Item item;
         ItemInstance instance;
         if (slot.GetItem(out item)) {
-            if (currentSelection == null) {
-                currentSelection = slot;
-                //Move selection up
-                GameObject itemObj;
-                if (currentSelection.GetPrefabInstance(out itemObj)) {
-                    Transform t = itemObj.transform;
-                    t.DOMove(t.position + (Vector3.up), 0.7f).SetEase(Ease.OutBack);
-                }
-                //Used for minigames
-                if (slot.GetItemInstance(out instance)) {
-                    switch (instance.item.GetType().ToString()) {
-                        case "Gem":
-                            SceneManager.LoadScene("Cutting");
-                            break;
-                        case "Ore":
-                            SceneManager.LoadScene("Smelting");
-                            break;
-                        case "Jewel":
-                            SceneManager.LoadScene("Polishing");
-                            break;
-                        case "Brick":
-                            SceneManager.LoadScene("Tracing");
-                            break;
+            if (currentSelection == null && slot.GetItemInstance(out instance)) {
+                if (instance.item.GetType().ToString() != "Empty") {
+                    currentSelection = slot;
+                    //Move selection up
+                    GameObject itemObj;
+                    if (currentSelection.GetPrefabInstance(out itemObj)) {
+                        Transform t = itemObj.transform;
+                        t.DOMove(t.position + (Vector3.up), 0.7f).SetEase(Ease.OutBack);
+                    }
+                    //Used for minigames
+                    if (slot.GetItemInstance(out instance)) {
+                        switch (instance.item.GetType().ToString()) {
+                            case "Gem":
+                                SceneManager.LoadScene("Cutting");
+                                break;
+                            case "Ore":
+                                SceneManager.LoadScene("Smelting");
+                                break;
+                            case "Jewel":
+                                SceneManager.LoadScene("Polishing");
+                                break;
+                            case "Brick":
+                                SceneManager.LoadScene("Tracing");
+                                break;
+                        }
                     }
                 }
-            } else {
-                GameObject obj1;
-                GameObject obj2;
-                Vector3 midPoint;
-                if (currentSelection.GetPrefabInstance(out obj1) && slot.GetPrefabInstance(out obj2)) {
-                    Transform t1 = obj1.transform;
-                    Transform t2 = obj2.transform;
-                    midPoint = ((t1.transform.position + t2.transform.position) / 2f);
+            }
+            else {
+                if (currentSelection != slot) {
+                    ItemInstance slotInstance, currentInstance;
+                    if (slot.GetItemInstance(out slotInstance) && currentSelection.GetItemInstance(out currentInstance)) {
+                        if (slotInstance.item.GetType().ToString() != "Empty" && currentInstance.item.GetType().ToString() != "Empty") {
+                            if ((slotInstance.item.GetType().ToString() == "Shell" && currentInstance.item.GetType().ToString() == "ChargedJewel")
+                                    || (slotInstance.item.GetType().ToString() == "ChargedJewel" && currentInstance.item.GetType().ToString() == "Shell")) {
+                                GameObject obj1;
+                                GameObject obj2;
+                                Vector3 midPoint;
+                                if (currentSelection.GetPrefabInstance(out obj1) && slot.GetPrefabInstance(out obj2)) {
+                                    Transform t1 = obj1.transform;
+                                    Transform t2 = obj2.transform;
+                                    midPoint = ((t1.transform.position + t2.transform.position) / 2f);
 
-                    t2.DOMove(slot.transform.position + Vector3.up, 0.7f).SetEase(Ease.OutBack);
+                                    t2.DOMove(slot.transform.position + Vector3.up, 0.7f).SetEase(Ease.OutBack);
 
-                    t2.DOMove(midPoint, 0.6f).SetEase(Ease.OutBack).OnComplete(() => t1.DOMove(midPoint, 0.6f).SetEase(
-                        Ease.OutBack).OnComplete(() => CombineItems(slot)));
+                                    t1.DOMove(midPoint, 0.6f).SetEase(Ease.OutBack).OnComplete(() =>
+                                    t2.DOMove(midPoint, 0.6f).SetEase(Ease.OutBack).OnComplete(() => CombineItems(slot)));
+                                }
+                            }
+                            else {
+                                HideInspector();
+                            }
+                        }
+                        else {
+                            HideInspector();
+                        }
+                    }
                 }
             }
+
         }
     }
-    //Method used to combine shonkys
-    private void CombineItems(Slot slot) {
+        //Method used to combine shonkys
+        private void CombineItems(Slot slot) {
         //Find index of items and remove from inventory backend
         int index1, index2;
         index1 = currentSelection.index;
