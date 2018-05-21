@@ -29,6 +29,6 @@ public class CombiningShonky {
         //newShonky.AddComponent<ShonkyWander>();
         //newShonky.AddComponent<NavMeshAgent>();
         Transform t1 = newShonky.transform;
-        t1.DOMove(penSpawnPosition, 2f).SetEase(Ease.InCubic).OnComplete(() => Debug.Log("In Pen"));
+        t1.DOMove(penSpawnPosition, 0.5f).SetEase(Ease.InCubic).OnComplete(() => Debug.Log("In Pen"));
     }
 }
