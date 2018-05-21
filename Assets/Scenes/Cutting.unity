@@ -1738,13 +1738,13 @@ MonoBehaviour:
   - {x: -5.12, y: 7.15, z: 0}
   - {x: -5.76, y: -4.69, z: 0}
   qualityBar: {fileID: 769277905}
-  maximumDistance: 3
+  maximumDistance: 2.5
   impactDistance: 1
-  maximumCloseness: 0.15
+  maximumCloseness: 0.05
   impactCloseness: 5
   maximumLength: 10
   impactLength: 1
-  baseTime: 0.6
+  baseTime: 0.15
   maximumTime: 1.5
   impactTime: 3
   directorText: {fileID: 1358310421}

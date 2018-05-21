@@ -143,7 +143,7 @@ public class Cutting : MonoBehaviour {
 		Vector2 touchPos = touch.position;
 		touchVector = ConvertToWorldPoint(touchPos) - touchOrigin;
 		float close = CalculateCloseness(touchOrigin.Value, touchVector.Value, swipeTime);
-		qualityBar.Subtract(1f-close);
+		qualityBar.Subtract(close);
 		if (currentIndex < cutVectors.Length)
 			currentIndex++;
 		//scores[currentIndex++] = close;
@@ -164,7 +164,8 @@ public class Cutting : MonoBehaviour {
 			Vector2 mousePos = Input.mousePosition;
 			touchVector = ConvertToWorldPoint(mousePos) - touchOrigin;
 			float close = CalculateCloseness(touchOrigin.Value, touchVector.Value, swipeTime);
-			qualityBar.Subtract(close);
+			Debug.Log(close);
+			qualityBar.Subtract(close*close);
 			if (currentIndex < cutVectors.Length)
 				currentIndex++;
 			//scores[currentIndex++] = close;
@@ -271,6 +272,8 @@ public class Cutting : MonoBehaviour {
 		vectorCloseness *= impactCloseness;
 		lengthCloseness *= impactLength;
 		timeCloseness *= impactTime;
+
+		Debug.LogFormat("Origin closeness: {0}, Vector closeness: {1}, LengthCloseness: {2}, TimeCloseness: {3}", originCloseness, vectorCloseness, lengthCloseness, timeCloseness);
 
 		return (originCloseness + vectorCloseness + lengthCloseness + timeCloseness) / 4f;
 	}
