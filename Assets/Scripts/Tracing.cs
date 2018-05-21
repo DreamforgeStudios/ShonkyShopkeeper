@@ -4,8 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 
 public class Tracing : MonoBehaviour {
+    public TextMeshProUGUI qualityText;
+
     //Tracing & Vector Lists
     public List<Vector3> playerPoints = new List<Vector3>();
     public List<Vector3> rune1 = new List<Vector3>();
@@ -71,10 +74,13 @@ public class Tracing : MonoBehaviour {
     public float timeLimit = 10.00f;
     private bool startTimer = false;
 
+    // Quality bar.
+    public QualityBar qualityBar;
 
 
     // Use this for initialization
     void Start() {
+        Countdown.onComplete += GameOver;
         mainCamera = Camera.main;
         Button1Group.SetActive(false);
         Button2Group.SetActive(false);
@@ -171,12 +177,15 @@ public class Tracing : MonoBehaviour {
             Debug.Log(hitPoints);
             score = CalculateColliderPenalties(CalculateAccuracy(CalculateWin()));
             if (score > 0) {
+                /*
                 finalScore = CalculateTimeScore(score);
                 Debug.Log("Time Score is " + finalScore + " accuracy score is " + score);
                 DetermineQuality(finalScore);
                 Button1Group.SetActive(true);
                 Button2Group.SetActive(true);
                 this.GetComponent<UISliderAndBehaviour>().QualityText();
+                */
+                GameOver();
             }
         }
 
@@ -193,6 +202,22 @@ public class Tracing : MonoBehaviour {
             ResetOptimalPoints();
             SceneManager.LoadScene("Tracing");
         }
+    }
+
+    private void GameOver() {
+        Countdown.onComplete -= GameOver;
+        //finalScore = CalculateTimeScore(score);
+        //Debug.Log("Time Score is " + finalScore + " accuracy score is " + score);
+        //DetermineQuality(finalScore);
+        var grade = qualityBar.Finish();
+        qualityText.text = Quality.GradeToString(grade);
+        qualityText.color = Quality.GradeToColor(grade);
+        qualityText.gameObject.SetActive(true);
+        qualityBar.Disappear();
+
+        Button1Group.SetActive(true);
+        Button2Group.SetActive(true);
+        //this.GetComponent<UISliderAndBehaviour>().QualityText();
     }
 
     private void DetermineQuality(float finalScore) {
@@ -231,6 +256,9 @@ public class Tracing : MonoBehaviour {
     }
 
     private int CalculateAccuracy(bool success) {
+        averageDistanceAway = totalDistanceAway / hitPoints;// optimalPointIndex.Count;
+        Debug.Log("avg dist away = " + averageDistanceAway);
+
         if (success) {
             averageDistanceAway = totalDistanceAway / optimalPointIndex.Count;
             Debug.Log("avg dist away = " + averageDistanceAway);
@@ -257,6 +285,9 @@ public class Tracing : MonoBehaviour {
 
     private int CalculateColliderPenalties(int score) {
         int colliderHits = followSphere.GetComponent<TracingColliding>().counter;
+        //Debug.Log("collider hits: " + colliderHits);
+        // TODO: this is a bit rough...
+        qualityBar.Subtract(colliderHits * 0.1f);
         if (colliderHits == 0)
             return score;
         else if (colliderHits < 10)
@@ -309,6 +340,9 @@ public class Tracing : MonoBehaviour {
                     }
                 }
             }
+
+            // TODO: remove previous quality calculation?
+            qualityBar.Subtract(totalDistanceAway / hitPoints);
         }
     }
     private void GiveFeedback() {

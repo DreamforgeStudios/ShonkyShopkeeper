@@ -160,6 +160,12 @@ public class Cutting : MonoBehaviour {
         }
 
 		if (Input.GetMouseButtonUp(0)) {
+			// Protect against null value.
+			// TODO: this is dirty.
+			if (currentIndex >= cutVectors.Length) {
+				return;
+			}
+
 			holding = false;
 			Vector2 mousePos = Input.mousePosition;
 			touchVector = ConvertToWorldPoint(mousePos) - touchOrigin;

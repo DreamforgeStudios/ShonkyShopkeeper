@@ -7,9 +7,9 @@ using UnityEngine.UI;
 
 public class Smelting : MonoBehaviour {
 	// Timer object.
-	public TextMeshProUGUI timer;
+	//public TextMeshProUGUI timer;
 	// Grade object.
-	public TextMeshProUGUI grade;
+	public TextMeshProUGUI qualityText;
 	// Debug object.
 	public TextMeshProUGUI debug;
     //Two sprites and their holder used to give feedback
@@ -17,8 +17,8 @@ public class Smelting : MonoBehaviour {
     public Sprite less;
     public Image holder;
 	// Amount of time that the player should hold the position.
-	public float holdTime;
-	private float timeToGo;
+	//public float holdTime;
+	//private float timeToGo;
     // The amount of negative momentum we should apply each tick.
     public float negativeMomentum;
 	// The amount of positive momentum that we should apply on a tap.
@@ -39,8 +39,10 @@ public class Smelting : MonoBehaviour {
 	public float bestScore;
 	// The score that results in junk.
 	public float worstScore;
-    //Hold speed variables;
-    public AnimationCurve animationCurve;
+    // Curve that defines the impact of holding.
+    public AnimationCurve accelerationCurve;
+    // Curve that defines the multiplier for closeness (how much we should take away).
+    public AnimationCurve closenessMultiplier;
 
 	// The rigidbody attached to this game object.
 	private Rigidbody rb;
@@ -56,15 +58,19 @@ public class Smelting : MonoBehaviour {
     public int amountOfParticles = 5;
     private ParticleSystem.EmitParams emitParams;
 
-    private bool started;
-	private float runningTotal;
+    public QualityBar qualityBar;
+
+
+    //private bool started;
+	//private float runningTotal;
 
 	void Start () {
 		rb = GetComponent<Rigidbody>();
         //transform.eulerAngles = new Vector3(0, 0, 354);
 		prevRotation = transform.eulerAngles;
-		timeToGo = holdTime;
-		started = false;
+        Countdown.onComplete += GameOver;
+		//timeToGo = holdTime;
+		//started = false;
         nextScene.SetActive(false);
         retryScene.SetActive(false);
         emitParams = new ParticleSystem.EmitParams();
@@ -80,8 +86,9 @@ public class Smelting : MonoBehaviour {
 		// Constrain to rotation boundaries.
 		Constrain();
 		UpdateDebug();
-		UpdateTimer();
+		//UpdateTimer();
 
+        UpdateQualityBar();
         UpdateFeedback();
 
 		// Record previous location.
@@ -155,6 +162,14 @@ public class Smelting : MonoBehaviour {
 		}
 	}
 
+    private void UpdateQualityBar() {
+		float closeness = Mathf.Abs(transform.eulerAngles.z - successPoint) / successRange;
+        Debug.Log("closeness: " + closeness);
+        Debug.Log("closeness evaluation: " + closenessMultiplier.Evaluate(closeness));
+        qualityBar.SetFixedSubtraction(closeness * closenessMultiplier.Evaluate(closeness));
+    }
+
+    /*
 	private void UpdateTimer() {
 		float closeness = 1 - Mathf.Abs(transform.eulerAngles.z - successPoint) / successRange;
 		if (closeness > 0 && timeToGo > 0) {
@@ -183,6 +198,7 @@ public class Smelting : MonoBehaviour {
             ShowUIButtons();
         }
 	}
+    */
 
 	private void UpdateDebug() {
         float closeness = 1 - Mathf.Abs(transform.eulerAngles.z - successPoint) / successRange;
@@ -191,7 +207,7 @@ public class Smelting : MonoBehaviour {
 	}
 
 	public void Stow() {
-        float amountToStow = animationCurve.Evaluate(heldTime);
+        float amountToStow = accelerationCurve.Evaluate(heldTime);
         particle.Emit((int)(amountToStow * amountOfParticles));
         
         rb.AddTorque(0, 0, -tapForce * amountToStow);
@@ -223,4 +239,13 @@ public class Smelting : MonoBehaviour {
         }
     }
 
+    private void GameOver() {
+        Countdown.onComplete -= GameOver;
+        var grade = qualityBar.Finish();
+        qualityText.text = Quality.GradeToString(grade);
+        qualityText.color = Quality.GradeToColor(grade);
+        qualityText.gameObject.SetActive(true);
+        qualityBar.Disappear();
+        ShowUIButtons();
+    }
 }

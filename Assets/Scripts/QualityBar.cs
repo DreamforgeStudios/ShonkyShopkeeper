@@ -32,7 +32,7 @@ public class QualityBar : MonoBehaviour {
 
 	// Current amount that the bar is filled + possible grades.
 	private float fillAmount;
-	private Queue grades;
+	private LinkedList<Quality.QualityGrade> grades;
 
 	private Quality.QualityGrade currentGrade;
 
@@ -47,9 +47,10 @@ public class QualityBar : MonoBehaviour {
 		foregroundTransform = foreground.GetComponent<RectTransform>();
 
 		// Get quality grades for shop level 3.
-		grades = new Queue(Quality.GetPossibleGrades(3));
+		grades = new LinkedList<Quality.QualityGrade>(Quality.GetPossibleGrades(3));
 		// Pop the current grade.
-		currentGrade = (Quality.QualityGrade) grades.Dequeue();
+		currentGrade = grades.First.Value;
+		grades.RemoveFirst();
 
 		// Initialize with details.
 		textCurrentLevel.text = Quality.GradeToString(currentGrade);
@@ -85,29 +86,38 @@ public class QualityBar : MonoBehaviour {
 	public void Add(float amount) {
 		fillAmount += amount;
 		if (fillAmount >= 1) {
-			fillAmount = 1;
+			// Moving up quality levels is EXPERIMENTAL.  DO NOT USE.
+			//if (!MoveUpQualityLevel(fillAmount - 1f)) {
+				// TODO: encouragement?
+				fillAmount = 1f;
+			//}
+		} else {
+			UpdateQualityBar();
 		}
 
-		UpdateQualityBar();
 	}
 
 	public void Subtract(float amount) {
+		Debug.Log("subtracting: " + amount);
 		fillAmount -= amount;
 		if (fillAmount <= 0) {
-			if (!MoveToNextQualityLevel()) {
+			if (!MoveDownQualityLevel(-fillAmount)) {
 				// TODO: fail state???
 				fillAmount = 0f;
 			}
+		} else {
+			UpdateQualityBar();
 		}
+	}
 
-		UpdateQualityBar();
-
+	public void SetFixedSubtraction(float val) {
+		tickSubtraction = val;
 	}
 
 	public void SubtractFixed() {
 		fillAmount -= tickSubtraction;
 		if (fillAmount <= 0) {
-			if (!MoveToNextQualityLevel()) {
+			if (!MoveDownQualityLevel(-fillAmount)) {
 				// TODO: fail state???
 				fillAmount = 0f;
 			}
@@ -139,19 +149,50 @@ public class QualityBar : MonoBehaviour {
 	}
 
 	// Moves to the next quality level in the queue.  If none is available, returns false.
-	private bool MoveToNextQualityLevel() {
+	private bool MoveDownQualityLevel(float spare = 0f) {
 		if (grades.Count == 0) {
 			return false;
 		}
 
-		// TODO: poof!
-		currentGrade = (Quality.QualityGrade) grades.Dequeue();
+		// Update the current grade.
+		currentGrade = (Quality.QualityGrade) grades.First.Value;
+		grades.RemoveFirst();
+
 		textCurrentLevel.text = Quality.GradeToString(currentGrade);
 		textCurrentLevel.color = Quality.GradeToColor(currentGrade);
 		foregroundImage.color = Quality.GradeToColor(currentGrade);
 
 		fillAmount = 1f;
+		float fill = -Mathf.Lerp(barMinWidth, barMaxWidth, fillAmount);
+		foregroundTransform.sizeDelta = new Vector2(fill, barHeight);
 
+		fillAmount -= spare;
+		UpdateQualityBar(Ease.InCubic);
+
+		return true;
+	}
+
+	// Moves to the next quality level in the queue.  If none is available, returns false.
+	private bool MoveUpQualityLevel(float spare = 0f) {
+		if (grades.Count == 5) {
+			return false;
+		}
+
+		// Update the current grade.
+		//int currentLevel = (int) grades.Last.Value;
+		int currentLevel = (int) currentGrade;
+		grades.AddFirst(currentGrade);
+		currentGrade = (Quality.QualityGrade) currentLevel + 1;
+
+		textCurrentLevel.text = Quality.GradeToString(currentGrade);
+		textCurrentLevel.color = Quality.GradeToColor(currentGrade);
+		foregroundImage.color = Quality.GradeToColor(currentGrade);
+
+		fillAmount = 0f;
+		float fill = -Mathf.Lerp(barMinWidth, barMaxWidth, fillAmount);
+		foregroundTransform.sizeDelta = new Vector2(fill, barHeight);
+
+		//fillAmount += spare;
 		UpdateQualityBar(Ease.InCubic);
 
 		return true;
