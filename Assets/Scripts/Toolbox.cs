@@ -263,7 +263,7 @@ public class Toolbox : MonoBehaviour {
     private void UseForceps(Slot slot) {
         Item item;
 
-            if (slot.GetItem(out item) && canSelect) {
+        if (slot.GetItem(out item) && canSelect) {
             //If first selection
             if (currentSelection == null) {
                 this.currentSelection = slot;
@@ -342,7 +342,6 @@ public class Toolbox : MonoBehaviour {
             currentSelection = null;
         }
     }
-
     private void UseWand(Slot slot) {
         /*
         // Can't select 2 items at once.
