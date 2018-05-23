@@ -365,10 +365,10 @@ public class Toolbox : MonoBehaviour {
                                 StartCoroutine(LoadAsyncScene("Cutting"));
                                 break;
                             case "Ore":
-                                StartCoroutine(LoadAsyncScene("Ore"));
+                                StartCoroutine(LoadAsyncScene("Smelting"));
                                 break;
                             case "Jewel":
-                                StartCoroutine(LoadAsyncScene("Jewel"));
+                                StartCoroutine(LoadAsyncScene("Polishing"));
                                 break;
                             case "Brick":
                                 StartCoroutine(LoadAsyncScene("Tracing"));
