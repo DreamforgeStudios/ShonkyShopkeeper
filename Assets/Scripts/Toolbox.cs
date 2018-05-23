@@ -307,11 +307,11 @@ public class Toolbox : MonoBehaviour {
 
                     t1.DOMove(slot1.transform.position + Vector3.up, 0.7f).SetEase(Ease.OutBack)
                         .OnComplete(() => t1.DOMove(slot2.transform.position + Vector3.up, 0.6f).SetEase(Ease.OutBack)
-                        .OnComplete(() => t1.DOMove(slot2.transform.position, 1f).SetEase(Ease.OutBounce).OnComplete(() => canSelect = true)));
+                            .OnComplete(() => t1.DOMove(slot2.transform.position, 1f).SetEase(Ease.OutBounce).OnComplete(() => canSelect = true)));
 
                     t2.DOMove(slot2.transform.position + Vector3.up, 0.7f).SetEase(Ease.OutBack)
                         .OnComplete(() => t2.DOMove(slot1.transform.position + Vector3.up, 0.6f).SetEase(Ease.OutBack)
-                        .OnComplete(() => t2.DOMove(slot1.transform.position, 1f).SetEase(Ease.OutBounce).OnComplete(() => canSelect = true)));
+                            .OnComplete(() => t2.DOMove(slot1.transform.position, 1f).SetEase(Ease.OutBounce).OnComplete(() => canSelect = true)));
 
                     ItemInstance inst1, inst2;
                     if (slot1.GetItemInstance(out inst1) && slot2.GetItemInstance(out inst2)) {
@@ -358,28 +358,36 @@ public class Toolbox : MonoBehaviour {
             if (currentSelection == null && slot.GetItemInstance(out instance)) {
                 if (instance.item.GetType().ToString() != "Empty") {
                     currentSelection = slot;
-                    //Move selection up
-                    GameObject itemObj;
-                    if (currentSelection.GetPrefabInstance(out itemObj)) {
-                        Transform t = itemObj.transform;
-                        t.DOMove(t.position + (Vector3.up), 0.7f).SetEase(Ease.OutBack);
-                    }
                     //Used for minigames
                     if (slot.GetItemInstance(out instance)) {
                         switch (instance.item.GetType().ToString()) {
                             case "Gem":
-                                SceneManager.LoadScene("Cutting");
+                                StartCoroutine(LoadAsyncScene("Cutting"));
                                 break;
                             case "Ore":
-                                SceneManager.LoadScene("Smelting");
+                                StartCoroutine(LoadAsyncScene("Ore"));
                                 break;
                             case "Jewel":
-                                SceneManager.LoadScene("Polishing");
+                                StartCoroutine(LoadAsyncScene("Jewel"));
                                 break;
                             case "Brick":
-                                SceneManager.LoadScene("Tracing");
+                                StartCoroutine(LoadAsyncScene("Tracing"));
                                 break;
                         }
+                    }
+
+                //.OnComplete(() => clone.transform.DOMove(toSlot.transform.position + Vector3.up, 0.6f).SetEase(Ease.OutBack)
+                    //Move selection up
+                    GameObject itemObj;
+                    if (currentSelection.GetPrefabInstance(out itemObj)) {
+                        currentSelection.RemoveDontDestroy();
+                        Inventory.Instance.RemoveItem(currentSelection.index);
+
+                        Transform t = itemObj.transform;
+                        // Move and vibration for some "feedback".
+                        t.DOMove(t.position + (Vector3.up), 0.7f).SetEase(Ease.OutBack)
+                            .OnComplete(() => t.DOShakePosition(.5f, .5f, 100, 30f)
+                                .OnComplete(() => asyncLoad.allowSceneActivation = true));
                     }
                 }
             }
@@ -485,6 +493,18 @@ public class Toolbox : MonoBehaviour {
                 .OnComplete(() => clone.transform.DOMove(toSlot.transform.position, 1f).SetEase(Ease.OutBounce)));
 
             toSlot.SetItemInstantiated(drop, clone);
+        }
+    }
+
+    private AsyncOperation asyncLoad;
+    IEnumerator LoadAsyncScene(string sceneName) {
+        asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+        asyncLoad.allowSceneActivation = false;
+
+        // Wait until the asynchronous scene fully loads.
+        while (!asyncLoad.isDone) {
+            Debug.Log("loading...");
+            yield return new WaitForSeconds(.1f);
         }
     }
 
