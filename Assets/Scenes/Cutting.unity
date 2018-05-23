@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.6736555, g: 0.8055223, b: 1.4800373, a: 1}
+  m_IndirectSpecularColor: {r: 0.72731626, g: 0.86425394, b: 1.4731774, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -1757,6 +1757,7 @@ MonoBehaviour:
   retryScene: {fileID: 156144606}
   particle: {fileID: 1807671380}
   amountOfParticles: 5
+  db: {fileID: 11400000, guid: c80a381b36572400b8de5237884460b4, type: 2}
 --- !u!4 &1333063246
 Transform:
   m_ObjectHideFlags: 0

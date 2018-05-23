@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 // Simple inventory populator.
 // Might be moved to toolbox in future.
@@ -33,6 +34,13 @@ public class PhysicalInventory : MonoBehaviour {
 			// If an object exists at the specified location.
 			if (Inventory.Instance.GetItem(i, out instance)) {
 				inventorySlots[i].SetItem(instance);
+				if (instance.isNew) {
+					GameObject obj;
+					if (inventorySlots[i].GetPrefabInstance(out obj)) {
+						// TODO, change tween / fixup.
+						obj.transform.DOMove(obj.transform.position + Vector3.up, 0.7f);
+					}
+				}
 			}
 		}
 	}

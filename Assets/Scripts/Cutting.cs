@@ -73,8 +73,12 @@ public class Cutting : MonoBehaviour {
     public int amountOfParticles = 5;
     private ParticleSystem.EmitParams emitParams;
 
+	public ItemDatabase db;
+
     // Use this for initialization
     void Start () {
+		Countdown.onComplete += GameOver;
+
 		// Should probably do more initialization here...
 		currentIndex = 0;
 		SpawnCut(cutOrigins[currentIndex], cutVectors[currentIndex]);
@@ -122,7 +126,7 @@ public class Cutting : MonoBehaviour {
 			ConcludeTouch(touch);
 
 			if (currentIndex >= cutVectors.Length) {
-				GradeAndFinish();
+				GameOver();
 			} else {
 				Destroy(currentCutPoint);
 				SpawnCut(cutOrigins[currentIndex], cutVectors[currentIndex]);
@@ -181,7 +185,7 @@ public class Cutting : MonoBehaviour {
 			touchOrigin = null;
 
 			if (currentIndex >= cutVectors.Length) {
-				GradeAndFinish();
+				GameOver();
 			} else {
 				Destroy(currentCutPoint);
 				SpawnCut(cutOrigins[currentIndex], cutVectors[currentIndex]);
@@ -194,7 +198,7 @@ public class Cutting : MonoBehaviour {
         }
 	}
 
-	private void GradeAndFinish() {
+	private void GameOver() {
 		// Calculate the average cut grade.
 		/*
 		float sum = 0;
@@ -219,12 +223,16 @@ public class Cutting : MonoBehaviour {
 			GameManager.instance.UpdateQuality(sum, 2);
 		}
 		*/
+		Countdown.onComplete -= GameOver;
 		var grade = qualityBar.Finish();
 		qualityBar.Disappear();
 		//Quality.QualityGrade grade = Quality.FloatToGrade(grade, 3);
 		gradeText.text = Quality.GradeToString(grade);
 		gradeText.color = Quality.GradeToColor(grade);
 		gradeText.gameObject.SetActive(true);
+
+        // TODO: back to shop button needs to change to facilitate restarting games.
+        Inventory.Instance.InsertItem(new ItemInstance(db.GetActual("Cut " + DataTransfer.GemType), 1, grade, true));
 
 		ShowUIButtons();
 	}

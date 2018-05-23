@@ -363,12 +363,14 @@ public class Toolbox : MonoBehaviour {
                         switch (instance.item.GetType().ToString()) {
                             case "Gem":
                                 StartCoroutine(LoadAsyncScene("Cutting"));
+                                DataTransfer.GemType = (instance.item as Gem).gemType.ToString();
                                 break;
                             case "Ore":
                                 StartCoroutine(LoadAsyncScene("Smelting"));
                                 break;
                             case "Jewel":
                                 StartCoroutine(LoadAsyncScene("Polishing"));
+                                DataTransfer.GemType = (instance.item as Jewel).gemType.ToString();
                                 break;
                             case "Brick":
                                 StartCoroutine(LoadAsyncScene("Tracing"));
@@ -474,7 +476,8 @@ public class Toolbox : MonoBehaviour {
                 drop = null;
             }
 
-            drops.Add(new ItemInstance(drop, 1, Quality.QualityGrade.Junk));
+            // Item is not new for now.
+            drops.Add(new ItemInstance(drop, 1, Quality.QualityGrade.Junk, false));
         }
 
         Inventory inv = Inventory.Instance;

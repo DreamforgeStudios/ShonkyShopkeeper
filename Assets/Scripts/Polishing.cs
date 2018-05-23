@@ -56,6 +56,9 @@ public class Polishing : MonoBehaviour {
     public int amountOfParticles;
     private ParticleSystem.EmitParams emitParams;
 
+    // DB.
+    public ItemDatabase db;
+
     // Use this for initialization
     void Start() {
         mainCamera = Camera.main;
@@ -165,6 +168,10 @@ public class Polishing : MonoBehaviour {
         qualityText.color = Quality.GradeToColor(grade);
         qualityText.gameObject.SetActive(true);
         qualityBar.Disappear();
+
+        // TODO: back to shop button needs to change to facilitate restarting games.
+        Inventory.Instance.InsertItem(new ItemInstance(db.GetActual("Charged " + DataTransfer.GemType), 1, grade, true));
+
         //nextScene.enabled = true;
         //retryScene.enabled = true;
         //}

@@ -60,6 +60,9 @@ public class Smelting : MonoBehaviour {
 
     public QualityBar qualityBar;
 
+    // For looking up items.
+    public ItemDatabase db;
+
 
     //private bool started;
 	//private float runningTotal;
@@ -241,11 +244,16 @@ public class Smelting : MonoBehaviour {
 
     private void GameOver() {
         Countdown.onComplete -= GameOver;
+
         var grade = qualityBar.Finish();
         qualityText.text = Quality.GradeToString(grade);
         qualityText.color = Quality.GradeToColor(grade);
         qualityText.gameObject.SetActive(true);
         qualityBar.Disappear();
+
+        // TODO: back to shop button needs to change to facilitate restarting games.
+        Inventory.Instance.InsertItem(new ItemInstance(db.GetActual("Brick"), 1, grade, true));
+
         ShowUIButtons();
     }
 }

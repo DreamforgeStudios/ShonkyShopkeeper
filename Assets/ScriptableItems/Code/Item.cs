@@ -38,11 +38,13 @@ public class ItemInstance {
     public Item item;
     public int quantity = 1;
     public Quality.QualityGrade quality;
+    public bool isNew;
 
-    public ItemInstance(Item item, int quantity, Quality.QualityGrade quality) {
+    public ItemInstance(Item item, int quantity, Quality.QualityGrade quality, bool isNew) {
         this.item = item;
         this.quantity = quantity;
         this.quality = quality;
+        this.isNew = isNew;
     }
 
     public void AddQuantity(int amount) {
