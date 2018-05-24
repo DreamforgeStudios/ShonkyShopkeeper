@@ -233,6 +233,8 @@ public class Cutting : MonoBehaviour {
 
         // TODO: back to shop button needs to change to facilitate restarting games.
         Inventory.Instance.InsertItem(new ItemInstance(db.GetActual("Cut " + DataTransfer.GemType), 1, grade, true));
+		SaveManager save = ScriptableObject.CreateInstance<SaveManager>();
+		save.SaveInventory();
 
 		ShowUIButtons();
 	}

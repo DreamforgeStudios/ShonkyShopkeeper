@@ -171,6 +171,8 @@ public class Polishing : MonoBehaviour {
 
         // TODO: back to shop button needs to change to facilitate restarting games.
         Inventory.Instance.InsertItem(new ItemInstance(db.GetActual("Charged " + DataTransfer.GemType), 1, grade, true));
+		SaveManager save = ScriptableObject.CreateInstance<SaveManager>();
+		save.SaveInventory();
 
         //nextScene.enabled = true;
         //retryScene.enabled = true;

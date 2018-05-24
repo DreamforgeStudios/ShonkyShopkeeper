@@ -506,7 +506,6 @@ public class Toolbox : MonoBehaviour {
 
         // Wait until the asynchronous scene fully loads.
         while (!asyncLoad.isDone) {
-            Debug.Log("loading...");
             yield return new WaitForSeconds(.1f);
         }
     }

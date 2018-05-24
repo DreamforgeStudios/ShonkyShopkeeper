@@ -23,9 +23,6 @@ public class PhysicalInventory : MonoBehaviour {
 		inventorySlots.Sort((a, b) => a.index - b.index);
 
 		PopulateInitial();
-
-		// Save example.
-		//save.SaveInventory();
 	}
 
 	public void PopulateInitial() {
