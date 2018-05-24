@@ -13,7 +13,22 @@ ModelImporter:
     2300000: pCube3
     3300000: pCube3
     4300000: pCube3
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Black
+    second: {fileID: 2100000, guid: 7048bff34b507bf47a1e4f83388a4ce7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Brown
+    second: {fileID: 2100000, guid: f50a374cecac0534e8d57a91b803acc7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Light_Brown
+    second: {fileID: 2100000, guid: 9be56552478a5e442951d66ff7a1ff8d, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -32,6 +47,7 @@ ModelImporter:
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5

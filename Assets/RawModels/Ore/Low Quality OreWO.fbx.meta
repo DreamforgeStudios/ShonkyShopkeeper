@@ -27,7 +27,17 @@ ModelImporter:
     4300002: pPlatonic11
     4300004: pPlatonic12
     4300006: pPlatonic13
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Low_Tier_Rock
+    second: {fileID: 2100000, guid: 040facbf5b6158949825e69c92277001, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Low_quality_Ore
+    second: {fileID: 2100000, guid: a7a96351a0c54d940afb8141f4bf56a6, type: 2}
   materials:
     importMaterials: 1
     materialName: 0

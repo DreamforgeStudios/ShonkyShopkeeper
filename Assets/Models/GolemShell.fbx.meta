@@ -1,7 +1,5 @@
 fileFormatVersion: 2
 guid: cb3e95288f62fea4881674cb3c913b82
-timeCreated: 1525499354
-licenseType: Free
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
@@ -13,7 +11,22 @@ ModelImporter:
     2300000: //RootNode
     3300000: //RootNode
     4300000: golemshell
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: body
+    second: {fileID: 2100000, guid: bf1372b473d534d45981aaad86264126, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: core
+    second: {fileID: 2100000, guid: 588daf29f0002a94daf976320ad8cea0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: hollow
+    second: {fileID: 2100000, guid: 7048bff34b507bf47a1e4f83388a4ce7, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -32,6 +45,7 @@ ModelImporter:
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5

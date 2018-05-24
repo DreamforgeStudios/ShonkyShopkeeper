@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 33901454942845664}
   - component: {fileID: 23964189151702506}
   m_Layer: 0
-  m_Name: EmeraldNO_correct
+  m_Name: Emerald_correct
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -54,8 +54,9 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 2d915278b18612a4c9123480e36287f7, type: 3}
+  - {fileID: 2100000, guid: ea0d42cd9d1a3d94991c448e3f2f7aa5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
