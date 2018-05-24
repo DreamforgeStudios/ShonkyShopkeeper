@@ -15,8 +15,8 @@ public class UISliderAndBehaviour : MonoBehaviour {
 	void Start () {
         mainCamera = Camera.main;
         qualityText.enabled = false;
-        next.enabled = false;
-        retry.enabled = false;
+        //next.enabled = false;
+        //retry.enabled = false;
 	}
 	
 	// Update is called once per frame
