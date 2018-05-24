@@ -4,6 +4,7 @@ using UnityEngine;
 
 public static class Quality {
 	public enum QualityGrade {
+		Unset,
 		Junk,
 		Brittle,
 		Passable,
@@ -15,6 +16,7 @@ public static class Quality {
 	// Grade values for the first level of shop.
 	public static float[] gradeValues1 = {
 		0f,
+		0f,
 		.20f,
 		.85f,
 		.95f
@@ -22,6 +24,7 @@ public static class Quality {
 
 	// Grade values for the second level of shop.
 	public static float[] gradeValues2 = {
+		0f,
 		0f,
 		.20f,
 		.75f,
@@ -31,6 +34,7 @@ public static class Quality {
 
 	// Grade values for the third level of shop.
 	public static float[] gradeValues3 = {
+		0f,
 		0f,
 		.20f,
 		.60f,
@@ -95,6 +99,8 @@ public static class Quality {
 				return Color.yellow;
 			case QualityGrade.Junk:
 				return Color.red;
+			case QualityGrade.Unset:
+				return Color.grey;
 			default:
 				return Color.red;
 		}
@@ -114,6 +120,8 @@ public static class Quality {
 				return "Brittle";
 			case QualityGrade.Junk:
 				return "Junk";
+			case QualityGrade.Unset:
+				return "Not graded";
 			default:
 				return "";
 		}

@@ -46,7 +46,7 @@ public class Slot : MonoBehaviour {
 	}
 
 	public bool GetItem(out Item item) {
-		if (this.itemInstance.item == null) {
+		if (this.itemInstance.item == null || this.itemInstance.item.GetType() == typeof(Empty)) {
 			item = null;
 			return false;
 		}

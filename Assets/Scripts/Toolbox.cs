@@ -11,8 +11,7 @@ public class Toolbox : MonoBehaviour {
     public enum Tool {
         Inspector,
         Foreceps,
-        Wand,
-        None
+        Wand
     }
 
     public PhysicalInventory physicalInventory;
@@ -34,9 +33,6 @@ public class Toolbox : MonoBehaviour {
     public TextMeshProUGUI textHeading;
     public TextMeshProUGUI textInfo;
 
-    // Variables for minigames - Not necessary right now
-    //public TextMeshProUGUI beginMiniGame
-
     // Helpers.
     //private Inventory inventoryhelper;
     private Tool currentTool;
@@ -45,25 +41,6 @@ public class Toolbox : MonoBehaviour {
     private Slot currentSelection = null;
     //private Slot secondSelection = null;
     private bool canSelect = true;
-    //private Transform firstTransform;
-    //private Transform secondTransform;
-    //private Vector3 firstSelectionOriginal;
-    //private Vector3 secondSelectionOriginal;
-    //private Vector3 firstSelectHigh;
-    //private Vector3 secondSelectHigh;
-    //private int slot1SelectionIndex;
-    //private int slot2SelectionIndex;
-    //private ItemInstance instanceItem1;
-    //private ItemInstance instanceItem2;
-    //private ItemInstance tempHolder;
-    //private bool inPosition1 = false;
-    //private bool inPosition2 = false;
-    //private bool inFinalPosition = false;
-
-    //Two testing instances to showcase resource Pouch. Delete in final implementation once
-    //we can create items through code correctly.
-    //public ItemInstance ore;
-    //public ItemInstance ruby;
 
     // Debug.
     private Ray previousRay;
@@ -71,7 +48,7 @@ public class Toolbox : MonoBehaviour {
     // Use this for initialization
     void Start() {
         // TODO: Change this to the default tool.
-        currentTool = Tool.None;
+        currentTool = Tool.Inspector;
         //inventoryhelper = Inventory.Instance;
         forcepPos = GameObject.FindGameObjectWithTag("forcep").transform.position;
         wandPos = GameObject.FindGameObjectWithTag("wand").transform.position;
@@ -225,26 +202,23 @@ public class Toolbox : MonoBehaviour {
         ItemInstance instance;
         if (slot.GetItemInstance(out instance)) {
             //Debug.Log(instance.item.GetItemName());
-            if (instance.item.GetItemName() == "ResourcePouch") {
+            if (instance.item.GetType() == typeof(ResourceBag)) {
                 ResourcePouchOpen(slot);
-            }
-            else if (instance.item.GetItemName() == "Empty") {
-                HideInspector();
-            } else { 
-                if (slot.GetItem(out item)) {
-                    this.currentSelection = slot;
-                    inspectionPanel.SetActive(true);
+            } else if (slot.GetItem(out item)) {
+                this.currentSelection = slot;
+                inspectionPanel.SetActive(true);
 
-                    textHeading.text = item.GetItemName();
-                    textInfo.text = item.GetItemInfo();
+                textHeading.text = instance.GetItemName();
+                textInfo.text = instance.GetItemInfo();
 
-                    // Animate using tween library -> see https://easings.net/ for some animaions to use.
-                    GameObject itemObj;
-                    if (slot.GetPrefabInstance(out itemObj)) {
-                        Transform t = itemObj.transform;
-                        t.DOMove(t.position + (Vector3.up), 0.7f).SetEase(Ease.OutBack);
-                    }
+                // Animate using tween library -> see https://easings.net/ for some animaions to use.
+                GameObject itemObj;
+                if (slot.GetPrefabInstance(out itemObj)) {
+                    Transform t = itemObj.transform;
+                    t.DOMove(t.position + (Vector3.up), 0.7f).SetEase(Ease.OutBack);
                 }
+            } else {
+                HideInspector();
             }
         }
     }

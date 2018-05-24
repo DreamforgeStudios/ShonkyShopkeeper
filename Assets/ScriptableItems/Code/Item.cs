@@ -50,4 +50,16 @@ public class ItemInstance {
     public void AddQuantity(int amount) {
         quantity = Mathf.Min(item.stackLimit, quantity + amount);
     }
+
+    public string GetItemName() {
+        return item.itemName;
+    }
+
+    public string GetItemInfo() {
+        string grade = Quality.GradeToString(quality);
+        string gradeCol = "#" + ColorUtility.ToHtmlStringRGB(Quality.GradeToColor(quality));
+        string str = string.Format("Quality: <color={0}>{1}</color>\n" +
+                                   "Quantity: <color=white>{2}</color>\n", gradeCol, grade, quantity);
+        return str;
+    }
 }
