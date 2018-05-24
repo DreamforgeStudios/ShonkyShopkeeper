@@ -14,12 +14,14 @@ public class Slot : MonoBehaviour {
 	// The slot will automatically instantiate the gameobject associated with the item.
 	public void SetItem(ItemInstance instance) {
 		this.itemInstance = instance;
-		this.prefabInstance = Instantiate(instance.item.physicalRepresentation, transform.position, transform.rotation);
+		// Instantiate as a child of this transform, though don't pay too much attention to this because it can get muddled by SetItemInstantiated().
+		this.prefabInstance = Instantiate(instance.item.physicalRepresentation, transform.position, RandomRotation(transform.rotation), this.transform);
 	}
 
 	// Use this method if you don't want the slot to spawn a new object.
 	public void SetItemInstantiated(ItemInstance instance, GameObject prefabInstance) {
 		this.itemInstance = instance;
+		prefabInstance.transform.SetParent(this.transform);
 		this.prefabInstance = prefabInstance;
 	}
 
@@ -63,5 +65,18 @@ public class Slot : MonoBehaviour {
 
 		prefabInstance = this.prefabInstance;
 		return true;
+	}
+	/*
+	private void Update() {
+		if (Input.GetMouseButtonDown(0)) {
+			this.prefabInstance.transform.rotation = RandomRotation(this.prefabInstance.transform.rotation);
+		}
+	}
+	*/
+
+	// Experimental...
+	private Quaternion RandomRotation(Quaternion currentRotation) {
+		float randMax = 100f;
+		return currentRotation * Quaternion.Euler(Random.Range(-randMax, randMax), Random.Range(-randMax, randMax), Random.Range(-randMax, randMax));
 	}
 }

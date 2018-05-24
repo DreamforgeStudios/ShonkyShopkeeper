@@ -16,6 +16,8 @@ public class UpdateGold : MonoBehaviour {
 	void Update () {
 		// For optimal performance, it would probably be better to trigger
 		//  an update rather than doing it every frame.
-		text.text = spriteString + " " + Inventory.Instance.goldCount;
+
+		// Format with thousands separator.
+		text.text = spriteString + " " + Inventory.Instance.goldCount.ToString("N0");
 	}
 }

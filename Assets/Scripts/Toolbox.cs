@@ -10,7 +10,7 @@ using UnityEngine.SceneManagement; //To access Minigames
 public class Toolbox : MonoBehaviour {
     public enum Tool {
         Inspector,
-        Foreceps,
+        Forceps,
         Wand
     }
 
@@ -21,9 +21,9 @@ public class Toolbox : MonoBehaviour {
     private Vector3 forcepPos;
     private Vector3 inspectPos;
     private Vector3 wandPos;
-    public GameObject forcep;
-    public GameObject inspectorObj;
-    public GameObject wandObj;
+    public GameObject forceps;
+    public GameObject magnifyer;
+    public GameObject wand;
 
     // A layer mask so that we only hit slots.
     public LayerMask layerMask;
@@ -47,12 +47,12 @@ public class Toolbox : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-        // TODO: Change this to the default tool.
         currentTool = Tool.Inspector;
+        SwitchTool(Tool.Inspector);
         //inventoryhelper = Inventory.Instance;
-        forcepPos = GameObject.FindGameObjectWithTag("forcep").transform.position;
-        wandPos = GameObject.FindGameObjectWithTag("wand").transform.position;
-        inspectPos = GameObject.FindGameObjectWithTag("inspector").transform.position;
+        //forcepPos = GameObject.FindGameObjectWithTag("forcep").transform.position;
+        //wandPos = GameObject.FindGameObjectWithTag("wand").transform.position;
+        //inspectPos = GameObject.FindGameObjectWithTag("inspector").transform.position;
     }
 
     // Update is called once per frame
@@ -67,63 +67,9 @@ public class Toolbox : MonoBehaviour {
             ProcessTouch();
     }
 
-    public void SwitchTool(Tool tool) {
-        if (currentTool != tool) {
-            switch (currentTool) {
-                case Tool.Inspector:
-                    Transform a = inspectorObj.transform;
-                    a.DOMove(inspectPos, 0.7f).SetEase(Ease.OutBack);
-                    break;
-                case Tool.Foreceps:
-                    Transform b = forcep.transform;
-                    b.DOMove(forcepPos, 0.7f).SetEase(Ease.OutBack);
-                    break;
-                case Tool.Wand:
-                    Transform c = wandObj.transform;
-                    c.DOMove(wandPos, 0.7f).SetEase(Ease.OutBack);
-                    break;
-            }
-            currentTool = tool;
-            HideInspector();
-        }
-    }
-    //Updated to raycast if the player selects a tool and switch to that tool if they did
     private void ProcessMouse() {
         if (Input.GetMouseButtonDown(0)) {
-            RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            previousRay = ray;
-
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask)) {
-                Debug.Log("Hit: " + hit.transform.name);
-                if (hit.transform.tag == "forcep" || hit.transform.tag == "wand" || hit.transform.tag == "inspector" && canSelect) {
-                    switch (hit.transform.tag) {
-                        case "forcep":
-                            SwitchTool(Tool.Foreceps);
-                            Transform a = hit.transform;
-                            a.DOMove(a.position + (Vector3.up), 0.7f).SetEase(Ease.OutBack);
-                            break;
-                        case "wand":
-                            SwitchTool(Tool.Wand);
-                            Transform b = hit.transform;
-                            b.DOMove(b.position + (Vector3.up), 0.7f).SetEase(Ease.OutBack);
-                            break;
-                        case "inspector":
-                            SwitchTool(Tool.Inspector);
-                            Transform c = hit.transform;
-                            c.DOMove(c.position + (Vector3.up), 0.7f).SetEase(Ease.OutBack);
-                            break;
-                    }
-                }
-                else {
-                    PickAndUseTool(hit.transform.GetComponent<Slot>());
-                }
-            }
-            else {
-                if (currentTool == Tool.Inspector) {
-                    HideInspector();
-                }
-            }
+            Cast();
         }
     }
 
@@ -134,52 +80,94 @@ public class Toolbox : MonoBehaviour {
 
         foreach (Touch touch in Input.touches) {
             if (touch.phase == TouchPhase.Began) {
-                RaycastHit hit;
-                Ray ray = Camera.main.ScreenPointToRay(touch.position);
-                previousRay = ray;
-
-                if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask)) {
-                    Debug.Log("Hit: " + hit.transform.name);
-                    if (hit.transform.tag == "forcep" || hit.transform.tag == "wand" || hit.transform.tag == "inspector" && canSelect) {
-                        switch (hit.transform.tag) {
-                            case "forcep":
-                                SwitchTool(Tool.Foreceps);
-                                Transform a = hit.transform;
-                                a.DOMove(a.position + (Vector3.up), 0.7f).SetEase(Ease.OutBack);
-                                break;
-                            case "wand":
-                                SwitchTool(Tool.Wand);
-                                Transform b = hit.transform;
-                                b.DOMove(b.position + (Vector3.up), 0.7f).SetEase(Ease.OutBack);
-                                break;
-                            case "inspector":
-                                SwitchTool(Tool.Inspector);
-                                Transform c = hit.transform;
-                                c.DOMove(c.position + (Vector3.up), 0.7f).SetEase(Ease.OutBack);
-                                break;
-                        }
-                    }
-                    else {
-                        PickAndUseTool(hit.transform.GetComponent<Slot>());
-                    }
-                }
-                else {
-                    // If there was no hit and we're using the inspector, then we should hide the inspector.
-                    if (currentTool == Tool.Inspector) {
-                        HideInspector();
-                    }
-                }
+                Cast();
             }
         }
     }
 
+
+
+    // Get the gameobject for a specific tool.
+    private GameObject ToolToObject(Tool tool) {
+        switch (tool) {
+            case Tool.Inspector: return magnifyer;
+            case Tool.Forceps: return forceps;
+            case Tool.Wand: return wand;
+            default: return magnifyer;
+        }
+    }
+
+    // Raycast across the scene and decide what to do.
+    private void Cast() {
+        RaycastHit hit;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        previousRay = ray;
+
+        Debug.Log("casting...");
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask)) {
+            Debug.Log("hit: " + hit.transform.tag);
+            if (hit.transform.tag == "Forceps" || hit.transform.tag == "Wand" || hit.transform.tag == "Magnifyer") {
+                switch (hit.transform.tag) {
+                    case "Forceps": SwitchTool(Tool.Forceps); break;
+                    case "Magnifyer": SwitchTool(Tool.Inspector); break;
+                    case "Wand": SwitchTool(Tool.Wand); break;
+                }
+            // Must be a slot if it is not a tool.
+            } else {
+                UseTool(hit.transform.GetComponent<Slot>());
+            }
+        } else {
+            HideInspector();
+        }
+    }
+
+    // Switch tools, animations and all.
+    public void SwitchTool(Tool tool) {
+        GameObject curToolObj = ToolToObject(currentTool),
+                   newToolObj = ToolToObject(tool);
+
+        // Visual scale feedback.
+        curToolObj.transform.DOScale(1f, 0.7f).SetEase(Ease.InElastic);
+        newToolObj.transform.DOScale(2f, 0.7f).SetEase(Ease.InElastic);
+
+        MeshRenderer curRenderer = curToolObj.GetComponent<MeshRenderer>(),
+                     newRenderer = newToolObj.GetComponent<MeshRenderer>();
+
+        // Materials for our tools.
+        Material[] materials;
+
+        // Change the color and outline thickness of our old tool.
+        // TODO: don't hardcode the values.
+        materials = curRenderer.materials;
+        foreach (Material mat in materials) {
+            mat.SetColor("_OutlineColor", Color.black);
+            mat.SetFloat("_Outline", 0.002f);
+        }
+        curRenderer.materials = materials;
+
+        // Change the color and outline thickness of our new tool.
+        materials = newRenderer.materials;
+        foreach (Material mat in materials) {
+            mat.SetColor("_OutlineColor", Color.green);
+            mat.SetFloat("_Outline", 0.008f);
+        }
+        newRenderer.materials = materials;
+
+        // Finally actually swap tools.
+        currentTool = tool;
+
+        // Hide the inspector, kinda annoying.
+        HideInspector();
+    }
+
+
     // Use the right tool on the slot.
-    private void PickAndUseTool(Slot slot) {
+    private void UseTool(Slot slot) {
         switch (currentTool) {
             case Tool.Inspector:
                 UseInspector(slot);
                 break;
-            case Tool.Foreceps:
+            case Tool.Forceps:
                 UseForceps(slot);
                 break;
             case Tool.Wand:
@@ -473,12 +461,14 @@ public class Toolbox : MonoBehaviour {
         }
     }
 
+    // Load a sync in the background.
     private AsyncOperation asyncLoad;
     IEnumerator LoadAsyncScene(string sceneName) {
         asyncLoad = SceneManager.LoadSceneAsync(sceneName);
         asyncLoad.allowSceneActivation = false;
 
         // Wait until the asynchronous scene fully loads.
+        // This includes actually starting the scene, so the coroutine wont stop until the scene is changed.
         while (!asyncLoad.isDone) {
             yield return new WaitForSeconds(.1f);
         }

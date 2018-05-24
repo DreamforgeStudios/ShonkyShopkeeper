@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: ResourcePouch
   m_EditorClassIdentifier: 
   itemName: ResourcePouch
-  physicalRepresentation: {fileID: 1630950306080112, guid: 2f574b59e1e849c4a9fb328046d5f3da,
+  physicalRepresentation: {fileID: 1862086850031320, guid: 4f5aa643755bfd549bca296029cebd1f,
     type: 2}
   stackLimit: 1
   mergeable: 0

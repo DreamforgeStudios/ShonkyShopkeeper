@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: Ruby
   m_EditorClassIdentifier: 
   itemName: Ruby
-  physicalRepresentation: {fileID: 1095262474306164, guid: 2facb58145b10dc458dc64a7a0e2e995,
+  physicalRepresentation: {fileID: 1969653793482168, guid: 8f199f48a5e1914458b413a3f44fd618,
     type: 2}
   stackLimit: 1
   mergeable: 0
