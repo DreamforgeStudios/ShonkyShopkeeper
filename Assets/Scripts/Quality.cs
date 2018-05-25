@@ -96,6 +96,8 @@ public static class Quality {
 				return Color.yellow;
 			case QualityGrade.Junk:
 				return Color.red;
+			case Quality.QualityGrade.Unset:
+				return Color.grey;
 			default:
 				return Color.red;
 		}
@@ -115,6 +117,8 @@ public static class Quality {
 				return "Brittle";
 			case QualityGrade.Junk:
 				return "Junk";
+			case QualityGrade.Unset:
+				return "Not Graded";
 			default:
 				return "Not Graded";
 		}
