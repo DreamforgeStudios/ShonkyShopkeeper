@@ -16,6 +16,12 @@ public class Smelting : MonoBehaviour {
     public Sprite more;
     public Sprite less;
     public Image holder;
+
+    public Sprite feedbackPositive;
+    public Sprite feedbackNegative;
+    public Material feedbackMaterial;
+    //private Image feedbackContainer;
+
 	// Amount of time that the player should hold the position.
 	//public float holdTime;
 	//private float timeToGo;
@@ -42,7 +48,7 @@ public class Smelting : MonoBehaviour {
     // Curve that defines the impact of holding.
     public AnimationCurve accelerationCurve;
     // Curve that defines the multiplier for closeness (how much we should take away).
-    public AnimationCurve closenessMultiplier;
+    public AnimationCurve closenessCurve;
 
 	// The rigidbody attached to this game object.
 	private Rigidbody rb;
@@ -66,6 +72,12 @@ public class Smelting : MonoBehaviour {
 
     //private bool started;
 	//private float runningTotal;
+
+    void Awake() {
+        // Don't start until we're ready.
+        Time.timeScale = 0;
+        ReadyGo.onComplete += (() => Time.timeScale = 1);
+    }
 
 	void Start () {
 		rb = GetComponent<Rigidbody>();
@@ -166,10 +178,15 @@ public class Smelting : MonoBehaviour {
 	}
 
     private void UpdateQualityBar() {
-		float closeness = Mathf.Abs(transform.eulerAngles.z - successPoint) / successRange;
+		float closeness = Mathf.Min(Mathf.Abs(transform.eulerAngles.z - successPoint) / successRange, 1);
+        if (closeness < 1) {
+            feedbackMaterial.SetTexture("_MainTex", feedbackPositive.texture);
+        } else {
+            feedbackMaterial.SetTexture("_MainTex", feedbackNegative.texture);
+        }
         Debug.Log("closeness: " + closeness);
-        Debug.Log("closeness evaluation: " + closenessMultiplier.Evaluate(closeness));
-        qualityBar.SetFixedSubtraction(closeness * closenessMultiplier.Evaluate(closeness));
+        Debug.Log("closeness evaluation: " + closenessCurve.Evaluate(closeness));
+        qualityBar.SetFixedSubtraction(closenessCurve.Evaluate(closeness));
     }
 
     /*

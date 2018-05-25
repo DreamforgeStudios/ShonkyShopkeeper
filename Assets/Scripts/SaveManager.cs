@@ -17,4 +17,9 @@ public class SaveManager : ScriptableObject {
 	public void SaveInventory() {
 		Inventory.Instance.SaveToJSON(System.IO.Path.Combine(Application.persistentDataPath, "inventory.json"));
 	}
+
+	// Load from default.
+	public void LoadFromTemplate(Inventory template) {
+		Inventory.InitializeFromDefault(template);
+	}
 }

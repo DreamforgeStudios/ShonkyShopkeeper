@@ -105,7 +105,6 @@ public class Toolbox : MonoBehaviour {
 
         //Debug.Log("casting...");
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask)) {
-            Debug.Log("hit: " + hit.transform.tag);
             if (hit.transform.tag == "Forceps" || hit.transform.tag == "Wand" || hit.transform.tag == "Magnifyer") {
                 switch (hit.transform.tag) {
                     case "Forceps": SwitchTool(Tool.Forceps); break;
