@@ -4,18 +4,17 @@ using UnityEngine;
 
 public static class Quality {
 	public enum QualityGrade {
-		Unset,
 		Junk,
 		Brittle,
 		Passable,
 		Sturdy,
 		Magical,
-		Mystic
+		Mystic,
+		Unset
 	}
 
 	// Grade values for the first level of shop.
 	public static float[] gradeValues1 = {
-		0f,
 		0f,
 		.20f,
 		.85f,
@@ -25,7 +24,6 @@ public static class Quality {
 	// Grade values for the second level of shop.
 	public static float[] gradeValues2 = {
 		0f,
-		0f,
 		.20f,
 		.75f,
 		.85f,
@@ -34,7 +32,6 @@ public static class Quality {
 
 	// Grade values for the third level of shop.
 	public static float[] gradeValues3 = {
-		0f,
 		0f,
 		.20f,
 		.60f,
@@ -99,8 +96,6 @@ public static class Quality {
 				return Color.yellow;
 			case QualityGrade.Junk:
 				return Color.red;
-			case QualityGrade.Unset:
-				return Color.grey;
 			default:
 				return Color.red;
 		}
@@ -120,10 +115,16 @@ public static class Quality {
 				return "Brittle";
 			case QualityGrade.Junk:
 				return "Junk";
-			case QualityGrade.Unset:
-				return "Not graded";
 			default:
-				return "";
+				return "Not Graded";
 		}
+	}
+
+	public static Quality.QualityGrade CalculateCombinedQuality(QualityGrade grade1, QualityGrade grade2) {
+		// Holy dooly....
+		// We're overly fair to the player.
+		// normally... -> 1 + 4 = 5 / 2 = 2.5 = 2 = Brittle.
+		// we do... -> 1 + 4 + 1 = 5 /2 = 3 = 3 = Sturdy.
+		return (Quality.QualityGrade) ((int)((float)((int)grade1 + (int)grade2) + 1) / 2f);
 	}
 }

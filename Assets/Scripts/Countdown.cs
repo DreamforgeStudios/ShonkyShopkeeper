@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using DG.Tweening;
 
 public class Countdown : MonoBehaviour {
 	public TextMeshProUGUI textTimer; 
-	// For some "wiggling" once we have the graphic maybe.
-	public Image imgTimer;
 
 	public float startTime;
 
@@ -54,7 +53,7 @@ public class Countdown : MonoBehaviour {
 	}
 
 	private void OnTimerTick() {
-		//Debug.Log("tick");
+		transform.DOPunchRotation(Vector3.forward * 25, 0.4f, 18);
 		if (onTick != null)
 			onTick();
 	}

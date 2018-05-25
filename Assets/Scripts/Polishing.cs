@@ -81,7 +81,7 @@ public class Polishing : MonoBehaviour {
             Color sliderColour = Color.Lerp(Color.green, Color.red, timerSlider.value / timerSlider.maxValue);
             sliderImage.color = sliderColour;
         } else {
-            GameOver();
+            //GameOver();
         }
     }
 
