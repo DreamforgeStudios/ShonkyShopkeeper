@@ -103,7 +103,7 @@ public class Toolbox : MonoBehaviour {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         previousRay = ray;
 
-        Debug.Log("casting...");
+        //Debug.Log("casting...");
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask)) {
             Debug.Log("hit: " + hit.transform.tag);
             if (hit.transform.tag == "Forceps" || hit.transform.tag == "Wand" || hit.transform.tag == "Magnifyer") {

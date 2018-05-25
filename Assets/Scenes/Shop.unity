@@ -3882,7 +3882,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400078, guid: 1414c9f1623d2af47a081e5ba03270ae, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 400078, guid: 1414c9f1623d2af47a081e5ba03270ae, type: 3}
       propertyPath: m_LocalScale.x
@@ -3907,6 +3907,10 @@ Prefab:
     - target: {fileID: 400012, guid: 1414c9f1623d2af47a081e5ba03270ae, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.85
+      objectReference: {fileID: 0}
+    - target: {fileID: 100078, guid: 1414c9f1623d2af47a081e5ba03270ae, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1414c9f1623d2af47a081e5ba03270ae, type: 3}
@@ -4654,6 +4658,60 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 9, y: 0, z: 0}
+--- !u!1001 &510540954
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1921290404}
+    m_Modifications:
+    - target: {fileID: 4340595819329042, guid: 01b26ccd9c3dc3a4f984344ffbf13554, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 4.558404
+      objectReference: {fileID: 0}
+    - target: {fileID: 4340595819329042, guid: 01b26ccd9c3dc3a4f984344ffbf13554, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -3.860485
+      objectReference: {fileID: 0}
+    - target: {fileID: 4340595819329042, guid: 01b26ccd9c3dc3a4f984344ffbf13554, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -5.953093
+      objectReference: {fileID: 0}
+    - target: {fileID: 4340595819329042, guid: 01b26ccd9c3dc3a4f984344ffbf13554, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4340595819329042, guid: 01b26ccd9c3dc3a4f984344ffbf13554, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4340595819329042, guid: 01b26ccd9c3dc3a4f984344ffbf13554, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4340595819329042, guid: 01b26ccd9c3dc3a4f984344ffbf13554, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4340595819329042, guid: 01b26ccd9c3dc3a4f984344ffbf13554, type: 2}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4340595819329042, guid: 01b26ccd9c3dc3a4f984344ffbf13554, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4340595819329042, guid: 01b26ccd9c3dc3a4f984344ffbf13554, type: 2}
+      propertyPath: m_LocalScale.y
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4340595819329042, guid: 01b26ccd9c3dc3a4f984344ffbf13554, type: 2}
+      propertyPath: m_LocalScale.z
+      value: 5
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 01b26ccd9c3dc3a4f984344ffbf13554, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &548670424
 GameObject:
   m_ObjectHideFlags: 0
@@ -5443,6 +5501,11 @@ Prefab:
     - {fileID: 114283251528713832, guid: 6e4f25d5abcd5bb49b1ae64b8643d1d0, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 6e4f25d5abcd5bb49b1ae64b8643d1d0, type: 2}
   m_IsPrefabParent: 0
+--- !u!4 &885809699 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4340595819329042, guid: 01b26ccd9c3dc3a4f984344ffbf13554,
+    type: 2}
+  m_PrefabInternal: {fileID: 510540954}
 --- !u!1 &890470179 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1098715454802654, guid: 6e4f25d5abcd5bb49b1ae64b8643d1d0,
@@ -7851,6 +7914,7 @@ Transform:
   m_Children:
   - {fileID: 1189312100}
   - {fileID: 1643719340}
+  - {fileID: 885809699}
   - {fileID: 2075824037}
   m_Father: {fileID: 0}
   m_RootOrder: 11
