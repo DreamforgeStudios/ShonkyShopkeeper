@@ -47,10 +47,15 @@ public class Inventory : ScriptableObject {
     public int goldCount;
     public ItemInstance[] inventory;
     public ItemInstance empty;
+    
 
     // Not used in vertical slice.
     // public int drawers;
 
+    public void OnEnable() {
+        SaveManager save = CreateInstance<SaveManager>();
+        save.SaveInventory();
+    }
     public void AddGold(int amount) {
         goldCount += amount;
     }

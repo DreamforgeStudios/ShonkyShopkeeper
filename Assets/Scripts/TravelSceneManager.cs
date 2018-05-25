@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class TravelSceneManager : MonoBehaviour {
     //Object used to represent player
@@ -21,6 +23,9 @@ public class TravelSceneManager : MonoBehaviour {
     //UI Text
     public TextMeshProUGUI helperText;
     public TextMeshProUGUI goldAmount;
+    private string spriteString = "<sprite=0>";
+    public Image prototypeOver;
+    public TextMeshProUGUI prototypeEndText;
 
     //Last item clicked
     public GameObject lastTownClicked = null;
@@ -31,15 +36,16 @@ public class TravelSceneManager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        helperText.enabled = false;
+        //Save manager
+        SaveManager save = ScriptableObject.CreateInstance<SaveManager>();
         Setup();
-        //Remove these 2 lines in actual game
-        Travel.unlockedTowns.Add(Travel.Towns.Town1);
-        // NOTE: when using inventory, remember to save/load first.
-        Inventory.Instance.AddGold(500000);
 
+        // NOTE: when using inventory, remember to save
         CheckUnlockedTowns();
-	}
+
+        //Load the shop screen in the background as that is the only one which can be travelled to
+        StartCoroutine(LoadAsyncScene("Shop"));
+    }
 
     // Update is called once per frame
     void Update () {
@@ -48,7 +54,7 @@ public class TravelSceneManager : MonoBehaviour {
         CheckUnlockedTowns();
         MovePlayerToNewTown(newTown);
         CheckPosition();
-	}
+    }
 
     private void CheckForInput() {
         if (Input.GetMouseButtonDown(0)) {
@@ -56,16 +62,18 @@ public class TravelSceneManager : MonoBehaviour {
             RaycastHit hit;
 
             if (Physics.Raycast(ray, out hit, 30)) {
-                Debug.Log(hit.transform.gameObject.name);
+                //Really dirty right now
                 if (lastTownClicked == null && hit.transform.gameObject.tag == "Town") {
                     if (!Travel.unlockedTowns.Contains(CurrentTown(hit.transform.gameObject))) {
                         lastTownClicked = hit.transform.gameObject;
+                        Travel.Towns selectedTown = CurrentTown(lastTownClicked);
                         helperText.enabled = true;
-                        helperText.text = "Click this town again if you wish to purchase it";
+                        helperText.text = "Click " + selectedTown + " again if you wish to purchase it";
                     } else {
                         lastTownClicked = hit.transform.gameObject;
+                        Travel.Towns selectedTown = CurrentTown(lastTownClicked);
                         helperText.enabled = true;
-                        helperText.text = "Click this town again if you wish to travel to it";
+                        helperText.text = "Click " + selectedTown + " again if you wish to travel to it";
                     }      
                 } else if (hit.transform.gameObject == lastTownClicked && lastTownClicked.tag == "Town") {
                     Travel.Towns selectedTown = CurrentTown(lastTownClicked);
@@ -73,7 +81,7 @@ public class TravelSceneManager : MonoBehaviour {
                         bool completeTransaction = Travel.UnlockNewTown(selectedTown);
                         lastTownClicked = null;
                         if (completeTransaction) {
-                            helperText.text = "Town " + selectedTown + " is now avaliable to travel to";
+                            helperText.text = selectedTown + " can now be travelled to";
                         } else {
                             helperText.text = "Insufficent gold to travel to next town";
                         }
@@ -92,11 +100,11 @@ public class TravelSceneManager : MonoBehaviour {
     private Vector3 ReturnTownPosition(Travel.Towns town) {
         Vector3 newPosition;   
         switch (town) {
-            case Travel.Towns.Town1:
+            case Travel.Towns.WickedGrove:
                 newPosition = town1.transform.position;
                 newPosition.z = 18;
                 return newPosition;
-            case Travel.Towns.Town2:
+            case Travel.Towns.Chelm:
                 newPosition = town2.transform.position;
                 newPosition.z = 18;
                 return newPosition;
@@ -124,16 +132,19 @@ public class TravelSceneManager : MonoBehaviour {
     private void CheckPosition() {
         if (player.transform.position == ReturnTownPosition(newTown)) {
             currentTown = newTown;
+            if (currentTown == Travel.Towns.Chelm) {
+                PrototypeEnd();
+            }
         }
     }
     //Update Visuals to show which towns are unlocked
     private void CheckUnlockedTowns() {
         foreach (Travel.Towns town in Travel.unlockedTowns) {
             switch (town) {
-                case Travel.Towns.Town1:
+                case Travel.Towns.WickedGrove:
                     town1.GetComponent<Renderer>().material = unlocked;
                     break;
-                case Travel.Towns.Town2:
+                case Travel.Towns.Chelm:
                     town2.GetComponent<Renderer>().material = unlocked;
                     break;
                 case Travel.Towns.Town3:
@@ -149,9 +160,12 @@ public class TravelSceneManager : MonoBehaviour {
         }
     }
 
-    //Assign materials to objects
+    //Assign materials to objects and setup UI
     private void Setup() {
-        town1.GetComponent<Renderer>().material = locked;
+        prototypeOver.enabled = false;
+        prototypeEndText.enabled = false;
+        helperText.enabled = false;
+        town1.GetComponent<Renderer>().material = unlocked;
         town2.GetComponent<Renderer>().material = locked;
         town3.GetComponent<Renderer>().material = locked;
         player.transform.position = ReturnTownPosition(Travel.currentTown);
@@ -161,9 +175,9 @@ public class TravelSceneManager : MonoBehaviour {
     private Travel.Towns CurrentTown(GameObject townObject) {
         switch (townObject.name) {
             case "Town1":
-                return Travel.Towns.Town1;
+                return Travel.Towns.WickedGrove;
             case "Town2":
-                return Travel.Towns.Town2;
+                return Travel.Towns.Chelm;
             case "Town3":
                 return Travel.Towns.Town3;
             default:
@@ -171,7 +185,30 @@ public class TravelSceneManager : MonoBehaviour {
         } 
     }
 
+    private void PrototypeEnd() {
+        town1.SetActive(false);
+        town2.SetActive(false);
+        player.SetActive(false);
+        prototypeOver.enabled = true;
+        prototypeEndText.enabled = true;
+        prototypeEndText.CrossFadeAlpha(255f, 4f, true);
+
+    }
+
     private void UpdateUI() {
-        goldAmount.text = "Gold Amount = " + Inventory.Instance.goldCount;
+        goldAmount.text = spriteString + " " + Inventory.Instance.goldCount.ToString("N0");
+    }
+
+    // Load a sync in the background.
+    private AsyncOperation asyncLoad;
+    IEnumerator LoadAsyncScene(string sceneName) {
+        asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+        asyncLoad.allowSceneActivation = false;
+
+        // Wait until the asynchronous scene fully loads.
+        // This includes actually starting the scene, so the coroutine wont stop until the scene is changed.
+        while (!asyncLoad.isDone) {
+            yield return new WaitForSeconds(.1f);
+        }
     }
 }
