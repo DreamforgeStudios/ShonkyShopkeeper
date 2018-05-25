@@ -112,11 +112,13 @@ public class Toolbox : MonoBehaviour {
                     case "Magnifyer": SwitchTool(Tool.Inspector); break;
                     case "Wand": SwitchTool(Tool.Wand); break;
                 }
-            // Must be a slot if it is not a tool.
-            } else {
+                // Must be a slot if it is not a tool.
+            }
+            else {
                 UseTool(hit.transform.GetComponent<Slot>());
             }
-        } else {
+        }
+        else {
             HideInspector();
         }
     }
@@ -192,7 +194,8 @@ public class Toolbox : MonoBehaviour {
             //Debug.Log(instance.item.GetItemName());
             if (instance.item.GetType() == typeof(ResourceBag)) {
                 ResourcePouchOpen(slot);
-            } else if (slot.GetItem(out item)) {
+            }
+            else if (slot.GetItem(out item)) {
                 this.currentSelection = slot;
                 inspectionPanel.SetActive(true);
 
@@ -205,7 +208,8 @@ public class Toolbox : MonoBehaviour {
                     Transform t = itemObj.transform;
                     t.DOMove(t.position + (Vector3.up), 0.7f).SetEase(Ease.OutBack);
                 }
-            } else {
+            }
+            else {
                 HideInspector();
             }
         }
@@ -322,36 +326,33 @@ public class Toolbox : MonoBehaviour {
                     currentSelection = slot;
                     //Used for minigames
                     if (slot.GetItemInstance(out instance)) {
+                        Debug.Log(instance.item.GetType().ToString());
                         switch (instance.item.GetType().ToString()) {
                             case "Gem":
                                 StartCoroutine(LoadAsyncScene("Cutting"));
+                                MinigameTransition();
                                 DataTransfer.GemType = (instance.item as Gem).gemType.ToString();
                                 break;
                             case "Ore":
                                 StartCoroutine(LoadAsyncScene("Smelting"));
+                                MinigameTransition();
                                 break;
                             case "Jewel":
                                 StartCoroutine(LoadAsyncScene("Polishing"));
+                                MinigameTransition();
                                 DataTransfer.GemType = (instance.item as Jewel).gemType.ToString();
                                 break;
                             case "Brick":
                                 StartCoroutine(LoadAsyncScene("Tracing"));
+                                MinigameTransition();
                                 break;
-                        }
-                    }
-
-                //.OnComplete(() => clone.transform.DOMove(toSlot.transform.position + Vector3.up, 0.6f).SetEase(Ease.OutBack)
-                    //Move selection up
-                    GameObject itemObj;
-                    if (currentSelection.GetPrefabInstance(out itemObj)) {
-                        currentSelection.RemoveDontDestroy();
-                        Inventory.Instance.RemoveItem(currentSelection.index);
-
-                        Transform t = itemObj.transform;
-                        // Move and vibration for some "feedback".
-                        t.DOMove(t.position + (Vector3.up), 0.7f).SetEase(Ease.OutBack)
-                            .OnComplete(() => t.DOShakePosition(.5f, .5f, 100, 30f)
-                                .OnComplete(() => asyncLoad.allowSceneActivation = true));
+                            case "ChargedJewel":
+                                MoveUp(slot);
+                                break;
+                            case "Shell":
+                                MoveUp(slot);
+                                break;
+                        } 
                     }
                 }
             }
@@ -362,18 +363,27 @@ public class Toolbox : MonoBehaviour {
                         if (slotInstance.item.GetType().ToString() != "Empty" && currentInstance.item.GetType().ToString() != "Empty") {
                             if ((slotInstance.item.GetType().ToString() == "Shell" && currentInstance.item.GetType().ToString() == "ChargedJewel")
                                     || (slotInstance.item.GetType().ToString() == "ChargedJewel" && currentInstance.item.GetType().ToString() == "Shell")) {
-                                GameObject obj1;
-                                GameObject obj2;
-                                Vector3 midPoint;
-                                if (currentSelection.GetPrefabInstance(out obj1) && slot.GetPrefabInstance(out obj2)) {
-                                    Transform t1 = obj1.transform;
-                                    Transform t2 = obj2.transform;
-                                    midPoint = ((t1.transform.position + t2.transform.position) / 2f);
+                                if (ShonkyInventory.Instance.FreeSlot()) {
+                                    GameObject obj1;
+                                    GameObject obj2;
+                                    Vector3 midPoint;
+                                    if (currentSelection.GetPrefabInstance(out obj1) && slot.GetPrefabInstance(out obj2)) {
+                                        Transform t1 = obj1.transform;
+                                        Transform t2 = obj2.transform;
+                                        midPoint = ((t1.transform.position + t2.transform.position) / 2f);
 
-                                    t2.DOMove(slot.transform.position + Vector3.up, 0.7f).SetEase(Ease.OutBack);
+                                        t2.DOMove(slot.transform.position + Vector3.up, 0.7f).SetEase(Ease.OutBack);
 
-                                    t1.DOMove(midPoint, 0.6f).SetEase(Ease.OutBack).OnComplete(() =>
-                                    t2.DOMove(midPoint, 0.6f).SetEase(Ease.OutBack).OnComplete(() => CombineItems(slot)));
+                                        t1.DOMove(midPoint, 0.6f).SetEase(Ease.OutBack).OnComplete(() =>
+                                        t2.DOMove(midPoint, 0.6f).SetEase(Ease.OutBack).OnComplete(() => CombineItems(slot)));
+                                    }
+                                } else {
+                                    GameObject itemObj;
+                                    if (currentSelection.GetPrefabInstance(out itemObj)) {
+                                        Transform t = itemObj.transform;
+                                        t.DOMove(t.position + (Vector3.down), 0.7f).SetEase(Ease.OutBack);
+                                        currentSelection = null;
+                                    }
                                 }
                             }
                             else {
@@ -389,33 +399,72 @@ public class Toolbox : MonoBehaviour {
 
         }
     }
-        //Method used to combine shonkys
-        private void CombineItems(Slot slot) {
+
+    //Simple method to show current selection
+    private void MoveUp(Slot slot) {
+        GameObject itemObj;
+        if (slot.GetPrefabInstance(out itemObj)) {
+            Transform t = itemObj.transform;
+            t.DOMove(t.position + (Vector3.up), 0.7f).SetEase(Ease.OutBack);
+        }
+    }
+    //Method used to start minigame transition
+    private void MinigameTransition() {
+        //.OnComplete(() => clone.transform.DOMove(toSlot.transform.position + Vector3.up, 0.6f).SetEase(Ease.OutBack)
+        //Move selection up
+        GameObject itemObj;
+        if (currentSelection.GetPrefabInstance(out itemObj)) {
+            currentSelection.RemoveDontDestroy();
+            Inventory.Instance.RemoveItem(currentSelection.index);
+
+            Transform t = itemObj.transform;
+            // Move and vibration for some "feedback".
+            Debug.Log("Moving");
+            t.DOMove(t.position + (Vector3.up), 0.7f).SetEase(Ease.OutBack)
+                .OnComplete(() => t.DOShakePosition(.5f, .5f, 100, 30f)
+                    .OnComplete(() => asyncLoad.allowSceneActivation = true));
+        }
+    }
+    //Method used to combine shonkys
+    private void CombineItems(Slot slot) {
+
         //Find index of items and remove from inventory backend
+        string gemType = FindGemType(slot, currentSelection);
         int index1, index2;
         index1 = currentSelection.index;
         index2 = slot.index;
         Inventory.Instance.RemoveItem(index1);
         Inventory.Instance.RemoveItem(index2);
         //Spawn a golem to show item creation 
-        Item drop = database.GetActual("Shonky");
-        //CombiningShonky combiner = new CombiningShonky();
-        //Quaternion rot = new Quaternion(0, 0, 0,0);
-        //Instantiate(drop.physicalRepresentation, combiner.penSpawnPosition, rot);
-        CombiningShonky manager = new CombiningShonky();
-        Instantiate(drop.physicalRepresentation, manager.penSpawnPosition,currentSelection.transform.rotation);
-        
-        if (manager.InitialiseList()) {
-            manager.AddNewShonky(drop.physicalRepresentation);
-        } else {
-            manager.AddNewShonky(drop.physicalRepresentation);
-        }
+        Item drop = database.GetActual(gemType);
+
+        GameObject inst = Instantiate(drop.physicalRepresentation, currentSelection.transform.position, currentSelection.transform.rotation);
+        Debug.Log("Created Golem");
+        //Need to get average quality
+        ItemInstance newGolem = new ItemInstance(drop, 1, Quality.QualityGrade.Mystic, true);
+        int index = ShonkyInventory.Instance.InsertItem(newGolem);
+        PhysicalShonkyInventory.Instance.InsertItemAtSlot(index, newGolem, inst);
+        //Move new golem to pen
+        PhysicalShonkyInventory.Instance.MoveToPen(index);
+
         //Remove front end items
         currentSelection.RemoveItem();
         slot.RemoveItem();
         //reset selection
         currentSelection = null;
 
+    }
+    //Method used to find the gem type selected
+    private string FindGemType(Slot slot1, Slot slot2) {
+        if (slot1.itemInstance.item.itemName == "Charged Emerald" || slot2.itemInstance.item.itemName == "Charged Emerald") {
+            return "EmeraldGolem1";
+        } else if (slot1.itemInstance.item.itemName == "Charged Ruby" || slot2.itemInstance.item.itemName == "Charged Ruby") {
+            return "RubyGolem1";
+        } else if (slot1.itemInstance.item.itemName == "Charged Sapphire" || slot2.itemInstance.item.itemName == "Charged Sapphire") {
+            return "SapphireGolem1";
+        } else {
+            return "RubyGolem1";
+        }
     }
     private void ResourcePouchOpen(Slot slot) {
         // Hard coded for now.  To do this dynamically, maybe put <names,chances> in a dictionary<string, float>.
@@ -430,11 +479,13 @@ public class Toolbox : MonoBehaviour {
             if (spin < rubyChance) {
                 drop = database.GetActual("Ruby");
                 Debug.Log("Added a ruby.");
-            } else if (spin < oreChance) {
+            }
+            else if (spin < oreChance) {
                 drop = database.GetActual("Ore");
                 Debug.Log("Added some ore.");
-            // To satisfy compiler.
-            } else {
+                // To satisfy compiler.
+            }
+            else {
                 drop = null;
             }
 

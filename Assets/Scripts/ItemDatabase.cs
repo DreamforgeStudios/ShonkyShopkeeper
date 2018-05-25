@@ -26,9 +26,11 @@ public class ItemDatabase : ScriptableObject {
 	public Item pouch;
     public Item empty;
 
-    public Item shonky;
+    public Item rubyGolem1;
+    public Item emeraldGolem1;
+    public Item sapphireGolem1;
 
-	public Item GetActual(string name) {
+    public Item GetActual(string name) {
 		switch (name) {
 			case "Ruby": return ruby;
 			case "Sapphire": return sapphire;
@@ -47,8 +49,11 @@ public class ItemDatabase : ScriptableObject {
 			case "Shell": return shell;
 			case "Pouch": return pouch;
             case "Empty": return empty;
-            case "Shonky": return shonky;
-			default: return ruby;
+            case "EmeraldGolem1": return emeraldGolem1;
+            case "RubyGolem1": return rubyGolem1;
+            case "SapphireGolem1": return sapphireGolem1;
+
+            default: return ruby;
 		}
 	}
 

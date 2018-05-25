@@ -11,7 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24fb245bb9e81774f882f56341e40d9e, type: 3}
   m_Name: Inventory
   m_EditorClassIdentifier: 
-  goldCount: 10000
+  goldCount: 0
   inventory:
   - item: {fileID: 11400000, guid: d5c3c8fd06aa79b4eaf82bcc83f8bb6d, type: 2}
     quantity: 1

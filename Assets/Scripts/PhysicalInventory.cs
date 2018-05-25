@@ -16,7 +16,7 @@ public class PhysicalInventory : MonoBehaviour {
 		// Load example.
 		SaveManager save = ScriptableObject.CreateInstance<SaveManager>();
 		save.LoadOrInitializeInventory(defaultInventory);
-
+        //Inventory.InitializeFromDefault(defaultInventory);
 		inventorySlots = new List<Slot>();
 		inventorySlots.AddRange(GameObject.FindObjectsOfType<Slot>());
 		

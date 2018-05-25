@@ -73,7 +73,22 @@ ModelImporter:
     9500000: //RootNode
     10800000: Lamp
     13700000: Emerald_Golem2_emerald
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert10SG
+    second: {fileID: 2100000, guid: 1fb93583ed273f145bb5f775bd3d9c1a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert11SG
+    second: {fileID: 2100000, guid: 1129fd0d5a31af54aa3e5360846eb0d3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert3SG
+    second: {fileID: 2100000, guid: 53c0b5c49ac010647a7b5b2085f3e3b6, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -92,7 +107,6 @@ ModelImporter:
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
-    importConstraints: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
