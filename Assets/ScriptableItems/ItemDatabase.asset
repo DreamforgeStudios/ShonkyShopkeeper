@@ -28,4 +28,6 @@ MonoBehaviour:
   shell: {fileID: 11400000, guid: 3e6ec106f10778c41a12a69097793763, type: 2}
   pouch: {fileID: 11400000, guid: d5c3c8fd06aa79b4eaf82bcc83f8bb6d, type: 2}
   empty: {fileID: 11400000, guid: 0a38a434ad46eb4498786bb9801652cd, type: 2}
-  shonky: {fileID: 11400000, guid: 4c0fe2e566279604eb3e44cc4a8ca826, type: 2}
+  rubyGolem1: {fileID: 11400000, guid: 2aa4400a0aaffe348881d6b488620cd1, type: 2}
+  emeraldGolem1: {fileID: 11400000, guid: b9c7cf3aad1d1c34cb9c5a770f2e5c98, type: 2}
+  sapphireGolem1: {fileID: 11400000, guid: 39078712b222b9c4f96b30eba57233ba, type: 2}

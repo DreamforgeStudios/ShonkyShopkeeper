@@ -18,7 +18,7 @@ public class Shonky : Item {
         string colString = "<color=#" + ColorUtility.ToHtmlStringRGBA(col) + ">";
         string terminate = "</color>";
         return string.Format("Quality: {0}{1}{2}" + System.Environment.NewLine +
-					         "Type: {3}{4}{5}", colString, Quality.QualityGrade.Passable, terminate, colString, type, terminate);
+                             "Type: {3}{4}{5}", colString, Quality.QualityGrade.Passable, terminate, colString, type, terminate);
     }
 
     public override string GetItemInfo() {

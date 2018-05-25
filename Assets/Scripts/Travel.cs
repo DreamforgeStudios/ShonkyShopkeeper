@@ -11,16 +11,16 @@ public static class Travel {
     //Replace town names once confirmed
     //All Possible towns in game
     public enum Towns {
-        Town1,
-        Town2,
+        WickedGrove,
+        Chelm,
         Town3,
         Town4,
         Town5
     }
 
     public static void initialSetup() {
-        unlockedTowns.Add(Towns.Town1);
-        lockedTowns.Add(Towns.Town2);
+        unlockedTowns.Add(Towns.WickedGrove);
+        lockedTowns.Add(Towns.Chelm);
         lockedTowns.Add(Towns.Town3);
         lockedTowns.Add(Towns.Town4);
         lockedTowns.Add(Towns.Town5);

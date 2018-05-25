@@ -75,7 +75,32 @@ ModelImporter:
     9500000: //RootNode
     10800000: Lamp
     13700000: Ruby_Golem_smoothv3_rubygolemhard1
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: rubygemSG
+    second: {fileID: 2100000, guid: 92c34e34f0ba0604eb928370a66cd031, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: rubygolemhardSG
+    second: {fileID: 2100000, guid: 6cbd885d4e6b65742a19e9d91b847670, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: rubygolemhardSG1
+    second: {fileID: 2100000, guid: e51886a09b7a3a24f889e3b5170ce387, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: rubygolemhardSG2
+    second: {fileID: 2100000, guid: c831857d488bd6042b9c01a61c096324, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: rubyhollowsSG
+    second: {fileID: 2100000, guid: 5362832f15b03534a90b82988b49947b, type: 2}
   materials:
     importMaterials: 1
     materialName: 0

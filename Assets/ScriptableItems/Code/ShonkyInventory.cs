@@ -2,21 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Items/Inventory", fileName = "Inventory.asset")]
+[CreateAssetMenu(menuName = "Items/ShonkyInventory", fileName = "ShonkyInventory.asset")]
 [System.Serializable]
-public class Inventory : ScriptableObject {
+public class ShonkyInventory : ScriptableObject {
     // Saving using unity dev example.
     // https://bitbucket.org/richardfine/scriptableobjectdemo/src/9a60686609a42fea4d00f5d20ffeb7ae9bc56eb9/Assets/ScriptableObject/GameSession/GameSettings.cs?at=default#GameSettings.cs-16,79,83,87,90
-    private static Inventory _instance;
-    public static Inventory Instance {
+    private static ShonkyInventory _instance;
+    public static ShonkyInventory Instance {
         get {
             if (!_instance) {
-                Inventory[] tmp = Resources.FindObjectsOfTypeAll<Inventory>();
+                ShonkyInventory[] tmp = Resources.FindObjectsOfTypeAll<ShonkyInventory>();
                 if (tmp.Length > 0) {
                     _instance = tmp[0];
-                    Debug.Log("Found inventory as: " + _instance);
-                } else {
-                    Debug.Log("did not find invenotry.");
+                    Debug.Log("Found shonky inventory as: " + _instance);
+                }
+                else {
+                    Debug.Log("did not find shonky inventory.");
                     _instance = null;
                 }
             }
@@ -25,47 +26,44 @@ public class Inventory : ScriptableObject {
         }
     }
 
-    public static void InitializeFromDefault(Inventory inventory) {
-		if (_instance) DestroyImmediate(_instance);
-		_instance = Instantiate(inventory);
-		_instance.hideFlags = HideFlags.HideAndDontSave;
-	}
+    public static void InitializeFromDefault(ShonkyInventory shonkyInventory) {
+        if (_instance) DestroyImmediate(_instance);
+        _instance = Instantiate(shonkyInventory);
+        _instance.hideFlags = HideFlags.HideAndDontSave;
+    }
 
     public static void LoadFromJSON(string path) {
         if (!_instance) DestroyImmediate(_instance);
-        _instance = ScriptableObject.CreateInstance<Inventory>();
+        _instance = ScriptableObject.CreateInstance<ShonkyInventory>();
         JsonUtility.FromJsonOverwrite(System.IO.File.ReadAllText(path), _instance);
         _instance.hideFlags = HideFlags.HideAndDontSave;
     }
 
     public void SaveToJSON(string path) {
-        Debug.LogFormat("Saving inventory to {0}", path);
+        Debug.LogFormat("Saving shonky inventory to {0}", path);
         System.IO.File.WriteAllText(path, JsonUtility.ToJson(this, true));
     }
 
-    /* Inventory START */
-    public int goldCount;
-    public ItemInstance[] inventory;
+    /* Shonky Inventory START */
+    public ItemInstance[] shonkyInventory;
     public ItemInstance empty;
-    
+
 
     // Not used in vertical slice.
     // public int drawers;
 
     public void OnEnable() {
         SaveManager save = CreateInstance<SaveManager>();
-        save.SaveInventory();
-    }
-    public void AddGold(int amount) {
-        goldCount += amount;
+        save.SaveShonkyInventory();
     }
 
-    public bool RemoveGold(int amount) {
-        if (goldCount - amount >= 0) {
-            goldCount -= amount;
-            return true;
+    //Check if there is a free slot
+    public bool FreeSlot() {
+        for (int i = 0; i < shonkyInventory.Length; i++) {
+            if (SlotEmpty(i) || PossibleEmpties(i)) {
+                return true;
+            }
         }
-
         return false;
     }
 
@@ -77,14 +75,14 @@ public class Inventory : ScriptableObject {
             return false;
         }
 
-        item = inventory[index];
+        item = shonkyInventory[index];
         return true;
     }
 
     // Remove an item at an index if one exists at that index.
     public bool RemoveItem(int index) {
         if (!SlotEmpty(index)) {
-            inventory[index] = empty;
+            shonkyInventory[index] = empty;
             return true;
         }
 
@@ -94,9 +92,9 @@ public class Inventory : ScriptableObject {
 
     // Insert an item, return the index where it was inserted.  -1 if error.
     public int InsertItem(ItemInstance item) {
-        for (int i = 0; i < inventory.Length; i++) {
+        for (int i = 0; i < shonkyInventory.Length; i++) {
             if (SlotEmpty(i) || PossibleEmpties(i)) {
-                inventory[i] = item;
+                shonkyInventory[i] = item;
                 Debug.Log("Inserted at slot " + i);
                 return i;
             }
@@ -106,40 +104,28 @@ public class Inventory : ScriptableObject {
         return -1;
     }
 
-    // Swap two items.
-    public bool SwapItem(int index1, int index2) {
-        if (inventory[index1] == null || inventory[index2] == null) {
-            return false;
-        }
-
-        ItemInstance temp = inventory[index1];
-        inventory[index1] = inventory[index2];
-        inventory[index2] = temp;
-
-        return true;
-    }
-
     // Insert item at specific slot
     public bool InsertItemAtSlot(int currentIndex, int indexToBePlaced) {
-        if (inventory[indexToBePlaced] == null && inventory[currentIndex] != null) {
-            ItemInstance temp = inventory[currentIndex];
-            inventory[currentIndex] = null;
-            inventory[indexToBePlaced] = temp;
+        if (shonkyInventory[indexToBePlaced] == null && shonkyInventory[currentIndex] != null) {
+            ItemInstance temp = shonkyInventory[currentIndex];
+            shonkyInventory[currentIndex] = null;
+            shonkyInventory[indexToBePlaced] = temp;
             return true;
-        } else {
+        }
+        else {
             return false;
         }
     }
 
     public bool SlotEmpty(int index) {
-        if (inventory[index] == null || inventory[index].item == null) {
+        if (shonkyInventory[index] == null || shonkyInventory[index].item == null) {
             return true;
         }
         return false;
     }
 
     public bool PossibleEmpties(int index) {
-        if (inventory[index].item.name == "Empty")
+        if (shonkyInventory[index].item.name == "Empty")
             return true;
         else
             return false;
