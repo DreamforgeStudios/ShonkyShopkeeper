@@ -79,6 +79,13 @@ public class Tracing : MonoBehaviour {
 
     public ItemDatabase db;
 
+    private bool start = false;
+
+    void Awake() {
+        // Don't start until we're ready.
+        Time.timeScale = 0;
+        ReadyGo.onComplete += (() => { Time.timeScale = 1; start = true; });
+    }
 
     // Use this for initialization
     void Start() {
@@ -104,6 +111,9 @@ public class Tracing : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+        if (!start)
+            return;
+
         if (canTrace) {
             currentTime = Time.time;
             GetInput();

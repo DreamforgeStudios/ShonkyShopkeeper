@@ -75,6 +75,14 @@ public class Cutting : MonoBehaviour {
 
 	public ItemDatabase db;
 
+	private bool start = false;
+
+    void Awake() {
+        // Don't start until we're ready.
+        Time.timeScale = 0;
+        ReadyGo.onComplete += (() => { Time.timeScale = 1; start = true; });
+    }
+
     // Use this for initialization
     void Start () {
 		Countdown.onComplete += GameOver;
@@ -99,6 +107,10 @@ public class Cutting : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		// Don't do anything if the game hasn't started.
+		if (!start)
+			return;
+
 		// Mostly to make it easier to place cut points.
 		if (debug) DrawCuts(1);
 

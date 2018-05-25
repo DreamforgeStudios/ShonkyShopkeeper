@@ -70,13 +70,13 @@ public class Smelting : MonoBehaviour {
     public ItemDatabase db;
 
 
-    //private bool started;
+    private bool start;
 	//private float runningTotal;
 
     void Awake() {
         // Don't start until we're ready.
         Time.timeScale = 0;
-        ReadyGo.onComplete += (() => Time.timeScale = 1);
+        ReadyGo.onComplete += (() => { Time.timeScale = 1; start = true; });
     }
 
 	void Start () {
@@ -93,6 +93,8 @@ public class Smelting : MonoBehaviour {
 	
 	// Don't waste frames on mobile...
 	void FixedUpdate() {
+        if (!start)
+            return;
         // Continually rotate backwards
         transform.eulerAngles = new Vector3(0, 0, transform.eulerAngles.z + negativeMomentum);
         // Alternative method.
@@ -111,6 +113,8 @@ public class Smelting : MonoBehaviour {
 	}
 
     void Update() {
+        if (!start)
+            return;
 		// Check where we are running the program.
 		RuntimePlatform p = Application.platform;
 		if (p == RuntimePlatform.WindowsEditor || p == RuntimePlatform.WindowsPlayer || p == RuntimePlatform.OSXEditor || p == RuntimePlatform.OSXPlayer)

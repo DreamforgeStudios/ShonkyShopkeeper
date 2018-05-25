@@ -59,6 +59,14 @@ public class Polishing : MonoBehaviour {
     // DB.
     public ItemDatabase db;
 
+    private bool start = false;
+
+    void Awake() {
+        // Don't start until we're ready.
+        Time.timeScale = 0;
+        ReadyGo.onComplete += (() => { Time.timeScale = 1; start = true; });
+    }
+
     // Use this for initialization
     void Start() {
         mainCamera = Camera.main;
@@ -72,6 +80,9 @@ public class Polishing : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+        if (!start)
+            return;
+
         if (!gameOver) {
             GetInput();
             ObjectColourLerp();
