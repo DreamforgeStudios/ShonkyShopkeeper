@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 4ca89f800003f4d4180cb44246a5a3a7
-timeCreated: 1526078738
+guid: 08315173e19a49c429c92932bcd0442e
+timeCreated: 1527225708
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
@@ -12,7 +12,7 @@ ModelImporter:
     400002: pPlatonic1
     400004: //RootNode
     2100000: rubyshine
-    2100002: copper
+    2100002: wandcopper
     2300000: pCube1
     2300002: pPlatonic1
     3300000: pCube1

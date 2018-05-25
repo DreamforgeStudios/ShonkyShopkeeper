@@ -129,28 +129,35 @@ public class Toolbox : MonoBehaviour {
         curToolObj.transform.DOScale(1f, 0.7f).SetEase(Ease.InElastic);
         newToolObj.transform.DOScale(2f, 0.7f).SetEase(Ease.InElastic);
 
-        MeshRenderer curRenderer = curToolObj.GetComponent<MeshRenderer>(),
-                     newRenderer = newToolObj.GetComponent<MeshRenderer>();
+        // This is a lot of work for just changing an outline... fuck.
+        MeshRenderer[] curRenderers = curToolObj.GetComponentsInChildren<MeshRenderer>(),
+                       newRenderers = newToolObj.GetComponentsInChildren<MeshRenderer>();
 
         // Materials for our tools.
         Material[] materials;
 
         // Change the color and outline thickness of our old tool.
         // TODO: don't hardcode the values.
-        materials = curRenderer.materials;
-        foreach (Material mat in materials) {
-            mat.SetColor("_OutlineColor", Color.black);
-            mat.SetFloat("_Outline", 0.002f);
+        foreach (MeshRenderer rend in curRenderers) {
+            materials = rend.materials;
+            foreach (Material mat in materials) {
+                mat.SetColor("_OutlineColor", Color.black);
+                mat.SetFloat("_Outline", 0.002f);
+            }
+
+            rend.materials = materials;
         }
-        curRenderer.materials = materials;
 
         // Change the color and outline thickness of our new tool.
-        materials = newRenderer.materials;
-        foreach (Material mat in materials) {
-            mat.SetColor("_OutlineColor", Color.green);
-            mat.SetFloat("_Outline", 0.008f);
+        foreach (MeshRenderer rend in newRenderers) {
+            materials = rend.materials;
+            foreach (Material mat in materials) {
+                mat.SetColor("_OutlineColor", Color.green);
+                mat.SetFloat("_Outline", 0.008f);
+            }
+
+            rend.materials = materials;
         }
-        newRenderer.materials = materials;
 
         // Finally actually swap tools.
         currentTool = tool;
