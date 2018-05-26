@@ -20,26 +20,27 @@ public class NPCInteraction : MonoBehaviour {
     System.Random generator;
 
     // Use this for initialization
-    void Start () {
+    void Start() {
         numberOfInteractionsLately = 0;
         penShonkys = GameObject.FindGameObjectsWithTag("Shonky");
         generator = new System.Random();
         nextResetTime = Time.time + cooldown;
     }
-	
-	// Update is called once per frame
-	void Update () {
-        CheckForInput();
-        RefreshInteractions();
-        
-	}
 
+    // Update is called once per frame
+    void Update() {
+        CheckForInput();
+        //RefreshInteractions();
+
+    }
+    /*
     private void RefreshInteractions() {
         if (Time.time > nextResetTime) {
             nextResetTime = Time.time + cooldown;
             numberOfInteractionsLately -= 1;
         }
     }
+    */
 
     private void CheckForInput() {
         if (Input.GetMouseButtonDown(0)) {
@@ -50,17 +51,16 @@ public class NPCInteraction : MonoBehaviour {
             if (Physics.Raycast(ray, out hit, 100)) {
                 //Debug.Log(hit.transform.gameObject.name);
                 if (hit.transform.gameObject.tag == "NPC") {
-                    int newRandom = generator.Next(0, 100);
-                    Debug.Log(newRandom);
-                    if (newRandom <= baseChanceOfApproach && numberOfInteractionsLately <= maxInteractions) {
-                        Debug.Log("Hit NPC and successfully got them to approach");
-                        SceneManager.LoadScene("Barter");
-                        //Add when keeping list of shonkys
-                        //int randomShonkyIndex = generator.Next(0, penShonkys.Length - 1);
-                        //Begin Barter Game with the shonky at penShonkys[randomShonkyIndex];
-                        //numberOfInteractionsLately += 1;
-                    } else {
-                        //Debug.Log("Hit NPC but did not approach ");
+                    //Need to determine if the player has any shonkys and what indexes they are at
+                    List<int> shonkyIndexes = ShonkyInventory.Instance.PopulatedShonkySlots();
+                    //If they do, select a random one and pass to the barter screen
+                    if (shonkyIndexes.Count > 0) {
+                        int randomShonky = shonkyIndexes[UnityEngine.Random.Range(0, shonkyIndexes.Count)];
+                        ItemInstance chosenShonky;
+                        if (ShonkyInventory.Instance.GetItem(randomShonky, out chosenShonky)) {
+                            DataTransfer.shonkyIndex = randomShonky;
+                            SceneManager.LoadScene("Barter");
+                        }
                     }
                 }
             }

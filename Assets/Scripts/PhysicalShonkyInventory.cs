@@ -37,7 +37,9 @@ public class PhysicalShonkyInventory : MonoBehaviour {
     void Start() {
         // Load example.
         SaveManager save = ScriptableObject.CreateInstance<SaveManager>();
+        //ShonkyInventory.InitializeFromDefault(inventory);
         save.LoadOrInitializeShonkyInventory(inventory);
+       
 
         shonkySlots = new List<PenSlot>();
         shonkySlots.AddRange(GameObject.FindObjectsOfType<PenSlot>());

@@ -130,4 +130,14 @@ public class ShonkyInventory : ScriptableObject {
         else
             return false;
     }
+
+    public List<int> PopulatedShonkySlots() {
+        List<int> indexes = new List<int>();
+        for (int i = 0; i < shonkyInventory.Length; i++) {
+            if (!SlotEmpty(i)) {
+                indexes.Add(i);
+            }
+        }
+        return indexes;
+    }
 }
