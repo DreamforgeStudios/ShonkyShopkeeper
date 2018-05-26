@@ -7,4 +7,6 @@ public static class DataTransfer {
 
 	public static Personality currentPersonality;
 	public static Sprite currentSprite;
+    //For sending golems to bidding
+    public static int shonkyIndex;
 }

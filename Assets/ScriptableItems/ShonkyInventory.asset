@@ -12,15 +12,15 @@ MonoBehaviour:
   m_Name: ShonkyInventory
   m_EditorClassIdentifier: 
   shonkyInventory:
-  - item: {fileID: 0}
+  - item: {fileID: 11400000, guid: 39078712b222b9c4f96b30eba57233ba, type: 2}
     quantity: 1
     quality: 0
     isNew: 0
-  - item: {fileID: 0}
+  - item: {fileID: 11400000, guid: 2aa4400a0aaffe348881d6b488620cd1, type: 2}
     quantity: 1
     quality: 0
     isNew: 0
-  - item: {fileID: 0}
+  - item: {fileID: 11400000, guid: b9c7cf3aad1d1c34cb9c5a770f2e5c98, type: 2}
     quantity: 1
     quality: 0
     isNew: 0

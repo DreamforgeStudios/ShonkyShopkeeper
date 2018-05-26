@@ -1027,7 +1027,7 @@ Animator:
   m_GameObject: {fileID: 1342187011547226}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: a15c149ed3ae4f94c9163653d21ed019, type: 3}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 238c612c0e16e204ca25a97faaac0d90, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1130,16 +1130,16 @@ NavMeshAgent:
   m_GameObject: {fileID: 1342187011547226}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3.5
-  m_Acceleration: 8
+  m_Radius: 15
+  m_Speed: 1
+  m_Acceleration: 0.8
   avoidancePriority: 50
-  m_AngularSpeed: 120
+  m_AngularSpeed: 75
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 2
+  m_Height: 20
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 1

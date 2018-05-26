@@ -441,20 +441,23 @@ public class Toolbox : MonoBehaviour {
         int index1, index2;
         index1 = currentSelection.index;
         index2 = slot.index;
-        Inventory.Instance.RemoveItem(index1);
-        Inventory.Instance.RemoveItem(index2);
         //Spawn a golem to show item creation 
         Item drop = database.GetActual(gemType);
 
         GameObject inst = Instantiate(drop.physicalRepresentation, currentSelection.transform.position, currentSelection.transform.rotation);
         Debug.Log("Created Golem");
-        //Need to get average quality
-        ItemInstance newGolem = new ItemInstance(drop, 1, Quality.QualityGrade.Mystic, true);
+        //Get the average quality of the shell and charged gem, assign to new golem.
+        Quality.QualityGrade item1 = currentSelection.itemInstance.quality;
+        Quality.QualityGrade item2 = slot.itemInstance.quality;
+        Quality.QualityGrade avg = Quality.CalculateCombinedQuality(item1, item2);
+        ItemInstance newGolem = new ItemInstance(drop, 1, avg, true);
         int index = ShonkyInventory.Instance.InsertItem(newGolem);
         PhysicalShonkyInventory.Instance.InsertItemAtSlot(index, newGolem, inst);
         //Move new golem to pen
         PhysicalShonkyInventory.Instance.MoveToPen(index);
-
+        //Remove backend items
+        Inventory.Instance.RemoveItem(index1);
+        Inventory.Instance.RemoveItem(index2);
         //Remove front end items
         currentSelection.RemoveItem();
         slot.RemoveItem();
