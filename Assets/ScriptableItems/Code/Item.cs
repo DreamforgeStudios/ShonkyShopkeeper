@@ -59,7 +59,8 @@ public class ItemInstance {
         string grade = Quality.GradeToString(quality);
         string gradeCol = "#" + ColorUtility.ToHtmlStringRGB(Quality.GradeToColor(quality));
         string str = string.Format("Quality: <color={0}>{1}</color>\n" +
-                                   "Quantity: <color=white>{2}</color>\n", gradeCol, grade, quantity);
+                                   "Quantity: <color=white>{2}</color>\n" +
+                                   (isNew ? "<color=#ffc605fc>NEW</color>\n" : ""), gradeCol, grade, quantity);
         return str;
     }
 }

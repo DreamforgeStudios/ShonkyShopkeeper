@@ -36,8 +36,12 @@ public class PhysicalInventory : MonoBehaviour {
 					if (inventorySlots[i].GetPrefabInstance(out obj)) {
 						// TODO, change tween / fixup.
 						obj.transform.DOMove(obj.transform.position + Vector3.up, 0.7f);
+						obj.AddComponent(typeof(Rotate));
 					}
 				}
+			} else {
+				// Set slot to null, incase something was previously in the slot.
+				inventorySlots[i].RemoveItem();
 			}
 		}
 	}

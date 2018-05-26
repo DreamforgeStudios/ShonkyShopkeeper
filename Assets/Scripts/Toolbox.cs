@@ -197,7 +197,6 @@ public class Toolbox : MonoBehaviour {
         Item item;
         ItemInstance instance;
         if (slot.GetItemInstance(out instance)) {
-            //Debug.Log(instance.item.GetItemName());
             if (instance.item.GetType() == typeof(ResourceBag)) {
                 ResourcePouchOpen(slot);
             }
@@ -226,8 +225,21 @@ public class Toolbox : MonoBehaviour {
         inspectionPanel.SetActive(false);
         GameObject gameObj;
         if (currentSelection && currentSelection.GetPrefabInstance(out gameObj)) {
+            if (currentSelection.itemInstance.isNew) {
+                UnmarkNew();
+            }
             gameObj.transform.DOMove(currentSelection.transform.position, 1f).SetEase(Ease.OutBounce);
             currentSelection = null;
+        }
+    }
+
+    private void UnmarkNew() {
+        // Unmark in backend and frontend.
+        Inventory.Instance.UnMarkNew(currentSelection.index);
+        currentSelection.itemInstance.isNew = false;
+        GameObject obj;
+        if (currentSelection.GetPrefabInstance(out obj)) {
+            Destroy(obj.GetComponent<Rotate>());
         }
     }
 
@@ -335,18 +347,18 @@ public class Toolbox : MonoBehaviour {
                         Debug.Log(instance.item.GetType().ToString());
                         switch (instance.item.GetType().ToString()) {
                             case "Gem":
+                                DataTransfer.GemType = (instance.item as Gem).gemType.ToString();
                                 StartCoroutine(LoadAsyncScene("Cutting"));
                                 MinigameTransition();
-                                DataTransfer.GemType = (instance.item as Gem).gemType.ToString();
                                 break;
                             case "Ore":
                                 StartCoroutine(LoadAsyncScene("Smelting"));
                                 MinigameTransition();
                                 break;
                             case "Jewel":
+                                DataTransfer.GemType = (instance.item as Jewel).gemType.ToString();
                                 StartCoroutine(LoadAsyncScene("Polishing"));
                                 MinigameTransition();
-                                DataTransfer.GemType = (instance.item as Jewel).gemType.ToString();
                                 break;
                             case "Brick":
                                 StartCoroutine(LoadAsyncScene("Tracing"));
@@ -420,12 +432,11 @@ public class Toolbox : MonoBehaviour {
         //Move selection up
         GameObject itemObj;
         if (currentSelection.GetPrefabInstance(out itemObj)) {
-            currentSelection.RemoveDontDestroy();
             Inventory.Instance.RemoveItem(currentSelection.index);
+            currentSelection.RemoveDontDestroy();
 
             Transform t = itemObj.transform;
             // Move and vibration for some "feedback".
-            Debug.Log("Moving");
             t.DOMove(t.position + (Vector3.up), 0.7f).SetEase(Ease.OutBack)
                 .OnComplete(() => t.DOShakePosition(.5f, .5f, 100, 30f)
                     .OnComplete(() => asyncLoad.allowSceneActivation = true));
@@ -501,7 +512,7 @@ public class Toolbox : MonoBehaviour {
             drops.Add(new ItemInstance(drop, 1, Quality.QualityGrade.Junk, false));
         }
 
-        Inventory inv = Inventory.Instance;
+        Inventory inv= Inventory.Instance;
         slot.RemoveItem();
         inv.RemoveItem(slot.index);
 

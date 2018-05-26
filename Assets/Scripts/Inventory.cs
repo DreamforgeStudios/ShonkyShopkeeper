@@ -81,20 +81,21 @@ public class Inventory : ScriptableObject {
 
     // Remove an item at an index if one exists at that index.
     public bool RemoveItem(int index) {
-        if (!SlotEmpty(index)) {
-            inventory[index] = empty;
-            Save();
-            return true;
+        if (SlotEmpty(index)) {
+            // Nothing existed at the specified slot.
+            return false;
         }
 
-        // Nothing existed at the specified slot.
-        return false;
+        inventory[index] = empty;//new ItemInstance(CreateInstance(typeof(Empty)) as Item,0, Quality.QualityGrade.Unset, false);
+        Save();
+
+        return true;
     }
 
     // Insert an item, return the index where it was inserted.  -1 if error.
     public int InsertItem(ItemInstance item) {
         for (int i = 0; i < inventory.Length; i++) {
-            if (SlotEmpty(i) || PossibleEmpties(i)) {
+            if (SlotEmpty(i)) {
                 //Debug.Log("Inserted at slot " + i);
                 inventory[i] = item;
                 Save();
@@ -134,17 +135,40 @@ public class Inventory : ScriptableObject {
     }
 
     public bool SlotEmpty(int index) {
-        if (inventory[index] == null || inventory[index].item == null) {
+        if (inventory[index] == null || inventory[index].item == null || inventory[index].item.GetType() == typeof(Empty)) {
             return true;
         }
         return false;
     }
 
+    /*
     public bool PossibleEmpties(int index) {
+        Debug.Log("empty?: " + (inventory[index].item.GetType() == typeof(Empty)));
         if (inventory[index].item.name == "Empty")
             return true;
         else
             return false;
+    }
+    */
+
+    public bool MarkNew(int index) {
+        if (SlotEmpty(index)) {
+            return false;
+        }
+
+        inventory[index].isNew = true;
+        Save();
+        return true;
+    }
+
+    public bool UnMarkNew(int index) {
+        if (SlotEmpty(index)) {
+            return false;
+        }
+
+        inventory[index].isNew = false;
+        Save();
+        return true;
     }
 
     // Simply save.
