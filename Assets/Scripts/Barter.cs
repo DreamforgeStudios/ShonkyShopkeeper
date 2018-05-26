@@ -5,25 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
 
-public class Barter : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerDownHandler {
-    public GameObject background;
-    public TextMeshProUGUI txtPrice;
-    public Text txtDebug;
-    //private float prevPlayerOffer; // debug.
-
-    private Rigidbody2D backgroundrb;
-
-    public float dragMultiplier = 0.1f;
-    public float dragVelocityMultiplier = 1.0f;
-    public float priceChangeMultiplier = 0.5f;
-
-    private float dx = 0f;
-    private float fPrice = 100f;
-
-    private float prevXPos = 0f;
-
-    private bool wheelActive = true;
-
+public class Barter : MonoBehaviour {//, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerDownHandler {
     public GameObject noDeal;
     public GameObject deal;
     public Button offerButton;
@@ -67,18 +49,16 @@ public class Barter : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
 
     // Use this for initialization
     void Start () {
-        this.backgroundrb = this.background.GetComponent<Rigidbody2D>();
-        this.prevXPos = this.background.transform.position.x;
-
         this.currentMaxPrice = this.initialMaxPrice;
         this.currentOffer = this.initialOffer;
 	}
 	
     // Shove the slider back with a force (counteroffer).
     private void ShoveSlider(float force) {
-        this.backgroundrb.AddForce(new Vector2(force, 0f));
+        //this.backgroundrb.AddForce(new Vector2(force, 0f));
     }
 
+    /*
     // Consider the player's offer and offer a counter.  Returns true if bidding should continue, or false if not.
     // Counter offer is stored in "counter" parameter.  If the counter offer is 0, then the NPC is fed up.
     private bool CounterOffer(float offer, out float counter) {
@@ -86,7 +66,7 @@ public class Barter : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         // AKA, bidding has gone on too long.
         if (this.currentMaxPrice < this.currentOffer) {
             counter = 0f;
-            personality.Shake(1f, 1.2f);
+            //personality.Shake(1f, 1.2f);
             personality.TalkReject(1f);
             return false;
         }
@@ -111,12 +91,12 @@ public class Barter : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         if (rand <= acceptChance) {
             // TODO: use variables to guide this.
             // TODO: use DenyOffer() or something like that?
-            personality.Shake(1.1f-acceptChance, 0.5f);
+            //personality.Shake(1.1f-acceptChance, 0.5f);
             personality.TalkAccept(acceptChance);
             counter = offer;
             return false;
         } else if (rand <= rejectChance) {
-            personality.Shake(1-acceptChance, 1.2f);
+            //personality.Shake(1-acceptChance, 1.2f);
             personality.TalkReject(rejectChance);
             counter = 0f;
             return false;
@@ -133,7 +113,7 @@ public class Barter : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
             this.currentMaxPrice -= this.overflowStep;
             this.absoluteMaxPrice -= this.absoluteOverflowStep;
 
-            personality.Shake(change * 0.1f, 1f);
+            //personality.Shake(change * 0.1f, 1f);
             personality.TalkCounter(acceptChance);
 
             // Shove the slider to give some feedback on the offer.
@@ -147,7 +127,9 @@ public class Barter : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         }
 
     }
+        */
 
+    /*
     // Make an offer on the player's behalf.
     public void MakeOffer() {
         // Don't let the player move the wheel anymore.
@@ -188,46 +170,16 @@ public class Barter : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         this.offerButton.interactable = false;
 
         this.deal.SetActive(true);
-        personality.Shake(0.1f, 0.5f);
+        //personality.Shake(0.1f, 0.5f);
         personality.TalkAccept(1f);
         ShowUIButtons();
     }
+    */
 
     // SYSTEM / DRAGGING / SLIDER STUFF
     //*******************************//
     // Make it so that the player stops the wheel as soon as they tap.
-    public void OnPointerDown(PointerEventData eventData) {
-        if (!wheelActive) return;
-
-        this.dx = 0f;
-        this.backgroundrb.velocity = Vector2.zero;
-        this.acceptButton.interactable = false;
-    }
-
-    // Might not need this anymore, superseeded by OnPointerDown().
-    public void OnBeginDrag(PointerEventData eventData) {
-        if (!wheelActive) return;
-
-        this.dx = 0f;
-        this.backgroundrb.velocity = Vector2.zero;
-    }
-
-    // On drag, move the wheel transform according to the mouse movement.
-    public void OnDrag(PointerEventData eventData) {
-        if (!wheelActive) return;
-
-        this.dx = eventData.delta.x;
-        this.background.transform.position += new Vector3(this.dx * this.dragMultiplier, 0f, 0f);
-    }
-
-    // When we finish a drag we want to "shove" the wheel in some way.  Do this based on the most recent drag delta.
-    public void OnEndDrag(PointerEventData eventData) {
-        if (!wheelActive) return;
-
-        this.backgroundrb.velocity = Vector2.zero;
-        this.backgroundrb.AddForce(new Vector2(this.dx * this.dragVelocityMultiplier, 0f));
-    }
-
+    /*
     private void MoveSliderBack(float val) {
         StartCoroutine(InterpolateSliderMove(0, val));
     }
@@ -277,7 +229,7 @@ public class Barter : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         this.initialOffer = personality.initialOffer;
         this.overflowStep = personality.overflowStep;
         this.absoluteOverflowStep = personality.absoluteOverflowStep;
-        this.offerMultiplier = personality.offerMultiplier;
+        //this.offerMultiplier = personality.offerMultiplier;
         this.fPrice = personality.initialOffer;
         this.currentOffer = personality.initialOffer;
         this.currentMaxPrice = personality.initialMaxPrice;
@@ -301,4 +253,5 @@ public class Barter : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
 
         this.prevXPos = xPos;
 	}
+    */
 }

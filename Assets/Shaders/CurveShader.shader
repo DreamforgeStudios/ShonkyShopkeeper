@@ -50,9 +50,10 @@
 			fixed4 frag (v2f i) : SV_Target
 			{
 				// sample the texture
-                half2 curve = half2(tex2D(_CurveTex, i.cuv).r, 0);
-				fixed4 col = tex2D(_MainTex, i.uv+_UVOffset-(half2((1-curve.x)*_CurveMult, 0)));
-                col.rgb -= curve.r;
+                //half2 curve = half2(tex2D(_CurveTex, i.cuv).r, 0);
+				//fixed4 col = tex2D(_MainTex, i.uv+_UVOffset-(half2((1-curve.x)*_CurveMult, 0)));
+				fixed4 col = tex2D(_MainTex, i.uv); //+ float2(_UVOffset, 0));
+                //col.rgb -= curve.r;
                 // return...
 				return col;
 			}

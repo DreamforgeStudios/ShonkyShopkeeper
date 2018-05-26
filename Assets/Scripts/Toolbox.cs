@@ -186,11 +186,13 @@ public class Toolbox : MonoBehaviour {
 
     // Inspect an item.
     private void UseInspector(Slot slot) {
-        // Can't select 2 items at once.
-        if (currentSelection) {
-            // Maybe this will cause flickering, might be better to just hide the object.
+        // Can't select the same item twice, or select 2 items at once.
+        // This doesn't work 100% if you abuse it (spam click), but it does for the most part, and always resets anyway.
+        if (currentSelection == slot) {
             HideInspector();
-            currentSelection = null;
+            return;
+        } else if (currentSelection) {
+            HideInspector();
         }
 
         // To avoid null errors, always use the x.Get() methods, they check for you.

@@ -1,0 +1,83 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 349d6d2b88a4ff04dab5c0f527027fc8, type: 3}
+  m_Name: PersonalityEasy
+  m_EditorClassIdentifier: 
+  acceptGradient:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  declineGradient:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  wantsItem: 1.4
+  initialMaxPrice: 1.9
+  absoluteMaxPrice: 2.5
+  initialOffer: 1
+  overflowStep: 0.15
+  absoluteOverflowStep: 0.2
+  acceptLines:
+  - chance: 0.66
+    line: That's a done deal!  Hopefully this time my fingers won't freeze off when
+      I journey up the mountain.
+  - chance: 0.33
+    line: A fair price, than you for providing me with a companion to warm my journey.
+  - chance: 0
+    line: You drive a hard bargain, but lucky for you I really need a companion to
+      keep me warm on the journey ahead.
+  counterLines:
+  - chance: 0.66
+    line: I'd never pay that much!  I wasn't born yesterday you know?!  Be reasonable.
+  - chance: 0.33
+    line: That's too expensive.  Would you really leave an old wizard out in the cold
+      without a helper to guide his way?  Make me a better offer.
+  - chance: 0.22
+    line: Listen PUNK.
+  - chance: 0
+    line: Make me a better offer so I can take this toasty fella home already.
+  rejectLines:
+  - chance: 0.66
+    line: I'd sooner cut off my beard than pay that ludicrous amount!  Good day!
+  - chance: 0.33
+    line: Your heart is clearly as cold as ice to be shovelling wares for that amount.  Good
+      day!
+  - chance: 0
+    line: I'm simply in too much of a rush to barter with someone as unreasonable
+      as you.  Good day!

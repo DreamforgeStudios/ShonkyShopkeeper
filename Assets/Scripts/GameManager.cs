@@ -5,7 +5,13 @@ using UnityEngine;
 public class GameManager : MonoBehaviour {
 	public static GameManager instance = null;
 
+	// TODO, this is no longer needed.
 	private float[] gameScores;
+
+	// For transfering tapped personalities to the bidding game from the shop screen.
+	public Personality currentPersonality = null;
+	public Shonky currentShonky = null;
+	public Sprite currentSprite = null;
 
 	void Awake () {
 		if (instance == null) {
@@ -27,14 +33,10 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public Quality.QualityGrade GetQuality() {
-		float sum = 0;
-		foreach(float score in gameScores) {
-			sum += score;
+		if (currentShonky != null) {
+			// TODO: need a way to get shonky quality.
 		}
 
-		sum /= gameScores.Length;
-		Debug.Log("Grade: " + sum);
-
-		return Quality.FloatToGrade(sum, 3);
+		return Quality.QualityGrade.Sturdy;
 	}
 }
