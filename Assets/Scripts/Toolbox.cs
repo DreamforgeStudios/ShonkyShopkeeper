@@ -85,8 +85,6 @@ public class Toolbox : MonoBehaviour {
         }
     }
 
-
-
     // Get the gameobject for a specific tool.
     private GameObject ToolToObject(Tool tool) {
         switch (tool) {
@@ -186,18 +184,19 @@ public class Toolbox : MonoBehaviour {
 
     // Inspect an item.
     private void UseInspector(Slot slot) {
-        // Can't select 2 items at once.
-        if (currentSelection) {
-            // Maybe this will cause flickering, might be better to just hide the object.
+        // Can't select the same item twice, or select 2 items at once.
+        // This doesn't work 100% if you abuse it (spam click), but it does for the most part, and always resets anyway.
+        if (currentSelection == slot) {
             HideInspector();
-            currentSelection = null;
+            return;
+        } else if (currentSelection) {
+            HideInspector();
         }
 
         // To avoid null errors, always use the x.Get() methods, they check for you.
         Item item;
         ItemInstance instance;
         if (slot.GetItemInstance(out instance)) {
-            //Debug.Log(instance.item.GetItemName());
             if (instance.item.GetType() == typeof(ResourceBag)) {
                 ResourcePouchOpen(slot);
             }
@@ -212,7 +211,7 @@ public class Toolbox : MonoBehaviour {
                 GameObject itemObj;
                 if (slot.GetPrefabInstance(out itemObj)) {
                     Transform t = itemObj.transform;
-                    t.DOMove(t.position + (Vector3.up), 0.7f).SetEase(Ease.OutBack);
+                    t.DOMove(slot.transform.position + (Vector3.up), 0.7f).SetEase(Ease.OutBack);
                 }
             }
             else {
@@ -226,8 +225,21 @@ public class Toolbox : MonoBehaviour {
         inspectionPanel.SetActive(false);
         GameObject gameObj;
         if (currentSelection && currentSelection.GetPrefabInstance(out gameObj)) {
+            if (currentSelection.itemInstance.isNew) {
+                UnmarkNew();
+            }
             gameObj.transform.DOMove(currentSelection.transform.position, 1f).SetEase(Ease.OutBounce);
             currentSelection = null;
+        }
+    }
+
+    private void UnmarkNew() {
+        // Unmark in backend and frontend.
+        Inventory.Instance.UnMarkNew(currentSelection.index);
+        currentSelection.itemInstance.isNew = false;
+        GameObject obj;
+        if (currentSelection.GetPrefabInstance(out obj)) {
+            Destroy(obj.GetComponent<Rotate>());
         }
     }
 
@@ -335,18 +347,18 @@ public class Toolbox : MonoBehaviour {
                         Debug.Log(instance.item.GetType().ToString());
                         switch (instance.item.GetType().ToString()) {
                             case "Gem":
+                                DataTransfer.GemType = (instance.item as Gem).gemType.ToString();
                                 StartCoroutine(LoadAsyncScene("Cutting"));
                                 MinigameTransition();
-                                DataTransfer.GemType = (instance.item as Gem).gemType.ToString();
                                 break;
                             case "Ore":
                                 StartCoroutine(LoadAsyncScene("Smelting"));
                                 MinigameTransition();
                                 break;
                             case "Jewel":
+                                DataTransfer.GemType = (instance.item as Jewel).gemType.ToString();
                                 StartCoroutine(LoadAsyncScene("Polishing"));
                                 MinigameTransition();
-                                DataTransfer.GemType = (instance.item as Jewel).gemType.ToString();
                                 break;
                             case "Brick":
                                 StartCoroutine(LoadAsyncScene("Tracing"));
@@ -420,12 +432,11 @@ public class Toolbox : MonoBehaviour {
         //Move selection up
         GameObject itemObj;
         if (currentSelection.GetPrefabInstance(out itemObj)) {
-            currentSelection.RemoveDontDestroy();
             Inventory.Instance.RemoveItem(currentSelection.index);
+            currentSelection.RemoveDontDestroy();
 
             Transform t = itemObj.transform;
             // Move and vibration for some "feedback".
-            Debug.Log("Moving");
             t.DOMove(t.position + (Vector3.up), 0.7f).SetEase(Ease.OutBack)
                 .OnComplete(() => t.DOShakePosition(.5f, .5f, 100, 30f)
                     .OnComplete(() => asyncLoad.allowSceneActivation = true));
@@ -461,7 +472,6 @@ public class Toolbox : MonoBehaviour {
         slot.RemoveItem();
         //reset selection
         currentSelection = null;
-
     }
     //Method used to find the gem type selected
     private string FindGemType(Slot slot1, Slot slot2) {
@@ -502,7 +512,7 @@ public class Toolbox : MonoBehaviour {
             drops.Add(new ItemInstance(drop, 1, Quality.QualityGrade.Junk, false));
         }
 
-        Inventory inv = Inventory.Instance;
+        Inventory inv= Inventory.Instance;
         slot.RemoveItem();
         inv.RemoveItem(slot.index);
 

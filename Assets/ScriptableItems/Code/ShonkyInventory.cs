@@ -52,10 +52,12 @@ public class ShonkyInventory : ScriptableObject {
     // Not used in vertical slice.
     // public int drawers;
 
+/*
     public void OnEnable() {
         SaveManager save = CreateInstance<SaveManager>();
         save.SaveShonkyInventory();
     }
+    */
 
     //Check if there is a free slot
     public bool FreeSlot() {
@@ -83,6 +85,7 @@ public class ShonkyInventory : ScriptableObject {
     public bool RemoveItem(int index) {
         if (!SlotEmpty(index)) {
             shonkyInventory[index] = empty;
+            Save();
             return true;
         }
 
@@ -94,8 +97,9 @@ public class ShonkyInventory : ScriptableObject {
     public int InsertItem(ItemInstance item) {
         for (int i = 0; i < shonkyInventory.Length; i++) {
             if (SlotEmpty(i) || PossibleEmpties(i)) {
+                //Debug.Log("Inserted at slot " + i);
                 shonkyInventory[i] = item;
-                Debug.Log("Inserted at slot " + i);
+                Save();
                 return i;
             }
         }
@@ -110,9 +114,9 @@ public class ShonkyInventory : ScriptableObject {
             ItemInstance temp = shonkyInventory[currentIndex];
             shonkyInventory[currentIndex] = null;
             shonkyInventory[indexToBePlaced] = temp;
+            Save();
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
@@ -121,6 +125,7 @@ public class ShonkyInventory : ScriptableObject {
         if (shonkyInventory[index] == null || shonkyInventory[index].item == null) {
             return true;
         }
+
         return false;
     }
 
@@ -139,5 +144,11 @@ public class ShonkyInventory : ScriptableObject {
             }
         }
         return indexes;
+    }
+
+    // Simply save..
+    private void Save() {
+        SaveManager save = CreateInstance<SaveManager>();
+        save.SaveShonkyInventory();
     }
 }

@@ -67,6 +67,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkDirection: 0
   walkSpeed: 0
+  personality: {fileID: 11400000, guid: 45d053d726ef6934f828da577048b578, type: 2}
 --- !u!212 &212413014549984866
 SpriteRenderer:
   m_ObjectHideFlags: 1

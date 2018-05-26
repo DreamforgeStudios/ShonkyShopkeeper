@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using TMPro;
 
-public class Personality : MonoBehaviour {
+[CreateAssetMenu(menuName = "Personality", fileName = "PersonalityName.asset")]
+public class Personality : ScriptableObject {
     // The "accept-offer-chance"-scale.
     public AnimationCurve acceptGradient;
     // The "walk away"-scale.
@@ -21,73 +22,54 @@ public class Personality : MonoBehaviour {
     public float overflowStep;
     // The amoutn that the absolute overflow will decrease each turn.
     public float absoluteOverflowStep;
-    // A test for now.
-    public float offerMultiplier = 10f;
 
     // Dialogue box for the NPC to talk with.
-    public TextMeshProUGUI dialogueText;
+    //public TextMeshProUGUI dialogueText;
 
     [Header("Important!  These lists should be ORDERED.  Higher chance items come first.")]
     public List<Dialogue> acceptLines;
     public List<Dialogue> counterLines;
     public List<Dialogue> rejectLines;
 
-    private Shake shake;
-
-    void Start() {
-        shake = GetComponent<Shake>();
-        if (GameManager.instance) {
-            InfluencePersonality(GameManager.instance.GetQuality());
-        }
-
-        InjectPersonality();
-    }
-
-    public void Shake(float intensity, float duration) {
-        shake.ShakeTransform(intensity, duration);
-    }
-
-    public void TalkAccept(float chance) {
+    public string TalkAccept(float chance) {
         // This relies on the list being sorted.
         // Could move this to its own function but its not worth it at the moment.
         foreach(Dialogue line in acceptLines) {
             if (chance >= line.chance) {
-                DisplayDialogue(line.line);
-                break;
+                return line.line;
             }
         }
+
+        return "...";
     }
 
-    public void TalkCounter(float chance) {
+    public string TalkCounter(float chance) {
         // This relies on the list being sorted.
         foreach(Dialogue line in counterLines) {
             if (chance >= line.chance) {
-                DisplayDialogue(line.line);
-                break;
+                return line.line;
             }
         }
+
+        return "...";
     }
 
-    public void TalkReject(float chance) {
+    public string TalkReject(float chance) {
         // This relies on the list being sorted.
         foreach(Dialogue line in rejectLines) {
             if (chance >= line.chance) {
-                DisplayDialogue(line.line);
-                break;
+                return line.line;
             }
         }
+
+        return "...";
     }
 
-    private void DisplayDialogue(string dialogue) {
-        dialogueText.text = dialogue;
-    }
-
-    public void InjectPersonality() {
-        GameObject.FindGameObjectWithTag("Barter").GetComponent<Barter>().LoadPersonality(this);
-    }
-
-    private void InfluencePersonality(Quality.QualityGrade grade) {
+    // Change this to be dependent on shonky type + shonky grade.
+    public void InfluencePersonality(Quality.QualityGrade grade, float basePrice) {
         // TODO: don't hardcode this.
+        MultiplyPersonality(basePrice);
+
         switch (grade) {
             case Quality.QualityGrade.Junk: 
                 MultiplyPersonality(0.1f);
@@ -118,5 +100,4 @@ public class Personality : MonoBehaviour {
         absoluteMaxPrice *= multiplier;
         initialOffer *= multiplier;
     }
-
 }
