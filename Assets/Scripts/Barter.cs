@@ -50,8 +50,15 @@ public class Barter : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        this.currentMaxPrice = this.initialMaxPrice;
-        this.currentOffer = this.initialOffer;
+        //this.currentMaxPrice = this.initialMaxPrice;
+        //this.currentOffer = this.initialOffer;
+        if (DataTransfer.currentPersonality) {
+            this.personality = DataTransfer.currentPersonality;
+            this.personality.InfluencePersonality(Quality.QualityGrade.Mystic);
+            LoadPersonality();
+        } else {
+            Debug.Log("No personality found, using default values.");
+        }
 	}
 
     // Consider the player's offer and offer a counter.  Returns true if bidding should continue, or false if not.
@@ -190,9 +197,7 @@ public class Barter : MonoBehaviour {
     }
     */
 
-    public void LoadPersonality(Personality personality) {
-        Debug.Log("loading new personality");
-        this.personality = personality;
+    public void LoadPersonality() {
         this.acceptGradient = personality.acceptGradient;
         this.declineGradient = personality.acceptGradient;
         this.wantsItem = personality.wantsItem;
@@ -201,28 +206,13 @@ public class Barter : MonoBehaviour {
         this.initialOffer = personality.initialOffer;
         this.overflowStep = personality.overflowStep;
         this.absoluteOverflowStep = personality.absoluteOverflowStep;
-        //this.offerMultiplier = personality.offerMultiplier;
-        //this.fPrice = personality.initialOffer;
         this.currentOffer = personality.initialOffer;
         this.currentMaxPrice = personality.initialMaxPrice;
-        //UpdatePrice();
-        //UpdateDebug();
+        manager.fPrice = personality.initialOffer;
     }
 
     private void ShowUIButtons() {
         next.SetActive(true);
         retry.SetActive(true);
     }
-    
-    // Update is called once per frame
-    void Update () {
-        //float xPos = this.background.transform.position.x;
-        //float xDiff = this.prevXPos - xPos;
-
-        //this.fPrice += xDiff * this.priceChangeMultiplier;
-        //UpdatePrice();
-        //UpdateDebug();
-
-        //this.prevXPos = xPos;
-	}
 }

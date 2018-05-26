@@ -69,7 +69,8 @@ public class Personality : ScriptableObject {
         //GameObject.FindGameObjectWithTag("Barter").GetComponent<Barter>().LoadPersonality(this);
     }
 
-    private void InfluencePersonality(Quality.QualityGrade grade) {
+    // Change this to be dependent on shonky type + shonky grade.
+    public void InfluencePersonality(Quality.QualityGrade grade) {
         // TODO: don't hardcode this.
         switch (grade) {
             case Quality.QualityGrade.Junk: 

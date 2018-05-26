@@ -34,6 +34,7 @@ public class BarterComponentManager : MonoBehaviour {
         this.prevXPos = this.background.transform.position.x;
         this.backgroundMat = background.GetComponent<MeshRenderer>().material;
         this.offset = new Vector2(0, 0);
+        this.wizardSprite.sprite = DataTransfer.currentSprite;
 	}
 	
 	// Update is called once per frame

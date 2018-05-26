@@ -214,7 +214,7 @@ public class Toolbox : MonoBehaviour {
                 GameObject itemObj;
                 if (slot.GetPrefabInstance(out itemObj)) {
                     Transform t = itemObj.transform;
-                    t.DOMove(t.position + (Vector3.up), 0.7f).SetEase(Ease.OutBack);
+                    t.DOMove(slot.transform.position + (Vector3.up), 0.7f).SetEase(Ease.OutBack);
                 }
             }
             else {
