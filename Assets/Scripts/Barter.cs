@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using TMPro;
 
-public class Barter : MonoBehaviour {//, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerDownHandler {
+public class Barter : MonoBehaviour {
     public GameObject noDeal;
     public GameObject deal;
     public Button offerButton;
     public Button acceptButton;
 
     public Material mat;
+
+    public BarterComponentManager manager;
 
 
     // for prototype.
@@ -45,20 +46,14 @@ public class Barter : MonoBehaviour {//, IBeginDragHandler, IDragHandler, IEndDr
     public float shoveMultiplier = 1f;
 
     // Keep track of the NPC personality so that we can trigger events for them (shake, talk, etc).
-    private Personality personality;
+    public Personality personality;
 
     // Use this for initialization
     void Start () {
         this.currentMaxPrice = this.initialMaxPrice;
         this.currentOffer = this.initialOffer;
 	}
-	
-    // Shove the slider back with a force (counteroffer).
-    private void ShoveSlider(float force) {
-        //this.backgroundrb.AddForce(new Vector2(force, 0f));
-    }
 
-    /*
     // Consider the player's offer and offer a counter.  Returns true if bidding should continue, or false if not.
     // Counter offer is stored in "counter" parameter.  If the counter offer is 0, then the NPC is fed up.
     private bool CounterOffer(float offer, out float counter) {
@@ -66,8 +61,8 @@ public class Barter : MonoBehaviour {//, IBeginDragHandler, IDragHandler, IEndDr
         // AKA, bidding has gone on too long.
         if (this.currentMaxPrice < this.currentOffer) {
             counter = 0f;
-            //personality.Shake(1f, 1.2f);
-            personality.TalkReject(1f);
+            manager.WizardPunch(1f, 1.2f);
+            manager.WizardSpeak(personality.TalkReject(1f));
             return false;
         }
 
@@ -91,13 +86,13 @@ public class Barter : MonoBehaviour {//, IBeginDragHandler, IDragHandler, IEndDr
         if (rand <= acceptChance) {
             // TODO: use variables to guide this.
             // TODO: use DenyOffer() or something like that?
-            //personality.Shake(1.1f-acceptChance, 0.5f);
-            personality.TalkAccept(acceptChance);
+            manager.WizardPunch(1.1f-acceptChance, 0.5f);
+            manager.WizardSpeak(personality.TalkAccept(acceptChance));
             counter = offer;
             return false;
         } else if (rand <= rejectChance) {
-            //personality.Shake(1-acceptChance, 1.2f);
-            personality.TalkReject(rejectChance);
+            manager.WizardPunch(1-acceptChance, 1.2f);
+            manager.WizardSpeak(personality.TalkReject(rejectChance));
             counter = 0f;
             return false;
         } else {
@@ -113,33 +108,29 @@ public class Barter : MonoBehaviour {//, IBeginDragHandler, IDragHandler, IEndDr
             this.currentMaxPrice -= this.overflowStep;
             this.absoluteMaxPrice -= this.absoluteOverflowStep;
 
-            //personality.Shake(change * 0.1f, 1f);
-            personality.TalkCounter(acceptChance);
+            manager.WizardPunch(change * 0.1f, 1f);
+            manager.WizardSpeak(personality.TalkCounter(acceptChance));
 
             // Shove the slider to give some feedback on the offer.
-            Debug.Log("Should shove the slider back " + (this.fPrice - this.currentOffer) + " points.");
-            //ShoveSlider((offer - this.currentOffer) * shoveMultiplier);
-            MoveSliderBack(this.fPrice - this.currentOffer);
+            Debug.Log("Should shove the slider back " + (manager.fPrice - this.currentOffer) + " points.");
+            manager.MoveSliderBack(manager.fPrice - this.currentOffer);
             counter = this.currentOffer;
 
             this.acceptButton.interactable = true;
             return true;
         }
-
     }
-        */
 
-    /*
     // Make an offer on the player's behalf.
     public void MakeOffer() {
         // Don't let the player move the wheel anymore.
         // TODO: make it obvious that the wheel is inactive? (A light on top of it?)
-        this.wheelActive = false;
+        //this.wheelActive = false;
         this.offerButton.interactable = false;
         this.acceptButton.interactable = false;
 
         float counter;
-        float offer = this.fPrice;
+        float offer = manager.fPrice;
         bool cont = CounterOffer(offer, out counter);
 
         // NPC is fed up --
@@ -156,7 +147,7 @@ public class Barter : MonoBehaviour {//, IBeginDragHandler, IDragHandler, IEndDr
         } else {
             //while (this.backgroundrb.velocity.x != 0f)
                 //kthis.offerButton.enabled = false;
-            this.wheelActive = true;
+            //this.wheelActive = true;
             this.offerButton.interactable = true;
             // ?? work is already done in CounterOffer().
         }
@@ -166,39 +157,19 @@ public class Barter : MonoBehaviour {//, IBeginDragHandler, IDragHandler, IEndDr
 
     // Accept the NPCs offer.
     public void AcceptOffer() {
-        this.wheelActive = false;
+        //this.wheelActive = false;
         this.offerButton.interactable = false;
 
         this.deal.SetActive(true);
-        //personality.Shake(0.1f, 0.5f);
-        personality.TalkAccept(1f);
+        manager.WizardPunch(0.1f, 0.5f);
+        manager.WizardSpeak(personality.TalkAccept(1f));
         ShowUIButtons();
     }
-    */
 
     // SYSTEM / DRAGGING / SLIDER STUFF
     //*******************************//
     // Make it so that the player stops the wheel as soon as they tap.
     /*
-    private void MoveSliderBack(float val) {
-        StartCoroutine(InterpolateSliderMove(0, val));
-    }
-
-    IEnumerator InterpolateSliderMove(float from, float to) {
-        float x = this.background.transform.position.x;
-        for(float i= 0f; i < 1f; i += Time.deltaTime) {
-            float movX = Mathf.SmoothStep(from, to, i) / this.priceChangeMultiplier;
-            this.background.transform.position = new Vector3(x + movX, this.background.transform.position.y, this.background.transform.position.z);
-            yield return null;
-        }
-    }
-
-    // Update the price text box. 
-    private void UpdatePrice() {
-        string txt = ((int)this.fPrice).ToString();
-        this.txtPrice.text = txt;
-    }
-
     private void UpdateDebug() {
         string txt = string.Format("Max price: {0}", (int)this.currentMaxPrice);
         this.txtDebug.text = txt;
@@ -217,6 +188,7 @@ public class Barter : MonoBehaviour {//, IBeginDragHandler, IDragHandler, IEndDr
 
         }
     }
+    */
 
     public void LoadPersonality(Personality personality) {
         Debug.Log("loading new personality");
@@ -230,11 +202,11 @@ public class Barter : MonoBehaviour {//, IBeginDragHandler, IDragHandler, IEndDr
         this.overflowStep = personality.overflowStep;
         this.absoluteOverflowStep = personality.absoluteOverflowStep;
         //this.offerMultiplier = personality.offerMultiplier;
-        this.fPrice = personality.initialOffer;
+        //this.fPrice = personality.initialOffer;
         this.currentOffer = personality.initialOffer;
         this.currentMaxPrice = personality.initialMaxPrice;
-        UpdatePrice();
-        UpdateDebug();
+        //UpdatePrice();
+        //UpdateDebug();
     }
 
     private void ShowUIButtons() {
@@ -244,14 +216,13 @@ public class Barter : MonoBehaviour {//, IBeginDragHandler, IDragHandler, IEndDr
     
     // Update is called once per frame
     void Update () {
-        float xPos = this.background.transform.position.x;
-        float xDiff = this.prevXPos - xPos;
+        //float xPos = this.background.transform.position.x;
+        //float xDiff = this.prevXPos - xPos;
 
-        this.fPrice += xDiff * this.priceChangeMultiplier;
-        UpdatePrice();
-        UpdateDebug();
+        //this.fPrice += xDiff * this.priceChangeMultiplier;
+        //UpdatePrice();
+        //UpdateDebug();
 
-        this.prevXPos = xPos;
+        //this.prevXPos = xPos;
 	}
-    */
 }

@@ -2312,7 +2312,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1987361855}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 7}
   m_LocalScale: {x: 50, y: 50, z: 50}
   m_Children: []
   m_Father: {fileID: 2004016617}
@@ -2426,6 +2426,7 @@ MonoBehaviour:
   offerButton: {fileID: 472075597}
   acceptButton: {fileID: 1834167728}
   mat: {fileID: 0}
+  manager: {fileID: 2004016619}
   next: {fileID: 1455649665}
   retry: {fileID: 103852582}
   acceptGradient:
@@ -2472,6 +2473,7 @@ MonoBehaviour:
   absoluteOverflowStep: 20
   offerMultiplier: 50
   shoveMultiplier: 400
+  personality: {fileID: 11400000, guid: 45d053d726ef6934f828da577048b578, type: 2}
 --- !u!114 &2004016619
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2485,11 +2487,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   background: {fileID: 1227270958}
   txtPrice: {fileID: 1005439412}
+  txtDialogue: {fileID: 1526281721}
+  wizardSprite: {fileID: 1987361857}
   dragMultiplier: 0.5
   dragVelocityMultiplier: 0.15
   priceChangeMultiplier: 1
   dragTimeMultiplier: 1.3
   ease: 21
+  fPrice: 100
 --- !u!1 &2011921728
 GameObject:
   m_ObjectHideFlags: 0

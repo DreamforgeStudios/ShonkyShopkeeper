@@ -8,6 +8,8 @@ public class BarterComponentManager : MonoBehaviour {
     public GameObject background;
     private Material backgroundMat;
     public TextMeshProUGUI txtPrice;
+    public TextMeshProUGUI txtDialogue;
+    public SpriteRenderer wizardSprite;
     //public Text txtDebug;
     //private float prevPlayerOffer; // debug.
 
@@ -18,7 +20,7 @@ public class BarterComponentManager : MonoBehaviour {
     public Ease ease;
 
     private float dx = 0f;
-    private float fPrice = 100f;
+    public float fPrice = 100f;
     private int iPrice = 100;
 
     private float prevXPos = 0f;
@@ -74,6 +76,23 @@ public class BarterComponentManager : MonoBehaviour {
 		} else {
             OnHold(touch.deltaPosition.x);
 		}
+    }
+
+    public void MoveSliderBack(float val) {
+        // Tween the price ticker.
+		DOTween.To(() => fPrice, x => fPrice = x, fPrice - val, (val * dragTimeMultiplier)/100f).SetEase(ease);
+
+        // TODO ugly...
+        backgroundMat.DOOffset(new Vector2(offset.x - (val * dragVelocityMultiplier), 0),
+            (Mathf.Abs(val) * dragTimeMultiplier) / 100f).SetEase(ease);
+    }
+
+    public void WizardPunch(float strength, float duration) {
+		wizardSprite.transform.DOPunchRotation(Vector3.forward * 25 * strength, duration, 30).SetEase(Ease.OutQuint);
+    }
+
+    public void WizardSpeak(string txt) {
+        txtDialogue.text = txt;
     }
 
     private void OnDown() {
