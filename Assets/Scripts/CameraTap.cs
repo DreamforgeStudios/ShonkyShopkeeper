@@ -14,17 +14,26 @@ public class CameraTap : MonoBehaviour {
 	public Image img;
 
     public void Awake() {
-        
+        //If top screenRotation was last remembered
+        if (topScreenRotation.x == DataTransfer.cameraRot) {
+            transform.localEulerAngles = topScreenRotation;
+            topScreen = true;
+        } else {
+            transform.localEulerAngles = bottomScreenRotation;
+            topScreen = false;
+        }
     }
 
     public void RotateCamera() {
         if (topScreen) {
             transform.DORotate(bottomScreenRotation, 0.4f).SetEase(Ease.InOutSine);
 			img.transform.DORotate(bottomScreenRotationImg, 0.4f).SetEase(Ease.InOutSine);
+            DataTransfer.cameraRot = bottomScreenRotation.x;
             topScreen = false;
         } else { 
             transform.DORotate(topScreenRotation, 0.4f).SetEase(Ease.InOutSine);
 			img.transform.DORotate(topScreenRotationImg, 0.4f).SetEase(Ease.InOutSine);
+            DataTransfer.cameraRot = topScreenRotation.x;
             topScreen = true;
         }
     }

@@ -10,10 +10,13 @@ public class Polishing : MonoBehaviour {
     //Misc variables and objects
     private Camera mainCamera;
     public GameObject gemObject;
-    public Color colourStart;
-    public Color ColourEnd;
-
     public QualityBar qualityBar;
+
+    //Need to get the correct material based on gemtype passed in
+    public Material Ruby;
+    public Material Sapphire;
+    public Material Emerald;
+    public Material blackOutlines;
 
     //Time Variables
     private float startTime;
@@ -71,6 +74,29 @@ public class Polishing : MonoBehaviour {
     void Start() {
         mainCamera = Camera.main;
         keyPoint = gemObject.transform.position;
+        Material[] materials = new Material[2];
+        //Determine gem material
+        switch (DataTransfer.GemType) {
+            case ("Ruby"):
+                materials[0] = blackOutlines;
+                materials[1] = Ruby;
+                gemObject.GetComponent<Renderer>().materials = materials;
+                break;
+            case ("Sapphire"):
+                materials[0] = blackOutlines;
+                materials[1] = Sapphire;
+                gemObject.GetComponent<Renderer>().materials = materials;
+                break;
+            case ("Emerald"):
+                materials[0] = blackOutlines;
+                materials[1] = Emerald;
+                gemObject.GetComponent<Renderer>().materials = materials;
+                break;
+            //case ("Diamond"):
+              //  gemObject.GetComponent<Renderer>().material = Ruby;
+              //  break;
+
+        }
         //nextScene.enabled = false;
         //retryScene.enabled = false;
         //qualityText.enabled = false;
@@ -97,7 +123,7 @@ public class Polishing : MonoBehaviour {
     }
 
     private void ObjectColourLerp() {
-        gemObject.GetComponent<Renderer>().material.color = Color.Lerp(colourStart, ColourEnd, (numberOfSwipes + 1) / (timeLimit * 10));
+        //gemObject.GetComponent<Renderer>().material.color = Color.Lerp(colourStart, ColourEnd, (numberOfSwipes + 1) / (timeLimit * 10));
     }
 
     private void GetInput() {
