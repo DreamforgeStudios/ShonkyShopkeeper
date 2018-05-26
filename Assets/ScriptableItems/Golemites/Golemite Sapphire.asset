@@ -17,3 +17,4 @@ MonoBehaviour:
   stackLimit: 1
   mergeable: 0
   type: 2
+  basePrice: 50
