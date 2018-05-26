@@ -9,4 +9,7 @@ public static class DataTransfer {
 	public static Sprite currentSprite;
     //For sending golems to bidding
     public static int shonkyIndex;
+
+    //For remembering the last camera rotation (only need x rotation);
+    public static float cameraRot = 9;
 }

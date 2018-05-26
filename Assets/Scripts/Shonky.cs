@@ -6,7 +6,7 @@ using UnityEngine;
 public class Shonky : Item {
     //public Quality.QualityGrade quality;
     public GemType type;
-
+    public float basePrice;
     public string ItemName() {
         return "Shonky";
     }

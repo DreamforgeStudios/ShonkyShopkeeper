@@ -13,6 +13,10 @@ public class CameraTap : MonoBehaviour {
 	private Vector3 bottomScreenRotationImg = new Vector3(0, 0, -180);//Quaternion.Euler(0, 0, 180);
 	public Image img;
 
+    public void Awake() {
+        
+    }
+
     public void RotateCamera() {
         if (topScreen) {
             transform.DORotate(bottomScreenRotation, 0.4f).SetEase(Ease.InOutSine);
