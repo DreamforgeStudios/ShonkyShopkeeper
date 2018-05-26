@@ -36,10 +36,6 @@ public class Tracing : MonoBehaviour {
     public GameObject Button1Group;
     public GameObject Button2Group;
 
-    //UI Feedback
-    public Image FeedbackHolder;
-    public Sprite good;
-
     //Misc Variables
     private int zero = 0;
     private bool canTrace = false;
@@ -106,7 +102,6 @@ public class Tracing : MonoBehaviour {
         score = 0;
         accuracyScore = 0;
         totalDistanceAway = 0;
-        FeedbackHolder.enabled = false;
     }
 
     // Update is called once per frame
@@ -169,7 +164,6 @@ public class Tracing : MonoBehaviour {
             isMouseDown = true;
             mouseDownTime = Time.time;
             numberOfTouches++;
-            FeedbackHolder.enabled = false;
             if (!startTimer) {
                 startTime = Time.time;
                 finishTime = currentTime + timeLimit;
@@ -180,8 +174,6 @@ public class Tracing : MonoBehaviour {
         if (Input.GetMouseButtonUp(0)) {
             isMouseDown = false;
             followSphere.SetActive(false);
-            if (numberOfTouches == 1)
-                GiveFeedback();
             if (numberOfTouches >= 3) {
                 ResetOptimalPoints();
             }
@@ -226,7 +218,7 @@ public class Tracing : MonoBehaviour {
         qualityText.color = Quality.GradeToColor(grade);
         qualityText.gameObject.SetActive(true);
         qualityBar.Disappear();
-
+        ResetOptimalPoints();
         Button1Group.SetActive(true);
         Button2Group.SetActive(true);
 
@@ -362,13 +354,7 @@ public class Tracing : MonoBehaviour {
             qualityBar.Subtract(totalDistanceAway / hitPoints);
         }
     }
-    private void GiveFeedback() {
-        int hits = followSphere.GetComponent<TracingColliding>().counter;
-        if (hits == 0) {
-            FeedbackHolder.enabled = true;
-            FeedbackHolder.sprite = good;
-        }
-    }
+
     private void ResetOptimalPoints() {
         hitPoints = 0;
         lineRenderer.positionCount = 0;

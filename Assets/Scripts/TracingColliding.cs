@@ -5,16 +5,24 @@ using UnityEngine.UI;
 
 public class TracingColliding : MonoBehaviour {
     public int counter = 0;
-    public GameObject colliderHit;
-    public Image holder;
-    public Sprite bad;
+    public GameObject badFeedback;
+
+    //Need time variables so crosses aren't spammed and kill the game.
+    private float cooldown = 1f;
+    private float nextTime;
+    public void Awake() {
+        nextTime = Time.time;
+    }
+    
     private void OnCollisionEnter(Collision collision) {
         if (collision.gameObject.tag == "TracingCollider") {
             counter++;
-            Instantiate(colliderHit, this.transform.position,this.transform.rotation);
-                holder.enabled = true;
-                holder.sprite = bad;
-           
+            if (Time.time > nextTime) {
+                Vector3 newPos = transform.position;
+                newPos.z += 1;
+                Instantiate(badFeedback, newPos, badFeedback.transform.rotation);
+                nextTime = Time.time + cooldown;
+            }
         }
     }
 
