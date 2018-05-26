@@ -42,35 +42,21 @@ public class PhysicalInventory : MonoBehaviour {
 		}
 	}
 
+	public void Clear() {
+		for (int i = 0; i < inventorySlots.Count; i++) {
+			inventorySlots[i].RemoveItem();
+		}
+	}
+
 	public Slot GetSlotAtIndex(int index) {
 		return inventorySlots[index];
 	}
 
-	/*
-	public void PopulateWithJunk(Inventory inventory) {
-        // Error.
-        //Debug.Log("generating inventory");
-		//Inventory.GenerateNewInventory();
-		//Debug.Log("Inventory: " + Inventory.ReturnInventory());
-		// Should return null.
-		//Debug.Log("Inventory[0,0]: " + Inventory.GetItem(0, 0));
-
-		
-		for (int i = 0; i < inventorySlots.Count; i++) {
-			Item.ItemType type = (Item.ItemType)Random.Range(0, 7);
-			Item.GemType gemType = Item.GemType.Ruby;
-			if (type == Item.ItemType.Gem || type == Item.ItemType.Jewel || type == Item.ItemType.ChargedJewel) {
-				gemType = (Item.GemType)Random.Range(1, 5);
-				//item = new Gem(gemType);
-			} else {
-				//item = new Brick(Quality.QualityGrade.Passable);
-			}
-
-			//inventory.AddItem(item);
-		}
-
-		Populate();
-		
+	public void LoadDefaultInventory() {
+		SaveManager save = ScriptableObject.CreateInstance<SaveManager>();
+		save.LoadFromTemplate(defaultInventory);
+		Clear();
+		PopulateInitial();
 	}
-		*/
+
 }

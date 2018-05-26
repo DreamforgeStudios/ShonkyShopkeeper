@@ -1083,7 +1083,7 @@ MonoBehaviour:
   m_firstVisibleCharacter: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: -101.20017, w: 0}
   m_textInfo:
     textComponent: {fileID: 1005439412}
     characterCount: 9
@@ -2474,6 +2474,11 @@ MonoBehaviour:
   offerMultiplier: 50
   shoveMultiplier: 400
   personality: {fileID: 11400000, guid: 45d053d726ef6934f828da577048b578, type: 2}
+  shonky:
+    item: {fileID: 0}
+    quantity: 0
+    quality: 0
+    isNew: 0
 --- !u!114 &2004016619
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2490,9 +2495,9 @@ MonoBehaviour:
   txtDialogue: {fileID: 1526281721}
   wizardSprite: {fileID: 1987361857}
   dragMultiplier: 0.5
-  dragVelocityMultiplier: 0.15
+  dragVelocityMultiplier: 10
   priceChangeMultiplier: 1
-  dragTimeMultiplier: 1.3
+  dragTimeMultiplier: 0.6
   ease: 21
   fPrice: 100
 --- !u!1 &2011921728

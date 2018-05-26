@@ -48,16 +48,33 @@ public class Barter : MonoBehaviour {
     // Keep track of the NPC personality so that we can trigger events for them (shake, talk, etc).
     public Personality personality;
 
+    public ItemInstance shonky;
+
     // Use this for initialization
     void Start () {
         //this.currentMaxPrice = this.initialMaxPrice;
         //this.currentOffer = this.initialOffer;
+        if (DataTransfer.shonkyIndex >= 0) {
+            ItemInstance tmp;
+            if (ShonkyInventory.Instance.GetItem(DataTransfer.shonkyIndex, out tmp)) {
+                shonky = tmp;
+            }
+        } else {
+            Debug.Log("No shonky found, using default value.");
+            manager.SetBasePrice(150);
+        }
+
         if (DataTransfer.currentPersonality) {
-            this.personality = DataTransfer.currentPersonality;
-            this.personality.InfluencePersonality(Quality.QualityGrade.Mystic);
+            this.personality = Instantiate(DataTransfer.currentPersonality);
+            // TODO: messy code.
+            manager.SetBasePrice((shonky.item as Shonky).basePrice);
+            this.personality.InfluencePersonality(shonky.quality, (shonky.item as Shonky).basePrice);
             LoadPersonality();
         } else {
             Debug.Log("No personality found, using default values.");
+            this.personality = Instantiate(this.personality);
+            this.personality.InfluencePersonality(Quality.QualityGrade.Sturdy, 150);
+            LoadPersonality();
         }
 	}
 
@@ -73,7 +90,7 @@ public class Barter : MonoBehaviour {
             return false;
         }
 
-
+        Debug.Log("offer: " + offer);
         // Calculate chance of accepting the players offer.
         float acceptRange = this.currentMaxPrice - this.wantsItem;
         float acceptRatio = (offer - this.wantsItem) / acceptRange;

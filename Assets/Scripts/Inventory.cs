@@ -52,17 +52,15 @@ public class Inventory : ScriptableObject {
     // Not used in vertical slice.
     // public int drawers;
 
-    public void OnEnable() {
-        SaveManager save = CreateInstance<SaveManager>();
-        save.SaveInventory();
-    }
     public void AddGold(int amount) {
         goldCount += amount;
+        Save();
     }
 
     public bool RemoveGold(int amount) {
         if (goldCount - amount >= 0) {
             goldCount -= amount;
+            Save();
             return true;
         }
 
@@ -85,6 +83,7 @@ public class Inventory : ScriptableObject {
     public bool RemoveItem(int index) {
         if (!SlotEmpty(index)) {
             inventory[index] = empty;
+            Save();
             return true;
         }
 
@@ -96,8 +95,9 @@ public class Inventory : ScriptableObject {
     public int InsertItem(ItemInstance item) {
         for (int i = 0; i < inventory.Length; i++) {
             if (SlotEmpty(i) || PossibleEmpties(i)) {
+                //Debug.Log("Inserted at slot " + i);
                 inventory[i] = item;
-                Debug.Log("Inserted at slot " + i);
+                Save();
                 return i;
             }
         }
@@ -115,6 +115,7 @@ public class Inventory : ScriptableObject {
         ItemInstance temp = inventory[index1];
         inventory[index1] = inventory[index2];
         inventory[index2] = temp;
+        Save();
 
         return true;
     }
@@ -125,6 +126,7 @@ public class Inventory : ScriptableObject {
             ItemInstance temp = inventory[currentIndex];
             inventory[currentIndex] = null;
             inventory[indexToBePlaced] = temp;
+            Save();
             return true;
         } else {
             return false;
@@ -143,5 +145,11 @@ public class Inventory : ScriptableObject {
             return true;
         else
             return false;
+    }
+
+    // Simply save.
+    private void Save() {
+        SaveManager save = CreateInstance<SaveManager>();
+        save.SaveInventory();
     }
 }

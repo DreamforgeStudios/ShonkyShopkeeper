@@ -85,8 +85,6 @@ public class Toolbox : MonoBehaviour {
         }
     }
 
-
-
     // Get the gameobject for a specific tool.
     private GameObject ToolToObject(Tool tool) {
         switch (tool) {
@@ -463,7 +461,6 @@ public class Toolbox : MonoBehaviour {
         slot.RemoveItem();
         //reset selection
         currentSelection = null;
-
     }
     //Method used to find the gem type selected
     private string FindGemType(Slot slot1, Slot slot2) {

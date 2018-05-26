@@ -49,8 +49,8 @@ MonoBehaviour:
     m_RotationOrder: 0
   wantsItem: 1
   initialMaxPrice: 1.5
-  absoluteMaxPrice: 1.7
-  initialOffer: 0.8
+  absoluteMaxPrice: 2
+  initialOffer: 0.75
   overflowStep: 0.15
   absoluteOverflowStep: 0.2
   acceptLines:

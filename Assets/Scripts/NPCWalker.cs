@@ -7,6 +7,8 @@ public class NPCWalker : MonoBehaviour {
 	// TODO: random walk speed variance?
 	public float walkSpeed;
 
+	public Personality personality;
+
 	private bool enteredScreen = false;
 
 	// Use this for initialization

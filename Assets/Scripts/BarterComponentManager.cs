@@ -20,7 +20,9 @@ public class BarterComponentManager : MonoBehaviour {
     public Ease ease;
 
     private float dx = 0f;
+    // So that fPrice can be accessed from barter.
     public float fPrice = 100f;
+    private float basePrice;
     private int iPrice = 100;
 
     private float prevXPos = 0f;
@@ -34,7 +36,11 @@ public class BarterComponentManager : MonoBehaviour {
         this.prevXPos = this.background.transform.position.x;
         this.backgroundMat = background.GetComponent<MeshRenderer>().material;
         this.offset = new Vector2(0, 0);
-        this.wizardSprite.sprite = DataTransfer.currentSprite;
+        if (DataTransfer.currentSprite) {
+            this.wizardSprite.sprite = DataTransfer.currentSprite;
+        } else {
+            Debug.Log("Couldn't find a sprite, will use default.");
+        }
 	}
 	
 	// Update is called once per frame
@@ -75,7 +81,7 @@ public class BarterComponentManager : MonoBehaviour {
 		} else if (touch.phase == TouchPhase.Ended || touch.phase == TouchPhase.Canceled) {
             OnUp();
 		} else {
-            OnHold(touch.deltaPosition.x);
+            OnHold(-touch.deltaPosition.x);
 		}
     }
 
@@ -126,10 +132,10 @@ public class BarterComponentManager : MonoBehaviour {
 		if (!wheelActive) return;
 
         // Tween the price ticker.
-		DOTween.To(() => fPrice, x => fPrice = x, fPrice + (dx * (dragVelocityMultiplier/100f)), (dx * dragTimeMultiplier)/100f).SetEase(ease);
+		DOTween.To(() => fPrice, x => fPrice = x, fPrice + (dx * (dragVelocityMultiplier/100f)), (Mathf.Abs(dx) * dragTimeMultiplier)/100f).SetEase(ease);
 
         //TODO: don't kick in until later.
-        backgroundMat.DOOffset(new Vector2(offset.x + (dx * dragVelocityMultiplier), 0),
+        backgroundMat.DOOffset(new Vector2(offset.x + (dx * dragVelocityMultiplier/100f), 0),
             (Mathf.Abs(dx) * dragTimeMultiplier) / 100f).SetEase(ease);
     }
 
@@ -145,11 +151,22 @@ public class BarterComponentManager : MonoBehaviour {
             // Complete current tween.
 		    txtPrice.transform.DOComplete();
             // Shake the text to indicate a tick.
-		    txtPrice.transform.DOPunchRotation(Vector3.forward * 15, 0.4f, 18);
+		    txtPrice.transform.DOPunchRotation(Vector3.forward * 10, 0.4f, 18);
         }
 
         iPrice = newPrice;
 
-		txtPrice.text = iPrice.ToString();
+        float profit = (fPrice / basePrice) - 1f;
+        string colorstring = "";
+        if (profit < 0) {
+            colorstring = "<color=red>";
+        } else {
+            colorstring = "<color=green>+";
+        }
+		txtPrice.text = iPrice.ToString() + colorstring + profit.ToString("#0.##%") + "</color>";
 	}
+
+    public void SetBasePrice(float price) {
+        this.basePrice = price;
+    }
 }
