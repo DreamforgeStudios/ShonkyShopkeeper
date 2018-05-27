@@ -245,11 +245,11 @@ MonoBehaviour:
     lineCount: 1
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 0
+  m_havePropertiesChanged: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 0
+  m_isInputParsingRequired: 1
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
@@ -671,15 +671,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4256783036899924, guid: 8f199f48a5e1914458b413a3f44fd618, type: 2}
       propertyPath: m_LocalScale.x
-      value: 200
+      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 4256783036899924, guid: 8f199f48a5e1914458b413a3f44fd618, type: 2}
       propertyPath: m_LocalScale.y
-      value: 200
+      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 4256783036899924, guid: 8f199f48a5e1914458b413a3f44fd618, type: 2}
       propertyPath: m_LocalScale.z
-      value: 200
+      value: 250
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8f199f48a5e1914458b413a3f44fd618, type: 2}
@@ -2415,7 +2415,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 731114129
+  randomSeed: -1467105004
   InitialModule:
     serializedVersion: 3
     enabled: 1

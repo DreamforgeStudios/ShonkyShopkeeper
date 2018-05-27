@@ -101,8 +101,8 @@ public class Cutting : MonoBehaviour {
 	private void SpawnCut(Vector3 origin, Vector3 cut) {
 		// Instantiate cut at point.
 		currentCutPoint = Instantiate(cutIndicator, origin, Quaternion.identity);
-		CutPoint point = currentCutPoint.GetComponent<CutPoint>();
-		point.SetCutVector(cut);
+		//CutPoint point = currentCutPoint.GetComponent<CutPoint>();
+		//point.SetCutVector(cut);
 	}
 	
 	// Update is called once per frame
@@ -173,6 +173,11 @@ public class Cutting : MonoBehaviour {
 			holding = true;
 			swipeTime = 0;
 			touchOrigin = ConvertToWorldPoint(Input.mousePosition);
+			if (currentIndex >= cutVectors.Length) {
+				return;
+			}
+			CutPoint cut = currentCutPoint.GetComponent<CutPoint>();
+			cut.SetCutVector(cutVectors[currentIndex]);
         }
 
 		if (Input.GetMouseButtonUp(0)) {

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.45125252, g: 0.50095254, b: 0.5734776, a: 1}
+  m_IndirectSpecularColor: {r: 0.45125282, g: 0.50095284, b: 0.57347816, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -1297,8 +1297,8 @@ MonoBehaviour:
   textItem: {fileID: 904825640}
   golumContainer: {fileID: 400949932}
   shonkyList:
-  - {fileID: 1168060328137352, guid: c312490aa91312e4ab16b8296c5d4780, type: 2}
   - {fileID: 1225479041669926, guid: ad6da3f94664cf84fb2227c1887abb0f, type: 2}
+  - {fileID: 1168060328137352, guid: c312490aa91312e4ab16b8296c5d4780, type: 2}
   currentIndex: 0
 --- !u!1 &2127195005
 GameObject:
