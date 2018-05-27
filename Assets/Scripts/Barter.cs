@@ -60,6 +60,7 @@ public class Barter : MonoBehaviour {
         } else {
             Debug.Log("No shonky found, using default value.");
             manager.SetBasePrice(150);
+            manager.shonkyInstance = new ItemInstance(ScriptableObject.CreateInstance(typeof(Shonky)) as Item, 1, Quality.QualityGrade.Sturdy, false);
         }
 
         if (DataTransfer.currentPersonality) {

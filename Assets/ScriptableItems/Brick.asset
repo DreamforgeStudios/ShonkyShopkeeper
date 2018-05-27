@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: Brick
   m_EditorClassIdentifier: 
   itemName: Brick
-  physicalRepresentation: {fileID: 1828467309659676, guid: 2068fa1abc4c4cd4ea5735da706b1889,
+  physicalRepresentation: {fileID: 1727208476097196, guid: 2f6cd2aee1648bb40a89a40f322d23f7,
     type: 2}
   stackLimit: 1
   mergeable: 0

@@ -8,6 +8,7 @@ public class BarterComponentManager : MonoBehaviour {
     public GameObject background;
     private Material backgroundMat;
     public TextMeshProUGUI txtPrice;
+    public GameObject priceHolder;
     public TextMeshProUGUI txtDialogue;
     public SpriteRenderer wizardSprite;
     public TextMeshProUGUI infoText;
@@ -47,7 +48,6 @@ public class BarterComponentManager : MonoBehaviour {
 
         string grade = Quality.GradeToString(shonkyInstance.quality);
         string gradeCol = "#" + ColorUtility.ToHtmlStringRGB(Quality.GradeToColor(shonkyInstance.quality));
-        Debug.Log((shonkyInstance.item as Shonky).basePrice);
         string str = string.Format("Base Price: <color=white>{0}</color>\n" +
                                    "Quality: <color={1}>{2}</color>\n", (shonkyInstance.item as Shonky).basePrice, gradeCol, grade);
         infoText.text = str;
@@ -161,9 +161,9 @@ public class BarterComponentManager : MonoBehaviour {
         int newPrice = (int)fPrice;
         if (newPrice != iPrice) {
             // Complete current tween.
-		    txtPrice.transform.DOComplete();
+		    priceHolder.transform.DOComplete();
             // Shake the text to indicate a tick.
-		    txtPrice.transform.DOPunchRotation(Vector3.forward * 10, 0.4f, 18);
+		    priceHolder.transform.DOPunchRotation(Vector3.forward * 6, 0.4f, 18);
         }
 
         iPrice = newPrice;
