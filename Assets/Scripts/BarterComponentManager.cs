@@ -10,6 +10,9 @@ public class BarterComponentManager : MonoBehaviour {
     public TextMeshProUGUI txtPrice;
     public TextMeshProUGUI txtDialogue;
     public SpriteRenderer wizardSprite;
+    public TextMeshProUGUI infoText;
+    public ItemInstance shonkyInstance;
+    //public GameObject shonkyPrefab;
     //public Text txtDebug;
     //private float prevPlayerOffer; // debug.
 
@@ -41,6 +44,15 @@ public class BarterComponentManager : MonoBehaviour {
         } else {
             Debug.Log("Couldn't find a sprite, will use default.");
         }
+
+        string grade = Quality.GradeToString(shonkyInstance.quality);
+        string gradeCol = "#" + ColorUtility.ToHtmlStringRGB(Quality.GradeToColor(shonkyInstance.quality));
+        Debug.Log((shonkyInstance.item as Shonky).basePrice);
+        string str = string.Format("Base Price: <color=white>{0}</color>\n" +
+                                   "Quality: <color={1}>{2}</color>\n", (shonkyInstance.item as Shonky).basePrice, gradeCol, grade);
+        infoText.text = str;
+
+        //Instantiate(shonkyPrefab, Vector3.zero, Quaternion.identity).transform.SetParent(backingPlate.transform);
 	}
 	
 	// Update is called once per frame
@@ -163,7 +175,7 @@ public class BarterComponentManager : MonoBehaviour {
         } else {
             colorstring = "<color=green>+";
         }
-		txtPrice.text = iPrice.ToString() + colorstring + profit.ToString("#0.##%") + "</color>";
+		txtPrice.text = iPrice.ToString() + colorstring + profit.ToString("#0.#%") + "</color>";
 	}
 
     public void SetBasePrice(float price) {

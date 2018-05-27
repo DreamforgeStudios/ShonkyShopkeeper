@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Name: Sapphire
   m_EditorClassIdentifier: 
   itemName: Sapphire
-  physicalRepresentation: {fileID: 100000, guid: 23eac26d2a7b7494e916b076f2da2047,
-    type: 3}
+  physicalRepresentation: {fileID: 1747987567064450, guid: 3dd1e9269e2c329408325464afc2f238,
+    type: 2}
   stackLimit: 1
   mergeable: 0
   gemType: 2

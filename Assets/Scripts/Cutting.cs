@@ -244,6 +244,7 @@ public class Cutting : MonoBehaviour {
 		gradeText.gameObject.SetActive(true);
 
         // TODO: back to shop button needs to change to facilitate restarting games.
+		grade = Quality.CalculateCombinedQuality(DataTransfer.currentQuality, grade);
         Inventory.Instance.InsertItem(new ItemInstance(db.GetActual("Cut " + DataTransfer.GemType), 1, grade, true));
 
 		ShowUIButtons();

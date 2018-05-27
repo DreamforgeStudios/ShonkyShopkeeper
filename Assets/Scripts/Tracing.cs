@@ -223,10 +223,8 @@ public class Tracing : MonoBehaviour {
         Button2Group.SetActive(true);
 
         // TODO: back to shop button needs to change to facilitate restarting games.
+		grade = Quality.CalculateCombinedQuality(DataTransfer.currentQuality, grade);
         Inventory.Instance.InsertItem(new ItemInstance(db.GetActual("Shell"), 1, grade, true));
-		SaveManager save = ScriptableObject.CreateInstance<SaveManager>();
-		save.SaveInventory();
-        //this.GetComponent<UISliderAndBehaviour>().QualityText();
     }
 
     private void DetermineQuality(float finalScore) {
