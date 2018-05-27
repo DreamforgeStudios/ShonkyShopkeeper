@@ -98,7 +98,6 @@ public class QualityBar : MonoBehaviour {
 	}
 
 	public void Subtract(float amount) {
-		Debug.Log("subtracting: " + amount);
 		fillAmount -= amount;
 		if (fillAmount <= 0) {
 			if (!MoveDownQualityLevel(-fillAmount)) {

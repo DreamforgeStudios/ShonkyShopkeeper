@@ -50,7 +50,34 @@ public class Barter : MonoBehaviour {
 
     public ItemInstance shonky;
 
+    void Awake() {
+        if (DataTransfer.shonkyIndex >= 0) {
+            ItemInstance tmp;
+            if (ShonkyInventory.Instance.GetItem(DataTransfer.shonkyIndex, out tmp)) {
+                shonky = tmp;
+                manager.shonkyInstance = shonky;
+            }
+        } else {
+            Debug.Log("No shonky found, using default value.");
+            manager.SetBasePrice(150);
+        }
+
+        if (DataTransfer.currentPersonality) {
+            this.personality = Instantiate(DataTransfer.currentPersonality);
+            // TODO: messy code.
+            manager.SetBasePrice((shonky.item as Shonky).basePrice);
+            this.personality.InfluencePersonality(shonky.quality, (shonky.item as Shonky).basePrice);
+            LoadPersonality();
+        } else {
+            Debug.Log("No personality found, using default values.");
+            this.personality = Instantiate(this.personality);
+            this.personality.InfluencePersonality(Quality.QualityGrade.Sturdy, 150);
+            LoadPersonality();
+        }
+    }
+
     // Use this for initialization
+    /*
     void Start () {
         //this.currentMaxPrice = this.initialMaxPrice;
         //this.currentOffer = this.initialOffer;
@@ -58,6 +85,7 @@ public class Barter : MonoBehaviour {
             ItemInstance tmp;
             if (ShonkyInventory.Instance.GetItem(DataTransfer.shonkyIndex, out tmp)) {
                 shonky = tmp;
+                manager.shonkyInstance = shonky;
             }
         } else {
             Debug.Log("No shonky found, using default value.");
@@ -77,6 +105,7 @@ public class Barter : MonoBehaviour {
             LoadPersonality();
         }
 	}
+    */
 
     // Consider the player's offer and offer a counter.  Returns true if bidding should continue, or false if not.
     // Counter offer is stored in "counter" parameter.  If the counter offer is 0, then the NPC is fed up.
@@ -90,19 +119,19 @@ public class Barter : MonoBehaviour {
             return false;
         }
 
-        Debug.Log("offer: " + offer);
+        //Debug.Log("offer: " + offer);
         // Calculate chance of accepting the players offer.
         float acceptRange = this.currentMaxPrice - this.wantsItem;
         float acceptRatio = (offer - this.wantsItem) / acceptRange;
         float acceptLerp = Mathf.Clamp01(acceptRatio);
         float acceptChance = 1f - this.acceptGradient.Evaluate(acceptLerp);
-        Debug.Log("Evaluated an acceptance chance of: " + acceptChance*100f + "%");
+        //Debug.Log("Evaluated an acceptance chance of: " + acceptChance*100f + "%");
 
         float rejectRange = this.absoluteMaxPrice - this.currentMaxPrice;
         float rejectRatio = (this.absoluteMaxPrice - offer) / rejectRange;
         float rejectLerp = Mathf.Clamp01(rejectRatio);
         float rejectChance = 1f - this.acceptGradient.Evaluate(rejectLerp);
-        Debug.Log("Evaluated a rejectance chance of: " + rejectChance*100f + "%");
+        //Debug.Log("Evaluated a rejectance chance of: " + rejectChance*100f + "%");
 
 
         float rand = Random.value;
@@ -127,7 +156,7 @@ public class Barter : MonoBehaviour {
                 change = (this.currentOffer / offer) * (offer - this.currentOffer);
             }
 
-            Debug.Log("Change (offer increasing by:): " + change);
+            //Debug.Log("Change (offer increasing by:): " + change);
             this.currentOffer += change;
             this.currentMaxPrice -= this.overflowStep;
             this.absoluteMaxPrice -= this.absoluteOverflowStep;
@@ -136,7 +165,7 @@ public class Barter : MonoBehaviour {
             manager.WizardSpeak(personality.TalkCounter(acceptChance));
 
             // Shove the slider to give some feedback on the offer.
-            Debug.Log("Should shove the slider back " + (manager.fPrice - this.currentOffer) + " points.");
+            //Debug.Log("Should shove the slider back " + (manager.fPrice - this.currentOffer) + " points.");
             manager.MoveSliderBack(manager.fPrice - this.currentOffer);
             counter = this.currentOffer;
 
@@ -166,6 +195,7 @@ public class Barter : MonoBehaviour {
         } else if (!cont) {
             this.deal.SetActive(true);
             this.offerButton.interactable = false;
+            Inventory.Instance.AddGold((int)offer);
             ShowUIButtons();
         // NPC has countered.
         } else {
@@ -187,6 +217,7 @@ public class Barter : MonoBehaviour {
         this.deal.SetActive(true);
         manager.WizardPunch(0.1f, 0.5f);
         manager.WizardSpeak(personality.TalkAccept(1f));
+        Inventory.Instance.AddGold((int)manager.fPrice);
         ShowUIButtons();
     }
 

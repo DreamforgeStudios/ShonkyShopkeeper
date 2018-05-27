@@ -21,35 +21,35 @@ MonoBehaviour:
     quantity: 1
     quality: 6
     isNew: 0
-  - item: {fileID: 11400000, guid: 1b4a10b143b084341998e3cea3b31641, type: 2}
+  - item: {fileID: 11400000, guid: dd8b52de8fe892b4a96a85b4ada8271d, type: 2}
     quantity: 1
-    quality: 4
-    isNew: 1
-  - item: {fileID: 11400000, guid: 65f7ead0c273870429bc3d08502b00a9, type: 2}
-    quantity: 1
-    quality: 0
+    quality: 6
     isNew: 0
-  - item: {fileID: 11400000, guid: 7238baafcaed55e4eb8d9f8974d86dbf, type: 2}
+  - item: {fileID: 11400000, guid: a91967472be880b4fafa3391827a24e5, type: 2}
     quantity: 1
-    quality: 2
+    quality: 6
+    isNew: 0
+  - item: {fileID: 11400000, guid: 824c07325a1c4b44e9dc482afe7ff690, type: 2}
+    quantity: 1
+    quality: 6
     isNew: 0
   - item: {fileID: 11400000, guid: 0a38a434ad46eb4498786bb9801652cd, type: 2}
     quantity: 1
     quality: 6
     isNew: 0
-  - item: {fileID: 11400000, guid: 3e6ec106f10778c41a12a69097793763, type: 2}
-    quantity: 0
-    quality: 0
-    isNew: 0
-  - item: {fileID: 11400000, guid: a91967472be880b4fafa3391827a24e5, type: 2}
+  - item: {fileID: 11400000, guid: 0a38a434ad46eb4498786bb9801652cd, type: 2}
     quantity: 0
     quality: 6
     isNew: 0
-  - item: {fileID: 11400000, guid: dd8b52de8fe892b4a96a85b4ada8271d, type: 2}
-    quantity: 1
-    quality: 0
+  - item: {fileID: 11400000, guid: 0a38a434ad46eb4498786bb9801652cd, type: 2}
+    quantity: 0
+    quality: 6
     isNew: 0
-  - item: {fileID: 11400000, guid: dd8b52de8fe892b4a96a85b4ada8271d, type: 2}
+  - item: {fileID: 11400000, guid: 0a38a434ad46eb4498786bb9801652cd, type: 2}
+    quantity: 1
+    quality: 6
+    isNew: 0
+  - item: {fileID: 11400000, guid: 0a38a434ad46eb4498786bb9801652cd, type: 2}
     quantity: 0
     quality: 6
     isNew: 0
