@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: Ore
   m_EditorClassIdentifier: 
   itemName: Ore
-  physicalRepresentation: {fileID: 1873566954926214, guid: beb1809ddac7e274397f8b212e968c73,
+  physicalRepresentation: {fileID: 1831053036439068, guid: 2378851c85ab8cd46b0bec1097bc5364,
     type: 2}
   stackLimit: 3
   mergeable: 0
