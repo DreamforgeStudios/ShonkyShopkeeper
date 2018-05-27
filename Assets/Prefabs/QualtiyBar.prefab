@@ -93,8 +93,10 @@ MonoBehaviour:
   background: {fileID: 1624039356736244}
   foreground: {fileID: 1873422786221752}
   padding: 4
-  tickSubtraction: 0.125
+  tickSubtraction: 0
   ease: 27
+  source: {fileID: 0}
+  sound: {fileID: 8300000, guid: 8e82138200cf4bd46b2eefb7dfffe0e2, type: 3}
   debug: 0
   speedMult: 0
 --- !u!114 &114454680915933384
@@ -336,7 +338,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -204.6}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224892610152332782

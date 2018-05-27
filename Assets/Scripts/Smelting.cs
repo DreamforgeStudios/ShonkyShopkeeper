@@ -59,6 +59,13 @@ public class Smelting : MonoBehaviour {
     public GameObject nextScene;
     public GameObject retryScene;
 
+    //Audio GameObject and relevant objects
+    public GameObject audio;
+    private AudioSource fire;
+    private AudioSource SFX;
+    private AudioClip buttonHit;
+    private AudioClip qualityBarReduce;
+
     //Particle System
     public ParticleSystem particle;
     public int amountOfParticles = 5;
@@ -80,6 +87,7 @@ public class Smelting : MonoBehaviour {
     }
 
 	void Start () {
+        SetupAudio();
 		rb = GetComponent<Rigidbody>();
         //transform.eulerAngles = new Vector3(0, 0, 354);
 		prevRotation = transform.eulerAngles;
@@ -193,6 +201,14 @@ public class Smelting : MonoBehaviour {
         qualityBar.SetFixedSubtraction(closenessCurve.Evaluate(closeness));
     }
 
+    private void SetupAudio() {
+        fire = audio.GetComponent<SmeltingAudio>().fire;
+        SFX = audio.GetComponent<SmeltingAudio>().effects;
+        qualityBarReduce = audio.GetComponent<SmeltingAudio>().qualityBar;
+        buttonHit = audio.GetComponent<SmeltingAudio>().buttonSound;
+        fire.clip = audio.GetComponent<SmeltingAudio>().fireSound;
+        fire.Play();
+    }
     /*
 	private void UpdateTimer() {
 		float closeness = 1 - Mathf.Abs(transform.eulerAngles.z - successPoint) / successRange;
@@ -232,6 +248,8 @@ public class Smelting : MonoBehaviour {
 
 	public void Stow() {
         float amountToStow = accelerationCurve.Evaluate(heldTime);
+        SFX.clip = buttonHit;
+        SFX.Play();
         particle.Emit((int)(amountToStow * amountOfParticles));
         
         rb.AddTorque(0, 0, -tapForce * amountToStow);

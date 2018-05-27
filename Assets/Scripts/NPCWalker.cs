@@ -14,17 +14,21 @@ public class NPCWalker : MonoBehaviour {
 
 	private bool enteredScreen = false;
 
+    //Variables for walking animation and going to shop front when clicked
     private bool walkCycle = false;
+    public bool walkNormal = true;
 
 	// Use this for initialization
 	void Start () {
         wizard = GetComponent<SpriteRenderer>();
 		InvokeRepeating("TestAndDestroy", 2f, 2f);
+        walkNormal = true;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		transform.position += new Vector3(walkDirection * walkSpeed * Time.deltaTime, 0, 0);
+        if (walkNormal)
+		    transform.position += new Vector3(walkDirection * walkSpeed * Time.deltaTime, 0, 0);
 
         if (!walkCycle)
             WizardPunch(0.1f, 0.5f);
