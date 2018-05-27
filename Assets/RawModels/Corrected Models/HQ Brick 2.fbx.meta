@@ -1,26 +1,15 @@
 fileFormatVersion: 2
-guid: b410b067646f4b44f99f9b3796668f0e
+guid: 50c7c736e33715040ba02d8220072225
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
     100000: //RootNode
     400000: //RootNode
-    2100000: lambert3SG.001
-    2100002: lambert8SG
+    2100000: Good_Brick
     2300000: //RootNode
     3300000: //RootNode
-    4300000: Sapphire_Golem1_sapphire.001
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: lambert3SG.001
-    second: {fileID: 2100000, guid: 7048bff34b507bf47a1e4f83388a4ce7, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: lambert8SG
-    second: {fileID: 2100000, guid: 0d130f92cb84a0545a7a2fd3555b8816, type: 2}
+    4300000: pCube4
+  externalObjects: {}
   materials:
     importMaterials: 1
     materialName: 0
