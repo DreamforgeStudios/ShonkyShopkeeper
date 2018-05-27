@@ -50,6 +50,10 @@ public class Barter : MonoBehaviour {
 
     public ItemInstance shonky;
 
+    //Audio Variables
+    public AudioSource effects;
+    public AudioClip coins;
+
     void Awake() {
         if (DataTransfer.shonkyIndex >= 0) {
             ItemInstance tmp;
@@ -75,6 +79,8 @@ public class Barter : MonoBehaviour {
             this.personality.InfluencePersonality(Quality.QualityGrade.Sturdy, 150);
             LoadPersonality();
         }
+        //Set up audio clip
+        effects.clip = coins;
     }
 
     // Use this for initialization
@@ -197,6 +203,7 @@ public class Barter : MonoBehaviour {
             this.deal.SetActive(true);
             this.offerButton.interactable = false;
             Inventory.Instance.AddGold((int)offer);
+            effects.Play();
             ShowUIButtons();
         // NPC has countered.
         } else {

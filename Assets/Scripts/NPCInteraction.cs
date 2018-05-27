@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using DG.Tweening;
 
 public class NPCInteraction : MonoBehaviour {
 
@@ -11,10 +12,13 @@ public class NPCInteraction : MonoBehaviour {
     public float baseChanceOfApproach = 30.0f;
     private int numberOfInteractionsLately;
     public int maxInteractions = 5;
+    public GameObject shopFront;
+    private Vector3 shopFrontPos;
 
     //Variables related to numberOfInteractions
     private float nextResetTime;
     public float cooldown = 10.0f;
+
 
     private GameObject[] penShonkys;
     System.Random generator;
@@ -25,6 +29,7 @@ public class NPCInteraction : MonoBehaviour {
         penShonkys = GameObject.FindGameObjectsWithTag("Shonky");
         generator = new System.Random();
         nextResetTime = Time.time + cooldown;
+        shopFrontPos = shopFront.transform.position;
     }
 
     // Update is called once per frame
@@ -54,7 +59,8 @@ public class NPCInteraction : MonoBehaviour {
                     //Need to determine if the player has any shonkys and what indexes they are at
                     List<int> shonkyIndexes = ShonkyInventory.Instance.PopulatedShonkySlots();
                     //If they do, select a random one and pass to the barter screen
-                    if (shonkyIndexes.Count > 0) {
+                    Debug.Log(shonkyIndexes.Count);
+                    if (shonkyIndexes.Count >= 0) {
                         DataTransfer.currentSprite = hit.transform.GetComponent<SpriteRenderer>().sprite;
                         DataTransfer.currentPersonality = hit.transform.GetComponent<NPCWalker>().personality;
 
@@ -62,7 +68,11 @@ public class NPCInteraction : MonoBehaviour {
                         ItemInstance chosenShonky;
                         if (ShonkyInventory.Instance.GetItem(randomShonky, out chosenShonky)) {
                             DataTransfer.shonkyIndex = randomShonky;
-                            SceneManager.LoadScene("Barter");
+
+                            //Move NPC to shop front and initiate barter
+                            hit.transform.GetComponent<NPCWalker>().walkNormal = false;
+                            hit.transform.DOScale(1.2f, 2f);
+                            hit.transform.DOMove(shopFrontPos, 2f, false).OnComplete(() => SceneManager.LoadScene("Barter"));
                         }
                     }
                 }

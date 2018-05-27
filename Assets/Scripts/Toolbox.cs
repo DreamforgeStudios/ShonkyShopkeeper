@@ -37,6 +37,14 @@ public class Toolbox : MonoBehaviour {
     //private Inventory inventoryhelper;
     private Tool currentTool;
 
+    //Audio helpers
+    public GameObject audioManager;
+    private AudioSource soundEffects;
+    private AudioClip cursorSelect;
+    private AudioClip golumCreated;
+    private AudioClip itemLift;
+    private AudioClip itemDown;
+
     //Helpers to capture Items, transfoms, slot indexes, gameobjects, movement stages and instances when using forceps
     private Slot currentSelection = null;
     //private Slot secondSelection = null;
@@ -49,6 +57,7 @@ public class Toolbox : MonoBehaviour {
     void Start() {
         currentTool = Tool.Inspector;
         SwitchTool(Tool.Inspector);
+        SetUpAudio();
         //inventoryhelper = Inventory.Instance;
         //forcepPos = GameObject.FindGameObjectWithTag("forcep").transform.position;
         //wandPos = GameObject.FindGameObjectWithTag("wand").transform.position;
@@ -67,6 +76,13 @@ public class Toolbox : MonoBehaviour {
             ProcessTouch();
     }
 
+    private void SetUpAudio() {
+        soundEffects = audioManager.GetComponent<ShopAudioManager>().effects;
+        cursorSelect = audioManager.GetComponent<ShopAudioManager>().cursorSelect;
+        golumCreated = audioManager.GetComponent<ShopAudioManager>().golumCreated;
+        itemLift = audioManager.GetComponent<ShopAudioManager>().itemLift;
+        itemDown = audioManager.GetComponent<ShopAudioManager>().itemDown;
+    }
     private void ProcessMouse() {
         if (Input.GetMouseButtonDown(0)) {
             Cast();
@@ -104,6 +120,8 @@ public class Toolbox : MonoBehaviour {
         //Debug.Log("casting...");
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask)) {
             if (hit.transform.tag == "Forceps" || hit.transform.tag == "Wand" || hit.transform.tag == "Magnifyer") {
+                soundEffects.clip = cursorSelect;
+                soundEffects.Play();
                 switch (hit.transform.tag) {
                     case "Forceps": SwitchTool(Tool.Forceps); break;
                     case "Magnifyer": SwitchTool(Tool.Inspector); break;
@@ -210,6 +228,8 @@ public class Toolbox : MonoBehaviour {
                 // Animate using tween library -> see https://easings.net/ for some animaions to use.
                 GameObject itemObj;
                 if (slot.GetPrefabInstance(out itemObj)) {
+                    soundEffects.clip = itemLift;
+                    soundEffects.Play();
                     Transform t = itemObj.transform;
                     t.DOMove(slot.transform.position + (Vector3.up), 0.7f).SetEase(Ease.OutBack);
                 }
@@ -229,6 +249,8 @@ public class Toolbox : MonoBehaviour {
                 UnmarkNew();
             }
             gameObj.transform.DOMove(currentSelection.transform.position, 1f).SetEase(Ease.OutBounce);
+            soundEffects.clip = itemDown;
+            soundEffects.PlayDelayed(0.25f);
             currentSelection = null;
         }
     }
@@ -254,6 +276,8 @@ public class Toolbox : MonoBehaviour {
 
                 GameObject itemObj;
                 if (slot.GetPrefabInstance(out itemObj)) {
+                    soundEffects.clip = itemLift;
+                    soundEffects.Play();
                     Transform t = itemObj.transform;
                     t.DOMove(slot.transform.position + (Vector3.up), 0.7f).SetEase(Ease.OutBack);
                 }
@@ -265,6 +289,8 @@ public class Toolbox : MonoBehaviour {
                     Debug.Log("Same slot.");
                     GameObject obj;
                     if (currentSelection.GetPrefabInstance(out obj)) {
+                        soundEffects.clip = itemDown;
+                        soundEffects.Play();
                         obj.transform.DOMove(currentSelection.transform.position, 1f).SetEase(Ease.OutBounce);
                     }
 
@@ -288,15 +314,18 @@ public class Toolbox : MonoBehaviour {
 
                     Transform t1 = obj1.transform,
                               t2 = obj2.transform;
-
+                    soundEffects.clip = itemLift;
+                    soundEffects.Play();
+                    
                     t1.DOMove(slot1.transform.position + Vector3.up, 0.7f).SetEase(Ease.OutBack)
                         .OnComplete(() => t1.DOMove(slot2.transform.position + Vector3.up, 0.6f).SetEase(Ease.OutBack)
-                            .OnComplete(() => t1.DOMove(slot2.transform.position, 1f).SetEase(Ease.OutBounce).OnComplete(() => canSelect = true)));
+                            .OnComplete(() => t1.DOMove(slot2.transform.position, 1f).SetEase(Ease.OutBounce)));
 
                     t2.DOMove(slot2.transform.position + Vector3.up, 0.7f).SetEase(Ease.OutBack)
                         .OnComplete(() => t2.DOMove(slot1.transform.position + Vector3.up, 0.6f).SetEase(Ease.OutBack)
                             .OnComplete(() => t2.DOMove(slot1.transform.position, 1f).SetEase(Ease.OutBounce).OnComplete(() => canSelect = true)));
-
+                    soundEffects.clip = itemDown;
+                    soundEffects.PlayDelayed(1.5f);
                     ItemInstance inst1, inst2;
                     if (slot1.GetItemInstance(out inst1) && slot2.GetItemInstance(out inst2)) {
                         slot1.SetItemInstantiated(inst2, obj2);
@@ -316,9 +345,15 @@ public class Toolbox : MonoBehaviour {
                 Debug.Log("got prefabs and instances");
                 Transform t1 = obj1.transform;
                 //Debug.Log(inst2.item.name);
+                soundEffects.clip = itemLift;
+                soundEffects.Play();
+
                 t1.DOMove(currentSelection.transform.position + Vector3.up, 0.7f).SetEase(Ease.OutBack)
                        .OnComplete(() => t1.DOMove(slot.transform.position + Vector3.up, 0.6f).SetEase(Ease.OutBack)
                        .OnComplete(() => t1.DOMove(slot.transform.position, 1f).SetEase(Ease.OutBounce).OnComplete(() => canSelect = true)));
+
+                soundEffects.clip = itemDown;
+                soundEffects.PlayDelayed(1.5f);
                 slot.SetItemInstantiated(inst1, obj1);
                 currentSelection.SetItemInstantiated(inst2, obj2);
                 Inventory.Instance.SwapItem(currentSelection.index, slot.index);
@@ -391,7 +426,8 @@ public class Toolbox : MonoBehaviour {
                                         Transform t1 = obj1.transform;
                                         Transform t2 = obj2.transform;
                                         midPoint = ((t1.transform.position + t2.transform.position) / 2f);
-
+                                        soundEffects.clip = itemLift;
+                                        soundEffects.Play();
                                         t2.DOMove(slot.transform.position + Vector3.up, 0.7f).SetEase(Ease.OutBack);
 
                                         t1.DOMove(midPoint, 0.6f).SetEase(Ease.OutBack).OnComplete(() =>
@@ -422,6 +458,8 @@ public class Toolbox : MonoBehaviour {
 
     //Simple method to show current selection
     private void MoveUp(Slot slot) {
+        soundEffects.clip = itemLift;
+        soundEffects.Play();
         GameObject itemObj;
         if (slot.GetPrefabInstance(out itemObj)) {
             Transform t = itemObj.transform;
@@ -439,6 +477,8 @@ public class Toolbox : MonoBehaviour {
 
             Transform t = itemObj.transform;
             // Move and vibration for some "feedback".
+            soundEffects.clip = itemLift;
+            soundEffects.Play();
             t.DOMove(t.position + (Vector3.up), 0.7f).SetEase(Ease.OutBack)
                 .OnComplete(() => t.DOShakePosition(.5f, .5f, 100, 30f)
                     .OnComplete(() => asyncLoad.allowSceneActivation = true));
@@ -454,8 +494,10 @@ public class Toolbox : MonoBehaviour {
         index2 = slot.index;
         //Spawn a golem to show item creation 
         Item drop = database.GetActual(gemType);
-
         GameObject inst = Instantiate(drop.physicalRepresentation, currentSelection.transform.position, currentSelection.transform.rotation);
+        //Play SFX
+        soundEffects.clip = golumCreated;
+        soundEffects.Play();
         Debug.Log("Created Golem");
         //Get the average quality of the shell and charged gem, assign to new golem.
         Quality.QualityGrade item1 = currentSelection.itemInstance.quality;

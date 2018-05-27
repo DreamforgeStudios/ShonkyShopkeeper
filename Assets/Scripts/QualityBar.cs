@@ -34,6 +34,10 @@ public class QualityBar : MonoBehaviour {
 	private float fillAmount;
 	private LinkedList<Quality.QualityGrade> grades;
 
+    // Audio Source for sound effect when the bar changes quality
+    public AudioSource source;
+    public AudioClip sound;
+
 	private Quality.QualityGrade currentGrade;
 
 	// DEBUG.
@@ -41,6 +45,9 @@ public class QualityBar : MonoBehaviour {
 	public float speedMult;
 
 	private void Start() {
+        //Setup audio
+        source.clip = sound;
+
 		backgroundImage = background.GetComponent<Image>();
 		backgroundTransform = background.GetComponent<RectTransform>();
 		foregroundImage = foreground.GetComponent<Image>();
@@ -152,7 +159,7 @@ public class QualityBar : MonoBehaviour {
 		if (grades.Count == 0) {
 			return false;
 		}
-
+        source.Play();
 		// Update the current grade.
 		currentGrade = (Quality.QualityGrade) grades.First.Value;
 		grades.RemoveFirst();

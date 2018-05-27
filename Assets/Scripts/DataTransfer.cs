@@ -11,6 +11,6 @@ public static class DataTransfer {
     //For sending golems to bidding
     public static int shonkyIndex = -1;
 
-    //For remembering the last camera rotation (only need z rot which is either 9 or 72)
-    public static float cameraRot = 9;
+    //For remembering the last camera rotation (only need z rot which is either 8 or 72)
+    public static float cameraRot = 8;
 }
