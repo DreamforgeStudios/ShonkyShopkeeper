@@ -17,9 +17,11 @@ public class CameraTap : MonoBehaviour {
         //If top screenRotation was last remembered
         if (topScreenRotation.x == DataTransfer.cameraRot) {
             transform.localEulerAngles = topScreenRotation;
+            img.transform.localEulerAngles = topScreenRotationImg;
             topScreen = true;
         } else {
             transform.localEulerAngles = bottomScreenRotation;
+            img.transform.localEulerAngles = bottomScreenRotationImg;
             topScreen = false;
         }
     }
