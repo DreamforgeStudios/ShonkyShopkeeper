@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class NPCWalker : MonoBehaviour {
 	public int walkDirection;
@@ -9,16 +10,24 @@ public class NPCWalker : MonoBehaviour {
 
 	public Personality personality;
 
+    private SpriteRenderer wizard;
+
 	private bool enteredScreen = false;
+
+    private bool walkCycle = false;
 
 	// Use this for initialization
 	void Start () {
+        wizard = GetComponent<SpriteRenderer>();
 		InvokeRepeating("TestAndDestroy", 2f, 2f);
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		transform.position += new Vector3(walkDirection * walkSpeed * Time.deltaTime, 0, 0);
+
+        if (!walkCycle)
+            WizardPunch(0.1f, 0.5f);
 	}
 
 	// Check if the object is on the screen.  If not, destroy.
@@ -38,7 +47,12 @@ public class NPCWalker : MonoBehaviour {
 			   screenPoint.y < 1;
 	}
 
-	public void SetWalkDirection(int walkDirection) {
+    public void WizardPunch(float strength, float duration) {
+        walkCycle = true;
+        wizard.transform.DOPunchRotation(Vector3.forward * 25 * strength, duration, 0).SetEase(Ease.InOutBack).OnComplete(() => walkCycle = false);
+    }
+
+    public void SetWalkDirection(int walkDirection) {
 		this.walkDirection = walkDirection;
 	}
 
