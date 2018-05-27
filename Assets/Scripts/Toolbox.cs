@@ -517,16 +517,19 @@ public class Toolbox : MonoBehaviour {
 
         foreach (ItemInstance drop in drops) {
             int pos = inv.InsertItem(drop);
-            Slot toSlot = physicalInventory.GetSlotAtIndex(pos);
-            GameObject clone = Instantiate(drop.item.physicalRepresentation, slot.transform.position, slot.transform.rotation);
+            // If found a slot to place item.
+            if (pos != -1) {
+                Slot toSlot = physicalInventory.GetSlotAtIndex(pos);
+                GameObject clone = Instantiate(drop.item.physicalRepresentation, slot.transform.position, slot.transform.rotation);
 
-            // Kind of a placeholder animation.
-            // TODO: randomize the Vector3.up a little so that the items separate when they go up.
-            clone.transform.DOMove(clone.transform.position + Vector3.up, 0.7f).SetEase(Ease.OutBack)
-                .OnComplete(() => clone.transform.DOMove(toSlot.transform.position + Vector3.up, 0.6f).SetEase(Ease.OutBack)
-                .OnComplete(() => clone.transform.DOMove(toSlot.transform.position, 1f).SetEase(Ease.OutBounce)));
+                // Kind of a placeholder animation.
+                // TODO: randomize the Vector3.up a little so that the items separate when they go up.
+                clone.transform.DOMove(clone.transform.position + Vector3.up, 0.7f).SetEase(Ease.OutBack)
+                    .OnComplete(() => clone.transform.DOMove(toSlot.transform.position + Vector3.up, 0.6f).SetEase(Ease.OutBack)
+                    .OnComplete(() => clone.transform.DOMove(toSlot.transform.position, 1f).SetEase(Ease.OutBounce)));
 
-            toSlot.SetItemInstantiated(drop, clone);
+                toSlot.SetItemInstantiated(drop, clone);
+            }
         }
     }
 

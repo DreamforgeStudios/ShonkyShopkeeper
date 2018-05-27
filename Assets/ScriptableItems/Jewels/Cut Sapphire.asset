@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Name: Cut Sapphire
   m_EditorClassIdentifier: 
   itemName: Cut Sapphire
-  physicalRepresentation: {fileID: 100000, guid: daf7018420eaaf842b5084ae761caffa,
-    type: 3}
+  physicalRepresentation: {fileID: 1826485073815564, guid: b12396befac3ca64f9465d99183e058e,
+    type: 2}
   stackLimit: 1
   mergeable: 0
   gemType: 2

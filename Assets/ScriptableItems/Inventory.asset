@@ -33,7 +33,7 @@ MonoBehaviour:
     quantity: 1
     quality: 6
     isNew: 0
-  - item: {fileID: 11400000, guid: 0a38a434ad46eb4498786bb9801652cd, type: 2}
+  - item: {fileID: 11400000, guid: 3bf392a732433274ca4bae87455bc994, type: 2}
     quantity: 1
     quality: 6
     isNew: 0
