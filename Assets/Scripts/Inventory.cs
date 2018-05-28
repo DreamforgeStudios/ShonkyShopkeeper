@@ -71,8 +71,8 @@ public class Inventory : ScriptableObject {
     public bool GetItem(int index, out ItemInstance item) {
         // inventory[index] doesn't return null, so check item instead.
         if (SlotEmpty(index)) {
-            item = null;
-            return false;
+            item = empty;
+            return true;
         }
 
         item = inventory[index];

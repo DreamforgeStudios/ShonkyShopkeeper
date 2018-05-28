@@ -307,6 +307,7 @@ public class Toolbox : MonoBehaviour {
                 GameObject obj2;
                 // Move 1 item.
                 if (slot1.GetPrefabInstance(out obj1) && slot2.GetPrefabInstance(out obj2)) {
+                    Debug.Log("got both slots");
                     // Don't let user select while we're moving.
                     // TODO: let user select while moving?
                     canSelect = false;
