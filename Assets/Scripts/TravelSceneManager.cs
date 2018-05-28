@@ -64,7 +64,6 @@ public class TravelSceneManager : MonoBehaviour {
             if (Physics.Raycast(ray, out hit, 30)) {
                 //Really dirty right now
                 if (lastTownClicked == null && hit.transform.gameObject.tag == "Town") {
-                    PrototypeEnd();
                     if (!Travel.unlockedTowns.Contains(CurrentTown(hit.transform.gameObject))) {
                         lastTownClicked = hit.transform.gameObject;
                         Travel.Towns selectedTown = CurrentTown(lastTownClicked);
