@@ -47,6 +47,7 @@ public class Barter : MonoBehaviour {
 
     // Keep track of the NPC personality so that we can trigger events for them (shake, talk, etc).
     public Personality personality;
+    public Shonky defaultShonky;
 
     public ItemInstance shonky;
 
@@ -63,8 +64,7 @@ public class Barter : MonoBehaviour {
             }
         } else {
             Debug.Log("No shonky found, using default value.");
-            manager.SetBasePrice(150);
-            manager.shonkyInstance = new ItemInstance(ScriptableObject.CreateInstance(typeof(Shonky)) as Item, 1, Quality.QualityGrade.Sturdy, false);
+            manager.shonkyInstance = new ItemInstance(defaultShonky, 1, Quality.QualityGrade.Sturdy, false);
         }
 
         if (DataTransfer.currentPersonality) {
@@ -79,6 +79,7 @@ public class Barter : MonoBehaviour {
             this.personality.InfluencePersonality(Quality.QualityGrade.Sturdy, 150);
             LoadPersonality();
         }
+
         //Set up audio clip
         effects.clip = coins;
     }
@@ -202,11 +203,11 @@ public class Barter : MonoBehaviour {
         } else if (!cont) {
             this.deal.SetActive(true);
             this.offerButton.interactable = false;
+            effects.Play();
             Inventory.Instance.AddGold((int)offer);
             ShonkyInventory.Instance.RemoveItem(DataTransfer.shonkyIndex);
             SaveManager save = ScriptableObject.CreateInstance(typeof(SaveManager)) as SaveManager;
             save.SaveShonkyInventory();
-            effects.Play();
             ShowUIButtons();
         // NPC has countered.
         } else {
@@ -214,6 +215,7 @@ public class Barter : MonoBehaviour {
                 //kthis.offerButton.enabled = false;
             //this.wheelActive = true;
             this.offerButton.interactable = true;
+            this.acceptButton.interactable = true;
             // ?? work is already done in CounterOffer().
         }
 
@@ -228,6 +230,7 @@ public class Barter : MonoBehaviour {
         this.deal.SetActive(true);
         manager.WizardPunch(0.1f, 0.5f);
         manager.WizardSpeak(personality.TalkAccept(1f));
+        effects.Play();
         Inventory.Instance.AddGold((int)manager.fPrice);
         ShonkyInventory.Instance.RemoveItem(DataTransfer.shonkyIndex);
         SaveManager save = ScriptableObject.CreateInstance(typeof(SaveManager)) as SaveManager;

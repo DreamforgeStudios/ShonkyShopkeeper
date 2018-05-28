@@ -196,8 +196,8 @@ public class Smelting : MonoBehaviour {
         } else {
             feedbackMaterial.SetTexture("_MainTex", feedbackNegative.texture);
         }
-        Debug.Log("closeness: " + closeness);
-        Debug.Log("closeness evaluation: " + closenessCurve.Evaluate(closeness));
+        //Debug.Log("closeness: " + closeness);
+        //Debug.Log("closeness evaluation: " + closenessCurve.Evaluate(closeness));
         qualityBar.SetFixedSubtraction(closenessCurve.Evaluate(closeness));
     }
 
