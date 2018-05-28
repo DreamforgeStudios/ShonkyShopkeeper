@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using TMPro;
+using UnityEngine.UI;
 
 public class BarterComponentManager : MonoBehaviour {
     public GameObject background;
@@ -13,6 +14,9 @@ public class BarterComponentManager : MonoBehaviour {
     public SpriteRenderer wizardSprite;
     public TextMeshProUGUI infoText;
     public ItemInstance shonkyInstance;
+
+    public Button buttonAccept;
+    public Button buttonOffer;
     //public GameObject shonkyPrefab;
     //public Text txtDebug;
     //private float prevPlayerOffer; // debug.
@@ -46,10 +50,11 @@ public class BarterComponentManager : MonoBehaviour {
             Debug.Log("Couldn't find a sprite, will use default.");
         }
 
+        this.basePrice = (shonkyInstance.item as Shonky).basePrice;
         string grade = Quality.GradeToString(shonkyInstance.quality);
         string gradeCol = "#" + ColorUtility.ToHtmlStringRGB(Quality.GradeToColor(shonkyInstance.quality));
         string str = string.Format("Base Price: <color=white>{0}</color>\n" +
-                                   "Quality: <color={1}>{2}</color>\n", (shonkyInstance.item as Shonky).basePrice, gradeCol, grade);
+                                   "Quality: <color={1}>{2}</color>\n", basePrice, gradeCol, grade);
         infoText.text = str;
 
         //Instantiate(shonkyPrefab, Vector3.zero, Quaternion.identity).transform.SetParent(backingPlate.transform);
