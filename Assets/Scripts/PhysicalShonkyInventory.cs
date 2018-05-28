@@ -57,7 +57,7 @@ public class PhysicalShonkyInventory : MonoBehaviour {
         for (int i = 0; i < shonkySlots.Count; i++) {
             ItemInstance instance;
             // If an object exists at the specified location.
-            Debug.Log("index is " + i);
+            //Debug.Log("index is " + i);
             if (ShonkyInventory.Instance.GetItem(i, out instance)) {
                 shonkySlots[i].SetItem(instance);
                 GameObject obj;

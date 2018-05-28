@@ -46,7 +46,7 @@ public class Inventory : ScriptableObject {
     /* Inventory START */
     public int goldCount;
     public ItemInstance[] inventory;
-    public ItemInstance empty;
+    //public ItemInstance empty;
     
 
     // Not used in vertical slice.
@@ -71,8 +71,8 @@ public class Inventory : ScriptableObject {
     public bool GetItem(int index, out ItemInstance item) {
         // inventory[index] doesn't return null, so check item instead.
         if (SlotEmpty(index)) {
-            item = empty;
-            return true;
+            item = null;
+            return false;
         }
 
         item = inventory[index];
@@ -86,7 +86,7 @@ public class Inventory : ScriptableObject {
             return false;
         }
 
-        inventory[index] = empty;//new ItemInstance(CreateInstance(typeof(Empty)) as Item,0, Quality.QualityGrade.Unset, false);
+        inventory[index] = null;//new ItemInstance(CreateInstance(typeof(Empty)) as Item,0, Quality.QualityGrade.Unset, false);
         Save();
 
         return true;
@@ -108,10 +108,11 @@ public class Inventory : ScriptableObject {
     }
 
     // Swap two items.
+    // BEWARE, can swap null items.
     public bool SwapItem(int index1, int index2) {
-        if (inventory[index1] == null || inventory[index2] == null) {
-            return false;
-        }
+        //if (SlotEmpty(index1) || SlotEmpty(index2)) {
+            //return false;
+        //}
 
         ItemInstance temp = inventory[index1];
         inventory[index1] = inventory[index2];
@@ -122,20 +123,20 @@ public class Inventory : ScriptableObject {
     }
 
     // Insert item at specific slot
-    public bool InsertItemAtSlot(int currentIndex, int indexToBePlaced) {
-        if (inventory[indexToBePlaced] == null && inventory[currentIndex] != null) {
-            ItemInstance temp = inventory[currentIndex];
-            inventory[currentIndex] = null;
-            inventory[indexToBePlaced] = temp;
-            Save();
-            return true;
-        } else {
+    /*
+    public bool InsertItemAtSlot(int index, ItemInstance item) {
+        if (!SlotEmpty(index)) {
             return false;
-        }
+        } 
+
+        inventory[index] = item;
+        Save();
+        return true;
     }
+    */
 
     public bool SlotEmpty(int index) {
-        if (inventory[index] == null || inventory[index].item == null || inventory[index].item.GetType() == typeof(Empty)) {
+        if (inventory[index] == null || inventory[index].item == null) { //|| inventory[index].item.GetType() == typeof(Empty)) {
             return true;
         }
         return false;

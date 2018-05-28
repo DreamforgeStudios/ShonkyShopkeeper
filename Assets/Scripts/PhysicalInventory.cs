@@ -39,10 +39,10 @@ public class PhysicalInventory : MonoBehaviour {
 						obj.AddComponent(typeof(Rotate));
 					}
 				}
-			} else {
+			}// else {
 				// Set slot to null, incase something was previously in the slot.
-				inventorySlots[i].RemoveItem();
-			}
+				//inventorySlots[i].RemoveItem();
+			//}
 		}
 	}
 

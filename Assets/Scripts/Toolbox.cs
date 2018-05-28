@@ -282,8 +282,7 @@ public class Toolbox : MonoBehaviour {
                     t.DOMove(slot.transform.position + (Vector3.up), 0.7f).SetEase(Ease.OutBack);
                 }
                 // Second selection.
-            }
-            else {
+            } else {
                 // If the same item is selected, put it back.
                 if (currentSelection == slot) {
                     Debug.Log("Same slot.");
@@ -311,7 +310,6 @@ public class Toolbox : MonoBehaviour {
                     // Don't let user select while we're moving.
                     // TODO: let user select while moving?
                     canSelect = false;
-                    Debug.Log("here");
 
                     Transform t1 = obj1.transform,
                               t2 = obj2.transform;
@@ -337,18 +335,40 @@ public class Toolbox : MonoBehaviour {
                     currentSelection = null;
                 }
             }
-        } //Else if selected one item and clicked on null slot
-        else if (canSelect && currentSelection != null && !slot.GetItem(out item)) {
-            ItemInstance inst1, inst2;
-            GameObject obj1, obj2;
-            if (currentSelection.GetPrefabInstance(out obj1) && currentSelection.GetItemInstance(out inst1) &&
-                slot.GetItemInstance(out inst2) && slot.GetPrefabInstance(out obj2)) {
-                Debug.Log("got prefabs and instances");
+        //Else if selected one item and clicked on null slot
+        } else if (currentSelection && !slot.GetItem(out item) && canSelect) {
+            Slot slot1 = this.currentSelection;
+            Slot slot2 = slot;
+
+            GameObject obj1;
+            // If the slot we selected has something in it.
+            if (slot1.GetPrefabInstance(out obj1)) {//&& currentSelection.GetItemInstance(out inst1) &&
+                canSelect = false;
                 Transform t1 = obj1.transform;
-                //Debug.Log(inst2.item.name);
                 soundEffects.clip = itemLift;
                 soundEffects.Play();
 
+                t1.DOMove(slot1.transform.position + Vector3.up, 0.7f).SetEase(Ease.OutBack)
+                    .OnComplete(() => t1.DOMove(slot2.transform.position + Vector3.up, 0.6f).SetEase(Ease.OutBack)
+                        .OnComplete(() => t1.DOMove(slot2.transform.position, 1f).SetEase(Ease.OutBounce).OnComplete(() => canSelect = true)));
+
+                //Debug.Log(inst2.item.name);
+                soundEffects.clip = itemDown;
+                soundEffects.PlayDelayed(1.5f);
+
+                ItemInstance inst1;
+                if (slot1.GetItemInstance(out inst1)) {
+                    slot1.RemoveDontDestroy();
+                    slot2.SetItemInstantiated(inst1, obj1);
+                    Inventory.Instance.SwapItem(slot1.index, slot2.index);
+                    //Debug.Log(Inventory.Instance.InsertItemAtSlot(slot2.index, inst1));
+                    //Debug.Log(Inventory.Instance.RemoveItem(slot1.index));
+                }
+
+                currentSelection = null;
+            }
+
+            /*
                 t1.DOMove(currentSelection.transform.position + Vector3.up, 0.7f).SetEase(Ease.OutBack)
                        .OnComplete(() => t1.DOMove(slot.transform.position + Vector3.up, 0.6f).SetEase(Ease.OutBack)
                        .OnComplete(() => t1.DOMove(slot.transform.position, 1f).SetEase(Ease.OutBounce).OnComplete(() => canSelect = true)));
@@ -360,6 +380,7 @@ public class Toolbox : MonoBehaviour {
                 Inventory.Instance.SwapItem(currentSelection.index, slot.index);
             }
             currentSelection = null;
+            */
         }
     }
     private void UseWand(Slot slot) {

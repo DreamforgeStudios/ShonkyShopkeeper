@@ -7,7 +7,6 @@ public class Slot : MonoBehaviour {
 
 	// Only public for debugging purposes.
 	public ItemInstance itemInstance = null;	// Inventory backend representation.
-	public ItemInstance empty;
 	public GameObject prefabInstance = null;	// Inventory frontend representation.
 
 	// TODO: it would be better if we used SetActive() etc rather than Instantiate/Destroy.
@@ -28,13 +27,13 @@ public class Slot : MonoBehaviour {
 
 	// Remove the item from the slot, and destroy the associated gameobject.
 	public void RemoveItem() {
-		this.itemInstance = empty;
+		this.itemInstance = null;
 		Destroy(this.prefabInstance);
 		this.prefabInstance = null;
 	}
 
 	public void RemoveDontDestroy() {
-		this.itemInstance = empty;
+		this.itemInstance = null;
 		this.prefabInstance = null;
 	}
 
@@ -55,6 +54,7 @@ public class Slot : MonoBehaviour {
 		}
 
 		item = this.itemInstance.item;
+		Debug.Log("got item.");
 		return true;
 	}
 
