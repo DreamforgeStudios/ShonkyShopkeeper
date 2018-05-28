@@ -90,4 +90,17 @@ public class PhysicalShonkyInventory : MonoBehaviour {
             t.DOMove(spawnPos, 5f).SetEase(Ease.OutBack).OnComplete(() => itemObj.GetComponent<ShonkyWander>().enableNavmesh = true));
         }
     }
+
+	public void Clear() {
+		for (int i = 0; i < shonkySlots.Count; i++) {
+			shonkySlots[i].RemoveItem();
+		}
+	}
+
+	public void LoadDefaultInventory() {
+		SaveManager save = ScriptableObject.CreateInstance<SaveManager>();
+		save.LoadFromShonkyTemplate(inventory);
+		Clear();
+		PopulateInitial();
+	}
 }

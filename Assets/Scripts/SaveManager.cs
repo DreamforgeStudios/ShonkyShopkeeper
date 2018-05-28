@@ -39,4 +39,9 @@ public class SaveManager : ScriptableObject {
 	public void LoadFromTemplate(Inventory template) {
 		Inventory.InitializeFromDefault(template);
 	}
+
+	// Load from default.
+	public void LoadFromShonkyTemplate(ShonkyInventory template) {
+		ShonkyInventory.InitializeFromDefault(template);
+	}
 }

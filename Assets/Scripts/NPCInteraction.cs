@@ -60,7 +60,7 @@ public class NPCInteraction : MonoBehaviour {
                     List<int> shonkyIndexes = ShonkyInventory.Instance.PopulatedShonkySlots();
                     //If they do, select a random one and pass to the barter screen
                     Debug.Log(shonkyIndexes.Count);
-                    if (shonkyIndexes.Count >= 0) {
+                    if (shonkyIndexes.Count > 0) {
                         DataTransfer.currentSprite = hit.transform.GetComponent<SpriteRenderer>().sprite;
                         DataTransfer.currentPersonality = hit.transform.GetComponent<NPCWalker>().personality;
 
