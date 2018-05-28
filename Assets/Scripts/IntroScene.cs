@@ -10,6 +10,8 @@ public class IntroScene : MonoBehaviour {
     public TextMeshProUGUI text3;
     public TextMeshProUGUI text4;
     public TextMeshProUGUI text5;
+    public TextMeshProUGUI loading;
+    public TextMeshProUGUI next;
     List<TextMeshProUGUI> texts;
 
     private int textCounter = 0;
@@ -24,6 +26,8 @@ public class IntroScene : MonoBehaviour {
         foreach (TextMeshProUGUI text in texts) {
             text.enabled = true;
         }
+        loading.enabled = false;
+        next.enabled = true;
 	}
 	
 	// Update is called once per frame
@@ -34,11 +38,15 @@ public class IntroScene : MonoBehaviour {
 	}
 
     private void AdvanceText() {
-        if (textCounter <= texts.Count - 1) {
+        if (textCounter < texts.Count - 1) {
             texts[textCounter].CrossFadeAlpha(0f, 2f, false);
-            textCounter++;
-            texts[textCounter].CrossFadeAlpha(255f, 2f, false);
+            if (textCounter <= texts.Count) {
+                textCounter++;
+                texts[textCounter].CrossFadeAlpha(255f, 2f, false);
+            }
         } else {
+            next.enabled = false;
+            loading.enabled = true;
             SceneManager.LoadScene("Shop");
         }
     }

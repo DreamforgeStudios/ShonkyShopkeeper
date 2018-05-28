@@ -3795,12 +3795,12 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 31149629}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.7, y: 8.3, z: 28}
-  m_LocalScale: {x: 4, y: 4, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.6999817, y: 8.299995, z: 172.30002}
+  m_LocalScale: {x: 13, y: 13, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &52287236
 GameObject:
@@ -4087,7 +4087,7 @@ RectTransform:
   - {fileID: 1094003127}
   - {fileID: 1924413822}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -4358,22 +4358,6 @@ Prefab:
     - target: {fileID: 4527270919781622, guid: 718d508781ed1ce47b8436fe53e68f39, type: 2}
       propertyPath: m_RootOrder
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4527270919781622, guid: 718d508781ed1ce47b8436fe53e68f39, type: 2}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4527270919781622, guid: 718d508781ed1ce47b8436fe53e68f39, type: 2}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 90.00001
-      objectReference: {fileID: 0}
-    - target: {fileID: 4527270919781622, guid: 718d508781ed1ce47b8436fe53e68f39, type: 2}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 13.316001
-      objectReference: {fileID: 0}
-    - target: {fileID: 1437327626780852, guid: 718d508781ed1ce47b8436fe53e68f39, type: 2}
-      propertyPath: m_StaticEditorFlags
-      value: 16
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 718d508781ed1ce47b8436fe53e68f39, type: 2}
@@ -4948,7 +4932,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.1
-  far clip plane: 40
+  far clip plane: 200
   field of view: 65
   orthographic: 0
   orthographic size: 5
@@ -6159,22 +6143,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 4876367819218462, guid: 278baae26da66eb479cb196b78f9f221, type: 2}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
-      objectReference: {fileID: 0}
-    - target: {fileID: 4876367819218462, guid: 278baae26da66eb479cb196b78f9f221, type: 2}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 90.01999
-      objectReference: {fileID: 0}
-    - target: {fileID: 4876367819218462, guid: 278baae26da66eb479cb196b78f9f221, type: 2}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: -16.708008
-      objectReference: {fileID: 0}
-    - target: {fileID: 1558244772510410, guid: 278baae26da66eb479cb196b78f9f221, type: 2}
-      propertyPath: m_StaticEditorFlags
-      value: 16
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 278baae26da66eb479cb196b78f9f221, type: 2}
   m_IsPrefabParent: 0
@@ -6706,7 +6674,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shonkySlots: []
-  amountOfSlots: 5
+  amountOfSlots: 0
   middleOfPenEmpty: {fileID: 1114992761}
   inventory: {fileID: 11400000, guid: b785a8ded8912054e83bfa10fd17d75a, type: 2}
 --- !u!4 &1114992763
@@ -7094,14 +7062,6 @@ Prefab:
     - target: {fileID: 4855137055822570, guid: bcb285d7faabe2f4cb5999e0239ee2f9, type: 2}
       propertyPath: m_RootOrder
       value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1835021816642392, guid: bcb285d7faabe2f4cb5999e0239ee2f9, type: 2}
-      propertyPath: m_StaticEditorFlags
-      value: 16
-      objectReference: {fileID: 0}
-    - target: {fileID: 1539805527542612, guid: bcb285d7faabe2f4cb5999e0239ee2f9, type: 2}
-      propertyPath: m_StaticEditorFlags
-      value: 16
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: bcb285d7faabe2f4cb5999e0239ee2f9, type: 2}
@@ -8655,7 +8615,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Reset Shonky Inv
+  m_Text: 'Reset Golem Inv
+
+'
 --- !u!222 &1896530864
 CanvasRenderer:
   m_ObjectHideFlags: 0

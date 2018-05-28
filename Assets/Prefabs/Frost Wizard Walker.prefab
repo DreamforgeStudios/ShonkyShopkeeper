@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 212569189051998090}
   - component: {fileID: 114707103336298116}
   - component: {fileID: 65097785539319790}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Frost Wizard Walker
   m_TagString: NPC
   m_Icon: {fileID: 0}
@@ -68,6 +68,7 @@ MonoBehaviour:
   walkDirection: 0
   walkSpeed: 0
   personality: {fileID: 11400000, guid: 220d617a2d1fda24b863eb05faa7c3bd, type: 2}
+  walkNormal: 1
 --- !u!212 &212569189051998090
 SpriteRenderer:
   m_ObjectHideFlags: 1
