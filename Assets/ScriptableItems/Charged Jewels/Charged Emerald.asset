@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: Charged Emerald
   m_EditorClassIdentifier: 
   itemName: Charged Emerald
-  physicalRepresentation: {fileID: 1657870992048190, guid: 3aeed78daee20e142887aba89b0f8553,
+  physicalRepresentation: {fileID: 1223959690928996, guid: 2c727df73bfb9c2439256fdc69bfbe0b,
     type: 2}
   stackLimit: 1
   mergeable: 1

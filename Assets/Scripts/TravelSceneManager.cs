@@ -64,6 +64,7 @@ public class TravelSceneManager : MonoBehaviour {
             if (Physics.Raycast(ray, out hit, 30)) {
                 //Really dirty right now
                 if (lastTownClicked == null && hit.transform.gameObject.tag == "Town") {
+                    PrototypeEnd();
                     if (!Travel.unlockedTowns.Contains(CurrentTown(hit.transform.gameObject))) {
                         lastTownClicked = hit.transform.gameObject;
                         Travel.Towns selectedTown = CurrentTown(lastTownClicked);
@@ -186,12 +187,13 @@ public class TravelSceneManager : MonoBehaviour {
     }
 
     private void PrototypeEnd() {
+        helperText.enabled = false;
         town1.SetActive(false);
         town2.SetActive(false);
         player.SetActive(false);
         prototypeOver.enabled = true;
         prototypeEndText.enabled = true;
-        prototypeEndText.CrossFadeAlpha(255f, 4f, true);
+        prototypeEndText.CrossFadeAlpha(255f, 4f, false);
 
     }
 
