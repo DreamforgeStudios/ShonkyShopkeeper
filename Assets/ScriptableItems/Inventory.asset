@@ -33,11 +33,11 @@ MonoBehaviour:
     quantity: 1
     quality: 6
     isNew: 0
-  - item: {fileID: 11400000, guid: 1b4a10b143b084341998e3cea3b31641, type: 2}
+  - item: {fileID: 11400000, guid: 2e5c685d5033eaf42b31c44aa410b117, type: 2}
     quantity: 1
     quality: 4
     isNew: 0
-  - item: {fileID: 11400000, guid: 3e6ec106f10778c41a12a69097793763, type: 2}
+  - item: {fileID: 11400000, guid: 2e5c685d5033eaf42b31c44aa410b117, type: 2}
     quantity: 0
     quality: 4
     isNew: 0
