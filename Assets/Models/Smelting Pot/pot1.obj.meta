@@ -1,0 +1,150 @@
+fileFormatVersion: 2
+guid: dab3ad30658054ae8ab67cdf29cf1c2b
+timeCreated: 1527486952
+licenseType: Free
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: pCylinder11_pCylinder11
+    100002: pCylinder6_pCylinder6
+    100004: pCylinder8_pCylinder8
+    100006: pCylinder9_pCylinder9
+    100008: //RootNode
+    100010: pTorus1_pTorus1
+    400000: pCylinder11_pCylinder11
+    400002: pCylinder6_pCylinder6
+    400004: pCylinder8_pCylinder8
+    400006: pCylinder9_pCylinder9
+    400008: //RootNode
+    400010: pTorus1_pTorus1
+    2100000: Generic_Metal
+    2100002: pot1_Generic_Metal
+    2100004: pot1_lambert3
+    2100006: lambert1
+    2100008: Green
+    2100010: Red
+    2300000: pCylinder11_pCylinder11
+    2300002: pCylinder6_pCylinder6
+    2300004: pCylinder8_pCylinder8
+    2300006: pCylinder9_pCylinder9
+    2300008: pTorus1_pTorus1
+    3300000: pCylinder11_pCylinder11
+    3300002: pCylinder6_pCylinder6
+    3300004: pCylinder8_pCylinder8
+    3300006: pCylinder9_pCylinder9
+    3300008: pTorus1_pTorus1
+    4300000: pCylinder11_pCylinder11
+    4300002: pCylinder6_pCylinder6
+    4300004: pCylinder8_pCylinder8
+    4300006: pCylinder9_pCylinder9
+    4300008: pTorus1_pTorus1
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Generic_Metal
+    second: {fileID: 2100000, guid: f641a28e5056c485ebd1759569aac422, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Green
+    second: {fileID: 2100000, guid: 95681e057b8bf4cdfb9c958fc026fd9d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Red
+    second: {fileID: 2100000, guid: 0421a0de8411a493992c4c79e4d16c67, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert1
+    second: {fileID: 2100000, guid: f678c7235eaf24a4e93d9c7ee2f1359a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pot1_Generic_Metal
+    second: {fileID: 2100000, guid: 0ad163cf56c594b16a95007e63ce3430, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pot1_lambert3
+    second: {fileID: 2100000, guid: 5de4b6377ae9c4ec9842b10f1b5742c8, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
