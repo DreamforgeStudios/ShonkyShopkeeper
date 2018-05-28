@@ -153,6 +153,11 @@ public class Cutting : MonoBehaviour {
 	private void InitiateTouch(Touch touch) {
 		swipeTime = 0;
 		touchOrigin = ConvertToWorldPoint(touch.position);
+		if (currentIndex >= cutVectors.Length) {
+			return;
+		}
+		CutPoint cut = currentCutPoint.GetComponent<CutPoint>();
+		cut.SetCutVector(cutVectors[currentIndex]);
     }
 
 	private void ConcludeTouch(Touch touch) {
