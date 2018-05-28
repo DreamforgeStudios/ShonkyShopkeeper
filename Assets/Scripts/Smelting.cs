@@ -69,7 +69,7 @@ public class Smelting : MonoBehaviour {
     //Particle System
     public ParticleSystem particle;
     public int amountOfParticles = 5;
-    private ParticleSystem.EmitParams emitParams;
+    //private ParticleSystem.EmitParams emitParams;
 
     public QualityBar qualityBar;
 
@@ -96,7 +96,7 @@ public class Smelting : MonoBehaviour {
 		//started = false;
         nextScene.SetActive(false);
         retryScene.SetActive(false);
-        emitParams = new ParticleSystem.EmitParams();
+        //emitParams = new ParticleSystem.EmitParams();
     }
 	
 	// Don't waste frames on mobile...

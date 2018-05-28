@@ -49,7 +49,7 @@ public class PenSlot : MonoBehaviour {
     }
 
     public bool GetItem(out Item item) {
-        if (this.itemInstance.item == null || this.itemInstance.item.GetType() == typeof(Empty)) {
+        if (this.itemInstance == null || this.itemInstance.item == null) {
             item = null;
             return false;
         }

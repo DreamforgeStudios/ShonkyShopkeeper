@@ -46,7 +46,7 @@ public class ShonkyInventory : ScriptableObject {
 
     /* Shonky Inventory START */
     public ItemInstance[] shonkyInventory;
-    public ItemInstance empty;
+    //public ItemInstance empty;
 
 
     // Not used in vertical slice.
@@ -62,7 +62,7 @@ public class ShonkyInventory : ScriptableObject {
     //Check if there is a free slot
     public bool FreeSlot() {
         for (int i = 0; i < shonkyInventory.Length; i++) {
-            if (SlotEmpty(i) || PossibleEmpties(i)) {
+            if (SlotEmpty(i)) { //|| PossibleEmpties(i)) {
                 return true;
             }
         }
@@ -84,7 +84,7 @@ public class ShonkyInventory : ScriptableObject {
     // Remove an item at an index if one exists at that index.
     public bool RemoveItem(int index) {
         if (!SlotEmpty(index)) {
-            shonkyInventory[index] = empty;
+            shonkyInventory[index] = null;
             Save();
             return true;
         }
@@ -96,7 +96,7 @@ public class ShonkyInventory : ScriptableObject {
     // Insert an item, return the index where it was inserted.  -1 if error.
     public int InsertItem(ItemInstance item) {
         for (int i = 0; i < shonkyInventory.Length; i++) {
-            if (SlotEmpty(i) || PossibleEmpties(i)) {
+            if (SlotEmpty(i)) { //|| PossibleEmpties(i)) {
                 //Debug.Log("Inserted at slot " + i);
                 shonkyInventory[i] = item;
                 Save();
@@ -109,6 +109,7 @@ public class ShonkyInventory : ScriptableObject {
     }
 
     // Insert item at specific slot
+    /*
     public bool InsertItemAtSlot(int currentIndex, int indexToBePlaced) {
         if (shonkyInventory[indexToBePlaced] == null && shonkyInventory[currentIndex] != null) {
             ItemInstance temp = shonkyInventory[currentIndex];
@@ -120,6 +121,7 @@ public class ShonkyInventory : ScriptableObject {
             return false;
         }
     }
+    */
 
     public bool SlotEmpty(int index) {
         if (shonkyInventory[index] == null || shonkyInventory[index].item == null) {
@@ -129,12 +131,14 @@ public class ShonkyInventory : ScriptableObject {
         return false;
     }
 
+/*
     public bool PossibleEmpties(int index) {
         if (shonkyInventory[index].item.name == "Empty")
             return true;
         else
             return false;
     }
+    */
 
     public List<int> PopulatedShonkySlots() {
         List<int> indexes = new List<int>();

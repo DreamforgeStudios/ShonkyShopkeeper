@@ -54,7 +54,6 @@ public class Slot : MonoBehaviour {
 		}
 
 		item = this.itemInstance.item;
-		Debug.Log("got item.");
 		return true;
 	}
 
