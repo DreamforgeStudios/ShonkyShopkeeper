@@ -174,7 +174,6 @@ public class Inventory : ScriptableObject {
 
     // Simply save.
     private void Save() {
-        SaveManager save = CreateInstance<SaveManager>();
-        save.SaveInventory();
+        SaveManager.SaveInventory();
     }
 }

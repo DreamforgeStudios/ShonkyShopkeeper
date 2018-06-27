@@ -152,7 +152,6 @@ public class ShonkyInventory : ScriptableObject {
 
     // Simply save..
     private void Save() {
-        SaveManager save = CreateInstance<SaveManager>();
-        save.SaveShonkyInventory();
+        SaveManager.SaveShonkyInventory();
     }
 }

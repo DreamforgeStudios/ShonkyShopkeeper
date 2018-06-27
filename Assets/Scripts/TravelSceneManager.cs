@@ -36,8 +36,6 @@ public class TravelSceneManager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        //Save manager
-        SaveManager save = ScriptableObject.CreateInstance<SaveManager>();
         Setup();
 
         // NOTE: when using inventory, remember to save

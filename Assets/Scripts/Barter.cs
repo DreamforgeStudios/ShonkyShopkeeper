@@ -206,8 +206,6 @@ public class Barter : MonoBehaviour {
             effects.Play();
             Inventory.Instance.AddGold((int)offer);
             ShonkyInventory.Instance.RemoveItem(DataTransfer.shonkyIndex);
-            SaveManager save = ScriptableObject.CreateInstance(typeof(SaveManager)) as SaveManager;
-            save.SaveShonkyInventory();
             ShowUIButtons();
         // NPC has countered.
         } else {
@@ -233,8 +231,6 @@ public class Barter : MonoBehaviour {
         effects.Play();
         Inventory.Instance.AddGold((int)manager.fPrice);
         ShonkyInventory.Instance.RemoveItem(DataTransfer.shonkyIndex);
-        SaveManager save = ScriptableObject.CreateInstance(typeof(SaveManager)) as SaveManager;
-        save.SaveShonkyInventory();
         ShowUIButtons();
     }
 

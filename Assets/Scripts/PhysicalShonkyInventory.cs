@@ -36,9 +36,8 @@ public class PhysicalShonkyInventory : MonoBehaviour {
     // Use this for initialization
     void Start() {
         // Load example.
-        SaveManager save = ScriptableObject.CreateInstance<SaveManager>();
         //ShonkyInventory.InitializeFromDefault(inventory);
-        save.LoadOrInitializeShonkyInventory(inventory);
+        SaveManager.LoadOrInitializeShonkyInventory(inventory);
        
 
         shonkySlots = new List<PenSlot>();
@@ -97,8 +96,7 @@ public class PhysicalShonkyInventory : MonoBehaviour {
 	}
 
 	public void LoadDefaultInventory() {
-		SaveManager save = ScriptableObject.CreateInstance<SaveManager>();
-		save.LoadFromShonkyTemplate(inventory);
+		SaveManager.LoadFromShonkyTemplate(inventory);
 		Clear();
 		PopulateInitial();
 	}

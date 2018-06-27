@@ -4,7 +4,7 @@ using UnityEngine;
 
 [CreateAssetMenu]
 public class SaveManager : ScriptableObject {
-	public void LoadOrInitializeInventory(Inventory inventoryTemplate) {
+	public static void LoadOrInitializeInventory(Inventory inventoryTemplate) {
 		// Saving and loading.
 		if (System.IO.File.Exists(System.IO.Path.Combine(Application.persistentDataPath, "inventory.json"))) {
 			Debug.Log("Found file inventory.json, loading inventory.");
@@ -14,11 +14,11 @@ public class SaveManager : ScriptableObject {
 			Inventory.InitializeFromDefault(inventoryTemplate);
 		}
 	}
-    public void SaveInventory() {
+    public static void SaveInventory() {
         Inventory.Instance.SaveToJSON(System.IO.Path.Combine(Application.persistentDataPath, "inventory.json"));
     }
 
-    public void LoadOrInitializeShonkyInventory(ShonkyInventory shonkyInventoryTemplate) {
+    public static void LoadOrInitializeShonkyInventory(ShonkyInventory shonkyInventoryTemplate) {
         // Saving and loading.
         if (System.IO.File.Exists(System.IO.Path.Combine(Application.persistentDataPath, "shonkyinventory.json"))) {
             Debug.Log("Found file shonkyinventory.json, loading shonky inventory.");
@@ -30,18 +30,18 @@ public class SaveManager : ScriptableObject {
         }
     }
 
-    public void SaveShonkyInventory() {
+    public static void SaveShonkyInventory() {
         ShonkyInventory.Instance.SaveToJSON(System.IO.Path.Combine(Application.persistentDataPath, "shonkyinventory.json"));
     }
 
 
 	// Load from default.
-	public void LoadFromTemplate(Inventory template) {
+	public static void LoadFromTemplate(Inventory template) {
 		Inventory.InitializeFromDefault(template);
 	}
 
 	// Load from default.
-	public void LoadFromShonkyTemplate(ShonkyInventory template) {
+	public static void LoadFromShonkyTemplate(ShonkyInventory template) {
 		ShonkyInventory.InitializeFromDefault(template);
 	}
 }
