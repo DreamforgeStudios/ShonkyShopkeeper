@@ -5,7 +5,7 @@ using UnityEngine;
 public class ShoveAll : MonoBehaviour {
     public List<Move> moveList;
 
-    public bool move;
+    public bool doMove;
 
 	// Use this for initialization
 	void Start () {
@@ -15,12 +15,12 @@ public class ShoveAll : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (move) {
+        if (doMove) {
             foreach(Move move in moveList) {
                 move.yes = true;
             }
 
-            move = false;
+            doMove = false;
         }
 		
 	}

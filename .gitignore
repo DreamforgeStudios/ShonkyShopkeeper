@@ -40,3 +40,4 @@ bin.exe
 bin_Data/
 shaded.data
 WinPixEventRuntime.dll
+.idea/

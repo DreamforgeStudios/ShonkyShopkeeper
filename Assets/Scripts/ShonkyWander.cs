@@ -6,7 +6,7 @@ using UnityEngine.AI;
 
 public class ShonkyWander : MonoBehaviour {
     //Golem Components
-    private Rigidbody rb;
+    //private Rigidbody rb;
     private NavMeshAgent agent;
     private Animator animator;
 
@@ -26,7 +26,7 @@ public class ShonkyWander : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         agent = GetComponent<NavMeshAgent>();
-        rb = GetComponent<Rigidbody>();
+        //rb = GetComponent<Rigidbody>();
         cooldownTime = Time.time;
         animator = GetComponent<Animator>();
 	}
