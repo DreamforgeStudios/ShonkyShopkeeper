@@ -35,7 +35,7 @@ public class TravelSceneManager : MonoBehaviour {
     public Travel.Towns newTown = Travel.currentTown;
 
     // Use this for initialization
-    void Start () {
+    void Start() {
         Setup();
 
         // NOTE: when using inventory, remember to save
@@ -46,7 +46,7 @@ public class TravelSceneManager : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update () {
+    void Update() {
         CheckForInput();
         UpdateUI();
         CheckUnlockedTowns();
@@ -60,34 +60,57 @@ public class TravelSceneManager : MonoBehaviour {
             RaycastHit hit;
 
             if (Physics.Raycast(ray, out hit, 30)) {
-                //Really dirty right now
+                //Really dirty right now, will improve when full details of town system are known
+                //If nothing has been clicked previously and clicked on town object
                 if (lastTownClicked == null && hit.transform.gameObject.tag == "Town") {
+                    //If the town clicked is not currently unlocked
                     if (!Travel.unlockedTowns.Contains(CurrentTown(hit.transform.gameObject))) {
                         lastTownClicked = hit.transform.gameObject;
                         Travel.Towns selectedTown = CurrentTown(lastTownClicked);
                         helperText.enabled = true;
-                        helperText.text = "Click " + selectedTown + " again if you wish to purchase it";
-                    } else {
+                        helperText.text = "Click " + selectedTown + " again if you wish to purchase it for " + Travel.NextPurchaseCost() + " gold";
+                    }
+                    //If the town is unlocked and not the current town
+                    else if (currentTown != CurrentTown(hit.transform.gameObject)){
                         lastTownClicked = hit.transform.gameObject;
                         Travel.Towns selectedTown = CurrentTown(lastTownClicked);
                         helperText.enabled = true;
                         helperText.text = "Click " + selectedTown + " again if you wish to travel to it";
-                    }      
-                } else if (hit.transform.gameObject == lastTownClicked && lastTownClicked.tag == "Town") {
+                    }
+                }
+                //If the player has double clicked on a town
+                else if (hit.transform.gameObject == lastTownClicked && lastTownClicked.tag == "Town") {
                     Travel.Towns selectedTown = CurrentTown(lastTownClicked);
+                    //If not unlocked, attempt to buy
                     if (!Travel.unlockedTowns.Contains(selectedTown)) {
                         bool completeTransaction = Travel.UnlockNewTown(selectedTown);
                         lastTownClicked = null;
-                        if (completeTransaction) {
-                            helperText.text = selectedTown + " can now be travelled to";
-                        } else {
-                            helperText.text = "Insufficent gold to travel to next town";
+                        //If this was the first town unlocked, make it the current
+                        if (Travel.unlockedTowns.Count == 1 && completeTransaction) {
+                            player.SetActive(true);
+                            player.transform.position = ReturnTownPosition(selectedTown);
+                            helperText.text = "Welcome to " + selectedTown;
+                            Travel.ChangeCurrentTown(selectedTown);
+                            currentTown = selectedTown;
+                            newTown = selectedTown;
                         }
-                    } else {
+                        //Else if it was a subsequent town, check the purchase was successful
+                        else {
+                            if (completeTransaction) {
+                                helperText.text = selectedTown + " can now be travelled to";
+                            }
+                            else {
+                                helperText.text = "Insufficent gold to travel to next town";
+                            }
+                        }
+                    }
+                    //If the town has been unlocked, move to selected town
+                    else {
                         Travel.ChangeCurrentTown(selectedTown);
                         newTown = selectedTown;
                         helperText.enabled = false;
                         lastTownClicked = null;
+
                     }
                 }
             }
@@ -96,7 +119,7 @@ public class TravelSceneManager : MonoBehaviour {
 
     //Position player sprite over relevant town at scene load
     private Vector3 ReturnTownPosition(Travel.Towns town) {
-        Vector3 newPosition;   
+        Vector3 newPosition;
         switch (town) {
             case Travel.Towns.WickedGrove:
                 newPosition = town1.transform.position;
@@ -130,9 +153,12 @@ public class TravelSceneManager : MonoBehaviour {
     private void CheckPosition() {
         if (player.transform.position == ReturnTownPosition(newTown)) {
             currentTown = newTown;
+            /*
+             * This was used in the prototype to create an 'end'
             if (currentTown == Travel.Towns.Chelm) {
                 PrototypeEnd();
             }
+            */
         }
     }
     //Update Visuals to show which towns are unlocked
@@ -163,10 +189,15 @@ public class TravelSceneManager : MonoBehaviour {
         prototypeOver.enabled = false;
         prototypeEndText.enabled = false;
         helperText.enabled = false;
-        town1.GetComponent<Renderer>().material = unlocked;
-        town2.GetComponent<Renderer>().material = locked;
-        town3.GetComponent<Renderer>().material = locked;
-        player.transform.position = ReturnTownPosition(Travel.currentTown);
+        if (Travel.unlockedTowns.Count == 0) {
+            town1.GetComponent<Renderer>().material = locked;
+            town2.GetComponent<Renderer>().material = locked;
+            town3.GetComponent<Renderer>().material = locked;
+            player.SetActive(false);
+        }
+        else {
+            player.transform.position = ReturnTownPosition(Travel.currentTown);
+        }
     }
 
     //Return current town
@@ -180,7 +211,7 @@ public class TravelSceneManager : MonoBehaviour {
                 return Travel.Towns.Town3;
             default:
                 return currentTown;
-        } 
+        }
     }
 
     private void PrototypeEnd() {

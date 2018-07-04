@@ -19,7 +19,7 @@ public static class Travel {
     }
 
     public static void initialSetup() {
-        unlockedTowns.Add(Towns.WickedGrove);
+        lockedTowns.Add(Towns.WickedGrove);
         lockedTowns.Add(Towns.Chelm);
         lockedTowns.Add(Towns.Town3);
         lockedTowns.Add(Towns.Town4);
@@ -29,15 +29,15 @@ public static class Travel {
     //Costs to unlock various towns
     public static int[] costsToUnlock = {
         0,
-        1000,
-        5000,
-        13000,
-        50000
+        1,
+        1,
+        1,
+        1
     };
 
     //Method to unlock new town
     public static bool UnlockNewTown(Towns newTown) {
-        int newTownCost = costsToUnlock[(int)newTown];
+        int newTownCost = costsToUnlock[unlockedTowns.Count];
         if (Inventory.Instance.RemoveGold(newTownCost)) {
             unlockedTowns.Add(newTown);
             lockedTowns.Remove(newTown);
@@ -51,6 +51,10 @@ public static class Travel {
         if (unlockedTowns.Contains(newTown)) {
             currentTown = newTown;
         }
+    }
+
+    public static int NextPurchaseCost() {
+        return costsToUnlock[unlockedTowns.Count];
     }
 
 }
