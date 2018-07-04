@@ -57,4 +57,7 @@ public static class Travel {
         return costsToUnlock[unlockedTowns.Count];
     }
 
+    public static Towns ReturnCurrentTown() {
+        return currentTown;
+    }
 }

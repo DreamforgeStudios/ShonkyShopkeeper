@@ -4,34 +4,22 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
-public class UIManager : MonoBehaviour {
-    
-    //public Image Arrow;
-    private bool topScreen;
+public class UIManagerShop : MonoBehaviour {
     private Camera main;
-    private Quaternion rot1;
-    private Quaternion rot2;
-    private Quaternion currentRotaton;
-    public Canvas mineDesignTravelIcons;
-    public GameObject toolboxTools;
+    //public Canvas mineDesignTravelIcons;
+    //public GameObject toolboxTools;
+    public SpriteRenderer shopBG;
+    public Sprite town1, town2, town3, town4;
+
 
 	// Use this for initialization
 	void Start () {
         main = Camera.main;
-        //rot1 = Arrow.transform.rotation;
-        //rot2 = Quaternion.Euler(0, 0, 180);
-        //currentRotaton = rot1;
     }
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-        //topScreen = main.GetComponent<CameraSwipe>().startingPosition;
-        //if (topScreen) {
-            //Arrow.transform.DORotate(rot1.eulerAngles, 0.7f);
-        //} else {
-            //Arrow.transform.DORotate(rot2.eulerAngles, 0.7f);
-        //}
-        //currentRotaton = Arrow.transform.rotation;
+        /*
         if (main.GetComponent<CameraTap>().AtTopScreen()) {
             mineDesignTravelIcons.enabled = false;
             toolboxTools.SetActive(false);
@@ -39,5 +27,28 @@ public class UIManager : MonoBehaviour {
             mineDesignTravelIcons.enabled = true;
             toolboxTools.SetActive(true);
         }
+        */
+        DetermineBG();
 	}
+
+    private void DetermineBG() {
+        Debug.Log(Travel.ReturnCurrentTown());
+        switch (Travel.ReturnCurrentTown()) {
+            case Travel.Towns.WickedGrove:
+                shopBG.sprite = town1;
+                break;
+            case Travel.Towns.Chelm:
+                shopBG.sprite = town2;
+                break;
+            case Travel.Towns.Town3:
+                shopBG.sprite = town3;
+                break;
+            case Travel.Towns.Town4:
+                shopBG.sprite = town4;
+                break;
+            default:
+                shopBG.sprite = town2;
+                break;
+        }
+    }
 }

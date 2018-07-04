@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
 	public static GameManager instance = null;
-
+    
 	// TODO, this is no longer needed.
 	private float[] gameScores;
 
@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour {
 	public Personality currentPersonality = null;
 	public Shonky currentShonky = null;
 	public Sprite currentSprite = null;
+    public Travel.Towns currentTown;
 
 	void Awake () {
 		if (instance == null) {
@@ -39,4 +40,8 @@ public class GameManager : MonoBehaviour {
 
 		return Quality.QualityGrade.Sturdy;
 	}
+
+    public void UpdateCurrentTown() {
+        currentTown = Travel.ReturnCurrentTown();
+    }
 }
