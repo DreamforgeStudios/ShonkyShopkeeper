@@ -12,9 +12,7 @@ public class TravelSceneManager : MonoBehaviour {
     public float playerMoveSpeed;
 
     //Objects used as representations of towns on map
-    public GameObject town1;
-    public GameObject town2;
-    public GameObject town3;
+    public GameObject town1, town2, town3, town4;
 
     //Materials to represent unlocked towns
     public Material unlocked;
@@ -197,6 +195,7 @@ private bool movementFinished = false;
             town1.GetComponent<Renderer>().material = locked;
             town2.GetComponent<Renderer>().material = locked;
             town3.GetComponent<Renderer>().material = locked;
+            town4.GetComponent<Renderer>().material = locked;
             player.SetActive(false);
         }
         else {
@@ -213,6 +212,8 @@ private bool movementFinished = false;
                 return Travel.Towns.Chelm;
             case "Town3":
                 return Travel.Towns.Town3;
+            case "Town4":
+                return Travel.Towns.Town4;
             default:
                 return currentTown;
         }
