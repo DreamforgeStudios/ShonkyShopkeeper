@@ -5,10 +5,9 @@ using UnityEngine;
 [System.Serializable]
 [CreateAssetMenu(menuName = "Items/Gem", fileName = "GemName.asset")]
 public class Gem : Item {
-    public GemType gemType;
-
-    public override string GetItemInfo() {
-        // TODO.
-        return "";
+    public enum GemType {
+        Ruby, Diamond, Sapphire, Emerald
     }
+    
+    public GemType gemType;
 }

@@ -5,10 +5,9 @@ using UnityEngine;
 [System.Serializable]
 [CreateAssetMenu(menuName = "Items/Charged Jewel", fileName = "Charged Jewel.asset")]
 public class ChargedJewel : Item {
-    public GemType gemType;
-
-    public override string GetItemInfo() {
-        // TODO.
-        return "";
+    public enum GemType {
+        Ruby, Diamond, Sapphire, Emerald
     }
+    
+    public GemType gemType;
 }

@@ -5,13 +5,13 @@ using UnityEngine;
 [System.Serializable]
 [CreateAssetMenu(menuName = "Items/Shonky", fileName = "Shonky.asset")]
 public class Shonky : Item {
-    //public Quality.QualityGrade quality;
+    public enum GemType {
+        Ruby, Diamond, Sapphire, Emerald
+    }
+    
     public GemType type;
     public float basePrice;
-    public string ItemName() {
-        return "Shonky";
-    }
-
+    
     // Return a string to be used in the UI.
     // TODO: need a way to get item color.
     public string ItemInfo() {
@@ -20,9 +20,5 @@ public class Shonky : Item {
         string terminate = "</color>";
         return string.Format("Quality: {0}{1}{2}" + System.Environment.NewLine +
                              "Type: {3}{4}{5}", colString, Quality.QualityGrade.Passable, terminate, colString, type, terminate);
-    }
-
-    public override string GetItemInfo() {
-        throw new System.NotImplementedException();
     }
 }

@@ -32,7 +32,7 @@ public class UIManagerShop : MonoBehaviour {
 	}
 
     private void DetermineBG() {
-        Debug.Log(Travel.ReturnCurrentTown());
+        //Debug.Log(Travel.ReturnCurrentTown());
         switch (Travel.ReturnCurrentTown()) {
             case Travel.Towns.WickedGrove:
                 shopBG.sprite = town1;

@@ -5,10 +5,9 @@ using UnityEngine;
 [System.Serializable]
 [CreateAssetMenu(menuName = "Items/Shell", fileName = "Shell.asset")]
 public class Shell : Item {
-    public RuneType runeType;
-
-    public override string GetItemInfo() {
-        // TODO.
-        return "";
+    public enum RuneType {
+        Rune1, Rune2, Rune3
     }
+    
+    public RuneType runeType;
 }

@@ -69,7 +69,7 @@ public class Cutting : MonoBehaviour {
     public int amountOfParticles = 5;
     //private ParticleSystem.EmitParams emitParams;
 
-	public ItemDatabase db;
+	//public ItemDatabase db;
 
 	private bool start = false;
 
@@ -217,30 +217,6 @@ public class Cutting : MonoBehaviour {
 	}
 
 	private void GameOver() {
-		// Calculate the average cut grade.
-		/*
-		float sum = 0;
-		foreach (float score in scores) {
-			sum += score;
-		}
-
-		// Average.
-		sum /= scores.Length;
-		// Use as a percentage.
-		sum = 1-sum;
-
-		percentText.text = ((int)(sum*100f)).ToString() + "%";
-		percentText.color = Color.Lerp(Color.red, Color.green, sum);
-
-		Quality.QualityGrade grade = Quality.FloatToGrade(sum, 3);
-		gradeText.text = Quality.GradeToString(grade);
-		gradeText.color = Quality.GradeToColor(grade);
-
-		gradeText.gameObject.SetActive(true);
-		if (GameManager.instance) {
-			GameManager.instance.UpdateQuality(sum, 2);
-		}
-		*/
 		Countdown.onComplete -= GameOver;
 		var grade = qualityBar.Finish();
 		qualityBar.Disappear();
@@ -250,7 +226,7 @@ public class Cutting : MonoBehaviour {
 		gradeText.gameObject.SetActive(true);
 
         // TODO: back to shop button needs to change to facilitate restarting games.
-        Inventory.Instance.InsertItem(new ItemInstance(db.GetActual("Cut " + DataTransfer.GemType), 1, grade, true));
+        Inventory.Instance.InsertItem(new ItemInstance("Cut " + DataTransfer.GemType, 1, grade, true));
 
 		ShowUIButtons();
 	}

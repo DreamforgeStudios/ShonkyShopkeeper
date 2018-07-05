@@ -12,22 +12,22 @@ EditorBuildSettings:
     path: Assets/Scenes/Shop.unity
     guid: c91e58d7f01ad9440b20bce7657bda57
   - enabled: 1
-    path: Assets/Scenes/Barter.unity
+    path: Assets/Scenes/Games/Barter.unity
     guid: ff648dfa30026a3419eb257067105976
   - enabled: 1
-    path: Assets/Scenes/Cutting.unity
+    path: Assets/Scenes/Games/Cutting.unity
     guid: 9046163d059a8ce419e26f2ab3c54248
   - enabled: 1
     path: Assets/Scenes/Mine.unity
     guid: 2a36c2060f6cff6498c014eb597828c4
   - enabled: 1
-    path: Assets/Scenes/Polishing.unity
+    path: Assets/Scenes/Games/Polishing.unity
     guid: 6c0e065d2479f124c9405b7fa6ad2532
   - enabled: 1
-    path: Assets/Scenes/Smelting.unity
+    path: Assets/Scenes/Games/Smelting.unity
     guid: 13fb47599041cb1468c09c0b3907efe9
   - enabled: 1
-    path: Assets/Scenes/Tracing.unity
+    path: Assets/Scenes/Games/Tracing.unity
     guid: a0b73164eaf72454ba73b1e3bfb3f674
   - enabled: 1
     path: Assets/Scenes/TravelScreen.unity
@@ -35,3 +35,4 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/DesignPurchase.unity
     guid: 83153ad4e77557d468a73834c8dbefcc
+  m_configObjects: {}

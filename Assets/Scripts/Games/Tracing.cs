@@ -73,7 +73,7 @@ public class Tracing : MonoBehaviour {
     // Quality bar.
     public QualityBar qualityBar;
 
-    public ItemDatabase db;
+    //public ItemDatabase db;
 
     private bool start = false;
 
@@ -224,7 +224,7 @@ public class Tracing : MonoBehaviour {
 
         // TODO: back to shop button needs to change to facilitate restarting games.
 		grade = Quality.CalculateCombinedQuality(DataTransfer.currentQuality, grade);
-        Inventory.Instance.InsertItem(new ItemInstance(db.GetActual("Shell"), 1, grade, true));
+        Inventory.Instance.InsertItem(new ItemInstance("Shell", 1, grade, true));
     }
 
     private void DetermineQuality(float finalScore) {

@@ -504,7 +504,7 @@ public class Toolbox : MonoBehaviour {
         Quality.QualityGrade item1 = currentSelection.itemInstance.quality;
         Quality.QualityGrade item2 = slot.itemInstance.quality;
         Quality.QualityGrade avg = Quality.CalculateCombinedQuality(item1, item2);
-        ItemInstance newGolem = new ItemInstance(drop, 1, avg, true);
+        ItemInstance newGolem = new ItemInstance(gemType, 1, avg, true);
         int index = ShonkyInventory.Instance.InsertItem(newGolem);
         PhysicalShonkyInventory.Instance.InsertItemAtSlot(index, newGolem, inst);
         //Move new golem to pen
@@ -520,16 +520,18 @@ public class Toolbox : MonoBehaviour {
     }
     //Method used to find the gem type selected
     private string FindGemType(Slot slot1, Slot slot2) {
-        if (slot1.itemInstance.item.itemName == "Charged Emerald" || slot2.itemInstance.item.itemName == "Charged Emerald") {
+        if (slot1.itemInstance.GetItemName() == "Charged Emerald" || slot2.itemInstance.GetItemName() == "Charged Emerald") {
             return "EmeraldGolem1";
-        } else if (slot1.itemInstance.item.itemName == "Charged Ruby" || slot2.itemInstance.item.itemName == "Charged Ruby") {
+        } else if (slot1.itemInstance.GetItemName() == "Charged Ruby" || slot2.itemInstance.GetItemName() == "Charged Ruby") {
             return "RubyGolem1";
-        } else if (slot1.itemInstance.item.itemName == "Charged Sapphire" || slot2.itemInstance.item.itemName == "Charged Sapphire") {
+        } else if (slot1.itemInstance.GetItemName() == "Charged Sapphire" || slot2.itemInstance.GetItemName() == "Charged Sapphire") {
             return "SapphireGolem1";
         } else {
             return "RubyGolem1";
         }
     }
+    
+    // TODO: this should drop more than just ruby + ore?
     private void ResourcePouchOpen(Slot slot) {
         // Hard coded for now.  To do this dynamically, maybe put <names,chances> in a dictionary<string, float>.
         float rubyChance = 0.4f,
@@ -538,23 +540,24 @@ public class Toolbox : MonoBehaviour {
 
         var drops = new List<ItemInstance>();
         for (int i = 0; i < numberItems; i++) {
-            Item drop;
+            string dropName;
             float spin = Random.Range(0, 1f);
             if (spin < rubyChance) {
-                drop = database.GetActual("Ruby");
+                dropName = "Ruby";
             }
             else if (spin < oreChance) {
-                drop = database.GetActual("Ore");
+                dropName = "Ore";
             }
             else {
-                drop = null;
+                dropName = null;
             }
 
             // Item is not new for now.
-            drops.Add(new ItemInstance(drop, 1, Quality.QualityGrade.Unset, false));
+            if (dropName != null)
+                drops.Add(new ItemInstance(dropName, 1, Quality.QualityGrade.Unset, false));
         }
 
-        Inventory inv= Inventory.Instance;
+        Inventory inv = Inventory.Instance;
         slot.RemoveItem();
         inv.RemoveItem(slot.index);
 
@@ -563,7 +566,7 @@ public class Toolbox : MonoBehaviour {
             // If found a slot to place item.
             if (pos != -1) {
                 Slot toSlot = physicalInventory.GetSlotAtIndex(pos);
-                GameObject clone = Instantiate(drop.item.physicalRepresentation, slot.transform.position, slot.transform.rotation);
+                GameObject clone = Instantiate(drop.GetItem().physicalRepresentation, slot.transform.position, slot.transform.rotation);
 
                 // Kind of a placeholder animation.
                 // TODO: randomize the Vector3.up a little so that the items separate when they go up.

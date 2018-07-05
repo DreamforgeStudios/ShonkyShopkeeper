@@ -31,29 +31,34 @@ public class ItemDatabase : ScriptableObject {
     public Item sapphireGolem1;
 
     public Item GetActual(string name) {
-		switch (name) {
-			case "Ruby": return ruby;
-			case "Sapphire": return sapphire;
-			case "Emerald": return emerald;
-			case "Diamond": return diamond;
-			case "Cut Ruby": return cutRuby;
-			case "Cut Sapphire": return cutSapphire;
-			case "Cut Emerald": return cutEmerald;
-			case "Cut Diamond": return cutDiamond;
-			case "Charged Ruby": return chargedRuby;
-			case "Charged Sapphire": return chargedSapphire;
-			case "Charged Emerald": return chargedEmerald;
-			case "Charged Diamond": return chargedDiamond;
-			case "Ore": return ore;
-			case "Brick": return brick;
-			case "Shell": return shell;
-			case "Pouch": return pouch;
-            case "Empty": return empty;
-            case "EmeraldGolem1": return emeraldGolem1;
-            case "RubyGolem1": return rubyGolem1;
-            case "SapphireGolem1": return sapphireGolem1;
+	    if (name == null) {
+		    Debug.Log("GetActual(): name is null.  You're either checking an empty slot or using this function incorrectly.");
+		    return null;
+	    }
+	    
+		switch (name.ToLower()) {
+			case "ruby": return ruby;
+			case "sapphire": return sapphire;
+			case "emerald": return emerald;
+			case "diamond": return diamond;
+			case "cut ruby": return cutRuby;
+			case "cut sapphire": return cutSapphire;
+			case "cut emerald": return cutEmerald;
+			case "cut diamond": return cutDiamond;
+			case "charged ruby": return chargedRuby;
+			case "charged sapphire": return chargedSapphire;
+			case "charged emerald": return chargedEmerald;
+			case "charged diamond": return chargedDiamond;
+			case "ore": return ore;
+			case "brick": return brick;
+			case "shell": return shell;
+			case "pouch": return pouch;
+            case "empty": return empty;
+            case "emeraldgolem1": return emeraldGolem1;
+            case "rubygolem1": return rubyGolem1;
+            case "sapphiregolem1": return sapphireGolem1;
 
-            default: return ruby;
+            default: return null;
 		}
 	}
 

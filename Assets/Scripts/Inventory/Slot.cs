@@ -15,7 +15,7 @@ public class Slot : MonoBehaviour {
 	public void SetItem(ItemInstance instance) {
 		this.itemInstance = instance;
 		// Instantiate as a child of this transform, though don't pay too much attention to this because it can get muddled by SetItemInstantiated().
-		this.prefabInstance = Instantiate(instance.item.physicalRepresentation, transform.position, RandomRotation(transform.rotation), this.transform);
+		this.prefabInstance = Instantiate(instance.GetItem().physicalRepresentation, transform.position, RandomRotation(transform.rotation), this.transform);
 	}
 
 	// Use this method if you don't want the slot to spawn a new object.
@@ -48,12 +48,12 @@ public class Slot : MonoBehaviour {
 	}
 
 	public bool GetItem(out Item item) {
-		if (this.itemInstance == null || this.itemInstance.item == null) { //|| this.itemInstance.item.GetType() == typeof(Empty)) {
+		if (this.itemInstance == null || this.itemInstance.GetItem() == null) { //|| this.itemInstance.item.GetType() == typeof(Empty)) {
 			item = null;
 			return false;
 		}
 
-		item = this.itemInstance.item;
+		item = this.itemInstance.GetItem();
 		return true;
 	}
 

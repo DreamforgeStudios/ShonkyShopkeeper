@@ -47,7 +47,7 @@ public class Barter : MonoBehaviour {
 
     // Keep track of the NPC personality so that we can trigger events for them (shake, talk, etc).
     public Personality personality;
-    public Shonky defaultShonky;
+    //public Shonky defaultShonky;
 
     public ItemInstance shonky;
 
@@ -64,14 +64,14 @@ public class Barter : MonoBehaviour {
             }
         } else {
             Debug.Log("No shonky found, using default value.");
-            manager.shonkyInstance = new ItemInstance(defaultShonky, 1, Quality.QualityGrade.Sturdy, false);
+            manager.shonkyInstance = new ItemInstance("rubygolem1", 1, Quality.QualityGrade.Sturdy, false);
         }
 
         if (DataTransfer.currentPersonality) {
             this.personality = Instantiate(DataTransfer.currentPersonality);
             // TODO: messy code.
-            manager.SetBasePrice((shonky.item as Shonky).basePrice);
-            this.personality.InfluencePersonality(shonky.quality, (shonky.item as Shonky).basePrice);
+            manager.SetBasePrice((shonky.GetItem() as Shonky).basePrice);
+            this.personality.InfluencePersonality(shonky.quality, (shonky.GetItem() as Shonky).basePrice);
             LoadPersonality();
         } else {
             Debug.Log("No personality found, using default values.");

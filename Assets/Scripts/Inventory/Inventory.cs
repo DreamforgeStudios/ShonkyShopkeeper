@@ -46,12 +46,7 @@ public class Inventory : ScriptableObject {
     /* Inventory START */
     public int goldCount;
     public ItemInstance[] inventory;
-    //public ItemInstance empty;
     
-
-    // Not used in vertical slice.
-    // public int drawers;
-
     public void AddGold(int amount) {
         goldCount += amount;
         Save();
@@ -122,35 +117,12 @@ public class Inventory : ScriptableObject {
         return true;
     }
 
-    // Insert item at specific slot
-    /*
-    public bool InsertItemAtSlot(int index, ItemInstance item) {
-        if (!SlotEmpty(index)) {
-            return false;
-        } 
-
-        inventory[index] = item;
-        Save();
-        return true;
-    }
-    */
-
     public bool SlotEmpty(int index) {
-        if (inventory[index] == null || inventory[index].item == null) { //|| inventory[index].item.GetType() == typeof(Empty)) {
+        if (inventory[index] == null || inventory[index].GetItem() == null) { //|| inventory[index].item.GetType() == typeof(Empty)) {
             return true;
         }
         return false;
     }
-
-    /*
-    public bool PossibleEmpties(int index) {
-        Debug.Log("empty?: " + (inventory[index].item.GetType() == typeof(Empty)));
-        if (inventory[index].item.name == "Empty")
-            return true;
-        else
-            return false;
-    }
-    */
 
     public bool MarkNew(int index) {
         if (SlotEmpty(index)) {

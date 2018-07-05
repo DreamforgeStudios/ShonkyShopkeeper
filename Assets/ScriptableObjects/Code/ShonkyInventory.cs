@@ -124,7 +124,7 @@ public class ShonkyInventory : ScriptableObject {
     */
 
     public bool SlotEmpty(int index) {
-        if (shonkyInventory[index] == null || shonkyInventory[index].item == null) {
+        if (shonkyInventory[index] == null || shonkyInventory[index].GetItem() == null) {
             return true;
         }
 

@@ -74,7 +74,7 @@ public class Smelting : MonoBehaviour {
     public QualityBar qualityBar;
 
     // For looking up items.
-    public ItemDatabase db;
+    //public ItemDatabase db;
 
 
     private bool start;
@@ -291,7 +291,7 @@ public class Smelting : MonoBehaviour {
         qualityBar.Disappear();
 
         // TODO: back to shop button needs to change to facilitate restarting games.
-        Inventory.Instance.InsertItem(new ItemInstance(db.GetActual("Brick"), 1, grade, true));
+        Inventory.Instance.InsertItem(new ItemInstance("Brick", 1, grade, true));
 
         ShowUIButtons();
     }
