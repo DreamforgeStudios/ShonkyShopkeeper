@@ -11,9 +11,6 @@ public static class Travel {
     public static Towns currentTown {
         get { return Inventory.Instance.GetCurrentTown(); }
     }
-    //public static Towns currentTown;
-    //public static List<Towns> unlockedTowns;// = new List<Towns>();
-    //public static List<Towns> lockedTowns = new List<Towns>();
 
     //Replace town names once confirmed
     //All Possible towns in game
