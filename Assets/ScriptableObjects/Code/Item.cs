@@ -16,43 +16,51 @@ public abstract class Item : ScriptableObject {
 [System.Serializable]
 public class ItemInstance {
     //public Item item;
+    // TODO: shouldn't be able to access this publicly, but it isn't accessed at all at the moment.
     public int quantity = 1;
     public Quality.QualityGrade quality;
     public bool isNew;
+    public string itemIdentifier;
+    
+    public string itemInfo {
+        get { return GetItemInfo(); }
+    }
 
-    public string itemName;
-    private Item item = null;
+    public string itemName {
+        get { return GetItemName(); }
+    }
+
+    private Item _item = null;
+    public Item item {
+        get { return GetItem(); }
+    }
 
     public ItemInstance(string itemName, int quantity, Quality.QualityGrade quality, bool isNew) {
-        this.itemName = itemName;
+        this.itemIdentifier = itemName;
         this.quantity = quantity;
         this.quality = quality;
         this.isNew = isNew;
-
-        //item = (Resources.Load("ItemDatabase") as ItemDatabase).GetActual(itemName);
+        
+        _item = ((ItemDatabase) Resources.Load("ItemDatabase")).GetActual(itemIdentifier);
     }
 
     public void AddQuantity(int amount) {
         quantity = Mathf.Min(item.stackLimit, quantity + amount);
     }
 
-    public Item GetItem() {
-        if (item == null) {
-            item = (Resources.Load("ItemDatabase") as ItemDatabase).GetActual(itemName);
+    private Item GetItem() {
+        if (_item == null) {
+            _item = ((ItemDatabase) Resources.Load("ItemDatabase")).GetActual(itemIdentifier);
         }
 
-        return item;
+        return _item;
     }
 
-    public string GetItemName() {
-        if (item == null) {
-            item = (Resources.Load("ItemDatabase") as ItemDatabase).GetActual(itemName);
-        }
-        
+    private string GetItemName() {
         return item.itemName;
     }
 
-    public string GetItemInfo() {
+    private string GetItemInfo() {
         string grade = Quality.GradeToString(quality);
         string gradeCol = "#" + ColorUtility.ToHtmlStringRGB(Quality.GradeToColor(quality));
         string str = string.Format("Quality: <color={0}>{1}</color>\n" +

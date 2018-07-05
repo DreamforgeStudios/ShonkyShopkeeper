@@ -16,48 +16,48 @@ MonoBehaviour:
   - quantity: 1
     quality: 6
     isNew: 0
-    itemName: pouch
+    itemIdentifier: pouch
   - quantity: 1
     quality: 6
     isNew: 0
-    itemName: ruby
+    itemIdentifier: ore
   - quantity: 1
     quality: 6
     isNew: 0
-    itemName: sapphire
+    itemIdentifier: ore
   - quantity: 1
     quality: 6
     isNew: 0
-    itemName: ore
+    itemIdentifier: ore
   - quantity: 1
     quality: 6
     isNew: 0
-    itemName: emerald
+    itemIdentifier: emerald
   - quantity: 1
     quality: 6
     isNew: 0
-    itemName: ore
+    itemIdentifier: ruby
   - quantity: 1
     quality: 6
     isNew: 0
-    itemName: ore
+    itemIdentifier: sapphire
   - quantity: 0
     quality: 6
     isNew: 0
-    itemName: 
+    itemIdentifier: 
   - quantity: 0
     quality: 6
     isNew: 0
-    itemName: 
+    itemIdentifier: 
   - quantity: 0
     quality: 6
     isNew: 0
-    itemName: 
+    itemIdentifier: 
   - quantity: 0
     quality: 6
     isNew: 0
-    itemName: 
+    itemIdentifier: 
   - quantity: 0
     quality: 6
     isNew: 0
-    itemName: 
+    itemIdentifier: 

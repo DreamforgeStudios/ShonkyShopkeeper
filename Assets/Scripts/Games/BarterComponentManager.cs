@@ -50,7 +50,7 @@ public class BarterComponentManager : MonoBehaviour {
             Debug.Log("Couldn't find a sprite, will use default.");
         }
 
-        this.basePrice = (shonkyInstance.GetItem() as Shonky).basePrice;
+        this.basePrice = (shonkyInstance.item as Shonky).basePrice;
         string grade = Quality.GradeToString(shonkyInstance.quality);
         string gradeCol = "#" + ColorUtility.ToHtmlStringRGB(Quality.GradeToColor(shonkyInstance.quality));
         string str = string.Format("Base Price: <color=white>{0}</color>\n" +

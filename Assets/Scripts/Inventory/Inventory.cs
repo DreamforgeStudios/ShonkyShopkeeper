@@ -46,8 +46,8 @@ public class Inventory : ScriptableObject {
     /* Inventory START */
     public int goldCount;
     public ItemInstance[] inventory;
-    public List<Travel.Towns> unlockedTowns;
-    public Travel.Towns currentTown;
+    private List<Travel.Towns> unlockedTowns;
+    private Travel.Towns currentTown;
 
     public void UnlockTown(Travel.Towns town) {
         if (unlockedTowns.Contains(town)) {
@@ -143,7 +143,7 @@ public class Inventory : ScriptableObject {
     }
 
     public bool SlotEmpty(int index) {
-        if (inventory[index] == null || inventory[index].GetItem() == null) { //|| inventory[index].item.GetType() == typeof(Empty)) {
+        if (inventory[index] == null || inventory[index].item == null) { //|| inventory[index].item.GetType() == typeof(Empty)) {
             return true;
         }
         return false;
