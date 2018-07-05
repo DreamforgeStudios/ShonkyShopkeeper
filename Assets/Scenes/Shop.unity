@@ -7115,6 +7115,7 @@ MonoBehaviour:
   - {fileID: 1263235941338246, guid: 0c0ece20736997c4b98853fc5112fc95, type: 2}
   - {fileID: 1799799285901888, guid: 4c6a45fdd6fe73344972f14cd436b81d, type: 2}
   - {fileID: 1019338318774944, guid: e2d254816e97d684a959d43b1f7aa468, type: 2}
+  - {fileID: 1367115471572140, guid: 763cdbf279ee91d4496af6fe5acf2cf6, type: 2}
   walkSpeed: 2
   scaleMin: 0.8
   scaleMax: 1.2

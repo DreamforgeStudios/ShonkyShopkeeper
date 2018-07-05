@@ -29,7 +29,8 @@ public class NPCSpawner : MonoBehaviour {
 		timer += Time.deltaTime;
 		// Instantiate an NPC and set them walking.
 		if (timer > spawnInterval) {
-			GameObject npcToSpawn = potentialSpawns[Random.Range(0, potentialSpawns.Length)];
+            //Determine NPC to Spawn based on town
+            GameObject npcToSpawn = DetermineNPCToSpawn();
 			int positionToSpawn = Random.Range(0, spawns.Length);
 			GameObject clone = Instantiate(npcToSpawn, spawns[positionToSpawn], Quaternion.identity);
 			NPCWalker walker = clone.GetComponent<NPCWalker>();
@@ -58,4 +59,19 @@ public class NPCSpawner : MonoBehaviour {
 			Gizmos.DrawLine(spawns[i], spawns[i] + new Vector3(spawnDirections[i] * 5, 0, 0));
 		}
 	}
+
+    private GameObject DetermineNPCToSpawn() {
+        switch (Travel.ReturnCurrentTown()) {
+            case Travel.Towns.WickedGrove:
+                return potentialSpawns[0];
+            case Travel.Towns.Chelm:
+                return potentialSpawns[1];
+            case Travel.Towns.Town3:
+                return potentialSpawns[2];
+            case Travel.Towns.Town4:
+                return potentialSpawns[3];
+            default:
+                return potentialSpawns[0];
+        }
+    }
 }
