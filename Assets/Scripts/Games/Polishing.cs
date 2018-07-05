@@ -42,10 +42,7 @@ public class Polishing : MonoBehaviour {
     public TextMeshProUGUI qualityText;
     public Slider timerSlider;
     public Image sliderImage;
-    public Button nextScene;
-    public Button retryScene;
-    public GameObject nextButtonGroup;
-    public GameObject retrySceneGroup;
+    public GameObject returnOrRetryButtons;
 
     //Vector to swipe over
     private Vector3 keyPoint;
@@ -192,15 +189,14 @@ public class Polishing : MonoBehaviour {
         qualityBar.Add(swipeContribution);
     }
 
+	private Quality.QualityGrade grade = Quality.QualityGrade.Unset;
     private void GameOver() {
         StopCoroutine(CalculateSwipes(false));
         Countdown.onComplete -= GameOver;
         //if (gameOver) {
         //CalculateGrade();
         gameOver = true;
-        nextButtonGroup.SetActive(true);
-        retrySceneGroup.SetActive(true);
-        var grade = qualityBar.Finish();
+        grade = qualityBar.Finish();
         qualityText.text = Quality.GradeToString(grade);
         qualityText.color = Quality.GradeToColor(grade);
         qualityText.gameObject.SetActive(true);
@@ -208,11 +204,27 @@ public class Polishing : MonoBehaviour {
 
         // TODO: back to shop button needs to change to facilitate restarting games.
 		grade = Quality.CalculateCombinedQuality(DataTransfer.currentQuality, grade);
-        Inventory.Instance.InsertItem(new ItemInstance("Charged " + DataTransfer.GemType, 1, grade, true));
+        //Inventory.Instance.InsertItem(new ItemInstance("Charged " + DataTransfer.GemType, 1, grade, true));
 
         //nextScene.enabled = true;
         //retryScene.enabled = true;
         //}
+        
+        ShowUIButtons();
+    }
+    
+    // Return to shop.
+	public void Return() {
+		ReturnOrRetry.Return("Charged " + DataTransfer.GemType, grade);
+	}
+
+    // Retry (roload scene).
+	public void Retry() {
+		ReturnOrRetry.Retry();
+	}
+
+    public void ShowUIButtons() {
+	    returnOrRetryButtons.SetActive(true);
     }
 
 /*

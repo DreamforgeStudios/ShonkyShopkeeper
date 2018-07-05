@@ -72,9 +72,9 @@ public class Smelting : MonoBehaviour {
     //private ParticleSystem.EmitParams emitParams;
 
     public QualityBar qualityBar;
+	public GameObject returnOrRetryButtons;
 
     // For looking up items.
-    //public ItemDatabase db;
 
 
     private bool start;
@@ -209,36 +209,6 @@ public class Smelting : MonoBehaviour {
         fire.clip = audioObject.GetComponent<SmeltingAudio>().fireSound;
         fire.Play();
     }
-    /*
-	private void UpdateTimer() {
-		float closeness = 1 - Mathf.Abs(transform.eulerAngles.z - successPoint) / successRange;
-		if (closeness > 0 && timeToGo > 0) {
-			started = true;
-			float newTime = timeToGo - Time.deltaTime;
-			timeToGo = newTime < 0 ? 0 : newTime;
-			timer.text = timeToGo.ToString("n3");
-		}
-		
-		if (started && timeToGo > 0) {
-			// There should be a faster/more efficient way to do this.
-			runningTotal += Mathf.Lerp(-1f, 1f, closeness);
-			debug.text = runningTotal.ToString("n2");
-		}
-
-        if (timeToGo <= 0) {
-			float quality = Mathf.InverseLerp(worstScore, bestScore, runningTotal);
-			Quality.QualityGrade grade = Quality.FloatToGrade(quality, 3);
-			this.grade.text = Quality.GradeToString(grade);
-			this.grade.color = Quality.GradeToColor(grade);
-			this.grade.gameObject.SetActive(true);
-			if (GameManager.instance) {
-				GameManager.instance.UpdateQuality(quality, 0);
-			}
-			
-            ShowUIButtons();
-        }
-	}
-    */
 
 	private void UpdateDebug() {
         float closeness = 1 - Mathf.Abs(transform.eulerAngles.z - successPoint) / successRange;
@@ -264,11 +234,6 @@ public class Smelting : MonoBehaviour {
 		*/
     }
 
-    public void ShowUIButtons() {
-        nextScene.SetActive(true);
-        retryScene.SetActive(true);
-    }
-
     private void UpdateFeedback() {
         if(transform.eulerAngles.z < successPoint) {
             holder.enabled = true;
@@ -281,18 +246,32 @@ public class Smelting : MonoBehaviour {
         }
     }
 
+	
+	private Quality.QualityGrade grade = Quality.QualityGrade.Unset;
     private void GameOver() {
         Countdown.onComplete -= GameOver;
 
-        var grade = qualityBar.Finish();
+        grade = qualityBar.Finish();
         qualityText.text = Quality.GradeToString(grade);
         qualityText.color = Quality.GradeToColor(grade);
         qualityText.gameObject.SetActive(true);
         qualityBar.Disappear();
 
         // TODO: back to shop button needs to change to facilitate restarting games.
-        Inventory.Instance.InsertItem(new ItemInstance("Brick", 1, grade, true));
+        //Inventory.Instance.InsertItem(new ItemInstance("Brick", 1, grade, true));
 
         ShowUIButtons();
+    }
+	
+	public void Return() {
+		ReturnOrRetry.Return("Brick", grade);
+	}
+
+	public void Retry() {
+		ReturnOrRetry.Retry();
+	}
+
+    public void ShowUIButtons() {
+	    returnOrRetryButtons.SetActive(true);
     }
 }

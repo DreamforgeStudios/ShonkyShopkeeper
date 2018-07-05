@@ -221,8 +221,8 @@ public class Toolbox : MonoBehaviour {
                 currentSelection = slot;
                 inspectionPanel.SetActive(true);
 
-                textHeading.text = instance.GetItemName();
-                textInfo.text = instance.GetItemInfo();
+                textHeading.text = instance.itemName;
+                textInfo.text = instance.itemInfo;
 
                 // Animate using tween library -> see https://easings.net/ for some animaions to use.
                 GameObject itemObj;
@@ -520,11 +520,11 @@ public class Toolbox : MonoBehaviour {
     }
     //Method used to find the gem type selected
     private string FindGemType(Slot slot1, Slot slot2) {
-        if (slot1.itemInstance.GetItemName() == "Charged Emerald" || slot2.itemInstance.GetItemName() == "Charged Emerald") {
+        if (slot1.itemInstance.itemName == "Charged Emerald" || slot2.itemInstance.itemName == "Charged Emerald") {
             return "EmeraldGolem1";
-        } else if (slot1.itemInstance.GetItemName() == "Charged Ruby" || slot2.itemInstance.GetItemName() == "Charged Ruby") {
+        } else if (slot1.itemInstance.itemName == "Charged Ruby" || slot2.itemInstance.itemName == "Charged Ruby") {
             return "RubyGolem1";
-        } else if (slot1.itemInstance.GetItemName() == "Charged Sapphire" || slot2.itemInstance.GetItemName() == "Charged Sapphire") {
+        } else if (slot1.itemInstance.itemName == "Charged Sapphire" || slot2.itemInstance.itemName == "Charged Sapphire") {
             return "SapphireGolem1";
         } else {
             return "RubyGolem1";
@@ -566,7 +566,7 @@ public class Toolbox : MonoBehaviour {
             // If found a slot to place item.
             if (pos != -1) {
                 Slot toSlot = physicalInventory.GetSlotAtIndex(pos);
-                GameObject clone = Instantiate(drop.GetItem().physicalRepresentation, slot.transform.position, slot.transform.rotation);
+                GameObject clone = Instantiate(drop.item.physicalRepresentation, slot.transform.position, slot.transform.rotation);
 
                 // Kind of a placeholder animation.
                 // TODO: randomize the Vector3.up a little so that the items separate when they go up.

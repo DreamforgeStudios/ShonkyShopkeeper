@@ -49,27 +49,16 @@ public class Cutting : MonoBehaviour {
 	// Keep a reference around to despawn later.
 	private GameObject currentCutPoint;
 
-	// DEBUG.
-	/*
-	private float oCloseness;
-	private float vCloseness;
-	private float lCloseness;
-	private float tCloseness;
-	*/
 	public GameObject cutIndicator;
 
 	public bool debug = false;
 
-    //Two objects to show and hide for restart and scene change
-    public GameObject nextScene;
-    public GameObject retryScene;
+	// Object that holds return and retry buttons.
+    public GameObject returnOrRetryButtons;
 
     //Particle System
     public ParticleSystem particle;
     public int amountOfParticles = 5;
-    //private ParticleSystem.EmitParams emitParams;
-
-	//public ItemDatabase db;
 
 	private bool start = false;
 
@@ -86,21 +75,8 @@ public class Cutting : MonoBehaviour {
 		// Should probably do more initialization here...
 		currentIndex = 0;
 		SpawnCut(cutOrigins[currentIndex], cutVectors[currentIndex]);
-
-		// Initialize to the size we need.
-		//scores = new float[cutOrigins.Length];
-
-        //Initialize custom particle system parameters
-        //emitParams = new ParticleSystem.EmitParams();
     }
 
-	private void SpawnCut(Vector3 origin, Vector3 cut) {
-		// Instantiate cut at point.
-		currentCutPoint = Instantiate(cutIndicator, origin, Quaternion.identity);
-		//CutPoint point = currentCutPoint.GetComponent<CutPoint>();
-		//point.SetCutVector(cut);
-	}
-	
 	// Update is called once per frame
 	void Update () {
 		// Don't do anything if the game hasn't started.
@@ -163,7 +139,6 @@ public class Cutting : MonoBehaviour {
 		qualityBar.Subtract(close);
 		if (currentIndex < cutVectors.Length)
 			currentIndex++;
-		//scores[currentIndex++] = close;
 		touchOrigin = null;
 	}
 
@@ -192,11 +167,10 @@ public class Cutting : MonoBehaviour {
 			Vector2 mousePos = Input.mousePosition;
 			touchVector = ConvertToWorldPoint(mousePos) - touchOrigin;
 			float close = CalculateCloseness(touchOrigin.Value, touchVector.Value, swipeTime);
-			Debug.Log(close);
+			//Debug.Log(close);
 			qualityBar.Subtract(close*close);
 			if (currentIndex < cutVectors.Length)
 				currentIndex++;
-			//scores[currentIndex++] = close;
 			DrawDebugLine(touchOrigin.Value);
 
 			// Reset the origin.
@@ -215,26 +189,15 @@ public class Cutting : MonoBehaviour {
             particle.Emit(amountOfParticles);
         }
 	}
-
-	private void GameOver() {
-		Countdown.onComplete -= GameOver;
-		var grade = qualityBar.Finish();
-		qualityBar.Disappear();
-		//Quality.QualityGrade grade = Quality.FloatToGrade(grade, 3);
-		gradeText.text = Quality.GradeToString(grade);
-		gradeText.color = Quality.GradeToColor(grade);
-		gradeText.gameObject.SetActive(true);
-
-        // TODO: back to shop button needs to change to facilitate restarting games.
-        Inventory.Instance.InsertItem(new ItemInstance("Cut " + DataTransfer.GemType, 1, grade, true));
-
-		ShowUIButtons();
+	
+	
+	
+	/* START CUT THINGS */
+	private void SpawnCut(Vector3 origin, Vector3 cut) {
+		// Instantiate cut at point.
+		currentCutPoint = Instantiate(cutIndicator, origin, Quaternion.identity);
 	}
-
-	private void DrawDebugLine(Vector3 origin) {
-		Vector3 end = ConvertToWorldPoint(Input.mousePosition);
-		Debug.DrawLine(origin, end, Color.yellow, 2);
-	}
+	
 
 	// TODO: this will eventually go in the input manager.
 	private Vector3 ConvertToWorldPoint(Vector3 screenPoint) {
@@ -245,7 +208,6 @@ public class Cutting : MonoBehaviour {
 	}
 
 	private float CalculateCloseness(Vector3 origin, Vector3 vec, float time) {
-		//origin = ConvertToWorldPoint(origin);
 
 		// 0 = close, 1 = far.
 		float originCloseness = 0f;
@@ -281,9 +243,14 @@ public class Cutting : MonoBehaviour {
 		lengthCloseness *= impactLength;
 		timeCloseness *= impactTime;
 
-		Debug.LogFormat("Origin closeness: {0}, Vector closeness: {1}, LengthCloseness: {2}, TimeCloseness: {3}", originCloseness, vectorCloseness, lengthCloseness, timeCloseness);
+		//Debug.LogFormat("Origin closeness: {0}, Vector closeness: {1}, LengthCloseness: {2}, TimeCloseness: {3}", originCloseness, vectorCloseness, lengthCloseness, timeCloseness);
 
 		return (originCloseness + vectorCloseness + lengthCloseness + timeCloseness) / 4f;
+	}
+	
+	private void DrawDebugLine(Vector3 origin) {
+		Vector3 end = ConvertToWorldPoint(Input.mousePosition);
+		Debug.DrawLine(origin, end, Color.yellow, 2);
 	}
 
 	// Debug function.
@@ -301,33 +268,31 @@ public class Cutting : MonoBehaviour {
 		}
 	}
 
-	public void Reset() {
-		SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+	private Quality.QualityGrade grade = Quality.QualityGrade.Unset;
+	private void GameOver() {
+		Countdown.onComplete -= GameOver;
+		grade = qualityBar.Finish();
+		qualityBar.Disappear();
+		//Quality.QualityGrade grade = Quality.FloatToGrade(grade, 3);
+		gradeText.text = Quality.GradeToString(grade);
+		gradeText.color = Quality.GradeToColor(grade);
+		gradeText.gameObject.SetActive(true);
+
+        // TODO: back to shop button needs to change to facilitate restarting games.
+        //Inventory.Instance.InsertItem(new ItemInstance("Cut " + DataTransfer.GemType, 1, grade, true));
+
+		ShowUIButtons();
+	}
+
+	public void Return() {
+		ReturnOrRetry.Return("Cut " + DataTransfer.GemType, grade);
+	}
+
+	public void Retry() {
+		ReturnOrRetry.Retry();
 	}
 
     public void ShowUIButtons() {
-        nextScene.SetActive(true);
-        retryScene.SetActive(true);
+	    returnOrRetryButtons.SetActive(true);
     }
-
-/*
-    void OnGUI()
-    {
-        Camera  c = Camera.main;
-        Event   e = Event.current;
-        Vector2 mousePos = new Vector2();
-
-        // Get the mouse position from Event.
-        // Note that the y position from Event is inverted.
-        mousePos.x = e.mousePosition.x;
-        mousePos.y = c.pixelHeight - e.mousePosition.y;
-
-        GUILayout.BeginArea(new Rect(20, 20, 250, 120));
-        GUILayout.Label("Origin Closeness: " + oCloseness);
-        GUILayout.Label("Vector Closeness: " + vCloseness);
-        GUILayout.Label("Length Closeness: " + lCloseness);
-        GUILayout.Label("Time Closeness: " + tCloseness);
-        GUILayout.EndArea();
-    }
-	*/
 }

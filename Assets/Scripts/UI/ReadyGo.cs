@@ -20,7 +20,6 @@ public class ReadyGo : MonoBehaviour {
 	public delegate void OnComplete();
 	public static event OnComplete onComplete;
 
-
 	// Use this for initialization
 	void Start () {
 		curTime = 0f;

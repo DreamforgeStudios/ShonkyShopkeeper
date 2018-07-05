@@ -70,8 +70,8 @@ public class Barter : MonoBehaviour {
         if (DataTransfer.currentPersonality) {
             this.personality = Instantiate(DataTransfer.currentPersonality);
             // TODO: messy code.
-            manager.SetBasePrice((shonky.GetItem() as Shonky).basePrice);
-            this.personality.InfluencePersonality(shonky.quality, (shonky.GetItem() as Shonky).basePrice);
+            manager.SetBasePrice((shonky.item as Shonky).basePrice);
+            this.personality.InfluencePersonality(shonky.quality, (shonky.item as Shonky).basePrice);
             LoadPersonality();
         } else {
             Debug.Log("No personality found, using default values.");

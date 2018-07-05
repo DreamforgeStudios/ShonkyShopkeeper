@@ -31,8 +31,8 @@ public class ItemDatabase : ScriptableObject {
     public Item sapphireGolem1;
 
     public Item GetActual(string name) {
-	    if (name == null) {
-		    Debug.Log("GetActual(): name is null.  You're either checking an empty slot or using this function incorrectly.");
+	    if (name == null || name == "") {
+		    Debug.Log("GetActual(): name is null or empty.  You're either checking an empty slot or using this function incorrectly.");
 		    return null;
 	    }
 	    
@@ -58,7 +58,9 @@ public class ItemDatabase : ScriptableObject {
             case "rubygolem1": return rubyGolem1;
             case "sapphiregolem1": return sapphireGolem1;
 
-            default: return null;
+            default: 
+	            Debug.Log("Could not find an Item for key \"" + name + "\", is it typed correctly?");
+	            return null;
 		}
 	}
 

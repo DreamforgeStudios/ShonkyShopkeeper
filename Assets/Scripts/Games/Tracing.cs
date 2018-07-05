@@ -59,8 +59,8 @@ public class Tracing : MonoBehaviour {
     //private float accuracyScore = 0;
     private float score = 0;
     public float finalScore = 0;
-    public Quality.QualityGrade grade;
-    public static Quality.QualityGrade finalGrade;
+    //public Quality.QualityGrade grade;
+    //public static Quality.QualityGrade finalGrade;
 
     //Tming Variables
     public float startTime;
@@ -72,6 +72,7 @@ public class Tracing : MonoBehaviour {
 
     // Quality bar.
     public QualityBar qualityBar;
+    public GameObject returnOrRetryButtons;
 
     //public ItemDatabase db;
 
@@ -112,7 +113,7 @@ public class Tracing : MonoBehaviour {
         if (canTrace) {
             currentTime = Time.time;
             GetInput();
-            finalGrade = grade;
+            //finalGrade = grade;
         }
     }
 
@@ -208,23 +209,26 @@ public class Tracing : MonoBehaviour {
         }
     }
 
+	public Quality.QualityGrade grade = Quality.QualityGrade.Unset;
     private void GameOver() {
         Countdown.onComplete -= GameOver;
         //finalScore = CalculateTimeScore(score);
         //Debug.Log("Time Score is " + finalScore + " accuracy score is " + score);
         //DetermineQuality(finalScore);
-        var grade = qualityBar.Finish();
+        grade = qualityBar.Finish();
         qualityText.text = Quality.GradeToString(grade);
         qualityText.color = Quality.GradeToColor(grade);
         qualityText.gameObject.SetActive(true);
         qualityBar.Disappear();
         ResetOptimalPoints();
-        Button1Group.SetActive(true);
-        Button2Group.SetActive(true);
+        //Button1Group.SetActive(true);
+        //Button2Group.SetActive(true);
 
         // TODO: back to shop button needs to change to facilitate restarting games.
 		grade = Quality.CalculateCombinedQuality(DataTransfer.currentQuality, grade);
-        Inventory.Instance.InsertItem(new ItemInstance("Shell", 1, grade, true));
+        //Inventory.Instance.InsertItem(new ItemInstance("Shell", 1, grade, true));
+        
+        ShowUIButtons();
     }
 
     private void DetermineQuality(float finalScore) {
@@ -361,5 +365,17 @@ public class Tracing : MonoBehaviour {
         startTime = Time.time;
         finishTime = currentTime + timeLimit;
         numberOfTouches = 0;
+    }
+    
+	public void Return() {
+		ReturnOrRetry.Return("Shell", grade);
+	}
+
+	public void Retry() {
+		ReturnOrRetry.Retry();
+	}
+
+    public void ShowUIButtons() {
+	    returnOrRetryButtons.SetActive(true);
     }
 }
