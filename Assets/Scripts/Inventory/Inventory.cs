@@ -46,6 +46,31 @@ public class Inventory : ScriptableObject {
     /* Inventory START */
     public int goldCount;
     public ItemInstance[] inventory;
+    public List<Travel.Towns> unlockedTowns;
+    public Travel.Towns currentTown;
+
+    public void UnlockTown(Travel.Towns town) {
+        if (unlockedTowns.Contains(town)) {
+            Debug.Log("UnlockTown(): " + town.ToString() + " is already unlocked.");
+            return;
+        }
+        
+        unlockedTowns.Add(town);
+        Save();
+    }
+
+    public List<Travel.Towns> GetUnlockedTowns() {
+        return unlockedTowns;
+    }
+
+    public void SetCurrentTown(Travel.Towns town) {
+        currentTown = town;
+        Save();
+    }
+
+    public Travel.Towns GetCurrentTown() {
+        return currentTown;
+    }
     
     public void AddGold(int amount) {
         goldCount += amount;

@@ -4,9 +4,16 @@ using UnityEngine;
 
 [System.Serializable]
 public static class Travel {
-    public static Towns currentTown;
-    public static List<Towns> unlockedTowns = new List<Towns>();
-    public static List<Towns> lockedTowns = new List<Towns>();
+    public static List<Towns> unlockedTowns {
+        get { return Inventory.Instance.GetUnlockedTowns(); }
+    }
+
+    public static Towns currentTown {
+        get { return Inventory.Instance.GetCurrentTown(); }
+    }
+    //public static Towns currentTown;
+    //public static List<Towns> unlockedTowns;// = new List<Towns>();
+    //public static List<Towns> lockedTowns = new List<Towns>();
 
     //Replace town names once confirmed
     //All Possible towns in game
@@ -19,11 +26,13 @@ public static class Travel {
     }
 
     public static void initialSetup() {
+        /*
         lockedTowns.Add(Towns.WickedGrove);
         lockedTowns.Add(Towns.Chelm);
         lockedTowns.Add(Towns.Town3);
         lockedTowns.Add(Towns.Town4);
         lockedTowns.Add(Towns.Town5);
+        */
     }
 
     //Costs to unlock various towns
@@ -37,10 +46,16 @@ public static class Travel {
 
     //Method to unlock new town
     public static bool UnlockNewTown(Towns newTown) {
-        int newTownCost = costsToUnlock[unlockedTowns.Count];
+        int newTownCost = NextPurchaseCost();
+        if (Inventory.Instance.GetUnlockedTowns().Contains(newTown)) {
+            Debug.Log("UnlockNewTown(): " + newTown.ToString() + " is already unlocked.");
+            return false;
+        }
+        
         if (Inventory.Instance.RemoveGold(newTownCost)) {
-            unlockedTowns.Add(newTown);
-            lockedTowns.Remove(newTown);
+            Inventory.Instance.UnlockTown(newTown);
+            //unlockedTowns.Add(newTown);
+            //lockedTowns.Remove(newTown);
             return true;
         } else {
             return false;
@@ -48,16 +63,16 @@ public static class Travel {
     }
 
     public static void ChangeCurrentTown(Towns newTown) {
-        if (unlockedTowns.Contains(newTown)) {
-            currentTown = newTown;
+        if (Inventory.Instance.GetUnlockedTowns().Contains(newTown)) {
+            Inventory.Instance.SetCurrentTown(newTown);
         }
     }
 
     public static int NextPurchaseCost() {
-        return costsToUnlock[unlockedTowns.Count];
+        return costsToUnlock[Inventory.Instance.GetUnlockedTowns().Count];
     }
 
     public static Towns ReturnCurrentTown() {
-        return currentTown;
+        return Inventory.Instance.GetCurrentTown();
     }
 }
