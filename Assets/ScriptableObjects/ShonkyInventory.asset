@@ -12,23 +12,23 @@ MonoBehaviour:
   m_Name: ShonkyInventory
   m_EditorClassIdentifier: 
   shonkyInventory:
-  - item: {fileID: 0}
-    quantity: 1
+  - quantity: 1
+    quality: 4
+    isNew: 0
+    itemIdentifier: sapphireGolem1
+  - quantity: 1
     quality: 6
     isNew: 0
-  - item: {fileID: 0}
-    quantity: 1
+    itemIdentifier: 
+  - quantity: 1
     quality: 6
     isNew: 0
-  - item: {fileID: 0}
-    quantity: 1
+    itemIdentifier: 
+  - quantity: 0
     quality: 6
     isNew: 0
-  - item: {fileID: 0}
-    quantity: 0
-    quality: 6
-    isNew: 0
-  - item: {fileID: 0}
-    quantity: 0
+    itemIdentifier: 
+  - quantity: 0
     quality: 0
     isNew: 0
+    itemIdentifier: 

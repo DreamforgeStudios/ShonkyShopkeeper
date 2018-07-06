@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour {
 	public Shonky currentShonky = null;
 	public Sprite currentSprite = null;
     public Travel.Towns currentTown;
+    public static bool pickedUpGolem = false;
 
 	void Awake () {
 		if (instance == null) {

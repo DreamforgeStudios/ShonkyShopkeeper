@@ -20,7 +20,7 @@ public class ShonkyWander : MonoBehaviour {
     private Vector3 destination;
     public bool enableNavmesh = false;
     private bool firstTime = true;
-    
+    public bool pickedUp = false;
     
     
 	// Use this for initialization
@@ -30,22 +30,25 @@ public class ShonkyWander : MonoBehaviour {
         cooldownTime = Time.time;
         animator = GetComponent<Animator>();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-        if (enableNavmesh) {
-            Animate();
-            if (!firstTime) {
-                wanderTimer = Time.time;
-                if (wanderTimer > cooldownTime) {
-                    position = GetNewPosition(firstTime);
-                    cooldownTime = Time.time + UnityEngine.Random.Range(7.0f, 10.0f);
-                }
 
-                GoToNewPosition(position);
-            } else {
-                GoToWarpNewPosition(GetNewPosition(firstTime));
-                firstTime = false;
+    // Update is called once per frame
+    void Update() {
+        if (!pickedUp) {
+            if (enableNavmesh) {
+                Animate();
+                if (!firstTime) {
+                    wanderTimer = Time.time;
+                    if (wanderTimer > cooldownTime) {
+                        position = GetNewPosition(firstTime);
+                        cooldownTime = Time.time + UnityEngine.Random.Range(7.0f, 10.0f);
+                    }
+
+                    GoToNewPosition(position);
+                }
+                else {
+                    GoToWarpNewPosition(GetNewPosition(firstTime));
+                    firstTime = false;
+                }
             }
         }
     }
