@@ -4573,13 +4573,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 319573998}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0.017409166, w: 0.9998485}
   m_LocalPosition: {x: 6.17, y: 2.44, z: 0.63999987}
   m_LocalScale: {x: 0.099999994, y: 0.29999998, z: 1}
   m_Children: []
   m_Father: {fileID: 1829265239}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -1.9950001}
 --- !u!212 &319574000
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5117,7 +5117,7 @@ GameObject:
   - component: {fileID: 499280157}
   - component: {fileID: 499280158}
   - component: {fileID: 499280159}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: EntryPortal
   m_TagString: PortalEntry
   m_Icon: {fileID: 0}
@@ -7291,6 +7291,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1298b558057cd74aa88d141a10e91a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  exitPortal: {fileID: 319573998}
 --- !u!4 &1291631474
 Transform:
   m_ObjectHideFlags: 0
@@ -8826,6 +8827,7 @@ GameObject:
   - component: {fileID: 1829265239}
   - component: {fileID: 1829265240}
   - component: {fileID: 1829265241}
+  - component: {fileID: 1829265242}
   m_Layer: 0
   m_Name: Mine Portal
   m_TagString: Untagged
@@ -8873,6 +8875,17 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.2390823, y: 5.2985563, z: 2.7138374}
   m_Center: {x: -6.318141, y: 2.1492782, z: 2.262762}
+--- !u!114 &1829265242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1829265238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af12d9e597a31284990316a0336f4a69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1896530861
 GameObject:
   m_ObjectHideFlags: 0

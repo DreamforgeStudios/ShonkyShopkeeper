@@ -4,28 +4,50 @@ using UnityEngine;
 using DG.Tweening;
 
 public class PortalSpin : MonoBehaviour {
+    //Portal Visual Behaviour
     public SpriteRenderer entryPortal, exitPortal;
     private Transform t1, t2;
-    private Quaternion spin1 = Quaternion.Euler(162.0f, -80.5f, -15.6f);
-    private Quaternion spin2 = Quaternion.Euler(180.3f, -75f, 19.39f);
-    private Sequence seq;
+    private Quaternion entrySpin1 = Quaternion.Euler(162.0f, -80.5f, -15.6f);
+    private Quaternion entrySpin2 = Quaternion.Euler(180.3f, -75f, 19.39f);
+    private Quaternion exitSpin1 = Quaternion.Euler(0f, 0f, 11.86f);
+    private Quaternion exitSpin2 = Quaternion.Euler(0f, 0f, -2f);
+    private Sequence entrySeq, exitSeq;
+
 	// Use this for initialization
 	void Start () {
+        SetUpSequences();
+        RotatePortal();
+        InvokeRepeating("GolemCollectCheck", 2.0f, 1.0f);
+	}
+    private void SetUpSequences() {
+        //Transforms
         t1 = entryPortal.transform;
         t2 = exitPortal.transform;
-        seq = DOTween.Sequence();
-        seq.Append(t1.DORotateQuaternion(spin1, 0.5f));
-        seq.Append(t1.DORotateQuaternion(spin2, 0.5f));
-        RotatePortal();
-	}
+
+        //Entry Portal Sequence
+        entrySeq = DOTween.Sequence();
+        entrySeq.Append(t1.DORotateQuaternion(entrySpin1, 0.5f));
+        entrySeq.Append(t1.DORotateQuaternion(entrySpin2, 0.5f));
+
+        //Exit portal Sequence
+        exitSeq = DOTween.Sequence();
+        exitSeq.SetRecyclable(true);
+        exitSeq.SetAutoKill(false);
+        exitSeq.Append(t2.DORotateQuaternion(exitSpin1, 0.5f));
+        exitSeq.Append(t2.DORotateQuaternion(exitSpin2, 0.5f));
+        exitSeq.SetLoops(-1);
+    }
 	
-	// Update is called once per frame
-	void Update () {
-        
-	}
+	private void GolemCollectCheck() {
+        Debug.Log(Mine.ReadyToCollect() + " : mine ready to collect");
+        if (Mine.ReadyToCollect()) {
+            exitSeq.Play();
+        } else {
+            exitSeq.Pause();
+        }
+    }
 
     private void RotatePortal() {
-        seq.SetLoops(-1);
-        
+        entrySeq.SetLoops(-1);
     }
 }
