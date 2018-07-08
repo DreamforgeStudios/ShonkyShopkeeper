@@ -18,9 +18,22 @@ public class GolemPickup : MonoBehaviour {
     public GameObject exitPortal;
     private Vector3 exitPortalLocation;
 
+    //Reference to the pouch itemInstance
+    public ItemInstance pouch;
+
+    //Need Reference to physical inventory to spawn items
+    public GameObject inventory;
+    private PhysicalInventory inv;
+
+    //Reference to the shonkyInventory to set boolean flag when in mine
+    public GameObject shonkypen;
+    private PhysicalShonkyInventory shonkyInv;
+
     // Use this for initialization
     void Start() {
         exitPortalLocation = exitPortal.transform.position;
+        inv = inventory.GetComponent<PhysicalInventory>();
+        shonkyInv = inventory.GetComponent<PhysicalShonkyInventory>();
     }
 
     // Update is called once per frame
@@ -31,6 +44,7 @@ public class GolemPickup : MonoBehaviour {
         else if (overPortal) {
             Debug.Log("Sending to Mine");
             Mine.AddGolemAndTime(System.DateTime.Now,pickedupGolem);
+            pickedupGolem.GetComponent<ShonkyWander>().inMine = true;
             pickedupGolem.SetActive(false);
             pickedupGolem = null;
             overPortal = false;
@@ -45,10 +59,23 @@ public class GolemPickup : MonoBehaviour {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, 20)) {
+            //If a golem
             if (hit.transform.gameObject.tag == "Golem") {
-                GameManager.pickedUpGolem = true;
-                pickedupGolem = hit.transform.gameObject;
-                HoldGolem(hit);
+                //If not holding a pouch
+                if (!hit.transform.gameObject.GetComponent<ShonkyWander>().IsHoldingPouch()) {
+                    GameManager.pickedUpGolem = true;
+                    pickedupGolem = hit.transform.gameObject;
+                    HoldGolem(hit);
+                } else {
+                    //If room in the inventory, add the pouch
+                    int pouchSlot = Inventory.Instance.InsertItem(pouch);
+                    if (pouchSlot > -1) {
+                        hit.transform.gameObject.GetComponent<ShonkyWander>().RemovePouch();
+                        Slot insertedSlot = inv.GetSlotAtIndex(pouchSlot);
+                        insertedSlot.SetItem(pouch);
+                        GameManager.pickedUpGolem = false;
+                    }
+                }
             } else if (Mine.ReadyToCollect() && hit.transform.gameObject.tag == "PortalExit") {
                 golems = Mine.ReturnReadyGolems();
                 foreach(GameObject golem in golems) {
@@ -70,6 +97,8 @@ public class GolemPickup : MonoBehaviour {
     private void ReturnGolem(GameObject golem) {
         golem.transform.position = exitPortalLocation;
         golem.SetActive(true);
+        golem.GetComponent<ShonkyWander>().HoldPouch();
+        golem.GetComponent<ShonkyWander>().inMine = false;
         golem.GetComponent<NavMeshAgent>().enabled = true;
         golem.GetComponent<ShonkyWander>().pickedUp = false;
 

@@ -7292,6 +7292,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   exitPortal: {fileID: 319573998}
+  pouch:
+    quantity: 1
+    quality: 0
+    isNew: 0
+    itemIdentifier: pouch
+  inventory: {fileID: 548670424}
+  shonkypen: {fileID: 1114992761}
 --- !u!4 &1291631474
 Transform:
   m_ObjectHideFlags: 0

@@ -21,10 +21,17 @@ public class ShonkyWander : MonoBehaviour {
     public bool enableNavmesh = false;
     private bool firstTime = true;
     public bool pickedUp = false;
+
+    //The resource pouch object being held
+    public GameObject pouch;
+
+    //If in mine
+    public bool inMine = false;
     
     
 	// Use this for initialization
 	void Start () {
+        pouch.SetActive(false);
         agent = GetComponent<NavMeshAgent>();
         //rb = GetComponent<Rigidbody>();
         cooldownTime = Time.time;
@@ -85,5 +92,20 @@ public class ShonkyWander : MonoBehaviour {
             return transform.position;
         }
 
+    }
+
+    public void HoldPouch() {
+        pouch.SetActive(true);
+    }
+
+    public void RemovePouch() {
+        pouch.SetActive(false);
+    }
+
+    public bool IsHoldingPouch() {
+        if (pouch.activeSelf)
+            return true;
+        else
+            return false;
     }
 }
