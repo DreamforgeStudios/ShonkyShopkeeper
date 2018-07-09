@@ -40,7 +40,7 @@ Shader "Custom/Gem"
 				float4 vertex : SV_POSITION;
 				float4 diff : COLOR0; 
 				float3 worldNormal : TEXCOORD1;
-				float4 worldVert : TEXCOORD2;
+				float4 originalVert : TEXCOORD2;
 			};
 
 			sampler2D _MainTex;
@@ -56,7 +56,7 @@ Shader "Custom/Gem"
 			v2f vert (appdata v)
 			{
 				v2f o;
-				o.worldVert = v.vertex;
+				o.originalVert = v.vertex;
 				o.vertex = UnityObjectToClipPos(v.vertex);
 				o.uv = TRANSFORM_TEX(v.uv, _MainTex);
 
@@ -73,7 +73,7 @@ Shader "Custom/Gem"
 				// sample the texture
 				fixed4 col = tex2D(_MainTex, i.uv);
 
-				float3 viewDir = normalize(WorldSpaceViewDir(i.worldVert));
+				float3 viewDir = normalize(WorldSpaceViewDir(i.originalVert));
 				float3 reflection = normalize(reflect(-_WorldSpaceLightPos0.xyz, i.worldNormal));
 				float spec = pow(max(0, dot(reflection, viewDir)), _Specular);
 				//spec += i.diff;
