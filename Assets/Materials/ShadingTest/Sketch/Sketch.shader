@@ -32,7 +32,7 @@
 			struct v2f
 			{
 				float2 uv : TEXCOORD0;
-				float2 uv2 : TEXCOORD0;
+				float2 uv2 : TEXCOORD1;
 				float4 vertex : SV_POSITION;
 				float4 diff : COLOR0;
 			};
