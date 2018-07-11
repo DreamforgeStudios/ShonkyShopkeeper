@@ -108,11 +108,11 @@ private bool movementFinished = false;
     private void AttemptToBuyTown(Travel.Towns selectedTown) {
         bool completeTransaction = Travel.UnlockNewTown(selectedTown);
         //If this was the first town unlocked, make it the current
-        if (Travel.unlockedTowns.Count == 1 && completeTransaction) {
+        if (Inventory.Instance.GetUnlockedTowns().Count == 1 && completeTransaction) {
             player.SetActive(true);
             player.transform.position = ReturnTownPosition(selectedTown);
             helperText.text = "Welcome to " + selectedTown;
-            Travel.ChangeCurrentTown(selectedTown);
+            Inventory.Instance.SetCurrentTown(selectedTown);
         }
         //Else if it was a subsequent town, check the purchase was successful
         else {
@@ -165,23 +165,26 @@ private bool movementFinished = false;
 
     //Update Visuals to show which towns are unlocked
     private void CheckUnlockedTowns() {
-        foreach (Travel.Towns town in Travel.unlockedTowns) {
-            switch (town) {
-                case Travel.Towns.WickedGrove:
-                    town1.GetComponent<Renderer>().material = unlocked;
-                    break;
-                case Travel.Towns.Chelm:
-                    town2.GetComponent<Renderer>().material = unlocked;
-                    break;
-                case Travel.Towns.Town3:
-                    town3.GetComponent<Renderer>().material = unlocked;
-                    break;
-                case Travel.Towns.Town4:
-                    break;
-                case Travel.Towns.Town5:
-                    break;
-                default:
-                    break;
+        List<Travel.Towns> unlockList = Inventory.Instance.GetUnlockedTowns();
+        if (unlockList != null) {
+            foreach (Travel.Towns town in unlockList) {
+                switch (town) {
+                    case Travel.Towns.WickedGrove:
+                        town1.GetComponent<Renderer>().material = unlocked;
+                        break;
+                    case Travel.Towns.Chelm:
+                        town2.GetComponent<Renderer>().material = unlocked;
+                        break;
+                    case Travel.Towns.Town3:
+                        town3.GetComponent<Renderer>().material = unlocked;
+                        break;
+                    case Travel.Towns.Town4:
+                        break;
+                    case Travel.Towns.Town5:
+                        break;
+                    default:
+                        break;
+                }
             }
         }
     }
@@ -191,16 +194,17 @@ private bool movementFinished = false;
         prototypeOver.enabled = false;
         prototypeEndText.enabled = false;
         helperText.enabled = false;
-        if (Travel.unlockedTowns.Count == 0) {
+        Debug.Log(Inventory.Instance.GetCurrentTown());
+        //if (Inventory.Instance.GetUnlockedTowns().Count == 0) {
             town1.GetComponent<Renderer>().material = locked;
             town2.GetComponent<Renderer>().material = locked;
             town3.GetComponent<Renderer>().material = locked;
             town4.GetComponent<Renderer>().material = locked;
             player.SetActive(false);
-        }
-        else {
+        //}
+        //else {
             player.transform.position = ReturnTownPosition(currentTown);
-        }
+        //}
     }
 
     //Return current town

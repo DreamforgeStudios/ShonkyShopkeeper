@@ -39,8 +39,8 @@ public class PortalSpin : MonoBehaviour {
     }
 	
 	private void GolemCollectCheck() {
-        Debug.Log(Mine.ReadyToCollect() + " : mine ready to collect");
-        if (Mine.ReadyToCollect()) {
+        //Debug.Log(Mine.ReadyToCollect() + " : mine ready to collect");
+        if (Mine.Instance.ReadyToCollect()) {
             exitSeq.Play();
         } else {
             exitSeq.Pause();

@@ -46,10 +46,11 @@ public class Inventory : ScriptableObject {
     /* Inventory START */
     public int goldCount;
     public ItemInstance[] inventory;
-    private List<Travel.Towns> unlockedTowns;
-    private Travel.Towns currentTown;
+    public List<Travel.Towns> unlockedTowns;
+    public Travel.Towns currentTown;
 
     public void UnlockTown(Travel.Towns town) {
+        CheckInitialisation();
         if (unlockedTowns.Contains(town)) {
             Debug.Log("UnlockTown(): " + town.ToString() + " is already unlocked.");
             return;
@@ -60,7 +61,15 @@ public class Inventory : ScriptableObject {
     }
 
     public List<Travel.Towns> GetUnlockedTowns() {
+        CheckInitialisation();
         return unlockedTowns;
+    }
+
+    private void CheckInitialisation() {
+        if (unlockedTowns == null) {
+            Debug.Log("Unlocked town list is null");
+            unlockedTowns = new List<Travel.Towns>();
+        }
     }
 
     public void SetCurrentTown(Travel.Towns town) {
