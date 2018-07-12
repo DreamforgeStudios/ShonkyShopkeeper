@@ -225,6 +225,7 @@ public class Polishing : MonoBehaviour {
 
     public void ShowUIButtons() {
 	    returnOrRetryButtons.SetActive(true);
+        returnOrRetryButtons.GetComponent<UpdateRetryButton>().SetText();
     }
 
 /*

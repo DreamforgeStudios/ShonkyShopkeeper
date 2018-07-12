@@ -28,12 +28,13 @@ public class GolemPickup : MonoBehaviour {
     private PhysicalInventory inv;
 
     //Reference to the shonkyInventory to set boolean flag when in mine
-    public Mine mineInventory;
+    //public Mine mineInventory;
 
     // Use this for initialization
     void Start() {
         exitPortalLocation = exitPortal.transform.position;
-        SaveManager.LoadOrInitializeMineInventory(mineInventory);
+        inv = inventory.GetComponent<PhysicalInventory>();
+        //SaveManager.LoadOrInitializeMineInventory(mineInventory);
     }
 
     // Update is called once per frame
@@ -93,6 +94,7 @@ public class GolemPickup : MonoBehaviour {
                         int pouchSlot = Inventory.Instance.InsertItem(pouch);
                         if (pouchSlot > -1) {
                             hit.transform.gameObject.GetComponent<ShonkyWander>().RemovePouch();
+                            Debug.Log("Slot inserted at is " + pouchSlot);
                             Slot insertedSlot = inv.GetSlotAtIndex(pouchSlot);
                             insertedSlot.SetItem(pouch);
                             GameManager.pickedUpGolem = false;

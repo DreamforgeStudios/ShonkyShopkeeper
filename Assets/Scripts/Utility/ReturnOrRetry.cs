@@ -7,6 +7,13 @@ public class ReturnOrRetry {
 	}
 
 	public static void Retry() {
-		SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        if (GameManager.instance.CanRetry()) {
+            GameManager.instance.currentRetryNumber++;
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
 	}
+
+    public static bool CanRetry() {
+        return GameManager.instance.CanRetry();
+    }
 }

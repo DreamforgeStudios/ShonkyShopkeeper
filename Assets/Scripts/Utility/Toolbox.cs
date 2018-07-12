@@ -477,6 +477,9 @@ public class Toolbox : MonoBehaviour {
             currentSelection.RemoveDontDestroy();
 
             Transform t = itemObj.transform;
+            //Reset retry amount prior to entering minigame
+            GameManager.instance.currentRetryNumber = 0;
+
             // Move and vibration for some "feedback".
             soundEffects.clip = itemLift;
             soundEffects.Play();
@@ -587,13 +590,11 @@ public class Toolbox : MonoBehaviour {
         switch (Inventory.Instance.GetCurrentTown()) {
             case Travel.Towns.WickedGrove:
                 return "ruby";
-            case Travel.Towns.Chelm:
+            case Travel.Towns.FlamingPeak:
                 return "sapphire";
-            case Travel.Towns.Town3:
+            case Travel.Towns.GiantsPass:
                 return "emerald";
-            case Travel.Towns.Town4:
-                return "ruby";
-            case Travel.Towns.Town5:
+            case Travel.Towns.SkyCity:
                 return "ruby";
             default:
                 return "ruby";

@@ -94,8 +94,8 @@ public class Smelting : MonoBehaviour {
         Countdown.onComplete += GameOver;
 		//timeToGo = holdTime;
 		//started = false;
-        nextScene.SetActive(false);
-        retryScene.SetActive(false);
+        //nextScene.SetActive(false);
+        //retryScene.SetActive(false);
         //emitParams = new ParticleSystem.EmitParams();
     }
 	
@@ -273,5 +273,6 @@ public class Smelting : MonoBehaviour {
 
     public void ShowUIButtons() {
 	    returnOrRetryButtons.SetActive(true);
+        returnOrRetryButtons.GetComponent<UpdateRetryButton>().SetText();
     }
 }

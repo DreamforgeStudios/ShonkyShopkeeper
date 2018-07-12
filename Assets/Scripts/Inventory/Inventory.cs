@@ -80,6 +80,19 @@ public class Inventory : ScriptableObject {
     public Travel.Towns GetCurrentTown() {
         return currentTown;
     }
+
+    public int GetMaxRetries(Travel.Towns town) {
+        int index = unlockedTowns.IndexOf(town);
+        if (index == 0) {
+            return 3;
+        } else if (index == 1) {
+            return 2;
+        } else if (index == 2) {
+            return 1;
+        } else {
+            return 2;
+        }
+    }
     
     public void AddGold(int amount) {
         goldCount += amount;

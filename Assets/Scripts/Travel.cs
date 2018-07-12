@@ -16,10 +16,9 @@ public static class Travel {
     //All Possible towns in game
     public enum Towns {
         WickedGrove,
-        Chelm,
-        Town3,
-        Town4,
-        Town5
+        FlamingPeak,
+        GiantsPass,
+        SkyCity
     }
 
     public static void initialSetup() {
