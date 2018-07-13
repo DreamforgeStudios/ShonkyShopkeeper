@@ -294,5 +294,6 @@ public class Cutting : MonoBehaviour {
 
     public void ShowUIButtons() {
 	    returnOrRetryButtons.SetActive(true);
+        returnOrRetryButtons.GetComponent<UpdateRetryButton>().SetText();
     }
 }

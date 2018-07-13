@@ -16,10 +16,9 @@ public static class Travel {
     //All Possible towns in game
     public enum Towns {
         WickedGrove,
-        Chelm,
-        Town3,
-        Town4,
-        Town5
+        FlamingPeak,
+        GiantsPass,
+        SkyCity
     }
 
     public static void initialSetup() {
@@ -53,6 +52,7 @@ public static class Travel {
             Inventory.Instance.UnlockTown(newTown);
             //unlockedTowns.Add(newTown);
             //lockedTowns.Remove(newTown);
+            Debug.Log("Town is unlocked: " + newTown);
             return true;
         } else {
             return false;

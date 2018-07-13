@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class IntroScene : MonoBehaviour {
+    //For Old Intro
     public RawImage BG;
     public TextMeshProUGUI text1;
     public TextMeshProUGUI text2;
@@ -15,10 +16,14 @@ public class IntroScene : MonoBehaviour {
     public TextMeshProUGUI loading;
     public TextMeshProUGUI next;
     List<TextMeshProUGUI> texts;
-
     private int textCounter = 0;
+
+    //To tell if this is the first time starting
+    int firstStart = 0;
+
     // Use this for initialization
     void Start() {
+        //PlayerPrefs.DeleteKey("FirstStart");
         texts = new List<TextMeshProUGUI>();
         texts.Add(text1);
         texts.Add(text2);
@@ -30,12 +35,18 @@ public class IntroScene : MonoBehaviour {
         }
         loading.enabled = false;
         next.enabled = true;
+
+        firstStart = PlayerPrefs.GetInt("FirstStart");
     }
 
     // Update is called once per frame
     void Update() {
-        if (Input.GetMouseButtonDown(0)) {
-            AdvanceText();
+        if (firstStart == 0) {
+            if (Input.GetMouseButtonDown(0)) {
+                AdvanceText();
+            }
+        } else {
+            SceneManager.LoadScene("Shop");
         }
     }
 
@@ -53,7 +64,7 @@ public class IntroScene : MonoBehaviour {
         if (textCounter == texts.Count) {
             next.enabled = false;
             loading.enabled = true;
-            SceneManager.LoadScene("Shop");
+            SceneManager.LoadScene("TravelScreen");
         }
         textCounter++;
     }

@@ -37,17 +37,14 @@ public class UIManagerShop : MonoBehaviour {
             case Travel.Towns.WickedGrove:
                 shopBG.sprite = town1;
                 break;
-            case Travel.Towns.Chelm:
+            case Travel.Towns.FlamingPeak:
                 shopBG.sprite = town2;
                 break;
-            case Travel.Towns.Town3:
+            case Travel.Towns.GiantsPass:
                 shopBG.sprite = town3;
                 break;
-            case Travel.Towns.Town4:
+            case Travel.Towns.SkyCity:
                 shopBG.sprite = town4;
-                break;
-            default:
-                shopBG.sprite = town2;
                 break;
         }
     }

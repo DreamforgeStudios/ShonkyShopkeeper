@@ -20,6 +20,9 @@ TagManager:
   - Forceps
   - Magnifyer
   - Wand
+  - Golem
+  - PortalEntry
+  - PortalExit
   layers:
   - Default
   - TransparentFX
@@ -32,7 +35,7 @@ TagManager:
   - Slots
   - LineRenderer
   - Tools
-  - 
+  - MinePortal
   - 
   - 
   - 

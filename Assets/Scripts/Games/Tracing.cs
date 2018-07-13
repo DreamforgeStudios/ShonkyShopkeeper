@@ -15,6 +15,9 @@ public class Tracing : MonoBehaviour {
     public List<Vector3> optimalPoints = new List<Vector3>();
     public List<int> optimalPointIndex = new List<int>();
 
+    //This list represents the points at which the player can start
+    public List<int> startPoints = new List<int>();
+
     //Cubes represent test positions
     public Material cubeMaterial;
 
@@ -33,8 +36,6 @@ public class Tracing : MonoBehaviour {
     public Material material;
     public Color chosenStartColour;
     public Color chosenFinishColour;
-    //public GameObject Button1Group;
-    //public GameObject Button2Group;
 
     //Misc Variables
     //private int zero = 0;
@@ -54,13 +55,11 @@ public class Tracing : MonoBehaviour {
     private float totalDistanceAway = 0;
     private float averageDistanceAway = 0;
     private int numberOfTouches = 0;
+    private bool correctStart = false;
 
     //Score Variables
-    //private float accuracyScore = 0;
     private float score = 0;
     public float finalScore = 0;
-    //public Quality.QualityGrade grade;
-    //public static Quality.QualityGrade finalGrade;
 
     //Tming Variables
     public float startTime;
@@ -74,8 +73,6 @@ public class Tracing : MonoBehaviour {
     public QualityBar qualityBar;
     public GameObject returnOrRetryButtons;
 
-    //public ItemDatabase db;
-
     private bool start = false;
 
     void Awake() {
@@ -88,8 +85,6 @@ public class Tracing : MonoBehaviour {
     void Start() {
         Countdown.onComplete += GameOver;
         mainCamera = Camera.main;
-        //Button1Group.SetActive(false);
-        //Button2Group.SetActive(false);
         SetupLineRenderer();
         GetNecessaryPositions(1);
         followSphere.SetActive(false);
@@ -101,8 +96,8 @@ public class Tracing : MonoBehaviour {
         hitPoints = 0;
         averageDistanceAway = 0;
         score = 0;
-        //accuracyScore = 0;
         totalDistanceAway = 0;
+        DesignateStartPoints();
     }
 
     // Update is called once per frame
@@ -113,7 +108,6 @@ public class Tracing : MonoBehaviour {
         if (canTrace) {
             currentTime = Time.time;
             GetInput();
-            //finalGrade = grade;
         }
     }
 
@@ -125,8 +119,6 @@ public class Tracing : MonoBehaviour {
                 playerPoints.Add(position);
                 lineRenderer.positionCount = playerPoints.Count;
                 lineRenderer.SetPosition(playerPoints.Count - 1, playerPoints[playerPoints.Count - 1]);
-
-                Debug.Log("Adding cube " + ID);
                 ID++;
             }
         }
@@ -178,18 +170,11 @@ public class Tracing : MonoBehaviour {
             if (numberOfTouches >= 3) {
                 ResetOptimalPoints();
             }
+            correctStart = false;
+            hitPoints = 0;
             CheckPositions();
-            Debug.Log(hitPoints);
             score = CalculateColliderPenalties(CalculateAccuracy(CalculateWin()));
             if (score > 0) {
-                /*
-                finalScore = CalculateTimeScore(score);
-                Debug.Log("Time Score is " + finalScore + " accuracy score is " + score);
-                DetermineQuality(finalScore);
-                Button1Group.SetActive(true);
-                Button2Group.SetActive(true);
-                this.GetComponent<UISliderAndBehaviour>().QualityText();
-                */
                 GameOver();
             }
         }
@@ -203,26 +188,17 @@ public class Tracing : MonoBehaviour {
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.R)) {
-            ResetOptimalPoints();
-            SceneManager.LoadScene("Tracing");
-        }
     }
 
 	public Quality.QualityGrade grade = Quality.QualityGrade.Unset;
     private void GameOver() {
         Countdown.onComplete -= GameOver;
-        //finalScore = CalculateTimeScore(score);
-        //Debug.Log("Time Score is " + finalScore + " accuracy score is " + score);
-        //DetermineQuality(finalScore);
         grade = qualityBar.Finish();
         qualityText.text = Quality.GradeToString(grade);
         qualityText.color = Quality.GradeToColor(grade);
         qualityText.gameObject.SetActive(true);
         qualityBar.Disappear();
         ResetOptimalPoints();
-        //Button1Group.SetActive(true);
-        //Button2Group.SetActive(true);
 
         // TODO: back to shop button needs to change to facilitate restarting games.
 		grade = Quality.CalculateCombinedQuality(DataTransfer.currentQuality, grade);
@@ -231,17 +207,14 @@ public class Tracing : MonoBehaviour {
         ShowUIButtons();
     }
 
-    /*
     private void DetermineQuality(float finalScore) {
         float decimalScore = finalScore / 1000;
         // For transferring quality between scenes.
-        // NOTE: GameManager.instance.UpdateQuality() is no longer used.
         if (GameManager.instance) {
             GameManager.instance.UpdateQuality(decimalScore, 1);
         }
         grade = Quality.FloatToGrade(decimalScore, 3);
     }
-    */
 
     private float CalculateTimeScore(float accuracyScore) {
         float percentageTimeRemaining = ((finishTime - currentTime) / timeLimit) * 100;
@@ -271,7 +244,7 @@ public class Tracing : MonoBehaviour {
 
     private int CalculateAccuracy(bool success) {
         averageDistanceAway = totalDistanceAway / hitPoints;// optimalPointIndex.Count;
-        Debug.Log("avg dist away = " + averageDistanceAway);
+        //Debug.Log("avg dist away = " + averageDistanceAway);
 
         if (success) {
             averageDistanceAway = totalDistanceAway / optimalPointIndex.Count;
@@ -320,37 +293,18 @@ public class Tracing : MonoBehaviour {
     }
     //Check positions for Rune 1. This is a good system for runes that use 2 pieces
     private void CheckPositions() {
+        lastIndex = 0;
         if (playerPoints.Count > 0 && playerPoints != null) {
-            lastIndex = 0;
             for (int i = 0; i < optimalPoints.Count; i++) {
-                Vector3 positionArea = optimalPoints[i];
-                foundNumber = false;
-                bestDistanceSoFar = maxDistanceAway;
-                designatedStartIndex = i;
-                for (int j = 0; j < playerPoints.Count; j++) {
-                    if (Vector3.Distance(playerPoints[j], positionArea) < maxDistanceAway)
-                        if (Vector3.Distance(playerPoints[j], positionArea) <= bestDistanceSoFar && j > lastIndex) {
-                            bestDistanceSoFar = Vector3.Distance(playerPoints[j], positionArea);
-                            lastIndex = j;
-                            foundNumber = true;
-                        }
-                }
-                if (foundNumber) {
-                    Debug.Log("Designated start is " + designatedStartIndex);
-                    if (optimalPointIndex.Count == 0 && (designatedStartIndex == 0 || designatedStartIndex == 2)) {
-                        optimalPointIndex.Add(lastIndex);
-                        hitPoints += 1;
-                        totalDistanceAway += bestDistanceSoFar;
+                //Find the player point which is closest to this point if any
+                if (FoundClosestPlayerPoint(i)) {
+                    //Player can only start at specific points on each swipe
+                    if (startPoints.Contains(i)) {
+                        AddPoint();
+                        correctStart = true;
                     }
-                    else if (optimalPointIndex.Count == 2 && (designatedStartIndex == 0 || designatedStartIndex == 2)) {
-                        optimalPointIndex.Add(lastIndex);
-                        hitPoints += 1;
-                        totalDistanceAway += bestDistanceSoFar;
-                    }
-                    else if (optimalPointIndex.Count == 1 || optimalPointIndex.Count == 3) {
-                        optimalPointIndex.Add(lastIndex);
-                        hitPoints += 1;
-                        totalDistanceAway += bestDistanceSoFar;
+                    else if (correctStart) {
+                        AddPoint();
                     }
                 }
             }
@@ -358,6 +312,34 @@ public class Tracing : MonoBehaviour {
             // TODO: remove previous quality calculation?
             qualityBar.Subtract(totalDistanceAway / hitPoints);
         }
+    }
+
+    private void AddPoint() {
+        Debug.Log("Optimal points is " + optimalPoints.Count + " hitpoints is " + hitPoints + "Last index was " + lastIndex);
+        optimalPointIndex.Add(lastIndex);
+        hitPoints += 1;
+        totalDistanceAway += bestDistanceSoFar;
+        if (correctStart) {
+            correctStart = false;
+        }
+    }
+
+    private bool FoundClosestPlayerPoint(int currentPointToCompare) {
+        Vector3 positionArea = optimalPoints[currentPointToCompare];
+        foundNumber = false;
+        bestDistanceSoFar = maxDistanceAway;
+        for (int j = 0; j < playerPoints.Count; j++) {
+            if (Vector3.Distance(playerPoints[j], positionArea) < maxDistanceAway)
+                if (Vector3.Distance(playerPoints[j], positionArea) <= bestDistanceSoFar && j > lastIndex) {
+                    bestDistanceSoFar = Vector3.Distance(playerPoints[j], positionArea);
+                    lastIndex = j;
+                    foundNumber = true;
+                }
+        }
+        if (foundNumber)
+            return true;
+        else
+            return false;
     }
 
     private void ResetOptimalPoints() {
@@ -369,8 +351,13 @@ public class Tracing : MonoBehaviour {
         finishTime = currentTime + timeLimit;
         numberOfTouches = 0;
     }
-    
-	public void Return() {
+
+    private void DesignateStartPoints() {
+        startPoints.Add(0);
+        startPoints.Add(2);
+    }
+
+    public void Return() {
 		ReturnOrRetry.Return("Shell", grade);
 	}
 
@@ -380,5 +367,8 @@ public class Tracing : MonoBehaviour {
 
     public void ShowUIButtons() {
 	    returnOrRetryButtons.SetActive(true);
+        returnOrRetryButtons.GetComponent<UpdateRetryButton>().SetText();
     }
+
+   
 }

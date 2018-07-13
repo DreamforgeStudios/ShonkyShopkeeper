@@ -34,10 +34,32 @@ public class SaveManager {
         ShonkyInventory.Instance.SaveToJSON(Path.Combine(Application.persistentDataPath, "shonkyinventory.json"));
     }
 
+    public static void LoadOrInitializeMineInventory(Mine mineTemplate) {
+        // Saving and loading.
+        if (File.Exists(Path.Combine(Application.persistentDataPath, "mineinventory.json"))) {
+            Debug.Log("Found file mineinventory.json, loading mine inventory.");
+            Mine.LoadFromJSON(Path.Combine(Application.persistentDataPath, "mineinventory.json"));
+        }
+        else {
+            Debug.Log("Couldn't find mineinventory.json, loading from template.");
+            Mine.InitializeFromDefault(mineTemplate);
+        }
+    }
+
+    public static void SaveMineInventory() {
+        Mine.Instance.SaveToJSON(Path.Combine(Application.persistentDataPath, "mineinventory.json"));
+    }
+
 
     // Load from default.
     public static void LoadFromTemplate(Inventory template) {
         Inventory.InitializeFromDefault(template);
+    }
+
+
+    // Load from default.
+    public static void LoadFromMineTemplate(Mine template) {
+        Mine.InitializeFromDefault(template);
     }
 
     // Load from default.

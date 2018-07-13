@@ -25,6 +25,8 @@ public class GameManager : MonoBehaviour {
 			return _instance;
 		}
 	}
+    public static bool pickedUpGolem = false;
+    public int currentRetryNumber = 0;
 
 	// This is so that we support manually placing GameManagers in scenes.
 	// NOTE: GameManagers placed in the scene will be destroyed if _instance is already set.
@@ -43,7 +45,6 @@ public class GameManager : MonoBehaviour {
 		DontDestroyOnLoad(gameObject);
 		Application.targetFrameRate = 60;
 	}
-	
 
 	// TODO: make things use these variables rather than those in DataTransfer.cs.
 	public Item GemTypeTransfer;
@@ -51,6 +52,20 @@ public class GameManager : MonoBehaviour {
 	public Personality PersonalityTransfer;
 	public Sprite SpriteTransfer;
 	public int RetriesRemaining = 0;
+    public bool CanRetry() {
+        if (currentRetryNumber < Inventory.Instance.GetMaxRetries(currentTown))
+            return true;
+        else
+            return false;
+    }
+
+    public int RetriesRemaining() {
+        return Inventory.Instance.GetMaxRetries(currentTown) - currentRetryNumber;
+    }
+
+	public void UpdateQuality(float grade, int index) {
+		gameScores[index] = grade;
+	}
 
 	public int ShonkyIndexTransfer = -1;
 	public int CameraRotTransfer = 8;

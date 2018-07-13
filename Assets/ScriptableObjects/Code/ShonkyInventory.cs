@@ -46,6 +46,7 @@ public class ShonkyInventory : ScriptableObject {
 
     /* Shonky Inventory START */
     public ItemInstance[] shonkyInventory;
+
     //public ItemInstance empty;
 
 
@@ -62,7 +63,7 @@ public class ShonkyInventory : ScriptableObject {
     //Check if there is a free slot
     public bool FreeSlot() {
         for (int i = 0; i < shonkyInventory.Length; i++) {
-            if (SlotEmpty(i)) { //|| PossibleEmpties(i)) {
+            if (SlotEmpty(i)) {
                 return true;
             }
         }
@@ -139,15 +140,31 @@ public class ShonkyInventory : ScriptableObject {
             return false;
     }
     */
-
+    //Need a way to determine if a shonky is in the mine and if so, it cannot be sold currently
     public List<int> PopulatedShonkySlots() {
         List<int> indexes = new List<int>();
         for (int i = 0; i < shonkyInventory.Length; i++) {
-            if (!SlotEmpty(i)) {
+            if (!SlotEmpty(i) && !InMineCurrently(i)) {
                 indexes.Add(i);
             }
         }
         return indexes;
+    }
+
+    //Determine if currently in mine
+    public bool InMineCurrently(int slotindex) {
+        PenSlot slot;
+        slot = PhysicalShonkyInventory.Instance.GetSlotAtIndex(slotindex);
+        GameObject golem;
+        if (slot.GetPrefabInstance(out golem)) {
+            if (!golem.GetComponent<ShonkyWander>().inMine) {
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            return true;
+        }
     }
 
     // Simply save..

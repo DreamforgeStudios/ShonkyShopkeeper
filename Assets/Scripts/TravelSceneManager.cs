@@ -33,9 +33,13 @@ public class TravelSceneManager : MonoBehaviour {
         get { return Inventory.Instance.GetCurrentTown(); }
     }
 
-//Boolean to keep track of movement and coroutine pause time
-private bool movementFinished = false;
+    //Boolean to keep track of movement and coroutine pause time
+    private bool movementFinished = false;
     private float waitTime = 0.05f;
+
+    //Used to reset the inventory on first load
+    public GameObject invReseter;
+    
     // Use this for initialization
     void Start() {
         Setup();
@@ -66,6 +70,9 @@ private bool movementFinished = false;
                 //If the player has double clicked on a town
                 else if (hit.transform.gameObject == lastTownClicked && lastTownClicked.tag == "Town") {
                     SecondClick(hit);
+                } else if (hit.transform.gameObject.tag == "Town" && hit.transform.gameObject != lastTownClicked){
+                    //Reset clicked object
+                    FirstClick(hit);
                 }
             }
         }
@@ -108,11 +115,11 @@ private bool movementFinished = false;
     private void AttemptToBuyTown(Travel.Towns selectedTown) {
         bool completeTransaction = Travel.UnlockNewTown(selectedTown);
         //If this was the first town unlocked, make it the current
-        if (Travel.unlockedTowns.Count == 1 && completeTransaction) {
+        if (Inventory.Instance.GetUnlockedTowns().Count == 1 && completeTransaction) {
             player.SetActive(true);
             player.transform.position = ReturnTownPosition(selectedTown);
             helperText.text = "Welcome to " + selectedTown;
-            Travel.ChangeCurrentTown(selectedTown);
+            Inventory.Instance.SetCurrentTown(selectedTown);
         }
         //Else if it was a subsequent town, check the purchase was successful
         else {
@@ -134,18 +141,18 @@ private bool movementFinished = false;
                 newPosition = town1.transform.position;
                 newPosition.z = 18;
                 return newPosition;
-            case Travel.Towns.Chelm:
+            case Travel.Towns.FlamingPeak:
                 newPosition = town2.transform.position;
                 newPosition.z = 18;
                 return newPosition;
-            case Travel.Towns.Town3:
+            case Travel.Towns.GiantsPass:
                 newPosition = town3.transform.position;
                 newPosition.z = 18;
                 return newPosition;
-            case Travel.Towns.Town4:
-                return player.transform.position;
-            case Travel.Towns.Town5:
-                return player.transform.position;
+            case Travel.Towns.SkyCity:
+                newPosition = town4.transform.position;
+                newPosition.z = 18;
+                return newPosition;
             default:
                 return player.transform.position;
         }
@@ -165,23 +172,25 @@ private bool movementFinished = false;
 
     //Update Visuals to show which towns are unlocked
     private void CheckUnlockedTowns() {
-        foreach (Travel.Towns town in Travel.unlockedTowns) {
-            switch (town) {
-                case Travel.Towns.WickedGrove:
-                    town1.GetComponent<Renderer>().material = unlocked;
-                    break;
-                case Travel.Towns.Chelm:
-                    town2.GetComponent<Renderer>().material = unlocked;
-                    break;
-                case Travel.Towns.Town3:
-                    town3.GetComponent<Renderer>().material = unlocked;
-                    break;
-                case Travel.Towns.Town4:
-                    break;
-                case Travel.Towns.Town5:
-                    break;
-                default:
-                    break;
+        List<Travel.Towns> unlockList = Inventory.Instance.GetUnlockedTowns();
+        if (unlockList != null) {
+            foreach (Travel.Towns town in unlockList) {
+                switch (town) {
+                    case Travel.Towns.WickedGrove:
+                        town1.GetComponent<Renderer>().material = unlocked;
+                        break;
+                    case Travel.Towns.FlamingPeak:
+                        town2.GetComponent<Renderer>().material = unlocked;
+                        break;
+                    case Travel.Towns.GiantsPass:
+                        town3.GetComponent<Renderer>().material = unlocked;
+                        break;
+                    case Travel.Towns.SkyCity:
+                        town4.GetComponent<Renderer>().material = unlocked;
+                        break;
+                    default:
+                        break;
+                }
             }
         }
     }
@@ -191,15 +200,19 @@ private bool movementFinished = false;
         prototypeOver.enabled = false;
         prototypeEndText.enabled = false;
         helperText.enabled = false;
-        if (Travel.unlockedTowns.Count == 0) {
-            town1.GetComponent<Renderer>().material = locked;
-            town2.GetComponent<Renderer>().material = locked;
-            town3.GetComponent<Renderer>().material = locked;
-            town4.GetComponent<Renderer>().material = locked;
-            player.SetActive(false);
-        }
-        else {
-            player.transform.position = ReturnTownPosition(currentTown);
+        town1.GetComponent<Renderer>().material = locked;
+        town2.GetComponent<Renderer>().material = locked;
+        town3.GetComponent<Renderer>().material = locked;
+        town4.GetComponent<Renderer>().material = locked;
+        player.SetActive(false);
+        player.transform.position = ReturnTownPosition(currentTown);
+        if(PlayerPrefs.GetInt("FirstStart") == 0) {
+            helperText.text = "Select the town where you wish to begin your journey";
+            helperText.enabled = true;
+            goldAmount.enabled = false;
+            //Also need to load default inventory to reset towns
+            PhysicalInventory invReset = invReseter.GetComponent<PhysicalInventory>();
+            invReset.LoadDefaultInventory();
         }
     }
 
@@ -209,11 +222,11 @@ private bool movementFinished = false;
             case "Town1":
                 return Travel.Towns.WickedGrove;
             case "Town2":
-                return Travel.Towns.Chelm;
+                return Travel.Towns.FlamingPeak;
             case "Town3":
-                return Travel.Towns.Town3;
+                return Travel.Towns.GiantsPass;
             case "Town4":
-                return Travel.Towns.Town4;
+                return Travel.Towns.SkyCity;
             default:
                 return currentTown;
         }

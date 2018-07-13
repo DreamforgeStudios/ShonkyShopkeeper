@@ -66,6 +66,7 @@ public class PhysicalShonkyInventory : MonoBehaviour {
                         // TODO, change tween / fixup.
                         obj.transform.DOMove(obj.transform.position + Vector3.up, 0.7f);
                     }
+                    instance.shonkySlotNumber = i;
                 }
             }
         }

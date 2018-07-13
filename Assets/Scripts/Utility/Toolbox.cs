@@ -479,6 +479,9 @@ public class Toolbox : MonoBehaviour {
             GameManager.Instance.RetriesRemaining = 2;
 
             Transform t = itemObj.transform;
+            //Reset retry amount prior to entering minigame
+            GameManager.instance.currentRetryNumber = 0;
+
             // Move and vibration for some "feedback".
             soundEffects.clip = itemLift;
             soundEffects.Play();
@@ -536,19 +539,22 @@ public class Toolbox : MonoBehaviour {
     // TODO: this should drop more than just ruby + ore?
     private void ResourcePouchOpen(Slot slot) {
         // Hard coded for now.  To do this dynamically, maybe put <names,chances> in a dictionary<string, float>.
-        float rubyChance = 0.4f,
+        float gemChance = 0.4f,
               oreChance = 1.00f;
         int numberItems = Random.Range(1, 5);
 
         var drops = new List<ItemInstance>();
         for (int i = 0; i < numberItems; i++) {
             string dropName;
+            string gem = DetermineGemToDrop();
             float spin = Random.Range(0, 1f);
-            if (spin < rubyChance) {
-                dropName = "Ruby";
+            if (spin < gemChance) {
+                dropName = DetermineGemToDrop();
             }
             else if (spin < oreChance) {
                 dropName = "Ore";
+                //This was for testing and it does drop the correct gems
+                //dropName = DetermineGemToDrop();
             }
             else {
                 dropName = null;
@@ -578,6 +584,22 @@ public class Toolbox : MonoBehaviour {
 
                 toSlot.SetItemInstantiated(drop, clone);
             }
+        }
+    }
+
+    private string DetermineGemToDrop() {
+        Debug.Log("Current Town is " + Inventory.Instance.GetCurrentTown());
+        switch (Inventory.Instance.GetCurrentTown()) {
+            case Travel.Towns.WickedGrove:
+                return "ruby";
+            case Travel.Towns.FlamingPeak:
+                return "sapphire";
+            case Travel.Towns.GiantsPass:
+                return "emerald";
+            case Travel.Towns.SkyCity:
+                return "ruby";
+            default:
+                return "ruby";
         }
     }
 

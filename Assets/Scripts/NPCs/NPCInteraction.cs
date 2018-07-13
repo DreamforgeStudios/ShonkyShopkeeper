@@ -47,7 +47,7 @@ public class NPCInteraction : MonoBehaviour {
     */
 
     private void CheckForInput() {
-        if (Input.GetMouseButtonDown(0)) {
+        if (Input.GetMouseButtonDown(0) && !GameManager.pickedUpGolem) {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             //Debug.Log(Camera.main.ScreenPointToRay(Input.mousePosition));
             RaycastHit hit;

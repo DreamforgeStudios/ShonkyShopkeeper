@@ -64,11 +64,11 @@ public class NPCSpawner : MonoBehaviour {
         switch (Travel.ReturnCurrentTown()) {
             case Travel.Towns.WickedGrove:
                 return potentialSpawns[0];
-            case Travel.Towns.Chelm:
+            case Travel.Towns.FlamingPeak:
                 return potentialSpawns[1];
-            case Travel.Towns.Town3:
+            case Travel.Towns.GiantsPass:
                 return potentialSpawns[2];
-            case Travel.Towns.Town4:
+            case Travel.Towns.SkyCity:
                 return potentialSpawns[3];
             default:
                 return potentialSpawns[0];

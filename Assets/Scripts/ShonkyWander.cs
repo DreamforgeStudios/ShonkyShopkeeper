@@ -20,32 +20,42 @@ public class ShonkyWander : MonoBehaviour {
     private Vector3 destination;
     public bool enableNavmesh = false;
     private bool firstTime = true;
-    
+    public bool pickedUp = false;
+
+    //The resource pouch object being held
+    public GameObject pouch;
+
+    //If in mine
+    public bool inMine = false;
     
     
 	// Use this for initialization
 	void Start () {
+        pouch.SetActive(false);
         agent = GetComponent<NavMeshAgent>();
         //rb = GetComponent<Rigidbody>();
         cooldownTime = Time.time;
         animator = GetComponent<Animator>();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-        if (enableNavmesh) {
-            Animate();
-            if (!firstTime) {
-                wanderTimer = Time.time;
-                if (wanderTimer > cooldownTime) {
-                    position = GetNewPosition(firstTime);
-                    cooldownTime = Time.time + UnityEngine.Random.Range(7.0f, 10.0f);
-                }
 
-                GoToNewPosition(position);
-            } else {
-                GoToWarpNewPosition(GetNewPosition(firstTime));
-                firstTime = false;
+    // Update is called once per frame
+    void Update() {
+        if (!pickedUp) {
+            if (enableNavmesh) {
+                Animate();
+                if (!firstTime) {
+                    wanderTimer = Time.time;
+                    if (wanderTimer > cooldownTime) {
+                        position = GetNewPosition(firstTime);
+                        cooldownTime = Time.time + UnityEngine.Random.Range(7.0f, 10.0f);
+                    }
+
+                    GoToNewPosition(position);
+                }
+                else {
+                    GoToWarpNewPosition(GetNewPosition(firstTime));
+                    firstTime = false;
+                }
             }
         }
     }
@@ -82,5 +92,20 @@ public class ShonkyWander : MonoBehaviour {
             return transform.position;
         }
 
+    }
+
+    public void HoldPouch() {
+        pouch.SetActive(true);
+    }
+
+    public void RemovePouch() {
+        pouch.SetActive(false);
+    }
+
+    public bool IsHoldingPouch() {
+        if (pouch.activeSelf)
+            return true;
+        else
+            return false;
     }
 }

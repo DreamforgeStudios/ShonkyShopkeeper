@@ -55,6 +55,10 @@ public class Smelting : MonoBehaviour {
 	// Previous rotation.
 	private Vector3 prevRotation;
 
+    //Two objects to show and hide for restart and scene change
+    public GameObject nextScene;
+    public GameObject retryScene;
+
     //Audio GameObject and relevant objects
     public GameObject audioObject;
     private AudioSource fire;
@@ -90,6 +94,8 @@ public class Smelting : MonoBehaviour {
         Countdown.onComplete += GameOver;
 		//timeToGo = holdTime;
 		//started = false;
+        //nextScene.SetActive(false);
+        //retryScene.SetActive(false);
         //emitParams = new ParticleSystem.EmitParams();
     }
 	
@@ -267,5 +273,6 @@ public class Smelting : MonoBehaviour {
 
     public void ShowUIButtons() {
 	    returnOrRetryButtons.SetActive(true);
+        returnOrRetryButtons.GetComponent<UpdateRetryButton>().SetText();
     }
 }
