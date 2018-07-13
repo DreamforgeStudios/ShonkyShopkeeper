@@ -8933,7 +8933,6 @@ GameObject:
   - component: {fileID: 1829265239}
   - component: {fileID: 1829265240}
   - component: {fileID: 1829265241}
-  - component: {fileID: 1829265242}
   m_Layer: 0
   m_Name: Mine Portal
   m_TagString: Untagged
@@ -8981,19 +8980,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.2390823, y: 5.2985563, z: 2.7138374}
   m_Center: {x: -6.318141, y: 2.1492782, z: 2.262762}
---- !u!114 &1829265242
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1829265238}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af12d9e597a31284990316a0336f4a69, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mineTimeSeconds: 10
-  mineInventory: []
 --- !u!1 &1896530861
 GameObject:
   m_ObjectHideFlags: 0
