@@ -33,8 +33,8 @@ public class Tracing : MonoBehaviour {
     public Material material;
     public Color chosenStartColour;
     public Color chosenFinishColour;
-    public GameObject Button1Group;
-    public GameObject Button2Group;
+    //public GameObject Button1Group;
+    //public GameObject Button2Group;
 
     //Misc Variables
     //private int zero = 0;
@@ -88,8 +88,8 @@ public class Tracing : MonoBehaviour {
     void Start() {
         Countdown.onComplete += GameOver;
         mainCamera = Camera.main;
-        Button1Group.SetActive(false);
-        Button2Group.SetActive(false);
+        //Button1Group.SetActive(false);
+        //Button2Group.SetActive(false);
         SetupLineRenderer();
         GetNecessaryPositions(1);
         followSphere.SetActive(false);
@@ -231,14 +231,17 @@ public class Tracing : MonoBehaviour {
         ShowUIButtons();
     }
 
+    /*
     private void DetermineQuality(float finalScore) {
         float decimalScore = finalScore / 1000;
         // For transferring quality between scenes.
+        // NOTE: GameManager.instance.UpdateQuality() is no longer used.
         if (GameManager.instance) {
             GameManager.instance.UpdateQuality(decimalScore, 1);
         }
         grade = Quality.FloatToGrade(decimalScore, 3);
     }
+    */
 
     private float CalculateTimeScore(float accuracyScore) {
         float percentageTimeRemaining = ((finishTime - currentTime) / timeLimit) * 100;

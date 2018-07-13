@@ -476,6 +476,8 @@ public class Toolbox : MonoBehaviour {
             Inventory.Instance.RemoveItem(currentSelection.index);
             currentSelection.RemoveDontDestroy();
 
+            GameManager.Instance.RetriesRemaining = 2;
+
             Transform t = itemObj.transform;
             // Move and vibration for some "feedback".
             soundEffects.clip = itemLift;
