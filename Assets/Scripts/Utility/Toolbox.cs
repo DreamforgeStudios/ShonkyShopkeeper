@@ -476,11 +476,9 @@ public class Toolbox : MonoBehaviour {
             Inventory.Instance.RemoveItem(currentSelection.index);
             currentSelection.RemoveDontDestroy();
 
-            GameManager.Instance.RetriesRemaining = 2;
-
             Transform t = itemObj.transform;
-            //Reset retry amount prior to entering minigame
-            GameManager.instance.currentRetryNumber = 0;
+            // Long but temporary...
+            GameManager.Instance.RetriesRemaining = Inventory.Instance.GetMaxRetries(GameManager.Instance.CurrentTown);
 
             // Move and vibration for some "feedback".
             soundEffects.clip = itemLift;
