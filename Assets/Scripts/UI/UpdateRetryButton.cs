@@ -10,7 +10,7 @@ public class UpdateRetryButton : MonoBehaviour {
     }
 
     public void SetText() {
-        buttonText.text = "Retries Remaining: " + GameManager.instance.RetriesRemaining();
+        buttonText.text = "Retries Remaining: " + GameManager.Instance.RetriesRemaining;
     }
 	
 }

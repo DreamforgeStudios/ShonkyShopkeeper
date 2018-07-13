@@ -207,6 +207,7 @@ public class Tracing : MonoBehaviour {
         ShowUIButtons();
     }
 
+    /*
     private void DetermineQuality(float finalScore) {
         float decimalScore = finalScore / 1000;
         // For transferring quality between scenes.
@@ -215,6 +216,7 @@ public class Tracing : MonoBehaviour {
         }
         grade = Quality.FloatToGrade(decimalScore, 3);
     }
+    */
 
     private float CalculateTimeScore(float accuracyScore) {
         float percentageTimeRemaining = ((finishTime - currentTime) / timeLimit) * 100;

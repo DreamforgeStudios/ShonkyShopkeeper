@@ -1,59 +1,61 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using JetBrains.Annotations;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour {
-	public static GameManager instance = null;
-    
-	// TODO, this is no longer needed.
-	private float[] gameScores;
+	private static GameManager _instance;
 
-	// For transfering tapped personalities to the bidding game from the shop screen.
-	public Personality currentPersonality = null;
-	public Shonky currentShonky = null;
-	public Sprite currentSprite = null;
-    public Travel.Towns currentTown {
-        get { return Inventory.Instance.GetCurrentTown(); }
-    }
+	// Lazy instantiation of GameManager.
+	// Means that we don't have to manually place GameManager in each scene.
+	// Not sure if this is the best way to do this yet...
+	public static GameManager Instance {
+		get {
+			if (_instance == null) {
+				_instance = GameObject.FindObjectOfType<GameManager>();
 
+				if (_instance == null) {
+					var container = new GameObject("GameManager");
+					_instance = container.AddComponent<GameManager>();
+					_instance.SetupGameManager();
+				}
+			}
+
+			return _instance;
+		}
+	}
     public static bool pickedUpGolem = false;
-    public int currentRetryNumber = 0;
 
-	void Awake () {
-		if (instance == null) {
-			instance = this;
+	// This is so that we support manually placing GameManagers in scenes.
+	// NOTE: GameManagers placed in the scene will be destroyed if _instance is already set.
+	// So this only really works in the "main" scene.
+	// TODO: probably delete this and remove GameManager from shop scene.
+	private void Awake() {
+		if (_instance == null) {
+			_instance = this;
 			SetupGameManager();
-		} else if (instance != this) {
-			Destroy(gameObject);
+		} else if (_instance != this) {
+			Destroy(this.gameObject);
 		}
 	}
 
 	private void SetupGameManager() {
 		DontDestroyOnLoad(gameObject);
 		Application.targetFrameRate = 60;
-		gameScores = new float[4];
 	}
 
-    public bool CanRetry() {
-        if (currentRetryNumber < Inventory.Instance.GetMaxRetries(currentTown))
-            return true;
-        else
-            return false;
-    }
-
-    public int RetriesRemaining() {
-        return Inventory.Instance.GetMaxRetries(currentTown) - currentRetryNumber;
-    }
-
-	public void UpdateQuality(float grade, int index) {
-		gameScores[index] = grade;
+	// TODO: make things use these variables rather than those in DataTransfer.cs.
+	public Item GemTypeTransfer;
+	public Quality.QualityGrade QualityTransfer;
+	public Personality PersonalityTransfer;
+	public Sprite SpriteTransfer;
+    public int RetriesRemaining = 0;
+	public int ShonkyIndexTransfer = -1;
+	public int CameraRotTransfer = 8;
+	
+	public Travel.Towns CurrentTown {
+		get { return Inventory.Instance.GetCurrentTown(); }
 	}
-
-	public Quality.QualityGrade GetQuality() {
-		if (currentShonky != null) {
-			// TODO: need a way to get shonky quality.
-		}
-
-		return Quality.QualityGrade.Sturdy;
-	}
+	
 }
