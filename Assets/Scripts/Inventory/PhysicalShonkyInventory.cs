@@ -61,14 +61,40 @@ public class PhysicalShonkyInventory : MonoBehaviour {
                 shonkySlots[i].SetItem(instance);
                 GameObject obj;
                 if (shonkySlots[i].GetPrefabInstance(out obj)) {
-                    obj.GetComponent<ShonkyWander>().enableNavmesh = true;
+                    CheckIfInMine(instance, obj);
                     if (instance.isNew) {
                         // TODO, change tween / fixup.
                         obj.transform.DOMove(obj.transform.position + Vector3.up, 0.7f);
                     }
-                    instance.shonkySlotNumber = i;
+                    
                 }
             }
+        }
+    }
+
+    public void QueryShonkyInvForMiners() {
+        for (int i = 0; i < shonkySlots.Count; i++) {
+            ItemInstance instance;
+            if (ShonkyInventory.Instance.GetItem(i, out instance)) {
+                //shonkySlots[i].SetItem(instance);
+                GameObject obj;
+                if (shonkySlots[i].GetPrefabInstance(out obj)) {
+                    CheckIfInMine(instance, obj);
+                }
+            }
+        }
+    }
+
+    private void CheckIfInMine(ItemInstance instance, GameObject obj) {
+        Debug.Log("This golem is being checked if in mine");
+        if (instance.inMine) {
+            Debug.Log("This is in the mine");
+            obj.SetActive(false);
+            Mine.Instance.AddGolemReadyToCollect(obj);
+        }
+        else {
+            Debug.Log("This is not in the mine");
+            obj.GetComponent<ShonkyWander>().enableNavmesh = true;
         }
     }
 

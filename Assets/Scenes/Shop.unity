@@ -4281,7 +4281,7 @@ MonoBehaviour:
     quality: 0
     isNew: 0
     itemIdentifier: 
-    shonkySlotNumber: 0
+    inMine: 0
   prefabInstance: {fileID: 0}
 --- !u!1 &152974068 stripped
 GameObject:
@@ -4410,7 +4410,7 @@ MonoBehaviour:
     quality: 0
     isNew: 0
     itemIdentifier: 
-    shonkySlotNumber: 0
+    inMine: 0
   prefabInstance: {fileID: 0}
 --- !u!1001 &232791484
 Prefab:
@@ -4818,7 +4818,7 @@ MonoBehaviour:
     quality: 0
     isNew: 0
     itemIdentifier: 
-    shonkySlotNumber: 0
+    inMine: 0
   prefabInstance: {fileID: 0}
 --- !u!4 &424168835 stripped
 Transform:
@@ -5023,7 +5023,7 @@ MonoBehaviour:
     quality: 0
     isNew: 0
     itemIdentifier: 
-    shonkySlotNumber: 0
+    inMine: 0
   prefabInstance: {fileID: 0}
 --- !u!1 &488447858
 GameObject:
@@ -5771,7 +5771,7 @@ MonoBehaviour:
     quality: 0
     isNew: 0
     itemIdentifier: 
-    shonkySlotNumber: 0
+    inMine: 0
   prefabInstance: {fileID: 0}
 --- !u!1 &589946051
 GameObject:
@@ -5922,7 +5922,7 @@ MonoBehaviour:
     quality: 0
     isNew: 0
     itemIdentifier: 
-    shonkySlotNumber: 0
+    inMine: 0
   prefabInstance: {fileID: 0}
 --- !u!4 &627389899 stripped
 Transform:
@@ -6179,7 +6179,7 @@ MonoBehaviour:
     quality: 0
     isNew: 0
     itemIdentifier: 
-    shonkySlotNumber: 0
+    inMine: 0
   prefabInstance: {fileID: 0}
 --- !u!1001 &777065897
 Prefab:
@@ -6330,7 +6330,7 @@ MonoBehaviour:
     quality: 0
     isNew: 0
     itemIdentifier: 
-    shonkySlotNumber: 0
+    inMine: 0
   prefabInstance: {fileID: 0}
 --- !u!114 &894559666 stripped
 MonoBehaviour:
@@ -7389,7 +7389,7 @@ MonoBehaviour:
     quality: 0
     isNew: 0
     itemIdentifier: pouch
-    shonkySlotNumber: 0
+    inMine: 0
   inventory: {fileID: 548670424}
 --- !u!4 &1291631474
 Transform:
@@ -8622,7 +8622,7 @@ MonoBehaviour:
     quality: 0
     isNew: 0
     itemIdentifier: 
-    shonkySlotNumber: 0
+    inMine: 0
   prefabInstance: {fileID: 0}
 --- !u!1 &1711740765
 GameObject:
@@ -8771,7 +8771,7 @@ MonoBehaviour:
     quality: 0
     isNew: 0
     itemIdentifier: 
-    shonkySlotNumber: 0
+    inMine: 0
   prefabInstance: {fileID: 0}
 --- !u!1001 &1731161555
 Prefab:
@@ -9431,7 +9431,7 @@ MonoBehaviour:
     quality: 0
     isNew: 0
     itemIdentifier: 
-    shonkySlotNumber: 0
+    inMine: 0
   prefabInstance: {fileID: 0}
 --- !u!1 &2062573299 stripped
 GameObject:
@@ -9460,7 +9460,7 @@ MonoBehaviour:
     quality: 0
     isNew: 0
     itemIdentifier: 
-    shonkySlotNumber: 0
+    inMine: 0
   prefabInstance: {fileID: 0}
 --- !u!4 &2075824037 stripped
 Transform:

@@ -21,7 +21,7 @@ public class ItemInstance {
     public Quality.QualityGrade quality;
     public bool isNew;
     public string itemIdentifier;
-    public int shonkySlotNumber;
+    public bool inMine;
     
     public string itemInfo {
         get { return GetItemInfo(); }

@@ -52,6 +52,7 @@ public class Mine : ScriptableObject {
     public ItemInstance[] mineInventory;
     private Dictionary<DateTime, GameObject> returningGolems = new Dictionary<DateTime, GameObject>();
     private Dictionary<DateTime, GameObject> golemTable = new Dictionary<DateTime, GameObject>();
+    private List<GameObject> instantReturn = new List<GameObject>();
 	
     public void AddGolemAndTime(DateTime currentTime, GameObject golem) {
         Debug.Log(currentTime + " and does contain already " + golemTable.ContainsKey(currentTime));
@@ -59,6 +60,9 @@ public class Mine : ScriptableObject {
         Save();
     }
 
+    public void AddGolemReadyToCollect(GameObject golem) {
+        instantReturn.Add(golem);
+    }
     public List<GameObject> ReturnReadyGolems() {
         //Find Golems to be returned
         returningGolems = new Dictionary<DateTime, GameObject>();
@@ -80,6 +84,12 @@ public class Mine : ScriptableObject {
         foreach(KeyValuePair<DateTime, GameObject> golem in returningGolems) {
             golems.Add(golem.Value);
         }
+
+        //Add Instant return golems if any
+        foreach(GameObject golem in instantReturn) {
+            golems.Add(golem);
+        }
+        instantReturn = new List<GameObject>();
         Save();
         return golems;
     }
@@ -90,6 +100,9 @@ public class Mine : ScriptableObject {
             elapsedTime = DateTime.Now - golem.Key;
             if (elapsedTime.Seconds > mineTimeSeconds)
                 return true;
+        }
+        if (instantReturn.Count > 0) {
+            return true;
         }
         return false;
     }

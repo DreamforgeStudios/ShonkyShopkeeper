@@ -34,7 +34,7 @@ public class GolemPickup : MonoBehaviour {
     void Start() {
         exitPortalLocation = exitPortal.transform.position;
         inv = inventory.GetComponent<PhysicalInventory>();
-        //SaveManager.LoadOrInitializeMineInventory(mineInventory);
+        PhysicalShonkyInventory.Instance.QueryShonkyInvForMiners();
     }
 
     // Update is called once per frame
@@ -44,9 +44,8 @@ public class GolemPickup : MonoBehaviour {
         }
         else if (overPortal) {
             Debug.Log("Sending to Mine");
-            //pickedUpGolemSlot = GetGolemSlot();
             Mine.Instance.AddGolemAndTime(System.DateTime.Now, pickedupGolem);
-            pickedupGolem.GetComponent<ShonkyWander>().inMine = true;
+            SetGolemInMine(pickedupGolem, true);
             pickedupGolem.SetActive(false);
             pickedupGolem = null;
             overPortal = false;
@@ -55,15 +54,21 @@ public class GolemPickup : MonoBehaviour {
             ResetGolem();
         }
     }
-    /*
-    private int GetGolemSlot() {
+    
+    private void SetGolemInMine(GameObject golem, bool inMine) {
         for (int i = 0; i < PhysicalShonkyInventory.Instance.amountOfSlots; i++) {
-            if (ShonkyInventory.Instance.InMineCurrently(i)) {
-
+            PenSlot slot = PhysicalShonkyInventory.Instance.shonkySlots[i];
+            GameObject obj;
+            if (slot.GetPrefabInstance(out obj) == golem) {
+                ItemInstance instance;
+                if (slot.GetItemInstance(out instance)) {
+                    instance.inMine = inMine;
+                    return;
+                }
             }
         }
     }
-    */
+    
 
     private void GolemGrab() {
         //Debug.Log("Casting Ray");
@@ -125,12 +130,13 @@ public class GolemPickup : MonoBehaviour {
     }
     //This method will eventually be used to give returning golems resource pouches
     private void ReturnGolem(GameObject golem) {
+        SetGolemInMine(golem, false);
         golem.transform.position = exitPortalLocation;
         golem.SetActive(true);
         golem.GetComponent<ShonkyWander>().HoldPouch();
-        golem.GetComponent<ShonkyWander>().inMine = false;
         golem.GetComponent<NavMeshAgent>().enabled = true;
         golem.GetComponent<ShonkyWander>().pickedUp = false;
+
 
     }
 
