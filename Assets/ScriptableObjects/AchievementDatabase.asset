@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c6dd3a5766a25f4891d21f40b05bbec, type: 3}
+  m_Name: AchievementDatabase
+  m_EditorClassIdentifier: 
+  AchievementPrefab: {fileID: 0}
+  AchievementList:
+  - Key: golem_create_01
+    Achievement:
+      Icon: {fileID: 21300000, guid: 1b66a1f52901ee54cbe94a7f33d6e8d9, type: 3}
+      Heading: Achievement Get!
+      Description: Craft your first golem.
+      Unlocked: 1
+  - Key: golem_create_02
+    Achievement:
+      Icon: {fileID: 21300000, guid: 1b66a1f52901ee54cbe94a7f33d6e8d9, type: 3}
+      Heading: Achievement Get!
+      Description: Craft your second golem.
+      Unlocked: 1
