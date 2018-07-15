@@ -40,6 +40,9 @@ public class TravelSceneManager : MonoBehaviour {
     //Used to reset the inventory on first load
     public GameObject invReseter;
     
+    //Default inventory
+    public Inventory inventory;
+    
     // Use this for initialization
     void Start() {
         Setup();
@@ -211,6 +214,7 @@ public class TravelSceneManager : MonoBehaviour {
             helperText.enabled = true;
             goldAmount.enabled = false;
             //Also need to load default inventory to reset towns
+            SaveManager.LoadOrInitializeInventory(inventory);
             PhysicalInventory invReset = invReseter.GetComponent<PhysicalInventory>();
             invReset.LoadDefaultInventory();
         }

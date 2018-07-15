@@ -23,7 +23,7 @@ public class IntroScene : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-        //PlayerPrefs.DeleteKey("FirstStart");
+        PlayerPrefs.DeleteKey("FirstStart");
         texts = new List<TextMeshProUGUI>();
         texts.Add(text1);
         texts.Add(text2);
