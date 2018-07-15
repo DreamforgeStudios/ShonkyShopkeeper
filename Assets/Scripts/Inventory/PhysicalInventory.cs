@@ -21,11 +21,7 @@ public class PhysicalInventory : MonoBehaviour {
 		
 		inventorySlots.Sort((a, b) => a.index - b.index);
 
-		PopulateInitial();
-        if (PlayerPrefs.GetInt("FirstStart") == 0) {
-            LoadDefaultInventory();
-            PlayerPrefs.SetInt("FirstStart", 1);
-        }
+		PopulateInitial();      
 	}
 
 	public void PopulateInitial() {

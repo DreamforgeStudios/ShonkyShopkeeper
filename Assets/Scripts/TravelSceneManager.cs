@@ -36,20 +36,18 @@ public class TravelSceneManager : MonoBehaviour {
     //Boolean to keep track of movement and coroutine pause time
     private bool movementFinished = false;
     private float waitTime = 0.05f;
-
-    //Used to reset the inventory on first load
-    public GameObject invReseter;
     
-    //Default inventory
+    //Default inventories
     public Inventory inventory;
+    public ShonkyInventory shonkyInventory;
+    public Mine mineInventory;
     
     // Use this for initialization
     void Start() {
         Setup();
-
-        // NOTE: when using inventory, remember to save
+        
         CheckUnlockedTowns();
-
+        
         //Load the shop screen in the background as that is the only one which can be travelled to
         StartCoroutine(LoadAsyncScene("Shop"));
     }
@@ -111,6 +109,7 @@ public class TravelSceneManager : MonoBehaviour {
             Travel.ChangeCurrentTown(selectedTown);
             helperText.enabled = false;
             lastTownClicked = null;
+            SaveManager.SaveInventory();
 
         }
     }
@@ -122,12 +121,15 @@ public class TravelSceneManager : MonoBehaviour {
             player.SetActive(true);
             player.transform.position = ReturnTownPosition(selectedTown);
             helperText.text = "Welcome to " + selectedTown;
-            Inventory.Instance.SetCurrentTown(selectedTown);
+            Travel.ChangeCurrentTown(selectedTown);
+            SaveManager.SaveInventory();
+            PlayerPrefs.SetInt("FirstStart", 1);
         }
         //Else if it was a subsequent town, check the purchase was successful
         else {
             if (completeTransaction) {
                 helperText.text = selectedTown + " can now be travelled to";
+                SaveManager.SaveInventory();
             }
             else {
                 helperText.text = "Insufficent gold to travel to next town";
@@ -200,6 +202,21 @@ public class TravelSceneManager : MonoBehaviour {
 
     //Assign materials to objects and setup UI
     private void Setup() {
+        if(PlayerPrefs.GetInt("FirstStart") == 0) {
+            helperText.text = "Select the town where you wish to begin your journey";
+            helperText.enabled = true;
+            goldAmount.enabled = false;
+            //Also need to load default inventory to reset towns
+            Debug.Log("Loading Initial Inventories");
+            SaveManager.LoadOrInitializeInventory(inventory);
+            SaveManager.LoadOrInitializeShonkyInventory(shonkyInventory);
+            SaveManager.LoadOrInitializeMineInventory(mineInventory);
+            SaveManager.SaveInventory();
+            SaveManager.SaveShonkyInventory();
+            SaveManager.SaveMineInventory();
+            Debug.Log("Saved Initial Inventories");
+            
+        }
         prototypeOver.enabled = false;
         prototypeEndText.enabled = false;
         helperText.enabled = false;
@@ -209,15 +226,7 @@ public class TravelSceneManager : MonoBehaviour {
         town4.GetComponent<Renderer>().material = locked;
         player.SetActive(false);
         player.transform.position = ReturnTownPosition(currentTown);
-        if(PlayerPrefs.GetInt("FirstStart") == 0) {
-            helperText.text = "Select the town where you wish to begin your journey";
-            helperText.enabled = true;
-            goldAmount.enabled = false;
-            //Also need to load default inventory to reset towns
-            SaveManager.LoadOrInitializeInventory(inventory);
-            PhysicalInventory invReset = invReseter.GetComponent<PhysicalInventory>();
-            invReset.LoadDefaultInventory();
-        }
+        
     }
 
     //Return current town
