@@ -65,6 +65,9 @@ public class AchievementDatabase : ScriptableObject {
         
         a.Unlocked = true;
         Display(a);
+        
+        SaveAchieved();
+        
         return true;
     }
 
@@ -75,6 +78,8 @@ public class AchievementDatabase : ScriptableObject {
         a.Progress += amount;
         if (a.Progress == a.FinalProgress)
             Unlock(a);
+        
+        SaveAchieved();
             
         return true;
     }
@@ -100,9 +105,9 @@ public class AchievementDatabase : ScriptableObject {
         achievements.ForEach(x => dict.Add(x.Key, x.Achievement));
 
         foreach (var kvp in AchievedList) {
-            if (AchievementDictionary.ContainsKey(kvp.Key)) {
-                AchievementDictionary[kvp.Key].Unlocked = true;
-                AchievementDictionary[kvp.Key].Progress = kvp.Value;
+            if (dict.ContainsKey(kvp.Key)) {
+                dict[kvp.Key].Unlocked = true;
+                dict[kvp.Key].Progress = kvp.Value;
             } else if (kvp.Key != "") {
                 Debug.Log("Did not find an achievement that corresponded to the key \""
                           + kvp.Key + "\", is there a typo in achievements.txt?");

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class AchievementManager {
     private static AchievementDatabase
-        achievementDB = (AchievementDatabase) Resources.Load("AchievementDatabase");
+        achievementDB = Object.Instantiate((AchievementDatabase) Resources.Load("AchievementDatabase"));
 
     public static bool Get(string key) {
         // If true, successfully unlocked.  If false, already unlocked.
