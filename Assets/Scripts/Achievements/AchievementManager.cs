@@ -16,7 +16,6 @@ public static class AchievementManager {
         return false;
     }
     
-    // TODO: support incremental achievements.
     public static bool Increment(string key, int amount = 1) {
         Achievement a;
         if (achievementDB.TryFindAchievementWithKey(key, out a)) {

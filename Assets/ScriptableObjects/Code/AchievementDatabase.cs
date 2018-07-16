@@ -5,6 +5,7 @@ using System.IO;
 using UnityEngine;
 using System.Linq;
 using NaughtyAttributes;
+using DG.Tweening;
 
 [System.Serializable]
 [CreateAssetMenu(menuName = "AchievementDatabase", fileName = "AchievementDatabase.asset")]
@@ -32,7 +33,6 @@ public class AchievementDatabase : ScriptableObject {
         get {
             if (achievementDictionary == null) {
                 achievementDictionary = BuildDictionary(AchievementList);
-                Debug.Log("Built dictionary.");
             }
 
             return achievementDictionary;
@@ -82,13 +82,15 @@ public class AchievementDatabase : ScriptableObject {
     // TODO: tween in and out.
     private void Display(Achievement achievement) {
         var clone = AchievementPrefabInstance;
-        clone.gameObject.SetActive(true);
         clone.Icon.sprite = achievement.Icon;
         clone.Heading.text = achievement.Heading;
         clone.Description.text = achievement.Description;
         // clone.Background.sprite = achievement.Background;
 
-        clone.HideAfterSeconds(3f);
+        clone.transform.localScale = Vector3.zero;
+        clone.gameObject.SetActive(true);
+        clone.transform.DOScale(1, .35f).SetEase(Ease.OutBack);
+        clone.transform.DOScale(0, .35f).SetEase(Ease.OutBack).SetDelay(3f);
     }
     
     
@@ -96,6 +98,18 @@ public class AchievementDatabase : ScriptableObject {
     private Dictionary<string, Achievement> BuildDictionary(List<KeyedAchievement> achievements) {
         var dict = new Dictionary<string, Achievement>();
         achievements.ForEach(x => dict.Add(x.Key, x.Achievement));
+
+        foreach (var kvp in AchievedList) {
+            if (AchievementDictionary.ContainsKey(kvp.Key)) {
+                AchievementDictionary[kvp.Key].Unlocked = true;
+                AchievementDictionary[kvp.Key].Progress = kvp.Value;
+            } else if (kvp.Key != "") {
+                Debug.Log("Did not find an achievement that corresponded to the key \""
+                          + kvp.Key + "\", is there a typo in achievements.txt?");
+            }
+        }
+        
+        Debug.Log("Built dictionary.");
 
         return dict;
     }
@@ -119,16 +133,6 @@ public class AchievementDatabase : ScriptableObject {
         }
         catch (FormatException) {
             Debug.Log("Failed to parse an int in achievements.txt.");
-        }
-
-        foreach (var kvp in list) {
-            if (AchievementDictionary.ContainsKey(kvp.Key)) {
-                AchievementDictionary[kvp.Key].Unlocked = true;
-                AchievementDictionary[kvp.Key].Progress = kvp.Value;
-            } else if (kvp.Key != "") {
-                Debug.Log("Did not find an achievement that corresponded to the key \""
-                          + kvp.Key + "\", is there a typo in achievements.txt?");
-            }
         }
 
         return list;
