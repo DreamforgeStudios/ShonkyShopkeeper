@@ -10,6 +10,8 @@ public class Achievement {
     public Sprite Icon;
     public string Heading = "Achievement Get!";
     public string Description = "Something good happened.";
+    public int Progress = 0;
+    public int FinalProgress = 0;
     public bool Unlocked = false;
 }
 

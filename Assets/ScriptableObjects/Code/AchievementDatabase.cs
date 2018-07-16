@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -10,23 +11,36 @@ using NaughtyAttributes;
 public class AchievementDatabase : ScriptableObject {
     public GameObject AchievementPrefab;
     
+    private AchievementGameObject achievementPrefabInstance = null;
+    public AchievementGameObject AchievementPrefabInstance {
+        get {
+            if (achievementPrefabInstance == null)
+                achievementPrefabInstance = Instantiate(AchievementPrefab, FindObjectOfType<Canvas>().transform)
+                                            .GetComponent<AchievementGameObject>();
+            
+            return achievementPrefabInstance;
+        }
+    }
+    
     // Unity doesn't show dictionaries in the inspector, so they cannot be assigned in the inspector.
     // ... thus, we use a List and lazily translate it at runtime.
-    // If translating the list to a dictionary proves bad for performance, we can probably bake it in some way.
+    // If translating the list to a dictionary proves bad for performance, we can do it in Awake() instead.
     public List<KeyedAchievement> AchievementList;
 
-    public Dictionary<string, Achievement> achievementDictionary = null;
+    private Dictionary<string, Achievement> achievementDictionary = null;
     public Dictionary<string, Achievement> AchievementDictionary {
         get {
-            if (achievementDictionary == null)
+            if (achievementDictionary == null) {
                 achievementDictionary = BuildDictionary(AchievementList);
+                Debug.Log("Built dictionary.");
+            }
 
             return achievementDictionary;
         }
     }
 
-    private List<string> achievedList = null;
-    public List<string> AchievedList {
+    private List<KeyValuePair<string, int>> achievedList = null;
+    public List<KeyValuePair<string, int>> AchievedList {
         get {
             if (achievedList == null)
                 achievedList = LoadAchieved();
@@ -35,53 +49,86 @@ public class AchievementDatabase : ScriptableObject {
         }
     }
 
-    public bool Unlock(string key) {
-        Achievement a;
+    public bool TryFindAchievementWithKey(string key, out Achievement a) {
         if (AchievementDictionary.TryGetValue(key, out a)) {
-            a.Unlocked = true;
-            Display(a);
             return true;
         }
 
+        Debug.Log("Couldn't find an achievement matching key \"" + key + "\".");
         return false;
     }
 
-    // TODO: tween in.
+    public bool Unlock(Achievement a) {
+        // Already unlocked.
+        if (a.Unlocked)
+            return false;
+        
+        a.Unlocked = true;
+        Display(a);
+        return true;
+    }
+
+    public bool Increment(Achievement a, int amount) {
+        if (a.Unlocked || a.Progress >= a.FinalProgress)
+            return false;
+        
+        a.Progress += amount;
+        if (a.Progress == a.FinalProgress)
+            Unlock(a);
+            
+        return true;
+    }
+    
+    // TODO: tween in and out.
     private void Display(Achievement achievement) {
-        var clone = Instantiate(AchievementPrefab, FindObjectOfType<Canvas>().transform).GetComponent<AchievementGameObject>();
+        var clone = AchievementPrefabInstance;
+        clone.gameObject.SetActive(true);
         clone.Icon.sprite = achievement.Icon;
         clone.Heading.text = achievement.Heading;
         clone.Description.text = achievement.Description;
         // clone.Background.sprite = achievement.Background;
+
+        clone.HideAfterSeconds(3f);
     }
-    
-    
     
     
     
     private Dictionary<string, Achievement> BuildDictionary(List<KeyedAchievement> achievements) {
         var dict = new Dictionary<string, Achievement>();
-        AchievementList.ForEach(x => dict.Add(x.Key, x.Achievement));
+        achievements.ForEach(x => dict.Add(x.Key, x.Achievement));
 
         return dict;
     }
     
-    private List<string> LoadAchieved() {
+    private List<KeyValuePair<string, int>> LoadAchieved() {
         var path = Path.Combine(Application.persistentDataPath, "achievements.txt");
-        var list = new List<string>();
+        var list = new List<KeyValuePair<string, int>>();
 
         try {
-            list = File.ReadAllLines(path).ToList();
-        } catch (FileNotFoundException) {
-            list = new List<string>();
+            var lines = File.ReadAllLines(path);
+            foreach (var line in lines) {
+                var kvp = line.Split(',');
+                list.Add(new KeyValuePair<string, int>(kvp[0], Int32.Parse(kvp[1])));
+            }
+        }
+        catch (FileNotFoundException) {
+            Debug.Log("achievements.txt was not found and will be created.");
+        }
+        catch (IndexOutOfRangeException) {
+            Debug.Log("Problem parsing achievements.txt, probably missing a ',' somewhere.");
+        }
+        catch (FormatException) {
+            Debug.Log("Failed to parse an int in achievements.txt.");
         }
 
-        foreach (var key in list) {
-            if (AchievementDictionary.ContainsKey(key))
-                AchievementDictionary[key].Unlocked = true;
-            else if (key != "")
+        foreach (var kvp in list) {
+            if (AchievementDictionary.ContainsKey(kvp.Key)) {
+                AchievementDictionary[kvp.Key].Unlocked = true;
+                AchievementDictionary[kvp.Key].Progress = kvp.Value;
+            } else if (kvp.Key != "") {
                 Debug.Log("Did not find an achievement that corresponded to the key \""
-                          + key + "\", is there a typo in achievements.txt?");
+                          + kvp.Key + "\", is there a typo in achievements.txt?");
+            }
         }
 
         return list;
@@ -89,9 +136,16 @@ public class AchievementDatabase : ScriptableObject {
 
     [Button("Save")]
     private void SaveAchieved() {
-        var achievedKeys = AchievementDictionary.Where(x => x.Value.Unlocked).Select(a => a.Key).ToArray();
+        List<string> achievedKeys = new List<string>();
+        
+        foreach (var pair in AchievementDictionary) {
+            if (pair.Value.Unlocked || pair.Value.Progress > 0) {
+                achievedKeys.Add(pair.Key + "," + pair.Value.Progress);
+            }
+        }
+        
         var path = Path.Combine(Application.persistentDataPath, "achievements.txt");
-        File.WriteAllLines(path, achievedKeys);
+        File.WriteAllLines(path, achievedKeys.ToArray());
     }
 
     [Button("Load")]
@@ -102,5 +156,15 @@ public class AchievementDatabase : ScriptableObject {
     [Button("Print Achieved")]
     private void Print() {
         AchievedList.ForEach(i => Debug.Log(i));
+    }
+
+    [Button("Lock All")]
+    private void Lock() {
+        AchievementList.ForEach(x => {
+            x.Achievement.Unlocked = false;
+            x.Achievement.Progress = 0;
+        });
+
+        achievementDictionary = BuildDictionary(AchievementList);
     }
 }
