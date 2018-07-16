@@ -13,51 +13,65 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   goldCount: 0
   inventory:
-  - quantity: 1
-    quality: 6
-    isNew: 0
-    itemIdentifier: pouch
-  - quantity: 1
-    quality: 6
-    isNew: 0
-    itemIdentifier: ore
-  - quantity: 1
-    quality: 6
-    isNew: 0
-    itemIdentifier: ore
-  - quantity: 1
-    quality: 6
-    isNew: 0
-    itemIdentifier: ore
-  - quantity: 1
-    quality: 6
-    isNew: 0
-    itemIdentifier: emerald
-  - quantity: 1
-    quality: 6
-    isNew: 0
-    itemIdentifier: ruby
-  - quantity: 1
-    quality: 6
-    isNew: 0
-    itemIdentifier: sapphire
-  - quantity: 0
-    quality: 6
-    isNew: 0
-    itemIdentifier: 
-  - quantity: 0
-    quality: 6
-    isNew: 0
-    itemIdentifier: 
-  - quantity: 0
-    quality: 6
-    isNew: 0
-    itemIdentifier: 
-  - quantity: 0
-    quality: 6
-    isNew: 0
-    itemIdentifier: 
-  - quantity: 0
-    quality: 6
-    isNew: 0
-    itemIdentifier: 
+  - Quantity: 1
+    Quality: 6
+    IsNew: 0
+    ItemIdentifier: pouch
+    InMine: 0
+  - Quantity: 1
+    Quality: 6
+    IsNew: 0
+    ItemIdentifier: ore
+    InMine: 0
+  - Quantity: 1
+    Quality: 6
+    IsNew: 0
+    ItemIdentifier: ore
+    InMine: 0
+  - Quantity: 1
+    Quality: 6
+    IsNew: 0
+    ItemIdentifier: ore
+    InMine: 0
+  - Quantity: 1
+    Quality: 6
+    IsNew: 0
+    ItemIdentifier: ruby
+    InMine: 0
+  - Quantity: 1
+    Quality: 0
+    IsNew: 0
+    ItemIdentifier: sapphire
+    InMine: 0
+  - Quantity: 1
+    Quality: 6
+    IsNew: 0
+    ItemIdentifier: emerald
+    InMine: 0
+  - Quantity: 0
+    Quality: 0
+    IsNew: 0
+    ItemIdentifier: 
+    InMine: 0
+  - Quantity: 0
+    Quality: 0
+    IsNew: 0
+    ItemIdentifier: 
+    InMine: 0
+  - Quantity: 0
+    Quality: 0
+    IsNew: 0
+    ItemIdentifier: 
+    InMine: 0
+  - Quantity: 0
+    Quality: 0
+    IsNew: 0
+    ItemIdentifier: 
+    InMine: 0
+  - Quantity: 0
+    Quality: 0
+    IsNew: 0
+    ItemIdentifier: 
+    InMine: 0
+  unlockedTowns: 
+  currentTown: 0

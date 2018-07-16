@@ -56,9 +56,9 @@ public class Barter : MonoBehaviour {
     public AudioClip coins;
 
     void Awake() {
-        if (DataTransfer.shonkyIndex >= 0) {
+        if (GameManager.Instance.ShonkyIndexTransfer >= 0) {
             ItemInstance tmp;
-            if (ShonkyInventory.Instance.GetItem(DataTransfer.shonkyIndex, out tmp)) {
+            if (ShonkyInventory.Instance.GetItem(GameManager.Instance.ShonkyIndexTransfer, out tmp)) {
                 shonky = tmp;
                 manager.shonkyInstance = shonky;
             }
@@ -67,11 +67,11 @@ public class Barter : MonoBehaviour {
             manager.shonkyInstance = new ItemInstance("rubygolem1", 1, Quality.QualityGrade.Sturdy, false);
         }
 
-        if (DataTransfer.currentPersonality) {
-            this.personality = Instantiate(DataTransfer.currentPersonality);
+        if (GameManager.Instance.PersonalityTransfer) {
+            this.personality = Instantiate(GameManager.Instance.PersonalityTransfer);
             // TODO: messy code.
             manager.SetBasePrice((shonky.item as Shonky).basePrice);
-            this.personality.InfluencePersonality(shonky.quality, (shonky.item as Shonky).basePrice);
+            this.personality.InfluencePersonality(shonky.Quality, (shonky.item as Shonky).basePrice);
             LoadPersonality();
         } else {
             Debug.Log("No personality found, using default values.");
@@ -205,7 +205,7 @@ public class Barter : MonoBehaviour {
             this.offerButton.interactable = false;
             effects.Play();
             Inventory.Instance.AddGold((int)offer);
-            ShonkyInventory.Instance.RemoveItem(DataTransfer.shonkyIndex);
+            ShonkyInventory.Instance.RemoveItem(GameManager.Instance.ShonkyIndexTransfer);
             ShowUIButtons();
         // NPC has countered.
         } else {
@@ -230,7 +230,7 @@ public class Barter : MonoBehaviour {
         manager.WizardSpeak(personality.TalkAccept(1f));
         effects.Play();
         Inventory.Instance.AddGold((int)manager.fPrice);
-        ShonkyInventory.Instance.RemoveItem(DataTransfer.shonkyIndex);
+        ShonkyInventory.Instance.RemoveItem(GameManager.Instance.ShonkyIndexTransfer);
         ShowUIButtons();
     }
 

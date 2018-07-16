@@ -60,13 +60,13 @@ public class NPCInteraction : MonoBehaviour {
                     //If they do, select a random one and pass to the barter screen
                     Debug.Log(shonkyIndexes.Count);
                     if (shonkyIndexes.Count > 0) {
-                        DataTransfer.currentSprite = hit.transform.GetComponent<SpriteRenderer>().sprite;
-                        DataTransfer.currentPersonality = hit.transform.GetComponent<NPCWalker>().personality;
+                        GameManager.Instance.SpriteTransfer = hit.transform.GetComponent<SpriteRenderer>().sprite;
+                        GameManager.Instance.PersonalityTransfer = hit.transform.GetComponent<NPCWalker>().personality;
 
                         int randomShonky = shonkyIndexes[UnityEngine.Random.Range(0, shonkyIndexes.Count)];
                         ItemInstance chosenShonky;
                         if (ShonkyInventory.Instance.GetItem(randomShonky, out chosenShonky)) {
-                            DataTransfer.shonkyIndex = randomShonky;
+                            GameManager.Instance.ShonkyIndexTransfer = randomShonky;
 
                             //Move NPC to shop front and initiate barter
                             hit.transform.GetComponent<NPCWalker>().walkNormal = false;

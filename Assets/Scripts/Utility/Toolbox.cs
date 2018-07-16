@@ -17,6 +17,8 @@ public class Toolbox : MonoBehaviour {
     public PhysicalInventory physicalInventory;
     public ItemDatabase database;
 
+    public float selectedOutlineThickness = 2;
+
     //Capture the original positions and gameObjects of each tool
     private Vector3 forcepPos;
     private Vector3 inspectPos;
@@ -147,35 +149,8 @@ public class Toolbox : MonoBehaviour {
         curToolObj.transform.DOScale(1f, 0.7f).SetEase(Ease.InElastic);
         newToolObj.transform.DOScale(2f, 0.7f).SetEase(Ease.InElastic);
 
-        // This is a lot of work for just changing an outline... fuck.
-        MeshRenderer[] curRenderers = curToolObj.GetComponentsInChildren<MeshRenderer>(),
-                       newRenderers = newToolObj.GetComponentsInChildren<MeshRenderer>();
-
-        // Materials for our tools.
-        Material[] materials;
-
-        // Change the color and outline thickness of our old tool.
-        // TODO: don't hardcode the values.
-        foreach (MeshRenderer rend in curRenderers) {
-            materials = rend.materials;
-            foreach (Material mat in materials) {
-                mat.SetColor("_OutlineColor", Color.black);
-                mat.SetFloat("_Outline", 0.002f);
-            }
-
-            rend.materials = materials;
-        }
-
-        // Change the color and outline thickness of our new tool.
-        foreach (MeshRenderer rend in newRenderers) {
-            materials = rend.materials;
-            foreach (Material mat in materials) {
-                mat.SetColor("_OutlineColor", Color.green);
-                mat.SetFloat("_Outline", 0.008f);
-            }
-
-            rend.materials = materials;
-        }
+        curToolObj.GetComponent<Outline>().OutlineWidth = 0;
+        newToolObj.GetComponent<Outline>().OutlineWidth = selectedOutlineThickness;
 
         // Finally actually swap tools.
         currentTool = tool;
@@ -243,7 +218,7 @@ public class Toolbox : MonoBehaviour {
         inspectionPanel.SetActive(false);
         GameObject gameObj;
         if (currentSelection && currentSelection.GetPrefabInstance(out gameObj)) {
-            if (currentSelection.itemInstance.isNew) {
+            if (currentSelection.itemInstance.IsNew) {
                 UnmarkNew();
             }
             gameObj.transform.DOMove(currentSelection.transform.position, 1f).SetEase(Ease.OutBounce);
@@ -256,7 +231,7 @@ public class Toolbox : MonoBehaviour {
     private void UnmarkNew() {
         // Unmark in backend and frontend.
         Inventory.Instance.UnMarkNew(currentSelection.index);
-        currentSelection.itemInstance.isNew = false;
+        currentSelection.itemInstance.IsNew = false;
         GameObject obj;
         if (currentSelection.GetPrefabInstance(out obj)) {
             Destroy(obj.GetComponent<Rotate>());
@@ -388,13 +363,15 @@ public class Toolbox : MonoBehaviour {
             currentSelection = slot;
             switch (item.GetType().ToString()) {
                 case "Gem":
-                    DataTransfer.GemType = (item as Gem).gemType.ToString();
+                    GameManager.Instance.GemTypeTransfer = (item as Gem).gemType;
                     StartCoroutine(LoadAsyncScene("Cutting"));
                     MinigameTransition();
                     break;
                 case "Jewel":
-                    DataTransfer.GemType = (item as Jewel).gemType.ToString();
-                    DataTransfer.currentQuality = instance.quality;
+                    GameManager.Instance.GemTypeTransfer = (item as Jewel).gemType;
+                    //DataTransfer.GemType = (item as Jewel).gemType.ToString();
+                    GameManager.Instance.QualityTransfer = instance.Quality;
+                    //DataTransfer.currentQuality = instance.Quality;
                     StartCoroutine(LoadAsyncScene("Polishing"));
                     MinigameTransition();
                     break;
@@ -403,7 +380,8 @@ public class Toolbox : MonoBehaviour {
                     MinigameTransition();
                     break;
                 case "Brick":
-                    DataTransfer.currentQuality = instance.quality;
+                    GameManager.Instance.QualityTransfer = instance.Quality;
+                    //DataTransfer.currentQuality = instance.Quality;
                     StartCoroutine(LoadAsyncScene("Tracing"));
                     MinigameTransition();
                     break;
@@ -504,8 +482,8 @@ public class Toolbox : MonoBehaviour {
         soundEffects.Play();
         Debug.Log("Created Golem");
         //Get the average quality of the shell and charged gem, assign to new golem.
-        Quality.QualityGrade item1 = currentSelection.itemInstance.quality;
-        Quality.QualityGrade item2 = slot.itemInstance.quality;
+        Quality.QualityGrade item1 = currentSelection.itemInstance.Quality;
+        Quality.QualityGrade item2 = slot.itemInstance.Quality;
         Quality.QualityGrade avg = Quality.CalculateCombinedQuality(item1, item2);
         ItemInstance newGolem = new ItemInstance(gemType, 1, avg, true);
         int index = ShonkyInventory.Instance.InsertItem(newGolem);
@@ -520,6 +498,8 @@ public class Toolbox : MonoBehaviour {
         slot.RemoveItem();
         //reset selection
         currentSelection = null;
+
+        AchievementManager.Get("golem_create_01");
     }
     //Method used to find the gem type selected
     private string FindGemType(Slot slot1, Slot slot2) {
@@ -534,7 +514,6 @@ public class Toolbox : MonoBehaviour {
         }
     }
     
-    // TODO: this should drop more than just ruby + ore?
     private void ResourcePouchOpen(Slot slot) {
         // Hard coded for now.  To do this dynamically, maybe put <names,chances> in a dictionary<string, float>.
         float gemChance = 0.4f,

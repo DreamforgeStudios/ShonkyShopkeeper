@@ -62,7 +62,7 @@ public class GolemPickup : MonoBehaviour {
             if (slot.GetPrefabInstance(out obj) == golem) {
                 ItemInstance instance;
                 if (slot.GetItemInstance(out instance)) {
-                    instance.inMine = inMine;
+                    instance.InMine = inMine;
                     return;
                 }
             }

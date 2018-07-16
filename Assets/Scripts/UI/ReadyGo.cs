@@ -79,7 +79,6 @@ public class ReadyGo : MonoBehaviour {
 	}
 
 	private void OnCompleteTick() {
-		// TODO: theres a better way to remove the gameobject at the end.
 		this.gameObject.SetActive(false);
 		if (onComplete != null) {
 			onComplete();

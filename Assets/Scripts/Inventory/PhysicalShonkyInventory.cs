@@ -62,7 +62,7 @@ public class PhysicalShonkyInventory : MonoBehaviour {
                 GameObject obj;
                 if (shonkySlots[i].GetPrefabInstance(out obj)) {
                     CheckIfInMine(instance, obj);
-                    if (instance.isNew) {
+                    if (instance.IsNew) {
                         // TODO, change tween / fixup.
                         obj.transform.DOMove(obj.transform.position + Vector3.up, 0.7f);
                     }
@@ -87,7 +87,7 @@ public class PhysicalShonkyInventory : MonoBehaviour {
 
     private void CheckIfInMine(ItemInstance instance, GameObject obj) {
         Debug.Log("This golem is being checked if in mine");
-        if (instance.inMine) {
+        if (instance.InMine) {
             Debug.Log("This is in the mine");
             obj.SetActive(false);
             Mine.Instance.AddGolemReadyToCollect(obj);

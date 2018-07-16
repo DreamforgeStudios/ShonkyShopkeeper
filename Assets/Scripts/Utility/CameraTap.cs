@@ -15,7 +15,7 @@ public class CameraTap : MonoBehaviour {
 
     public void Awake() {
         //If top screenRotation was last remembered
-        if (topScreenRotation.x == DataTransfer.cameraRot) {
+        if (topScreenRotation.x == GameManager.Instance.CameraRotTransfer) {
             transform.localEulerAngles = topScreenRotation;
             img.transform.localEulerAngles = topScreenRotationImg;
             topScreen = true;
@@ -30,12 +30,12 @@ public class CameraTap : MonoBehaviour {
         if (topScreen) {
             transform.DORotate(bottomScreenRotation, 0.4f).SetEase(Ease.InOutSine);
 			img.transform.DORotate(bottomScreenRotationImg, 0.4f).SetEase(Ease.InOutSine);
-            DataTransfer.cameraRot = bottomScreenRotation.x;
+            GameManager.Instance.CameraRotTransfer = bottomScreenRotation.x;
             topScreen = false;
         } else { 
             transform.DORotate(topScreenRotation, 0.4f).SetEase(Ease.InOutSine);
 			img.transform.DORotate(topScreenRotationImg, 0.4f).SetEase(Ease.InOutSine);
-            DataTransfer.cameraRot = topScreenRotation.x;
+            GameManager.Instance.CameraRotTransfer = topScreenRotation.x;
             topScreen = true;
         }
     }
