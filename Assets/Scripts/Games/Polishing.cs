@@ -73,7 +73,7 @@ public class Polishing : MonoBehaviour {
         keyPoint = gemObject.transform.position;
         Material[] materials = new Material[2];
         //Determine gem material
-        switch (DataTransfer.GemType) {
+        switch (GameManager.Instance.GemTypeTransfer.ToString()) {
             case ("Ruby"):
                 materials[0] = blackOutlines;
                 materials[1] = Ruby;
@@ -202,20 +202,14 @@ public class Polishing : MonoBehaviour {
         qualityText.gameObject.SetActive(true);
         qualityBar.Disappear();
 
-        // TODO: back to shop button needs to change to facilitate restarting games.
-		grade = Quality.CalculateCombinedQuality(DataTransfer.currentQuality, grade);
-        //Inventory.Instance.InsertItem(new ItemInstance("Charged " + DataTransfer.GemType, 1, grade, true));
+		grade = Quality.CalculateCombinedQuality(GameManager.Instance.QualityTransfer, grade);
 
-        //nextScene.enabled = true;
-        //retryScene.enabled = true;
-        //}
-        
         ShowUIButtons();
     }
     
     // Return to shop.
 	public void Return() {
-		ReturnOrRetry.Return("Charged " + DataTransfer.GemType, grade);
+		ReturnOrRetry.Return("Charged " + GameManager.Instance.GemTypeTransfer, grade);
 	}
 
     // Retry (roload scene).

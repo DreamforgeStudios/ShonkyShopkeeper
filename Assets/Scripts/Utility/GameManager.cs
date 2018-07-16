@@ -45,14 +45,13 @@ public class GameManager : MonoBehaviour {
 		Application.targetFrameRate = 60;
 	}
 
-	// TODO: make things use these variables rather than those in DataTransfer.cs.
-	public Item GemTypeTransfer;
+	public Item.GemType GemTypeTransfer;
 	public Quality.QualityGrade QualityTransfer;
 	public Personality PersonalityTransfer;
 	public Sprite SpriteTransfer;
     public int RetriesRemaining = 0;
 	public int ShonkyIndexTransfer = -1;
-	public int CameraRotTransfer = 8;
+	public float CameraRotTransfer = 8;
 	
 	public Travel.Towns CurrentTown {
 		get { return Inventory.Instance.GetCurrentTown(); }

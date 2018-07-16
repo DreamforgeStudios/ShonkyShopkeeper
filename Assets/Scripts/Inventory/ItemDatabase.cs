@@ -5,58 +5,58 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Items/Database", fileName = "ItemDatabase.asset")]
 public class ItemDatabase : ScriptableObject {
 	// Item objects.
-	public Item ruby;
-	public Item sapphire;
-	public Item emerald;
-	public Item diamond;
+	public Item Ruby;
+	public Item Sapphire;
+	public Item Emerald;
+	public Item Diamond;
 
-	public Item cutRuby;
-	public Item cutSapphire;
-	public Item cutEmerald;
-	public Item cutDiamond;
+	public Item CutRuby;
+	public Item CutSapphire;
+	public Item CutEmerald;
+	public Item CutDiamond;
 
-	public Item chargedRuby;
-	public Item chargedSapphire;
-	public Item chargedEmerald;
-	public Item chargedDiamond;
+	public Item ChargedRuby;
+	public Item ChargedSapphire;
+	public Item ChargedEmerald;
+	public Item ChargedDiamond;
 
-	public Item ore;
-	public Item brick;
-	public Item shell;
-	public Item pouch;
-    public Item empty;
+	public Item Ore;
+	public Item Brick;
+	public Item Shell;
+	public Item Pouch;
+    public Item Empty;
 
-    public Item rubyGolem1;
-    public Item emeraldGolem1;
-    public Item sapphireGolem1;
+    public Item RubyGolem1;
+    public Item EmeraldGolem1;
+    public Item SapphireGolem1;
 
     public Item GetActual(string name) {
-	    if (name == null || name == "") {
+	    if (string.IsNullOrEmpty(name)) {
 		    Debug.Log("GetActual(): name is null or empty.  You're either checking an empty slot or using this function incorrectly.");
 		    return null;
 	    }
 	    
 		switch (name.ToLower()) {
-			case "ruby": return ruby;
-			case "sapphire": return sapphire;
-			case "emerald": return emerald;
-			case "diamond": return diamond;
-			case "cut ruby": return cutRuby;
-			case "cut sapphire": return cutSapphire;
-			case "cut emerald": return cutEmerald;
-			case "cut diamond": return cutDiamond;
-			case "charged ruby": return chargedRuby;
-			case "charged sapphire": return chargedSapphire;
-			case "charged emerald": return chargedEmerald;
-			case "charged diamond": return chargedDiamond;
-			case "ore": return ore;
-			case "brick": return brick;
-			case "shell": return shell;
-			case "pouch": return pouch;
-            case "empty": return empty;
-            case "emeraldgolem1": return emeraldGolem1;
-            case "rubygolem1": return rubyGolem1;
-            case "sapphiregolem1": return sapphireGolem1;
+			case "ruby": return Ruby;
+			case "sapphire": return Sapphire;
+			case "emerald": return Emerald;
+			case "diamond": return Diamond;
+			case "cut ruby": return CutRuby;
+			case "cut sapphire": return CutSapphire;
+			case "cut emerald": return CutEmerald;
+			case "cut diamond": return CutDiamond;
+			case "charged ruby": return ChargedRuby;
+			case "charged sapphire": return ChargedSapphire;
+			case "charged emerald": return ChargedEmerald;
+			case "charged diamond": return ChargedDiamond;
+			case "ore": return Ore;
+			case "brick": return Brick;
+			case "shell": return Shell;
+			case "pouch": return Pouch;
+            case "empty": return Empty;
+            case "emeraldgolem1": return EmeraldGolem1;
+            case "rubygolem1": return RubyGolem1;
+            case "sapphiregolem1": return SapphireGolem1;
 
             default: 
 	            Debug.Log("Could not find an Item for key \"" + name + "\", is it typed correctly?");

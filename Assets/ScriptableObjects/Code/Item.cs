@@ -5,6 +5,10 @@ using UnityEngine;
 // A "template" for items.
 [System.Serializable]
 public abstract class Item : ScriptableObject {
+    public enum GemType {
+        Ruby, Diamond, Sapphire, Emerald
+    }
+    
     public string itemName;
     public GameObject physicalRepresentation;
     public int stackLimit;
@@ -15,13 +19,11 @@ public abstract class Item : ScriptableObject {
 // Allows us to have copies with mutable data.
 [System.Serializable]
 public class ItemInstance {
-    //public Item item;
-    // TODO: shouldn't be able to access this publicly, but it isn't accessed at all at the moment.
-    public int quantity = 1;
-    public Quality.QualityGrade quality;
-    public bool isNew;
-    public string itemIdentifier;
-    public bool inMine;
+    public int Quantity = 1;
+    public Quality.QualityGrade Quality;
+    public bool IsNew;
+    public string ItemIdentifier;
+    public bool InMine;
     
     public string itemInfo {
         get { return GetItemInfo(); }
@@ -37,21 +39,21 @@ public class ItemInstance {
     }
 
     public ItemInstance(string itemName, int quantity, Quality.QualityGrade quality, bool isNew) {
-        this.itemIdentifier = itemName;
-        this.quantity = quantity;
-        this.quality = quality;
-        this.isNew = isNew;
+        this.ItemIdentifier = itemName;
+        this.Quantity = quantity;
+        this.Quality = quality;
+        this.IsNew = isNew;
         
-        _item = ((ItemDatabase) Resources.Load("ItemDatabase")).GetActual(itemIdentifier);
+        _item = ((ItemDatabase) Resources.Load("ItemDatabase")).GetActual(ItemIdentifier);
     }
 
     public void AddQuantity(int amount) {
-        quantity = Mathf.Min(item.stackLimit, quantity + amount);
+        Quantity = Mathf.Min(item.stackLimit, Quantity + amount);
     }
 
     private Item GetItem() {
         if (_item == null) {
-            _item = ((ItemDatabase) Resources.Load("ItemDatabase")).GetActual(itemIdentifier);
+            _item = ((ItemDatabase) Resources.Load("ItemDatabase")).GetActual(ItemIdentifier);
         }
 
         return _item;
@@ -62,11 +64,11 @@ public class ItemInstance {
     }
 
     private string GetItemInfo() {
-        string grade = Quality.GradeToString(quality);
-        string gradeCol = "#" + ColorUtility.ToHtmlStringRGB(Quality.GradeToColor(quality));
+        string grade = global::Quality.GradeToString(Quality);
+        string gradeCol = "#" + ColorUtility.ToHtmlStringRGB(global::Quality.GradeToColor(Quality));
         string str = string.Format("Quality: <color={0}>{1}</color>\n" +
                                    "Quantity: <color=white>{2}</color>\n" +
-                                   (isNew ? "<color=#ffc605fc>NEW</color>\n" : ""), gradeCol, grade, quantity);
+                                   (IsNew ? "<color=#ffc605fc>NEW</color>\n" : ""), gradeCol, grade, Quantity);
         return str;
     }
 }

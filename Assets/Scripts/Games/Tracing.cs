@@ -200,9 +200,7 @@ public class Tracing : MonoBehaviour {
         qualityBar.Disappear();
         ResetOptimalPoints();
 
-        // TODO: back to shop button needs to change to facilitate restarting games.
-		grade = Quality.CalculateCombinedQuality(DataTransfer.currentQuality, grade);
-        //Inventory.Instance.InsertItem(new ItemInstance("Shell", 1, grade, true));
+		grade = Quality.CalculateCombinedQuality(GameManager.Instance.QualityTransfer, grade);
         
         ShowUIButtons();
     }

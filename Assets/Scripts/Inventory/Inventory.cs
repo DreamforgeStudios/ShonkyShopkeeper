@@ -176,7 +176,7 @@ public class Inventory : ScriptableObject {
             return false;
         }
 
-        inventory[index].isNew = true;
+        inventory[index].IsNew = true;
         Save();
         return true;
     }
@@ -186,7 +186,7 @@ public class Inventory : ScriptableObject {
             return false;
         }
 
-        inventory[index].isNew = false;
+        inventory[index].IsNew = false;
         Save();
         return true;
     }

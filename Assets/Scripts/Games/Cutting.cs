@@ -31,7 +31,8 @@ public class Cutting : MonoBehaviour {
 	// The impact that time should have on the score.
 	public float impactTime;
 
-	// TODO: this might not need to be a global.
+	// The time that the user has been swiping for...
+	// ... could make this not a global, but it's not worth it.
 	private float swipeTime;
 
 	public TextMeshProUGUI directorText;
@@ -278,14 +279,11 @@ public class Cutting : MonoBehaviour {
 		gradeText.color = Quality.GradeToColor(grade);
 		gradeText.gameObject.SetActive(true);
 
-        // TODO: back to shop button needs to change to facilitate restarting games.
-        //Inventory.Instance.InsertItem(new ItemInstance("Cut " + DataTransfer.GemType, 1, grade, true));
-
 		ShowUIButtons();
 	}
 
 	public void Return() {
-		ReturnOrRetry.Return("Cut " + DataTransfer.GemType, grade);
+		ReturnOrRetry.Return("Cut " + GameManager.Instance.GemTypeTransfer, grade);
 	}
 
 	public void Retry() {

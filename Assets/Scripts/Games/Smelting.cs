@@ -257,9 +257,6 @@ public class Smelting : MonoBehaviour {
         qualityText.gameObject.SetActive(true);
         qualityBar.Disappear();
 
-        // TODO: back to shop button needs to change to facilitate restarting games.
-        //Inventory.Instance.InsertItem(new ItemInstance("Brick", 1, grade, true));
-
         ShowUIButtons();
     }
 	

@@ -30,12 +30,16 @@ public class PhysicalInventory : MonoBehaviour {
 			// If an object exists at the specified location.
 			if (Inventory.Instance.GetItem(i, out instance)) {
 				inventorySlots[i].SetItem(instance);
-				if (instance.isNew) {
+				if (instance.IsNew) {
 					GameObject obj;
 					if (inventorySlots[i].GetPrefabInstance(out obj)) {
 						// TODO, change tween / fixup.
 						obj.transform.DOMove(obj.transform.position + Vector3.up, 0.7f);
 						obj.AddComponent(typeof(Rotate));
+					}
+
+					if (instance.Quality == Quality.QualityGrade.Mystic) {
+						AchievementManager.Get("item_quality_01");
 					}
 				}
 			}// else {
