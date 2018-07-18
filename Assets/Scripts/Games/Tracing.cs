@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+using Random = UnityEngine.Random;
 
 public class Tracing : MonoBehaviour {
     public TextMeshProUGUI qualityText;
@@ -21,6 +22,9 @@ public class Tracing : MonoBehaviour {
     //Cubes represent test positions
     public Material cubeMaterial;
 
+    //Rune Objects for rotation
+    public GameObject rune1Parent;
+    
     //Test Rune
     public GameObject[] cubeRune1;
 
@@ -84,15 +88,16 @@ public class Tracing : MonoBehaviour {
     // Use this for initialization
     void Start() {
         Countdown.onComplete += GameOver;
+        RotateRune();
         mainCamera = Camera.main;
         SetupLineRenderer();
         GetNecessaryPositions(1);
         followSphere.SetActive(false);
         canTrace = true;
-        Vector3 colliderTransform;
-        colliderTransform = rune1Colliders.transform.position;
+        Vector3 colliderTransform = rune1Colliders.transform.position;
         colliderTransform.z = 10;
         rune1Colliders.transform.position = colliderTransform;
+        Debug.Log(rune1Colliders.transform.position);
         hitPoints = 0;
         averageDistanceAway = 0;
         score = 0;
@@ -368,6 +373,15 @@ public class Tracing : MonoBehaviour {
     public void ShowUIButtons() {
 	    returnOrRetryButtons.SetActive(true);
         returnOrRetryButtons.GetComponent<UpdateRetryButton>().SetText();
+    }
+
+    private void RotateRune()
+    {
+        float randomRot = Random.Range(-40f, 136f);
+        rune1Parent.transform.eulerAngles = new Vector3(0,0,randomRot);
+        //rune1Parent.transform.position = new Vector3(0,0,0);
+        //rune1Parent.transform.rotation = Quaternion.Euler(0,0,randomRot);
+        //rune1Parent.transform.RotateAround(Vector3.zero,Vector3.back,randomRot);
     }
 
    
