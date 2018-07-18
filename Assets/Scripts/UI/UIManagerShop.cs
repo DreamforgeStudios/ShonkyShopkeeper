@@ -31,6 +31,7 @@ public class UIManagerShop : MonoBehaviour {
         DetermineBG();
 	}
 
+    // TODO: running and changing sprites every frame is bad for performance, try to run this once.
     private void DetermineBG() {
         //Debug.Log(Travel.ReturnCurrentTown());
         switch (Travel.ReturnCurrentTown()) {
