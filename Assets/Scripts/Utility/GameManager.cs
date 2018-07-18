@@ -34,15 +34,21 @@ public class GameManager : MonoBehaviour {
 	private void Awake() {
 		if (_instance == null) {
 			_instance = this;
-			SetupGameManager();
 		} else if (_instance != this) {
 			Destroy(this.gameObject);
 		}
+		
+		SetupGameManager();
 	}
 
 	private void SetupGameManager() {
 		DontDestroyOnLoad(gameObject);
 		Application.targetFrameRate = 60;
+
+		if (Debug.isDebugBuild) {
+			// TODO: make this automatically switch on / off.
+			//Debug.logger.logEnabled = false;
+		}
 	}
 
 	public Item.GemType GemTypeTransfer;
