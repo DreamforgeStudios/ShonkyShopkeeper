@@ -21,7 +21,7 @@ public class NPCWalker : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         wizard = GetComponent<SpriteRenderer>();
-		InvokeRepeating("TestAndDestroy", 2f, 2f);
+		//InvokeRepeating("TestAndDestroy", 2f, 2f);
         walkNormal = true;
 	}
 	
@@ -34,13 +34,13 @@ public class NPCWalker : MonoBehaviour {
             WizardPunch(0.1f, 0.5f);
 	}
 
-	// Check if the object is on the screen.  If not, destroy.
+	// Check if the object is on the screen.  If not, set inactive.
 	private void TestAndDestroy() {
 		bool onScreen = TestOnScreen();
 		if (onScreen && !enteredScreen) {
 			enteredScreen = true;
 		} else if (!onScreen && enteredScreen) {
-			Destroy(this.gameObject);
+			this.gameObject.SetActive(false);
 		}
 	}
 
