@@ -32,10 +32,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Games/Tracing.unity
     guid: a0b73164eaf72454ba73b1e3bfb3f674
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/TravelScreen.unity
     guid: c6558decf5802294d9f0ecaf782ed3a8
   - enabled: 1
     path: Assets/Scenes/DesignPurchase.unity
     guid: 83153ad4e77557d468a73834c8dbefcc
+  - enabled: 1
+    path: Assets/Scenes/Hall.unity
+    guid: 3d4e8ae5d4052164b86adcce3d9d58e9
   m_configObjects: {}

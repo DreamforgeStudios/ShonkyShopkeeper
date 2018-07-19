@@ -7,6 +7,9 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class TravelSceneManager : MonoBehaviour {
+    //THIS SCRIPT IS NOW OBSOLETE AND HAS BEEN REPLACED WITH HALL.
+    //DO NOT DELETE THIS SCRIPT UNTIL THE HALL HAS BEEN FINALISED
+    /*
     //Object used to represent player
     public GameObject player;
     public float playerMoveSpeed;
@@ -22,8 +25,6 @@ public class TravelSceneManager : MonoBehaviour {
     public TextMeshProUGUI helperText;
     public TextMeshProUGUI goldAmount;
     private string spriteString = "<sprite=0>";
-    public Image prototypeOver;
-    public TextMeshProUGUI prototypeEndText;
 
     //Last item clicked
     public GameObject lastTownClicked = null;
@@ -217,8 +218,6 @@ public class TravelSceneManager : MonoBehaviour {
             Debug.Log("Saved Initial Inventories");
             
         }
-        prototypeOver.enabled = false;
-        prototypeEndText.enabled = false;
         helperText.enabled = false;
         town1.GetComponent<Renderer>().material = locked;
         town2.GetComponent<Renderer>().material = locked;
@@ -244,7 +243,7 @@ public class TravelSceneManager : MonoBehaviour {
                 return currentTown;
         }
     }
-
+    /*
     private void PrototypeEnd() {
         helperText.enabled = false;
         town1.SetActive(false);
@@ -253,8 +252,8 @@ public class TravelSceneManager : MonoBehaviour {
         prototypeOver.enabled = true;
         prototypeEndText.enabled = true;
         prototypeEndText.CrossFadeAlpha(255f, 4f, false);
-
     }
+    
 
     private void UpdateUI() {
         goldAmount.text = spriteString + " " + Inventory.Instance.goldCount.ToString("N0");
@@ -272,4 +271,5 @@ public class TravelSceneManager : MonoBehaviour {
             yield return new WaitForSeconds(.1f);
         }
     }
+    */
 }

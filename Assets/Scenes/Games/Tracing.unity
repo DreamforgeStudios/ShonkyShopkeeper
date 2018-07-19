@@ -916,6 +916,7 @@ MonoBehaviour:
   startPoints: 
   cubeMaterial: {fileID: 2100000, guid: 4200353cb92b701439303006c35bc022, type: 2}
   rune1Parent: {fileID: 389153630}
+  rune1Sprite: {fileID: 108816886}
   cubeRune1:
   - {fileID: 1304602083}
   - {fileID: 1924126817}
@@ -3521,7 +3522,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -25, y: -16}
+  m_AnchoredPosition: {x: -25, y: -18}
   m_SizeDelta: {x: 2160, y: 1254}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2092708634
