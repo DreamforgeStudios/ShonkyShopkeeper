@@ -25,12 +25,7 @@ public class ShopAudioManager : MonoBehaviour {
         float startPos = UnityEngine.Random.Range(0, clipLength);
         background.clip = instrumental;
         background.time = startPos;
-        background.Play();
         background.loop = true;
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+        background.Play();
 	}
 }

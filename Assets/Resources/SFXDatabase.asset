@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9980693b1d8332488bf8f0b2f2ec901, type: 3}
+  m_Name: SFXDatabase
+  m_EditorClassIdentifier: 
+  AudioSourcePrefab: {fileID: 82326930201314524, guid: 1a0954fde47a8a84e991ec1e66dbe8b4,
+    type: 2}
+  KeyedAudioClips:
+    m_keys:
+    - cursor_select
+    - golem_created
+    - item_lift
+    - item_down
+    m_values:
+    - {fileID: 8300000, guid: 2c0dcf73926fa024ab5066e2aa7e29d6, type: 3}
+    - {fileID: 8300000, guid: bd590c4fc0302fd4387f41d98bf562de, type: 3}
+    - {fileID: 8300000, guid: eb5889f693425144e872ad0ab011b93f, type: 3}
+    - {fileID: 8300000, guid: 81473efa551ee394bbf7f64df01a69e6, type: 3}
+  ClipKey: golem_create

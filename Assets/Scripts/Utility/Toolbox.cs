@@ -122,8 +122,9 @@ public class Toolbox : MonoBehaviour {
         //Debug.Log("casting...");
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask)) {
             if (hit.transform.tag == "Forceps" || hit.transform.tag == "Wand" || hit.transform.tag == "Magnifyer") {
-                soundEffects.clip = cursorSelect;
-                soundEffects.Play();
+                SFX.Play("cursor_select");
+                //soundEffects.clip = cursorSelect;
+                //soundEffects.Play();
                 switch (hit.transform.tag) {
                     case "Forceps": SwitchTool(Tool.Forceps); break;
                     case "Magnifyer": SwitchTool(Tool.Inspector); break;
@@ -202,8 +203,9 @@ public class Toolbox : MonoBehaviour {
                 // Animate using tween library -> see https://easings.net/ for some animaions to use.
                 GameObject itemObj;
                 if (slot.GetPrefabInstance(out itemObj)) {
-                    soundEffects.clip = itemLift;
-                    soundEffects.Play();
+                    SFX.Play("item_lift");
+                    //soundEffects.clip = itemLift;
+                    //soundEffects.Play();
                     Transform t = itemObj.transform;
                     t.DOMove(slot.transform.position + (Vector3.up), 0.7f).SetEase(Ease.OutBack);
                 }
@@ -222,8 +224,9 @@ public class Toolbox : MonoBehaviour {
                 UnmarkNew();
             }
             gameObj.transform.DOMove(currentSelection.transform.position, 1f).SetEase(Ease.OutBounce);
-            soundEffects.clip = itemDown;
-            soundEffects.PlayDelayed(0.25f);
+            SFX.Play("item_down", 1, 1, .25f);
+            //soundEffects.clip = itemDown;
+            //soundEffects.PlayDelayed(0.25f);
             currentSelection = null;
         }
     }
@@ -249,8 +252,9 @@ public class Toolbox : MonoBehaviour {
 
                 GameObject itemObj;
                 if (slot.GetPrefabInstance(out itemObj)) {
-                    soundEffects.clip = itemLift;
-                    soundEffects.Play();
+                    SFX.Play("item_lift");
+                    //soundEffects.clip = itemLift;
+                    //soundEffects.Play();
                     Transform t = itemObj.transform;
                     t.DOMove(slot.transform.position + (Vector3.up), 0.7f).SetEase(Ease.OutBack);
                 }
@@ -261,8 +265,9 @@ public class Toolbox : MonoBehaviour {
                     Debug.Log("Same slot.");
                     GameObject obj;
                     if (currentSelection.GetPrefabInstance(out obj)) {
-                        soundEffects.clip = itemDown;
-                        soundEffects.Play();
+                        SFX.Play("item_down");
+                        //soundEffects.clip = itemDown;
+                        //soundEffects.Play();
                         obj.transform.DOMove(currentSelection.transform.position, 1f).SetEase(Ease.OutBounce);
                     }
 
@@ -285,8 +290,9 @@ public class Toolbox : MonoBehaviour {
 
                     Transform t1 = obj1.transform,
                               t2 = obj2.transform;
-                    soundEffects.clip = itemLift;
-                    soundEffects.Play();
+                    SFX.Play("item_lift");
+                    //soundEffects.clip = itemLift;
+                    //soundEffects.Play();
                     
                     t1.DOMove(slot1.transform.position + Vector3.up, 0.7f).SetEase(Ease.OutBack)
                         .OnComplete(() => t1.DOMove(slot2.transform.position + Vector3.up, 0.6f).SetEase(Ease.OutBack)
@@ -295,8 +301,9 @@ public class Toolbox : MonoBehaviour {
                     t2.DOMove(slot2.transform.position + Vector3.up, 0.7f).SetEase(Ease.OutBack)
                         .OnComplete(() => t2.DOMove(slot1.transform.position + Vector3.up, 0.6f).SetEase(Ease.OutBack)
                             .OnComplete(() => t2.DOMove(slot1.transform.position, 1f).SetEase(Ease.OutBounce).OnComplete(() => canSelect = true)));
-                    soundEffects.clip = itemDown;
-                    soundEffects.PlayDelayed(1.5f);
+                    SFX.Play("item_down", 1, 1, 1.5f);
+                    //soundEffects.clip = itemDown;
+                    //soundEffects.PlayDelayed(15f);
                     ItemInstance inst1, inst2;
                     if (slot1.GetItemInstance(out inst1) && slot2.GetItemInstance(out inst2)) {
                         slot1.SetItemInstantiated(inst2, obj2);
@@ -317,16 +324,18 @@ public class Toolbox : MonoBehaviour {
             if (slot1.GetPrefabInstance(out obj1)) {//&& currentSelection.GetItemInstance(out inst1) &&
                 canSelect = false;
                 Transform t1 = obj1.transform;
-                soundEffects.clip = itemLift;
-                soundEffects.Play();
+                SFX.Play("item_lift");
+                //soundEffects.clip = itemLift;
+                //soundEffects.Play();
 
                 t1.DOMove(slot1.transform.position + Vector3.up, 0.7f).SetEase(Ease.OutBack)
                     .OnComplete(() => t1.DOMove(slot2.transform.position + Vector3.up, 0.6f).SetEase(Ease.OutBack)
                         .OnComplete(() => t1.DOMove(slot2.transform.position, 1f).SetEase(Ease.OutBounce).OnComplete(() => canSelect = true)));
 
                 //Debug.Log(inst2.item.name);
-                soundEffects.clip = itemDown;
-                soundEffects.PlayDelayed(1.5f);
+                SFX.Play("item_down", 1, 1, 1.5f);
+                //soundEffects.clip = itemDown;
+                //soundEffects.PlayDelayed(15f);
 
                 ItemInstance inst1;
                 if (slot1.GetItemInstance(out inst1)) {
@@ -409,8 +418,9 @@ public class Toolbox : MonoBehaviour {
                                       t2 = obj2.transform;
                             
                             midPoint = ((currentSelection.transform.position + Vector3.up) + (slot.transform.position + Vector3.up) / 2f);
-                            soundEffects.clip = itemLift;
-                            soundEffects.Play();
+                            SFX.Play("item_lift");
+                            //soundEffects.clip = itemLift;
+                            //soundEffects.Play();
 
                             t2.DOMove(slot.transform.position + Vector3.up, 0.7f).SetEase(Ease.OutBack)
                                 .OnComplete(() => t2.DOMove(midPoint, 0.6f).SetEase(Ease.OutBack));
@@ -437,8 +447,9 @@ public class Toolbox : MonoBehaviour {
 
     //Simple method to show current selection
     private void MoveUp(Slot slot) {
-        soundEffects.clip = itemLift;
-        soundEffects.Play();
+        SFX.Play("item_lift");
+        //soundEffects.clip = itemLift;
+        //soundEffects.Play();
         GameObject itemObj;
         if (slot.GetPrefabInstance(out itemObj)) {
             Transform t = itemObj.transform;
@@ -459,8 +470,9 @@ public class Toolbox : MonoBehaviour {
             GameManager.Instance.RetriesRemaining = Inventory.Instance.GetMaxRetries(GameManager.Instance.CurrentTown);
 
             // Move and vibration for some "feedback".
-            soundEffects.clip = itemLift;
-            soundEffects.Play();
+            SFX.Play("item_lift");
+            //soundEffects.clip = itemLift;
+            //soundEffects.Play();
             t.DOMove(t.position + (Vector3.up), 0.7f).SetEase(Ease.OutBack)
                 .OnComplete(() => t.DOShakePosition(.5f, .5f, 100, 30f)
                     .OnComplete(() => asyncLoad.allowSceneActivation = true));
@@ -478,8 +490,9 @@ public class Toolbox : MonoBehaviour {
         Item drop = database.GetActual(gemType);
         GameObject inst = Instantiate(drop.physicalRepresentation, currentSelection.transform.position, currentSelection.transform.rotation);
         //Play SFX
-        soundEffects.clip = golumCreated;
-        soundEffects.Play();
+        SFX.Play("golem_created");
+        //soundEffects.clip = golumCreated;
+        //soundEffects.Play();
         Debug.Log("Created Golem");
         //Get the average quality of the shell and charged gem, assign to new golem.
         Quality.QualityGrade item1 = currentSelection.itemInstance.Quality;
