@@ -23,6 +23,7 @@ TagManager:
   - Golem
   - PortalEntry
   - PortalExit
+  - Globe
   layers:
   - Default
   - TransparentFX

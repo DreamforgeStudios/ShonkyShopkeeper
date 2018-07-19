@@ -64,7 +64,7 @@ public class IntroScene : MonoBehaviour {
         if (textCounter == texts.Count) {
             next.enabled = false;
             loading.enabled = true;
-            SceneManager.LoadScene("TravelScreen");
+            SceneManager.LoadScene("Hall");
         }
         textCounter++;
     }
