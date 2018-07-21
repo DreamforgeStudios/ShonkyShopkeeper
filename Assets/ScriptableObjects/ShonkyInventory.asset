@@ -3,7 +3,7 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
@@ -12,28 +12,28 @@ MonoBehaviour:
   m_Name: ShonkyInventory
   m_EditorClassIdentifier: 
   shonkyInventory:
-  - quantity: 0
-    quality: 6
-    isNew: 0
-    itemIdentifier: rubygolem1
-    shonkySlotNumber: 0
-  - quantity: 0
-    quality: 6
-    isNew: 0
-    itemIdentifier: 
-    shonkySlotNumber: 0
-  - quantity: 0
-    quality: 6
-    isNew: 0
-    itemIdentifier: 
-    shonkySlotNumber: 0
-  - quantity: 0
-    quality: 6
-    isNew: 0
-    itemIdentifier: 
-    shonkySlotNumber: 0
-  - quantity: 0
-    quality: 6
-    isNew: 0
-    itemIdentifier: 
-    shonkySlotNumber: 0
+  - Quantity: 1
+    Quality: 5
+    IsNew: 0
+    ItemIdentifier: RubyGolem1
+    InMine: 1
+  - Quantity: 0
+    Quality: 6
+    IsNew: 0
+    ItemIdentifier: 
+    InMine: 0
+  - Quantity: 0
+    Quality: 0
+    IsNew: 0
+    ItemIdentifier: 
+    InMine: 0
+  - Quantity: 0
+    Quality: 0
+    IsNew: 0
+    ItemIdentifier: 
+    InMine: 0
+  - Quantity: 0
+    Quality: 0
+    IsNew: 0
+    ItemIdentifier: 
+    InMine: 0

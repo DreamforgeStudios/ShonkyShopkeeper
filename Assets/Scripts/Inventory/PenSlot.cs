@@ -63,7 +63,6 @@ public class PenSlot : MonoBehaviour {
             prefabInstance = null;
             return false;
         }
-
         prefabInstance = this.prefabInstance;
         return true;
     }
