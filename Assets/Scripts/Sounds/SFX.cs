@@ -28,4 +28,7 @@ public static class SFX {
         soundDB.StopSpecific(sound);
     }
 
+    public static void RemoveSource(AudioSourceHelper source) {
+        soundDB.RemoveSource(source);
+    }
 }

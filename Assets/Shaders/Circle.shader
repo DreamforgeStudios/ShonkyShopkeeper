@@ -7,7 +7,10 @@ Shader "Custom/Circle" {
     }
 
     SubShader{
-        Tags { "Queue" = "Overlay" }
+        //Tags { "Queue" = "Opaque" }
+        
+        ZTest Always
+        
         Pass {
 
             CGPROGRAM
