@@ -15,6 +15,9 @@ public class Cutting : MonoBehaviour {
 	[MinMaxSlider(2.5f, 6f)]
 	public Vector2 MinMaxDistance;
 
+	public Vector3 MaxStartPoint;
+	public float MaxAngle;
+
 	// Persistent quality bar.
 	public QualityBar QualityBar;
 
@@ -84,9 +87,10 @@ public class Cutting : MonoBehaviour {
 
 	    for (int i = 0; i < NumberOfCuts; i++) {
 		    float distance = Random.Range(MinMaxDistance.x, MinMaxDistance.y);
-		    var vecPos = Utility.RotateAroundPivot(Vector3.right * distance, Vector3.forward,
-			    new Vector3(0, 0, Random.Range(0f, 360f)));
-		    
+		    var vecPos = Utility.RotateAroundPivot(MaxStartPoint.normalized * distance, Vector3.forward,
+			    new Vector3(0, 0, Random.Range(0f, MaxAngle)));
+
+		    vecPos += gemObject.transform.position;
 		    cutOrigins.Add(vecPos);
 		    cutVectors.Add(-vecPos*2);
 	    }
@@ -99,7 +103,7 @@ public class Cutting : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		// Mostly to make it easier to place cut points.
-		if (Debug) DrawCuts(1);
+		//if (Debug) DrawCuts(1);
 		
 		// Don't do anything if the game hasn't started.
 		if (!start)
@@ -143,7 +147,7 @@ public class Cutting : MonoBehaviour {
 
 	private void InitiateTouch(Touch touch) {
 		swipeTime = 0;
-		touchOrigin = ConvertToWorldPoint(touch.position);
+		touchOrigin = Utility.ConvertToWorldPoint(touch.position);
 		if (currentIndex >= cutVectors.Count) {
 			return;
 		}
@@ -153,7 +157,7 @@ public class Cutting : MonoBehaviour {
 
 	private void ConcludeTouch(Touch touch) {
 		Vector2 touchPos = touch.position;
-		touchVector = ConvertToWorldPoint(touchPos) - touchOrigin;
+		touchVector = Utility.ConvertToWorldPoint(touchPos) - touchOrigin;
 		float close = CalculateCloseness(touchOrigin.Value, touchVector.Value, swipeTime);
 		QualityBar.Subtract(close);
 		if (currentIndex < cutVectors.Count)
@@ -167,7 +171,7 @@ public class Cutting : MonoBehaviour {
 		if (Input.GetMouseButtonDown(0)) {
 			holding = true;
 			swipeTime = 0;
-			touchOrigin = ConvertToWorldPoint(Input.mousePosition);
+			touchOrigin = Utility.ConvertToWorldPoint(Input.mousePosition);
 			CutPoint cut = currentCutPoint.GetComponent<CutPoint>();
 			cut.SetCutVector(cutVectors[currentIndex]);
         }
@@ -181,18 +185,17 @@ public class Cutting : MonoBehaviour {
 
 			holding = false;
 			Vector2 mousePos = Input.mousePosition;
-			touchVector = ConvertToWorldPoint(mousePos) - touchOrigin;
+			touchVector = Utility.ConvertToWorldPoint(mousePos) - touchOrigin;
 			float close = CalculateCloseness(touchOrigin.Value, touchVector.Value, swipeTime);
 			//Debug.Log(close);
 			QualityBar.Subtract(close*close);
-			//if (currentIndex < cutVectors.Count - 1)
 			currentIndex++;
 			DrawDebugLine(touchOrigin.Value);
 
 			// Reset the origin.
 			touchOrigin = null;
 
-			if (currentIndex >= cutVectors.Count - 1) {
+			if (currentIndex >= cutVectors.Count) {
 				GameOver();
 			} else {
 				Destroy(currentCutPoint);
@@ -214,14 +217,6 @@ public class Cutting : MonoBehaviour {
 		currentCutPoint = Instantiate(CutIndicator, origin, Quaternion.identity);
 	}
 	
-
-	// TODO: this will eventually go in the input manager.
-	private Vector3 ConvertToWorldPoint(Vector3 screenPoint) {
-		// If this is changed from 10, it fucks up.
-		// I think that 10 indicates 10 units FROM the camera, not 10 in the scene.
-		screenPoint.z = 10;
-		return Camera.main.ScreenToWorldPoint(screenPoint);
-	}
 
 	private float CalculateCloseness(Vector3 origin, Vector3 vec, float time) {
 
@@ -265,23 +260,8 @@ public class Cutting : MonoBehaviour {
 	}
 	
 	private void DrawDebugLine(Vector3 origin) {
-		Vector3 end = ConvertToWorldPoint(Input.mousePosition);
+		Vector3 end = Utility.ConvertToWorldPoint(Input.mousePosition);
 		UnityEngine.Debug.DrawLine(origin, end, Color.yellow, 2);
-	}
-
-	// Debug function.
-	private void DrawCuts(float lifetime) {
-		for (int i = 0; i < cutOrigins.Count; i++) {
-			// Place objects at start and end positions.
-			Destroy(Instantiate(CutIndicator, cutOrigins[i], Quaternion.identity), lifetime);
-			//Instantiate(debugObject, cutOrigins[i] + cutVectors[i], Quaternion.identity);
-			Vector3 start = cutOrigins[i];
-			Vector3 end = start + cutVectors[i];
-			if (i == currentIndex)
-				UnityEngine.Debug.DrawLine(start, end, Color.red, lifetime);
-			else
-				UnityEngine.Debug.DrawLine(start, end, Color.blue, lifetime);
-		}
 	}
 
 	private Quality.QualityGrade grade = Quality.QualityGrade.Unset;
@@ -310,4 +290,22 @@ public class Cutting : MonoBehaviour {
 	    ReturnOrRetryButtons.SetActive(true);
         ReturnOrRetryButtons.GetComponent<UpdateRetryButton>().SetText();
     }
+
+	private void OnDrawGizmos() {
+		Gizmos.color = Color.blue;
+		Gizmos.DrawWireCube(MaxStartPoint.normalized + gemObject.transform.position, Vector3.one * .5f);
+		Gizmos.DrawLine(gemObject.transform.position, MaxStartPoint.normalized + gemObject.transform.position);
+
+		var end = Utility.RotateAroundPivot(MaxStartPoint.normalized, Vector3.forward, new Vector3(0, 0, MaxAngle));
+		Gizmos.DrawWireCube(end + gemObject.transform.position, Vector3.one * .5f);
+		Gizmos.DrawLine(gemObject.transform.position, end + gemObject.transform.position);
+		
+		Gizmos.color = Color.magenta;
+		if (cutOrigins != null) {
+			for (int i = 0; i < cutOrigins.Count; i++) {
+				Gizmos.DrawWireSphere(cutOrigins[i], .5f);
+				Gizmos.DrawLine(cutOrigins[i], cutVectors[i] * 0.5f);
+			}
+		}
+	}
 }

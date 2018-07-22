@@ -7,7 +7,7 @@ Shader "Custom/Circle" {
     }
 
     SubShader{
-        //Tags { "Queue" = "Opaque" }
+        Tags { "Queue" = "Overlay" }
         
         ZTest Always
         
