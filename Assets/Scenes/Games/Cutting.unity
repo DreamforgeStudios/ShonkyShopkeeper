@@ -1400,6 +1400,11 @@ RectTransform:
   m_PrefabParentObject: {fileID: 224706118457682044, guid: f059a73a081d6a444b14588d4bf825c7,
     type: 2}
   m_PrefabInternal: {fileID: 1236131124}
+--- !u!1 &1281731491 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1580125511671102, guid: e3a1b7124e4ff434896218a837c9dfc6,
+    type: 2}
+  m_PrefabInternal: {fileID: 774575377}
 --- !u!1 &1321660848
 GameObject:
   m_ObjectHideFlags: 0
@@ -1530,25 +1535,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gemObject: {fileID: 0}
   NumberOfCuts: 5
-  MinMaxDistance: {x: 3.6363637, y: 10}
+  MinMaxDistance: {x: 3.5, y: 5.3}
   QualityBar: {fileID: 769277905}
-  MaximumDistance: 0
-  ImpactDistance: 0
-  MaximumCloseness: 0
-  ImpactCloseness: 0
-  MaximumLength: 0
-  ImpactLength: 0
-  BaseTime: 0
-  MaximumTime: 0
-  ImpactTime: 0
-  DirectorText: {fileID: 0}
-  GradeText: {fileID: 0}
-  PercentText: {fileID: 0}
-  CutIndicator: {fileID: 0}
+  MaximumDistance: 2.5
+  ImpactDistance: 1
+  MaximumCloseness: 0.05
+  ImpactCloseness: 5
+  MaximumLength: 10
+  ImpactLength: 1
+  BaseTime: 0.15
+  MaximumTime: 1.5
+  ImpactTime: 3
+  DirectorText: {fileID: 1358310421}
+  GradeText: {fileID: 9139261}
+  PercentText: {fileID: 783468726}
+  CutIndicator: {fileID: 1662811381501140, guid: 610f343b4079d5c42b41d9fd621173ef,
+    type: 2}
   Debug: 0
-  ReturnOrRetryButtons: {fileID: 0}
-  Particle: {fileID: 0}
-  AmountOfParticles: 5
+  ReturnOrRetryButtons: {fileID: 1281731491}
+  Particle: {fileID: 1776154562}
+  AmountOfParticles: 2
 --- !u!4 &1333063246
 Transform:
   m_ObjectHideFlags: 0

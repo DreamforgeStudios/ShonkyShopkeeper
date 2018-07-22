@@ -12,7 +12,7 @@ public class Cutting : MonoBehaviour {
 
 	public GameObject gemObject;
 	public int NumberOfCuts;
-	[MinMaxSlider(0f, 10f)]
+	[MinMaxSlider(2.5f, 6f)]
 	public Vector2 MinMaxDistance;
 
 	// Persistent quality bar.
@@ -78,6 +78,9 @@ public class Cutting : MonoBehaviour {
     // Use this for initialization
     void Start () {
 		Countdown.onComplete += GameOver;
+	    
+	    cutOrigins = new List<Vector3>();
+	    cutVectors = new List<Vector3>();
 
 	    for (int i = 0; i < NumberOfCuts; i++) {
 		    float distance = Random.Range(MinMaxDistance.x, MinMaxDistance.y);
@@ -95,12 +98,12 @@ public class Cutting : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		// Mostly to make it easier to place cut points.
+		if (Debug) DrawCuts(1);
+		
 		// Don't do anything if the game hasn't started.
 		if (!start)
 			return;
-
-		// Mostly to make it easier to place cut points.
-		if (Debug) DrawCuts(1);
 
 		// Check where we are running the program.
 		RuntimePlatform p = Application.platform;
@@ -165,9 +168,6 @@ public class Cutting : MonoBehaviour {
 			holding = true;
 			swipeTime = 0;
 			touchOrigin = ConvertToWorldPoint(Input.mousePosition);
-			if (currentIndex >= cutVectors.Count) {
-				return;
-			}
 			CutPoint cut = currentCutPoint.GetComponent<CutPoint>();
 			cut.SetCutVector(cutVectors[currentIndex]);
         }
@@ -185,14 +185,14 @@ public class Cutting : MonoBehaviour {
 			float close = CalculateCloseness(touchOrigin.Value, touchVector.Value, swipeTime);
 			//Debug.Log(close);
 			QualityBar.Subtract(close*close);
-			if (currentIndex < cutVectors.Count)
-				currentIndex++;
+			//if (currentIndex < cutVectors.Count - 1)
+			currentIndex++;
 			DrawDebugLine(touchOrigin.Value);
 
 			// Reset the origin.
 			touchOrigin = null;
 
-			if (currentIndex >= cutVectors.Count) {
+			if (currentIndex >= cutVectors.Count - 1) {
 				GameOver();
 			} else {
 				Destroy(currentCutPoint);
@@ -287,6 +287,7 @@ public class Cutting : MonoBehaviour {
 	private Quality.QualityGrade grade = Quality.QualityGrade.Unset;
 	private void GameOver() {
 		Countdown.onComplete -= GameOver;
+		start = false;
 		grade = QualityBar.Finish();
 		QualityBar.Disappear();
 		//Quality.QualityGrade grade = Quality.FloatToGrade(grade, 3);
