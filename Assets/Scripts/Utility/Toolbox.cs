@@ -488,8 +488,6 @@ public class Toolbox : MonoBehaviour {
         index1 = currentSelection.index;
         index2 = slot.index;
         //Spawn a golem to show item creation 
-        Item drop = database.GetActual(gemType);
-        GameObject inst = Instantiate(drop.physicalRepresentation, currentSelection.transform.position, currentSelection.transform.rotation);
         //Play SFX
         SFX.Play("golem_created");
         //soundEffects.clip = golumCreated;

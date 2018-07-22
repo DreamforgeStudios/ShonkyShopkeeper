@@ -63,9 +63,10 @@ public class GolemPickup : MonoBehaviour {
         for (int i = 0; i < shonkyInv.amountOfSlots; i++) {
             PenSlot slot = shonkyInv.shonkySlots[i];
             GameObject obj;
-            if (slot.GetPrefabInstance(out obj) == pickedupGolem)
+            if (slot.GetPrefabInstance(out obj))
             {
-                return slot.index;
+                if (obj == pickedupGolem)
+                    return slot.index;
             }
             else
             {
@@ -106,7 +107,8 @@ public class GolemPickup : MonoBehaviour {
                 }
                 else {
                     //If not holding a pouch
-                    if (!hit.transform.gameObject.GetComponent<ShonkyWander>().IsHoldingPouch()) {
+                    if (!hit.transform.gameObject.GetComponent<ShonkyWander>().IsHoldingPouch())
+                    {
                         GameManager.pickedUpGolem = true;
                         pickedupGolem = hit.transform.gameObject;
                         HoldGolem(hit);
@@ -114,6 +116,7 @@ public class GolemPickup : MonoBehaviour {
                     else {
                         //If room in the inventory, add the pouch
                         int pouchSlot = Inventory.Instance.InsertItem(pouch);
+                        Debug.Log("Pouch");
                         if (pouchSlot > -1) {
                             hit.transform.gameObject.GetComponent<ShonkyWander>().RemovePouch();
                             Debug.Log("Slot inserted at is " + pouchSlot);
@@ -139,9 +142,9 @@ public class GolemPickup : MonoBehaviour {
 
     private void ResetGolem() {
         if (pickedupGolem != null) {
-            pickedupGolem.GetComponent<NavMeshAgent>().enabled = true;
+            //pickedupGolem.GetComponent<NavMeshAgent>().enabled = true;
+            pickedupGolem.GetComponent<ShonkyWander>().FloatToPen();
             GameManager.pickedUpGolem = false;
-            pickedupGolem.GetComponent<ShonkyWander>().pickedUp = false;
             pickedupGolem = null;
         }
     }
@@ -152,11 +155,10 @@ public class GolemPickup : MonoBehaviour {
         GameObject physicalRep = GetGolemObj(golem);
         physicalRep.SetActive(true);
         physicalRep.transform.position = exitPortalLocation;
+        physicalRep.GetComponent<ShonkyWander>().enableNavmesh = true;
         physicalRep.GetComponent<NavMeshAgent>().enabled = true;
         physicalRep.GetComponent<ShonkyWander>().pickedUp = false;
-        Debug.Log(physicalRep.GetComponent<ShonkyWander>().IsHoldingPouch() + " is holding pouch");
         physicalRep.GetComponent<ShonkyWander>().HoldPouch();
-        Debug.Log(physicalRep.GetComponent<ShonkyWander>().IsHoldingPouch() + " is holding pouch");
         SaveManager.SaveShonkyInventory();
     }
 
@@ -179,13 +181,15 @@ public class GolemPickup : MonoBehaviour {
         pickedupGolem.GetComponent<ShonkyWander>().pickedUp = true;
         pickedupGolem.GetComponent<NavMeshAgent>().enabled = false;
         modifiedMousePos = Camera.main.ScreenPointToRay(Input.mousePosition).GetPoint(6.5f);
-        pickedupGolem.transform.position = modifiedMousePos;
+        float XPos = Mathf.Clamp(modifiedMousePos.x, -5f, 4.5f);
+        float ZPos = Mathf.Clamp(modifiedMousePos.z, -5.45f, -1.95f);
+        Vector3 boundedPos = new Vector3(XPos,modifiedMousePos.y,ZPos);
+        pickedupGolem.transform.position = boundedPos;
         CheckIfOverPortal();
     }
 
     private bool CheckAccuracy() {
         if (pickedupGolem != null) {
-            //Debug.Log("Distance between golem and mouse is " + Vector3.Distance(pickedupGolem.transform.position, modifiedMousePos));
             if (Vector3.Distance(pickedupGolem.transform.position, modifiedMousePos) > 2f)
                 return false;
             else

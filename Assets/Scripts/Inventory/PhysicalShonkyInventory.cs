@@ -97,7 +97,6 @@ public class PhysicalShonkyInventory : MonoBehaviour {
             if (item.InMine)
             {
                 Debug.Log(index + " is in the mine");
-                Mine.Instance.AddGolemReadyToCollect(index);
                 return true;
             }
         }
