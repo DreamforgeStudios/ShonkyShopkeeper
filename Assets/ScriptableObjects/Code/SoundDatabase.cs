@@ -11,7 +11,7 @@ public class StringAudioClipDictionary : SerializableDictionary<string, AudioCli
 [System.Serializable]
 [CreateAssetMenu(menuName = "SFXDatabase", fileName = "SFXDatabase.asset")]
 public class SoundDatabase : ScriptableObject {
-    public AudioSource AudioSourcePrefab;
+    public AudioSourceHelper AudioSourcePrefab;
     [ShowNonSerializedField]
     public const int MaxAudioSourceInstances = 5;
     
@@ -27,13 +27,13 @@ public class SoundDatabase : ScriptableObject {
         }
     }
 
-    private List<AudioSource> audioSourceInstances = new List<AudioSource>();
+    private List<AudioSourceHelper> audioSourceInstances = new List<AudioSourceHelper>();
     public AudioSource AudioSourceInstance {
         get {
-            AudioSource src = null;
+            AudioSourceHelper src = null;
             int size = audioSourceInstances.Count;
             for (int i = 0; i < size; i++) {
-                if (!audioSourceInstances[i].isPlaying) {
+                if (!audioSourceInstances[i].source.isPlaying) {
                     src = audioSourceInstances[i];
                     break;
                 }
@@ -45,12 +45,12 @@ public class SoundDatabase : ScriptableObject {
                     audioSourceInstances.Add(src);
                 }
                 else {
-                    audioSourceInstances[0].Stop();
+                    audioSourceInstances[0].source.Stop();
                     src = audioSourceInstances[0];
                 }
             }
 
-            return src;
+            return src.source;
         }
     }
     
@@ -69,18 +69,22 @@ public class SoundDatabase : ScriptableObject {
 
     public void StopAll() {
         for (int i = 0; i < audioSourceInstances.Count; i++) {
-            audioSourceInstances[i].Stop();
+            audioSourceInstances[i].source.Stop();
         }
     }
 
     public void StopSpecific(string sound) {
         var clip = GetClip(sound);
         for (int i = 0; i < audioSourceInstances.Count; i++) {
-            if (audioSourceInstances[i].clip == clip && audioSourceInstances[i].isPlaying) {
-                audioSourceInstances[i].Stop();
+            if (audioSourceInstances[i].source.clip == clip && audioSourceInstances[i].source.isPlaying) {
+                audioSourceInstances[i].source.Stop();
                 break;
             }
         }
+    }
+
+    public void RemoveSource(AudioSourceHelper source) {
+        audioSourceInstances.Remove(source);
     }
     
     
