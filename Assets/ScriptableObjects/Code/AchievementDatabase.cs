@@ -94,8 +94,8 @@ public class AchievementDatabase : ScriptableObject {
 
         clone.transform.localScale = Vector3.zero;
         clone.gameObject.SetActive(true);
-        clone.transform.DOScale(1, .35f).SetEase(Ease.OutBack);
-        clone.transform.DOScale(0, .35f).SetEase(Ease.OutBack).SetDelay(3f);
+        clone.transform.DOScale(1, .35f).SetEase(Ease.InQuad);
+        clone.transform.DOScale(0, .35f).SetEase(Ease.OutQuad).SetDelay(3f);
     }
     
     

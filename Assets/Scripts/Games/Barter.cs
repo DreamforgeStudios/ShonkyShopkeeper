@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Analytics;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
@@ -206,6 +207,7 @@ public class Barter : MonoBehaviour {
             effects.Play();
             Inventory.Instance.AddGold((int)offer);
             ShonkyInventory.Instance.RemoveItem(GameManager.Instance.ShonkyIndexTransfer);
+            AchievementManager.Get("barter_sell_01");
             ShowUIButtons();
         // NPC has countered.
         } else {
@@ -231,6 +233,7 @@ public class Barter : MonoBehaviour {
         effects.Play();
         Inventory.Instance.AddGold((int)manager.fPrice);
         ShonkyInventory.Instance.RemoveItem(GameManager.Instance.ShonkyIndexTransfer);
+        AchievementManager.Get("barter_sell_01");
         ShowUIButtons();
     }
 

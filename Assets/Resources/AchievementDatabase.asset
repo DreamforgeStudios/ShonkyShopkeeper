@@ -30,3 +30,43 @@ MonoBehaviour:
       Progress: 0
       FinalProgress: 0
       Unlocked: 0
+  - Key: cut_jewel_01
+    Achievement:
+      Icon: {fileID: 21300000, guid: 1b66a1f52901ee54cbe94a7f33d6e8d9, type: 3}
+      Heading: A Cut Above
+      Description: You've made your first Cut Jewel!
+      Progress: 0
+      FinalProgress: 0
+      Unlocked: 0
+  - Key: charged_jewel_01
+    Achievement:
+      Icon: {fileID: 21300000, guid: 1b66a1f52901ee54cbe94a7f33d6e8d9, type: 3}
+      Heading: Charging Ahead
+      Description: You've made your first Charged Jewel!
+      Progress: 0
+      FinalProgress: 0
+      Unlocked: 0
+  - Key: brick_01
+    Achievement:
+      Icon: {fileID: 21300000, guid: 1b66a1f52901ee54cbe94a7f33d6e8d9, type: 3}
+      Heading: Humble Brickinnings
+      Description: Great job on your first brick!
+      Progress: 0
+      FinalProgress: 0
+      Unlocked: 0
+  - Key: golem_shell_01
+    Achievement:
+      Icon: {fileID: 21300000, guid: 1b66a1f52901ee54cbe94a7f33d6e8d9, type: 3}
+      Heading: Wow! Shell!
+      Description: Your first golem shell; a handsome one too.
+      Progress: 0
+      FinalProgress: 0
+      Unlocked: 0
+  - Key: barter_sell_01
+    Achievement:
+      Icon: {fileID: 21300000, guid: 1b66a1f52901ee54cbe94a7f33d6e8d9, type: 3}
+      Heading: Sold Well
+      Description: Your first sold golem and happy customer.
+      Progress: 0
+      FinalProgress: 0
+      Unlocked: 0
