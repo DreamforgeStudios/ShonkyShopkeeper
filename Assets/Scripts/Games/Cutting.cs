@@ -1,43 +1,49 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 
 // INFO: Don't use InputManager (which will be event based) in this class.  It needs more precision and more details.
 public class Cutting : MonoBehaviour {
-	public Vector3[] cutOrigins;
-	public Vector3[] cutVectors;
+	private List<Vector3> cutOrigins;
+	private List<Vector3> cutVectors;
+
+	public GameObject gemObject;
+	public int NumberOfCuts;
+	[MinMaxSlider(0f, 10f)]
+	public Vector2 MinMaxDistance;
 
 	// Persistent quality bar.
-	public QualityBar qualityBar;
+	public QualityBar QualityBar;
 
 	// The maximum distance that the cut origin can be from the intended origin to be considered a fail.
-	public float maximumDistance;
+	public float MaximumDistance;
 	// The amount that the distance should affect the final result.
-	public float impactDistance;
+	public float ImpactDistance;
 
 	// The maximum difference that the closeness can be to be considered a fail.
-	public float maximumCloseness;
-	public float impactCloseness;
+	public float MaximumCloseness;
+	public float ImpactCloseness;
 
-	public float maximumLength;
-	public float impactLength;
+	public float MaximumLength;
+	public float ImpactLength;
 
 	// The best possible swipe time that the player can get.
-	public float baseTime;
+	public float BaseTime;
 	// The maximum time before the time component of a swipe is considered "worthless".
-	public float maximumTime;
+	public float MaximumTime;
 	// The impact that time should have on the score.
-	public float impactTime;
+	public float ImpactTime;
 
 	// The time that the user has been swiping for...
 	// ... could make this not a global, but it's not worth it.
 	private float swipeTime;
 
-	public TextMeshProUGUI directorText;
-	public TextMeshProUGUI gradeText;
-	public TextMeshProUGUI percentText;
+	public TextMeshProUGUI DirectorText;
+	public TextMeshProUGUI GradeText;
+	public TextMeshProUGUI PercentText;
 
 	// (?) Allow these vectors to be nullable, so we can reset them more conveniently later.
 	// This also means that we have to use .Value to get the value of these vectors.
@@ -50,16 +56,16 @@ public class Cutting : MonoBehaviour {
 	// Keep a reference around to despawn later.
 	private GameObject currentCutPoint;
 
-	public GameObject cutIndicator;
+	public GameObject CutIndicator;
 
-	public bool debug = false;
+	public bool Debug = false;
 
 	// Object that holds return and retry buttons.
-    public GameObject returnOrRetryButtons;
+    public GameObject ReturnOrRetryButtons;
 
     //Particle System
-    public ParticleSystem particle;
-    public int amountOfParticles = 5;
+    public ParticleSystem Particle;
+    public int AmountOfParticles = 5;
 
 	private bool start = false;
 
@@ -73,6 +79,15 @@ public class Cutting : MonoBehaviour {
     void Start () {
 		Countdown.onComplete += GameOver;
 
+	    for (int i = 0; i < NumberOfCuts; i++) {
+		    float distance = Random.Range(MinMaxDistance.x, MinMaxDistance.y);
+		    var vecPos = Utility.RotateAroundPivot(Vector3.right * distance, Vector3.forward,
+			    new Vector3(0, 0, Random.Range(0f, 360f)));
+		    
+		    cutOrigins.Add(vecPos);
+		    cutVectors.Add(-vecPos*2);
+	    }
+
 		// Should probably do more initialization here...
 		currentIndex = 0;
 		SpawnCut(cutOrigins[currentIndex], cutVectors[currentIndex]);
@@ -85,7 +100,7 @@ public class Cutting : MonoBehaviour {
 			return;
 
 		// Mostly to make it easier to place cut points.
-		if (debug) DrawCuts(1);
+		if (Debug) DrawCuts(1);
 
 		// Check where we are running the program.
 		RuntimePlatform p = Application.platform;
@@ -104,13 +119,13 @@ public class Cutting : MonoBehaviour {
 		}
 
 		Touch touch = Input.GetTouch(0);
-        particle.Emit(amountOfParticles);
+        Particle.Emit(AmountOfParticles);
         if (touch.phase == TouchPhase.Began) {
 			InitiateTouch(touch);
 		} else if (touch.phase == TouchPhase.Ended || touch.phase == TouchPhase.Canceled) {
 			ConcludeTouch(touch);
 
-			if (currentIndex >= cutVectors.Length) {
+			if (currentIndex >= cutVectors.Count) {
 				GameOver();
 			} else {
 				Destroy(currentCutPoint);
@@ -126,7 +141,7 @@ public class Cutting : MonoBehaviour {
 	private void InitiateTouch(Touch touch) {
 		swipeTime = 0;
 		touchOrigin = ConvertToWorldPoint(touch.position);
-		if (currentIndex >= cutVectors.Length) {
+		if (currentIndex >= cutVectors.Count) {
 			return;
 		}
 		CutPoint cut = currentCutPoint.GetComponent<CutPoint>();
@@ -137,8 +152,8 @@ public class Cutting : MonoBehaviour {
 		Vector2 touchPos = touch.position;
 		touchVector = ConvertToWorldPoint(touchPos) - touchOrigin;
 		float close = CalculateCloseness(touchOrigin.Value, touchVector.Value, swipeTime);
-		qualityBar.Subtract(close);
-		if (currentIndex < cutVectors.Length)
+		QualityBar.Subtract(close);
+		if (currentIndex < cutVectors.Count)
 			currentIndex++;
 		touchOrigin = null;
 	}
@@ -150,7 +165,7 @@ public class Cutting : MonoBehaviour {
 			holding = true;
 			swipeTime = 0;
 			touchOrigin = ConvertToWorldPoint(Input.mousePosition);
-			if (currentIndex >= cutVectors.Length) {
+			if (currentIndex >= cutVectors.Count) {
 				return;
 			}
 			CutPoint cut = currentCutPoint.GetComponent<CutPoint>();
@@ -160,7 +175,7 @@ public class Cutting : MonoBehaviour {
 		if (Input.GetMouseButtonUp(0)) {
 			// Protect against null value.
 			// TODO: this is dirty.
-			if (currentIndex >= cutVectors.Length) {
+			if (currentIndex >= cutVectors.Count) {
 				return;
 			}
 
@@ -169,15 +184,15 @@ public class Cutting : MonoBehaviour {
 			touchVector = ConvertToWorldPoint(mousePos) - touchOrigin;
 			float close = CalculateCloseness(touchOrigin.Value, touchVector.Value, swipeTime);
 			//Debug.Log(close);
-			qualityBar.Subtract(close*close);
-			if (currentIndex < cutVectors.Length)
+			QualityBar.Subtract(close*close);
+			if (currentIndex < cutVectors.Count)
 				currentIndex++;
 			DrawDebugLine(touchOrigin.Value);
 
 			// Reset the origin.
 			touchOrigin = null;
 
-			if (currentIndex >= cutVectors.Length) {
+			if (currentIndex >= cutVectors.Count) {
 				GameOver();
 			} else {
 				Destroy(currentCutPoint);
@@ -187,7 +202,7 @@ public class Cutting : MonoBehaviour {
 
         if (holding) {
             swipeTime += Time.deltaTime;
-            particle.Emit(amountOfParticles);
+            Particle.Emit(AmountOfParticles);
         }
 	}
 	
@@ -196,7 +211,7 @@ public class Cutting : MonoBehaviour {
 	/* START CUT THINGS */
 	private void SpawnCut(Vector3 origin, Vector3 cut) {
 		// Instantiate cut at point.
-		currentCutPoint = Instantiate(cutIndicator, origin, Quaternion.identity);
+		currentCutPoint = Instantiate(CutIndicator, origin, Quaternion.identity);
 	}
 	
 
@@ -218,7 +233,7 @@ public class Cutting : MonoBehaviour {
 
 		// Calculate how close the player was to the starting point.
 		float distance = Vector3.Distance(origin, cutOrigins[currentIndex]);
-		originCloseness = Mathf.InverseLerp(0, maximumDistance, distance);
+		originCloseness = Mathf.InverseLerp(0, MaximumDistance, distance);
 		// So the debugUI can use it.
 		//this.oCloseness = originCloseness;
 
@@ -227,22 +242,22 @@ public class Cutting : MonoBehaviour {
 		Vector3 vn = Vector3.Normalize(vec);
 		Vector3 cn = Vector3.Normalize(cutVectors[currentIndex]);
 		float vSimilarity = 1-Vector3.Dot(vn, cn);
-		vectorCloseness = Mathf.InverseLerp(0, maximumCloseness, vSimilarity);
+		vectorCloseness = Mathf.InverseLerp(0, MaximumCloseness, vSimilarity);
 		//this.vCloseness = vectorCloseness;
 
 		// Calculate how close the vector length is to the optimum length.  (did the player overshoot? undershoot? etc).
 		float vl = Vector3.Magnitude(vec);
 		float cl = Vector3.Magnitude(cutVectors[currentIndex]);
-		lengthCloseness = Mathf.InverseLerp(0, maximumLength, Mathf.Abs(vl-cl));
+		lengthCloseness = Mathf.InverseLerp(0, MaximumLength, Mathf.Abs(vl-cl));
 		//this.lCloseness = lengthCloseness;
 
-		float timeCloseness = Mathf.InverseLerp(baseTime, maximumTime, time);
+		float timeCloseness = Mathf.InverseLerp(BaseTime, MaximumTime, time);
 		//this.tCloseness = timeCloseness;
 
-		originCloseness *= impactDistance;
-		vectorCloseness *= impactCloseness;
-		lengthCloseness *= impactLength;
-		timeCloseness *= impactTime;
+		originCloseness *= ImpactDistance;
+		vectorCloseness *= ImpactCloseness;
+		lengthCloseness *= ImpactLength;
+		timeCloseness *= ImpactTime;
 
 		//Debug.LogFormat("Origin closeness: {0}, Vector closeness: {1}, LengthCloseness: {2}, TimeCloseness: {3}", originCloseness, vectorCloseness, lengthCloseness, timeCloseness);
 
@@ -251,33 +266,33 @@ public class Cutting : MonoBehaviour {
 	
 	private void DrawDebugLine(Vector3 origin) {
 		Vector3 end = ConvertToWorldPoint(Input.mousePosition);
-		Debug.DrawLine(origin, end, Color.yellow, 2);
+		UnityEngine.Debug.DrawLine(origin, end, Color.yellow, 2);
 	}
 
 	// Debug function.
 	private void DrawCuts(float lifetime) {
-		for (int i = 0; i < cutOrigins.Length; i++) {
+		for (int i = 0; i < cutOrigins.Count; i++) {
 			// Place objects at start and end positions.
-			Destroy(Instantiate(cutIndicator, cutOrigins[i], Quaternion.identity), lifetime);
+			Destroy(Instantiate(CutIndicator, cutOrigins[i], Quaternion.identity), lifetime);
 			//Instantiate(debugObject, cutOrigins[i] + cutVectors[i], Quaternion.identity);
 			Vector3 start = cutOrigins[i];
 			Vector3 end = start + cutVectors[i];
 			if (i == currentIndex)
-				Debug.DrawLine(start, end, Color.red, lifetime);
+				UnityEngine.Debug.DrawLine(start, end, Color.red, lifetime);
 			else
-				Debug.DrawLine(start, end, Color.blue, lifetime);
+				UnityEngine.Debug.DrawLine(start, end, Color.blue, lifetime);
 		}
 	}
 
 	private Quality.QualityGrade grade = Quality.QualityGrade.Unset;
 	private void GameOver() {
 		Countdown.onComplete -= GameOver;
-		grade = qualityBar.Finish();
-		qualityBar.Disappear();
+		grade = QualityBar.Finish();
+		QualityBar.Disappear();
 		//Quality.QualityGrade grade = Quality.FloatToGrade(grade, 3);
-		gradeText.text = Quality.GradeToString(grade);
-		gradeText.color = Quality.GradeToColor(grade);
-		gradeText.gameObject.SetActive(true);
+		GradeText.text = Quality.GradeToString(grade);
+		GradeText.color = Quality.GradeToColor(grade);
+		GradeText.gameObject.SetActive(true);
 
 		ShowUIButtons();
 	}
@@ -291,7 +306,7 @@ public class Cutting : MonoBehaviour {
 	}
 
     public void ShowUIButtons() {
-	    returnOrRetryButtons.SetActive(true);
-        returnOrRetryButtons.GetComponent<UpdateRetryButton>().SetText();
+	    ReturnOrRetryButtons.SetActive(true);
+        ReturnOrRetryButtons.GetComponent<UpdateRetryButton>().SetText();
     }
 }

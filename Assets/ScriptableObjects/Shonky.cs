@@ -5,10 +5,6 @@ using UnityEngine;
 [System.Serializable]
 [CreateAssetMenu(menuName = "Items/Shonky", fileName = "Shonky.asset")]
 public class Shonky : Item {
-    public enum GemType {
-        Ruby, Diamond, Sapphire, Emerald
-    }
-    
     public GemType type;
     public float basePrice;
     
