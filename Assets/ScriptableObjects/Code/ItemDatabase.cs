@@ -32,7 +32,7 @@ public class ItemDatabase : ScriptableObject {
 
     public Item GetActual(string name) {
 	    if (string.IsNullOrEmpty(name)) {
-		    Debug.Log("GetActual(): name is null or empty.  You're either checking an empty slot or using this function incorrectly.");
+		    //Debug.Log("GetActual(): name is null or empty.  You're either checking an empty slot or using this function incorrectly.");
 		    return null;
 	    }
 	    

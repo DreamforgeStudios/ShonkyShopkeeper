@@ -123,6 +123,12 @@ public class ShonkyInventory : ScriptableObject {
         }
     }
     */
+    /*
+    public void InsertItemAtSlot(int index, ItemInstance golem, GameObject physicalRepresentation) {
+        shonkySlots[index].SetItemInstantiated(golem, physicalRepresentation);
+    }
+    */
+    
 
     public bool SlotEmpty(int index) {
         if (shonkyInventory[index] == null || shonkyInventory[index].item == null) {
@@ -144,13 +150,14 @@ public class ShonkyInventory : ScriptableObject {
     public List<int> PopulatedShonkySlots() {
         List<int> indexes = new List<int>();
         for (int i = 0; i < shonkyInventory.Length; i++) {
-            if (!SlotEmpty(i) && !InMineCurrently(i)) {
+            if (!SlotEmpty(i)){ //&& !InMineCurrently(i)) {
                 indexes.Add(i);
             }
         }
         return indexes;
     }
 
+    /*
     //Determine if currently in mine
     public bool InMineCurrently(int slotindex) {
         PenSlot slot;
@@ -166,6 +173,7 @@ public class ShonkyInventory : ScriptableObject {
             return true;
         }
     }
+    */
 
     // Simply save..
     private void Save() {

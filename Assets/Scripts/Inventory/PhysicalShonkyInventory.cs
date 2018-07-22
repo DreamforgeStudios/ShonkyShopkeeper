@@ -14,7 +14,10 @@ public class PhysicalShonkyInventory : MonoBehaviour {
 
     //Default Shonky Pen
     public ShonkyInventory inventory;
+    //Mine inv
+    public Mine mineInventory;
 
+    /*
     private static PhysicalShonkyInventory _instance;
     public static PhysicalShonkyInventory Instance {
         get {
@@ -33,17 +36,22 @@ public class PhysicalShonkyInventory : MonoBehaviour {
             return _instance;
         }
     }
+    */
     // Use this for initialization
     void Start() {
         // Load example.
         //ShonkyInventory.InitializeFromDefault(inventory);
+        Debug.Log("Initialising shonky inv");
         SaveManager.LoadOrInitializeShonkyInventory(inventory);
+        SaveManager.LoadOrInitializeMineInventory(mineInventory);
        
 
         shonkySlots = new List<PenSlot>();
         shonkySlots.AddRange(GameObject.FindObjectsOfType<PenSlot>());
+        shonkySlots.Sort((a, b) => a.index - b.index);
 
         PopulateInitial();
+        SaveManager.SaveShonkyInventory();
         spawnPos = middleOfPenEmpty.transform.position;
     }
 
@@ -57,45 +65,43 @@ public class PhysicalShonkyInventory : MonoBehaviour {
             ItemInstance instance;
             // If an object exists at the specified location.
             //Debug.Log("index is " + i);
+            Debug.Log("Checking Shonky Slot: " + i);
             if (ShonkyInventory.Instance.GetItem(i, out instance)) {
                 shonkySlots[i].SetItem(instance);
                 GameObject obj;
+                Debug.Log("Found Shonky at slot " + i);
                 if (shonkySlots[i].GetPrefabInstance(out obj)) {
-                    CheckIfInMine(instance, obj);
+                    if (CheckIfInMine(i))
+                    {
+                        Mine.Instance.AddGolemReadyToCollect(i);
+                        obj.SetActive(false);
+                    }
+                    else
+                    {
+                        obj.GetComponent<ShonkyWander>().enableNavmesh = true;
+                    }
                     if (instance.IsNew) {
                         // TODO, change tween / fixup.
                         obj.transform.DOMove(obj.transform.position + Vector3.up, 0.7f);
                     }
-                    
                 }
             }
         }
     }
 
-    public void QueryShonkyInvForMiners() {
-        for (int i = 0; i < shonkySlots.Count; i++) {
-            ItemInstance instance;
-            if (ShonkyInventory.Instance.GetItem(i, out instance)) {
-                //shonkySlots[i].SetItem(instance);
-                GameObject obj;
-                if (shonkySlots[i].GetPrefabInstance(out obj)) {
-                    CheckIfInMine(instance, obj);
-                }
+    private bool CheckIfInMine(int index)
+    {
+        ItemInstance item;
+        if (ShonkyInventory.Instance.GetItem(index, out item))
+        {
+            if (item.InMine)
+            {
+                Debug.Log(index + " is in the mine");
+                return true;
             }
         }
-    }
-
-    private void CheckIfInMine(ItemInstance instance, GameObject obj) {
-        Debug.Log("This golem is being checked if in mine");
-        if (instance.InMine) {
-            Debug.Log("This is in the mine");
-            obj.SetActive(false);
-            Mine.Instance.AddGolemReadyToCollect(obj);
-        }
-        else {
-            Debug.Log("This is not in the mine");
-            obj.GetComponent<ShonkyWander>().enableNavmesh = true;
-        }
+        Debug.Log(index + " Not in Mine");
+        return false;
     }
 
     public PenSlot GetSlotAtIndex(int index) {

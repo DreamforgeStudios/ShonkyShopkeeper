@@ -15,6 +15,7 @@ public class Toolbox : MonoBehaviour {
     }
 
     public PhysicalInventory physicalInventory;
+    public PhysicalShonkyInventory physicalShonkyInventory;
     public ItemDatabase database;
 
     public float selectedOutlineThickness = 2;
@@ -487,8 +488,6 @@ public class Toolbox : MonoBehaviour {
         index1 = currentSelection.index;
         index2 = slot.index;
         //Spawn a golem to show item creation 
-        Item drop = database.GetActual(gemType);
-        GameObject inst = Instantiate(drop.physicalRepresentation, currentSelection.transform.position, currentSelection.transform.rotation);
         //Play SFX
         SFX.Play("golem_created");
         //soundEffects.clip = golumCreated;
@@ -500,19 +499,26 @@ public class Toolbox : MonoBehaviour {
         Quality.QualityGrade avg = Quality.CalculateCombinedQuality(item1, item2);
         ItemInstance newGolem = new ItemInstance(gemType, 1, avg, true);
         int index = ShonkyInventory.Instance.InsertItem(newGolem);
-        PhysicalShonkyInventory.Instance.InsertItemAtSlot(index, newGolem, inst);
-        //Move new golem to pen
-        PhysicalShonkyInventory.Instance.MoveToPen(index);
-        //Remove backend items
-        Inventory.Instance.RemoveItem(index1);
-        Inventory.Instance.RemoveItem(index2);
-        //Remove front end items
-        currentSelection.RemoveItem();
-        slot.RemoveItem();
-        //reset selection
-        currentSelection = null;
+        if (index != -1)
+        {
+            PenSlot pSlot = physicalShonkyInventory.GetSlotAtIndex(index);
+            GameObject clone = Instantiate(newGolem.item.physicalRepresentation, pSlot.transform.position,
+                pSlot.transform.rotation);
+            //PhysicalShonkyInventory.Instance.InsertItemAtSlot(index, newGolem, inst);
+            //Move new golem to pen
+            pSlot.SetItemInstantiated(newGolem,clone);
+            physicalShonkyInventory.MoveToPen(index);
+            //Remove backend items
+            Inventory.Instance.RemoveItem(index1);
+            Inventory.Instance.RemoveItem(index2);
+            //Remove front end items
+            currentSelection.RemoveItem();
+            slot.RemoveItem();
+            //reset selection
+            currentSelection = null;
 
-        AchievementManager.Get("golem_create_01");
+            AchievementManager.Get("golem_create_01");
+        }
     }
     //Method used to find the gem type selected
     private string FindGemType(Slot slot1, Slot slot2) {

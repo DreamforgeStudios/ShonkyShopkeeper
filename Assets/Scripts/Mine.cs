@@ -50,54 +50,52 @@ public class Mine : ScriptableObject {
     //Time till the golem is complete mining
     public int mineTimeSeconds = 10;
     public ItemInstance[] mineInventory;
-    private Dictionary<DateTime, GameObject> returningGolems = new Dictionary<DateTime, GameObject>();
-    private Dictionary<DateTime, GameObject> golemTable = new Dictionary<DateTime, GameObject>();
-    private List<GameObject> instantReturn = new List<GameObject>();
+    private Dictionary<DateTime, int> returningGolems = new Dictionary<DateTime, int>();
+    private Dictionary<DateTime, int> golemTable = new Dictionary<DateTime, int>();
+    private List<int> instantReturn = new List<int>();
 	
-    public void AddGolemAndTime(DateTime currentTime, GameObject golem) {
-        Debug.Log(currentTime + " and does contain already " + golemTable.ContainsKey(currentTime));
-        golemTable.Add(currentTime, golem);
-        Save();
+    public void AddGolemAndTime(DateTime currentTime, int penSlot) {
+        //Debug.Log(currentTime + " and does contain already " + golemTable.ContainsKey(currentTime));
+        golemTable.Add(currentTime, penSlot);
+        //Save();
     }
 
-    public void AddGolemReadyToCollect(GameObject golem) {
-        instantReturn.Add(golem);
+    public void AddGolemReadyToCollect(int penSlot) {
+        instantReturn.Add(penSlot);
     }
-    public List<GameObject> ReturnReadyGolems() {
+    public List<int> ReturnReadyGolems() {
         //Find Golems to be returned
-        returningGolems = new Dictionary<DateTime, GameObject>();
-        foreach (KeyValuePair<DateTime, GameObject> golem in golemTable) {
-            TimeSpan elapsedTime;
-            elapsedTime = DateTime.Now - golem.Key;
+        returningGolems = new Dictionary<DateTime, int>();
+        foreach (KeyValuePair<DateTime, int> golem in golemTable) {
+            TimeSpan elapsedTime = DateTime.Now - golem.Key;
             if (elapsedTime.Seconds > mineTimeSeconds) {
                 returningGolems.Add(golem.Key,golem.Value);   
             }
         }
         //Remove found golems
-        foreach(KeyValuePair<DateTime, GameObject> golem in returningGolems) {
+        foreach(KeyValuePair<DateTime, int> golem in returningGolems) {
             if (golemTable.ContainsKey(golem.Key)) {
                 golemTable.Remove(golem.Key);
             }
         }
         //Return only golem objects
-        List<GameObject> golems = new List<GameObject>();
-        foreach(KeyValuePair<DateTime, GameObject> golem in returningGolems) {
+        List<int> golems = new List<int>();
+        foreach(KeyValuePair<DateTime, int> golem in returningGolems) {
             golems.Add(golem.Value);
         }
 
         //Add Instant return golems if any
-        foreach(GameObject golem in instantReturn) {
+        foreach(int golem in instantReturn) {
             golems.Add(golem);
         }
-        instantReturn = new List<GameObject>();
-        Save();
+        instantReturn = new List<int>();
+        //Save();
         return golems;
     }
 
     public bool ReadyToCollect() {
-        foreach (KeyValuePair<DateTime, GameObject> golem in golemTable) {
-            TimeSpan elapsedTime;
-            elapsedTime = DateTime.Now - golem.Key;
+        foreach (KeyValuePair<DateTime, int> golem in golemTable) {
+            TimeSpan elapsedTime = DateTime.Now - golem.Key;
             if (elapsedTime.Seconds > mineTimeSeconds)
                 return true;
         }

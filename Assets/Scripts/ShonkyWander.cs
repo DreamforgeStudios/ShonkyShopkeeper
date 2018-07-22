@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 public class ShonkyWander : MonoBehaviour {
     //Golem Components
@@ -24,13 +26,12 @@ public class ShonkyWander : MonoBehaviour {
 
     //The resource pouch object being held
     public GameObject pouch;
-
-    //If in mine
-    public bool inMine = false;
     
     
 	// Use this for initialization
-	void Start () {
+    private void Awake()
+    {
+	    Debug.Log("Calling start function in golem");
         pouch.SetActive(false);
         agent = GetComponent<NavMeshAgent>();
         //rb = GetComponent<Rigidbody>();
@@ -96,6 +97,7 @@ public class ShonkyWander : MonoBehaviour {
 
     public void HoldPouch() {
         pouch.SetActive(true);
+        Debug.Log("pouch is active" + pouch.activeSelf);
     }
 
     public void RemovePouch() {
@@ -108,4 +110,28 @@ public class ShonkyWander : MonoBehaviour {
         else
             return false;
     }
+
+    public void FloatToPen()
+    {
+        StartCoroutine(Float());
+    }
+    
+    IEnumerator Float()
+    {
+        transform.DOMove(CalculateRandomPenLoc(), 1f, false);
+        yield return new WaitForSeconds(1.5f);
+        Debug.Log("Reenabling agent");
+        pickedUp = false;
+        agent.enabled = true;
+    }
+
+    private Vector3 CalculateRandomPenLoc()
+    {
+        float XPos = Random.Range(-5f, 4.5f);
+        float YPos = -1.78f;
+        float ZPos = Random.Range(-5.45f, -1.95f);
+        Vector3 returnPos = new Vector3(XPos,YPos,ZPos);
+        return returnPos;
+    }
+
 }
