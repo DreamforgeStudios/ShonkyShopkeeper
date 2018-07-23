@@ -4,11 +4,11 @@
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Standard
   m_Shader: {fileID: 4800000, guid: 4c01f4dcfcb8b934083f9e08df8dc97a, type: 3}
-  m_ShaderKeywords: _GLOSSYREFLECTIONS_OFF _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
+  m_ShaderKeywords: _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -19,7 +19,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: 20f91c93e7fb490f9496609c52ef3904, type: 3}
+        m_Texture: {fileID: 2800000, guid: 4e8ca8d8902177a4c93c2d90b0dc5e24, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Cube:
@@ -74,25 +74,27 @@ Material:
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
+    - _DiffuseIntensity: 1.18
     - _DstBlend: 0
-    - _GlossMapScale: 1
-    - _Glossiness: 1
-    - _GlossyReflections: 0
-    - _Metallic: 0.752
+    - _GlossMapScale: 0.938
+    - _Glossiness: 0
+    - _GlossyReflections: 1
+    - _Metallic: 0.863
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _Shininess: 1
     - _SmoothnessTextureChannel: 1
-    - _Specular: 0.7
+    - _Specular: 1.94
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 0.5471698, g: 0, b: 0, a: 1}
+    - _DiffuseMaxColor: {r: 0.509434, g: 0, b: 0.06080894, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _MainColor: {r: 0.5377358, g: 0, b: 0.014460634, a: 1}
+    - _MainColor: {r: 0.6320754, g: 0, b: 0.015867952, a: 1}
     - _ReflectColor: {r: 1, g: 0, b: 0, a: 0.5}
-    - _SpecColor: {r: 1, g: 0.5707547, b: 0.5707547, a: 1}
-    - _SpecularColor: {r: 0.6981132, g: 0, b: 0.122396305, a: 1}
+    - _SpecColor: {r: 1, g: 1, b: 1, a: 1}
+    - _SpecularColor: {r: 0.7924528, g: 0, b: 0.21462277, a: 1}

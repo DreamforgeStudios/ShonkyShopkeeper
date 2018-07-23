@@ -8,15 +8,15 @@ Prefab:
     m_TransformParent: {fileID: 0}
     m_Modifications: []
     m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 0}
+  m_SourcePrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1969653793482168}
-  m_IsPrefabParent: 1
+  m_IsPrefabAsset: 1
 --- !u!1 &1969653793482168
 GameObject:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
+  serializedVersion: 6
   m_Component:
   - component: {fileID: 4256783036899924}
   - component: {fileID: 33897547750413706}
@@ -31,7 +31,7 @@ GameObject:
 --- !u!4 &4256783036899924
 Transform:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1969653793482168}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -44,7 +44,7 @@ Transform:
 --- !u!23 &23412597147123598
 MeshRenderer:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1969653793482168}
   m_Enabled: 1
@@ -54,8 +54,9 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 0179ef0d494d6d24b988b6659cd942f9, type: 2}
+  - {fileID: 2100000, guid: bfc6eab2a0e506c41a1254befb6f9fd3, type: 2}
   - {fileID: 2100000, guid: bfc6eab2a0e506c41a1254befb6f9fd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -79,7 +80,7 @@ MeshRenderer:
 --- !u!33 &33897547750413706
 MeshFilter:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1969653793482168}
   m_Mesh: {fileID: 4300002, guid: f19515e12635c5c40a60355e9817b3ce, type: 3}
