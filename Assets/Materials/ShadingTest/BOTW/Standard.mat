@@ -92,7 +92,7 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 0.5471698, g: 0, b: 0, a: 1}
-    - _DiffuseMaxColor: {r: 0.509434, g: 0, b: 0.06080894, a: 1}
+    - _DiffuseMaxColor: {r: 0.764151, g: 0, b: 0.09439514, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _MainColor: {r: 0.6320754, g: 0, b: 0.015867952, a: 1}
     - _ReflectColor: {r: 1, g: 0, b: 0, a: 0.5}

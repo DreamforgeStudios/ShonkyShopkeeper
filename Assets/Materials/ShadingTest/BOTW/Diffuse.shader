@@ -1,4 +1,6 @@
-﻿// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
+﻿// Upgrade NOTE: replaced '_LightMatrix0' with 'unity_WorldToLight'
+
+// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
 
 Shader "Custom/Gem"
 {
@@ -14,11 +16,10 @@ Shader "Custom/Gem"
 	}
 	SubShader
 	{
-		Tags { "LightMode"="ForwardBase" }
-
 		Pass
 		{
 			Name "LIGHTING"
+			Tags { "LightMode"="ForwardBase" }
 
 			CGPROGRAM
 
@@ -44,6 +45,8 @@ Shader "Custom/Gem"
 				float4 diff : COLOR0; 
 				float3 worldNormal : TEXCOORD1;
 				float4 originalVert : TEXCOORD2;
+				float4 posWorld : TEXCOORD3;
+				float4 posLight : TEXCOORD4;
 			};
 
 			sampler2D _MainTex;
@@ -67,18 +70,10 @@ Shader "Custom/Gem"
 				half3 worldNormal = UnityObjectToWorldNormal(v.normal);
 				o.worldNormal = worldNormal;
 				
-				half nl;
-				if (_WorldSpaceLightPos0.w == 0) {
-				    nl = max(0, dot(worldNormal, _WorldSpaceLightPos0.xyz));
-				} else {
-				    nl = max(0, dot(worldNormal, -_WorldSpaceLightPos0.xyz));
-				}
-				
-				float4 lightPos = float4(unity_4LightPosX0[0], unity_4LightPosY0[0], unity_4LightPosZ0[0], 1);
-				float distance = length(lightPos - mul(unity_ObjectToWorld, v.vertex));
-				float attenuation = max(0, 1-(distance / ( 1 / _LightPositionRange.w)));
-				
-				nl += max(0, dot(worldNormal, lightPos)) * attenuation;
+				float4 posWorld = mul(unity_ObjectToWorld, v.vertex);
+
+				half nl = 0;
+				nl = max(0, dot(worldNormal, _WorldSpaceLightPos0.xyz));
 				
 				o.diff = nl;
 
@@ -118,13 +113,13 @@ Shader "Custom/Gem"
 			ENDCG
 		}
 		
-		/*
-		Tags { "LightMode"="ForwardAdd" }
 		
 		Pass
 		{
 			Name "LIGHTINGADD"
+			Tags { "LightMode"="ForwardAdd" }
 			
+			Lighting On
 			Blend One One
 
 			CGPROGRAM
@@ -136,6 +131,7 @@ Shader "Custom/Gem"
 			#include "UnityCG.cginc"
 			#include "UnityLightingCommon.cginc"
 			#include "Lighting.cginc"
+			#include "AutoLight.cginc"
 
 			struct appdata
 			{
@@ -151,6 +147,8 @@ Shader "Custom/Gem"
 				float4 diff : COLOR0; 
 				float3 worldNormal : TEXCOORD1;
 				float4 originalVert : TEXCOORD2;
+				float4 lightDir : TEXCOORD5;
+				LIGHTING_COORDS(3,4)
 			};
 
 			sampler2D _MainTex;
@@ -173,21 +171,19 @@ Shader "Custom/Gem"
 
 				half3 worldNormal = UnityObjectToWorldNormal(v.normal);
 				o.worldNormal = worldNormal;
-				half nl;
-				if (_WorldSpaceLightPos0.w == 0) {
-				    nl = max(0, dot(worldNormal, _WorldSpaceLightPos0.xyz));
-				} else {
-				    nl = max(0, dot(worldNormal, -_WorldSpaceLightPos0.xyz));
-				}
+				half nl = 0;
+
+				o.lightDir = _WorldSpaceLightPos0 - mul(unity_ObjectToWorld, v.vertex);
 				
 				o.diff = nl;
+
+				TRANSFER_VERTEX_TO_FRAGMENT(o)
 
 				return o;
 			}
 			
 			fixed4 frag (v2f i) : SV_Target
 			{
-			    return _LightColor0;
 				// sample the texture
 				fixed4 col = tex2D(_MainTex, i.uv);
 
@@ -210,12 +206,11 @@ Shader "Custom/Gem"
                     col = col * diffuse + specular;
                 }
 
-				return col * _LightColor0;
+				return col * _LightColor0 * LIGHT_ATTENUATION(i);
 			}
 
 			ENDCG
 		}
-	*/
 	}
 	
 	Fallback "Diffuse"

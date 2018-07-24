@@ -10,7 +10,7 @@ public class RotateWithTouch : MonoBehaviour {
 	void Update () {
 		// Check where we are running the program.
 		RuntimePlatform p = Application.platform;
-		if (p == RuntimePlatform.WindowsEditor || p == RuntimePlatform.WindowsPlayer)
+		if (p == RuntimePlatform.WindowsEditor || p == RuntimePlatform.WindowsPlayer || p == RuntimePlatform.OSXEditor || p == RuntimePlatform.OSXPlayer)
 			// Process mouse inputs.
 			ProcessMouse();
 		else if (p == RuntimePlatform.IPhonePlayer || p == RuntimePlatform.Android)
