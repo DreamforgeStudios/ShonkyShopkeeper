@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4707848571639916}
   - component: {fileID: 33781598855937052}
   - component: {fileID: 23604543513071862}
+  - component: {fileID: 114734621009526132}
   m_Layer: 0
   m_Name: Emerald
   m_TagString: Untagged
@@ -56,7 +57,6 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 0179ef0d494d6d24b988b6659cd942f9, type: 2}
   - {fileID: 2100000, guid: ea0d42cd9d1a3d94991c448e3f2f7aa5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -84,3 +84,17 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1699448682367330}
   m_Mesh: {fileID: 4300000, guid: 2d915278b18612a4c9123480e36287f7, type: 3}
+--- !u!114 &114734621009526132
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1699448682367330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 320df158a64baf94da5335432a9741ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Axis: {x: 0, y: 1, z: 0}
+  Speed: 0.5
+  Enable: 0

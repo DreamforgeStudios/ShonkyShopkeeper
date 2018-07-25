@@ -4,8 +4,7 @@
 
 Shader "Custom/Gem"
 {
-	Properties
-	{
+	Properties {
 		_MainTex ("Texture", 2D) = "white" {}
 		_Ramp ("Ramp", 2D) = "white" {}
 		_SpecRamp ("Specular Ramp", 2D) = "white" {}
@@ -14,6 +13,7 @@ Shader "Custom/Gem"
 		_SpecularColor ("Specular Color", Color) = (1,1,1,1)
 		_Specular ("Specular Power", Range(0, 5)) = 0
 	}
+	
 	SubShader
 	{
 		Pass
@@ -26,10 +26,8 @@ Shader "Custom/Gem"
 			#pragma vertex vert
 			#pragma fragment frag
 
-			#include "UnityCG.cginc"
-			#include "UnityLightingCommon.cginc"
 			#include "Lighting.cginc"
-			#include "AutoLight.cginc"
+			#include "ShaderLib.cginc"
 
 			struct appdata
 			{
@@ -42,11 +40,9 @@ Shader "Custom/Gem"
 			{
 				float2 uv : TEXCOORD0;
 				float4 vertex : SV_POSITION;
-				float4 diff : COLOR0; 
-				float3 worldNormal : TEXCOORD1;
-				float4 originalVert : TEXCOORD2;
-				float4 posWorld : TEXCOORD3;
-				float4 posLight : TEXCOORD4;
+				float  diff : TEXCOORD1; 
+				float3 worldNormal : TEXCOORD2;
+				float4 originalVert : TEXCOORD3;
 			};
 
 			sampler2D _MainTex;
@@ -58,7 +54,7 @@ Shader "Custom/Gem"
 			float4 _MainColor;
 			float4 _DiffuseMaxColor;
 			float4 _SpecularColor;
-			float _Specular;
+			float  _Specular;
 			
 			v2f vert (appdata v)
 			{
@@ -66,16 +62,9 @@ Shader "Custom/Gem"
 				o.originalVert = v.vertex;
 				o.vertex = UnityObjectToClipPos(v.vertex);
 				o.uv = TRANSFORM_TEX(v.uv, _MainTex);
-
-				half3 worldNormal = UnityObjectToWorldNormal(v.normal);
-				o.worldNormal = worldNormal;
 				
-				float4 posWorld = mul(unity_ObjectToWorld, v.vertex);
-
-				half nl = 0;
-				nl = max(0, dot(worldNormal, _WorldSpaceLightPos0.xyz));
-				
-				o.diff = nl;
+				o.diff = diffuse_directional(_WorldSpaceLightPos0.xyz, v.normal);
+				o.worldNormal = UnityObjectToWorldNormal(v.normal);
 
 				return o;
 			}
@@ -85,22 +74,14 @@ Shader "Custom/Gem"
 				// sample the texture
 				fixed4 col = tex2D(_MainTex, i.uv);
 
-				float3 viewDir = normalize(WorldSpaceViewDir(i.originalVert));
-				float3 reflection = normalize(reflect(-_WorldSpaceLightPos0.xyz, i.worldNormal));
-				float spec = pow(max(0, dot(reflection, viewDir)), _Specular);
-				float4 lightPos = float4(unity_4LightPosX0[0], unity_4LightPosY0[0], unity_4LightPosZ0[0], 1);
-				reflection = normalize(reflect(-lightPos, i.worldNormal));
-				spec += pow(max(0, dot(reflection, viewDir)), _Specular);
-				//spec += i.diff;
-
+                float spec = specular_directional(i.originalVert, _WorldSpaceLightPos0.xyz, i.worldNormal, _Specular);
 				float diff_ramp = tex2D(_Ramp, float2(i.diff.x, 0)).r;
 				float spec_ramp = tex2D(_SpecRamp, float2(spec, 0)).r;
-				//float4 ramp = tex2D(_Ramp, float2(spec + i.diff.x, 0)).rrrr;
-
-
+				
 				float4 diffuse = _MainColor * diff_ramp;
 				float4 specular = _SpecularColor * spec_ramp;
 
+                // TODO: there's probably a way to optimize out this if.
                 if (diff_ramp >= 1) {
                     col = _DiffuseMaxColor + specular;
                 } else {
@@ -128,10 +109,9 @@ Shader "Custom/Gem"
 			#pragma fragment frag
 			#pragma multi_compile_fwdadd
 
-			#include "UnityCG.cginc"
-			#include "UnityLightingCommon.cginc"
 			#include "Lighting.cginc"
 			#include "AutoLight.cginc"
+			#include "ShaderLib.cginc"
 
 			struct appdata
 			{
@@ -144,11 +124,10 @@ Shader "Custom/Gem"
 			{
 				float2 uv : TEXCOORD0;
 				float4 vertex : SV_POSITION;
-				float4 diff : COLOR0; 
-				float3 worldNormal : TEXCOORD1;
-				float4 originalVert : TEXCOORD2;
-				float4 lightDir : TEXCOORD5;
-				LIGHTING_COORDS(3,4)
+				float  diff : TEXCOORD1; 
+				float3 worldNormal : TEXCOORD2;
+				float4 originalVert : TEXCOORD3;
+				LIGHTING_COORDS(5,6)
 			};
 
 			sampler2D _MainTex;
@@ -158,7 +137,6 @@ Shader "Custom/Gem"
 			sampler2D _SpecRamp;
 
 			float4 _MainColor;
-			float4 _DiffuseMaxColor;
 			float4 _SpecularColor;
 			float _Specular;
 			
@@ -169,16 +147,13 @@ Shader "Custom/Gem"
 				o.vertex = UnityObjectToClipPos(v.vertex);
 				o.uv = TRANSFORM_TEX(v.uv, _MainTex);
 
-				half3 worldNormal = UnityObjectToWorldNormal(v.normal);
-				o.worldNormal = worldNormal;
-				half nl = 0;
+				o.worldNormal = UnityObjectToWorldNormal(v.normal);
+				float nl = 0;
 
-				o.lightDir = _WorldSpaceLightPos0 - mul(unity_ObjectToWorld, v.vertex);
-				
-				o.diff = nl;
+                o.diff = diffuse_point(v.vertex, _WorldSpaceLightPos0.xyz, v.normal);
 
 				TRANSFER_VERTEX_TO_FRAGMENT(o)
-
+				
 				return o;
 			}
 			
@@ -187,26 +162,21 @@ Shader "Custom/Gem"
 				// sample the texture
 				fixed4 col = tex2D(_MainTex, i.uv);
 
-				float3 viewDir = normalize(WorldSpaceViewDir(i.originalVert));
-				float3 reflection = normalize(reflect(-_WorldSpaceLightPos0.xyz, i.worldNormal));
-				float spec = pow(max(0, dot(reflection, viewDir)), _Specular);
-				//spec += i.diff;
+                float spec = specular_point(i.originalVert, _WorldSpaceLightPos0.xyz, i.worldNormal, _Specular);
 
-				float diff_ramp = tex2D(_Ramp, float2(i.diff.x, 0)).r;
+                float atten = LIGHT_ATTENUATION(i);
+				float diff_ramp = tex2D(_Ramp, float2(i.diff * atten, 0)).r;
 				float spec_ramp = tex2D(_SpecRamp, float2(spec, 0)).r;
 				//float4 ramp = tex2D(_Ramp, float2(spec + i.diff.x, 0)).rrrr;
 
 
-				float4 diffuse = _MainColor * diff_ramp;
-				float4 specular = _SpecularColor * spec_ramp;
+				float4 diffuse = lerp(_MainColor, _LightColor0, diff_ramp) * diff_ramp;
+				float4 specular = lerp(_SpecularColor, _LightColor0, atten) * spec_ramp * atten;
 
-                if (diff_ramp >= 1) {
-                    col = _DiffuseMaxColor + specular;
-                } else {
-                    col = col * diffuse + specular;
-                }
-
-				return col * _LightColor0 * LIGHT_ATTENUATION(i);
+                col = col * diffuse + specular;
+                return col;
+                
+				//return col + lerp(float4(0,0,0,0), _LightColor0, atten);
 			}
 
 			ENDCG

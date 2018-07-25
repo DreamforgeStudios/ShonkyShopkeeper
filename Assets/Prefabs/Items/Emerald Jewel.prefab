@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4181779720052788}
   - component: {fileID: 33122704497753264}
   - component: {fileID: 23363242102059836}
+  - component: {fileID: 114429009820613670}
   m_Layer: 0
   m_Name: Emerald Jewel
   m_TagString: Untagged
@@ -83,3 +84,17 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1079469757794084}
   m_Mesh: {fileID: 4300000, guid: 51db01f8b7e553d46a74a94a784c3cf1, type: 3}
+--- !u!114 &114429009820613670
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1079469757794084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 320df158a64baf94da5335432a9741ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Axis: {x: 0, y: 1, z: 0}
+  Speed: 0.5
+  Enable: 0

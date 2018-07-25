@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 33620362692967198}
   - component: {fileID: 23759301315709036}
   - component: {fileID: 114978282024736062}
+  - component: {fileID: 114091640703704236}
   m_Layer: 0
   m_Name: Ruby Charged
   m_TagString: Untagged
@@ -85,6 +86,20 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1690819606338208}
   m_Mesh: {fileID: 4300000, guid: d5c349685d8486b41805d56f2779421b, type: 3}
+--- !u!114 &114091640703704236
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1690819606338208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 320df158a64baf94da5335432a9741ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Axis: {x: 0, y: 1, z: 0}
+  Speed: 0.5
+  Enable: 0
 --- !u!114 &114978282024736062
 MonoBehaviour:
   m_ObjectHideFlags: 1

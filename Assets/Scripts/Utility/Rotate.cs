@@ -4,11 +4,12 @@ using UnityEngine;
 using DG.Tweening;
 
 public class Rotate : MonoBehaviour {
-	// Use this for initialization
-	void Start () {
-	}
-
+	public Vector3 Axis = Vector3.up;
+	public float Speed = .5f;
+	public bool Enable = false;
+	
 	void FixedUpdate() {
-		transform.RotateAround(transform.position, Vector3.up, .5f);
+		if (Enable)
+			transform.RotateAround(transform.position, Axis, Speed);
 	}
 }

@@ -4,7 +4,10 @@ using UnityEngine;
 using TMPro;
 using DG.Tweening; // Tweening / nice lerping.
 //using System;
-using UnityEngine.SceneManagement; //To access Minigames
+using UnityEngine.SceneManagement;
+using UnityEngine.Scripting.APIUpdating;
+
+//To access Minigames
 
 // The toolbox class is how all user inventory interactions should be done.
 public class Toolbox : MonoBehaviour {
@@ -122,7 +125,7 @@ public class Toolbox : MonoBehaviour {
 
         //Debug.Log("casting...");
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask)) {
-            if (hit.transform.tag == "Forceps" || hit.transform.tag == "Wand" || hit.transform.tag == "Magnifyer") {
+            if (hit.transform.CompareTag("Forceps") || hit.transform.CompareTag("Wand") || hit.transform.CompareTag("Magnifyer")) {
                 SFX.Play("cursor_select");
                 //soundEffects.clip = cursorSelect;
                 //soundEffects.Play();
@@ -161,7 +164,6 @@ public class Toolbox : MonoBehaviour {
         HideInspector();
     }
 
-
     // Use the right tool on the slot.
     private void UseTool(Slot slot) {
         switch (currentTool) {
@@ -175,6 +177,33 @@ public class Toolbox : MonoBehaviour {
                 UseWand(slot);
                 break;
         }
+    }
+    
+    //Simple method to show current selection
+    private Tweener MoveUp(Slot slot) {
+        GameObject itemObj;
+        Tweener tween = null;
+        if (slot.GetPrefabInstance(out itemObj)) {
+            SFX.Play("item_lift");
+            Transform t = itemObj.transform;
+            tween = t.DOMove(slot.transform.position + (Vector3.up), 0.7f).SetEase(Ease.OutBack);
+            t.GetComponent<Rotate>().Enable = true;
+        }
+
+        return tween;
+    }
+
+    private Tweener MoveDown(Slot slot) {
+        GameObject itemObj;
+        Tweener tween = null;
+        if (slot.GetPrefabInstance(out itemObj)) {
+            SFX.Play("item_down", 1, 1, .25f);
+            Transform t = itemObj.transform;
+            tween = t.DOMove(slot.transform.position, 1f).SetEase(Ease.OutBounce);
+            t.GetComponent<Rotate>().Enable = false;
+        }
+
+        return tween;
     }
 
     // Inspect an item.
@@ -200,16 +229,8 @@ public class Toolbox : MonoBehaviour {
 
                 textHeading.text = instance.itemName;
                 textInfo.text = instance.itemInfo;
-
-                // Animate using tween library -> see https://easings.net/ for some animaions to use.
-                GameObject itemObj;
-                if (slot.GetPrefabInstance(out itemObj)) {
-                    SFX.Play("item_lift");
-                    //soundEffects.clip = itemLift;
-                    //soundEffects.Play();
-                    Transform t = itemObj.transform;
-                    t.DOMove(slot.transform.position + (Vector3.up), 0.7f).SetEase(Ease.OutBack);
-                }
+                
+                MoveUp(slot);
             }
         } else {
             HideInspector();
@@ -224,10 +245,8 @@ public class Toolbox : MonoBehaviour {
             if (currentSelection.itemInstance.IsNew) {
                 UnmarkNew();
             }
-            gameObj.transform.DOMove(currentSelection.transform.position, 1f).SetEase(Ease.OutBounce);
-            SFX.Play("item_down", 1, 1, .25f);
-            //soundEffects.clip = itemDown;
-            //soundEffects.PlayDelayed(0.25f);
+            
+            MoveDown(currentSelection);
             currentSelection = null;
         }
     }
@@ -237,9 +256,11 @@ public class Toolbox : MonoBehaviour {
         Inventory.Instance.UnMarkNew(currentSelection.index);
         currentSelection.itemInstance.IsNew = false;
         GameObject obj;
+        /*
         if (currentSelection.GetPrefabInstance(out obj)) {
             Destroy(obj.GetComponent<Rotate>());
         }
+        */
     }
 
     //Move an Item to a new slot
@@ -250,28 +271,13 @@ public class Toolbox : MonoBehaviour {
             //If first selection
             if (currentSelection == null) {
                 this.currentSelection = slot;
-
-                GameObject itemObj;
-                if (slot.GetPrefabInstance(out itemObj)) {
-                    SFX.Play("item_lift");
-                    //soundEffects.clip = itemLift;
-                    //soundEffects.Play();
-                    Transform t = itemObj.transform;
-                    t.DOMove(slot.transform.position + (Vector3.up), 0.7f).SetEase(Ease.OutBack);
-                }
+                MoveUp(slot);
                 // Second selection.
             } else {
                 // If the same item is selected, put it back.
                 if (currentSelection == slot) {
                     Debug.Log("Same slot.");
-                    GameObject obj;
-                    if (currentSelection.GetPrefabInstance(out obj)) {
-                        SFX.Play("item_down");
-                        //soundEffects.clip = itemDown;
-                        //soundEffects.Play();
-                        obj.transform.DOMove(currentSelection.transform.position, 1f).SetEase(Ease.OutBounce);
-                    }
-
+                    MoveDown(slot);
                     currentSelection = null;
                     return;
                 }
@@ -291,20 +297,20 @@ public class Toolbox : MonoBehaviour {
 
                     Transform t1 = obj1.transform,
                               t2 = obj2.transform;
-                    SFX.Play("item_lift");
-                    //soundEffects.clip = itemLift;
-                    //soundEffects.Play();
                     
-                    t1.DOMove(slot1.transform.position + Vector3.up, 0.7f).SetEase(Ease.OutBack)
+                    //SFX.Play("item_lift");
+                    MoveUp(slot1)
                         .OnComplete(() => t1.DOMove(slot2.transform.position + Vector3.up, 0.6f).SetEase(Ease.OutBack)
                             .OnComplete(() => t1.DOMove(slot2.transform.position, 1f).SetEase(Ease.OutBounce)));
-
-                    t2.DOMove(slot2.transform.position + Vector3.up, 0.7f).SetEase(Ease.OutBack)
+                    MoveUp(slot2)
                         .OnComplete(() => t2.DOMove(slot1.transform.position + Vector3.up, 0.6f).SetEase(Ease.OutBack)
                             .OnComplete(() => t2.DOMove(slot1.transform.position, 1f).SetEase(Ease.OutBounce).OnComplete(() => canSelect = true)));
+
+                    // This is a bit janky, but might be doing physics based inventory soon, so not bothering.
+                    t1.GetComponent<Rotate>().Enable = false;
+                    t2.GetComponent<Rotate>().Enable = false;
                     SFX.Play("item_down", 1, 1, 1.5f);
-                    //soundEffects.clip = itemDown;
-                    //soundEffects.PlayDelayed(15f);
+                    
                     ItemInstance inst1, inst2;
                     if (slot1.GetItemInstance(out inst1) && slot2.GetItemInstance(out inst2)) {
                         slot1.SetItemInstantiated(inst2, obj2);
@@ -325,46 +331,26 @@ public class Toolbox : MonoBehaviour {
             if (slot1.GetPrefabInstance(out obj1)) {//&& currentSelection.GetItemInstance(out inst1) &&
                 canSelect = false;
                 Transform t1 = obj1.transform;
+                
                 SFX.Play("item_lift");
-                //soundEffects.clip = itemLift;
-                //soundEffects.Play();
-
-                t1.DOMove(slot1.transform.position + Vector3.up, 0.7f).SetEase(Ease.OutBack)
+                MoveUp(slot1)
                     .OnComplete(() => t1.DOMove(slot2.transform.position + Vector3.up, 0.6f).SetEase(Ease.OutBack)
                         .OnComplete(() => t1.DOMove(slot2.transform.position, 1f).SetEase(Ease.OutBounce).OnComplete(() => canSelect = true)));
-
-                //Debug.Log(inst2.item.name);
+                t1.GetComponent<Rotate>().Enable = false;
                 SFX.Play("item_down", 1, 1, 1.5f);
-                //soundEffects.clip = itemDown;
-                //soundEffects.PlayDelayed(15f);
 
                 ItemInstance inst1;
                 if (slot1.GetItemInstance(out inst1)) {
                     slot1.RemoveDontDestroy();
                     slot2.SetItemInstantiated(inst1, obj1);
                     Inventory.Instance.SwapItem(slot1.index, slot2.index);
-                    //Debug.Log(Inventory.Instance.InsertItemAtSlot(slot2.index, inst1));
-                    //Debug.Log(Inventory.Instance.RemoveItem(slot1.index));
                 }
 
                 currentSelection = null;
             }
-
-            /*
-                t1.DOMove(currentSelection.transform.position + Vector3.up, 0.7f).SetEase(Ease.OutBack)
-                       .OnComplete(() => t1.DOMove(slot.transform.position + Vector3.up, 0.6f).SetEase(Ease.OutBack)
-                       .OnComplete(() => t1.DOMove(slot.transform.position, 1f).SetEase(Ease.OutBounce).OnComplete(() => canSelect = true)));
-
-                soundEffects.clip = itemDown;
-                soundEffects.PlayDelayed(1.5f);
-                slot.SetItemInstantiated(inst1, obj1);
-                currentSelection.SetItemInstantiated(inst2, obj2);
-                Inventory.Instance.SwapItem(currentSelection.index, slot.index);
-            }
-            currentSelection = null;
-            */
         }
     }
+    
     private void UseWand(Slot slot) {
         Item item;
         ItemInstance instance;
@@ -419,10 +405,8 @@ public class Toolbox : MonoBehaviour {
                                       t2 = obj2.transform;
                             
                             midPoint = ((currentSelection.transform.position + Vector3.up) + (slot.transform.position + Vector3.up) / 2f);
+                            
                             SFX.Play("item_lift");
-                            //soundEffects.clip = itemLift;
-                            //soundEffects.Play();
-
                             t2.DOMove(slot.transform.position + Vector3.up, 0.7f).SetEase(Ease.OutBack)
                                 .OnComplete(() => t2.DOMove(midPoint, 0.6f).SetEase(Ease.OutBack));
                             t1.DOMove(currentSelection.transform.position + Vector3.up, 0.7f).SetEase(Ease.OutBack)
@@ -446,17 +430,6 @@ public class Toolbox : MonoBehaviour {
         }
     }
 
-    //Simple method to show current selection
-    private void MoveUp(Slot slot) {
-        SFX.Play("item_lift");
-        //soundEffects.clip = itemLift;
-        //soundEffects.Play();
-        GameObject itemObj;
-        if (slot.GetPrefabInstance(out itemObj)) {
-            Transform t = itemObj.transform;
-            t.DOMove(t.position + (Vector3.up), 0.7f).SetEase(Ease.OutBack);
-        }
-    }
     //Method used to start minigame transition
     private void MinigameTransition() {
         //.OnComplete(() => clone.transform.DOMove(toSlot.transform.position + Vector3.up, 0.6f).SetEase(Ease.OutBack)
@@ -471,10 +444,7 @@ public class Toolbox : MonoBehaviour {
             GameManager.Instance.RetriesRemaining = Inventory.Instance.GetMaxRetries(GameManager.Instance.CurrentTown);
 
             // Move and vibration for some "feedback".
-            SFX.Play("item_lift");
-            //soundEffects.clip = itemLift;
-            //soundEffects.Play();
-            t.DOMove(t.position + (Vector3.up), 0.7f).SetEase(Ease.OutBack)
+            MoveUp(currentSelection)
                 .OnComplete(() => t.DOShakePosition(.5f, .5f, 100, 30f)
                     .OnComplete(() => asyncLoad.allowSceneActivation = true));
         }
