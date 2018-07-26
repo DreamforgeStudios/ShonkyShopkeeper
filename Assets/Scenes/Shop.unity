@@ -9437,7 +9437,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1298b558057cd74aa88d141a10e91a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  exitPortal: {fileID: 0}
+  exitPortalLocation: {x: -4.4, y: -1.5, z: -3.32}
   pouch:
     Quantity: 0
     Quality: 0
@@ -12876,7 +12876,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   entryPortal: {fileID: 499280158}
-  exitPortal: {fileID: 0}
 --- !u!65 &1829265241
 BoxCollider:
   m_ObjectHideFlags: 0

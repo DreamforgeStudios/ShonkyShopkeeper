@@ -17,8 +17,7 @@ public class GolemPickup : MonoBehaviour {
     private bool holding = false;
 
     //Exit Portal Location - used for 'respawning' returning golems
-    public GameObject exitPortal;
-    private Vector3 exitPortalLocation;
+    public Vector3 exitPortalLocation;
 
     //Reference to the pouch itemInstance
     public ItemInstance pouch;
@@ -33,7 +32,6 @@ public class GolemPickup : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-        exitPortalLocation = exitPortal.transform.position;
         inv = inventory.GetComponent<PhysicalInventory>();
     }
 
@@ -127,7 +125,8 @@ public class GolemPickup : MonoBehaviour {
                     }
                 }
             }
-            else if (Mine.Instance.ReadyToCollect() && hit.transform.gameObject.tag == "PortalExit") {
+            else if (Mine.Instance.ReadyToCollect() && hit.transform.gameObject.CompareTag("PortalEntry")
+                     && pickedupGolem == null) {
                 golems = null;
                 golems = Mine.Instance.ReturnReadyGolems();
                 foreach (int golem in golems) {
