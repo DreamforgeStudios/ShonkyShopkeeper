@@ -348,6 +348,8 @@ public class Toolbox : MonoBehaviour {
 
                 currentSelection = null;
             }
+
+            currentSelection = null;
         }
     }
     
@@ -356,6 +358,7 @@ public class Toolbox : MonoBehaviour {
         ItemInstance instance;
         // Minigame detection.
         if (currentSelection == null && slot.GetItemInstance(out instance) && slot.GetItem(out item)) {
+            Debug.Log("got something:" + instance.item);
             currentSelection = slot;
             switch (item.GetType().ToString()) {
                 case "Gem":
@@ -432,7 +435,6 @@ public class Toolbox : MonoBehaviour {
 
     //Method used to start minigame transition
     private void MinigameTransition() {
-        //.OnComplete(() => clone.transform.DOMove(toSlot.transform.position + Vector3.up, 0.6f).SetEase(Ease.OutBack)
         //Move selection up
         GameObject itemObj;
         if (currentSelection.GetPrefabInstance(out itemObj)) {
@@ -444,7 +446,7 @@ public class Toolbox : MonoBehaviour {
             GameManager.Instance.RetriesRemaining = Inventory.Instance.GetMaxRetries(GameManager.Instance.CurrentTown);
 
             // Move and vibration for some "feedback".
-            MoveUp(currentSelection)
+            t.DOMove(t.position + (Vector3.up), 0.7f).SetEase(Ease.OutBack)
                 .OnComplete(() => t.DOShakePosition(.5f, .5f, 100, 30f)
                     .OnComplete(() => asyncLoad.allowSceneActivation = true));
         }
@@ -578,6 +580,7 @@ public class Toolbox : MonoBehaviour {
         // Wait until the asynchronous scene fully loads.
         // This includes actually starting the scene, so the coroutine wont stop until the scene is changed.
         while (!asyncLoad.isDone) {
+            Debug.Log("scene not loaded yet.");
             yield return new WaitForSeconds(.1f);
         }
     }
