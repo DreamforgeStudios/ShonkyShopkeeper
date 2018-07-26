@@ -137,7 +137,92 @@ ModelImporter:
     4300040: pPlane10
     4300042: pPlane11
     4300044: pPlane12
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ball
+    second: {fileID: 2100000, guid: b6941a7f1a52e1a438d574e4f60b83d6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: banner1
+    second: {fileID: 2100000, guid: 166028d9e80988b42b7c0e65942b80bf, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: banner2
+    second: {fileID: 2100000, guid: 67be5e0a9ee711f43a2bdeb34b1c902b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: banner3
+    second: {fileID: 2100000, guid: 1c57161f19f3cf54ba4b0d7b6447fdeb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: bigrubygolemv2_lambert3SG1
+    second: {fileID: 2100000, guid: 408e46d18dd1368418ca62d283e524be, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: bigrubygolemv2_lambert7SG1
+    second: {fileID: 2100000, guid: 1880049a5548b5848929517ea0d954c3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: bigrubygolemv2_rubygemSG1
+    second: {fileID: 2100000, guid: 4587365e0375e3b40ae55fb272612071, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: bigrubygolemv2_rubyhollowsSG1
+    second: {fileID: 2100000, guid: 5c203ec8216337c449c9ae6d4758199a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: emeraldgolem_emeraldbase
+    second: {fileID: 2100000, guid: 8da2c6281c58f5e48a98cb3d9794b3e4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: emeraldgolem_emeraldgolem
+    second: {fileID: 2100000, guid: d3e62c84b1cbc5d4a94da9b686d9c845, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: emeraldgolem_hollow
+    second: {fileID: 2100000, guid: 38fd00132b0be8746a83e85cf79c8388, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: icegolem_Sapphirebase
+    second: {fileID: 2100000, guid: 558b668d425930e4fa2097f311bcd2ea, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: icegolem_hollow
+    second: {fileID: 2100000, guid: e21a606dfeb72fb45a9ee8be99bc7ed5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: icegolem_sapphiregolem
+    second: {fileID: 2100000, guid: 800a7aa7bf911b44fb18ecde5e7eb52e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert1
+    second: {fileID: 2100000, guid: 3bb8f82ed472fc84582dbe7c3001f6b7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lightwood
+    second: {fileID: 2100000, guid: a819f286d3aa3264abef5027dc1cb93f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: wood
+    second: {fileID: 2100000, guid: 46b80cd4b2ae1a243a46e8135f805f81, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
