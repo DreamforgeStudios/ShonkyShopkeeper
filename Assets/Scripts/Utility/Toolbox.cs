@@ -151,8 +151,8 @@ public class Toolbox : MonoBehaviour {
                    newToolObj = ToolToObject(tool);
 
         // Visual scale feedback.
-        curToolObj.transform.DOScale(1f, 0.7f).SetEase(Ease.InElastic);
-        newToolObj.transform.DOScale(2f, 0.7f).SetEase(Ease.InElastic);
+        //curToolObj.transform.DOScale(1f, 0.7f).SetEase(Ease.InElastic);
+        //newToolObj.transform.DOScale(2f, 0.7f).SetEase(Ease.InElastic);
 
         curToolObj.GetComponent<Outline>().OutlineWidth = 0;
         newToolObj.GetComponent<Outline>().OutlineWidth = selectedOutlineThickness;

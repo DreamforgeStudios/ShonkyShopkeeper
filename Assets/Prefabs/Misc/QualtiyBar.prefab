@@ -94,7 +94,7 @@ MonoBehaviour:
   foreground: {fileID: 1873422786221752}
   padding: 4
   tickSubtraction: 0
-  ease: 27
+  ease: 1
   source: {fileID: 0}
   sound: {fileID: 8300000, guid: 8e82138200cf4bd46b2eefb7dfffe0e2, type: 3}
   debug: 0

@@ -146,7 +146,11 @@ public class QualityBar : MonoBehaviour {
 		this.gameObject.SetActive(false);
 	}
 
-	private Tween UpdateQualityBar(Ease ease = Ease.OutBack) {
+	private Tween UpdateQualityBar(Ease ease = Ease.Unset) {
+		if (ease == Ease.Unset) {
+			ease = this.ease;
+		}
+		
 		// Amount of 'fill' the current bar holds.
 		float fill = -Mathf.Lerp(barMinWidth, barMaxWidth, fillAmount);
 
@@ -174,7 +178,7 @@ public class QualityBar : MonoBehaviour {
 		foregroundTransform.sizeDelta = new Vector2(fill, barHeight);
 
 		fillAmount -= spare;
-		UpdateQualityBar(Ease.InCubic);
+		UpdateQualityBar(ease);
 
 		return true;
 	}
@@ -201,7 +205,7 @@ public class QualityBar : MonoBehaviour {
 		foregroundTransform.sizeDelta = new Vector2(fill, barHeight);
 
 		//fillAmount += spare;
-		UpdateQualityBar(Ease.InCubic);
+		UpdateQualityBar(ease);
 
 		return true;
 	}
