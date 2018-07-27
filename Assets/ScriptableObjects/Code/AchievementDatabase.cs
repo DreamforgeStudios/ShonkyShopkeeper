@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.IsolatedStorage;
 using UnityEngine;
 using System.Linq;
 using NaughtyAttributes;
@@ -133,11 +134,17 @@ public class AchievementDatabase : ScriptableObject {
         catch (FileNotFoundException) {
             Debug.Log("achievements.txt was not found and will be created.");
         }
+        catch (IsolatedStorageException) {
+            Debug.Log("achievements.txt was not found and will be created.");
+        }
         catch (IndexOutOfRangeException) {
             Debug.Log("Problem parsing achievements.txt, probably missing a ',' somewhere.");
         }
         catch (FormatException) {
             Debug.Log("Failed to parse an int in achievements.txt.");
+        }
+        catch (Exception e) {
+            Debug.Log("Something went wrong in AchievementDatabase: " + Environment.NewLine + e.ToString());
         }
 
         return list;

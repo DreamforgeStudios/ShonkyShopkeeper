@@ -35,7 +35,7 @@ public class PhysicalInventory : MonoBehaviour {
 					if (inventorySlots[i].GetPrefabInstance(out obj)) {
 						// TODO, change tween / fixup.
 						obj.transform.DOMove(obj.transform.position + Vector3.up, 0.7f);
-						obj.AddComponent(typeof(Rotate));
+						obj.GetComponent<Rotate>().Enable = true;
 					}
 
 					if (instance.Quality == Quality.QualityGrade.Mystic) {
