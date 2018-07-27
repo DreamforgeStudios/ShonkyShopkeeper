@@ -6,7 +6,7 @@ using UnityEngine;
 [System.Serializable]
 public abstract class Item : ScriptableObject {
     public enum GemType {
-        Ruby, Diamond, Sapphire, Emerald
+        Ruby, Amethyst, Sapphire, Emerald
     }
     
     public string itemName;

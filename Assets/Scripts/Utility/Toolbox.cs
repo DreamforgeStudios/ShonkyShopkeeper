@@ -500,7 +500,12 @@ public class Toolbox : MonoBehaviour {
             return "RubyGolem1";
         } else if (slot1.itemInstance.itemName == "Charged Sapphire" || slot2.itemInstance.itemName == "Charged Sapphire") {
             return "SapphireGolem1";
-        } else {
+        } else if (slot1.itemInstance.itemName == "Charged Amethyst" || slot2.itemInstance.itemName == "Charged Amethyst")
+        {
+            return "AmethystGolem1";
+        }
+        else
+        {
             return "RubyGolem1";
         }
     }

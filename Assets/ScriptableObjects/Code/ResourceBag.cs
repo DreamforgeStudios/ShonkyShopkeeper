@@ -6,7 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Items/ResourcePouch", fileName = "ResourcePouch.asset")]
 public class ResourceBag : Item {
     public enum GemType {
-        Ruby, Diamond, Sapphire, Emerald
+        Ruby, Amethyst, Sapphire, Emerald
     }
     
     public GemType gemType;
