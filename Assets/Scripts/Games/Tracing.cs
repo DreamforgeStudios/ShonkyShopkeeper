@@ -5,35 +5,30 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+using UnityEditor.Experimental.UIElements;
 using Random = UnityEngine.Random;
 
 public class Tracing : MonoBehaviour {
     public TextMeshProUGUI qualityText;
+    public TextMeshProUGUI scoreText;
 
     //Tracing & Vector Lists
-    public List<Vector3> playerPoints = new List<Vector3>();
-    public List<Vector3> rune1 = new List<Vector3>();
-    public List<Vector3> optimalPoints = new List<Vector3>();
-    public List<int> optimalPointIndex = new List<int>();
+    private List<Vector3> playerPoints = new List<Vector3>();
+    private List<Vector3> optimalPoints = new List<Vector3>();
+    private List<int> optimalPointIndex = new List<int>();
 
-    //This list represents the points at which the player can start
-    public List<int> startPoints = new List<int>();
-
-    //Cubes represent test positions
-    public Material cubeMaterial;
-
-    //Rune Objects for rotation
-    public GameObject rune1Parent;
-    public SpriteRenderer rune1Sprite;
+    //Gameobject that holds the database of all Runes
+    public GameObject TracingManager;
+    private TracingDataBase _dataBase;
     
-    //Test Rune
-    public GameObject[] cubeRune1;
+    //Current Rune GameObjects
+    private GameObject _currentRune;
+    private GameObject _currentRuneColliders;
+    private GameObject _currentRuneSprite;
+    private GameObject _currentRuneHitPoints;
 
     //Sphere that follows the player's finger
-    public GameObject followSphere;
-
-    //GameObject with all the colliders that cannot be hit.
-    public GameObject rune1Colliders;
+    public GameObject FollowSphere;
 
     //Line Renderer variables
     public LineRenderer lineRenderer;
@@ -43,9 +38,8 @@ public class Tracing : MonoBehaviour {
     public Color chosenFinishColour;
 
     //Misc Variables
-    //private int zero = 0;
-    private bool canTrace = false;
-    private Camera mainCamera;
+    private bool _canTrace = false;
+    private Camera _mainCamera;
     private bool isMouseDown = false;
     private float mouseDownTime;
     private SceneManager sceneManager;
@@ -59,12 +53,10 @@ public class Tracing : MonoBehaviour {
     private float bestDistanceSoFar;
     private float totalDistanceAway = 0;
     private float averageDistanceAway = 0;
-    private int numberOfTouches = 0;
-    private bool correctStart = false;
 
     //Score Variables
     private float score = 0;
-    public float finalScore = 0;
+    private float _finalScore = 0;
 
     //Tming Variables
     public float startTime;
@@ -89,41 +81,61 @@ public class Tracing : MonoBehaviour {
     // Use this for initialization
     void Start() {
         Countdown.onComplete += GameOver;
-        RotateRune();
-        rune1Sprite.enabled = false;
-        mainCamera = Camera.main;
+        finishTime = Time.time + 10f;
+        GeneralSetup();
         SetupLineRenderer();
-        GetNecessaryPositions(1);
-        followSphere.SetActive(false);
-        canTrace = true;
-        Vector3 colliderTransform = rune1Colliders.transform.position;
-        colliderTransform.z = 10;
-        rune1Colliders.transform.position = colliderTransform;
-        Debug.Log(rune1Colliders.transform.position);
-        hitPoints = 0;
-        averageDistanceAway = 0;
-        score = 0;
-        totalDistanceAway = 0;
-        DesignateStartPoints();
+        GetNecessaryPositions();
+        SetupColliders();
     }
 
     // Update is called once per frame
     void Update() {
         if (!start)
-            return;
-
-        if (canTrace)
         {
-            rune1Sprite.enabled = true;
+            _currentRuneSprite.SetActive(false);
+            return;
+        }
+
+        if (_canTrace)
+        {
+            _currentRuneSprite.SetActive(true);
             currentTime = Time.time;
             GetInput();
         }
+
+        if (Time.time > finishTime)
+        {
+            GameOver();
+        }
     }
 
+    private void GeneralSetup()
+    {
+        _mainCamera = Camera.main;
+        _dataBase = TracingManager.GetComponent<TracingDataBase>();
+        _currentRune = _dataBase.GetRandomRune();
+        SplitRuneObject();
+        FollowSphere.SetActive(false);
+        _canTrace = true;
+        hitPoints = 0;
+        averageDistanceAway = 0;
+        score = 0;
+        totalDistanceAway = 0;
+        
+    }
+
+    private void SplitRuneObject()
+    {
+        _currentRuneColliders = _currentRune.transform.GetChild(0).gameObject;
+        _currentRuneSprite = _currentRune.transform.GetChild(1).gameObject;
+        _currentRuneHitPoints = _currentRune.transform.GetChild(2).gameObject;
+    }
+
+    /*
     //Helper method to showcase optimal points
     private void DrawOptimalLines() {
         int ID = 0;
-        foreach (Vector3 position in rune1) {
+        foreach (Vector3 position in optimalPoints) {
             if (!playerPoints.Contains(position)) {
                 playerPoints.Add(position);
                 lineRenderer.positionCount = playerPoints.Count;
@@ -132,6 +144,7 @@ public class Tracing : MonoBehaviour {
             }
         }
     }
+    */
 
     private void SetupLineRenderer() {
         lineRenderer = GetComponent<LineRenderer>();
@@ -144,28 +157,36 @@ public class Tracing : MonoBehaviour {
         lineRenderer.endWidth = width;
         lineRenderer.sortingLayerName = "LineRenderer";
     }
-    private void GetNecessaryPositions(int Rune) {
-        if (Rune == 1) {
-            foreach (GameObject cube in cubeRune1) {
-                Vector3 position = cube.transform.position;
-                position.z = 10;
-                optimalPoints.Add(position);
-
-            }
-        }
-        DrawOptimalLines();
+    private void GetNecessaryPositions() {
+        for (int i = 0; i < _currentRuneHitPoints.transform.GetChildCount(); i++)
+        {
+            Vector3 position = _currentRuneHitPoints.transform.GetChild(i).gameObject.transform.position;
+            position.z = 10;
+            optimalPoints.Add(position);
+        }       
+        //DrawOptimalLines();
     }
 
+    private void SetupColliders()
+    {
+        for (int i = 0; i < _currentRuneColliders.transform.GetChildCount(); i++)
+        {
+            GameObject collider = _currentRuneColliders.transform.GetChild(i).gameObject;
+            Vector3 colliderTransform = collider.transform.position;
+            colliderTransform.z = 10;
+            collider.transform.position = colliderTransform;
+        }
+    }
+    
     private void GetInput() {
         Vector3 mPosition = Input.mousePosition;
-        Vector3 mWorldPosition = mainCamera.ScreenToWorldPoint(mPosition);
+        Vector3 mWorldPosition = _mainCamera.ScreenToWorldPoint(mPosition);
         mWorldPosition.z = 10;
-        followSphere.transform.position = mWorldPosition;
+        FollowSphere.transform.position = mWorldPosition;
 
         if (Input.GetMouseButtonDown(0)) {
             isMouseDown = true;
             mouseDownTime = Time.time;
-            numberOfTouches++;
             if (!startTimer) {
                 startTime = Time.time;
                 finishTime = currentTime + timeLimit;
@@ -175,23 +196,21 @@ public class Tracing : MonoBehaviour {
 
         if (Input.GetMouseButtonUp(0)) {
             isMouseDown = false;
-            followSphere.SetActive(false);
-            if (numberOfTouches >= 3) {
-                ResetOptimalPoints();
-            }
-            correctStart = false;
+            FollowSphere.SetActive(false);
             hitPoints = 0;
             CheckPositions();
             score = CalculateColliderPenalties(CalculateAccuracy(CalculateWin()));
-            if (score > 0) {
-                GameOver();
-                canTrace = false;
+            if (score > 0)
+            {
+                _finalScore += score;
+                scoreText.text = string.Format("Final score is {0}", _finalScore);
+                NextRune();
             }
         }
 
-        if (isMouseDown && (Time.time - mouseDownTime) > 0.02 && numberOfTouches < 3) {
+        if (isMouseDown && (Time.time - mouseDownTime) > 0.02) {
             if (!playerPoints.Contains(mWorldPosition)) {
-                followSphere.SetActive(true);
+                FollowSphere.SetActive(true);
                 playerPoints.Add(mWorldPosition);
                 lineRenderer.positionCount = playerPoints.Count;
                 lineRenderer.SetPosition(playerPoints.Count - 1, playerPoints[playerPoints.Count - 1]);
@@ -201,7 +220,9 @@ public class Tracing : MonoBehaviour {
     }
 
 	public Quality.QualityGrade grade = Quality.QualityGrade.Unset;
-    private void GameOver() {
+    private void GameOver()
+    {
+        _canTrace = false;
         Countdown.onComplete -= GameOver;
         grade = qualityBar.Finish();
         qualityText.text = Quality.GradeToString(grade);
@@ -209,9 +230,8 @@ public class Tracing : MonoBehaviour {
         qualityText.gameObject.SetActive(true);
         qualityBar.Disappear();
         ResetOptimalPoints();
-
+        _currentRuneSprite.SetActive(false);
 		grade = Quality.CalculateCombinedQuality(GameManager.Instance.QualityTransfer, grade);
-        rune1Parent.SetActive(false);
         ShowUIButtons();
     }
 
@@ -225,32 +245,6 @@ public class Tracing : MonoBehaviour {
         grade = Quality.FloatToGrade(decimalScore, 3);
     }
     */
-
-    private float CalculateTimeScore(float accuracyScore) {
-        float percentageTimeRemaining = ((finishTime - currentTime) / timeLimit) * 100;
-        Debug.Log(percentageTimeRemaining);
-        if (percentageTimeRemaining >= 85) {
-            return accuracyScore * 1.0f;
-        }
-        else if (percentageTimeRemaining < 85 && percentageTimeRemaining >= 70) {
-            return accuracyScore * 0.85f;
-        }
-        else if (percentageTimeRemaining < 70 && percentageTimeRemaining >= 55) {
-            return accuracyScore * 0.7f;
-        }
-        else if (percentageTimeRemaining < 55 && percentageTimeRemaining >= 40) {
-            return accuracyScore * 0.55f;
-        }
-        else if (percentageTimeRemaining < 40 && percentageTimeRemaining >= 25) {
-            return accuracyScore * 0.40f;
-        }
-        else if (percentageTimeRemaining < 25 && percentageTimeRemaining >= 0) {
-            return accuracyScore * 0.25f;
-        }
-        else {
-            return 0;
-        }
-    }
 
     private int CalculateAccuracy(bool success) {
         averageDistanceAway = totalDistanceAway / hitPoints;// optimalPointIndex.Count;
@@ -281,7 +275,7 @@ public class Tracing : MonoBehaviour {
     }
 
     private int CalculateColliderPenalties(int score) {
-        int colliderHits = followSphere.GetComponent<TracingColliding>().counter;
+        int colliderHits = FollowSphere.GetComponent<TracingColliding>().counter;
         //Debug.Log("collider hits: " + colliderHits);
         // TODO: this is a bit rough...
         qualityBar.Subtract(colliderHits * 0.1f);
@@ -294,6 +288,7 @@ public class Tracing : MonoBehaviour {
     }
 
     private bool CalculateWin() {
+        Debug.Log(string.Format("Optimal points is {0} and hitpoints is {1}", optimalPoints.Count,hitPoints));
         if (optimalPoints.Count != hitPoints || currentTime > finishTime) {
             return false;
         }
@@ -308,17 +303,9 @@ public class Tracing : MonoBehaviour {
             for (int i = 0; i < optimalPoints.Count; i++) {
                 //Find the player point which is closest to this point if any
                 if (FoundClosestPlayerPoint(i)) {
-                    //Player can only start at specific points on each swipe
-                    if (startPoints.Contains(i)) {
-                        AddPoint();
-                        correctStart = true;
-                    }
-                    else if (correctStart) {
-                        AddPoint();
-                    }
+                    AddPoint();
                 }
             }
-
             // TODO: remove previous quality calculation?
             qualityBar.Subtract(totalDistanceAway / hitPoints);
         }
@@ -329,9 +316,6 @@ public class Tracing : MonoBehaviour {
         optimalPointIndex.Add(lastIndex);
         hitPoints += 1;
         totalDistanceAway += bestDistanceSoFar;
-        if (correctStart) {
-            correctStart = false;
-        }
     }
 
     private bool FoundClosestPlayerPoint(int currentPointToCompare) {
@@ -341,11 +325,13 @@ public class Tracing : MonoBehaviour {
         for (int j = 0; j < playerPoints.Count; j++) {
             if (Vector3.Distance(playerPoints[j], positionArea) < maxDistanceAway)
                 if (Vector3.Distance(playerPoints[j], positionArea) <= bestDistanceSoFar && j > lastIndex) {
+                    Debug.Log("Found close point");
                     bestDistanceSoFar = Vector3.Distance(playerPoints[j], positionArea);
                     lastIndex = j;
                     foundNumber = true;
                 }
         }
+        
         if (foundNumber)
             return true;
         else
@@ -355,16 +341,19 @@ public class Tracing : MonoBehaviour {
     private void ResetOptimalPoints() {
         hitPoints = 0;
         lineRenderer.positionCount = 0;
+        optimalPoints.Clear();
         playerPoints.RemoveRange(0, playerPoints.Count);
         optimalPointIndex.RemoveRange(0, optimalPointIndex.Count);
-        startTime = Time.time;
-        finishTime = currentTime + timeLimit;
-        numberOfTouches = 0;
     }
 
-    private void DesignateStartPoints() {
-        startPoints.Add(0);
-        startPoints.Add(2);
+    private void NextRune()
+    {
+        ResetOptimalPoints();
+        _currentRune = _dataBase.GetRandomRune();
+        SplitRuneObject();
+        GetNecessaryPositions();
+        SetupColliders();
+        score = 0;
     }
 
     public void Return() {
@@ -380,14 +369,7 @@ public class Tracing : MonoBehaviour {
         returnOrRetryButtons.GetComponent<UpdateRetryButton>().SetText();
     }
 
-    private void RotateRune()
-    {
-        float randomRot = Random.Range(-40f, 136f);
-        rune1Parent.transform.eulerAngles = new Vector3(0,0,randomRot);
-        //rune1Parent.transform.position = new Vector3(0,0,0);
-        //rune1Parent.transform.rotation = Quaternion.Euler(0,0,randomRot);
-        //rune1Parent.transform.RotateAround(Vector3.zero,Vector3.back,randomRot);
-    }
+    
 
    
 }
