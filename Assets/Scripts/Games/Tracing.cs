@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
+using DG.Tweening.Core.Easing;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -26,6 +28,7 @@ public class Tracing : MonoBehaviour {
     private GameObject _currentRuneColliders;
     private GameObject _currentRuneSprite;
     private GameObject _currentRuneHitPoints;
+    private SpriteRenderer _currentRuneSpriteRenderer;
 
     //Sphere that follows the player's finger
     public GameObject FollowSphere;
@@ -66,11 +69,13 @@ public class Tracing : MonoBehaviour {
     public float timeLimit = 10.00f;
     private bool startTimer = false;
 
-    // Quality bar.
+    //Quality bar.
     public QualityBar qualityBar;
     public GameObject returnOrRetryButtons;
-
     private bool start = false;
+    
+    //Canvas flash
+    public RawImage WhiteFlash;
 
     void Awake() {
         // Don't start until we're ready.
@@ -98,7 +103,7 @@ public class Tracing : MonoBehaviour {
 
         if (_canTrace)
         {
-            _currentRuneSprite.SetActive(true);
+            FadeInRune();
             currentTime = Time.time;
             GetInput();
         }
@@ -129,6 +134,7 @@ public class Tracing : MonoBehaviour {
         _currentRuneColliders = _currentRune.transform.GetChild(0).gameObject;
         _currentRuneSprite = _currentRune.transform.GetChild(1).gameObject;
         _currentRuneHitPoints = _currentRune.transform.GetChild(2).gameObject;
+        _currentRuneSpriteRenderer = _currentRuneSprite.GetComponent<SpriteRenderer>();
     }
 
     /*
@@ -348,12 +354,34 @@ public class Tracing : MonoBehaviour {
 
     private void NextRune()
     {
+        Flash();
         ResetOptimalPoints();
         _currentRune = _dataBase.GetRandomRune();
         SplitRuneObject();
         GetNecessaryPositions();
         SetupColliders();
         score = 0;
+    }
+
+    private void FadeInRune()
+    {
+        _currentRuneSprite.SetActive(true);
+        var alpha = _currentRuneSpriteRenderer.color;
+        if (alpha.a < 1)
+        {
+            alpha.a = Mathf.Lerp(alpha.a, 1, Time.deltaTime * 2.5f);
+            _currentRuneSpriteRenderer.color = alpha;
+        }
+    }
+
+    private void Flash()
+    {
+        Color flashAlpha = WhiteFlash.color;
+        flashAlpha.a = 0f;
+        WhiteFlash.color = flashAlpha;
+        WhiteFlash.enabled = true;
+        WhiteFlash.DOFade(0.8f, 0.15f).OnComplete(() => WhiteFlash.DOFade(0f, 1f));
+        
     }
 
     public void Return() {

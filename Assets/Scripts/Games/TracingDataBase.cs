@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TracingDataBase : MonoBehaviour
 {
@@ -9,10 +10,18 @@ public class TracingDataBase : MonoBehaviour
 	// tracing colliders, Sprite, Points to hit.
 	public GameObject Rune1, Rune2, Rune3, Rune4, Rune5;
 	private List<GameObject> _allRunes;
+	private SpriteRenderer _spriteRenderer;
+	
+	//These are all the rune effects Justin has made and the relevant UI object
+	public RawImage runeEffect;
+	public Texture effect1, effect2, effect3, effect4, effect5;
+	private List<Texture> _allEffects;
+	
 	
 	// Use this for initialization
 	void Start () {
 		AddAllRunes();
+		AddAllEffects();
 	}
 
 	public void ActivateSpecificRune(int runeIndex)
@@ -26,7 +35,9 @@ public class TracingDataBase : MonoBehaviour
 			else
 			{
 				_allRunes[i].SetActive(true);
+				ModifyAlpha(runeIndex);
 				RotateRune(runeIndex);
+				runeEffect.texture = _allEffects[runeIndex];
 			}
 		}
 	}
@@ -52,11 +63,29 @@ public class TracingDataBase : MonoBehaviour
 		_allRunes.Add(Rune5);
 		*/
 	}
+
+	private void AddAllEffects()
+	{
+		_allEffects = new List<Texture>()
+		{
+			effect1,
+			effect2
+		};
+		//effect3, effect4, effect5
+	}
 	
 	private void RotateRune(int runeIndex)
 	{
 		float randomRot = Random.Range(-40f, 136f);
 		_allRunes[runeIndex].transform.eulerAngles = new Vector3(0,0,randomRot);
+	}
+
+	private void ModifyAlpha(int runeIndex)
+	{
+		_spriteRenderer = _allRunes[runeIndex].transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>();
+		var alpha = _spriteRenderer.color;
+		alpha.a = 0.1f;
+		_spriteRenderer.color = alpha;
 	}
 	
 }
