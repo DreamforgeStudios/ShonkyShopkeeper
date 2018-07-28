@@ -2,41 +2,77 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using NaughtyAttributes;
 
 // Cut indicators tick down as soon as they are created.
 // TODO: for polish, make this transition non-linearly.
 public class CutPoint : MonoBehaviour {
 	// The "countdown" time.
-	public float radiusTransitionTime;
-	public float thicknessTransitionTime;
-	// How big the circle should be initially.
-	public float startRadius;
-	public float lineStartThickness;
-	// How big the circle should be at its smallest point.
-	public float endRadius;
-	public float lineEndThickness;
-
-	public Color32[] lrColors;
-	public Ease ease;
-
+	[BoxGroup("Circle Properties")]
+	public Gradient CircleColor;
+	
+	// The "countdown" time.
+	[BoxGroup("Circle Properties")]
+	[Slider(0f, 5f)]
+	public float RadiusTransitionTime;
+	
 	// How thick the circle should be.
-	public float thickness;
+	[BoxGroup("Circle Properties")]
+	[Slider(0f, .25f)]
+	public float StartCircleThickness;
+	[BoxGroup("Circle Properties")]
+	[Slider(0f, .25f)]
+	public float EndCircleThickness;
+	
+	[BoxGroup("Circle Properties")]
+	[Slider(0f, 1f)]
+	public float StartCircleRadius;
+	[BoxGroup("Circle Properties")]
+	[Slider(0f, 1f)]
+	public float EndCircleRadius;
+	
+	[BoxGroup("Circle Properties")]
+	public Ease CircleEase;
+	
+	
+	[BoxGroup("Line Properties")]
+	[Slider(0f, 5f)]
+	public float LineThicknessTransitionTime;
+	[BoxGroup("Line Properties")]
+	[Slider(0f, 5f)]
+	public float LineColorTransitionTime;
 
-	// Helper variables.
-	//private float currentRadius;
-	//private float currentRadiusTime;
-	//private float currentThickness;
-	//private float currentThicknessTime;
+	[BoxGroup("Line Properties")]
+	public Vector2 StartLineBeginEndThickness;
+	[BoxGroup("Line Properties")]
+	public Vector2 EndLineBeginEndThickness;
 
+	[BoxGroup("Line Properties")]
+	public Gradient LRStart; 
+	[BoxGroup("Line Properties")]
+	public Gradient LREnd; 
+	[BoxGroup("Line Properties")]
+	public Ease LREase;
+	
+	
+	// When the line is active, these properties will be used.
+	[BoxGroup("Active Properties")]
+	public Gradient LRStartActive;
+	[BoxGroup("Active Properties")]
+	public Gradient LREndActive;
+	[BoxGroup("Active Properties")]
+	public Gradient CircleColorActive;
+
+
+	public float SpawnTime;
 	// The vector to draw with a line renderer.
-	public Vector3 cutVector;
-
-	// How long the circle should stick around after its reached the final circle.
-	// Not sure about this one.
-	public float afterlife;
+	public Vector3 CutVector;
 
 	private Renderer r;
 	private LineRenderer lr;
+
+	public delegate void OnSpawnComplete(CutPoint cut);
+	public event OnSpawnComplete onSpawnComplete;
 
 	// Use this for initialization
 	void Awake () {
@@ -47,17 +83,66 @@ public class CutPoint : MonoBehaviour {
 
 		lr = GetComponent<LineRenderer>();
 		r = GetComponent<Renderer>();
-		r.material.SetFloat("_RadiusWidth", thickness);
 
 		//SetCutVector(cutVector);
 	}
 
 	void Start() {
-		r.material.DOFloat(endRadius, "_Radius", radiusTransitionTime).SetEase(ease);
+		Initialize();
+		RunAnimation();
+	}
+
+	[Button("Reset Values")]
+	private void Initialize() {
+		r.material.SetFloat("_RadiusWidth", StartCircleThickness);
+		r.material.SetFloat("_Radius", StartCircleRadius);
+		lr.startWidth = StartLineBeginEndThickness.x;
+		lr.endWidth = StartLineBeginEndThickness.y;
+		r.material.SetColor("_Color", CircleColor.Evaluate(0));
+		lr.colorGradient = LRStart;
+	}
+
+	[Button("Run Animation")]
+	private void RunAnimation() {
+		//r.material.color = CircleColor.Evaluate(0);
+		//r.material.DOColor(CircleColor.Evaluate(1), RadiusTransitionTime).SetEase(CircleEase);
+		r.material.DOFloat(EndCircleThickness, "_RadiusWidth", RadiusTransitionTime).SetEase(CircleEase);
+		r.material.DOFloat(EndCircleRadius, "_Radius", RadiusTransitionTime).SetEase(CircleEase)
+			.OnComplete(() => DrawLine());
+	}
+
+	[Button("Set Selected")]
+	public void SetSelected() {
+		r.material.color = CircleColorActive.Evaluate(0);
+		lr.colorGradient = LRStartActive;
+
+		startWidthtween.Pause();
+		DOTween.To(x => lr.startWidth = x, lr.startWidth, EndLineBeginEndThickness.x + .2f, LineThicknessTransitionTime)
+			.SetEase(LREase);
+
+		//Initialize();
+		//RunAnimation();
+	}
+	
+	[Button("Unset Selected")]
+	public void UnsetSelected() {
+		r.material.color = CircleColor.Evaluate(0);
+		lr.colorGradient = LRStart;
+		
+		//Initialize();
+		//RunAnimation();
 	}
 	
 	// Update is called once per frame
+	private float spawnTimeCounter = 0;
+	private bool spawned = false;
 	void Update () {
+		if (!spawned && spawnTimeCounter > SpawnTime) {
+			OnSpawnCompleteTick();
+			spawned = true;
+		}
+		
+		spawnTimeCounter += Time.deltaTime;
 		//currentRadiusTime += Time.deltaTime;
 		//float rw = Mathf.Lerp(startRadius, endRadius, currentRadiusTime / radiusTransitionTime);
 		//r.material.SetFloat("_Radius", rw);
@@ -73,18 +158,35 @@ public class CutPoint : MonoBehaviour {
 		//lr.widthCurve = curve;
 	}
 
+	/*
 	public void SetCutVector(Vector3 cut) {
-		cutVector = cut;
+		CutVector = cut;
 		DrawLine();
 	}
+	*/
 
+	private Tweener startWidthtween;
+	[Button("Draw Line")]
 	private void DrawLine() {
 		lr.positionCount = 2;
 		lr.SetPosition(0, transform.position);
-		lr.SetPosition(1, transform.position + cutVector);
+		lr.SetPosition(1, transform.position + CutVector);
 
-		// Messy for now, but we'll get through it.
-		// TODO, make the color selection more intuitive.
-		lr.DOColor(new Color2(lrColors[0], lrColors[2]), new Color2(lrColors[1], lrColors[3]), thicknessTransitionTime);
+		startWidthtween = DOTween.To(x => lr.startWidth = x, StartLineBeginEndThickness.x, EndLineBeginEndThickness.x,
+			LineThicknessTransitionTime).SetEase(LREase);
+		DOTween.To(x => lr.endWidth = x, StartLineBeginEndThickness.y, EndLineBeginEndThickness.y,
+			LineThicknessTransitionTime).SetEase(LREase);
+
+		//lr.colorGradient = LRStart;
+		/*
+		lr.DOColor(new Color2(LRStart.Evaluate(0), LRStart.Evaluate(1)),
+			       new Color2(LREnd.Evaluate(0), LREnd.Evaluate(1)), LineColorTransitionTime).SetEase(LREase);
+			       */
+	}
+
+	private void OnSpawnCompleteTick() {
+		if (onSpawnComplete != null) {
+			onSpawnComplete(this);
+		}
 	}
 }
