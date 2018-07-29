@@ -143,10 +143,10 @@ public class NewCutting : MonoBehaviour {
 	}
 
 	// Only here for debugging on PC.
-	private bool holding = false;
+	//private bool holding = false;
 	private void ProcessMouse() {
 		if (Input.GetMouseButtonDown(0)) {
-			holding = true;
+			//holding = true;
 			touchOrigin = Utility.ConvertToWorldPoint(Input.mousePosition);
 			activeCut = FindClosestCutPoint(touchOrigin);
 			
@@ -155,7 +155,7 @@ public class NewCutting : MonoBehaviour {
 			
 			//Debug.DrawLine(touchOrigin, activeCut.transform.position, Color.red, 10f);
 		} else if (Input.GetMouseButtonUp(0)) {
-			holding = false;
+			//holding = false;
 			if (activeCut == null)
 				return;
 			

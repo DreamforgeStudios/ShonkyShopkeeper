@@ -163,7 +163,7 @@ public class Tracing : MonoBehaviour {
         lineRenderer.sortingLayerName = "LineRenderer";
     }
     private void GetNecessaryPositions() {
-        for (int i = 0; i < _currentRuneHitPoints.transform.GetChildCount(); i++)
+        for (int i = 0; i < _currentRuneHitPoints.transform.childCount; i++)
         {
             Vector3 position = _currentRuneHitPoints.transform.GetChild(i).gameObject.transform.position;
             position.z = 10;
@@ -174,7 +174,7 @@ public class Tracing : MonoBehaviour {
 
     private void SetupColliders()
     {
-        for (int i = 0; i < _currentRuneColliders.transform.GetChildCount(); i++)
+        for (int i = 0; i < _currentRuneColliders.transform.childCount; i++)
         {
             GameObject collider = _currentRuneColliders.transform.GetChild(i).gameObject;
             Vector3 colliderTransform = collider.transform.position;

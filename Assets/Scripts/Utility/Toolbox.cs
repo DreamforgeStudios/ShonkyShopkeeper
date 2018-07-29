@@ -48,11 +48,6 @@ public class Toolbox : MonoBehaviour {
 
     //Audio helpers
     public GameObject audioManager;
-    private AudioSource soundEffects;
-    private AudioClip cursorSelect;
-    private AudioClip golumCreated;
-    private AudioClip itemLift;
-    private AudioClip itemDown;
 
     //Helpers to capture Items, transfoms, slot indexes, gameobjects, movement stages and instances when using forceps
     private Slot currentSelection = null;
@@ -66,7 +61,6 @@ public class Toolbox : MonoBehaviour {
     void Start() {
         currentTool = Tool.Inspector;
         SwitchTool(Tool.Inspector);
-        SetUpAudio();
         //inventoryhelper = Inventory.Instance;
         //forcepPos = GameObject.FindGameObjectWithTag("forcep").transform.position;
         //wandPos = GameObject.FindGameObjectWithTag("wand").transform.position;
@@ -85,13 +79,6 @@ public class Toolbox : MonoBehaviour {
             ProcessTouch();
     }
 
-    private void SetUpAudio() {
-        soundEffects = audioManager.GetComponent<ShopAudioManager>().effects;
-        cursorSelect = audioManager.GetComponent<ShopAudioManager>().cursorSelect;
-        golumCreated = audioManager.GetComponent<ShopAudioManager>().golumCreated;
-        itemLift = audioManager.GetComponent<ShopAudioManager>().itemLift;
-        itemDown = audioManager.GetComponent<ShopAudioManager>().itemDown;
-    }
     private void ProcessMouse() {
         if (Input.GetMouseButtonDown(0)) {
             Cast();
@@ -258,8 +245,8 @@ public class Toolbox : MonoBehaviour {
         // Unmark in backend and frontend.
         Inventory.Instance.UnMarkNew(currentSelection.index);
         currentSelection.itemInstance.IsNew = false;
-        GameObject obj;
         /*
+        GameObject obj;
         if (currentSelection.GetPrefabInstance(out obj)) {
             Destroy(obj.GetComponent<Rotate>());
         }
