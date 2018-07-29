@@ -152,7 +152,7 @@ public class Cutting : MonoBehaviour {
 			return;
 		}
 		CutPoint cut = currentCutPoint.GetComponent<CutPoint>();
-		cut.SetCutVector(cutVectors[currentIndex]);
+		//cut.SetCutVector(cutVectors[currentIndex]);
     }
 
 	private void ConcludeTouch(Touch touch) {
@@ -173,7 +173,7 @@ public class Cutting : MonoBehaviour {
 			swipeTime = 0;
 			touchOrigin = Utility.ConvertToWorldPoint(Input.mousePosition);
 			CutPoint cut = currentCutPoint.GetComponent<CutPoint>();
-			cut.SetCutVector(cutVectors[currentIndex]);
+			//cut.SetCutVector(cutVectors[currentIndex]);
         }
 
 		if (Input.GetMouseButtonUp(0)) {

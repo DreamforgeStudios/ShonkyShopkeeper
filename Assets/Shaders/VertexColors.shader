@@ -2,7 +2,7 @@
     Subshader {
 		Tags {"Queue" = "Overlay" "RenderType" = "Overlay"}
 		Cull Off
-		Lighting Off
+		Lighting On
 		ZWrite Off
 		ZTest Always
 		Blend SrcAlpha OneMinusSrcAlpha
@@ -36,4 +36,6 @@
             ENDCG
         }
 	}
+	
+	Fallback "VertexLit"
 }
