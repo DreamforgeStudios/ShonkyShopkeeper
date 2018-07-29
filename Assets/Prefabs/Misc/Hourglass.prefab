@@ -57,8 +57,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dd58bbb2735bfb46836d2f831c96513, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textTimer: {fileID: 114842564498865940}
-  startTime: 10
+  TextTimer: {fileID: 114842564498865940}
+  StartTime: 10
+  CurrentTimeRemaining: 0
 --- !u!114 &114486848254117736
 MonoBehaviour:
   m_ObjectHideFlags: 1

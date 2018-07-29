@@ -164,7 +164,7 @@ public class QualityBar : MonoBehaviour {
 		if (grades.Count == 0) {
 			return false;
 		}
-        source.Play();
+		
 		// Update the current grade.
 		currentGrade = (Quality.QualityGrade) grades.First.Value;
 		grades.RemoveFirst();
@@ -179,6 +179,8 @@ public class QualityBar : MonoBehaviour {
 
 		fillAmount -= spare;
 		UpdateQualityBar(ease);
+		
+		SFX.Play("quality_bar_deplete");
 
 		return true;
 	}

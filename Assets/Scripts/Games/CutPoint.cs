@@ -38,9 +38,9 @@ public class CutPoint : MonoBehaviour {
 	[BoxGroup("Line Properties")]
 	[Slider(0f, 5f)]
 	public float LineThicknessTransitionTime;
-	[BoxGroup("Line Properties")]
-	[Slider(0f, 5f)]
-	public float LineColorTransitionTime;
+	//[BoxGroup("Line Properties")]
+	//[Slider(0f, 5f)]
+	//public float LineColorTransitionTime;
 
 	[BoxGroup("Line Properties")]
 	public Vector2 StartLineBeginEndThickness;
@@ -49,42 +49,46 @@ public class CutPoint : MonoBehaviour {
 
 	[BoxGroup("Line Properties")]
 	public Gradient LRStart; 
-	[BoxGroup("Line Properties")]
-	public Gradient LREnd; 
+	//[BoxGroup("Line Properties")]
+	//public Gradient LREnd; 
 	[BoxGroup("Line Properties")]
 	public Ease LREase;
 	
 	
 	// When the line is active, these properties will be used.
 	[BoxGroup("Active Properties")]
-	public Gradient LRStartActive;
+	public Gradient ActiveLRStart;
 	[BoxGroup("Active Properties")]
-	public Gradient LREndActive;
+	[Slider(0f, 5f)]
+	public float ActiveLineThicknessTransitionTime;
+	//[BoxGroup("Active Properties")]
+	//public Gradient LREndActive;
 	[BoxGroup("Active Properties")]
-	public Gradient CircleColorActive;
+	public Gradient ActiveCircleColor;
+	[BoxGroup("Active Properties")]
+	public Vector2 ActiveLineBeginEndThickness;
+	[BoxGroup("Active Properties")]
+	public Ease ActiveLREase;
 
-
-	public float SpawnTime;
 	// The vector to draw with a line renderer.
+	[BoxGroup("General Properties")]
 	public Vector3 CutVector;
+
+	public float SpawnTime {
+		get { return RadiusTransitionTime; }
+	}
 
 	private Renderer r;
 	private LineRenderer lr;
+	private Tweener startWidthTween, endWidthTween;
 
 	public delegate void OnSpawnComplete(CutPoint cut);
 	public event OnSpawnComplete onSpawnComplete;
 
 	// Use this for initialization
 	void Awake () {
-		//currentRadius = startRadius;
-		//currentRadiusTime = 0;
-		//currentThickness = lineStartThickness;
-		//currentThicknessTime = 0;
-
 		lr = GetComponent<LineRenderer>();
 		r = GetComponent<Renderer>();
-
-		//SetCutVector(cutVector);
 	}
 
 	void Start() {
@@ -113,15 +117,16 @@ public class CutPoint : MonoBehaviour {
 
 	[Button("Set Selected")]
 	public void SetSelected() {
-		r.material.color = CircleColorActive.Evaluate(0);
-		lr.colorGradient = LRStartActive;
+		r.material.color = ActiveCircleColor.Evaluate(0);
+		lr.colorGradient = ActiveLRStart;
 
-		startWidthtween.Pause();
-		DOTween.To(x => lr.startWidth = x, lr.startWidth, EndLineBeginEndThickness.x + .2f, LineThicknessTransitionTime)
-			.SetEase(LREase);
-
-		//Initialize();
-		//RunAnimation();
+		startWidthTween.Complete();
+		startWidthTween = DOTween.To(x => lr.startWidth = x, lr.startWidth, ActiveLineBeginEndThickness.x,
+			ActiveLineThicknessTransitionTime).SetEase(ActiveLREase);
+		
+		endWidthTween.Complete();
+		endWidthTween = DOTween.To(x => lr.endWidth = x, lr.endWidth, ActiveLineBeginEndThickness.y,
+			ActiveLineThicknessTransitionTime).SetEase(ActiveLREase);
 	}
 	
 	[Button("Unset Selected")]
@@ -129,52 +134,37 @@ public class CutPoint : MonoBehaviour {
 		r.material.color = CircleColor.Evaluate(0);
 		lr.colorGradient = LRStart;
 		
-		//Initialize();
-		//RunAnimation();
+		startWidthTween.Complete();
+		startWidthTween = DOTween.To(x => lr.startWidth = x, lr.startWidth, EndLineBeginEndThickness.x,
+			LineThicknessTransitionTime).SetEase(LREase);
+		
+		endWidthTween.Complete();
+		endWidthTween = DOTween.To(x => lr.endWidth = x, lr.endWidth, EndLineBeginEndThickness.y,
+			LineThicknessTransitionTime).SetEase(LREase);
 	}
 	
 	// Update is called once per frame
 	private float spawnTimeCounter = 0;
 	private bool spawned = false;
 	void Update () {
-		if (!spawned && spawnTimeCounter > SpawnTime) {
+		// Once the circle is finished, the cut is considered spawned.
+		if (!spawned && spawnTimeCounter > RadiusTransitionTime) {
 			OnSpawnCompleteTick();
 			spawned = true;
 		}
 		
 		spawnTimeCounter += Time.deltaTime;
-		//currentRadiusTime += Time.deltaTime;
-		//float rw = Mathf.Lerp(startRadius, endRadius, currentRadiusTime / radiusTransitionTime);
-		//r.material.SetFloat("_Radius", rw);
-
-		//currentThicknessTime += Time.deltaTime;
-		//float w = Mathf.Lerp(lineStartThickness, lineEndThickness, currentThicknessTime / thicknessTransitionTime);
-
-		// Use this until Unity 2018.2 to work around a bug.
-		//lr.startWidth = w; -- should work but buggy sometimes.
-		//AnimationCurve curve = new AnimationCurve();
-		//curve.AddKey(0, w);
-		//curve.AddKey(1, 0);
-		//lr.widthCurve = curve;
 	}
 
-	/*
-	public void SetCutVector(Vector3 cut) {
-		CutVector = cut;
-		DrawLine();
-	}
-	*/
-
-	private Tweener startWidthtween;
 	[Button("Draw Line")]
 	private void DrawLine() {
 		lr.positionCount = 2;
 		lr.SetPosition(0, transform.position);
 		lr.SetPosition(1, transform.position + CutVector);
 
-		startWidthtween = DOTween.To(x => lr.startWidth = x, StartLineBeginEndThickness.x, EndLineBeginEndThickness.x,
+		startWidthTween = DOTween.To(x => lr.startWidth = x, StartLineBeginEndThickness.x, EndLineBeginEndThickness.x,
 			LineThicknessTransitionTime).SetEase(LREase);
-		DOTween.To(x => lr.endWidth = x, StartLineBeginEndThickness.y, EndLineBeginEndThickness.y,
+		endWidthTween = DOTween.To(x => lr.endWidth = x, StartLineBeginEndThickness.y, EndLineBeginEndThickness.y,
 			LineThicknessTransitionTime).SetEase(LREase);
 
 		//lr.colorGradient = LRStart;
