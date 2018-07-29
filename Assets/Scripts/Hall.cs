@@ -130,7 +130,7 @@ public class Hall : MonoBehaviour
 			if (Physics.Raycast(ray, out hit, 1))
 			{
 				//Debug.Log(hit.transform.gameObject.name);
-				if (hit.transform.gameObject.tag == "Globe" || mapInteraction)
+				if (hit.transform.gameObject.CompareTag("Globe") || mapInteraction)
 				{
 					Debug.Log("Hit globe");
 					RotateSphere(hit);
@@ -174,12 +174,22 @@ public class Hall : MonoBehaviour
 	private void RotateSphere(RaycastHit hit)
 	{
 		mapInteraction = true;
-		Xrot += -Input.GetAxis("Mouse Y") * Time.deltaTime * speed;
-		Xrot = Mathf.Clamp(Xrot,-30, 30);
-		Yrot += -Input.GetAxis("Mouse X") * Time.deltaTime * speed;
-		Vector3 rotation = new Vector3(Xrot, Yrot, 0);
-		//globe.transform.Rotate(rotation);
-		globe.transform.localEulerAngles = rotation;
+		if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved)
+		{
+			var touchDeltaPosition = Input.GetTouch(0).deltaPosition;
+			
+			transform.Translate (-touchDeltaPosition.x * speed, 
+				-touchDeltaPosition.y * speed, 0);
+		}
+		else
+		{
+			Xrot += -Input.GetAxis("Mouse Y") * Time.deltaTime * speed;
+			Xrot = Mathf.Clamp(Xrot, -30, 30);
+			Yrot += -Input.GetAxis("Mouse X") * Time.deltaTime * speed;
+			Vector3 rotation = new Vector3(Xrot, Yrot, 0);
+			//globe.transform.Rotate(rotation);
+			globe.transform.localEulerAngles = rotation;
+		}
 	}
 	
 	//Used when the player clicks on a gameobject that represents a town the first time
