@@ -7,6 +7,7 @@ using UnityEngine;
 public class Shonky : Item {
     public GemType type;
     public float basePrice;
+    public GemType resourceBagType;
     
     // Return a string to be used in the UI.
     // TODO: need a way to get item color.

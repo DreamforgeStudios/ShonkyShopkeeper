@@ -114,13 +114,32 @@ public class GolemPickup : MonoBehaviour {
                     else {
                         //If room in the inventory, add the pouch
                         int pouchSlot = Inventory.Instance.InsertItem(pouch);
-                        Debug.Log("Pouch");
+                        pickedupGolem = hit.transform.gameObject;
+                        int golemIndex = GetGolemSlot();
                         if (pouchSlot > -1) {
+                            //Reset golem and set pouch to inventory
                             hit.transform.gameObject.GetComponent<ShonkyWander>().RemovePouch();
-                            Debug.Log("Slot inserted at is " + pouchSlot);
                             Slot insertedSlot = inv.GetSlotAtIndex(pouchSlot);
                             insertedSlot.SetItem(pouch);
-                            GameManager.pickedUpGolem = false;
+                            
+                            //Get gemtype from golem and apply to pouch
+                            ItemInstance instance;
+                            if (ShonkyInventory.Instance.GetItem(golemIndex, out instance))
+                            {
+                                Item.GemType bagType = instance.pouchType;
+                                ItemInstance inst;
+                                if (Inventory.Instance.GetItem(pouchSlot, out inst))
+                                {
+                                    inst.pouchType = bagType;
+                                }
+                            }
+                            
+                            //Change pouch colour according to Gem
+                            GameObject obj;
+                            if (insertedSlot.GetPrefabInstance(out obj))
+                                obj.GetComponent<SackHueChange>().UpdateCurrentColor(instance.pouchType);
+                            
+                            ResetGolem();
                         }
                     }
                 }
@@ -151,6 +170,7 @@ public class GolemPickup : MonoBehaviour {
     private void ReturnGolem(int golem)
     {
         SetGolemInMine(golem, false);
+        SetGolemBagType(golem);
         GameObject physicalRep = GetGolemObj(golem);
         physicalRep.SetActive(true);
         physicalRep.transform.position = exitPortalLocation;
@@ -159,6 +179,15 @@ public class GolemPickup : MonoBehaviour {
         physicalRep.GetComponent<ShonkyWander>().pickedUp = false;
         physicalRep.GetComponent<ShonkyWander>().HoldPouch();
         SaveManager.SaveShonkyInventory();
+    }
+
+    private void SetGolemBagType(int index)
+    {
+        ItemInstance inst;
+        if (ShonkyInventory.Instance.GetItem(index, out inst))
+        {
+            inst.pouchType = Travel.CurrentTownGemType();
+        }
     }
 
     private GameObject GetGolemObj(int slot)
