@@ -119,7 +119,7 @@ namespace Spektr
             set { _noiseMotion = value; }
         }
 
-        [SerializeField, ColorUsage(false, false, 0, 16, 0.125f, 3)]
+        [SerializeField, ColorUsage(false, false)]
         //[SerializeField, ColorUsage(true, true)]
         Color _color = Color.white;
 

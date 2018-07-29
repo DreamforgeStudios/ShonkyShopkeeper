@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using DG.Tweening;
 
 public class UIManagerShop : MonoBehaviour {
-    private Camera main;
+    //private Camera main;
     //public Canvas mineDesignTravelIcons;
     //public GameObject toolboxTools;
     public SpriteRenderer shopBG;
@@ -14,7 +14,7 @@ public class UIManagerShop : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        main = Camera.main;
+        //main = Camera.main;
     }
 	
 	// Update is called once per frame
