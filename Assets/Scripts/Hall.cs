@@ -174,14 +174,18 @@ public class Hall : MonoBehaviour
 	private void RotateSphere(RaycastHit hit)
 	{
 		mapInteraction = true;
-		if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved)
+		if (Input.touchCount > 0)
 		{
-			var touchDeltaPosition = Input.GetTouch(0).deltaPosition;
-			
-			transform.Translate (-touchDeltaPosition.x * speed, 
-				-touchDeltaPosition.y * speed, 0);
+			Touch touch = Input.GetTouch(0);
+			Xrot += -touch.deltaPosition.y * Time.deltaTime * speed/30f;
+			Xrot = Mathf.Clamp(Xrot, -30, 30);
+			Yrot += -touch.deltaPosition.x * Time.deltaTime * speed/30f;
+			Vector3 rotation = new Vector3(Xrot, Yrot, 0);
+			//globe.transform.Rotate(touch.deltaPosition.y * speed/100f, -touch.deltaPosition.x * speed/100f, 
+				//0, Space.World);
+			globe.transform.localEulerAngles = rotation;
 		}
-		else
+		else if (Input.GetMouseButtonDown(0))
 		{
 			Xrot += -Input.GetAxis("Mouse Y") * Time.deltaTime * speed;
 			Xrot = Mathf.Clamp(Xrot, -30, 30);

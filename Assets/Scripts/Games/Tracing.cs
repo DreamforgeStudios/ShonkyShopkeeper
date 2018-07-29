@@ -7,7 +7,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
-using UnityEditor.Experimental.UIElements;
 using Random = UnityEngine.Random;
 
 public class Tracing : MonoBehaviour {
