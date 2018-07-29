@@ -38,6 +38,9 @@ public class Toolbox : MonoBehaviour {
     public GameObject inspectionPanel;
     public TextMeshProUGUI textHeading;
     public TextMeshProUGUI textInfo;
+    
+    //Variable used to capture which minigame the player is transitioning to and adjust retries accordingly
+    public string _minigameType;
 
     // Helpers.
     //private Inventory inventoryhelper;
@@ -360,6 +363,7 @@ public class Toolbox : MonoBehaviour {
         if (currentSelection == null && slot.GetItemInstance(out instance) && slot.GetItem(out item)) {
             Debug.Log("got something:" + instance.item);
             currentSelection = slot;
+            _minigameType = item.GetType().ToString();
             switch (item.GetType().ToString()) {
                 case "Gem":
                     GameManager.Instance.GemTypeTransfer = (item as Gem).gemType;
@@ -443,7 +447,7 @@ public class Toolbox : MonoBehaviour {
 
             Transform t = itemObj.transform;
             // Long but temporary...
-            GameManager.Instance.RetriesRemaining = Inventory.Instance.GetMaxRetries(GameManager.Instance.CurrentTown);
+            GameManager.Instance.RetriesRemaining = DetermineMinigameRetries();
 
             // Move and vibration for some "feedback".
             t.DOMove(t.position + (Vector3.up), 0.7f).SetEase(Ease.OutBack)
@@ -519,10 +523,11 @@ public class Toolbox : MonoBehaviour {
         var drops = new List<ItemInstance>();
         for (int i = 0; i < numberItems; i++) {
             string dropName;
-            string gem = DetermineGemToDrop();
+            string gem = DetermineGemToDrop(slot);
+            Debug.Log("Gemtype to drop is " + gem);
             float spin = Random.Range(0, 1f);
             if (spin < gemChance) {
-                dropName = DetermineGemToDrop();
+                dropName = gem;
             }
             else if (spin < oreChance) {
                 dropName = "Ore";
@@ -560,19 +565,49 @@ public class Toolbox : MonoBehaviour {
         }
     }
 
-    private string DetermineGemToDrop() {
-        Debug.Log("Current Town is " + Inventory.Instance.GetCurrentTown());
-        switch (Inventory.Instance.GetCurrentTown()) {
-            case Travel.Towns.WickedGrove:
-                return "ruby";
-            case Travel.Towns.FlamingPeak:
-                return "sapphire";
-            case Travel.Towns.GiantsPass:
-                return "emerald";
-            case Travel.Towns.SkyCity:
-                return "ruby";
+    private static string DetermineGemToDrop(Slot slot) {
+        //Get slot index
+        var index = slot.index;
+        //Get resource pouch gemType
+        ItemInstance inst;
+        if (Inventory.Instance.GetItem(index, out inst))
+        {
+            Item.GemType bagType = inst.pouchType;
+            Debug.Log("Current Town is " + Inventory.Instance.GetCurrentTown());
+            switch (bagType) {
+                case Item.GemType.Ruby:
+                    return "ruby";
+                case Item.GemType.Sapphire:
+                    return "sapphire";
+                case Item.GemType.Emerald:
+                    return "emerald";
+                case Item.GemType.Amethyst:
+                    return "amethyst";
+                default:
+                    return "ruby";
+            }
+        }
+        return "ruby";
+    }
+
+    private int DetermineMinigameRetries()
+    {
+        switch (_minigameType) {
+            case "Gem":
+                var gemType = GameManager.Instance.GemTypeTransfer;
+                return Inventory.Instance.GetMaxRetries(gemType);
+            case "Jewel":
+                var jewelType = GameManager.Instance.GemTypeTransfer;
+                return Inventory.Instance.GetMaxRetries(jewelType);
+            case "Ore":
+                //return Inventory.Instance.GetMaxRetries(GameManager.Instance.CurrentTown);
+                //Ore and brick games always give two retries
+                return 2;
+            case "Brick":
+                //return Inventory.Instance.GetMaxRetries(GameManager.Instance.CurrentTown);
+                return 2;
             default:
-                return "ruby";
+                return Inventory.Instance.GetMaxRetries(GameManager.Instance.CurrentTown);
         }
     }
 

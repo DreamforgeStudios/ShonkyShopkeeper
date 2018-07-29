@@ -24,6 +24,7 @@ public class ItemInstance {
     public bool IsNew;
     public string ItemIdentifier;
     public bool InMine;
+    public Item.GemType pouchType;
     
     public string itemInfo {
         get { return GetItemInfo(); }

@@ -25,11 +25,22 @@ public class PhysicalInventory : MonoBehaviour {
 	}
 
 	public void PopulateInitial() {
+		
 		for (int i = 0; i < inventorySlots.Count; i++) {
 			ItemInstance instance;
 			// If an object exists at the specified location.
 			if (Inventory.Instance.GetItem(i, out instance)) {
 				inventorySlots[i].SetItem(instance);
+				//If a resource pouch, modify its colour to represent its gem type
+				//Debug.Log(string.Format("Checking if pouch and this item is {0}",instance.item.GetType()));
+				if (instance.item != null && instance.item.GetType() == typeof(ResourceBag))
+				{
+					GameObject obj;
+					if (inventorySlots[i].GetPrefabInstance(out obj))
+						obj.GetComponent<SackHueChange>().UpdateCurrentColor(instance.pouchType);
+				}
+					
+				//If a new item check for prefab and achievments
 				if (instance.IsNew) {
 					GameObject obj;
 					if (inventorySlots[i].GetPrefabInstance(out obj)) {

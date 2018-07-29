@@ -5419,6 +5419,7 @@ MonoBehaviour:
     IsNew: 0
     ItemIdentifier: 
     InMine: 0
+    pouchType: 0
   prefabInstance: {fileID: 0}
 --- !u!1 &152974068 stripped
 GameObject:
@@ -6331,6 +6332,7 @@ MonoBehaviour:
     IsNew: 0
     ItemIdentifier: 
     InMine: 0
+    pouchType: 0
   prefabInstance: {fileID: 0}
 --- !u!1001 &232791484
 Prefab:
@@ -6683,6 +6685,7 @@ MonoBehaviour:
     IsNew: 0
     ItemIdentifier: 
     InMine: 0
+    pouchType: 0
   prefabInstance: {fileID: 0}
 --- !u!4 &424168835 stripped
 Transform:
@@ -6798,6 +6801,7 @@ MonoBehaviour:
   inspectionPanel: {fileID: 1606638400}
   textHeading: {fileID: 1525327212}
   textInfo: {fileID: 631501187}
+  _minigameType: 
   audioManager: {fileID: 463344424}
 --- !u!4 &460379537
 Transform:
@@ -6890,6 +6894,7 @@ MonoBehaviour:
     IsNew: 0
     ItemIdentifier: 
     InMine: 0
+    pouchType: 0
   prefabInstance: {fileID: 0}
 --- !u!1 &488447858
 GameObject:
@@ -8044,6 +8049,7 @@ MonoBehaviour:
     IsNew: 0
     ItemIdentifier: 
     InMine: 0
+    pouchType: 0
   prefabInstance: {fileID: 0}
 --- !u!1 &589946051
 GameObject:
@@ -8196,6 +8202,7 @@ MonoBehaviour:
     IsNew: 0
     ItemIdentifier: 
     InMine: 0
+    pouchType: 0
   prefabInstance: {fileID: 0}
 --- !u!4 &627389899 stripped
 Transform:
@@ -8456,6 +8463,7 @@ MonoBehaviour:
     IsNew: 0
     ItemIdentifier: 
     InMine: 0
+    pouchType: 0
   prefabInstance: {fileID: 0}
 --- !u!1001 &777065897
 Prefab:
@@ -8607,6 +8615,7 @@ MonoBehaviour:
     IsNew: 0
     ItemIdentifier: 
     InMine: 0
+    pouchType: 0
   prefabInstance: {fileID: 0}
 --- !u!114 &894559666 stripped
 MonoBehaviour:
@@ -9444,6 +9453,7 @@ MonoBehaviour:
     IsNew: 0
     ItemIdentifier: pouch
     InMine: 0
+    pouchType: 0
   inventory: {fileID: 548670424}
   shonkyInv: {fileID: 1114992762}
 --- !u!4 &1291631474
@@ -12466,6 +12476,7 @@ MonoBehaviour:
     IsNew: 0
     ItemIdentifier: 
     InMine: 0
+    pouchType: 0
   prefabInstance: {fileID: 0}
 --- !u!1 &1691411560
 GameObject:
@@ -12682,6 +12693,7 @@ MonoBehaviour:
     IsNew: 0
     ItemIdentifier: 
     InMine: 0
+    pouchType: 0
   prefabInstance: {fileID: 0}
 --- !u!1001 &1731161555
 Prefab:
@@ -13342,6 +13354,7 @@ MonoBehaviour:
     IsNew: 0
     ItemIdentifier: 
     InMine: 0
+    pouchType: 0
   prefabInstance: {fileID: 0}
 --- !u!1 &2062573299 stripped
 GameObject:
@@ -13371,4 +13384,5 @@ MonoBehaviour:
     IsNew: 0
     ItemIdentifier: 
     InMine: 0
+    pouchType: 0
   prefabInstance: {fileID: 0}
