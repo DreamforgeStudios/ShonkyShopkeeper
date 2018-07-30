@@ -1191,7 +1191,7 @@ MonoBehaviour:
   MaxAngle: 270
   MaximumLengthDifference: 5
   MaximumVectorCloseness: 0.25
-  AcceptanceThreshold: 0.2
+  AcceptanceThreshold: 0.3
   CutRewardMultiplier: 0.25
   QualityBar: {fileID: 769277905}
   ReturnOrRetryButtons: {fileID: 1281731491}
