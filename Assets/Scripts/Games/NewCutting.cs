@@ -136,7 +136,7 @@ public class NewCutting : MonoBehaviour {
 	        if (activeCut == null)
 		        return;
 	        
-	        var touchVector = Utility.ConvertToWorldPoint(touch.position);
+	        var touchVector = Utility.ConvertToWorldPoint(touch.position) - touchOrigin;
 	        // The touch has ended -- try to perform a cut -> doesn't mean that this cut will be a success.
 	        PerformCut(activeCut, touchVector);
         }
