@@ -12,35 +12,29 @@ public class Hall : MonoBehaviour
 {
 
 	//Variables for handling camera and globe movement
-	private bool forward, mapInteraction, townInteraction = false;
+	private bool forward, mapInteraction = false;
 	public Vector3 frontPos, backPos;
 	public GameObject globe;
 	public float speed = 100.0f;
 	public float Xrot, Yrot = 0f;
-
-	private GameObject lastTownClicked;
 	
-	
+	//Object used to manage map enlargement
+	public GameObject MapManager;
+	private ShowMap _mapManager;
 	
 	//UI Text
-	public TextMeshProUGUI helperText;
 	public TextMeshProUGUI goldAmount;
 	private string spriteString = "<sprite=0>";
-	
-	//Current Town
-	public Travel.Towns currentTown {
-		get { return Inventory.Instance.GetCurrentTown(); }
-	}
-	
-	//Player representation
-	public GameObject player;
-	//Town Representation
-	public GameObject town1, town2, town3, town4;
 	
 	//Default inventories
 	public Inventory inventory;
 	public ShonkyInventory shonkyInventory;
 	public Mine mineInventory;
+	
+	//Variables used to distinguish between click and holding
+	private float _holdThreshold = 0.5f;
+	private bool _click = false;
+	private float _currentHoldDuration;
 	
 	// Use this for initialization
 	void Start ()
@@ -49,14 +43,29 @@ public class Hall : MonoBehaviour
 
 		Setup();
 		//Load the shop screen in the background as that is the only one which can be travelled to
-		StartCoroutine(LoadAsyncScene("Shop"));
+		//StartCoroutine(LoadAsyncScene("Shop"));
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
-		CheckCamera();
-		//MoveCamera();
+		if (_mapManager.EnableGlobe)
+		{
+			CheckCamera();
+			
+			if (Input.GetMouseButtonUp(0))
+			{
+				if (_click && (Time.time - _currentHoldDuration) < _holdThreshold)
+				{
+					Debug.Log("Showing map");
+					_mapManager.ShowMapOnScreen();
+				}
+				else
+				{
+					_click = false;
+				}
+			}
+		}
 	}
 
 	private void CheckCamera()
@@ -75,8 +84,6 @@ public class Hall : MonoBehaviour
 	private void Setup()
 	{
 		if(PlayerPrefs.GetInt("FirstStart") == 0) {
-			helperText.text = "Select the town where you wish to begin your journey";
-			helperText.enabled = false;
 			goldAmount.enabled = false;
 			//Also need to load default inventory to reset towns
 			Debug.Log("Loading Initial Inventories");
@@ -89,66 +96,43 @@ public class Hall : MonoBehaviour
 			Debug.Log("Saved Initial Inventories");
             
 		}
-		helperText.enabled = false;
-		player.SetActive(false);
-		player.transform.position = ReturnTownPosition(currentTown);
+		_mapManager = MapManager.GetComponent<ShowMap>();
 	}
 
 	private void MoveCamera()
 	{
 		//Debug.Log("Map Interaction is " + mapInteraction + " and forward is " + forward);
-		if (!mapInteraction && !townInteraction)
+		if (!mapInteraction)
 		{
 			//Debug.Log("Not interacting with map");
 			if (!forward)
 			{
 				Debug.Log("Moving Forward");
 				Camera.main.transform.DOMove(frontPos, 1f).SetEase(Ease.InOutSine).OnComplete(() => forward = true);
-				helperText.enabled = true;
 				goldAmount.enabled = true;
 			}
 			else
 			{
 				Debug.Log("Moving Back");
 				Camera.main.transform.DOMove(backPos, 1f).SetEase(Ease.InOutSine).OnComplete(() => forward = false);
-				helperText.enabled = false;
 				goldAmount.enabled = false;
+				_click = false;
 			}
 		}
 	}
 
 	private void RayCastSphere()
 	{
-		Debug.Log("forward is " + forward);
 		if (forward)
 		{
 			RaycastHit hit;
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-			//Debug.Log("Casting Ray");
-			//Debug.DrawLine(Camera.main.transform.position,transform.forward,Color.black);
-
 			if (Physics.Raycast(ray, out hit, 1))
 			{
 				//Debug.Log(hit.transform.gameObject.name);
 				if (hit.transform.gameObject.CompareTag("Globe") || mapInteraction)
 				{
-					Debug.Log("Hit globe");
 					RotateSphere(hit);
-				} else if (!mapInteraction)
-				{
-					if (lastTownClicked == null && hit.transform.gameObject.tag == "Town") {
-						FirstClick(hit);
-					}
-					//If the player has double clicked on a town
-					else if (hit.transform.gameObject == lastTownClicked && lastTownClicked.tag == "Town")
-					{
-						SecondClick(hit);
-					}
-					else if (hit.transform.gameObject.tag == "Town" && hit.transform.gameObject != lastTownClicked)
-					{
-						//Reset clicked object
-						FirstClick(hit);
-					}
 				}
 			}
 			else
@@ -160,148 +144,47 @@ public class Hall : MonoBehaviour
 				else
 				{
 					mapInteraction = false;
-					townInteraction = false;
 				}
 			}
 		}
 		else
 		{
 			mapInteraction = false;
-			townInteraction = false;
 		}
 	}
 
 	private void RotateSphere(RaycastHit hit)
 	{
 		mapInteraction = true;
+		
 		if (Input.touchCount > 0)
 		{
+			Debug.Log("Touching globe with touch input");
 			Touch touch = Input.GetTouch(0);
 			Xrot += -touch.deltaPosition.y * Time.deltaTime * speed/30f;
 			Xrot = Mathf.Clamp(Xrot, -30, 30);
 			Yrot += -touch.deltaPosition.x * Time.deltaTime * speed/30f;
 			Vector3 rotation = new Vector3(Xrot, Yrot, 0);
-			//globe.transform.Rotate(touch.deltaPosition.y * speed/100f, -touch.deltaPosition.x * speed/100f, 
-				//0, Space.World);
 			globe.transform.localEulerAngles = rotation;
+			if (!_click)
+			{
+				_click = true;
+				_currentHoldDuration = Time.time;
+			}
 		}
-		else if (Input.GetMouseButtonDown(0))
+		else if (Input.GetMouseButton(0))
 		{
 			Xrot += -Input.GetAxis("Mouse Y") * Time.deltaTime * speed;
 			Xrot = Mathf.Clamp(Xrot, -30, 30);
 			Yrot += -Input.GetAxis("Mouse X") * Time.deltaTime * speed;
 			Vector3 rotation = new Vector3(Xrot, Yrot, 0);
-			//globe.transform.Rotate(rotation);
 			globe.transform.localEulerAngles = rotation;
-		}
-	}
-	
-	//Used when the player clicks on a gameobject that represents a town the first time
-    private void FirstClick(RaycastHit hit)
-    {
-	    townInteraction = true;
-	    mapInteraction = false;
-        //If the town clicked is not currently unlocked
-        if (!Travel.unlockedTowns.Contains(CurrentTownObject(hit.transform.gameObject))) {
-            lastTownClicked = hit.transform.gameObject;
-            Travel.Towns selectedTown = CurrentTownObject(lastTownClicked);
-            helperText.enabled = true;
-            helperText.text = "Click " + selectedTown + " again if you wish to purchase it for " + Travel.NextPurchaseCost() + " gold";
-        }
-        //If the town is unlocked and not the current town
-        else if (currentTown != CurrentTownObject(hit.transform.gameObject)) {
-            lastTownClicked = hit.transform.gameObject;
-            Travel.Towns selectedTown = CurrentTownObject(lastTownClicked);
-            helperText.enabled = true;
-            helperText.text = "Click " + selectedTown + " again if you wish to travel to it";
-        }
-    }
-    //Used when the player clicks on the same town object a second time
-    private void SecondClick(RaycastHit hit)
-    {
-	    townInteraction = true;
-	    mapInteraction = false;
-        Travel.Towns selectedTown = CurrentTownObject(lastTownClicked);
-        //If not unlocked, attempt to buy
-        if (!Travel.unlockedTowns.Contains(selectedTown)) {
-            AttemptToBuyTown(selectedTown);
-        }
-        //If the town has been unlocked, move to selected town
-        else {
-            //movementFinished = false;
-            //StartCoroutine(MovePlayerToNewTown(selectedTown));
-	        
-            Travel.ChangeCurrentTown(selectedTown);
-            helperText.enabled = false;
-            lastTownClicked = null;
-            SaveManager.SaveInventory();
-
-        }
-    }
-    //Method used when attempting to buy a new town. Also handles UI at same time
-    private void AttemptToBuyTown(Travel.Towns selectedTown) {
-        bool completeTransaction = Travel.UnlockNewTown(selectedTown);
-        //If this was the first town unlocked, make it the current
-        if (Inventory.Instance.GetUnlockedTowns().Count == 1 && completeTransaction) {
-            player.SetActive(true);
-            player.transform.position = ReturnTownPosition(selectedTown);
-            helperText.text = "Welcome to " + selectedTown;
-            Travel.ChangeCurrentTown(selectedTown);
-            SaveManager.SaveInventory();
-            PlayerPrefs.SetInt("FirstStart", 1);
-        }
-        //Else if it was a subsequent town, check the purchase was successful
-        else {
-            if (completeTransaction) {
-                helperText.text = selectedTown + " can now be travelled to";
-                SaveManager.SaveInventory();
-            }
-            else {
-                helperText.text = "Insufficent gold to travel to next town";
-            }
-        }
-        lastTownClicked = null;
-        //CheckUnlockedTowns();
-    }
-	
-	//Position player sprite over relevant town at scene load
-	private Vector3 ReturnTownPosition(Travel.Towns town) {
-		Vector3 newPosition;
-		switch (town) {
-			case Travel.Towns.WickedGrove:
-				newPosition = town1.transform.position;
-				newPosition.z = 18;
-				return newPosition;
-			case Travel.Towns.FlamingPeak:
-				newPosition = town2.transform.position;
-				newPosition.z = 18;
-				return newPosition;
-			case Travel.Towns.GiantsPass:
-				newPosition = town3.transform.position;
-				newPosition.z = 18;
-				return newPosition;
-			case Travel.Towns.SkyCity:
-				newPosition = town4.transform.position;
-				newPosition.z = 18;
-				return newPosition;
-			default:
-				return player.transform.position;
-		}
-	}
-	
-	//Return current town
-	private Travel.Towns CurrentTownObject(GameObject townObject) {
-		switch (townObject.name) {
-			case "Town1":
-				return Travel.Towns.WickedGrove;
-			case "Town2":
-				return Travel.Towns.FlamingPeak;
-			case "Town3":
-				return Travel.Towns.GiantsPass;
-			case "Town4":
-				return Travel.Towns.SkyCity;
-			default:
-				return currentTown;
+			
+			if (!_click)
+			{
+				_click = true;
+				_currentHoldDuration = Time.time;
+			}
 		}
 	}
 	
