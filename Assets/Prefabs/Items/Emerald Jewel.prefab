@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 33122704497753264}
   - component: {fileID: 23363242102059836}
   - component: {fileID: 114429009820613670}
+  - component: {fileID: 114357207711250286}
   m_Layer: 0
   m_Name: Emerald Jewel
   m_TagString: Untagged
@@ -84,6 +85,45 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1079469757794084}
   m_Mesh: {fileID: 4300000, guid: 51db01f8b7e553d46a74a94a784c3cf1, type: 3}
+--- !u!114 &114357207711250286
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1079469757794084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a131e6734d445466a9eaac47dd64ac75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _GlobalProjectionDir: {x: 0, y: -1, z: 0}
+  _GlobalShadowResolution: 2
+  _GlobalShadowCullingMode: 0
+  _EnableCutOff: 0
+  _GlobalCutOffDistance: 10000
+  _GlobalFlipX: 0
+  _GlobalFlipY: 0
+  _ShadowSize: 0.1
+  _ShadowColor: {r: 1, g: 1, b: 1, a: 1}
+  _ShadowOpacity: 0.5
+  _Material: {fileID: 2100000, guid: 255326f2182144b0aa35e6b50aa1b832, type: 2}
+  _IsLight: 0
+  _ShadowLocalOffset: {x: 0, y: 0, z: 0}
+  _RotationAngleOffset: {x: 0, y: 0, z: 0, w: 1}
+  _FreezeXRot: 1
+  _FreezeYRot: 0
+  _FreezeZRot: 1
+  _UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0.5
+    width: 0.5
+    height: 0.5
+  _AutoSizeOpacity: 1
+  _AutoSOCutOffDistance: 10
+  _AutoSORayOriginOffset: 0
+  _AutoSOMaxScaleMultiplier: 2
+  _AutoSORaycastLayer: 8
 --- !u!114 &114429009820613670
 MonoBehaviour:
   m_ObjectHideFlags: 1

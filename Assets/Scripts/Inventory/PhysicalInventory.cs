@@ -80,7 +80,7 @@ public class PhysicalInventory : MonoBehaviour {
 	}
 
 	public Slot GetSlotAtIndex(int index) {
-        Debug.Log("getting slot index " + index);
+        //Debug.Log("getting slot index " + index);
 		return inventorySlots[index];
 	}
 

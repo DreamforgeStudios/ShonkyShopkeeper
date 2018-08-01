@@ -16,6 +16,7 @@ public class Slot : MonoBehaviour {
 		this.itemInstance = instance;
 		// Instantiate as a child of this transform, though don't pay too much attention to this because it can get muddled by SetItemInstantiated().
 		this.prefabInstance = Instantiate(instance.item.physicalRepresentation, transform.position, RandomRotation(transform.rotation), this.transform);
+		//this.prefabInstance = Instantiate(instance.item.physicalRepresentation, transform.position, Quaternion.identity, this.transform);
 	}
 
 	// Use this method if you don't want the slot to spawn a new object.
