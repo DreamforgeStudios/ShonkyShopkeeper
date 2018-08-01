@@ -45,7 +45,7 @@ public class ItemDatabase : ScriptableObject {
 			case "cut ruby": return CutRuby;
 			case "cut sapphire": return CutSapphire;
 			case "cut emerald": return CutEmerald;
-			case "cut ameythst": return CutAmeythst;
+			case "cut amethyst": return CutAmeythst;
 			case "charged ruby": return ChargedRuby;
 			case "charged sapphire": return ChargedSapphire;
 			case "charged emerald": return ChargedEmerald;
