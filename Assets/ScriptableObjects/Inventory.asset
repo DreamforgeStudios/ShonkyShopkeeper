@@ -55,18 +55,18 @@ MonoBehaviour:
     ItemIdentifier: emerald
     InMine: 0
     pouchType: 0
-  - Quantity: 0
-    Quality: 0
+  - Quantity: 1
+    Quality: 6
     IsNew: 0
-    ItemIdentifier: 
+    ItemIdentifier: pouch
     InMine: 0
     pouchType: 0
-  - Quantity: 0
-    Quality: 0
+  - Quantity: 1
+    Quality: 6
     IsNew: 0
-    ItemIdentifier: 
+    ItemIdentifier: pouch
     InMine: 0
-    pouchType: 0
+    pouchType: 3
   - Quantity: 1
     Quality: 4
     IsNew: 0
