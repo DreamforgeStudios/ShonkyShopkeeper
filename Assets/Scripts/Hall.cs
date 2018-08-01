@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
 using TMPro;
+using UnityEngine.UI;
 
 
 public class Hall : MonoBehaviour
@@ -25,11 +26,7 @@ public class Hall : MonoBehaviour
 	//UI Text
 	public TextMeshProUGUI goldAmount;
 	private string spriteString = "<sprite=0>";
-	
-	//Default inventories
-	public Inventory inventory;
-	public ShonkyInventory shonkyInventory;
-	public Mine mineInventory;
+	public GameObject ShopButton;
 	
 	//Variables used to distinguish between click and holding
 	private float _holdThreshold = 0.5f;
@@ -43,7 +40,7 @@ public class Hall : MonoBehaviour
 
 		Setup();
 		//Load the shop screen in the background as that is the only one which can be travelled to
-		//StartCoroutine(LoadAsyncScene("Shop"));
+		StartCoroutine(LoadAsyncScene("Shop"));
 	}
 	
 	// Update is called once per frame
@@ -52,7 +49,7 @@ public class Hall : MonoBehaviour
 		if (_mapManager.EnableGlobe)
 		{
 			CheckCamera();
-			
+			ShopButton.SetActive(true);
 			if (Input.GetMouseButtonUp(0))
 			{
 				if (_click && (Time.time - _currentHoldDuration) < _holdThreshold)
@@ -65,6 +62,10 @@ public class Hall : MonoBehaviour
 					_click = false;
 				}
 			}
+		}
+		else
+		{
+			ShopButton.SetActive(false);
 		}
 	}
 
@@ -83,19 +84,8 @@ public class Hall : MonoBehaviour
 
 	private void Setup()
 	{
-		if(PlayerPrefs.GetInt("FirstStart") == 0) {
-			goldAmount.enabled = false;
-			//Also need to load default inventory to reset towns
-			Debug.Log("Loading Initial Inventories");
-			SaveManager.LoadOrInitializeInventory(inventory);
-			SaveManager.LoadOrInitializeShonkyInventory(shonkyInventory);
-			SaveManager.LoadOrInitializeMineInventory(mineInventory);
-			SaveManager.SaveInventory();
-			SaveManager.SaveShonkyInventory();
-			SaveManager.SaveMineInventory();
-			Debug.Log("Saved Initial Inventories");
-            
-		}
+		goldAmount.enabled = false;
+		ShopButton.SetActive(true);
 		_mapManager = MapManager.GetComponent<ShowMap>();
 	}
 

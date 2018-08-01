@@ -9,6 +9,7 @@ public class ShowMap : MonoBehaviour
 {
 	public RawImage Map;
 	public Button Exit;
+	public GameObject ShopButton;
 	public bool EnableGlobe;
 	public LayerMask Mask;
 	
@@ -36,6 +37,7 @@ public class ShowMap : MonoBehaviour
 		player.SetActive(false);
 		FadeButton(Exit,0f,0.05f);
 		Exit.enabled = false;
+		ShopButton.SetActive(false);
 	}
 
 	public void ShowMapOnScreen()
@@ -134,6 +136,7 @@ public class ShowMap : MonoBehaviour
 			Travel.ChangeCurrentTown(selectedTown);
 			SaveManager.SaveInventory();
 			PlayerPrefs.SetInt("FirstStart", 1);
+			PlayerPrefs.SetInt("FirstStart",1);
 		}
 		//Else if it was a subsequent town, check the purchase was successful
 		else {
@@ -193,6 +196,7 @@ public class ShowMap : MonoBehaviour
 	public void HideMap()
 	{
 		EnableGlobe = true;
+		ShopButton.SetActive(true);
 		Map.DOFade(0f, 0.05f);
 		FadeButton(Exit,0f,0.05f);
 		Exit.enabled = false;

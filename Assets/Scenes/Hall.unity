@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.35872692, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311992, g: 0.38074034, b: 0.35872713, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -146,7 +146,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 304, y: 186}
+  m_AnchoredPosition: {x: 304, y: 123.4}
   m_SizeDelta: {x: 296, y: 238}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &35472232
@@ -370,6 +370,10 @@ Prefab:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: ChangeOrRestartScene
       objectReference: {fileID: 0}
+    - target: {fileID: 1590955828369532, guid: 792ec1726718f8b42b975e08bf251dda, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 792ec1726718f8b42b975e08bf251dda, type: 2}
   m_IsPrefabAsset: 0
@@ -420,6 +424,11 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 00255cba0ec6d73498e3ef9742c1905f, type: 2}
   m_IsPrefabAsset: 0
+--- !u!1 &380490533 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1590955828369532, guid: 792ec1726718f8b42b975e08bf251dda,
+    type: 2}
+  m_PrefabInternal: {fileID: 326454298}
 --- !u!1 &638620897
 GameObject:
   m_ObjectHideFlags: 0
@@ -563,7 +572,7 @@ RectTransform:
   m_GameObject: {fileID: 806330447}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.4, y: 0.35, z: 0.4}
+  m_LocalScale: {x: 0.4, y: 0.25, z: 0.4}
   m_Children:
   - {fileID: 1545452346}
   - {fileID: 1420692124}
@@ -864,6 +873,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Map: {fileID: 806330448}
   Exit: {fileID: 35472232}
+  ShopButton: {fileID: 380490533}
   EnableGlobe: 0
   Mask:
     serializedVersion: 2
@@ -1074,6 +1084,7 @@ MonoBehaviour:
   Yrot: 0
   MapManager: {fileID: 1246891649}
   goldAmount: {fileID: 1545452347}
+  ShopButton: {fileID: 380490533}
   inventory: {fileID: 11400000, guid: 03db1b1ae1f799345a1713cd54fc60d0, type: 2}
   shonkyInventory: {fileID: 11400000, guid: b785a8ded8912054e83bfa10fd17d75a, type: 2}
   mineInventory: {fileID: 11400000, guid: 32e3adeb065b0ee4dad061ca97a13179, type: 2}
@@ -1542,11 +1553,11 @@ MonoBehaviour:
     lineCount: 0
     pageCount: 0
     materialCount: 1
-  m_havePropertiesChanged: 0
+  m_havePropertiesChanged: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 0
+  m_isInputParsingRequired: 1
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
