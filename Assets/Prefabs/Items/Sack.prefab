@@ -259,7 +259,7 @@ MonoBehaviour:
   _AutoSizeOpacity: 1
   _AutoSOCutOffDistance: 10
   _AutoSORayOriginOffset: 0
-  _AutoSOMaxScaleMultiplier: 2
+  _AutoSOMaxScaleMultiplier: 4
   _AutoSORaycastLayer: 8
 --- !u!137 &137640722663972766
 SkinnedMeshRenderer:

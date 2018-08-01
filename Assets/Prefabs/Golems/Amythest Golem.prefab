@@ -180,7 +180,7 @@ GameObject:
   - component: {fileID: 195235161407893148}
   - component: {fileID: 95116380692819724}
   m_Layer: 0
-  m_Name: amythest_golem
+  m_Name: Amythest Golem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -412,9 +412,9 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: d9b8f6230eec26f408e1d2b3249c0a63, type: 2}
-  - {fileID: 2100000, guid: d9b8f6230eec26f408e1d2b3249c0a63, type: 2}
-  - {fileID: 2100000, guid: d9b8f6230eec26f408e1d2b3249c0a63, type: 2}
+  - {fileID: 2100000, guid: 505d5643ab066bf45a27090de12e8058, type: 2}
+  - {fileID: 2100000, guid: c60655287d6a69c4fb5e16ba581c0b9a, type: 2}
+  - {fileID: 2100000, guid: d40cc8ccc76d41f4f9af88defd97a08d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
