@@ -3,14 +3,15 @@ using TMPro;
 
 public class UpdateRetryButton : MonoBehaviour {
 
-    public TextMeshProUGUI buttonText;
+    public TextMeshProUGUI ButtonText;
 	// Use this for initialization
 	void Start () {
-        buttonText = GetComponent<TextMeshProUGUI>();
+        ButtonText = GetComponent<TextMeshProUGUI>();
     }
 
-    public void SetText() {
-        buttonText.text = "Retries Remaining: " + GameManager.Instance.RetriesRemaining;
+    public void SetText()
+    {
+        ButtonText.text = string.Format("Retries Remaining: {0}", GameManager.Instance.RetriesRemaining);
     }
 	
 }

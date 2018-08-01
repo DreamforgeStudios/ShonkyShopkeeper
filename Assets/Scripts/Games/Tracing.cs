@@ -107,7 +107,7 @@ public class Tracing : MonoBehaviour {
             GetInput();
         }
 
-        if (Time.time > finishTime)
+        if (Time.time > finishTime && _canTrace)
         {
             GameOver();
         }

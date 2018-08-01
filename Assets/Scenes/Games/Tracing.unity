@@ -915,6 +915,17 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 295076390}
   m_CullTransparentMesh: 0
+--- !u!1 &305015086 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1754471790350898, guid: e3a1b7124e4ff434896218a837c9dfc6,
+    type: 2}
+  m_PrefabInternal: {fileID: 1843670612}
+--- !u!114 &305015088 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114230937399172260, guid: e3a1b7124e4ff434896218a837c9dfc6,
+    type: 2}
+  m_PrefabInternal: {fileID: 1843670612}
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
 --- !u!1 &389153630
 GameObject:
   m_ObjectHideFlags: 0
@@ -3171,10 +3182,20 @@ Prefab:
       propertyPath: m_Name
       value: ReturnOrRetry
       objectReference: {fileID: 0}
-    - target: {fileID: 1580125511671102, guid: e3a1b7124e4ff434896218a837c9dfc6, type: 2}
+    - target: {fileID: 1754471790350898, guid: e3a1b7124e4ff434896218a837c9dfc6, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114907986880451764, guid: e3a1b7124e4ff434896218a837c9dfc6,
+        type: 2}
+      propertyPath: ButtonText
+      value: 
+      objectReference: {fileID: 305015088}
+    - target: {fileID: 114907986880451764, guid: e3a1b7124e4ff434896218a837c9dfc6,
+        type: 2}
+      propertyPath: Button
+      value: 
+      objectReference: {fileID: 305015086}
     - target: {fileID: 114337464001686920, guid: e3a1b7124e4ff434896218a837c9dfc6,
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
