@@ -67,22 +67,22 @@ MonoBehaviour:
     ItemIdentifier: 
     InMine: 0
     pouchType: 0
-  - Quantity: 0
-    Quality: 0
+  - Quantity: 1
+    Quality: 4
     IsNew: 0
-    ItemIdentifier: 
+    ItemIdentifier: charged amethyst
     InMine: 0
     pouchType: 0
-  - Quantity: 0
-    Quality: 0
+  - Quantity: 1
+    Quality: 2
     IsNew: 0
-    ItemIdentifier: 
+    ItemIdentifier: cut amethyst
     InMine: 0
     pouchType: 0
-  - Quantity: 0
+  - Quantity: 1
     Quality: 0
     IsNew: 0
-    ItemIdentifier: 
+    ItemIdentifier: amethyst
     InMine: 0
     pouchType: 0
   unlockedTowns: 

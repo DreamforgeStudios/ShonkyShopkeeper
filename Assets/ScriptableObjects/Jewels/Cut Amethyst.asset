@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Name: Cut Amethyst
   m_EditorClassIdentifier: 
   itemName: Cut Amethyst
-  physicalRepresentation: {fileID: 0}
+  physicalRepresentation: {fileID: 1157935195056966, guid: 81799e468b4673d4b9ed6fa6b173fae1,
+    type: 2}
   stackLimit: 1
   mergeable: 0
   gemType: 1

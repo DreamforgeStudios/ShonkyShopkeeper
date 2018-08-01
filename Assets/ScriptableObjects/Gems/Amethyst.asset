@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Name: Amethyst
   m_EditorClassIdentifier: 
   itemName: Amethyst
-  physicalRepresentation: {fileID: 0}
+  physicalRepresentation: {fileID: 1984972379849668, guid: a9f777a2cabe2554f94e62609bca9882,
+    type: 2}
   stackLimit: 1
   mergeable: 0
   gemType: 1

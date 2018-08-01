@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Name: Golemite Amethyst
   m_EditorClassIdentifier: 
   itemName: Amethyst Golemite
-  physicalRepresentation: {fileID: 0}
+  physicalRepresentation: {fileID: 1812309077769874, guid: 758f6f9b120e7e6409cb1e24f5986f35,
+    type: 2}
   stackLimit: 1
   mergeable: 0
   type: 1
-  basePrice: 100
+  basePrice: 200
+  resourceBagType: 1
