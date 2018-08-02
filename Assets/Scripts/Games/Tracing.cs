@@ -227,7 +227,6 @@ public class Tracing : MonoBehaviour {
 	public Quality.QualityGrade grade = Quality.QualityGrade.Unset;
     private void GameOver()
     {
-        _canTrace = false;
         Countdown.onComplete -= GameOver;
         grade = qualityBar.Finish();
         qualityText.text = Quality.GradeToString(grade);
@@ -238,6 +237,8 @@ public class Tracing : MonoBehaviour {
         _currentRuneSprite.SetActive(false);
 		grade = Quality.CalculateCombinedQuality(GameManager.Instance.QualityTransfer, grade);
         ShowUIButtons();
+        _dataBase.HideUI();
+        _canTrace = false;
     }
 
     /*
@@ -384,7 +385,7 @@ public class Tracing : MonoBehaviour {
     }
 
     public void Return() {
-		ReturnOrRetry.Return("Shell", grade);
+		ReturnOrRetry.Return("shell", grade);
 	}
 
 	public void Retry() {

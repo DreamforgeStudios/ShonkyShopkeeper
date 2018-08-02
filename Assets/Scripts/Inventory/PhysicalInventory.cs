@@ -28,6 +28,7 @@ public class PhysicalInventory : MonoBehaviour {
 		
 		for (int i = 0; i < inventorySlots.Count; i++) {
 			ItemInstance instance;
+			Debug.Log(string.Format("Checking slot {0} out of {1}", i,inventorySlots.Count));
 			// If an object exists at the specified location.
 			if (Inventory.Instance.GetItem(i, out instance)) {
 				inventorySlots[i].SetItem(instance);

@@ -64,6 +64,12 @@ public class TracingDataBase : MonoBehaviour
 		*/
 	}
 
+	public void HideUI()
+	{
+		_spriteRenderer.enabled = false;
+		runeEffect.enabled = false;
+	}
+
 	private void AddAllEffects()
 	{
 		_allEffects = new List<Texture>()
