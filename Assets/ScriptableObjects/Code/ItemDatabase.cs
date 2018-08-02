@@ -58,7 +58,7 @@ public class ItemDatabase : ScriptableObject {
             case "emeraldgolem1": return EmeraldGolem1;
             case "rubygolem1": return RubyGolem1;
             case "sapphiregolem1": return SapphireGolem1;
-            case "ameythstgolem1": return AmethystGolem1;
+            case "amethystgolem1": return AmethystGolem1;
 
             default: 
 	            Debug.Log("Could not find an Item for key \"" + name + "\", is it typed correctly?");

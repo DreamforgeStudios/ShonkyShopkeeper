@@ -21,7 +21,6 @@ GameObject:
   - component: {fileID: 4968072025651248}
   - component: {fileID: 33019975731357362}
   - component: {fileID: 23110756934152458}
-  - component: {fileID: 114464471686369100}
   m_Layer: 0
   m_Name: Amythest
   m_TagString: Untagged
@@ -129,16 +128,3 @@ MonoBehaviour:
   Axis: {x: 0, y: 1, z: 0}
   Speed: 0.5
   Enable: 0
---- !u!114 &114464471686369100
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1713152845392018}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6e74bbbbe6c5f0499070c851bf27660, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speedMouse: 0.2
-  speedTouch: 1

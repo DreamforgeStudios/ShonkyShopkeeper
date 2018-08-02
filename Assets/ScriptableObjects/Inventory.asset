@@ -22,7 +22,7 @@ MonoBehaviour:
   - Quantity: 1
     Quality: 6
     IsNew: 0
-    ItemIdentifier: ore
+    ItemIdentifier: shell
     InMine: 0
     pouchType: 0
   - Quantity: 1
