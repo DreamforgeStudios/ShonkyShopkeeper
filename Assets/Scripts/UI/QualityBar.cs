@@ -7,23 +7,24 @@ using DG.Tweening;
 
 public class QualityBar : MonoBehaviour {
 	// UI objects to use and some helpers for them.
-	public TextMeshProUGUI textCurrentLevel;
-	public GameObject background;
-	private Image backgroundImage;
-	private RectTransform backgroundTransform;
+	public TextMeshProUGUI TextCurrentLevel;
+	public GameObject Background;
+	private Image BackgroundImage;
+	private RectTransform BackgroundTransform;
 
-	public GameObject foreground;
+	public GameObject Foreground;
 	private Image foregroundImage;
 	private RectTransform foregroundTransform;
 
 	// Padding that the inner bar should have from the outer bar / border.
-	public float padding;
+	public float Padding;
 
 	// Amount to take away whenever the hourglass ticks.
-	public float tickSubtraction;
+	public float TickSubtraction;
 
 	// Ease to use.
-	public Ease ease;
+	public Ease Ease;
+	public float EaseTime;
 
 	// Helpers for positioning + moving/resizing.
 	private float barHeight;
@@ -32,12 +33,8 @@ public class QualityBar : MonoBehaviour {
 
 	// Current amount that the bar is filled + possible grades.
 	private float fillAmount;
-	// TODO: this should be a push/pop stack rather than a linked list, although they are basically the same thing.
 	private LinkedList<Quality.QualityGrade> grades;
-
-    // Audio Source for sound effect when the bar changes quality
-    public AudioSource source;
-    public AudioClip sound;
+	public Quality.QualityGrade StartingGrade;
 
 	private Quality.QualityGrade currentGrade;
 
@@ -46,23 +43,21 @@ public class QualityBar : MonoBehaviour {
 	public float speedMult;
 
 	private void Start() {
-        //Setup audio
-        source.clip = sound;
-
-		backgroundImage = background.GetComponent<Image>();
-		backgroundTransform = background.GetComponent<RectTransform>();
-		foregroundImage = foreground.GetComponent<Image>();
-		foregroundTransform = foreground.GetComponent<RectTransform>();
+		BackgroundImage = Background.GetComponent<Image>();
+		BackgroundTransform = Background.GetComponent<RectTransform>();
+		foregroundImage = Foreground.GetComponent<Image>();
+		foregroundTransform = Foreground.GetComponent<RectTransform>();
 
 		// Get quality grades for shop level 3.
 		grades = new LinkedList<Quality.QualityGrade>(Quality.GetPossibleGrades(3));
 		// Pop the current grade.
-		currentGrade = grades.First.Value;
-		grades.RemoveFirst();
+		//currentGrade = grades.First.Value;
+		currentGrade = StartingGrade;
+		//grades.RemoveFirst();
 
 		// Initialize with details.
-		textCurrentLevel.text = Quality.GradeToString(currentGrade);
-		textCurrentLevel.color = Quality.GradeToColor(currentGrade);
+		TextCurrentLevel.text = Quality.GradeToString(currentGrade);
+		TextCurrentLevel.color = Quality.GradeToColor(currentGrade);
 		foregroundImage.color = Quality.GradeToColor(currentGrade);
 
 		fillAmount = 1f;
@@ -71,13 +66,13 @@ public class QualityBar : MonoBehaviour {
 		// Foreground bar min/max derived from the background.
 		// These are inverted from what you would expect because of Unity anchors.
 		// barMaxWidth = 0.0 -> barMinWidth = 1.0;
-		barHeight = backgroundTransform.rect.height - padding*2f;
-		barMaxWidth = padding*2f;
-		barMinWidth = backgroundTransform.rect.width + padding*2f;
+		barHeight = BackgroundTransform.rect.height - Padding*2f;
+		barMaxWidth = Padding*2f;
+		barMinWidth = BackgroundTransform.rect.width + Padding*2f;
 
 		// Position the middle of the bar correctly in almost all circumstances.
 		Vector3 pos = foregroundTransform.anchoredPosition;
-		pos.x = -padding;
+		pos.x = -Padding;
 		foregroundTransform.anchoredPosition = pos;
 
 		// Fill initial correctly.
@@ -88,26 +83,35 @@ public class QualityBar : MonoBehaviour {
 	}
 
 	private void Update() {
-		if (debug) Subtract(Time.deltaTime * speedMult);
+		if (debug) Add(Time.deltaTime * speedMult);
 	}
 
-	public void Add(float amount) {
+	public void Add(float amount, bool allowMoveUp = false) {
 		fillAmount += amount;
 		if (fillAmount >= 1) {
-			// Moving up quality levels is EXPERIMENTAL.  DO NOT USE.
-			//if (!MoveUpQualityLevel(fillAmount - 1f)) {
+			if (!allowMoveUp) {
+				fillAmount = 1f;
+				return;
+			}
+			
+			if (!MoveUpQualityLevel(fillAmount - 1f)) {
 				// TODO: encouragement?
 				fillAmount = 1f;
-			//}
+			}
 		} else {
 			UpdateQualityBar();
 		}
 
 	}
 
-	public void Subtract(float amount) {
+	public void Subtract(float amount, bool allowMoveDown = false) {
 		fillAmount -= amount;
 		if (fillAmount <= 0) {
+			if (!allowMoveDown) {
+				fillAmount = 0f;
+				return;
+			}
+			
 			if (!MoveDownQualityLevel(-fillAmount)) {
 				// TODO: fail state???
 				fillAmount = 0f;
@@ -118,11 +122,11 @@ public class QualityBar : MonoBehaviour {
 	}
 
 	public void SetFixedSubtraction(float val) {
-		tickSubtraction = val;
+		TickSubtraction = val;
 	}
 
 	public void SubtractFixed() {
-		fillAmount -= tickSubtraction;
+		fillAmount -= TickSubtraction;
 		if (fillAmount <= 0) {
 			if (!MoveDownQualityLevel(-fillAmount)) {
 				// TODO: fail state???
@@ -148,7 +152,7 @@ public class QualityBar : MonoBehaviour {
 
 	private Tween UpdateQualityBar(Ease ease = Ease.Unset) {
 		if (ease == Ease.Unset) {
-			ease = this.ease;
+			ease = this.Ease;
 		}
 		
 		// Amount of 'fill' the current bar holds.
@@ -156,21 +160,25 @@ public class QualityBar : MonoBehaviour {
 
 		// Tween the new fill.
 		float currentWidth = foregroundTransform.sizeDelta.x;
-		return DOTween.To(() => currentWidth, x => foregroundTransform.sizeDelta = new Vector2(x, barHeight), fill, 0.4f).SetEase(ease);
+		return DOTween.To(() => currentWidth, x => foregroundTransform.sizeDelta = new Vector2(x, barHeight), fill, EaseTime).SetEase(ease);
 	}
 
 	// Moves to the next quality level in the queue.  If none is available, returns false.
 	private bool MoveDownQualityLevel(float spare = 0f) {
-		if (grades.Count == 0) {
+		if (currentGrade == grades.Last.Value) {
 			return false;
 		}
 		
 		// Update the current grade.
-		currentGrade = (Quality.QualityGrade) grades.First.Value;
-		grades.RemoveFirst();
+		var subsequent = grades.Find(currentGrade);
+		if (subsequent == null || subsequent.Next == null) {
+			return false;
+		}
 
-		textCurrentLevel.text = Quality.GradeToString(currentGrade);
-		textCurrentLevel.color = Quality.GradeToColor(currentGrade);
+		currentGrade = subsequent.Next.Value;
+
+		TextCurrentLevel.text = Quality.GradeToString(currentGrade);
+		TextCurrentLevel.color = Quality.GradeToColor(currentGrade);
 		foregroundImage.color = Quality.GradeToColor(currentGrade);
 
 		fillAmount = 1f;
@@ -178,7 +186,7 @@ public class QualityBar : MonoBehaviour {
 		foregroundTransform.sizeDelta = new Vector2(fill, barHeight);
 
 		fillAmount -= spare;
-		UpdateQualityBar(ease);
+		UpdateQualityBar(Ease);
 		
 		SFX.Play("quality_bar_deplete");
 
@@ -193,13 +201,15 @@ public class QualityBar : MonoBehaviour {
 		}
 
 		// Update the current grade.
-		//int currentLevel = (int) grades.Last.Value;
-		int currentLevel = (int) currentGrade;
-		grades.AddFirst(currentGrade);
-		currentGrade = (Quality.QualityGrade) currentLevel + 1;
+		var subsequent = grades.Find(currentGrade);
+		if (subsequent == null || subsequent.Previous == null) {
+			return false;
+		}
 
-		textCurrentLevel.text = Quality.GradeToString(currentGrade);
-		textCurrentLevel.color = Quality.GradeToColor(currentGrade);
+		currentGrade = subsequent.Previous.Value;
+
+		TextCurrentLevel.text = Quality.GradeToString(currentGrade);
+		TextCurrentLevel.color = Quality.GradeToColor(currentGrade);
 		foregroundImage.color = Quality.GradeToColor(currentGrade);
 
 		fillAmount = 0f;
@@ -207,7 +217,9 @@ public class QualityBar : MonoBehaviour {
 		foregroundTransform.sizeDelta = new Vector2(fill, barHeight);
 
 		//fillAmount += spare;
-		UpdateQualityBar(ease);
+		UpdateQualityBar(Ease);
+		
+		// SFX.Play("??");
 
 		return true;
 	}

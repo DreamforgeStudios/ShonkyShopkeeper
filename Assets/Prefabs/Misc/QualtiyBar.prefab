@@ -89,14 +89,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c05f49d7307d30488156fec5dc31e97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textCurrentLevel: {fileID: 114514019742426982}
-  background: {fileID: 1624039356736244}
-  foreground: {fileID: 1873422786221752}
-  padding: 4
-  tickSubtraction: 0
-  ease: 1
-  source: {fileID: 0}
-  sound: {fileID: 8300000, guid: 8e82138200cf4bd46b2eefb7dfffe0e2, type: 3}
+  TextCurrentLevel: {fileID: 114514019742426982}
+  Background: {fileID: 1624039356736244}
+  Foreground: {fileID: 1873422786221752}
+  Padding: 4
+  TickSubtraction: 0
+  Ease: 1
+  EaseTime: 0.2
+  StartingGrade: 5
   debug: 0
   speedMult: 0
 --- !u!114 &114454680915933384
@@ -248,11 +248,11 @@ MonoBehaviour:
     lineCount: 1
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 1
+  m_isInputParsingRequired: 0
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
