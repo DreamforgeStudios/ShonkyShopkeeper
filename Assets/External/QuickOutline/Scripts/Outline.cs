@@ -7,7 +7,6 @@
 //
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -75,7 +74,7 @@ public class Outline : MonoBehaviour {
   [SerializeField, HideInInspector]
   private List<ListVector3> bakeValues = new List<ListVector3>();
 
-  private MeshRenderer[] meshRenderers;
+  private Renderer[] renderers;
   private Material outlineMaskMaterial;
   private Material outlineFillMaterial;
 
@@ -83,8 +82,8 @@ public class Outline : MonoBehaviour {
 
   void Awake() {
 
-    // Cache mesh renderers
-    meshRenderers = GetComponentsInChildren<MeshRenderer>();
+    // Cache renderers
+    renderers = GetComponentsInChildren<Renderer>();
 
     // Instantiate outline materials
     outlineMaskMaterial = Instantiate(Resources.Load<Material>(@"Materials/OutlineMask"));
@@ -101,15 +100,15 @@ public class Outline : MonoBehaviour {
   }
 
   void OnEnable() {
-    foreach (var meshRenderer in meshRenderers) {
+    foreach (var renderer in renderers) {
 
       // Append outline shaders
-      var materials = meshRenderer.sharedMaterials.ToList();
+      var materials = renderer.sharedMaterials.ToList();
 
       materials.Add(outlineMaskMaterial);
       materials.Add(outlineFillMaterial);
 
-      meshRenderer.materials = materials.ToArray();
+      renderer.materials = materials.ToArray();
     }
   }
 
@@ -139,15 +138,15 @@ public class Outline : MonoBehaviour {
   }
 
   void OnDisable() {
-    foreach (var meshRenderer in meshRenderers) {
+    foreach (var renderer in renderers) {
 
       // Remove outline shaders
-      var materials = meshRenderer.sharedMaterials.ToList();
+      var materials = renderer.sharedMaterials.ToList();
 
       materials.Remove(outlineMaskMaterial);
       materials.Remove(outlineFillMaterial);
 
-      meshRenderer.materials = materials.ToArray();
+      renderer.materials = materials.ToArray();
     }
   }
 
@@ -179,6 +178,8 @@ public class Outline : MonoBehaviour {
   }
 
   void LoadSmoothNormals() {
+
+    // Retrieve or generate smooth normals
     foreach (var meshFilter in GetComponentsInChildren<MeshFilter>()) {
 
       // Skip if smooth normals have already been adopted
@@ -192,6 +193,24 @@ public class Outline : MonoBehaviour {
 
       // Store smooth normals in UV3
       meshFilter.sharedMesh.SetUVs(3, smoothNormals);
+
+      // Combine submeshes
+      CombineSubmeshes(meshFilter.sharedMesh);
+    }
+
+    // Clear UV3 on skinned mesh renderers
+    foreach (var skinnedMeshRenderer in GetComponentsInChildren<SkinnedMeshRenderer>()) {
+
+      // Skip if UV3 has already been reset
+      if (!registeredMeshes.Add(skinnedMeshRenderer.sharedMesh)) {
+        continue;
+      }
+
+      // Clear UV3
+      skinnedMeshRenderer.sharedMesh.uv4 = new Vector2[skinnedMeshRenderer.sharedMesh.vertexCount];
+
+      // Combine submeshes
+      CombineSubmeshes(skinnedMeshRenderer.sharedMesh);
     }
   }
 
@@ -227,6 +246,27 @@ public class Outline : MonoBehaviour {
     }
 
     return smoothNormals;
+  }
+
+  void CombineSubmeshes(Mesh mesh) {
+
+    // Skip meshes with a single submesh
+    if (mesh.subMeshCount == 1) {
+      return;
+    }
+
+    // Combine submeshes into a single triangle list
+    var submeshTriangles = new List<int>();
+    var combinedTriangles = new List<int>();
+
+    for (var submesh = 0; submesh < mesh.subMeshCount; submesh++) {
+      mesh.GetTriangles(submeshTriangles, submesh);
+      combinedTriangles.AddRange(submeshTriangles);
+    }
+
+    // Assign triangles to new submesh
+    mesh.subMeshCount++;
+    mesh.SetTriangles(combinedTriangles, mesh.subMeshCount - 1);
   }
 
   void UpdateMaterialProperties() {

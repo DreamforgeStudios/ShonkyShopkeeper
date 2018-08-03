@@ -42,6 +42,7 @@ Shader "Custom/Outline Fill" {
 
       struct appdata {
         float4 vertex : POSITION;
+        float3 normal : NORMAL;
         float3 smoothNormal : TEXCOORD3;
         UNITY_VERTEX_INPUT_INSTANCE_ID
       };
@@ -61,8 +62,9 @@ Shader "Custom/Outline Fill" {
         UNITY_SETUP_INSTANCE_ID(input);
         UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
 
+        float3 normal = any(input.smoothNormal) ? input.smoothNormal : input.normal;
         float3 viewPosition = UnityObjectToViewPos(input.vertex);
-        float3 viewNormal = normalize(mul((float3x3)UNITY_MATRIX_IT_MV, input.smoothNormal));
+        float3 viewNormal = normalize(mul((float3x3)UNITY_MATRIX_IT_MV, normal));
 
         output.position = UnityViewToClipPos(viewPosition + viewNormal * -viewPosition.z * _OutlineWidth / 1000.0);
         output.color = _OutlineColor;
