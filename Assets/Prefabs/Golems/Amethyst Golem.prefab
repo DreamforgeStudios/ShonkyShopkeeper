@@ -180,7 +180,7 @@ GameObject:
   - component: {fileID: 195235161407893148}
   - component: {fileID: 95116380692819724}
   m_Layer: 0
-  m_Name: Amythest Golem
+  m_Name: Amethyst Golem
   m_TagString: Golem
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
