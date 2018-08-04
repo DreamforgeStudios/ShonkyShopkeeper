@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using NaughtyAttributes;
 
 // Simple inventory populator.
 // Might be moved to toolbox in future.
@@ -10,6 +11,11 @@ public class PhysicalInventory : MonoBehaviour {
 	public List<Slot> inventorySlots;
 	// In the situation where we haven't saved an inventory before.
 	public Inventory defaultInventory;
+	// Points that indicate a path for new objects to fly into the inventory.
+	// A final point will be added, which will be the item slot position.
+	public List<Vector3> FlyInPoints = new List<Vector3>();
+
+	public GameObject particles;
 
 	// Use this for initialization
 	void Start () {
@@ -46,8 +52,10 @@ public class PhysicalInventory : MonoBehaviour {
 					GameObject obj;
 					if (inventorySlots[i].GetPrefabInstance(out obj)) {
 						// TODO, change tween / fixup.
-						obj.transform.DOMove(obj.transform.position + Vector3.up, 0.7f);
-						obj.GetComponent<Rotate>().Enable = true;
+						//obj.transform.DOMove(obj.transform.position + Vector3.up, 0.7f);
+						//DoFlyIn(obj, inventorySlots[i]);
+						//obj.GetComponent<Rotate>().Enable = true;
+						Instantiate(particles, inventorySlots[i].transform.position, Quaternion.identity);
 					}
 
 					if (instance.Quality == Quality.QualityGrade.Mystic) {
@@ -74,6 +82,17 @@ public class PhysicalInventory : MonoBehaviour {
 		}
 	}
 
+	private void DoFlyIn(GameObject obj, Slot slot) {
+		obj.transform.position = FlyInPoints[0];
+		Sequence seq = DOTween.Sequence();
+		for (int i = 1; i < FlyInPoints.Count; i++) {
+			seq.Append(obj.transform.DOMove(FlyInPoints[i], 1.2f).SetEase(Ease.OutBack));
+		}
+
+		seq.Append(obj.transform.DOMove(slot.transform.position, .7f).SetEase(Ease.OutCirc));
+		seq.Play();
+	}
+
 	public void Clear() {
 		for (int i = 0; i < inventorySlots.Count; i++) {
 			inventorySlots[i].RemoveItem();
@@ -91,4 +110,15 @@ public class PhysicalInventory : MonoBehaviour {
 		PopulateInitial();
 	}
 
+	[Button("Repopulate")]
+	private void RepopulateInventory() {
+		Clear();
+		PopulateInitial();
+	}
+
+	private void OnDrawGizmos() {
+		foreach (var pos in FlyInPoints) {
+			Gizmos.DrawWireSphere(pos, .1f);
+		}
+	}
 }
