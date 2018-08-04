@@ -120,10 +120,24 @@ public class Mine : ScriptableObject {
         return false;
     }
 
+    public bool ReadyToReturn()
+    {
+        if (instantReturn.Count > 0)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
     public int AmountOfGolemsInMine()
     {
-        var count = golemTable.Count + instantReturn.Count;
-        return count;
+        return golemTable.Count;
+    }
+
+    public int AmountReadyToReturn()
+    {
+        return instantReturn.Count;
     }
 
     public List<DateTime> TimeRemaining()

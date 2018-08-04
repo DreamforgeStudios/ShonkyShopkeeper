@@ -256,11 +256,12 @@ public class GolemPickup : MonoBehaviour {
     }
 
     private void UpdateUITimer()
-    {
+    {       
         if (Mine.Instance.GolemsInMine())
         {
             times = Mine.Instance.TimeRemaining();
-            ActivatePortalRings(Mine.Instance.AmountOfGolemsInMine(), true);
+            Debug.Log(Mine.Instance.AmountOfGolemsInMine());
+            ActivatePortalRings(Mine.Instance.AmountReadyToReturn(), Mine.Instance.AmountOfGolemsInMine());
         }
         else
         {
@@ -268,30 +269,34 @@ public class GolemPickup : MonoBehaviour {
             {
                 timer.fillAmount = 1f;
                 timer.color = Color.magenta;
-                timer.DOFade(0f, 0.1f);
+                timer.DOFade(0.6f, 0.5f);
             }
         }
     }
 
-    private void ActivatePortalRings(int amount, bool activate)
+    private void ActivatePortalRings(int amountToCollect, int amountMining)
     {
-        for (int i = 0; i < amount; i++)
+        for (int i = 0; i < amountToCollect; i++)
         {
-            _timers[i].enabled = activate;
-            if (activate)
-            {
-                TimeSpan elapsedTime = DateTime.Now - times[i];
-                float percentage = (float) elapsedTime.Seconds / Mine.Instance.MiningTime();
-                _timers[i].DOFade(1f, 2f);
-                _timers[i].color = Color.yellow;
-                _timers[i].fillAmount = Mathf.Lerp(0, 1, percentage);
-            }
+            _timers[i].DOFade(0.8f, 2f);
+            _timers[i].color = Color.yellow;
+            _timers[i].fillAmount = 1f;           
         }
 
-        for (int i = amount; i < _timers.Count; i++)
+        for (int j = amountToCollect; j < amountToCollect + amountMining; j++)
         {
-            _timers[i].enabled = true;
-            _timers[i].DOFade(0f, 2f);
+            TimeSpan elapsedTime = DateTime.Now - times[j];
+            float milliseconds = (float)elapsedTime.TotalMilliseconds;
+            _timers[j].DOFade(0.8f, 2f);
+            _timers[j].color = Color.yellow;
+            _timers[j].fillAmount = Mathf.Lerp(0f, 1f, milliseconds/ (Mine.Instance.MiningTime() * 1000f));
+        }
+
+        for (int k = amountToCollect + amountMining; k < _timers.Count; k++)
+        {
+            _timers[k].fillAmount = 1f;
+            _timers[k].color = Color.magenta;
+            _timers[k].DOFade(0.6f, 2f);
         }
     }
 }
