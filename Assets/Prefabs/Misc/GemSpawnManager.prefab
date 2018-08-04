@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1254513141539440}
+  m_IsPrefabAsset: 1
+--- !u!1 &1254513141539440
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4627638084622098}
+  - component: {fileID: 114345345259781714}
+  m_Layer: 0
+  m_Name: GemSpawnManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4627638084622098
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1254513141539440}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114345345259781714
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1254513141539440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fff170905357efb48b10638e0e211aa5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RubyBefore: {fileID: 1856760731175576, guid: ef4ca7026e30c6841acba87d46a682cc, type: 2}
+  EmeraldBefore: {fileID: 1006543426847186, guid: 9655f32c0e4085c49a288fa17677ef50,
+    type: 2}
+  SapphireBefore: {fileID: 1170925329999200, guid: 166156ca81f0c0a41937bcb306865a64,
+    type: 2}
+  AmethystBefore: {fileID: 1421291952520234, guid: 93be6513b96ca02418a5328684e54e9b,
+    type: 2}
+  RubyAfter: {fileID: 1847029561806354, guid: 1802428a4e02f2f44a43bed6ebc8af46, type: 2}
+  EmeraldAfter: {fileID: 1672045455663864, guid: 2f9ab8096ba7d3049b1aff65f4ff4db0,
+    type: 2}
+  SapphireAfter: {fileID: 1896644808766270, guid: 96efc45e3a07e9e4b9b798463fc90db5,
+    type: 2}
+  AmethystAfter: {fileID: 1978599015653460, guid: d2c44ca621b85c84e900ab4ab1a1d2ce,
+    type: 2}
+  ParticleSystem: {fileID: 1788415763621164, guid: 809cf3f88a097d149bacbdd3c32095c8,
+    type: 2}

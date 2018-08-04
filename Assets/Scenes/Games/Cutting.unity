@@ -362,72 +362,52 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4640709607928428, guid: 2e549fbf7e8339c4499ed5d0892fb6ab, type: 2}
+    - target: {fileID: 4627638084622098, guid: a0fe2e4e842ca5149acfb09b4f5f2873, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4640709607928428, guid: 2e549fbf7e8339c4499ed5d0892fb6ab, type: 2}
+    - target: {fileID: 4627638084622098, guid: a0fe2e4e842ca5149acfb09b4f5f2873, type: 2}
       propertyPath: m_LocalPosition.y
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 4640709607928428, guid: 2e549fbf7e8339c4499ed5d0892fb6ab, type: 2}
+    - target: {fileID: 4627638084622098, guid: a0fe2e4e842ca5149acfb09b4f5f2873, type: 2}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4640709607928428, guid: 2e549fbf7e8339c4499ed5d0892fb6ab, type: 2}
+    - target: {fileID: 4627638084622098, guid: a0fe2e4e842ca5149acfb09b4f5f2873, type: 2}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4640709607928428, guid: 2e549fbf7e8339c4499ed5d0892fb6ab, type: 2}
+    - target: {fileID: 4627638084622098, guid: a0fe2e4e842ca5149acfb09b4f5f2873, type: 2}
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4640709607928428, guid: 2e549fbf7e8339c4499ed5d0892fb6ab, type: 2}
+    - target: {fileID: 4627638084622098, guid: a0fe2e4e842ca5149acfb09b4f5f2873, type: 2}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4640709607928428, guid: 2e549fbf7e8339c4499ed5d0892fb6ab, type: 2}
+    - target: {fileID: 4627638084622098, guid: a0fe2e4e842ca5149acfb09b4f5f2873, type: 2}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 4640709607928428, guid: 2e549fbf7e8339c4499ed5d0892fb6ab, type: 2}
+    - target: {fileID: 4627638084622098, guid: a0fe2e4e842ca5149acfb09b4f5f2873, type: 2}
       propertyPath: m_RootOrder
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1676907648163110, guid: 2e549fbf7e8339c4499ed5d0892fb6ab, type: 2}
-      propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1676907648163110, guid: 2e549fbf7e8339c4499ed5d0892fb6ab, type: 2}
-      propertyPath: m_Name
-      value: GemSpawnManager
-      objectReference: {fileID: 0}
-    - target: {fileID: 114172383790212936, guid: 2e549fbf7e8339c4499ed5d0892fb6ab,
+    - target: {fileID: 114345345259781714, guid: a0fe2e4e842ca5149acfb09b4f5f2873,
         type: 2}
-      propertyPath: EmeraldAfter
+      propertyPath: SmokeParticleSystem
       value: 
-      objectReference: {fileID: 1672045455663864, guid: 2f9ab8096ba7d3049b1aff65f4ff4db0,
+      objectReference: {fileID: 1355471223123628, guid: 180835a7c302012459814d067c52dbdd,
         type: 2}
-    - target: {fileID: 114172383790212936, guid: 2e549fbf7e8339c4499ed5d0892fb6ab,
+    - target: {fileID: 114345345259781714, guid: a0fe2e4e842ca5149acfb09b4f5f2873,
         type: 2}
-      propertyPath: AmethystAfter
+      propertyPath: ShineParticleSystem
       value: 
-      objectReference: {fileID: 1978599015653460, guid: d2c44ca621b85c84e900ab4ab1a1d2ce,
-        type: 2}
-    - target: {fileID: 114172383790212936, guid: 2e549fbf7e8339c4499ed5d0892fb6ab,
-        type: 2}
-      propertyPath: SapphireAfter
-      value: 
-      objectReference: {fileID: 1896644808766270, guid: 96efc45e3a07e9e4b9b798463fc90db5,
-        type: 2}
-    - target: {fileID: 114172383790212936, guid: 2e549fbf7e8339c4499ed5d0892fb6ab,
-        type: 2}
-      propertyPath: RubyAfter
-      value: 
-      objectReference: {fileID: 1847029561806354, guid: 1802428a4e02f2f44a43bed6ebc8af46,
+      objectReference: {fileID: 1788415763621164, guid: 809cf3f88a097d149bacbdd3c32095c8,
         type: 2}
     m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 2e549fbf7e8339c4499ed5d0892fb6ab, type: 2}
+  m_SourcePrefab: {fileID: 100100000, guid: a0fe2e4e842ca5149acfb09b4f5f2873, type: 2}
   m_IsPrefabAsset: 0
 --- !u!1 &270202050
 GameObject:
@@ -666,65 +646,12 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 1236131124}
   m_Script: {fileID: 11500000, guid: 0dd58bbb2735bfb46836d2f831c96513, type: 3}
---- !u!1 &768707265
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 1676907648163110, guid: 2e549fbf7e8339c4499ed5d0892fb6ab,
-    type: 2}
-  m_PrefabInternal: {fileID: 253930924}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 768707267}
-  - component: {fileID: 768707266}
-  m_Layer: 0
-  m_Name: GemSpawnManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &768707266
+--- !u!114 &768707266 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 114172383790212936, guid: 2e549fbf7e8339c4499ed5d0892fb6ab,
+  m_CorrespondingSourceObject: {fileID: 114345345259781714, guid: a0fe2e4e842ca5149acfb09b4f5f2873,
     type: 2}
   m_PrefabInternal: {fileID: 253930924}
-  m_GameObject: {fileID: 768707265}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fff170905357efb48b10638e0e211aa5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  RubyBefore: {fileID: 1856760731175576, guid: ef4ca7026e30c6841acba87d46a682cc, type: 2}
-  EmeraldBefore: {fileID: 1006543426847186, guid: 9655f32c0e4085c49a288fa17677ef50,
-    type: 2}
-  SapphireBefore: {fileID: 1170925329999200, guid: 166156ca81f0c0a41937bcb306865a64,
-    type: 2}
-  AmethystBefore: {fileID: 1421291952520234, guid: 93be6513b96ca02418a5328684e54e9b,
-    type: 2}
-  RubyAfter: {fileID: 1847029561806354, guid: 1802428a4e02f2f44a43bed6ebc8af46, type: 2}
-  EmeraldAfter: {fileID: 1672045455663864, guid: 2f9ab8096ba7d3049b1aff65f4ff4db0,
-    type: 2}
-  SapphireAfter: {fileID: 1896644808766270, guid: 96efc45e3a07e9e4b9b798463fc90db5,
-    type: 2}
-  AmethystAfter: {fileID: 1978599015653460, guid: d2c44ca621b85c84e900ab4ab1a1d2ce,
-    type: 2}
-  ParticleSystem: {fileID: 1788415763621164, guid: 809cf3f88a097d149bacbdd3c32095c8,
-    type: 2}
---- !u!4 &768707267
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 4640709607928428, guid: 2e549fbf7e8339c4499ed5d0892fb6ab,
-    type: 2}
-  m_PrefabInternal: {fileID: 253930924}
-  m_GameObject: {fileID: 768707265}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &769277905 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 114395486160872878, guid: 6931fda971dcec64aa77a55b25f75812,
@@ -1173,7 +1100,7 @@ Prefab:
     - target: {fileID: 224706118457682044, guid: f059a73a081d6a444b14588d4bf825c7,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: -59.39
+      value: -59.390015
       objectReference: {fileID: 0}
     - target: {fileID: 224706118457682044, guid: f059a73a081d6a444b14588d4bf825c7,
         type: 2}
@@ -1291,7 +1218,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 0
-  m_Camera: {fileID: 0}
+  m_Camera: {fileID: 252117158}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -1576,7 +1503,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 133.2, y: -56}
+  m_AnchoredPosition: {x: 133.20001, y: -56}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1358310421

@@ -22,7 +22,6 @@ GameObject:
   - component: {fileID: 33033765165102562}
   - component: {fileID: 23423317043882912}
   - component: {fileID: 114429061925486782}
-  - component: {fileID: 114548366521831304}
   m_Layer: 0
   m_Name: Sapphire Jewel Game
   m_TagString: Untagged
@@ -99,42 +98,3 @@ MonoBehaviour:
   Axis: {x: 0, y: 1, z: 0}
   Speed: 0.5
   Enable: 1
---- !u!114 &114548366521831304
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1896644808766270}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a131e6734d445466a9eaac47dd64ac75, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _GlobalProjectionDir: {x: 0, y: -1, z: 0}
-  _GlobalShadowResolution: 2
-  _GlobalShadowCullingMode: 0
-  _EnableCutOff: 0
-  _GlobalCutOffDistance: 10000
-  _GlobalFlipX: 0
-  _GlobalFlipY: 0
-  _ShadowSize: 0.07
-  _ShadowColor: {r: 1, g: 1, b: 1, a: 1}
-  _ShadowOpacity: 0.5
-  _Material: {fileID: 2100000, guid: 255326f2182144b0aa35e6b50aa1b832, type: 2}
-  _IsLight: 0
-  _ShadowLocalOffset: {x: 0, y: 0, z: 0}
-  _RotationAngleOffset: {x: 0, y: 0, z: 0, w: 1}
-  _FreezeXRot: 1
-  _FreezeYRot: 0
-  _FreezeZRot: 1
-  _UVRect:
-    serializedVersion: 2
-    x: 0
-    y: 0.5
-    width: 0.5
-    height: 0.5
-  _AutoSizeOpacity: 1
-  _AutoSOCutOffDistance: 10
-  _AutoSORayOriginOffset: 0
-  _AutoSOMaxScaleMultiplier: 4
-  _AutoSORaycastLayer: 8
