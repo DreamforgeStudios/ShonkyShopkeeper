@@ -109,4 +109,36 @@ public class Mine : ScriptableObject {
     public void Save() {
         SaveManager.SaveMineInventory();
     }
+
+    public bool GolemsInMine()
+    {
+        if (golemTable.Count > 0 || instantReturn.Count > 0)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public int AmountOfGolemsInMine()
+    {
+        var count = golemTable.Count + instantReturn.Count;
+        return count;
+    }
+
+    public List<DateTime> TimeRemaining()
+    {
+        List<DateTime> entryTimes = new List<DateTime>();
+        foreach (KeyValuePair<DateTime, int> golem in golemTable)
+        {
+            entryTimes.Add(golem.Key);
+        }
+
+        return entryTimes;
+    }
+
+    public float MiningTime()
+    {
+        return mineTimeSeconds;
+    }
 }

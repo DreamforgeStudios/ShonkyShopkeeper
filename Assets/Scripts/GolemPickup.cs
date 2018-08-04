@@ -1,7 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.AI;
+//using UnityEngine.Experimental.UIElements;
+using UnityEngine.UI;
+using UnityEngine.XR.WSA.WebCam;
 
 public class GolemPickup : MonoBehaviour {
     //Currently held golem
@@ -27,12 +32,20 @@ public class GolemPickup : MonoBehaviour {
     private PhysicalInventory inv;
     public PhysicalShonkyInventory shonkyInv;
 
-    //Reference to the shonkyInventory to set boolean flag when in mine
-    //public Mine mineInventory;
+    //Radial progress bar
+    public Image RadialTimer1, RadialTimer2, RadialTimer3;
+    private List<Image> _timers;
+    public List<DateTime> times = new List<DateTime>();
 
     // Use this for initialization
     void Start() {
         inv = inventory.GetComponent<PhysicalInventory>();
+        _timers = new List<Image>()
+        {
+            RadialTimer1,
+            RadialTimer2,
+            RadialTimer3
+        };
     }
 
     // Update is called once per frame
@@ -54,6 +67,8 @@ public class GolemPickup : MonoBehaviour {
         else if (pickedupGolem != null) {
             ResetGolem();
         }
+
+        UpdateUITimer();
     }
 
     private int GetGolemSlot()
@@ -238,5 +253,45 @@ public class GolemPickup : MonoBehaviour {
             overPortal = false;
         }
         //Debug.Log(overPortal + " is over portal");
+    }
+
+    private void UpdateUITimer()
+    {
+        if (Mine.Instance.GolemsInMine())
+        {
+            times = Mine.Instance.TimeRemaining();
+            ActivatePortalRings(Mine.Instance.AmountOfGolemsInMine(), true);
+        }
+        else
+        {
+            foreach (Image timer in _timers)
+            {
+                timer.fillAmount = 1f;
+                timer.color = Color.magenta;
+                timer.DOFade(0f, 0.1f);
+            }
+        }
+    }
+
+    private void ActivatePortalRings(int amount, bool activate)
+    {
+        for (int i = 0; i < amount; i++)
+        {
+            _timers[i].enabled = activate;
+            if (activate)
+            {
+                TimeSpan elapsedTime = DateTime.Now - times[i];
+                float percentage = (float) elapsedTime.Seconds / Mine.Instance.MiningTime();
+                _timers[i].DOFade(1f, 2f);
+                _timers[i].color = Color.yellow;
+                _timers[i].fillAmount = Mathf.Lerp(0, 1, percentage);
+            }
+        }
+
+        for (int i = amount; i < _timers.Count; i++)
+        {
+            _timers[i].enabled = true;
+            _timers[i].DOFade(0f, 2f);
+        }
     }
 }
