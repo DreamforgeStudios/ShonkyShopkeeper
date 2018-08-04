@@ -5,7 +5,8 @@ using UnityEngine;
 public class GemSpawnManager : MonoBehaviour {
 	public GameObject RubyBefore, EmeraldBefore, SapphireBefore, AmethystBefore;
 	public GameObject RubyAfter, EmeraldAfter, SapphireAfter, AmethystAfter;
-	public GameObject ParticleSystem;
+	public GameObject ShineParticleSystem;
+	public GameObject SmokeParticleSystem;
 
 	private GameObject spawnedClone;
 	private GameObject cloneAfter;
@@ -49,7 +50,8 @@ public class GemSpawnManager : MonoBehaviour {
 	}
 
 	public void UpgradeGem() {
-		Instantiate(ParticleSystem, transform.position + Vector3.forward * 2.5f, Quaternion.identity, transform);
+		Instantiate(SmokeParticleSystem, transform.position + Vector3.back * 2.5f, Quaternion.identity, transform);
+		Instantiate(ShineParticleSystem, transform.position + Vector3.forward * 2.5f, Quaternion.identity, transform);
 		
 		Destroy(spawnedClone);
 		

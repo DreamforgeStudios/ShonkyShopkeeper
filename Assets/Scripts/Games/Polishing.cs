@@ -11,6 +11,7 @@ public class Polishing : MonoBehaviour {
     private Camera mainCamera;
     public GameObject gemObject;
     public QualityBar qualityBar;
+    public GemSpawnManager GemSpawnManager;
 
     //Need to get the correct material based on gemtype passed in
     public Material Ruby;
@@ -203,6 +204,8 @@ public class Polishing : MonoBehaviour {
         qualityBar.Disappear();
 
 		grade = Quality.CalculateCombinedQuality(GameManager.Instance.QualityTransfer, grade);
+        
+        GemSpawnManager.UpgradeGem();
 
         ShowUIButtons();
     }

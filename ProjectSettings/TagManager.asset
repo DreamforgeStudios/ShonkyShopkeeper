@@ -64,6 +64,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Foreground
+    uniqueID: 1533453589
+    locked: 0
   - name: LineRenderer
     uniqueID: 1875613865
     locked: 0
