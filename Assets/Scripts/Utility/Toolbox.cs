@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using DG.Tweening; // Tweening / nice lerping.
+using DG.Tweening;
+using UnityEditor;
+// Tweening / nice lerping.
 //using System;
 using UnityEngine.SceneManagement;
 using UnityEngine.Scripting.APIUpdating;
@@ -24,13 +26,29 @@ public class Toolbox : MonoBehaviour {
     public float selectedOutlineThickness = 2;
 
     //Capture the original positions and gameObjects of each tool
-    private Vector3 forcepPos;
-    private Vector3 inspectPos;
-    private Vector3 wandPos;
+    private Transform forcepPos;
+    private Transform inspectPos;
+    private Transform wandPos;
     public GameObject forceps;
     public GameObject magnifyer;
     public GameObject wand;
 
+    // Tool Raise pos and rot
+    public Vector3 desiredForcepPos;
+    public Vector3 desiredForcepRot;
+    public Vector3 desiredWandPos;
+    public Vector3 desiredWandRot;
+    public Vector3 desiredInspectPos;
+    public Vector3 desiredInspectRot;
+    
+    //Original Pos
+    public Vector3 ForcepPos;
+    public Vector3 ForcepRot;
+    public Vector3 WandPos;
+    public Vector3 WandRot;
+    public Vector3 InspectPos;
+    public Vector3 InspectRot;
+    
     // A layer mask so that we only hit slots.
     public LayerMask layerMask;
 
@@ -61,6 +79,7 @@ public class Toolbox : MonoBehaviour {
     void Start() {
         currentTool = Tool.Inspector;
         SwitchTool(Tool.Inspector);
+        GetOriginalToolPositions();
         //inventoryhelper = Inventory.Instance;
         //forcepPos = GameObject.FindGameObjectWithTag("forcep").transform.position;
         //wandPos = GameObject.FindGameObjectWithTag("wand").transform.position;
@@ -140,7 +159,41 @@ public class Toolbox : MonoBehaviour {
         GameObject curToolObj = ToolToObject(currentTool),
                    newToolObj = ToolToObject(tool);
 
-        // Visual scale feedback.
+        Debug.Log(curToolObj.transform.position);
+        // Return old tool to bench.
+        switch (curToolObj.tag)
+        {
+            case "Forceps":
+                curToolObj.transform.DORotate(ForcepRot, 2f).SetEase(Ease.InOutSine).OnComplete(() =>
+                    curToolObj.transform.DOMove(ForcepPos, 2f)).SetEase(Ease.InOutSine);
+                break;
+            case "Wand":
+                curToolObj.transform.DORotate(WandRot, 2f).SetEase(Ease.InOutSine).OnComplete(() =>
+                    curToolObj.transform.DOMove(WandPos, 2f)).SetEase(Ease.InOutSine);
+                break;
+            case "Magnifyer":
+                curToolObj.transform.DORotate(InspectRot, 2f).SetEase(Ease.InOutSine).OnComplete(() =>
+                    curToolObj.transform.DOMove(InspectPos, 2f)).SetEase(Ease.InOutSine);
+                break;
+        }
+        
+        //Raise new tool to position
+        switch (newToolObj.tag)
+        {
+            case "Forceps":
+                newToolObj.transform.DORotate(desiredForcepRot, 2f).SetEase(Ease.InOutSine).OnComplete(() =>
+                    newToolObj.transform.DOMove(desiredForcepPos, 2f)).SetEase(Ease.InOutSine);
+                break;
+            case "Wand":
+                newToolObj.transform.DORotate(desiredWandRot, 2f).SetEase(Ease.InOutSine).OnComplete(() =>
+                    newToolObj.transform.DOMove(desiredWandPos, 2f)).SetEase(Ease.InOutSine);
+                break;
+            case "Magnifyer":
+                newToolObj.transform.DORotate(desiredInspectRot, 2f).SetEase(Ease.InOutSine).OnComplete(() =>
+                    newToolObj.transform.DOMove(desiredInspectPos, 2f)).SetEase(Ease.InOutSine);
+                break;
+        }
+        
         //curToolObj.transform.DOScale(1f, 0.7f).SetEase(Ease.InElastic);
         //newToolObj.transform.DOScale(2f, 0.7f).SetEase(Ease.InElastic);
 
@@ -596,6 +649,13 @@ public class Toolbox : MonoBehaviour {
             default:
                 return Inventory.Instance.GetMaxRetries(GameManager.Instance.CurrentTown);
         }
+    }
+
+    private void GetOriginalToolPositions()
+    {
+        forcepPos = forceps.transform;
+        wandPos = wand.transform;
+        inspectPos = magnifyer.transform;
     }
 
     // Load a sync in the background.

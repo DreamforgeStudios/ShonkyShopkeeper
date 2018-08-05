@@ -127,11 +127,38 @@ public class ShonkyWander : MonoBehaviour {
 
     private Vector3 CalculateRandomPenLoc()
     {
-        float XPos = Random.Range(-5f, 4.5f);
-        float YPos = -1.78f;
-        float ZPos = Random.Range(-5.45f, -1.95f);
-        Vector3 returnPos = new Vector3(XPos,YPos,ZPos);
+        float xPos = GetXPos();
+        float yPos = -1.78f;
+        float zPos = GetZPos();
+        Vector3 returnPos = new Vector3(xPos,yPos,zPos);
+        Debug.Log(String.Format("Current pos is {0} and return position is {1}",transform.position,returnPos));
         return returnPos;
+    }
+
+    private float GetXPos()
+    {
+        if (transform.position.x >= -5f && transform.position.x <= 4f)
+        {
+            return transform.position.x;
+        }
+        if (transform.position.x < -5f)
+        {
+            return Random.Range(-5f, -4f);
+        }
+        return Random.Range(3.5f, 4f);
+    }
+
+    private float GetZPos()
+    {
+        if (transform.position.z >= -5.45f && transform.position.z <= -1.95f)
+        {
+            return transform.position.z;
+        }
+        if (transform.position.z < -5.45f)
+        {
+            return Random.Range(-5.45f, -5.3f);
+        }
+        return Random.Range(-5.45f, -4.95f);
     }
 
 }
