@@ -11,11 +11,9 @@ public class PhysicalInventory : MonoBehaviour {
 	public List<Slot> inventorySlots;
 	// In the situation where we haven't saved an inventory before.
 	public Inventory defaultInventory;
-	// Points that indicate a path for new objects to fly into the inventory.
-	// A final point will be added, which will be the item slot position.
-	public List<Vector3> FlyInPoints = new List<Vector3>();
-
-	public GameObject particles;
+	
+	// Particles which are used before an item transition.
+	public GameObject TransitionParticle;
 
 	// Use this for initialization
 	void Start () {
@@ -30,11 +28,12 @@ public class PhysicalInventory : MonoBehaviour {
 		PopulateInitial();      
 	}
 
+	private int newSlot = 0;
 	public void PopulateInitial() {
 		
 		for (int i = 0; i < inventorySlots.Count; i++) {
 			ItemInstance instance;
-			Debug.Log(string.Format("Checking slot {0} out of {1}", i,inventorySlots.Count));
+			//Debug.Log(string.Format("Checking slot {0} out of {1}", i,inventorySlots.Count));
 			// If an object exists at the specified location.
 			if (Inventory.Instance.GetItem(i, out instance)) {
 				inventorySlots[i].SetItem(instance);
@@ -49,13 +48,16 @@ public class PhysicalInventory : MonoBehaviour {
 					
 				//If a new item check for prefab and achievments
 				if (instance.IsNew) {
+					Inventory.Instance.UnMarkNew(i);
+					
 					GameObject obj;
 					if (inventorySlots[i].GetPrefabInstance(out obj)) {
 						// TODO, change tween / fixup.
 						//obj.transform.DOMove(obj.transform.position + Vector3.up, 0.7f);
-						//DoFlyIn(obj, inventorySlots[i]);
 						//obj.GetComponent<Rotate>().Enable = true;
-						Instantiate(particles, inventorySlots[i].transform.position, Quaternion.identity);
+						newSlot = i;
+						//Invoke("MakeParticle", 0f);
+						MakeParticle(instance);
 					}
 
 					if (instance.Quality == Quality.QualityGrade.Mystic) {
@@ -82,15 +84,19 @@ public class PhysicalInventory : MonoBehaviour {
 		}
 	}
 
-	private void DoFlyIn(GameObject obj, Slot slot) {
-		obj.transform.position = FlyInPoints[0];
-		Sequence seq = DOTween.Sequence();
-		for (int i = 1; i < FlyInPoints.Count; i++) {
-			seq.Append(obj.transform.DOMove(FlyInPoints[i], 1.2f).SetEase(Ease.OutBack));
-		}
-
-		seq.Append(obj.transform.DOMove(slot.transform.position, .7f).SetEase(Ease.OutCirc));
-		seq.Play();
+	private void MakeParticle(ItemInstance inst) {
+		// Dead when writing this, do not read or judge.
+        if (inst.item != null) {
+            var type = inst.item.GetType();
+            if (type == typeof(Jewel) || type == typeof(ChargedJewel) || type == typeof(Gem)) {
+				TransitionParticle.GetComponent<ParticleItemColorChange>().SetColor(inventorySlots[newSlot].prefabInstance.GetComponent<Renderer>().material.GetColor("_SpecularColor"));
+            } else if (type == typeof(Brick)) {
+				TransitionParticle.GetComponent<ParticleItemColorChange>().SetColor(inventorySlots[newSlot].prefabInstance.GetComponent<Renderer>().material.GetColor("_Color"));
+            } else if (type == typeof(Shell)) {
+				TransitionParticle.GetComponent<ParticleItemColorChange>().SetColor(inventorySlots[newSlot].prefabInstance.GetComponent<Renderer>().material.GetColor("_Color"));
+            }
+        }
+		Instantiate(TransitionParticle, inventorySlots[newSlot].transform.position, Quaternion.identity);
 	}
 
 	public void Clear() {
@@ -117,8 +123,5 @@ public class PhysicalInventory : MonoBehaviour {
 	}
 
 	private void OnDrawGizmos() {
-		foreach (var pos in FlyInPoints) {
-			Gizmos.DrawWireSphere(pos, .1f);
-		}
 	}
 }

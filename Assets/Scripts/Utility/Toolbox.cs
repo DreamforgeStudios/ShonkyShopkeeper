@@ -354,25 +354,22 @@ public class Toolbox : MonoBehaviour {
             switch (item.GetType().ToString()) {
                 case "Gem":
                     GameManager.Instance.GemTypeTransfer = (item as Gem).gemType;
-                    StartCoroutine(LoadAsyncScene("Cutting"));
+                    Initiate.Fade("Cutting", Color.black, 2f);
                     MinigameTransition();
                     break;
                 case "Jewel":
                     GameManager.Instance.GemTypeTransfer = (item as Jewel).gemType;
-                    //DataTransfer.GemType = (item as Jewel).gemType.ToString();
                     GameManager.Instance.QualityTransfer = instance.Quality;
-                    //DataTransfer.currentQuality = instance.Quality;
-                    StartCoroutine(LoadAsyncScene("Polishing"));
+                    Initiate.Fade("Polishing", Color.black, 2f);
                     MinigameTransition();
                     break;
                 case "Ore":
-                    StartCoroutine(LoadAsyncScene("Smelting"));
+                    Initiate.Fade("Smelting", Color.black, 2f);
                     MinigameTransition();
                     break;
                 case "Brick":
                     GameManager.Instance.QualityTransfer = instance.Quality;
-                    //DataTransfer.currentQuality = instance.Quality;
-                    StartCoroutine(LoadAsyncScene("Tracing"));
+                    Initiate.Fade("Tracing", Color.black, 2f);
                     MinigameTransition();
                     break;
                 case "ChargedJewel":
@@ -438,8 +435,8 @@ public class Toolbox : MonoBehaviour {
 
             // Move and vibration for some "feedback".
             t.DOMove(t.position + (Vector3.up), 0.7f).SetEase(Ease.OutBack)
-                .OnComplete(() => t.DOShakePosition(.5f, .5f, 100, 30f)
-                    .OnComplete(() => asyncLoad.allowSceneActivation = true));
+                .OnComplete(() => t.DOShakePosition(.5f, .5f, 100, 30f));
+            //.OnComplete(() => asyncLoad.allowSceneActivation = true));
         }
     }
     //Method used to combine shonkys
@@ -599,6 +596,7 @@ public class Toolbox : MonoBehaviour {
     }
 
     // Load a sync in the background.
+    /*
     private AsyncOperation asyncLoad;
     IEnumerator LoadAsyncScene(string sceneName) {
         asyncLoad = SceneManager.LoadSceneAsync(sceneName);
@@ -611,6 +609,7 @@ public class Toolbox : MonoBehaviour {
             yield return new WaitForSeconds(.1f);
         }
     }
+    */
 
     private void OnDrawGizmos() {
         Gizmos.color = Color.green;

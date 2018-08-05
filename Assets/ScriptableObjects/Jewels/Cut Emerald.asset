@@ -3,7 +3,7 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: Cut Emerald
   m_EditorClassIdentifier: 
   itemName: Cut Emerald
-  physicalRepresentation: {fileID: 1859339952982692, guid: db07412348ead2d4ab83ddc40b36aca6,
+  physicalRepresentation: {fileID: 1079469757794084, guid: 7f38cddcc28ab1649bed17cc16a03048,
     type: 2}
   stackLimit: 1
   mergeable: 0
