@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using NaughtyAttributes;
 
 // Simple inventory populator.
 // Might be moved to toolbox in future.
@@ -10,6 +11,9 @@ public class PhysicalInventory : MonoBehaviour {
 	public List<Slot> inventorySlots;
 	// In the situation where we haven't saved an inventory before.
 	public Inventory defaultInventory;
+	
+	// Particles which are used before an item transition.
+	public GameObject TransitionParticle;
 
 	// Use this for initialization
 	void Start () {
@@ -24,11 +28,12 @@ public class PhysicalInventory : MonoBehaviour {
 		PopulateInitial();      
 	}
 
+	private int newSlot = 0;
 	public void PopulateInitial() {
 		
 		for (int i = 0; i < inventorySlots.Count; i++) {
 			ItemInstance instance;
-			Debug.Log(string.Format("Checking slot {0} out of {1}", i,inventorySlots.Count));
+			//Debug.Log(string.Format("Checking slot {0} out of {1}", i,inventorySlots.Count));
 			// If an object exists at the specified location.
 			if (Inventory.Instance.GetItem(i, out instance)) {
 				inventorySlots[i].SetItem(instance);
@@ -43,11 +48,16 @@ public class PhysicalInventory : MonoBehaviour {
 					
 				//If a new item check for prefab and achievments
 				if (instance.IsNew) {
+					Inventory.Instance.UnMarkNew(i);
+					
 					GameObject obj;
 					if (inventorySlots[i].GetPrefabInstance(out obj)) {
 						// TODO, change tween / fixup.
-						obj.transform.DOMove(obj.transform.position + Vector3.up, 0.7f);
-						obj.GetComponent<Rotate>().Enable = true;
+						//obj.transform.DOMove(obj.transform.position + Vector3.up, 0.7f);
+						//obj.GetComponent<Rotate>().Enable = true;
+						newSlot = i;
+						//Invoke("MakeParticle", 0f);
+						MakeParticle(instance);
 					}
 
 					if (instance.Quality == Quality.QualityGrade.Mystic) {
@@ -74,6 +84,21 @@ public class PhysicalInventory : MonoBehaviour {
 		}
 	}
 
+	private void MakeParticle(ItemInstance inst) {
+		// Dead when writing this, do not read or judge.
+        if (inst.item != null) {
+            var type = inst.item.GetType();
+            if (type == typeof(Jewel) || type == typeof(ChargedJewel) || type == typeof(Gem)) {
+				TransitionParticle.GetComponent<ParticleItemColorChange>().SetColor(inventorySlots[newSlot].prefabInstance.GetComponent<Renderer>().material.GetColor("_SpecularColor"));
+            } else if (type == typeof(Brick)) {
+				TransitionParticle.GetComponent<ParticleItemColorChange>().SetColor(inventorySlots[newSlot].prefabInstance.GetComponent<Renderer>().material.GetColor("_Color"));
+            } else if (type == typeof(Shell)) {
+				TransitionParticle.GetComponent<ParticleItemColorChange>().SetColor(inventorySlots[newSlot].prefabInstance.GetComponent<Renderer>().material.GetColor("_Color"));
+            }
+        }
+		Instantiate(TransitionParticle, inventorySlots[newSlot].transform.position, Quaternion.identity);
+	}
+
 	public void Clear() {
 		for (int i = 0; i < inventorySlots.Count; i++) {
 			inventorySlots[i].RemoveItem();
@@ -91,4 +116,12 @@ public class PhysicalInventory : MonoBehaviour {
 		PopulateInitial();
 	}
 
+	[Button("Repopulate")]
+	private void RepopulateInventory() {
+		Clear();
+		PopulateInitial();
+	}
+
+	private void OnDrawGizmos() {
+	}
 }

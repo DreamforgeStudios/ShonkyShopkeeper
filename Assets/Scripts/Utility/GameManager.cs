@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour {
 
 		if (Debug.isDebugBuild) {
 			// TODO: make this automatically switch on / off.
-			//Debug.unityLogger.logEnabled = false;
+			Debug.unityLogger.logEnabled = false;
 		}
 	}
 
