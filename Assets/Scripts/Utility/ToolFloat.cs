@@ -6,6 +6,9 @@ using UnityEngine;
 public class ToolFloat : MonoBehaviour
 {
 	private Sequence seq;
+	public ParticleSystem WandParticleSystem;
+	public ParticleSystem ItemParticleSystem;
+	
 	private void Start()
 	{
 		CreateFloat();
@@ -28,5 +31,13 @@ public class ToolFloat : MonoBehaviour
 		seq.SetLoops(-1);
 		seq.SetRecyclable(true);
 		seq.Pause();
+	}
+
+	public void WandParticles(Vector3 wandPosition, Vector3 itemPosition)
+	{
+		WandParticleSystem.transform.position = wandPosition;
+		WandParticleSystem.Play();
+		ItemParticleSystem.transform.position = itemPosition;
+		ItemParticleSystem.Play();
 	}
 }

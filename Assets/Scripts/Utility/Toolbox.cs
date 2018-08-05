@@ -33,6 +33,9 @@ public class Toolbox : MonoBehaviour {
     public GameObject forceps;
     public GameObject magnifyer;
     public GameObject wand;
+    
+    //Wand tip used for particle system pos
+    public GameObject wandTip;
 
     // Tool Raise pos and rot
     public Vector3 desiredForcepPos;
@@ -435,6 +438,7 @@ public class Toolbox : MonoBehaviour {
         ItemInstance instance;
         // Minigame detection.
         if (currentSelection == null && slot.GetItemInstance(out instance) && slot.GetItem(out item)) {
+            PlayWandParticles(slot);
             Debug.Log("got something:" + instance.item);
             currentSelection = slot;
             _minigameType = item.GetType().ToString();
@@ -746,6 +750,14 @@ public class Toolbox : MonoBehaviour {
             Debug.Log("scene not loaded yet.");
             yield return new WaitForSeconds(.1f);
         }
+    }
+
+    private void PlayWandParticles(Slot slot)
+    {
+        GameObject item;
+        slot.GetPrefabInstance(out item);
+        GameObject obj = ToolToObject(Tool.Wand);
+        obj.GetComponent<ToolFloat>().WandParticles(wandTip.transform.position, item.transform.position);
     }
 
     private void OnDrawGizmos() {

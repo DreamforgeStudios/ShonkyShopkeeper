@@ -98,6 +98,7 @@ GameObject:
   - component: {fileID: 4146494648440538}
   - component: {fileID: 114107954671727774}
   - component: {fileID: 114362743101552336}
+  - component: {fileID: 114991195933726884}
   m_Layer: 0
   m_Name: Sack
   m_TagString: Untagged
@@ -261,6 +262,20 @@ MonoBehaviour:
   _AutoSORayOriginOffset: 0
   _AutoSOMaxScaleMultiplier: 4
   _AutoSORaycastLayer: 8
+--- !u!114 &114991195933726884
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1862086850031320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 320df158a64baf94da5335432a9741ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Axis: {x: 0, y: 1, z: 0}
+  Speed: 0.5
+  Enable: 0
 --- !u!137 &137640722663972766
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
