@@ -28,8 +28,6 @@ GameObject:
   - component: {fileID: 23900764396180834}
   - component: {fileID: 33796201589000668}
   - component: {fileID: 54609271835922168}
-  - component: {fileID: 114909910296777074}
-  - component: {fileID: 114283251528713832}
   m_Layer: 0
   m_Name: InverseCubeCollider
   m_TagString: Untagged
@@ -179,29 +177,3 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.099999905, y: 1, z: 1}
   m_Center: {x: 0.45000005, y: 0, z: 0}
---- !u!114 &114283251528713832
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1098715454802654}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 669878d1de7535d489f0d19af1f605e0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  obj: {fileID: 1152555377863138, guid: 0dd5c3a6d378f3b4b85f567030819dd4, type: 2}
-  number: 4
-  delay: 0.5
---- !u!114 &114909910296777074
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1098715454802654}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3cca10bd53ddcb34e95df58b27798273, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  achievementKey: 
