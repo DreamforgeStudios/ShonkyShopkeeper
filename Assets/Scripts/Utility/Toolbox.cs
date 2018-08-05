@@ -164,16 +164,16 @@ public class Toolbox : MonoBehaviour {
         switch (curToolObj.tag)
         {
             case "Forceps":
-                curToolObj.transform.DORotate(ForcepRot, 2f).SetEase(Ease.InOutSine).OnComplete(() =>
-                    curToolObj.transform.DOMove(ForcepPos, 2f)).SetEase(Ease.InOutSine);
+                curToolObj.transform.DORotate(ForcepRot, 0.4f).SetEase(Ease.InOutSine).OnComplete(() =>
+                    curToolObj.transform.DOMove(ForcepPos, 0.4f)).SetEase(Ease.InOutSine);
                 break;
             case "Wand":
-                curToolObj.transform.DORotate(WandRot, 2f).SetEase(Ease.InOutSine).OnComplete(() =>
-                    curToolObj.transform.DOMove(WandPos, 2f)).SetEase(Ease.InOutSine);
+                curToolObj.transform.DORotate(WandRot, 0.5f).SetEase(Ease.InOutSine).OnComplete(() =>
+                    curToolObj.transform.DOMove(WandPos, 1f)).SetEase(Ease.InOutSine);
                 break;
             case "Magnifyer":
-                curToolObj.transform.DORotate(InspectRot, 2f).SetEase(Ease.InOutSine).OnComplete(() =>
-                    curToolObj.transform.DOMove(InspectPos, 2f)).SetEase(Ease.InOutSine);
+                curToolObj.transform.DORotate(InspectRot, 0.5f).SetEase(Ease.InOutSine).OnComplete(() =>
+                    curToolObj.transform.DOMove(InspectPos, 0.75f)).SetEase(Ease.InOutSine);
                 break;
         }
         
@@ -181,16 +181,16 @@ public class Toolbox : MonoBehaviour {
         switch (newToolObj.tag)
         {
             case "Forceps":
-                newToolObj.transform.DORotate(desiredForcepRot, 2f).SetEase(Ease.InOutSine).OnComplete(() =>
-                    newToolObj.transform.DOMove(desiredForcepPos, 2f)).SetEase(Ease.InOutSine);
+                newToolObj.transform.DORotate(desiredForcepRot, 0.9f).SetEase(Ease.InOutSine);//.OnComplete(() =>
+                newToolObj.transform.DOMove(desiredForcepPos, 1f).SetEase(Ease.InOutSine);
                 break;
             case "Wand":
-                newToolObj.transform.DORotate(desiredWandRot, 2f).SetEase(Ease.InOutSine).OnComplete(() =>
-                    newToolObj.transform.DOMove(desiredWandPos, 2f)).SetEase(Ease.InOutSine);
+                newToolObj.transform.DORotate(desiredWandRot, 0.5f).SetEase(Ease.InOutSine);//.OnComplete(() =>
+                newToolObj.transform.DOMove(desiredWandPos, 1f).SetEase(Ease.InOutSine);
                 break;
             case "Magnifyer":
-                newToolObj.transform.DORotate(desiredInspectRot, 2f).SetEase(Ease.InOutSine).OnComplete(() =>
-                    newToolObj.transform.DOMove(desiredInspectPos, 2f)).SetEase(Ease.InOutSine);
+                newToolObj.transform.DORotate(desiredInspectRot, 1.1f).SetEase(Ease.InOutSine);//.OnComplete(() =>
+                newToolObj.transform.DOMove(desiredInspectPos, 1f).SetEase(Ease.InOutSine);
                 break;
         }
         
