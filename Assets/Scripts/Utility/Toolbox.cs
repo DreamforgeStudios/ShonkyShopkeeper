@@ -24,7 +24,8 @@ public class Toolbox : MonoBehaviour {
     public ItemDatabase database;
 
     public float selectedOutlineThickness = 2;
-
+    
+    //THIS IS REALLY DIRTY RIGHT NOW AND I"M SORRY :( IF I HAD MORE TIME IT WOULD BE A SEPARATE SCRIPT
     //Capture the original positions and gameObjects of each tool
     private Transform forcepPos;
     private Transform inspectPos;
@@ -40,6 +41,7 @@ public class Toolbox : MonoBehaviour {
     public Vector3 desiredWandRot;
     public Vector3 desiredInspectPos;
     public Vector3 desiredInspectRot;
+    public Vector3 halfwayInspectPos;
     
     //Original Pos
     public Vector3 ForcepPos;
@@ -67,6 +69,10 @@ public class Toolbox : MonoBehaviour {
     //Audio helpers
     public GameObject audioManager;
 
+    //Bin object
+    public GameObject Bin;
+    public Vector3 BinLineUp;
+    
     //Helpers to capture Items, transfoms, slot indexes, gameobjects, movement stages and instances when using forceps
     private Slot currentSelection = null;
     //private Slot secondSelection = null;
@@ -79,7 +85,6 @@ public class Toolbox : MonoBehaviour {
     void Start() {
         currentTool = Tool.Inspector;
         SwitchTool(Tool.Inspector);
-        GetOriginalToolPositions();
         //inventoryhelper = Inventory.Instance;
         //forcepPos = GameObject.FindGameObjectWithTag("forcep").transform.position;
         //wandPos = GameObject.FindGameObjectWithTag("wand").transform.position;
@@ -144,6 +149,9 @@ public class Toolbox : MonoBehaviour {
                     case "Wand": SwitchTool(Tool.Wand); break;
                 }
                 // Must be a slot if it is not a tool.
+            } else if (currentTool == Tool.Forceps && hit.transform.CompareTag("Bin"))
+            {
+                BinItem();
             }
             else {
                 UseTool(hit.transform.GetComponent<Slot>());
@@ -164,16 +172,20 @@ public class Toolbox : MonoBehaviour {
         switch (curToolObj.tag)
         {
             case "Forceps":
-                curToolObj.transform.DORotate(ForcepRot, 0.4f).SetEase(Ease.InOutSine).OnComplete(() =>
-                    curToolObj.transform.DOMove(ForcepPos, 0.4f)).SetEase(Ease.InOutSine);
+                curToolObj.transform.DORotate(ForcepRot, 0.4f).SetEase(Ease.InOutSine);//.OnComplete(() =>
+                curToolObj.transform.DOMove(ForcepPos, 0.4f).SetEase(Ease.InOutSine);
+                curToolObj.GetComponent<ToolFloat>().EndFloat();
                 break;
             case "Wand":
-                curToolObj.transform.DORotate(WandRot, 0.5f).SetEase(Ease.InOutSine).OnComplete(() =>
-                    curToolObj.transform.DOMove(WandPos, 1f)).SetEase(Ease.InOutSine);
+                curToolObj.transform.DORotate(WandRot, 0.5f).SetEase(Ease.InOutSine);//.OnComplete(() =>
+                curToolObj.transform.DOMove(WandPos, 1f).SetEase(Ease.InOutSine);
+                curToolObj.GetComponent<ToolFloat>().EndFloat();
                 break;
             case "Magnifyer":
-                curToolObj.transform.DORotate(InspectRot, 0.5f).SetEase(Ease.InOutSine).OnComplete(() =>
-                    curToolObj.transform.DOMove(InspectPos, 0.75f)).SetEase(Ease.InOutSine);
+                curToolObj.transform.DORotate(InspectRot, 0.5f).SetEase(Ease.InOutSine);//.OnComplete(() =>
+                curToolObj.transform.DOMove(halfwayInspectPos , 0.1f).SetEase(Ease.InOutSine).OnComplete(() => 
+                curToolObj.transform.DOMove(InspectPos, 0.1f).SetEase(Ease.InOutSine));
+                curToolObj.GetComponent<ToolFloat>().EndFloat();
                 break;
         }
         
@@ -182,15 +194,19 @@ public class Toolbox : MonoBehaviour {
         {
             case "Forceps":
                 newToolObj.transform.DORotate(desiredForcepRot, 0.9f).SetEase(Ease.InOutSine);//.OnComplete(() =>
-                newToolObj.transform.DOMove(desiredForcepPos, 1f).SetEase(Ease.InOutSine);
+                newToolObj.transform.DOMove(desiredForcepPos, 1f).SetEase(Ease.InOutSine).OnComplete(() =>
+                    newToolObj.GetComponent<ToolFloat>().StartFloat());
                 break;
             case "Wand":
                 newToolObj.transform.DORotate(desiredWandRot, 0.5f).SetEase(Ease.InOutSine);//.OnComplete(() =>
-                newToolObj.transform.DOMove(desiredWandPos, 1f).SetEase(Ease.InOutSine);
+                newToolObj.transform.DOMove(desiredWandPos, 1f).SetEase(Ease.InOutSine).OnComplete(() =>
+                    newToolObj.GetComponent<ToolFloat>().StartFloat());
                 break;
             case "Magnifyer":
                 newToolObj.transform.DORotate(desiredInspectRot, 1.1f).SetEase(Ease.InOutSine);//.OnComplete(() =>
-                newToolObj.transform.DOMove(desiredInspectPos, 1f).SetEase(Ease.InOutSine);
+                newToolObj.transform.DOMove(halfwayInspectPos , 0.5f).SetEase(Ease.InOutSine).OnComplete(() => 
+                    newToolObj.transform.DOMove(desiredInspectPos, 0.5f).SetEase(Ease.InOutSine).OnComplete(() =>
+                    newToolObj.GetComponent<ToolFloat>().StartFloat()));
                 break;
         }
         
@@ -307,18 +323,24 @@ public class Toolbox : MonoBehaviour {
     }
 
     //Move an Item to a new slot
-    private void UseForceps(Slot slot) {
+    private void UseForceps(Slot slot)
+    {
         Item item;
 
-        if (slot.GetItem(out item) && canSelect) {
+        if (slot.GetItem(out item) && canSelect)
+        {
             //If first selection
-            if (currentSelection == null) {
+            if (currentSelection == null)
+            {
                 this.currentSelection = slot;
                 MoveUp(slot);
                 // Second selection.
-            } else {
+            }
+            else
+            {
                 // If the same item is selected, put it back.
-                if (currentSelection == slot) {
+                if (currentSelection == slot)
+                {
                     Debug.Log("Same slot.");
                     MoveDown(slot);
                     currentSelection = null;
@@ -333,29 +355,33 @@ public class Toolbox : MonoBehaviour {
                 GameObject obj1;
                 GameObject obj2;
                 // Move 1 item.
-                if (slot1.GetPrefabInstance(out obj1) && slot2.GetPrefabInstance(out obj2)) {
+                if (slot1.GetPrefabInstance(out obj1) && slot2.GetPrefabInstance(out obj2))
+                {
                     // Don't let user select while we're moving.
                     // TODO: let user select while moving?
                     canSelect = false;
 
                     Transform t1 = obj1.transform,
-                              t2 = obj2.transform;
-                    
+                        t2 = obj2.transform;
+
                     //SFX.Play("item_lift");
                     MoveUp(slot1)
                         .OnComplete(() => t1.DOMove(slot2.transform.position + Vector3.up, 0.6f).SetEase(Ease.OutBack)
                             .OnComplete(() => t1.DOMove(slot2.transform.position, 1f).SetEase(Ease.OutBounce)));
                     MoveUp(slot2)
                         .OnComplete(() => t2.DOMove(slot1.transform.position + Vector3.up, 0.6f).SetEase(Ease.OutBack)
-                            .OnComplete(() => t2.DOMove(slot1.transform.position, 1f).SetEase(Ease.OutBounce).OnComplete(() => canSelect = true)));
+                            .OnComplete(() =>
+                                t2.DOMove(slot1.transform.position, 1f).SetEase(Ease.OutBounce)
+                                    .OnComplete(() => canSelect = true)));
 
                     // This is a bit janky, but might be doing physics based inventory soon, so not bothering.
                     t1.GetComponent<Rotate>().Enable = false;
                     t2.GetComponent<Rotate>().Enable = false;
                     SFX.Play("item_down", 1, 1, 1.5f);
-                    
+
                     ItemInstance inst1, inst2;
-                    if (slot1.GetItemInstance(out inst1) && slot2.GetItemInstance(out inst2)) {
+                    if (slot1.GetItemInstance(out inst1) && slot2.GetItemInstance(out inst2))
+                    {
                         slot1.SetItemInstantiated(inst2, obj2);
                         slot2.SetItemInstantiated(inst1, obj1);
                         Inventory.Instance.SwapItem(slot1.index, slot2.index);
@@ -364,26 +390,34 @@ public class Toolbox : MonoBehaviour {
                     currentSelection = null;
                 }
             }
-        //Else if selected one item and clicked on null slot
-        } else if (currentSelection && !slot.GetItem(out item) && canSelect) {
+
+            //Else if selected one item and clicked on null slot
+        }
+        else if (currentSelection && !slot.GetItem(out item) && canSelect)
+        {
             Slot slot1 = this.currentSelection;
             Slot slot2 = slot;
 
             GameObject obj1;
             // If the slot we selected has something in it.
-            if (slot1.GetPrefabInstance(out obj1)) {//&& currentSelection.GetItemInstance(out inst1) &&
+            if (slot1.GetPrefabInstance(out obj1))
+            {
+                //&& currentSelection.GetItemInstance(out inst1) &&
                 canSelect = false;
                 Transform t1 = obj1.transform;
-                
+
                 SFX.Play("item_lift");
                 MoveUp(slot1)
                     .OnComplete(() => t1.DOMove(slot2.transform.position + Vector3.up, 0.6f).SetEase(Ease.OutBack)
-                        .OnComplete(() => t1.DOMove(slot2.transform.position, 1f).SetEase(Ease.OutBounce).OnComplete(() => canSelect = true)));
+                        .OnComplete(() =>
+                            t1.DOMove(slot2.transform.position, 1f).SetEase(Ease.OutBounce)
+                                .OnComplete(() => canSelect = true)));
                 t1.GetComponent<Rotate>().Enable = false;
                 SFX.Play("item_down", 1, 1, 1.5f);
 
                 ItemInstance inst1;
-                if (slot1.GetItemInstance(out inst1)) {
+                if (slot1.GetItemInstance(out inst1))
+                {
                     slot1.RemoveDontDestroy();
                     slot2.SetItemInstantiated(inst1, obj1);
                     Inventory.Instance.SwapItem(slot1.index, slot2.index);
@@ -395,7 +429,7 @@ public class Toolbox : MonoBehaviour {
             currentSelection = null;
         }
     }
-    
+
     private void UseWand(Slot slot) {
         Item item;
         ItemInstance instance;
@@ -651,11 +685,53 @@ public class Toolbox : MonoBehaviour {
         }
     }
 
-    private void GetOriginalToolPositions()
+    private void BinItem()
     {
-        forcepPos = forceps.transform;
-        wandPos = wand.transform;
-        inspectPos = magnifyer.transform;
+        Debug.Log("Hit Bin");
+        if (currentSelection)
+        {
+            Item item;
+            if (currentSelection.GetItem(out item) && canSelect)
+            {
+                GameObject obj;
+                if (currentSelection.GetPrefabInstance(out obj))
+                {
+                    obj.transform.DOMove(BinLineUp, 0.75f).SetEase(Ease.OutBack).OnComplete(() =>
+                        obj.transform.DOMove(Bin.transform.position, 1f).SetEase(Ease.OutBack).OnComplete(() => 
+                        SellItem(item)));
+                }
+            }
+        }
+    }
+
+    private void SellItem(Item item)
+    {
+        switch (item.GetType().ToString()) {
+            case "Gem":
+                Inventory.Instance.AddGold(10);
+                break;
+            case "Jewel":
+                Inventory.Instance.AddGold(20);
+                break;
+            case "Ore":
+                Inventory.Instance.AddGold(10);
+                break;
+            case "Brick":
+                Inventory.Instance.AddGold(20);
+                break;
+            case "ChargedJewel":
+                Inventory.Instance.AddGold(50);
+                break;
+            case "Shell":
+                Inventory.Instance.AddGold(50);
+                break;
+        }
+
+        Inventory.Instance.RemoveItem(currentSelection.index);
+        currentSelection.RemoveItem();
+        currentSelection = null;
+        SaveManager.SaveInventory();
+        
     }
 
     // Load a sync in the background.

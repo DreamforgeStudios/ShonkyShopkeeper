@@ -24,6 +24,7 @@ TagManager:
   - PortalEntry
   - PortalExit
   - Globe
+  - Bin
   layers:
   - Default
   - TransparentFX
@@ -39,7 +40,7 @@ TagManager:
   - MinePortal
   - OverlayedMap
   - GlobalProjectorLayer
-  - 
+  - InventoryBin
   - 
   - 
   - 
