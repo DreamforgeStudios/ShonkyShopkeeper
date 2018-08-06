@@ -691,21 +691,26 @@ public class Toolbox : MonoBehaviour {
         Debug.Log("Hit Bin");
         if (currentSelection)
         {
+            //Replace current selection so user cannot stop the tween
+            Slot itemDelete = currentSelection;
+            currentSelection = null;
             Item item;
-            if (currentSelection.GetItem(out item) && canSelect)
+            if (itemDelete.GetItem(out item) && canSelect)
             {
                 GameObject obj;
-                if (currentSelection.GetPrefabInstance(out obj))
+                if (itemDelete.GetPrefabInstance(out obj))
                 {
-                    obj.transform.DOMove(BinLineUp, 0.75f).SetEase(Ease.OutBack).OnComplete(() =>
-                        obj.transform.DOMove(Bin.transform.position, 1f).SetEase(Ease.OutBack).OnComplete(() => 
-                        SellItem(item)));
+                    //This isn't necessary right now as canSelect stops that
+                    canSelect = false;
+                    obj.transform.DOMove(BinLineUp, 0.75f).SetEase(Ease.OutQuad).OnComplete(() =>
+                        obj.transform.DOMove(Bin.transform.position, 0.3f).SetEase(Ease.OutCirc).OnComplete(() => 
+                        SellItem(item, itemDelete)));
                 }
             }
         }
     }
 
-    private void SellItem(Item item)
+    private void SellItem(Item item, Slot slot)
     {
         switch (item.GetType().ToString()) {
             case "Gem":
@@ -727,12 +732,12 @@ public class Toolbox : MonoBehaviour {
                 Inventory.Instance.AddGold(50);
                 break;
         }
-
-        Inventory.Instance.RemoveItem(currentSelection.index);
-        currentSelection.RemoveItem();
-        currentSelection = null;
+        Inventory.Instance.RemoveItem(slot.index);
+        slot.RemoveItem();
+        slot = null;
         SaveManager.SaveInventory();
-        
+        canSelect = true;
+
     }
 
     // Load a sync in the background.
