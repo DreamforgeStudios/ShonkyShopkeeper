@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 
 public class ShonkyWander : MonoBehaviour {
     //Golem Components
-    //private Rigidbody rb;
+    private Rigidbody rb;
     private NavMeshAgent agent;
     private Animator animator;
 
@@ -34,7 +34,7 @@ public class ShonkyWander : MonoBehaviour {
 	    Debug.Log("Calling start function in golem");
         pouch.SetActive(false);
         agent = GetComponent<NavMeshAgent>();
-        //rb = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
         cooldownTime = Time.time;
         animator = GetComponent<Animator>();
 	}
@@ -97,11 +97,13 @@ public class ShonkyWander : MonoBehaviour {
 
     public void HoldPouch() {
         pouch.SetActive(true);
+        animator.SetBool("WalkPouch", true);
         Debug.Log("pouch is active" + pouch.activeSelf);
     }
 
     public void RemovePouch() {
         pouch.SetActive(false);
+        animator.SetBool("WalkPouch", false);
     }
 
     public bool IsHoldingPouch() {
@@ -113,6 +115,7 @@ public class ShonkyWander : MonoBehaviour {
 
     public void FloatToPen()
     {
+        PickUpAnimation(false);
         StartCoroutine(Float());
     }
     
@@ -123,6 +126,7 @@ public class ShonkyWander : MonoBehaviour {
         Debug.Log("Reenabling agent");
         pickedUp = false;
         agent.enabled = true;
+        animator.SetBool("Drop",false);
     }
 
     private Vector3 CalculateRandomPenLoc()
@@ -159,6 +163,19 @@ public class ShonkyWander : MonoBehaviour {
             return Random.Range(-5.45f, -5.3f);
         }
         return Random.Range(-5.45f, -4.95f);
+    }
+
+    public void PickUpAnimation(bool activate)
+    {
+        animator.SetBool("Pickup", activate);
+        if (activate)
+        {
+            rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+        }
+        else
+        {
+            rb.constraints = RigidbodyConstraints.None;
+        }
     }
 
 }

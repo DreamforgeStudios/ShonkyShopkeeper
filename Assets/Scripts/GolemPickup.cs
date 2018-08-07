@@ -222,6 +222,7 @@ public class GolemPickup : MonoBehaviour {
 
     private void HoldGolem(RaycastHit hit) {
         pickedupGolem.GetComponent<ShonkyWander>().pickedUp = true;
+        pickedupGolem.GetComponent<ShonkyWander>().PickUpAnimation(true);
         pickedupGolem.GetComponent<NavMeshAgent>().enabled = false;
         modifiedMousePos = Camera.main.ScreenPointToRay(Input.mousePosition).GetPoint(6.5f);
         float XPos = Mathf.Clamp(modifiedMousePos.x, -5f, 4.5f);

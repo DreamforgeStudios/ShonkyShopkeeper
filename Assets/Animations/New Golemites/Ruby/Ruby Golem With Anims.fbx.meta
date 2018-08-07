@@ -1,69 +1,98 @@
 fileFormatVersion: 2
-guid: bff943783da236b42a5b6fd6b72f803c
+guid: 27641f666d3aadc4da528cd8c174baf7
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
-    100000: Armature
-    100002: Bone
-    100004: Bone_001
-    100006: Bone_002
-    100008: Bone_003
-    100010: Bone_004
-    100012: Bone_005
-    100014: Bone_006
-    100016: Bone_007
-    100018: Bone_008
-    100020: Bone_009
-    100022: Bone_010
-    100024: Bone_011
-    100026: Bone_012
-    100028: Bone_013
-    100030: Bone_014
-    100032: Bone_015
-    100034: Bone_016
-    100036: Bone_017
-    100038: Bone_018
-    100040: Ruby_Golem_smoothv3_rubygolemhard1
-    100042: //RootNode
-    400000: Armature
-    400002: Bone
-    400004: Bone_001
-    400006: Bone_002
-    400008: Bone_003
-    400010: Bone_004
-    400012: Bone_005
-    400014: Bone_006
-    400016: Bone_007
-    400018: Bone_008
-    400020: Bone_009
-    400022: Bone_010
-    400024: Bone_011
-    400026: Bone_012
-    400028: Bone_013
-    400030: Bone_014
-    400032: Bone_015
-    400034: Bone_016
-    400036: Bone_017
-    400038: Bone_018
-    400040: Ruby_Golem_smoothv3_rubygolemhard1
-    400042: //RootNode
+    100000: Armature.001
+    100002: Gem Suc
+    100004: Gem Suc_end
+    100006: Head
+    100008: Head_end
+    100010: L.Arm Lower
+    100012: L.Arm Lower_end
+    100014: L.Arm Upper
+    100016: L.Leg Lower
+    100018: L.Leg Lower_end
+    100020: L.Leg Upper
+    100022: 'Neck '
+    100024: R.Arm Lower
+    100026: R.Arm Lower_end
+    100028: R.Arm Upper
+    100030: R.Leg Lower
+    100032: R.Leg Lower_end
+    100034: R.Leg Upper
+    100036: //RootNode
+    100038: Ruby_Golem_smoothv3_rubygolemhard1
+    100040: Spin 1
+    100042: Spine 2
+    100044: Spine 3
+    100046: Spine 4
+    400000: Armature.001
+    400002: Gem Suc
+    400004: Gem Suc_end
+    400006: Head
+    400008: Head_end
+    400010: L.Arm Lower
+    400012: L.Arm Lower_end
+    400014: L.Arm Upper
+    400016: L.Leg Lower
+    400018: L.Leg Lower_end
+    400020: L.Leg Upper
+    400022: 'Neck '
+    400024: R.Arm Lower
+    400026: R.Arm Lower_end
+    400028: R.Arm Upper
+    400030: R.Leg Lower
+    400032: R.Leg Lower_end
+    400034: R.Leg Upper
+    400036: //RootNode
+    400038: Ruby_Golem_smoothv3_rubygolemhard1
+    400040: Spin 1
+    400042: Spine 2
+    400044: Spine 3
+    400046: Spine 4
     2100000: rubygolemhardSG
     2100002: rubygolemhardSG1
     2100004: rubygolemhardSG2
     2100006: rubyhollowsSG
     2100008: rubygemSG
     4300000: Ruby_Golem_smoothv3_rubygolemhard1
-    7400000: Default Take
-    7400002: ArmatureAction_001
-    7400004: Head_Movement
-    7400006: Left_Turn
-    7400008: Right_Turn
-    7400010: Shoulder_Pump
+    7400000: Armature.001|ArmatureAction
+    7400002: Armature.001|default pose
+    7400004: Armature.001|Idle IT1
+    7400006: Armature.001|Init Drop IT1
+    7400008: Armature.001|picked up stateIT1
+    7400010: Armature.001|Walk IT1
+    7400012: Armature.001|Walk with gem bag IT1
+    7400014: Armature.001|Idle IT1 (1)
     9500000: //RootNode
-    11100000: //RootNode
     13700000: Ruby_Golem_smoothv3_rubygolemhard1
-    2186277476908879412: ImportLogs
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: rubygemSG
+    second: {fileID: 2100000, guid: 0920d232636763a4ebd9d4d32d0a73da, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: rubygolemhardSG
+    second: {fileID: 2100000, guid: c8c01e7fcb2e33c4285aef2736b24ec6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: rubygolemhardSG1
+    second: {fileID: 2100000, guid: 02f919a446bb3e546ab663b5a66f40db, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: rubygolemhardSG2
+    second: {fileID: 2100000, guid: fd2ee80582548de4cb609b4f5ad7ff87, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: rubyhollowsSG
+    second: {fileID: 2100000, guid: 05d2c68e894cde840b3d002e96b25aef, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -82,7 +111,7 @@ ModelImporter:
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
-    importConstraints: 0
+    importConstraints: 1
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
@@ -92,17 +121,17 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Default Take
-      takeName: Default Take
-      firstFrame: -1
-      lastFrame: 225
+      name: Armature.001|Idle IT1 (1)
+      takeName: Armature.001|Idle IT1
+      firstFrame: 0
+      lastFrame: 60
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
-      loop: 1
+      loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
@@ -120,17 +149,17 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: ArmatureAction_001
-      takeName: ArmatureAction_001
-      firstFrame: -1
-      lastFrame: 0
+      name: Armature.001|default pose
+      takeName: Armature.001|default pose
+      firstFrame: 0
+      lastFrame: 1
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
@@ -148,17 +177,17 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Head_Movement
-      takeName: Head_Movement
-      firstFrame: -1
-      lastFrame: 39
+      name: Armature.001|Idle IT1
+      takeName: Armature.001|Idle IT1
+      firstFrame: 0
+      lastFrame: 60
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
@@ -176,17 +205,17 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Left_Turn
-      takeName: Left_Turn
-      firstFrame: 9
-      lastFrame: 29
+      name: Armature.001|Init Drop IT1
+      takeName: Armature.001|Init Drop IT1
+      firstFrame: 0
+      lastFrame: 15
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
@@ -204,17 +233,17 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Right_Turn
-      takeName: Right_Turn
-      firstFrame: -1
-      lastFrame: 19
+      name: Armature.001|picked up stateIT1
+      takeName: Armature.001|picked up stateIT1
+      firstFrame: 0
+      lastFrame: 60
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
@@ -232,17 +261,45 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Shoulder_Pump
-      takeName: Shoulder_Pump
-      firstFrame: -1
-      lastFrame: 19
+      name: Armature.001|Walk IT1
+      takeName: Armature.001|Walk IT1
+      firstFrame: 0
+      lastFrame: 60
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Armature.001|Walk with gem bag IT1
+      takeName: Armature.001|Walk with gem bag IT1
+      firstFrame: 0
+      lastFrame: 60
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
@@ -267,8 +324,8 @@ ModelImporter:
     addColliders: 0
     importVisibility: 1
     importBlendShapes: 1
-    importCameras: 1
-    importLights: 1
+    importCameras: 0
+    importLights: 0
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
@@ -282,8 +339,8 @@ ModelImporter:
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
     useFileScale: 1
-    previousCalculatedGlobalScale: 1
-    hasPreviousCalculatedGlobalScale: 0
+    previousCalculatedGlobalScale: 0.01
+    hasPreviousCalculatedGlobalScale: 1
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
@@ -305,10 +362,10 @@ ModelImporter:
     rootMotionBoneName: 
     rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
-    hasExtraRoot: 1
+    hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 1
+  animationType: 2
   humanoidOversampling: 1
   additionalBone: 0
   userData: 
