@@ -249,9 +249,8 @@ public class Outline : MonoBehaviour {
   }
 
   void CombineSubmeshes(Mesh mesh) {
-
-    // Skip meshes with a single submesh
-    if (mesh.subMeshCount == 1) {
+    // Skip meshes with a single submesh, or if we've already combined.
+    if (mesh.subMeshCount == 1 || mesh.subMeshCount > GetComponent<Renderer>().sharedMaterials.Length) {
       return;
     }
 
