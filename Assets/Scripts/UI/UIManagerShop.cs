@@ -38,7 +38,7 @@ public class UIManagerShop : MonoBehaviour {
         switch (Travel.ReturnCurrentTown()) {
             case Travel.Towns.WickedGrove:
                 shopBG.sprite = town1;
-                SetFrostBG(false);
+                SetFrostBG(true);
                 break;
             case Travel.Towns.FlamingPeak:
                 shopBG.sprite = town2;
