@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.AI;
 //using UnityEngine.Experimental.UIElements;
 using UnityEngine.UI;
-using UnityEngine.XR.WSA.WebCam;
+//using UnityEngine.XR.WSA.WebCam;
 
 public class GolemPickup : MonoBehaviour {
     //Currently held golem
