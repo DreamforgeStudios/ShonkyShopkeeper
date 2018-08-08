@@ -80,6 +80,7 @@ public class Tracing : MonoBehaviour {
         // Don't start until we're ready.
         Time.timeScale = 0;
         ReadyGo.onComplete += (() => { Time.timeScale = 1; start = true; });
+        //qualityBar.Subtract(1f,false);
     }
 
     // Use this for initialization
@@ -207,6 +208,8 @@ public class Tracing : MonoBehaviour {
             score = CalculateColliderPenalties(CalculateAccuracy(CalculateWin()));
             if (score > 0)
             {
+                Debug.Log("adding score of " + score);
+                qualityBar.Add(score/1000,true);
                 _finalScore += score;
                 scoreText.text = string.Format("Final score is {0}", _finalScore);
                 NextRune();
@@ -258,7 +261,7 @@ public class Tracing : MonoBehaviour {
 
         if (success) {
             averageDistanceAway = totalDistanceAway / optimalPointIndex.Count;
-            Debug.Log("avg dist away = " + averageDistanceAway);
+            //Debug.Log("avg dist away = " + averageDistanceAway);
             if (averageDistanceAway >= 0 && averageDistanceAway <= 0.63) {
                 return 1000;
             }
@@ -282,9 +285,10 @@ public class Tracing : MonoBehaviour {
 
     private int CalculateColliderPenalties(int score) {
         int colliderHits = FollowSphere.GetComponent<TracingColliding>().counter;
+        FollowSphere.GetComponent<TracingColliding>().ResetCounter();
         //Debug.Log("collider hits: " + colliderHits);
         // TODO: this is a bit rough...
-        qualityBar.Subtract(colliderHits * 0.1f);
+        //qualityBar.Subtract(colliderHits * 0.1f);
         if (colliderHits == 0)
             return score;
         else if (colliderHits < 10)
@@ -294,7 +298,7 @@ public class Tracing : MonoBehaviour {
     }
 
     private bool CalculateWin() {
-        Debug.Log(string.Format("Optimal points is {0} and hitpoints is {1}", optimalPoints.Count,hitPoints));
+        //Debug.Log(string.Format("Optimal points is {0} and hitpoints is {1}", optimalPoints.Count,hitPoints));
         if (optimalPoints.Count != hitPoints || currentTime > finishTime) {
             return false;
         }
@@ -313,12 +317,12 @@ public class Tracing : MonoBehaviour {
                 }
             }
             // TODO: remove previous quality calculation?
-            qualityBar.Subtract(totalDistanceAway / hitPoints);
+            //qualityBar.Subtract(totalDistanceAway / hitPoints);
         }
     }
 
     private void AddPoint() {
-        Debug.Log("Optimal points is " + optimalPoints.Count + " hitpoints is " + hitPoints + "Last index was " + lastIndex);
+        //Debug.Log("Optimal points is " + optimalPoints.Count + " hitpoints is " + hitPoints + "Last index was " + lastIndex);
         optimalPointIndex.Add(lastIndex);
         hitPoints += 1;
         totalDistanceAway += bestDistanceSoFar;
@@ -331,7 +335,7 @@ public class Tracing : MonoBehaviour {
         for (int j = 0; j < playerPoints.Count; j++) {
             if (Vector3.Distance(playerPoints[j], positionArea) < maxDistanceAway)
                 if (Vector3.Distance(playerPoints[j], positionArea) <= bestDistanceSoFar && j > lastIndex) {
-                    Debug.Log("Found close point");
+                    //Debug.Log("Found close point");
                     bestDistanceSoFar = Vector3.Distance(playerPoints[j], positionArea);
                     lastIndex = j;
                     foundNumber = true;

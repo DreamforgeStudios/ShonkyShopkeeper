@@ -1273,7 +1273,7 @@ LineRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1875613865
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 8
   m_Positions:
   - {x: 0, y: 0, z: 0}
@@ -2588,7 +2588,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1539206106
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2924,6 +2924,21 @@ Prefab:
       propertyPath: source
       value: 
       objectReference: {fileID: 1159825643}
+    - target: {fileID: 114395486160872878, guid: 6931fda971dcec64aa77a55b25f75812,
+        type: 2}
+      propertyPath: StartingGrade
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114395486160872878, guid: 6931fda971dcec64aa77a55b25f75812,
+        type: 2}
+      propertyPath: TickSubtraction
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 114395486160872878, guid: 6931fda971dcec64aa77a55b25f75812,
+        type: 2}
+      propertyPath: debug
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6931fda971dcec64aa77a55b25f75812, type: 2}
   m_IsPrefabAsset: 0

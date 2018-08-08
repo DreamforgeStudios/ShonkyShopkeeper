@@ -40,7 +40,7 @@ public class Hall : MonoBehaviour
 
 		Setup();
 		//Load the shop screen in the background as that is the only one which can be travelled to
-		StartCoroutine(LoadAsyncScene("Shop"));
+		//StartCoroutine(LoadAsyncScene("Shop"));
 	}
 	
 	// Update is called once per frame

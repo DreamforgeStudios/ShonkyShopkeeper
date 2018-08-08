@@ -13,6 +13,11 @@ public class TracingColliding : MonoBehaviour {
     public void Awake() {
         nextTime = Time.time;
     }
+
+    public void ResetCounter()
+    {
+        counter = 0;
+    }
     
     private void OnCollisionEnter(Collision collision) {
         if (collision.gameObject.tag == "TracingCollider") {
@@ -29,7 +34,7 @@ public class TracingColliding : MonoBehaviour {
     private void OnCollisionStay(Collision collision) {
         if (collision.gameObject.tag == "TracingCollider") {
             counter++;
-            Debug.Log(counter);
+            //Debug.Log(counter);
             if (Time.time > nextTime) {
                 Vector3 newPos = transform.position;
                 newPos.z += 1;

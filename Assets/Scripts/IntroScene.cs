@@ -54,7 +54,7 @@ public class IntroScene : MonoBehaviour {
         if (textCounter == texts.Count) {
             next.enabled = false;
             loading.enabled = true;
-            SceneManager.LoadScene("Hall");
+            Initiate.Fade("Hall", Color.black, 2f);
         }
         textCounter++;
     }

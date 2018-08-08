@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class ChangeScene : MonoBehaviour {
 	public void ChangeOrRestartScene(string scene) {
-        SceneManager.LoadScene(scene);
+        //SceneManager.LoadScene(scene);
+		Initiate.Fade(scene, Color.black, 2f);
     }
 }
