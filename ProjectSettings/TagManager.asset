@@ -70,3 +70,6 @@ TagManager:
   - name: LineRenderer
     uniqueID: 1875613865
     locked: 0
+  - name: Pirate Guy 1
+    uniqueID: 14553153
+    locked: 0
