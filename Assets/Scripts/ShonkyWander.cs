@@ -23,11 +23,15 @@ public class ShonkyWander : MonoBehaviour {
     public bool enableNavmesh = false;
     private bool firstTime = true;
     public bool pickedUp = false;
+    private bool ballInteraction = false;
+    private float interactionLimit = 6.0f;
+    private float timeLimit;
 
     //The resource pouch object being held
     public GameObject pouch;
     
-    
+    //Ball to interact with
+    private GameObject ball;
 	// Use this for initialization
     private void Awake()
     {
@@ -59,16 +63,25 @@ public class ShonkyWander : MonoBehaviour {
                 }
             }
         }
+        KickBall();
     }
 
+    private void CheckForPickup()
+    {
+        if (pickedUp)
+            ballInteraction = false;
+    }
     private void GoToWarpNewPosition(Vector3 newPosition) {
         agent.Warp(newPosition);
         destination = newPosition;
     }
 
     private void GoToNewPosition(Vector3 newPosition) {
-        agent.SetDestination(newPosition);
-        destination = newPosition;
+        if (!ballInteraction)
+        {
+            agent.SetDestination(newPosition);
+            destination = newPosition;
+        }
     }
 
     private void Animate() {
@@ -168,6 +181,7 @@ public class ShonkyWander : MonoBehaviour {
     public void PickUpAnimation(bool activate)
     {
         animator.SetBool("Pickup", activate);
+        /*
         if (activate)
         {
             rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
@@ -175,6 +189,25 @@ public class ShonkyWander : MonoBehaviour {
         else
         {
             rb.constraints = RigidbodyConstraints.None;
+        }
+        */
+    }
+
+    public void InteractWithBall(GameObject ballObj)
+    {
+        ballInteraction = true;
+        ball = ballObj;
+        
+    }
+
+    private void KickBall()
+    {
+        CheckForPickup();
+        if (ballInteraction)
+        {
+            animator.SetBool("Idle", false);
+            transform.DOMove(ball.transform.position, 4.0f, false);
+            transform.LookAt(ball.transform);
         }
     }
 

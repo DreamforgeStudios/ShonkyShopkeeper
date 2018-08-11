@@ -95,5 +95,5 @@ Material:
     - _Color: {r: 1, g: 0.7812564, b: 0.3537736, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _MainColor: {r: 1, g: 1, b: 1, a: 1}
-    - _PullPos: {r: -6.05, g: 0.97, b: -2.88, a: 1}
+    - _PullPos: {r: -4.374, g: -2.52, b: -5.626, a: 1}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
