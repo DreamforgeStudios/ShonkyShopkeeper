@@ -980,7 +980,7 @@ GameObject:
   - component: {fileID: 1003326667}
   - component: {fileID: 1003326666}
   m_Layer: 0
-  m_Name: NewCutManager
+  m_Name: CutManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1248,7 +1248,7 @@ RectTransform:
   - {fileID: 1236131125}
   - {fileID: 1891929763}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1276,70 +1276,6 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
---- !u!1 &1333063244
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1333063246}
-  - component: {fileID: 1333063245}
-  m_Layer: 0
-  m_Name: CutManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &1333063245
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1333063244}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2600b092ca41a1140a93033a0f45d72c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gemObject: {fileID: 0}
-  NumberOfCuts: 5
-  MinMaxDistance: {x: 3.5, y: 4.5}
-  MaxStartPoint: {x: 1.5, y: -1.5, z: 0}
-  MaxAngle: 270
-  QualityBar: {fileID: 769277905}
-  MaximumDistance: 2.5
-  ImpactDistance: 1
-  MaximumCloseness: 0.05
-  ImpactCloseness: 5
-  MaximumLength: 10
-  ImpactLength: 1
-  BaseTime: 0.15
-  MaximumTime: 1.5
-  ImpactTime: 3
-  DirectorText: {fileID: 1358310421}
-  GradeText: {fileID: 9139261}
-  PercentText: {fileID: 783468726}
-  CutIndicator: {fileID: 1662811381501140, guid: 610f343b4079d5c42b41d9fd621173ef,
-    type: 2}
-  Debug: 1
-  ReturnOrRetryButtons: {fileID: 1281731491}
-  Particle: {fileID: 0}
-  AmountOfParticles: 2
---- !u!4 &1333063246
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1333063244}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1355495115
 Prefab:
   m_ObjectHideFlags: 0
@@ -1686,7 +1622,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1529462790
 GameObject:
