@@ -71,6 +71,24 @@ TagManager:
   - name: LineRenderer
     uniqueID: 1875613865
     locked: 0
-  - name: Pirate Guy 1
-    uniqueID: 14553153
+  - name: Back Ground
+    uniqueID: 2112221883
+    locked: 0
+  - name: Housing 3
+    uniqueID: 943911965
+    locked: 0
+  - name: GP-NPCS 3
+    uniqueID: 524042573
+    locked: 0
+  - name: Housing 2
+    uniqueID: 3247425407
+    locked: 0
+  - name: GP-NPCS 2
+    uniqueID: 2242012975
+    locked: 0
+  - name: Housing 1
+    uniqueID: 41688851
+    locked: 0
+  - name: GP-Customers
+    uniqueID: 2568662131
     locked: 0
