@@ -27,6 +27,8 @@ public class QualityBar : MonoBehaviour
 	public Ease Ease;
 	public float EaseTime;
 
+	public float StartFill;
+
 	// Helpers for positioning + moving/resizing.
 	private float barHeight;
 	private float barMinWidth;
@@ -62,7 +64,7 @@ public class QualityBar : MonoBehaviour
 		TextCurrentLevel.color = Quality.GradeToColor(currentGrade);
 		foregroundImage.color = Quality.GradeToColor(currentGrade);
 
-		fillAmount = 1f;
+		fillAmount = StartFill;
 
 		// POSITIONING FOREGROUND BAR.
 		// Foreground bar min/max derived from the background.
@@ -78,7 +80,9 @@ public class QualityBar : MonoBehaviour
 		foregroundTransform.anchoredPosition = pos;
 
 		// Fill initial correctly.
-		foregroundTransform.sizeDelta = new Vector2(-barMaxWidth, barHeight);
+		//foregroundTransform.sizeDelta = new Vector2(-barMaxWidth, barHeight);
+		float fill = -Mathf.Lerp(barMinWidth, barMaxWidth, fillAmount);
+		foregroundTransform.sizeDelta = new Vector2(fill, barHeight);
 
 		// Subscribe to countdown tick.
 		Countdown.onTick += SubtractFixed;
@@ -86,7 +90,7 @@ public class QualityBar : MonoBehaviour
 
 	private void Update()
 	{
-		if (debug) Add(Time.deltaTime * speedMult);
+		if (debug) Add(Time.deltaTime * speedMult, true);
 	}
 
 	public void Add(float amount, bool allowMoveUp = false)
