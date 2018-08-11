@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,6 +16,7 @@ public class Vacuum : MonoBehaviour {
 	void Update () {
 		Vector3 pos = holeObj.transform.position;
 		mat.SetVector("_PullPos", new Vector4(pos.x, pos.y, pos.z, 1));
+		Debug.Log(String.Format("pull vector is {0}", new Vector4(pos.x, pos.y, pos.z, 1)));
 	}
 
 	private void OnDrawGizmos() {

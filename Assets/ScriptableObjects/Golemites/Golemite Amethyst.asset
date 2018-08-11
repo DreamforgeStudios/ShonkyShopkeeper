@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: Golemite Amethyst
   m_EditorClassIdentifier: 
   itemName: Amethyst Golemite
-  physicalRepresentation: {fileID: 1812309077769874, guid: 758f6f9b120e7e6409cb1e24f5986f35,
+  physicalRepresentation: {fileID: 1170650753489832, guid: bc8b7676c3335aa49913a827adf9d2a8,
     type: 2}
   stackLimit: 1
   mergeable: 0
