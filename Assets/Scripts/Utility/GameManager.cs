@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour {
 	public Personality PersonalityTransfer;
 	public Sprite SpriteTransfer;
     public int RetriesRemaining = 0;
-	public int ShonkyIndexTransfer = -1;
+	public int ShonkyIndexTransfer = 0;
 	public float CameraRotTransfer = 8;
 	
 	public Travel.Towns CurrentTown {

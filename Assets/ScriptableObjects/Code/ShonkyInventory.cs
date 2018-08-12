@@ -109,27 +109,6 @@ public class ShonkyInventory : ScriptableObject {
         return -1;
     }
 
-    // Insert item at specific slot
-    /*
-    public bool InsertItemAtSlot(int currentIndex, int indexToBePlaced) {
-        if (shonkyInventory[indexToBePlaced] == null && shonkyInventory[currentIndex] != null) {
-            ItemInstance temp = shonkyInventory[currentIndex];
-            shonkyInventory[currentIndex] = null;
-            shonkyInventory[indexToBePlaced] = temp;
-            Save();
-            return true;
-        } else {
-            return false;
-        }
-    }
-    */
-    /*
-    public void InsertItemAtSlot(int index, ItemInstance golem, GameObject physicalRepresentation) {
-        shonkySlots[index].SetItemInstantiated(golem, physicalRepresentation);
-    }
-    */
-    
-
     public bool SlotEmpty(int index) {
         if (shonkyInventory[index] == null || shonkyInventory[index].item == null) {
             return true;
@@ -138,14 +117,6 @@ public class ShonkyInventory : ScriptableObject {
         return false;
     }
 
-/*
-    public bool PossibleEmpties(int index) {
-        if (shonkyInventory[index].item.name == "Empty")
-            return true;
-        else
-            return false;
-    }
-    */
     //Need a way to determine if a shonky is in the mine and if so, it cannot be sold currently
     public List<int> PopulatedShonkySlots() {
         List<int> indexes = new List<int>();
@@ -156,24 +127,6 @@ public class ShonkyInventory : ScriptableObject {
         }
         return indexes;
     }
-
-    /*
-    //Determine if currently in mine
-    public bool InMineCurrently(int slotindex) {
-        PenSlot slot;
-        slot = PhysicalShonkyInventory.Instance.GetSlotAtIndex(slotindex);
-        GameObject golem;
-        if (slot.GetPrefabInstance(out golem)) {
-            if (!golem.GetComponent<ShonkyWander>().inMine) {
-                return false;
-            } else {
-                return true;
-            }
-        } else {
-            return true;
-        }
-    }
-    */
 
     // Simply save..
     private void Save() {

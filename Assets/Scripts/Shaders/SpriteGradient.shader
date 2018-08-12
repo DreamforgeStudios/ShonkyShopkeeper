@@ -3,19 +3,14 @@
 Shader "Custom/SpriteGradient" {
 Properties {
     _MainTex ("Main Texture", 2D) = "white" {}
-    _Color ("Best Color", Color) = (1,1,1,1)
-    _Color2 ("Good Color", Color) = (1,1,1,1)
-    _Color3 ("Average Color", Color) = (1,1,1,1)
-    _Color4 ("Bad Color", Color) = (1,1,1,1)
-    _TestVal ("Test Radius", Range(-180, 180)) = 0
-    _TestValSize ("Test Radius Size", Range(0, 359)) = 0
     
     _MaxRadius ("Maximum Radius", Range(-180, 180)) = 180
     _MinRadius ("Maximum Radius", Range(-180, 180)) = -180
      
     _Radius("Radius", Range(0, 1)) = 0.5
     _RadiusWidth("Thickness", Range(0,1)) = 0.1
-    //_Scale ("Av", Float) = 1
+    
+    _CursorPosition("Cursor Position", Range(-180, 180)) = 180
  }
   
  SubShader {
@@ -29,20 +24,15 @@ Properties {
         #pragma vertex vert  
         #pragma fragment frag
         #include "UnityCG.cginc"
-  
-        fixed4 _Color;
-        fixed4 _Color2;
-        fixed4 _Color3;
-        fixed4 _Color4;
-        fixed  _Scale;
-         
-        float _TestVal;
-        float _TestValSize;
          
         float _Radius, _RadiusWidth;
         float _MaxRadius, _MinRadius;
+        
+        float3 _DefaultColor;
+        float _CursorPosition;
          
-        uniform float3 _Points [20];
+        uniform float3 _Points [30];
+        uniform float3 _Colors [30];
         uniform float _PointsLength = 0;
          
         const float PI = 3.1415926535;
@@ -53,6 +43,11 @@ Properties {
             float2 uv : TEXCOORD1;
             //fixed4 col : COLOR;
         };
+        
+        float inverselerp(float a, float b, float x) {
+	        x = clamp(a, b, x);
+	        return (x - a) / (b - a);
+        }
   
         v2f vert (appdata_full v)
         {
@@ -67,7 +62,7 @@ Properties {
         
   
         float4 frag (v2f i) : COLOR {
-            float4 c = _Color3;
+            float4 c = float4(_DefaultColor, 1);
             
             // Cut parts of the circle that are beyond the given angles.
             float fragAngle = degrees(atan2(i.original.y, i.original.x));
@@ -76,12 +71,22 @@ Properties {
             }
             
             // Radius checking (make the quad into a circle).
+            // TODO: cleanup.
+            float rad = _RadiusWidth;
+            if (fragAngle < _CursorPosition + 10 &&
+                fragAngle > _CursorPosition - 10) {
+                float stepamount = inverselerp(10, 0, abs(fragAngle - _CursorPosition));
+                float p = 2.0 * stepamount * stepamount;
+                stepamount = stepamount < 0.5 ? p : -p + (4.0 * stepamount) - 1.0;
+                rad += stepamount * 0.03;
+            }
+            
             float d = distance(float4(0,0,0,1), i.original);
-            float r = lerp(0, 0.5 - _RadiusWidth, _Radius / 1);
-            if (!(d > r && d < r + _RadiusWidth)) {
+            float r = lerp(0, 0.5 - rad, _Radius / 1);
+            if (!(d > r && d < r + rad)) {
                 clip(-1);
             }
-
+            
             // Loop through each point that has been sent to the shader.
             // Point.x = angle.
             // Point.y = size.
@@ -89,6 +94,8 @@ Properties {
             for (int i = 0; i < _PointsLength; i++) {
                 if (fragAngle > _Points[i].x - _Points[i].y * .5 &&
                     fragAngle < _Points[i].x + _Points[i].y * .5) {
+                    c = float4(_Colors[i], 1);
+                    /*
                     if (_Points[i].z == 0) {
                         c = _Color;
                     } else if (_Points[i].z == 1) {
@@ -98,13 +105,10 @@ Properties {
                     } else if (_Points[i].z == 3) {
                         c = _Color4;
                     }
+                    */
                 }
             }
             
-            if (fragAngle > _TestVal - _TestValSize &&
-                fragAngle < _TestVal + _TestValSize) {
-               c = float4(0, 0, 1, 1);
-            }
             
             return c;
         }

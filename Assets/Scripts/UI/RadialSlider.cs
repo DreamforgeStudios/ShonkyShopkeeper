@@ -7,6 +7,7 @@ using UnityEditor;
 using UnityEngine;
 
 public class RadialSlider : MonoBehaviour {
+	public RadialBar RadialBar;
 	public bool Clockwise = true;
 	public float InitialSpeed = 40f;
 	[Range(-180, 180)]
@@ -48,6 +49,8 @@ public class RadialSlider : MonoBehaviour {
 		} else if (Angle < MaxRotation && Angle > MinRotation) {
 			okToAlternate = true;
 		}
+
+		RadialBar.CursorPosition = Angle;
 	}
 
 	public void PauseForDuration(float duration) {
