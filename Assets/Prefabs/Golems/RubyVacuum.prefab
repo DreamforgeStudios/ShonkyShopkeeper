@@ -491,7 +491,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1502045311230178}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.1402271, y: -1.679515, z: -4.2856216}
+  m_LocalPosition: {x: -2.2883196, y: -1.679515, z: -4.0154543}
   m_LocalScale: {x: 0.05, y: 0.05, z: 0.05}
   m_Children:
   - {fileID: 4789729320727990}
@@ -953,8 +953,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8560b28ec41368548a7734f98205f2c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  holeObj: {fileID: 0}
-  mat: {fileID: 2100000, guid: 1d1424888f84bfb47800e0dbbb53dc80, type: 2}
+  HoleObject: {fileID: 1888404176520656, guid: e112539ec5ca5544dba5ee4609acab64, type: 2}
+  Materials:
+  - {fileID: 2100000, guid: 02f919a446bb3e546ab663b5a66f40db, type: 2}
+  - {fileID: 2100000, guid: 35cdb3cef7a3c944fa14e6f7f01286c4, type: 3}
+  - {fileID: 2100000, guid: 0920d232636763a4ebd9d4d32d0a73da, type: 2}
+  - {fileID: 2100000, guid: c8c01e7fcb2e33c4285aef2736b24ec6, type: 2}
+  - {fileID: 2100000, guid: fd2ee80582548de4cb609b4f5ad7ff87, type: 2}
+  Strength: 0.2
+  MinMaxRange: {x: 0, y: 4.3}
 --- !u!114 &114875215103290068
 MonoBehaviour:
   m_ObjectHideFlags: 1

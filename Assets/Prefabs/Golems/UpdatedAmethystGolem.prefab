@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 114961459882135084}
   - component: {fileID: 54235431946332128}
   - component: {fileID: 195076682799853208}
+  - component: {fileID: 114284387282363842}
   m_Layer: 0
   m_Name: UpdatedAmethystGolem
   m_TagString: Golem
@@ -938,7 +939,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1170650753489832}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.59405184, y: -1.679515, z: -3.6919334}
+  m_LocalPosition: {x: -1.1777986, y: -1.679515, z: -3.9318411}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 4412968642527228}
@@ -1053,6 +1054,24 @@ MonoBehaviour:
   Axis: {x: 0, y: 1, z: 0}
   Speed: 0.5
   Enable: 0
+--- !u!114 &114284387282363842
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1170650753489832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8560b28ec41368548a7734f98205f2c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HoleObject: {fileID: 1888404176520656, guid: e112539ec5ca5544dba5ee4609acab64, type: 2}
+  Materials:
+  - {fileID: 2100000, guid: 5533c65cd6a9953429ee9f14ec768071, type: 2}
+  - {fileID: 2100000, guid: 57d6afa930eac884b9bf1455671b1738, type: 2}
+  - {fileID: 2100000, guid: 8177f7c820553504581fdaff39fc7719, type: 2}
+  Strength: 1
+  MinMaxRange: {x: 0, y: 2}
 --- !u!114 &114696720380211838
 MonoBehaviour:
   m_ObjectHideFlags: 1

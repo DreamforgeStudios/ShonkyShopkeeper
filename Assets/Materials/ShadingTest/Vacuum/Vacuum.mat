@@ -82,13 +82,13 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _Range: 0.83
+    - _Range: 0
     - _SmoothnessTextureChannel: 0
-    - _SoftRange: 1.97
+    - _SoftRange: 2
     - _Specular: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _Strength: 0.5
+    - _Strength: 1
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
