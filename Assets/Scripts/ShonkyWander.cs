@@ -135,14 +135,32 @@ public class ShonkyWander : MonoBehaviour {
     
     IEnumerator Float()
     {
-        transform.DOMove(CalculateRandomPenLoc(), 1f, false);
-        yield return new WaitForSeconds(1.5f);
+        if (CalculateIfNeedGuidance())
+        {
+            transform.DOMove(CalculateRandomPenLoc(), 0.6f, false);
+        }
+        else
+        {
+            
+        }
+
+        yield return new WaitForSeconds(1f);
         Debug.Log("Reenabling agent");
         pickedUp = false;
         agent.enabled = true;
         animator.SetBool("Drop",false);
     }
 
+    private bool CalculateIfNeedGuidance()
+    {
+        if (transform.position.x <= -5f || transform.position.x >= 4f)
+        {
+            return true;
+        }
+
+        return false;
+    }
+    
     private Vector3 CalculateRandomPenLoc()
     {
         float xPos = GetXPos();
@@ -235,7 +253,9 @@ public class ShonkyWander : MonoBehaviour {
         if(Vector3.Distance(transform.position, target.position) > distanceToStop)
         {
             transform.LookAt(target);
-            rb.AddRelativeForce(Vector3.forward * speed, ForceMode.Force);
+            Vector3 direction = (target.transform.position - transform.position).normalized;
+            rb.MovePosition(transform.position + direction * 5f * Time.deltaTime);
+            //rb.MovePosition(target.transform.position);
         }
     }
 }

@@ -20,6 +20,9 @@ public class GolemPickup : MonoBehaviour {
     private Vector3 mousePos;
     private bool overPortal = false;
     private bool holding = false;
+    private Rigidbody golemRb;
+    private Vector3 boundedPos;
+    private Vector3 lastPos;
 
     //Exit Portal Location - used for 'respawning' returning golems
     public Vector3 exitPortalLocation;
@@ -176,6 +179,13 @@ public class GolemPickup : MonoBehaviour {
     private void ResetGolem() {
         if (pickedupGolem != null) {
             //pickedupGolem.GetComponent<NavMeshAgent>().enabled = true;
+            //Input.
+            Debug.Log(String.Format("last pos is {0} while transform is {1}. Direction is {2}", 
+                lastPos,pickedupGolem.transform.position, (pickedupGolem.transform.position - lastPos).normalized));
+            Vector3 direction = (pickedupGolem.transform.position - lastPos).normalized;
+            //Vector3 direction = Input.GetTouch(0).deltaPosition;
+            Debug.DrawLine(pickedupGolem.transform.position,lastPos,Color.green);
+            golemRb.AddForce(direction * 10000f);
             pickedupGolem.GetComponent<ShonkyWander>().FloatToPen();
             GameManager.pickedUpGolem = false;
             pickedupGolem = null;
@@ -220,15 +230,19 @@ public class GolemPickup : MonoBehaviour {
         return null;
     }
 
-    private void HoldGolem(RaycastHit hit) {
+    private void HoldGolem(RaycastHit hit)
+    {
+        lastPos = pickedupGolem.transform.position;
+        golemRb = pickedupGolem.GetComponent<Rigidbody>();
         pickedupGolem.GetComponent<ShonkyWander>().pickedUp = true;
         pickedupGolem.GetComponent<ShonkyWander>().PickUpAnimation(true);
         pickedupGolem.GetComponent<NavMeshAgent>().enabled = false;
         modifiedMousePos = Camera.main.ScreenPointToRay(Input.mousePosition).GetPoint(6.5f);
         float XPos = Mathf.Clamp(modifiedMousePos.x, -5f, 4.5f);
         float ZPos = Mathf.Clamp(modifiedMousePos.z, -5.45f, -1.95f);
-        Vector3 boundedPos = new Vector3(XPos,modifiedMousePos.y,ZPos);
-        pickedupGolem.transform.position = boundedPos;
+        boundedPos = new Vector3(XPos,modifiedMousePos.y,ZPos);
+        golemRb.MovePosition(boundedPos);
+        //pickedupGolem.transform.position = boundedPos;
         CheckIfOverPortal();
     }
 
