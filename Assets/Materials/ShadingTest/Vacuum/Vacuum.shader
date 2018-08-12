@@ -6,10 +6,10 @@
 		_Noise ("Pull Noise", 2D) = "white" {}
 		_FragNoise ("Fragment Noise", 2D) = "white" {}
 
-		_PullPos ("Pull Position", Vector) = (0,0,0,0)
-		_Strength ("Strength", Float) = 3
-		_Range ("Range", Range(0, 10)) = 2
-		_SoftRange ("Soft Range", Range(0, 12)) = 3
+		//_PullPos ("Pull Position", Vector) = (0,0,0,0)
+		//_Strength ("Strength", Float) = 3
+		//_Range ("Range", Range(0, 10)) = 2
+		//_SoftRange ("Soft Range", Range(0, 12)) = 3
 
 		_Color ("Main Color", Color) = (0.5,0.5,0.5, 1)
 		_Ramp ("Ramp", 2D) = "gray" {}
