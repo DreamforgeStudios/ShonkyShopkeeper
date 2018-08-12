@@ -10,8 +10,10 @@ public class GolemTrinkets : MonoBehaviour
 	public GameObject Ball;
 	
 	//Interaction variables
-	private bool _interaction = false;
+	public bool _interaction = false;
+	private bool currentGolem = false;
 	private float _cooldown = 10.0f;
+	private float interactionLimit = 6.0f;
 	private float _nextKick;
 
 	//Used to store 'free' golems
@@ -29,11 +31,15 @@ public class GolemTrinkets : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update () {
-		if (_nextKick > Time.time && !_interaction)
+		if (currentGolem)
+			_interaction = _chosenGolem.GetComponent<ShonkyWander>().TrinketInteraction();
+		//Debug.Log("Next kick is " + _nextKick + " and time is " + Time.time + " and ball interaction is " + _interaction);
+		if (_nextKick < Time.time && !_interaction)
 		{
 			if (GetActiveGolems())
 			{
 				_chosenGolem = ChooseRandomGolem();
+				//Debug.Log("Start interaction");
 				InteractWithItem();
 			}
 		}
@@ -72,7 +78,18 @@ public class GolemTrinkets : MonoBehaviour
 	{
 		_interaction = true;
 		_chosenGolem.GetComponent<ShonkyWander>().InteractWithBall(Ball);
+		currentGolem = true;
+		_nextKick = Time.time + _cooldown;
+		//CheckForEnd();
 
 	}
-	
+
+	/*
+	private void CheckForEnd()
+	{
+		_interaction = _chosenGolem.GetComponent<ShonkyWander>().TrinketInteraction();
+		if (!_interaction)
+			_nextKick = Time.time + _cooldown;
+	}
+	*/
 }
