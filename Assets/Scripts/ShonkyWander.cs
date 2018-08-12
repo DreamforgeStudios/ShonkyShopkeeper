@@ -23,11 +23,15 @@ public class ShonkyWander : MonoBehaviour {
     public bool enableNavmesh = false;
     private bool firstTime = true;
     public bool pickedUp = false;
+    private bool ballInteraction = false;
+    private float interactionLimit = 6.0f;
+    private float timeLimit;
 
     //The resource pouch object being held
     public GameObject pouch;
     
-    
+    //Ball to interact with
+    private GameObject ball;
 	// Use this for initialization
     private void Awake()
     {
@@ -59,16 +63,26 @@ public class ShonkyWander : MonoBehaviour {
                 }
             }
         }
+        if (ballInteraction)
+            KickBall();
     }
 
+    private void CheckForPickup()
+    {
+        if (pickedUp)
+            ballInteraction = false;
+    }
     private void GoToWarpNewPosition(Vector3 newPosition) {
         agent.Warp(newPosition);
         destination = newPosition;
     }
 
     private void GoToNewPosition(Vector3 newPosition) {
-        agent.SetDestination(newPosition);
-        destination = newPosition;
+        if (!ballInteraction)
+        {
+            agent.SetDestination(newPosition);
+            destination = newPosition;
+        }
     }
 
     private void Animate() {
@@ -168,6 +182,7 @@ public class ShonkyWander : MonoBehaviour {
     public void PickUpAnimation(bool activate)
     {
         animator.SetBool("Pickup", activate);
+        /*
         if (activate)
         {
             rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
@@ -176,6 +191,51 @@ public class ShonkyWander : MonoBehaviour {
         {
             rb.constraints = RigidbodyConstraints.None;
         }
+        */
     }
 
+    public void InteractWithBall(GameObject ballObj)
+    {
+        Debug.Log("Starting interaction on golem");
+        ballInteraction = true;
+        ball = ballObj;
+        timeLimit = Time.time + interactionLimit;
+    }
+
+    private void KickBall()
+    {
+        CheckForPickup();
+        //Debug.Log(String.Format("Time limit is {0} and current time is {1}",timeLimit,Time.time));
+        if (ballInteraction && Time.time < timeLimit)
+        {
+            animator.SetBool("Idle", false);
+            //transform.DOMove(ball.transform.position, 4.0f, false);
+            //transform.position = Vector3.MoveTowards(transform.position, ball.transform.position, 2.6f * Time.deltaTime);
+            FollowTargetWithRotation(ball.transform,0f,12f);
+            transform.LookAt(ball.transform);
+            
+        }
+        else
+        {
+            Debug.Log("Ending interaction");
+            animator.SetBool("Idle", true);
+            ballInteraction = false;
+            GoToNewPosition(GetNewPosition(firstTime));
+        }
+    }
+
+    public bool TrinketInteraction()
+    {
+        return ballInteraction;
+    }
+
+    private void FollowTargetWithRotation(Transform target, float distanceToStop, float speed)
+    {
+        //Debug.Log(Vector3.Distance(transform.position,target.position));
+        if(Vector3.Distance(transform.position, target.position) > distanceToStop)
+        {
+            transform.LookAt(target);
+            rb.AddRelativeForce(Vector3.forward * speed, ForceMode.Force);
+        }
+    }
 }

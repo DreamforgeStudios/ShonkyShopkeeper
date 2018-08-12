@@ -261,7 +261,7 @@ public class GolemPickup : MonoBehaviour {
         if (Mine.Instance.GolemsInMine())
         {
             times = Mine.Instance.TimeRemaining();
-            Debug.Log(Mine.Instance.AmountOfGolemsInMine());
+            //Debug.Log(Mine.Instance.AmountOfGolemsInMine());
             ActivatePortalRings(Mine.Instance.AmountReadyToReturn(), Mine.Instance.AmountOfGolemsInMine());
         }
         else
