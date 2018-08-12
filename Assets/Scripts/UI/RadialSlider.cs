@@ -13,14 +13,21 @@ public class RadialSlider : MonoBehaviour {
 	public float MaxRotation;
 	[Range(-180, 180)]
 	public float MinRotation;
+
+    // Same calculation as in shader.
+    // Returns an angle between 180 and -180.
+	public float Angle {
+		get {
+			return Mathf.Atan2(transform.localPosition.y, transform.localPosition.x) * Mathf.Rad2Deg;
+		}
+	}
 	
-	private SpriteRenderer sr;
 	private bool okToAlternate = true;
 	private float activeSpeed;
 
 	// Use this for initialization
 	void Start () {
-		sr = GetComponent<SpriteRenderer>();
+		//sr = GetComponent<SpriteRenderer>();
 		activeSpeed = InitialSpeed;
 	}
 	
@@ -30,19 +37,22 @@ public class RadialSlider : MonoBehaviour {
 		
 		transform.RotateAround(transform.parent.position, transform.parent.forward, speed * Time.deltaTime);
 
-		// Same calculation as in shader.
-		// Returns an angle between 180 and -180.
-		float angle = Mathf.Atan2(transform.localPosition.y, transform.localPosition.x) * Mathf.Rad2Deg;
-		if (angle > MaxRotation && okToAlternate) {
+		//float angle = Mathf.Atan2(transform.localPosition.y, transform.localPosition.x) * Mathf.Rad2Deg;
+		if (Angle > MaxRotation && okToAlternate) {
 			Clockwise = !Clockwise;
 			okToAlternate = false;
-		} else if (angle < MinRotation && okToAlternate) {
+		} else if (Angle < MinRotation && okToAlternate) {
 			Clockwise = !Clockwise;
 			okToAlternate = false;
 		// Only allow altering if we've been between the correct angles.
-		} else if (angle < MaxRotation && angle > MinRotation) {
+		} else if (Angle < MaxRotation && Angle > MinRotation) {
 			okToAlternate = true;
 		}
+	}
+
+	public void PauseForDuration(float duration) {
+		Pause();
+		StartCoroutine(PlayAfterSeconds(duration));
 	}
 
 	[Button("Pause")]
@@ -53,5 +63,10 @@ public class RadialSlider : MonoBehaviour {
 	[Button("Play")]
 	public void Play() {
 		activeSpeed = InitialSpeed;
+	}
+
+	IEnumerator PlayAfterSeconds(float seconds) {
+		yield return new WaitForSeconds(seconds);
+		Play();
 	}
 }

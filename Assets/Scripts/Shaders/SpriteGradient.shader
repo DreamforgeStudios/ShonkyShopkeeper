@@ -87,8 +87,8 @@ Properties {
             // Point.y = size.
             // Point.z = type = 0, 1, 2, 3 = best, good, average, worst.
             for (int i = 0; i < _PointsLength; i++) {
-                if (fragAngle > _Points[i].x - _Points[i].y &&
-                    fragAngle < _Points[i].x + _Points[i].y) {
+                if (fragAngle > _Points[i].x - _Points[i].y * .5 &&
+                    fragAngle < _Points[i].x + _Points[i].y * .5) {
                     if (_Points[i].z == 0) {
                         c = _Color;
                     } else if (_Points[i].z == 1) {
