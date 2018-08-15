@@ -2464,6 +2464,21 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 523350467}
     m_Modifications:
+    - target: {fileID: 114021709454070972, guid: 4afd061383759384895ed2493d1c9425,
+        type: 2}
+      propertyPath: words.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114021709454070972, guid: 4afd061383759384895ed2493d1c9425,
+        type: 2}
+      propertyPath: colors.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114021709454070972, guid: 4afd061383759384895ed2493d1c9425,
+        type: 2}
+      propertyPath: timeouts.Array.size
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 224497091911663892, guid: 4afd061383759384895ed2493d1c9425,
         type: 2}
       propertyPath: m_LocalPosition.x
@@ -2557,17 +2572,142 @@ Prefab:
     - target: {fileID: 114600834038165990, guid: 4afd061383759384895ed2493d1c9425,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114600834038165990, guid: 4afd061383759384895ed2493d1c9425,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114021709454070972, guid: 4afd061383759384895ed2493d1c9425,
         type: 2}
       propertyPath: words.Array.data[1]
-      value: Trace the rune...
+      value: Ready...
+      objectReference: {fileID: 0}
+    - target: {fileID: 114021709454070972, guid: 4afd061383759384895ed2493d1c9425,
+        type: 2}
+      propertyPath: words.Array.data[0]
+      value: Spellcast the Runes...
+      objectReference: {fileID: 0}
+    - target: {fileID: 114021709454070972, guid: 4afd061383759384895ed2493d1c9425,
+        type: 2}
+      propertyPath: words.Array.data[2]
+      value: GO!
+      objectReference: {fileID: 0}
+    - target: {fileID: 114021709454070972, guid: 4afd061383759384895ed2493d1c9425,
+        type: 2}
+      propertyPath: words.Array.data[3]
+      value: GO!
+      objectReference: {fileID: 0}
+    - target: {fileID: 114021709454070972, guid: 4afd061383759384895ed2493d1c9425,
+        type: 2}
+      propertyPath: timeouts.Array.data[0]
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114021709454070972, guid: 4afd061383759384895ed2493d1c9425,
+        type: 2}
+      propertyPath: timeouts.Array.data[1]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114021709454070972, guid: 4afd061383759384895ed2493d1c9425,
+        type: 2}
+      propertyPath: timeouts.Array.data[2]
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114021709454070972, guid: 4afd061383759384895ed2493d1c9425,
+        type: 2}
+      propertyPath: timeouts.Array.data[3]
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114021709454070972, guid: 4afd061383759384895ed2493d1c9425,
+        type: 2}
+      propertyPath: colors.Array.data[0].r
+      value: 0.9411765
+      objectReference: {fileID: 0}
+    - target: {fileID: 114021709454070972, guid: 4afd061383759384895ed2493d1c9425,
+        type: 2}
+      propertyPath: colors.Array.data[0].g
+      value: 0.90394944
+      objectReference: {fileID: 0}
+    - target: {fileID: 114021709454070972, guid: 4afd061383759384895ed2493d1c9425,
+        type: 2}
+      propertyPath: colors.Array.data[0].b
+      value: 0.8373702
+      objectReference: {fileID: 0}
+    - target: {fileID: 114021709454070972, guid: 4afd061383759384895ed2493d1c9425,
+        type: 2}
+      propertyPath: colors.Array.data[1].r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114021709454070972, guid: 4afd061383759384895ed2493d1c9425,
+        type: 2}
+      propertyPath: colors.Array.data[1].g
+      value: 0.8896551
+      objectReference: {fileID: 0}
+    - target: {fileID: 114021709454070972, guid: 4afd061383759384895ed2493d1c9425,
+        type: 2}
+      propertyPath: colors.Array.data[1].b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114021709454070972, guid: 4afd061383759384895ed2493d1c9425,
+        type: 2}
+      propertyPath: colors.Array.data[2].r
+      value: 0.4482758
+      objectReference: {fileID: 0}
+    - target: {fileID: 114021709454070972, guid: 4afd061383759384895ed2493d1c9425,
+        type: 2}
+      propertyPath: colors.Array.data[2].g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114021709454070972, guid: 4afd061383759384895ed2493d1c9425,
+        type: 2}
+      propertyPath: colors.Array.data[3].r
+      value: 0.4482758
+      objectReference: {fileID: 0}
+    - target: {fileID: 114021709454070972, guid: 4afd061383759384895ed2493d1c9425,
+        type: 2}
+      propertyPath: colors.Array.data[3].g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114021709454070972, guid: 4afd061383759384895ed2493d1c9425,
+        type: 2}
+      propertyPath: colors.Array.data[3].a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114021709454070972, guid: 4afd061383759384895ed2493d1c9425,
+        type: 2}
+      propertyPath: waitForInitialTap
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114600834038165990, guid: 4afd061383759384895ed2493d1c9425,
+        type: 2}
+      propertyPath: m_text
+      value: Spellcast the Runes...
+      objectReference: {fileID: 0}
+    - target: {fileID: 114600834038165990, guid: 4afd061383759384895ed2493d1c9425,
+        type: 2}
+      propertyPath: m_textInfo.characterCount
+      value: 22
+      objectReference: {fileID: 0}
+    - target: {fileID: 114600834038165990, guid: 4afd061383759384895ed2493d1c9425,
+        type: 2}
+      propertyPath: m_textInfo.spaceCount
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114600834038165990, guid: 4afd061383759384895ed2493d1c9425,
+        type: 2}
+      propertyPath: m_textInfo.wordCount
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114600834038165990, guid: 4afd061383759384895ed2493d1c9425,
+        type: 2}
+      propertyPath: m_fontSize
+      value: 66.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114600834038165990, guid: 4afd061383759384895ed2493d1c9425,
+        type: 2}
+      propertyPath: m_textInfo.lineCount
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4afd061383759384895ed2493d1c9425, type: 2}

@@ -3,16 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using DG.Tweening;
+using NaughtyAttributes;
+using UnityEditorInternal;
 
 public class ReadyGo : MonoBehaviour {
 	public TextMeshProUGUI text;
 	public bool waitForInitialTap;
 
 	private int wordIndex;
+	[ReorderableList]
 	public string[] words;
+	[ReorderableList]
 	public float[] timeouts;
+	[ReorderableList]
 	public Color[] colors;
 
+	[ReorderableList]
 	public AudioClip[] sounds;	// Not in use yet...
 	private float curTime;
 	private bool start = false;
