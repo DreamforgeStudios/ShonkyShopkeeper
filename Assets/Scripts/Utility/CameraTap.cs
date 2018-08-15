@@ -13,6 +13,8 @@ public class CameraTap : MonoBehaviour {
 	private Vector3 bottomScreenRotationImg = new Vector3(0, 0, -180);//Quaternion.Euler(0, 0, 180);
 	public Image img;
 
+    public TutorialManager tutManager;
+
     public void Awake() {
         //If top screenRotation was last remembered
         if (topScreenRotation.x == GameManager.Instance.CameraRotTransfer) {
@@ -38,6 +40,13 @@ public class CameraTap : MonoBehaviour {
             GameManager.Instance.CameraRotTransfer = topScreenRotation.x;
             topScreen = true;
         }
+
+        if (!GameManager.Instance.TutorialIntroTopComplete)
+        {
+            GameManager.Instance.TutorialIntroTopComplete = true;
+            tutManager.NextDialogue();
+        }
+            
     }
 
 	public bool AtTopScreen() {

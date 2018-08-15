@@ -68,8 +68,8 @@ public class Inventory : ScriptableObject {
 
     private void CheckInitialisation() {
         if (unlockedTowns == null) {
-            Debug.Log("Unlocked town list is null");
             unlockedTowns = new List<Travel.Towns>();
+            unlockedTowns.Add(Travel.Towns.Tutorial);
         }
     }
 
@@ -84,11 +84,11 @@ public class Inventory : ScriptableObject {
 
     public int GetMaxRetries(Travel.Towns town) {
         int index = unlockedTowns.IndexOf(town);
-        if (index == 0) {
+        if (index == 0 || index == 1) {
             return 3;
-        } else if (index == 1) {
-            return 2;
         } else if (index == 2) {
+            return 2;
+        } else if (index == 3) {
             return 1;
         } else {
             return 2;
@@ -104,11 +104,11 @@ public class Inventory : ScriptableObject {
                 case 0:
                     return 3;
                 case 1:
-                    return 2;
+                    return 3;
                 case 2:
-                    return 1;
+                    return 2;
                 case 3:
-                    return 0;
+                    return 1;
                 default:
                     return 3;
         }

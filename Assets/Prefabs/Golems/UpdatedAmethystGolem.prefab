@@ -1071,7 +1071,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 57d6afa930eac884b9bf1455671b1738, type: 2}
   - {fileID: 2100000, guid: 8177f7c820553504581fdaff39fc7719, type: 2}
   Strength: 1
-  MinMaxRange: {x: 0, y: 2}
+  MinMaxRange: {x: 0, y: 3}
 --- !u!114 &114696720380211838
 MonoBehaviour:
   m_ObjectHideFlags: 1

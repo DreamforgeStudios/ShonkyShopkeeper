@@ -25,6 +25,7 @@ TagManager:
   - PortalExit
   - Globe
   - Bin
+  - TutorialShine
   layers:
   - Default
   - TransparentFX

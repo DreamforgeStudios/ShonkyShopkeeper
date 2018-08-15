@@ -1094,7 +1094,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 6558a7bf3997bd246b4e850ef29a2d54, type: 2}
   - {fileID: 2100000, guid: b2a24223cbc9d2e44872ede8cff9227a, type: 2}
   Strength: 0.2
-  MinMaxRange: {x: 0, y: 4.3}
+  MinMaxRange: {x: 0, y: 3}
 --- !u!136 &136099653913600250
 CapsuleCollider:
   m_ObjectHideFlags: 1
