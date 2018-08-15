@@ -79,16 +79,16 @@ Material:
     - _OcclusionStrength: 1
     - _Outline: 0.005
     - _Parallax: 0.02
-    - _Range: 2
+    - _Range: 0
     - _SmoothnessTextureChannel: 0
     - _SoftRange: 3
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _Strength: 3
+    - _Strength: 0.2
     - _UVSec: 0
     - _ZWrite: 0
     m_Colors:
     - _Color: {r: 0.18, g: 0.64, b: 0.87, a: 0.82}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
-    - _PullPos: {r: 0, g: 0, b: 0, a: 0}
+    - _PullPos: {r: -6.05, g: 0.97, b: -2.88, a: 1}

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: Golemite Sapphire
   m_EditorClassIdentifier: 
   itemName: Sapphire Golemite
-  physicalRepresentation: {fileID: 1110542945864108, guid: 557ce8169dcf9ed4ba169d98406694f6,
+  physicalRepresentation: {fileID: 1247765692331394, guid: 00aec89347425164d88a3219a0e39290,
     type: 2}
   stackLimit: 1
   mergeable: 0

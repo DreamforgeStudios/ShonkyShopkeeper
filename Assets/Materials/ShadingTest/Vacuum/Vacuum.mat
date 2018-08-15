@@ -82,18 +82,18 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _Range: 3.341584
+    - _Range: 0
     - _SmoothnessTextureChannel: 0
-    - _SoftRange: 5.7178216
+    - _SoftRange: 2
     - _Specular: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _Strength: 0.5
+    - _Strength: 1
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 0.7812564, b: 0.3537736, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _MainColor: {r: 1, g: 1, b: 1, a: 1}
-    - _PullPos: {r: -4.15, g: 0.853, b: 0.03, a: 1}
+    - _PullPos: {r: -6.05, g: 0.97, b: -2.88, a: 1}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}

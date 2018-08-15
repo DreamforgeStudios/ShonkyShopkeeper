@@ -51,6 +51,11 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
+	public bool InTutorial = true;
+	public bool TutorialIntroTopComplete = false;
+	public bool TutorialIntroComplete = false;
+	public bool HasInspectedAllInventoryItems = false;
+	public List<string> InspectedItems;
 	public Item.GemType GemTypeTransfer;
 	public Quality.QualityGrade QualityTransfer;
 	public Personality PersonalityTransfer;

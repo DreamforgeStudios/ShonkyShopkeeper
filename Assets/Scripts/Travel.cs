@@ -15,6 +15,7 @@ public static class Travel {
     //Replace town names once confirmed
     //All Possible towns in game
     public enum Towns {
+        Tutorial,
         WickedGrove,
         FlamingPeak,
         GiantsPass,

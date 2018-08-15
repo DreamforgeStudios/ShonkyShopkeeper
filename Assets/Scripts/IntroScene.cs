@@ -31,6 +31,7 @@ public class IntroScene : MonoBehaviour {
         }
         loading.enabled = false;
         next.enabled = true;
+        Initiate.Fade("TutorialShop", Color.black, 2f);
     }
 
     // Update is called once per frame
