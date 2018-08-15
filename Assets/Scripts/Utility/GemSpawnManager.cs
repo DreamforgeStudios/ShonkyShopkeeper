@@ -53,7 +53,9 @@ public class GemSpawnManager : MonoBehaviour {
 		Instantiate(SmokeParticleSystem, transform.position + Vector3.back * 2.5f, Quaternion.identity, transform);
 		Instantiate(ShineParticleSystem, transform.position + Vector3.forward * 2.5f, Quaternion.identity, transform);
 		
-		Destroy(spawnedClone);
+		//Destroy(spawnedClone);
+		// Setting inactive is faster.  We'll probably pay for the whole destroy cost in loading anyway though.
+		spawnedClone.SetActive(false);
 		
 		Instantiate(cloneAfter, cloneAfter.transform.position, cloneAfter.transform.rotation, transform);
 

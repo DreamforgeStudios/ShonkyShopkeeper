@@ -20,6 +20,8 @@ public class Smelting : MonoBehaviour {
     public Sprite feedbackPositive;
     public Sprite feedbackNegative;
     public Material feedbackMaterial;
+
+	public OreSpawnManager OreSpawnManager;
     //private Image feedbackContainer;
 
 	// Amount of time that the player should hold the position.
@@ -256,6 +258,8 @@ public class Smelting : MonoBehaviour {
         qualityText.color = Quality.GradeToColor(grade);
         qualityText.gameObject.SetActive(true);
         qualityBar.Disappear();
+	    
+	    OreSpawnManager.Upgrade();
 
         ShowUIButtons();
     }

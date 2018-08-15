@@ -9,45 +9,73 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1847029561806354}
+  m_RootGameObject: {fileID: 1901623510144376}
   m_IsPrefabAsset: 1
---- !u!1 &1847029561806354
+--- !u!1 &1708493945758602
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4726610511731282}
-  - component: {fileID: 33556196253038538}
-  - component: {fileID: 23247677179651348}
-  - component: {fileID: 114992418532490952}
+  - component: {fileID: 4221774983175474}
+  - component: {fileID: 33610410175281818}
+  - component: {fileID: 23290981166568196}
   m_Layer: 0
-  m_Name: Ruby Jewel Game
+  m_Name: Pot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4726610511731282
+--- !u!1 &1901623510144376
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4174697773998422}
+  m_Layer: 0
+  m_Name: SmeltingPot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4174697773998422
 Transform:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1847029561806354}
-  m_LocalRotation: {x: 0.2667033, y: -0.386525, z: -0.019804467, w: 0.88265264}
-  m_LocalPosition: {x: -0.07691872, y: 1.54, z: 0.14}
-  m_LocalScale: {x: 60, y: 60, z: 60}
-  m_Children: []
+  m_GameObject: {fileID: 1901623510144376}
+  m_LocalRotation: {x: 0, y: 0.9974595, z: 0, w: 0.0712363}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_Children:
+  - {fileID: 4221774983175474}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 27.097002, y: -51.108, z: -15.716001}
---- !u!23 &23247677179651348
+  m_LocalEulerAnglesHint: {x: 0, y: 171.83, z: 0}
+--- !u!4 &4221774983175474
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1708493945758602}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4174697773998422}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!23 &23290981166568196
 MeshRenderer:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1847029561806354}
+  m_GameObject: {fileID: 1708493945758602}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -57,8 +85,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: bfc6eab2a0e506c41a1254befb6f9fd3, type: 2}
-  - {fileID: 2100000, guid: bfc6eab2a0e506c41a1254befb6f9fd3, type: 2}
+  - {fileID: 2100000, guid: 87ce1e5fc74f49641af2eb8c4edf693d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -78,25 +105,10 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!33 &33556196253038538
+--- !u!33 &33610410175281818
 MeshFilter:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1847029561806354}
-  m_Mesh: {fileID: 4300000, guid: d5c349685d8486b41805d56f2779421b, type: 3}
---- !u!114 &114992418532490952
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1847029561806354}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 320df158a64baf94da5335432a9741ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Axis: {x: 0, y: 1, z: 0}
-  Speed: 18
-  UseUnscaledTime: 0
-  Enable: 1
+  m_GameObject: {fileID: 1708493945758602}
+  m_Mesh: {fileID: 4300000, guid: 92a4a6d799804e249b8daa7de8eead06, type: 3}

@@ -3,7 +3,7 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
@@ -22,9 +22,9 @@ MonoBehaviour:
     width: 413
     height: 417
     xOffset: 0
-    yOffset: 376.26
+    yOffset: 325.8
     xAdvance: 413
-    scale: 1
+    scale: 2
     name: coin1
     hashCode: 116603866
     unicode: 0
@@ -35,7 +35,7 @@ MonoBehaviour:
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: TextMeshPro/Sprite
   m_Shader: {fileID: 4800000, guid: cf81c85f95fe47e1a27f6ae460cf182c, type: 3}

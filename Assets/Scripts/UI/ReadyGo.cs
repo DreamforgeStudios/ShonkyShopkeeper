@@ -34,6 +34,8 @@ public class ReadyGo : MonoBehaviour {
 		// Timescale independent...
 		text.transform.DOPunchScale(Vector3.one * 0.5f, 0.3f).SetUpdate(true);
 		text.color = colors[wordIndex];
+		
+		start = !waitForInitialTap;
 	}
 	
 	// Update is called once per frame

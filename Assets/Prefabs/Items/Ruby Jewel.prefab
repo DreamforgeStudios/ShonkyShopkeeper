@@ -98,7 +98,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Axis: {x: 0, y: 1, z: 0}
-  Speed: 0.5
+  Speed: 18
+  UseUnscaledTime: 0
   Enable: 0
 --- !u!114 &114593667664072462
 MonoBehaviour:
