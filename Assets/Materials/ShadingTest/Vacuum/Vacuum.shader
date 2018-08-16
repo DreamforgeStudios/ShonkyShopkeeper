@@ -87,7 +87,7 @@
 
 				// Vertex to add...
 				float3 toAdd = (_PullPos - worldVertex) * val * noise;
-				toAdd = mul(unity_WorldToObject, toAdd);
+				toAdd = mul(unity_WorldToObject, float4(toAdd.xyz,0.0));
 				// Pass it to the pixel shader.
 				o.add = toAdd; 
 				v.vertex += float4(toAdd, 1);
