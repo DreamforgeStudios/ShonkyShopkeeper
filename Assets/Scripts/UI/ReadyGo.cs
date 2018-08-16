@@ -4,7 +4,6 @@ using UnityEngine;
 using TMPro;
 using DG.Tweening;
 using NaughtyAttributes;
-using UnityEditorInternal;
 
 public class ReadyGo : MonoBehaviour {
 	public TextMeshProUGUI text;

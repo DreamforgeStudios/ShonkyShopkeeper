@@ -15,19 +15,19 @@ MonoBehaviour:
   - Quantity: 1
     Quality: 5
     IsNew: 1
-    ItemIdentifier: rubygolem1
+    ItemIdentifier: 
     InMine: 0
     pouchType: 0
   - Quantity: 1
     Quality: 5
     IsNew: 0
-    ItemIdentifier: sapphiregolem1
+    ItemIdentifier: 
     InMine: 0
     pouchType: 0
   - Quantity: 1
     Quality: 5
     IsNew: 1
-    ItemIdentifier: amethystgolem1
+    ItemIdentifier: 
     InMine: 0
     pouchType: 2
   - Quantity: 0

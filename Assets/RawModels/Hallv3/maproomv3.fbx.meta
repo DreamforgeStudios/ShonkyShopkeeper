@@ -139,7 +139,62 @@ ModelImporter:
     4300040: treebase
     4300042: mapsphere
     4300044: floor
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ball
+    second: {fileID: 2100000, guid: cdf8ab3ad758497458cbda72208b1f4e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: bigrubygolemv2_rubyhollowsSG1
+    second: {fileID: 2100000, guid: e34ee6835dffa964bb8fc53abfa65ee5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: emeraldgolem_hollow
+    second: {fileID: 2100000, guid: 63322775493516d47a35854bf84204e4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: floor1
+    second: {fileID: 2100000, guid: bb6a86c6e384f0a4f810158183c16c75, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: goldtrim
+    second: {fileID: 2100000, guid: 0ca9c08afc8763d45a8f4b3cdd9d517d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: golempedestal
+    second: {fileID: 2100000, guid: 5fecdf325239f5847a8c8cf34364c00f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lightwood
+    second: {fileID: 2100000, guid: a753fb8f4ba40d24fa9a94d9bf510c20, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: mappedestal
+    second: {fileID: 2100000, guid: d14c0cf554d198647888f9b786fcd1d3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pede
+    second: {fileID: 2100000, guid: 1866b874e3e561440acd131a15fd2de1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: treetrunks
+    second: {fileID: 2100000, guid: ba8480dd1a161c84093914b59d4be59b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: wood
+    second: {fileID: 2100000, guid: 65bd16b1a72ba244889664e1b7f0a934, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
