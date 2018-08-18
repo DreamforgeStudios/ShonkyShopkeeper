@@ -59,6 +59,7 @@ public class GolemPickup : MonoBehaviour {
         } 
         else if (overPortal) {
             Debug.Log("Sending to Mine");
+            //SFX.Play("sound");
             int index = GetGolemSlot();
             Mine.Instance.AddGolemAndTime(System.DateTime.Now, index);
             SetGolemInMine(index, true);
@@ -136,6 +137,7 @@ public class GolemPickup : MonoBehaviour {
                         int golemIndex = GetGolemSlot();
                         if (pouchSlot > -1) {
                             //Reset golem and set pouch to inventory
+                            //SFX.Play("sound");
                             hit.transform.gameObject.GetComponent<ShonkyWander>().RemovePouch();
                             Slot insertedSlot = inv.GetSlotAtIndex(pouchSlot);
                             insertedSlot.SetItem(pouch);
@@ -158,6 +160,10 @@ public class GolemPickup : MonoBehaviour {
                                 obj.GetComponent<SackHueChange>().UpdateCurrentColor(instance.pouchType);
                             
                             ResetGolem();
+                        }
+                        else
+                        {
+                            //SFX.Play("sound");
                         }
                     }
                 }
@@ -197,8 +203,10 @@ public class GolemPickup : MonoBehaviour {
         SetGolemInMine(golem, false);
         SetGolemBagType(golem);
         GameObject physicalRep = GetGolemObj(golem);
+        //SFX.Play("sound");
         physicalRep.SetActive(true);
         physicalRep.transform.position = exitPortalLocation;
+        //SFX.Play("sound");
         physicalRep.GetComponent<ShonkyWander>().enableNavmesh = true;
         physicalRep.GetComponent<NavMeshAgent>().enabled = true;
         physicalRep.GetComponent<ShonkyWander>().pickedUp = false;
@@ -232,6 +240,7 @@ public class GolemPickup : MonoBehaviour {
 
     private void HoldGolem(RaycastHit hit)
     {
+        //SFX.Play("sound");
         lastPos = pickedupGolem.transform.position;
         golemRb = pickedupGolem.GetComponent<Rigidbody>();
         pickedupGolem.GetComponent<ShonkyWander>().pickedUp = true;
@@ -263,6 +272,7 @@ public class GolemPickup : MonoBehaviour {
         int layerMask = LayerMask.GetMask("MinePortal");
         if (Physics.Raycast(ray, out secondHit, 10, layerMask)) {
             overPortal = true;
+            //SFX.Play("sound");
         }
         else {
             overPortal = false;
@@ -295,11 +305,13 @@ public class GolemPickup : MonoBehaviour {
         {
             _timers[i].DOFade(0.8f, 2f);
             _timers[i].color = Color.yellow;
-            _timers[i].fillAmount = 1f;           
+            _timers[i].fillAmount = 1f;         
+            //SFX.Play("sound");
         }
 
         for (int j = amountToCollect; j < amountToCollect + amountMining; j++)
         {
+            //SFX.Play("sound");
             TimeSpan elapsedTime = DateTime.Now - times[j];
             float milliseconds = (float)elapsedTime.TotalMilliseconds;
             _timers[j].DOFade(0.8f, 2f);

@@ -8,7 +8,7 @@ public class TracingColliding : MonoBehaviour {
     public GameObject badFeedback;
 
     //Need time variables so crosses aren't spammed and kill the game.
-    private float cooldown = 5f;
+    private float cooldown = 1f;
     private float nextTime;
     public void Awake() {
         nextTime = Time.time;
@@ -23,6 +23,7 @@ public class TracingColliding : MonoBehaviour {
         if (collision.gameObject.tag == "TracingCollider") {
             counter++;
             if (Time.time > nextTime) {
+                //SFX.Play("sound");
                 Vector3 newPos = transform.position;
                 newPos.z += 1;
                 Instantiate(badFeedback, newPos, badFeedback.transform.rotation);
@@ -36,6 +37,7 @@ public class TracingColliding : MonoBehaviour {
             counter++;
             //Debug.Log(counter);
             if (Time.time > nextTime) {
+                //SFX.Play("sound");
                 Vector3 newPos = transform.position;
                 newPos.z += 1;
                // Instantiate(badFeedback, newPos, badFeedback.transform.rotation);

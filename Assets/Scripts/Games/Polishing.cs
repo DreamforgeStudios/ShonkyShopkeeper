@@ -99,6 +99,7 @@ public class Polishing : MonoBehaviour {
         //retryScene.enabled = false;
         //qualityText.enabled = false;
         emitParams = new ParticleSystem.EmitParams();
+        //SFX.Play("sound");
         Countdown.onComplete += GameOver;
     }
 
@@ -186,6 +187,7 @@ public class Polishing : MonoBehaviour {
     }
 
     private void AddSwipe() {
+        //SFX.Play("sound");
         numberOfSwipes++;
         qualityBar.Add(swipeContribution);
     }

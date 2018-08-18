@@ -106,6 +106,7 @@ public class Cutting : MonoBehaviour {
 			// TODO: this is a bit messy, move GemObject calculation somewhere else.
 			clone.CutVector = -(cutPosition - GemSpawnManager.transform.position)*1.8f;
 			clone.onSpawnComplete += cut => activeCuts.AddLast(cut);
+			//SFX.Play("sound");
 
 			timeIntervalCounter = 0;
 		}
@@ -204,6 +205,7 @@ public class Cutting : MonoBehaviour {
 			}
 		}
 
+		//SFX.Play("sound");
 		return closest;
 	}
 	

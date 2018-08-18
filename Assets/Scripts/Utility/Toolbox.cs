@@ -196,16 +196,19 @@ public class Toolbox : MonoBehaviour {
         switch (newToolObj.tag)
         {
             case "Forceps":
+                //SFX.Play("sound");
                 newToolObj.transform.DORotate(desiredForcepRot, 0.9f).SetEase(Ease.InOutSine);//.OnComplete(() =>
                 newToolObj.transform.DOMove(desiredForcepPos, 1f).SetEase(Ease.InOutSine).OnComplete(() =>
                     newToolObj.GetComponent<ToolFloat>().StartFloat());
                 break;
             case "Wand":
+                //SFX.Play("sound");
                 newToolObj.transform.DORotate(desiredWandRot, 0.5f).SetEase(Ease.InOutSine);//.OnComplete(() =>
                 newToolObj.transform.DOMove(desiredWandPos, 1f).SetEase(Ease.InOutSine).OnComplete(() =>
                     newToolObj.GetComponent<ToolFloat>().StartFloat());
                 break;
             case "Magnifyer":
+                //SFX.Play("sound");
                 newToolObj.transform.DORotate(desiredInspectRot, 1.1f).SetEase(Ease.InOutSine);//.OnComplete(() =>
                 newToolObj.transform.DOMove(halfwayInspectPos , 0.5f).SetEase(Ease.InOutSine).OnComplete(() => 
                     newToolObj.transform.DOMove(desiredInspectPos, 0.5f).SetEase(Ease.InOutSine).OnComplete(() =>
@@ -291,6 +294,7 @@ public class Toolbox : MonoBehaviour {
 
                 textHeading.text = instance.itemName;
                 textInfo.text = instance.itemInfo;
+                //SFX.Play("sound");
                 
                 MoveUp(slot);
             }
@@ -337,6 +341,7 @@ public class Toolbox : MonoBehaviour {
             {
                 this.currentSelection = slot;
                 MoveUp(slot);
+                //SFX.Play("sound");
                 // Second selection.
             }
             else
@@ -517,6 +522,7 @@ public class Toolbox : MonoBehaviour {
         //Move selection up
         GameObject itemObj;
         if (currentSelection.GetPrefabInstance(out itemObj)) {
+            //SFX.Play("sound");
             Inventory.Instance.RemoveItem(currentSelection.index);
             currentSelection.RemoveDontDestroy();
 
@@ -595,6 +601,7 @@ public class Toolbox : MonoBehaviour {
               oreChance = 1.00f;
         int numberItems = Random.Range(1, 5);
 
+        //SFX.Play("sound");
         var drops = new List<ItemInstance>();
         for (int i = 0; i < numberItems; i++) {
             string dropName;
@@ -732,8 +739,10 @@ public class Toolbox : MonoBehaviour {
                 Inventory.Instance.AddGold(50);
                 break;
         }
+        //SFX.Play("sound");
         Inventory.Instance.RemoveItem(slot.index);
         slot.RemoveItem();
+        //SFX.Play("sound");
         slot = null;
         SaveManager.SaveInventory();
         canSelect = true;

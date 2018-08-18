@@ -52,6 +52,7 @@ public class Countdown : MonoBehaviour {
 	}
 
 	private void OnTimerTick() {
+		//SFX.Play("sound");
 		transform.DOPunchRotation(Vector3.forward * 25, 0.4f, 18);
 		if (onTick != null)
 			onTick();

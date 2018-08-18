@@ -97,6 +97,7 @@ public class PhysicalInventory : MonoBehaviour {
             }
         }
 		Instantiate(TransitionParticle, inventorySlots[newSlot].transform.position, Quaternion.identity);
+		//SFX.Play("sound");
 	}
 
 	public void Clear() {
