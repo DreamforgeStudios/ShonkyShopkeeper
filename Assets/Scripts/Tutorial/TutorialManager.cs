@@ -9,13 +9,14 @@ public class TutorialManager : MonoBehaviour
 {
 	//Default inventories to be load at start
 	public Inventory TutorialInventory, RegularInventory;
-	public ShonkyInventory EmptyInventory;
-	public PhysicalInventory physicalInv;
+	public ShonkyInventory EmptyInventory, RegularGolemInventory;
+	public TutorialPhysicalInventory physicalInv;
 	public PhysicalShonkyInventory golemInv;
 
 	//Tools to inspect and have been inspected
 	public List<GameObject> ItemsToInspect;
 	public List<GameObject> ItemsInspected;
+	public GameObject currentToolToInspect;
 	
 	//UI Elements
 	public List<string> TutorialDialogue;
@@ -33,14 +34,15 @@ public class TutorialManager : MonoBehaviour
 	// Use this for initialization
 	void Start () {
 		SetupInventories();
-		StartParticles();
+		//StartParticles();
 		tutorialCanvas.enabled = false;
 
-		if (!GameManager.Instance.TutorialIntroComplete)
+		if (GameManager.Instance.InTutorial)
 		{
 			travelButton.gameObject.SetActive(false);
 			cameraButton.gameObject.SetActive(false);
-			StartDialogue();
+			if (!GameManager.Instance.TutorialIntroComplete)
+				StartDialogue();
 		}
 	}
 	
@@ -60,7 +62,7 @@ public class TutorialManager : MonoBehaviour
 	private void CheckForInput()
 	{
 		
-		if (Input.GetMouseButtonDown(0) && !GameManager.Instance.TutorialIntroComplete)
+		if (Input.GetMouseButtonDown(0) && !GameManager.Instance.TutorialIntroTopComplete)
 		{
 			NextDialogue();
 		}
@@ -68,7 +70,7 @@ public class TutorialManager : MonoBehaviour
 
 	public void NextDialogue()
 	{
-		Debug.Log(currentDialogue + " out of " + TutorialDialogue.Count);
+		//Debug.Log(currentDialogue + " out of " + TutorialDialogue.Count);
 		if (currentDialogue != 2)
 		{
 			currentDialogue += 1;
@@ -76,6 +78,9 @@ public class TutorialManager : MonoBehaviour
 			{
 				cameraButton.enabled = true;
 				cameraButton.gameObject.SetActive(true);
+			} else if (currentDialogue == 3)
+			{
+				StartParticles(ItemsToInspect[0]);
 			}
 		} else if (currentDialogue == 2)
 		{
@@ -84,8 +89,6 @@ public class TutorialManager : MonoBehaviour
 				currentDialogue++;
 			}
 		} 
-		
-
 		if (currentDialogue < TutorialDialogue.Count)
 		{
 			tutorialText.text = TutorialDialogue[currentDialogue];
@@ -95,7 +98,16 @@ public class TutorialManager : MonoBehaviour
 			GameManager.Instance.TutorialIntroComplete = true;
 			tutorialCanvas.enabled = false;
 		}
-			
+		
+		//Need to start particles for tools		
+	}
+
+	public void StartForcepParticles()
+	{
+		GameObject tool = ItemsToInspect[0];
+		particleChild = Instantiate(particles, tool.transform.position, tool.transform.rotation);
+		particleChild.transform.parent = tool.transform;
+		currentToolToInspect = tool;
 	}
 
 	public void HideCanvas()
@@ -129,15 +141,21 @@ public class TutorialManager : MonoBehaviour
 			" you can continue to practice or click the map to start your journey";
 	}
 
-	private void StartParticles()
+	private void StartParticles(GameObject tool)
 	{
 		if (!GameManager.Instance.HasInspectedAllInventoryItems)
 		{
+			
+			particleChild = Instantiate(particles, tool.transform.position, tool.transform.rotation);
+			particleChild.transform.parent = tool.transform;
+			/*
 			foreach (GameObject obj in ItemsToInspect)
 			{
 				particleChild = Instantiate(particles, obj.transform.position, obj.transform.rotation);
 				particleChild.transform.parent = obj.transform;
 			}
+			*/
+			
 		}
 	}
 
@@ -154,6 +172,7 @@ public class TutorialManager : MonoBehaviour
 		if (ItemsToInspect.Count == 0)
 		{
 			GameManager.Instance.HasInspectedAllInventoryItems = true;
+			GameManager.Instance.TutorialIntroComplete = true;
 			return true;
 		}
 
@@ -179,22 +198,40 @@ public class TutorialManager : MonoBehaviour
 			StopParticle(tool);
 			switch (tool.tag)
 			{
+				case "Forceps":
+					tutorialCanvas.enabled = true;
+					tutorialText.text = ToolDialogue[2];
+					StartParticles(ItemsToInspect[0]);
+					currentToolToInspect = ItemsToInspect[0];
+					break;
 				case "Magnifyer":
 					tutorialCanvas.enabled = true;
 					tutorialText.text = ToolDialogue[0];
-					break;
-				case "Forceps":
-					tutorialCanvas.enabled = true;
-					tutorialText.text = ToolDialogue[1];
+					StartParticles(ItemsToInspect[0]);
+					currentToolToInspect = ItemsToInspect[0];
 					break;
 				case "Wand":
 					tutorialCanvas.enabled = true;
-					tutorialText.text = ToolDialogue[2];
+					tutorialText.text = ToolDialogue[3];
+					physicalInv.HighlightOreAndGem();
+					StartCoroutine(WandInteraction());
 					break;
-
+				case "Bin":
+					tutorialCanvas.enabled = true;
+					tutorialText.text = ToolDialogue[1];
+					StartParticles(ItemsToInspect[0]);
+					currentToolToInspect = ItemsToInspect[0];
+					break;
 			}
 		}
 
 		//Time.timeScale = 0f;
+	}
+
+	IEnumerator WandInteraction()
+	{
+		yield return new WaitForSeconds(1f);
+		tutorialText.text = ToolDialogue[4];
+		StopCoroutine(WandInteraction());
 	}
 }

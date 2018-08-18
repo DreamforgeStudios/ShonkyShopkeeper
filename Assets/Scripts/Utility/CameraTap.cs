@@ -47,6 +47,7 @@ public class CameraTap : MonoBehaviour {
         {
             GameManager.Instance.TutorialIntroTopComplete = true;
             tutManager.NextDialogue();
+            tutManager.StartForcepParticles();
         }
             
     }

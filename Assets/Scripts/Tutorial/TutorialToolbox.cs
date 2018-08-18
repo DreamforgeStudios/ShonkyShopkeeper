@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -114,11 +115,10 @@ public class TutorialToolbox : MonoBehaviour {
 
     private void ProcessMouse() {
         if (Input.GetMouseButtonDown(0)) {
-            if (GameManager.Instance.TutorialIntroTopComplete && GameManager.Instance.TutorialIntroComplete)
-            {
+            if (GameManager.Instance.TutorialIntroTopComplete)
                 Cast();
                 //tutorialManager.HideCanvas();
-            }
+      
         }
     }
 
@@ -128,7 +128,7 @@ public class TutorialToolbox : MonoBehaviour {
         }
 
         foreach (Touch touch in Input.touches) {
-            if (touch.phase == TouchPhase.Began) {
+            if (touch.phase == TouchPhase.Began && GameManager.Instance.TutorialIntroTopComplete) {
                 Cast();
             }
         }
@@ -153,19 +153,36 @@ public class TutorialToolbox : MonoBehaviour {
 
         //Debug.Log("casting...");
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask)) {
-            if (hit.transform.CompareTag("Forceps") || hit.transform.CompareTag("Wand") || hit.transform.CompareTag("Magnifyer")) {
+            if (hit.transform.CompareTag("Forceps") || hit.transform.CompareTag("Wand") ||
+                hit.transform.CompareTag("Magnifyer"))
+            {
                 SFX.Play("cursor_select");
                 //soundEffects.clip = cursorSelect;
                 //soundEffects.Play();
-                switch (hit.transform.tag) {
-                    case "Forceps": SwitchTool(Tool.Forceps); break;
-                    case "Magnifyer": SwitchTool(Tool.Inspector); break;
-                    case "Wand": SwitchTool(Tool.Wand); break;
+                if (tutorialManager.currentToolToInspect == hit.transform.gameObject ||
+                    GameManager.Instance.TutorialIntroComplete)
+                {
+                    switch (hit.transform.tag)
+                    {
+                        case "Forceps":
+                            SwitchTool(Tool.Forceps);
+                            break;
+                        case "Magnifyer":
+                            SwitchTool(Tool.Inspector);
+                            break;
+                        case "Wand":
+                            SwitchTool(Tool.Wand);
+                            break;
+                    }
                 }
-                // Must be a slot if it is not a tool.
+            } else if (hit.transform.CompareTag("Bin") && 
+                       tutorialManager.currentToolToInspect == hit.transform.gameObject){
+                ShowInfo(hit.transform.gameObject);
+
+            // Must be a slot if it is not a tool.
             } else if (currentTool == Tool.Forceps && hit.transform.CompareTag("Bin"))
             {
-                BinItem();
+                //BinItem();
             }
             else {
                 UseTool(hit.transform.GetComponent<Slot>());
@@ -180,7 +197,7 @@ public class TutorialToolbox : MonoBehaviour {
     public void SwitchTool(Tool tool) {
         GameObject curToolObj = ToolToObject(currentTool),
                    newToolObj = ToolToObject(tool);
-
+        
         ShowInfo(newToolObj);
         Debug.Log(curToolObj.transform.position);
         // Return old tool to bench.
@@ -229,6 +246,7 @@ public class TutorialToolbox : MonoBehaviour {
         //newToolObj.transform.DOScale(2f, 0.7f).SetEase(Ease.InElastic);
         if (curToolObj != emptyTool)
             curToolObj.GetComponent<Outline>().OutlineWidth = 0;
+        if (newToolObj != emptyTool)
         newToolObj.GetComponent<Outline>().OutlineWidth = selectedOutlineThickness;
 
         // Finally actually swap tools.

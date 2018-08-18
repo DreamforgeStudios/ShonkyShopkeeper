@@ -55,6 +55,7 @@ public class GameManager : MonoBehaviour {
 	public bool TutorialIntroTopComplete = false;
 	public bool TutorialIntroComplete = false;
 	public bool HasInspectedAllInventoryItems = false;
+	public bool TutorialGolemMade = false;
 	public List<string> InspectedItems;
 	public Item.GemType GemTypeTransfer;
 	public Quality.QualityGrade QualityTransfer;
