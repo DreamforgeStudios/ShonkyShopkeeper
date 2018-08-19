@@ -33,6 +33,8 @@ public class GolemPickup : MonoBehaviour {
     //Need Reference to physical inventory to spawn items
     public GameObject inventory;
     private PhysicalInventory inv;
+    public TutorialPhysicalInventory tutInv;
+    public TutorialPhysicalShonkyInventory tutShonkyInv;
     public PhysicalShonkyInventory shonkyInv;
 
     //Radial progress bar
@@ -85,22 +87,46 @@ public class GolemPickup : MonoBehaviour {
 
     private int GetGolemSlot()
     {
-        for (int i = 0; i < shonkyInv.amountOfSlots; i++) {
-            PenSlot slot = shonkyInv.shonkySlots[i];
-            GameObject obj;
-            if (slot.GetPrefabInstance(out obj))
+        if (!GameManager.Instance.InTutorial)
+        {
+            for (int i = 0; i < shonkyInv.amountOfSlots; i++)
             {
-                if (obj == pickedupGolem)
-                    return slot.index;
-            }
-            else
-            {
-                return -1;
-            }
-            
-        }
+                PenSlot slot = shonkyInv.shonkySlots[i];
+                GameObject obj;
+                if (slot.GetPrefabInstance(out obj))
+                {
+                    if (obj == pickedupGolem)
+                        return slot.index;
+                }
+                else
+                {
+                    return -1;
+                }
 
-        return -1;
+            }
+
+            return -1;
+        }
+        else
+        {
+            for (int i = 0; i < tutShonkyInv.amountOfSlots; i++)
+            {
+                PenSlot slot = tutShonkyInv.shonkySlots[i];
+                GameObject obj;
+                if (slot.GetPrefabInstance(out obj))
+                {
+                    if (obj == pickedupGolem)
+                        return slot.index;
+                }
+                else
+                {
+                    return -1;
+                }
+
+            }
+
+            return -1;
+        }
     }
     
     private void SetGolemInMine(int index, bool inMine) {
@@ -147,9 +173,18 @@ public class GolemPickup : MonoBehaviour {
                             //Reset golem and set pouch to inventory
                             //SFX.Play("sound");
                             hit.transform.gameObject.GetComponent<ShonkyWander>().RemovePouch();
-                            Slot insertedSlot = inv.GetSlotAtIndex(pouchSlot);
+                            Slot insertedSlot;
+                            if (!GameManager.Instance.InTutorial)
+                            {
+                                insertedSlot = inv.GetSlotAtIndex(pouchSlot);
+                            }
+                            else
+                            {
+                                insertedSlot = tutInv.GetSlotAtIndex(pouchSlot);
+                            }
+
                             insertedSlot.SetItem(pouch);
-                            
+
                             //Get gemtype from golem and apply to pouch
                             ItemInstance instance;
                             if (ShonkyInventory.Instance.GetItem(golemIndex, out instance))
@@ -173,9 +208,12 @@ public class GolemPickup : MonoBehaviour {
                             {
                                 if (GameManager.Instance.ReturnPouch)
                                 {
-                                    TutorialProgressChecker.Instance.OnlyShowTextBox("Why dont you check out what your golem found by returning to the lower shop!");
+                                    Debug.Log("ReturnedPouch");
+                                    StartCoroutine(TutorialResourcePouch("Why dont you check out what your golem found by returning to the lower shop!"));
+                                    StopCoroutine(TutorialResourcePouch("Why dont you check out what your golem found by returning to the lower shop!"));
                                     GameManager.Instance.ReturnPouch = false;
                                     GameManager.Instance.MineGoleminteractGolem = true;
+                                    GameManager.Instance.OpenPouch = true;
                                 }
                             }
                         }
@@ -234,13 +272,20 @@ public class GolemPickup : MonoBehaviour {
         {
             if (GameManager.Instance.HasMinePouch)
             {
-                TutorialProgressChecker.Instance.OnlyShowTextBox("Tap the pouch in the golems hands to put it your inventory!");
-                GameManager.Instance.HasMinePouch = false;
-                particleChild = Instantiate(particles, physicalRep.transform.position, physicalRep.transform.rotation);
-                particleChild.transform.parent = physicalRep.transform;
-                GameManager.Instance.ReturnPouch = true;
+                StartCoroutine(TutorialResourcePouch("Tap the pouch in the golems hands to put it your inventory!"));
+                StopCoroutine(TutorialResourcePouch("Tap the pouch in the golems hands to put it your inventory!"));
             }
         }
+    }
+
+    private IEnumerator TutorialResourcePouch(string text)
+    {
+        yield return new WaitForSeconds(5f);
+        TutorialProgressChecker.Instance.OnlyShowTextBox(text);
+        GameManager.Instance.HasMinePouch = false;
+        //particleChild = Instantiate(particles, physicalRep.transform.position, physicalRep.transform.rotation);
+        //particleChild.transform.parent = physicalRep.transform;
+        GameManager.Instance.ReturnPouch = true;
     }
 
     private void SetGolemBagType(int index)
@@ -254,17 +299,36 @@ public class GolemPickup : MonoBehaviour {
 
     private GameObject GetGolemObj(int slot)
     {
-        GameObject obj;
-        ItemInstance item;
-        Debug.Log("Slot is " + slot);
-        PenSlot pSlot = shonkyInv.shonkySlots[slot];
-        if (pSlot.GetPrefabInstance(out obj))
+        if (!GameManager.Instance.InTutorial)
         {
-            Debug.Log("Found gameobject");
-            return obj;
+            GameObject obj;
+            ItemInstance item;
+            Debug.Log("Slot is " + slot);
+            PenSlot pSlot = shonkyInv.shonkySlots[slot];
+            if (pSlot.GetPrefabInstance(out obj))
+            {
+                Debug.Log("Found gameobject");
+                return obj;
+            }
+
+            Debug.Log("No gameobject");
+            return null;
         }
-        Debug.Log("No gameobject");
-        return null;
+        else
+        {
+            GameObject obj;
+            ItemInstance item;
+            Debug.Log("Slot is " + slot);
+            PenSlot pSlot = tutShonkyInv.shonkySlots[slot];
+            if (pSlot.GetPrefabInstance(out obj))
+            {
+                Debug.Log("Found gameobject");
+                return obj;
+            }
+
+            Debug.Log("No gameobject");
+            return null;
+        }
     }
 
     private void HoldGolem(RaycastHit hit)
@@ -328,7 +392,7 @@ public class GolemPickup : MonoBehaviour {
         }
 
         if (GameManager.Instance.InTutorial && !GameManager.Instance.MineGoleminteractGolem)
-        {
+        {            
             if (GameManager.Instance.WaitingForTimer)
             {
                 TutorialProgressChecker.Instance.OnlyShowTextBox("Once the yellow timer has filled, your golem is ready to come back!");
@@ -337,6 +401,7 @@ public class GolemPickup : MonoBehaviour {
             if (GameManager.Instance.TimerComplete)
             {
                 TutorialProgressChecker.Instance.OnlyShowTextBox("Tap on the portal to retrieve your golem from the mines!");
+                GameManager.Instance.HasMinePouch = true;
                 GameManager.Instance.TimerComplete = false;
             }
         }
@@ -350,11 +415,6 @@ public class GolemPickup : MonoBehaviour {
             _timers[i].color = Color.yellow;
             _timers[i].fillAmount = 1f;         
             //SFX.Play("sound");
-            if (GameManager.Instance.InTutorial && !GameManager.Instance.MineGoleminteractGolem)
-            {
-                GameManager.Instance.TimerComplete = true;
-                GameManager.Instance.HasMinePouch = true;
-            }
         }
 
         for (int j = amountToCollect; j < amountToCollect + amountMining; j++)
@@ -365,6 +425,10 @@ public class GolemPickup : MonoBehaviour {
             _timers[j].DOFade(0.8f, 2f);
             _timers[j].color = Color.yellow;
             _timers[j].fillAmount = Mathf.Lerp(0f, 1f, milliseconds/ (Mine.Instance.MiningTime() * 1000f));
+            if (GameManager.Instance.InTutorial && _timers[j].fillAmount > 0.95f)
+            {
+                GameManager.Instance.TimerComplete = true;
+            }
         }
 
         for (int k = amountToCollect + amountMining; k < _timers.Count; k++)

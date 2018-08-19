@@ -22,6 +22,7 @@ public class TutorialToolbox : MonoBehaviour {
     }
 
     public PhysicalInventory physicalInventory;
+    public TutorialPhysicalInventory tutInventory;
     public PhysicalShonkyInventory physicalShonkyInventory;
     public ItemDatabase database;
 
@@ -198,7 +199,9 @@ public class TutorialToolbox : MonoBehaviour {
         GameObject curToolObj = ToolToObject(currentTool),
                    newToolObj = ToolToObject(tool);
         
-        ShowInfo(newToolObj);
+        if (!GameManager.Instance.TutorialIntroComplete)
+            ShowInfo(newToolObj);
+        
         Debug.Log(curToolObj.transform.position);
         // Return old tool to bench.
         switch (curToolObj.tag)
@@ -258,7 +261,7 @@ public class TutorialToolbox : MonoBehaviour {
 
     private void ShowInfo(GameObject tool)
     {
-        if (!tutorialManager.Inspected(tool))
+        if (!GameManager.Instance.InspectedItems.Contains(tool.name) && tool.name != "NoneTool")
         {
             tutorialManager.InspectItem(tool);
         }
@@ -326,14 +329,18 @@ public class TutorialToolbox : MonoBehaviour {
         Item item;
         ItemInstance instance;
         if (slot.GetItemInstance(out instance) && slot.GetItem(out item)) {
+            if (item.GetType() == typeof(ResourceBag)) {
+                ResourcePouchOpen(slot);
+            }
+            else
+            {
                 currentSelection = slot;
                 inspectionPanel.SetActive(true);
-
                 textHeading.text = instance.itemName;
                 textInfo.text = instance.itemInfo;
-                
+
                 MoveUp(slot);
-            
+            }
         } else {
             HideInspector();
         }
@@ -480,6 +487,7 @@ public class TutorialToolbox : MonoBehaviour {
         if (currentSelection == null && slot.GetItemInstance(out instance) && slot.GetItem(out item) &&
             tutorialManager.InspectedAllItems()) {
             PlayWandParticles(slot);
+            GameManager.Instance.TutorialIntroComplete = true;
             Debug.Log("got something:" + instance.item);
             currentSelection = slot;
             _minigameType = item.GetType().ToString();
@@ -616,6 +624,7 @@ public class TutorialToolbox : MonoBehaviour {
         TutorialProgressChecker.Instance.Golem = true;
         TutorialProgressChecker.Instance.OnlyShowTextBox("Your first creation is complete! Check it out in the upper shop area");
         GameManager.Instance.SendToMine = true;
+        GameManager.Instance.TutorialIntroComplete = true;
         //tutorialManager.LoadNormalInventory();
     }
     //Method used to find the gem type selected
@@ -655,6 +664,90 @@ public class TutorialToolbox : MonoBehaviour {
             default:
                 return Inventory.Instance.GetMaxRetries(GameManager.Instance.CurrentTown);
         }
+    }
+    
+    private void ResourcePouchOpen(Slot slot) {
+        // Hard coded for now.  To do this dynamically, maybe put <names,chances> in a dictionary<string, float>.
+        float gemChance = 0.4f,
+              oreChance = 1.00f;
+        int numberItems = UnityEngine.Random.Range(6, 12);
+
+        //SFX.Play("sound");
+        var drops = new List<ItemInstance>();
+        for (int i = 0; i < numberItems; i++) {
+            string dropName;
+            string gem = DetermineGemToDrop(slot);
+            Debug.Log("Gemtype to drop is " + gem);
+            float spin = UnityEngine.Random.Range(0, 1f);
+            if (spin < gemChance) {
+                dropName = gem;
+            }
+            else if (spin < oreChance) {
+                dropName = "Ore";
+                //This was for testing and it does drop the correct gems
+                //dropName = DetermineGemToDrop();
+            }
+            else {
+                dropName = null;
+            }
+
+            // Item is not new for now.
+            if (dropName != null)
+                drops.Add(new ItemInstance(dropName, 1, Quality.QualityGrade.Unset, false));
+        }
+
+        Inventory inv = Inventory.Instance;
+        slot.RemoveItem();
+        inv.RemoveItem(slot.index);
+
+        foreach (ItemInstance drop in drops) {
+            int pos = inv.InsertItem(drop);
+            // If found a slot to place item.
+            if (pos != -1) {
+                Slot toSlot = tutInventory.GetSlotAtIndex(pos);
+                GameObject clone = Instantiate(drop.item.physicalRepresentation, slot.transform.position, slot.transform.rotation);
+
+                // Kind of a placeholder animation.
+                // TODO: randomize the Vector3.up a little so that the items separate when they go up.
+                clone.transform.DOMove(clone.transform.position + Vector3.up, 0.7f).SetEase(Ease.OutBack)
+                    .OnComplete(() => clone.transform.DOMove(toSlot.transform.position + Vector3.up, 0.6f).SetEase(Ease.OutBack)
+                    .OnComplete(() => clone.transform.DOMove(toSlot.transform.position, 1f).SetEase(Ease.OutBounce)));
+
+                toSlot.SetItemInstantiated(drop, clone);
+            }
+        }
+        if (GameManager.Instance.InTutorial)
+        {
+            Debug.Log("Finished phase 1 of tutorial");
+            TutorialProgressChecker.Instance.OnlyShowTextBox("Now youve got everything you need to begin your Golemancy journey! When you are" +
+                                                             "ready to continue click the Map to venture out into the world Zauberheim!");
+            GameManager.Instance.InTutorial = false;
+        }
+    }
+    
+    private static string DetermineGemToDrop(Slot slot) {
+        //Get slot index
+        var index = slot.index;
+        //Get resource pouch gemType
+        ItemInstance inst;
+        if (Inventory.Instance.GetItem(index, out inst))
+        {
+            Item.GemType bagType = inst.pouchType;
+            Debug.Log("Current Town is " + Inventory.Instance.GetCurrentTown());
+            switch (bagType) {
+                case Item.GemType.Ruby:
+                    return "ruby";
+                case Item.GemType.Sapphire:
+                    return "sapphire";
+                case Item.GemType.Emerald:
+                    return "emerald";
+                case Item.GemType.Amethyst:
+                    return "amethyst";
+                default:
+                    return "ruby";
+            }
+        }
+        return "ruby";
     }
 
     private void BinItem()

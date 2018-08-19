@@ -137,9 +137,24 @@ public class Mine : ScriptableObject {
 
     public int AmountReadyToReturn()
     {
-        return instantReturn.Count;
+        return instantReturn.Count; //+ ReadyToReturnGolems();
     }
+    
+    /*
+    private int ReadyToReturnGolems() {
+        //Find Golems to be returned
+        int numberOfGolems = 0;
+        foreach (KeyValuePair<DateTime, int> golem in golemTable) {
+            TimeSpan elapsedTime = DateTime.Now - golem.Key;
+            if (elapsedTime.Seconds > mineTimeSeconds)
+            {
+                numberOfGolems++;
+            }
+        }
 
+        return numberOfGolems;
+    }
+    */
     public List<DateTime> TimeRemaining()
     {
         List<DateTime> entryTimes = new List<DateTime>();

@@ -57,7 +57,7 @@ public class GameManager : MonoBehaviour {
 	public bool HasInspectedAllInventoryItems = false;
 	public bool TutorialGolemMade = false;
 	public bool MineGoleminteractGolem = false;
-	public bool SendToMine,HasMinePouch, WaitingForTimer, TimerComplete, ReturnPouch = false;
+	public bool SendToMine,HasMinePouch, WaitingForTimer, TimerComplete, ReturnPouch, OpenPouch = false;
 	public List<string> InspectedItems;
 	public Item.GemType GemTypeTransfer;
 	public Quality.QualityGrade QualityTransfer;

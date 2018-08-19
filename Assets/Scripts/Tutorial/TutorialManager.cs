@@ -35,7 +35,7 @@ public class TutorialManager : MonoBehaviour
 	void Start () {
 		SetupInventories();
 		//StartParticles();
-		tutorialCanvas.enabled = false;
+		tutorialCanvas.gameObject.SetActive(false);
 		if (!GameManager.Instance.TutorialIntroComplete)
 			TutorialProgressChecker.Instance.HideCanvas();
 
@@ -52,11 +52,18 @@ public class TutorialManager : MonoBehaviour
 	void Update ()
 	{
 		CheckForInput();
+
+		if (!GameManager.Instance.InTutorial)
+		{
+			tutorialCanvas.enabled = false;
+			travelButton.gameObject.SetActive(true);
+		}
+			
 	}
 
 	private void StartDialogue()
 	{
-		tutorialCanvas.enabled = true;
+		tutorialCanvas.gameObject.SetActive(true);
 		tutorialText.text = TutorialDialogue[0];
 		
 	}
@@ -75,6 +82,12 @@ public class TutorialManager : MonoBehaviour
 
 		if (TutorialProgressChecker.Instance.Golem && !GameManager.Instance.MineGoleminteractGolem)
 			CheckForCamera();
+		else if (GameManager.Instance.MineGoleminteractGolem && GameManager.Instance.OpenPouch)
+		{
+			PouchText();
+			cameraButton.gameObject.SetActive(true);
+		}
+			
 	}
 
 	public void NextDialogue()
@@ -105,7 +118,7 @@ public class TutorialManager : MonoBehaviour
 		else
 		{
 			GameManager.Instance.TutorialIntroComplete = true;
-			tutorialCanvas.enabled = false;
+			tutorialCanvas.gameObject.SetActive(false);
 		}
 		
 		//Need to start particles for tools		
@@ -116,7 +129,7 @@ public class TutorialManager : MonoBehaviour
 		if (GameManager.Instance.CameraRotTransfer <= 9f)
 		{
 			cameraButton.gameObject.SetActive(false);
-			tutorialCanvas.enabled = true;
+			tutorialCanvas.gameObject.SetActive(false);
 			if (GameManager.Instance.SendToMine)
 			{
 				TutorialProgressChecker.Instance.OnlyShowTextBox("Try picking up your golem and sending it to the mine");
@@ -124,11 +137,17 @@ public class TutorialManager : MonoBehaviour
 				HideCanvas();
 			}
 		}
-		else
+		else 
 		{
 			cameraButton.gameObject.SetActive(true);
-		}
-			
+		}	
+	}
+
+	private void PouchText()
+	{
+		cameraButton.gameObject.SetActive(true);
+		TutorialProgressChecker.Instance.OnlyShowTextBox("Use the magnifying glass on the pouch to see what is inside");
+		GameManager.Instance.OpenPouch = false;
 	}
 	public void StartForcepParticles()
 	{
@@ -140,7 +159,7 @@ public class TutorialManager : MonoBehaviour
 
 	public void HideCanvas()
 	{
-		tutorialCanvas.enabled = false;
+		tutorialCanvas.gameObject.SetActive(false);
 	}
 
 	private void SetupInventories()
@@ -162,7 +181,7 @@ public class TutorialManager : MonoBehaviour
 		SaveManager.SaveInventory();
 		SaveManager.SaveShonkyInventory();
 		physicalInv.PopulateInitial();
-		tutorialCanvas.enabled = true;
+		tutorialCanvas.gameObject.SetActive(true);
 		travelButton.gameObject.SetActive(true);
 		tutorialText.text =
 			"Congratulations on making your first golem! I have filled your inventory with more resources." +
@@ -218,7 +237,8 @@ public class TutorialManager : MonoBehaviour
 
 	public void InspectItem(GameObject tool)
 	{
-		if (!GameManager.Instance.HasInspectedAllInventoryItems && !GameManager.Instance.InspectedItems.Contains(tool.name))
+		if (!GameManager.Instance.HasInspectedAllInventoryItems && !GameManager.Instance.InspectedItems.Contains(tool.name) &&
+		    !GameManager.Instance.TutorialIntroComplete)
 		{
 			ItemsToInspect.Remove(tool);
 			ItemsInspected.Add(tool);
@@ -227,25 +247,26 @@ public class TutorialManager : MonoBehaviour
 			switch (tool.tag)
 			{
 				case "Forceps":
-					tutorialCanvas.enabled = true;
+					tutorialCanvas.gameObject.SetActive(true);
 					tutorialText.text = ToolDialogue[2];
+					Debug.Log("Forceps text");
 					StartParticles(ItemsToInspect[0]);
 					currentToolToInspect = ItemsToInspect[0];
 					break;
 				case "Magnifyer":
-					tutorialCanvas.enabled = true;
+					tutorialCanvas.gameObject.SetActive(true);
 					tutorialText.text = ToolDialogue[0];
 					StartParticles(ItemsToInspect[0]);
 					currentToolToInspect = ItemsToInspect[0];
 					break;
 				case "Wand":
-					tutorialCanvas.enabled = true;
+					tutorialCanvas.gameObject.SetActive(true);
 					tutorialText.text = ToolDialogue[3];
 					physicalInv.HighlightOreAndGem();
 					StartCoroutine(WandInteraction());
 					break;
 				case "Bin":
-					tutorialCanvas.enabled = true;
+					tutorialCanvas.gameObject.SetActive(true);
 					tutorialText.text = ToolDialogue[1];
 					StartParticles(ItemsToInspect[0]);
 					currentToolToInspect = ItemsToInspect[0];
@@ -266,7 +287,6 @@ public class TutorialManager : MonoBehaviour
 	IEnumerator WaitforsecondsCanvasHide(float seconds)
 	{
 		yield return new WaitForSeconds(seconds);
-		tutorialCanvas.enabled = false;
-		StopCoroutine(WaitforsecondsCanvasHide(1f));
+		tutorialCanvas.gameObject.SetActive(false);
 	}
 }
