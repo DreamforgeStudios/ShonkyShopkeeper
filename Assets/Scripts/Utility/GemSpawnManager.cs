@@ -8,9 +8,14 @@ public class GemSpawnManager : MonoBehaviour {
 	public GameObject ShineParticleSystem;
 	public GameObject SmokeParticleSystem;
 
+	[HideInInspector]
+	public GameObject Gem {
+		get { return spawnedClone; }
+	}
+
 	private GameObject spawnedClone;
 	private GameObject cloneAfter;
-	
+
 	// Use this for initialization
 	void Start () {
 		GameObject clone;

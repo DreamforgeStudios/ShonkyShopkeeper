@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Net.Sockets;
+using DG.Tweening;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -40,6 +42,22 @@ public class Cutting : MonoBehaviour {
 	[Tooltip("The overall closeness value (0-1) is multiplied by this value and added to the quality bar.")]
 	public float CutRewardMultiplier = .25f;
 	
+	[BoxGroup("Feel")]
+	[Tooltip("The punch duration is decided by the closeness of the cut.  Multiply it by something else using this value.")]
+	public float PunchDurationMultiplier = 1f;
+	[BoxGroup("Feel")]
+	[Range(0, 20)]
+	public int PunchVibration;
+	[BoxGroup("Feel")]
+	[Range(0, 1)]
+	public float PunchElasticity;
+	[BoxGroup("Feel")]
+	public Ease RotateEase;
+	[BoxGroup("Feel")]
+	public float RotateDurationMultiplier;
+	[BoxGroup("Feel")]
+	[Range(0, 360)]
+	public float RotatePower;
 	
 	[BoxGroup("Object Assignments")]
 	public QualityBar QualityBar;
@@ -67,6 +85,12 @@ public class Cutting : MonoBehaviour {
 	private Vector3 touchOrigin;
 	// Keeps track of what cut is currently active.
 	private CutPoint activeCut = null;
+	// Keeps track of the active punch tween, so we don't do multiple at once.
+	private Tween activePunch = null;
+	// Keeps track of the active rotation tween, so we don't do multiple at once.
+	private Tween activeRotation = null;
+	// Holds cut points, and keeps the scene a bit tidier.
+	private GameObject cutContainer;
 
     void Awake() {
         // Don't start until we're ready.
@@ -77,6 +101,8 @@ public class Cutting : MonoBehaviour {
     void Start () {
 		Countdown.onComplete += GameOver;
 	    activeCuts = new LinkedList<CutPoint>();
+	    
+	    cutContainer = new GameObject("CutContainer");
     }
 
 	void Update () {
@@ -102,7 +128,7 @@ public class Cutting : MonoBehaviour {
 		    CutPrefab.SpawnTime < CountdownObj.CurrentTimeRemaining) {
 			// TODO: maybe add a parent to keep the scene clean.
 			var cutPosition = GenerateNewCutPosition();
-			CutPoint clone = Instantiate(CutPrefab, cutPosition, Quaternion.identity);
+			CutPoint clone = Instantiate(CutPrefab, cutPosition, Quaternion.identity, cutContainer.transform);
 			// TODO: this is a bit messy, move GemObject calculation somewhere else.
 			clone.CutVector = -(cutPosition - GemSpawnManager.transform.position)*1.8f;
 			clone.onSpawnComplete += cut => activeCuts.AddLast(cut);
@@ -169,6 +195,7 @@ public class Cutting : MonoBehaviour {
         if (val < AcceptanceThreshold) {
 	        // TODO: animation.
 	        SFX.Play("bump_small");
+	        PushGem(cutVector, 1 - val);
 			QualityBar.Add((1-val) * CutRewardMultiplier, true);
 			activeCuts.Remove(cut);
 			Destroy(cut.gameObject);
@@ -177,6 +204,24 @@ public class Cutting : MonoBehaviour {
 	        // TODO: fail sound / animation.
 			cut.UnsetSelected();
 		}
+	}
+
+	// TODO: make it so that score affects gem push more.
+	private void PushGem(Vector3 direction, float score = .5f) {
+		// Prevent the gem from moving off-center.
+		if (activePunch != null)
+			activePunch.Complete();
+		if (activeRotation != null)
+			activeRotation.Complete();
+
+		activePunch = GemSpawnManager.Gem.transform.DOPunchPosition(direction.normalized,
+			score * PunchDurationMultiplier, PunchVibration, PunchElasticity);
+
+		// Calculate the vector which is perpendicular to cut so that we can rotate around it.
+		// https://gamedev.stackexchange.com/questions/70075/how-can-i-find-the-perpendicular-to-a-2d-vector
+		Vector3 perpendicular = new Vector3(direction.y, -direction.x, direction.z) * RotatePower;
+		activeRotation = activeRotation = GemSpawnManager.Gem.transform.DORotate(perpendicular, score * RotateDurationMultiplier, RotateMode.WorldAxisAdd)
+			.SetEase(RotateEase);
 	}
 	
 	/* Utility ------ */

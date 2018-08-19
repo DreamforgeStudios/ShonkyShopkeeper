@@ -11,7 +11,7 @@ public class QualityBar : MonoBehaviour
 	// UI objects to use and some helpers for them.
 	public TextMeshProUGUI TextCurrentLevel;
 	public GameObject Background;
-	private Image BackgroundImage;
+	//private Image BackgroundImage;
 	private RectTransform BackgroundTransform;
 
 	public GameObject Foreground;
@@ -53,7 +53,7 @@ public class QualityBar : MonoBehaviour
 	public float speedMult;
 
 	private void Start() {
-		BackgroundImage = Background.GetComponent<Image>();
+		//BackgroundImage = Background.GetComponent<Image>();
 		BackgroundTransform = Background.GetComponent<RectTransform>();
 		foregroundImage = Foreground.GetComponent<Image>();
 		foregroundTransform = Foreground.GetComponent<RectTransform>();
