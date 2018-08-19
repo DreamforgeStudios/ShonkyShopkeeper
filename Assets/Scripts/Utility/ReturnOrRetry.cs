@@ -18,6 +18,9 @@ public class ReturnOrRetry {
             GameManager.Instance.RetriesRemaining--;
             //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 	        Initiate.Fade(SceneManager.GetActiveScene().name, Color.black, 2f);
+	    // Allow retrying in editor for quick changes.
+        } else if (Application.isEditor) {
+	        Initiate.Fade(SceneManager.GetActiveScene().name, Color.black, 2f);
         }
 	}
 }

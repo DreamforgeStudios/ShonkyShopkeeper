@@ -3275,6 +3275,11 @@ Prefab:
       propertyPath: debug
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114395486160872878, guid: 6931fda971dcec64aa77a55b25f75812,
+        type: 2}
+      propertyPath: RegularEaseTime
+      value: 0.2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6931fda971dcec64aa77a55b25f75812, type: 2}
   m_IsPrefabAsset: 0

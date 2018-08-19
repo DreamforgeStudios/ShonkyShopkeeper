@@ -31,8 +31,6 @@ public class Smelting : MonoBehaviour {
     public float negativeMomentum;
 	// The amount of positive momentum that we should apply on a tap.
 	public float tapForce;
-	// The maximum rotation that we should sit at.
-	public Vector3 maxRotation;
 	// The maximum jump we can make in a single frame.  This is mostly to avoid looping.
 	// Set equal to maxRotation.z if causing problems.
 	public float maxJump;
@@ -43,30 +41,16 @@ public class Smelting : MonoBehaviour {
 	// Debug.
 	public Material debugMaterial;
 	// Grade based on how close player was to the middle.
-	// The score that results in a perfect.
-	public float bestScore;
-	// The score that results in junk.
-	public float worstScore;
     // Curve that defines the impact of holding.
     public AnimationCurve accelerationCurve;
     // Curve that defines the multiplier for closeness (how much we should take away).
     public AnimationCurve closenessCurve;
+	public float closenessContribution;
 
 	// The rigidbody attached to this game object.
 	private Rigidbody rb;
 	// Previous rotation.
 	private Vector3 prevRotation;
-
-    //Two objects to show and hide for restart and scene change
-    public GameObject nextScene;
-    public GameObject retryScene;
-
-    //Audio GameObject and relevant objects
-    public GameObject audioObject;
-    private AudioSource fire;
-    private AudioSource SFX;
-    private AudioClip buttonHit;
-    //private AudioClip qualityBarReduce;
 
     //Particle System
     public ParticleSystem particle;
@@ -89,22 +73,19 @@ public class Smelting : MonoBehaviour {
     }
 
 	void Start () {
-        SetupAudio();
+		SFX.Play("game_instrumental", looping: true);
+		SFX.Play("fire_loop", looping: true);
+		
 		rb = GetComponent<Rigidbody>();
-        //transform.eulerAngles = new Vector3(0, 0, 354);
 		prevRotation = transform.eulerAngles;
         Countdown.onComplete += GameOver;
-		//timeToGo = holdTime;
-		//started = false;
-        //nextScene.SetActive(false);
-        //retryScene.SetActive(false);
-        //emitParams = new ParticleSystem.EmitParams();
     }
 	
 	// Don't waste frames on mobile...
 	void FixedUpdate() {
         if (!start)
             return;
+		
         // Continually rotate backwards
         transform.eulerAngles = new Vector3(0, 0, transform.eulerAngles.z + negativeMomentum);
         // Alternative method.
@@ -113,9 +94,8 @@ public class Smelting : MonoBehaviour {
 		// Constrain to rotation boundaries.
 		Constrain();
 		UpdateDebug();
-		//UpdateTimer();
 
-        UpdateQualityBar();
+        UpdateBar();
         UpdateFeedback();
 
 		// Record previous location.
@@ -191,25 +171,20 @@ public class Smelting : MonoBehaviour {
 		}
 	}
 
-    private void UpdateQualityBar() {
-		float closeness = Mathf.Min(Mathf.Abs(transform.eulerAngles.z - successPoint) / successRange, 1);
+    private void UpdateBar() {
+		float closeness = Mathf.Min(Mathf.Abs(transform.eulerAngles.z - successPoint) / successRange, 2);
         if (closeness < 1) {
             feedbackMaterial.SetTexture("_MainTex", feedbackPositive.texture);
+			// Using a curve seemed like a good idea at the time...
+			qualityBar.Add(closenessCurve.Evaluate(closeness) * closenessContribution * Time.deltaTime, allowMoveUp: true);
         } else {
             feedbackMaterial.SetTexture("_MainTex", feedbackNegative.texture);
+			qualityBar.Subtract((1-closenessCurve.Evaluate(closeness - 1)) * closenessContribution * Time.deltaTime, allowMoveDown: true);
         }
         //Debug.Log("closeness: " + closeness);
         //Debug.Log("closeness evaluation: " + closenessCurve.Evaluate(closeness));
-        qualityBar.SetFixedSubtraction(closenessCurve.Evaluate(closeness));
-    }
-
-    private void SetupAudio() {
-        fire = audioObject.GetComponent<SmeltingAudio>().fire;
-        SFX = audioObject.GetComponent<SmeltingAudio>().effects;
-        //qualityBarReduce = audioObject.GetComponent<SmeltingAudio>().qualityBar;
-        buttonHit = audioObject.GetComponent<SmeltingAudio>().buttonSound;
-        fire.clip = audioObject.GetComponent<SmeltingAudio>().fireSound;
-        fire.Play();
+	    //qualityBar.TickSubtraction = closenessCurve.Evaluate(closeness);
+	    
     }
 
 	private void UpdateDebug() {
@@ -220,9 +195,8 @@ public class Smelting : MonoBehaviour {
 
 	public void Stow() {
         float amountToStow = accelerationCurve.Evaluate(heldTime);
-        SFX.clip = buttonHit;
-        SFX.Play();
         particle.Emit((int)(amountToStow * amountOfParticles));
+        SFX.Play("bump_small");
         
         rb.AddTorque(0, 0, -tapForce * amountToStow);
 		//SFX.Play("sound");

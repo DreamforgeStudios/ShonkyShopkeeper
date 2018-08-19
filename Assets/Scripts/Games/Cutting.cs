@@ -164,19 +164,19 @@ public class Cutting : MonoBehaviour {
 		}
 	}
 
-	private void PerformCut(CutPoint activeCut, Vector3 cutVector) {
-        float val = CalculateCloseness(activeCut.CutVector, cutVector);
+	private void PerformCut(CutPoint cut, Vector3 cutVector) {
+        float val = CalculateCloseness(cut.CutVector, cutVector);
         //Debug.Log("Calculated a closeness value of: " + val);
         if (val < AcceptanceThreshold) {
 	        // TODO: animation.
 	        SFX.Play("bump_small");
-			QualityBar.Add((1-val) * CutRewardMultiplier);
-			activeCuts.Remove(activeCut);
-			Destroy(activeCut.gameObject);
+			QualityBar.Add((1-val) * CutRewardMultiplier, true);
+			activeCuts.Remove(cut);
+			Destroy(cut.gameObject);
 	        activeCut = null;
         } else {
 	        // TODO: fail sound / animation.
-			activeCut.UnsetSelected();
+			cut.UnsetSelected();
 		}
 	}
 	
@@ -222,7 +222,7 @@ public class Cutting : MonoBehaviour {
 
 		float gvl = Vector3.Magnitude(guideVector);
 		float uvl = Vector3.Magnitude(userVector);
-		lengthCloseness = Mathf.InverseLerp(0, 5f, Mathf.Abs(gvl - uvl));
+		lengthCloseness = Mathf.InverseLerp(0, MaximumLengthDifference, Mathf.Abs(gvl - uvl));
 		//Debug.Log("Length similarity: " + lengthCloseness);
 
 		return (vectorCloseness + lengthCloseness) / 2f;

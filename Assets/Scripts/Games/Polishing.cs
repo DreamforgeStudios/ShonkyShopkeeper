@@ -189,7 +189,7 @@ public class Polishing : MonoBehaviour {
     private void AddSwipe() {
         //SFX.Play("sound");
         numberOfSwipes++;
-        qualityBar.Add(swipeContribution);
+        qualityBar.Add(swipeContribution, true);
     }
 
 	private Quality.QualityGrade grade = Quality.QualityGrade.Unset;
