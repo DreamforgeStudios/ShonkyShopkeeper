@@ -187,7 +187,7 @@ public class Polishing : MonoBehaviour {
 
     private void AddSwipe() {
         numberOfSwipes++;
-        qualityBar.Add(swipeContribution);
+        qualityBar.Add(swipeContribution, true);
     }
 
 	private Quality.QualityGrade grade = Quality.QualityGrade.Unset;

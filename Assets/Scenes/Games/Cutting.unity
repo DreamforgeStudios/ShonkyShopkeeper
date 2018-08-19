@@ -1029,7 +1029,7 @@ MonoBehaviour:
   MaximumLengthDifference: 5
   MaximumVectorCloseness: 0.25
   AcceptanceThreshold: 0.3
-  CutRewardMultiplier: 0.25
+  CutRewardMultiplier: 0.5
   QualityBar: {fileID: 769277905}
   ReturnOrRetryButtons: {fileID: 1281731491}
   CountdownObj: {fileID: 487808227}
@@ -1622,7 +1622,42 @@ Prefab:
     - target: {fileID: 114395486160872878, guid: 6931fda971dcec64aa77a55b25f75812,
         type: 2}
       propertyPath: TickSubtraction
-      value: 0.4
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114395486160872878, guid: 6931fda971dcec64aa77a55b25f75812,
+        type: 2}
+      propertyPath: StartingGrade
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114395486160872878, guid: 6931fda971dcec64aa77a55b25f75812,
+        type: 2}
+      propertyPath: debug
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114395486160872878, guid: 6931fda971dcec64aa77a55b25f75812,
+        type: 2}
+      propertyPath: StartFill
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114395486160872878, guid: 6931fda971dcec64aa77a55b25f75812,
+        type: 2}
+      propertyPath: UpdateSubtraction
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114395486160872878, guid: 6931fda971dcec64aa77a55b25f75812,
+        type: 2}
+      propertyPath: RegularEaseTime
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114395486160872878, guid: 6931fda971dcec64aa77a55b25f75812,
+        type: 2}
+      propertyPath: LevelChangeEaseTime
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114395486160872878, guid: 6931fda971dcec64aa77a55b25f75812,
+        type: 2}
+      propertyPath: Ease
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6931fda971dcec64aa77a55b25f75812, type: 2}
@@ -2101,12 +2136,12 @@ Prefab:
     - target: {fileID: 114600834038165990, guid: 4afd061383759384895ed2493d1c9425,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114600834038165990, guid: 4afd061383759384895ed2493d1c9425,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114021709454070972, guid: 4afd061383759384895ed2493d1c9425,
         type: 2}
@@ -2242,6 +2277,11 @@ Prefab:
       propertyPath: colors.Array.data[3].a
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114600834038165990, guid: 4afd061383759384895ed2493d1c9425,
+        type: 2}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 653e6202192550e41876f7d62d56c3ac, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4afd061383759384895ed2493d1c9425, type: 2}
   m_IsPrefabAsset: 0

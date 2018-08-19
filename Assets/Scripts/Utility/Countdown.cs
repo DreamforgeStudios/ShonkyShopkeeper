@@ -46,11 +46,11 @@ public class Countdown : MonoBehaviour {
 
 		UpdateTimerText();
 	}
-
+	
 	private void UpdateTimerText() {
 		TextTimer.text = Mathf.Ceil(CurrentTimeRemaining).ToString("N0");
 	}
-
+	
 	private void OnTimerTick() {
 		transform.DOPunchRotation(Vector3.forward * 25, 0.4f, 18);
 		if (onTick != null)

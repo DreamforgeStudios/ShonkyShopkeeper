@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
+using NaughtyAttributes;
 
 public class QualityBar : MonoBehaviour
 {
@@ -22,11 +23,16 @@ public class QualityBar : MonoBehaviour
 
 	// Amount to take away whenever the hourglass ticks.
 	public float TickSubtraction;
+	
+	// Amount to take away (over time) each second -- UpdateSubtraction * Time.deltaTime.
+	public float UpdateSubtraction;
 
 	// Ease to use.
 	public Ease Ease;
-	public float EaseTime;
+	public float RegularEaseTime;
+	public float LevelChangeEaseTime;
 
+	[Range(0, 1)]
 	public float StartFill = 1;
 
 	// Helpers for positioning + moving/resizing.
@@ -43,10 +49,10 @@ public class QualityBar : MonoBehaviour
 
 	// DEBUG.
 	public bool debug;
+	[ShowIf("debug")]
 	public float speedMult;
 
-	private void Start()
-	{
+	private void Start() {
 		BackgroundImage = Background.GetComponent<Image>();
 		BackgroundTransform = Background.GetComponent<RectTransform>();
 		foregroundImage = Foreground.GetComponent<Image>();
@@ -76,7 +82,8 @@ public class QualityBar : MonoBehaviour
 
 		// Position the middle of the bar correctly in almost all circumstances.
 		Vector3 pos = foregroundTransform.anchoredPosition;
-		pos.x = -Padding;
+		//pos.x = -Padding;
+		pos.x = Padding;
 		foregroundTransform.anchoredPosition = pos;
 
 		// Fill initial correctly.
@@ -88,139 +95,114 @@ public class QualityBar : MonoBehaviour
 		Countdown.onTick += SubtractFixed;
 	}
 
-	private void Update()
-	{
+	private void Update() {
 		if (debug) Add(Time.deltaTime * speedMult, true);
+		// This might be peformance intensive.
+		Subtract(UpdateSubtraction * Time.deltaTime, true);
 	}
 
-	public void Add(float amount, bool allowMoveUp = false)
-	{
+	public void Add(float amount, bool allowMoveUp = false) {
 		fillAmount += amount;
-		if (fillAmount >= 1)
-		{
-			if (!allowMoveUp)
-			{
+		if (fillAmount >= 1) {
+			if (!allowMoveUp) {
 				fillAmount = 1f;
 				return;
 			}
 
-			Debug.Log("Fill amount is " + fillAmount + " and amount is " + amount);
-			if (!MoveUpQualityLevel(fillAmount - 1f))
-			{
+			//Debug.Log("Fill amount is " + fillAmount + " and amount is " + amount);
+			if (!MoveUpQualityLevel(fillAmount - 1f)) {
 				// TODO: encouragement?
-				//fillAmount = 1f;
-				fillAmount = fillAmount - 1f;
+				fillAmount = 1f;
 			}
-		}
-		else
-		{
+		} else {
 			UpdateQualityBar();
 		}
 
 	}
 
-	public void Subtract(float amount, bool allowMoveDown = false)
-	{
+	public void Subtract(float amount, bool allowMoveDown = false) {
 		fillAmount -= amount;
-		if (fillAmount <= 0)
-		{
-			if (!allowMoveDown)
-			{
+		if (fillAmount <= 0) {
+			if (!allowMoveDown) {
 				fillAmount = 0f;
 				UpdateQualityBar();
 				return;
 			}
 
-			if (!MoveDownQualityLevel(-fillAmount))
-			{
+			if (!MoveDownQualityLevel(-fillAmount)) {
 				// TODO: fail state???
 				fillAmount = 0f;
 			}
-		}
-		else
-		{
+		} else {
 			UpdateQualityBar();
 		}
 	}
 
-	public void SetFixedSubtraction(float val)
-	{
-		TickSubtraction = val;
-	}
-
-	public void SubtractFixed()
-	{
+	public void SubtractFixed() {
 		fillAmount -= TickSubtraction;
-		if (fillAmount <= 0)
-		{
-			if (!MoveDownQualityLevel(-fillAmount))
-			{
+		if (fillAmount <= 0) {
+			if (!MoveDownQualityLevel(-fillAmount)) {
 				// TODO: fail state???
 				fillAmount = 0f;
 			}
-
-			return;
+		} else {
+			UpdateQualityBar();
 		}
-
-		UpdateQualityBar();
 	}
 
 	// Take the current grade as final.
-	public Quality.QualityGrade Finish()
-	{
+	public Quality.QualityGrade Finish() {
 		Countdown.onTick -= SubtractFixed;
 		return currentGrade;
 	}
 
-	public void Disappear()
-	{
+	public void Disappear() {
 		// TODO: spawn some effect...
 		this.gameObject.SetActive(false);
 	}
 
-	private Tween UpdateQualityBar(Ease ease = Ease.Unset)
-	{
+	private void UpdateQualityBar(Ease ease = Ease.Unset, float easeTime = -1f) {
+		// Hack to work around Unity's variable assignment not being a compile time constant.
 		if (ease == Ease.Unset)
-		{
 			ease = this.Ease;
-		}
+		if (easeTime <= -1f)
+			easeTime = RegularEaseTime;
+
 
 		// Amount of 'fill' the current bar holds.
 		float fill = -Mathf.Lerp(barMinWidth, barMaxWidth, fillAmount);
 
-		// Tween the new fill.
-		float currentWidth = foregroundTransform.sizeDelta.x;
-		return DOTween.To(() => currentWidth, x => foregroundTransform.sizeDelta = new Vector2(x, barHeight), fill,
-			EaseTime).SetEase(ease);
+		foregroundTransform.DOSizeDelta(new Vector2(fill, barHeight), easeTime).SetEase(ease);
 	}
 
 	// Moves to the next quality level in the queue.  If none is available, returns false.
 	private bool MoveDownQualityLevel(float spare = 0f)
 	{
-		if (currentGrade == grades.Last.Value)
-		{
+		if (currentGrade == grades.Last.Value) {
 			return false;
 		}
 
 		// Update the current grade.
-		var subsequent = grades.Find(currentGrade);
-		if (subsequent == null || subsequent.Next == null)
-		{
+		var current = grades.Find(currentGrade);
+		if (current == null || current.Next == null) {
 			return false;
 		}
 
-		currentGrade = subsequent.Next.Value;
+		currentGrade = current.Next.Value;
 
 		TextCurrentLevel.text = Quality.GradeToString(currentGrade);
 		TextCurrentLevel.color = Quality.GradeToColor(currentGrade);
 		foregroundImage.color = Quality.GradeToColor(currentGrade);
 
-		fillAmount = 1f;
-		float fill = -Mathf.Lerp(barMinWidth, barMaxWidth, fillAmount);
-		foregroundTransform.sizeDelta = new Vector2(fill, barHeight);
-
-		fillAmount -= spare;
-		UpdateQualityBar(Ease);
+		foregroundTransform.DOComplete();
+		
+		fillAmount = 1f;// - spare;
+		UpdateQualityBar(Ease, LevelChangeEaseTime);
+		Subtract(spare);
+		
+		//float fill = -Mathf.Lerp(barMinWidth, barMaxWidth, fillAmount);
+		//foregroundTransform.sizeDelta = new Vector2(fill, barHeight);
+		
 
 		SFX.Play("quality_bar_deplete");
 
@@ -230,33 +212,32 @@ public class QualityBar : MonoBehaviour
 	// Moves to the next quality level in the queue.  If none is available, returns false.
 	private bool MoveUpQualityLevel(float spare = 0f)
 	{
-		if (grades.Count == 5)
-		{
+		if (grades.Count == 5) {
 			return false;
 		}
 
 		// Update the current grade.
-		var subsequent = grades.Find(currentGrade);
+		var current = grades.Find(currentGrade);
 		//Debug.Log(subsequent.Value + " next grade");
-		if (subsequent == null || subsequent.Previous == null)
-		{
+		if (current == null || current.Previous == null) {
 			return false;
 		}
 
-		currentGrade = subsequent.Previous.Value;
+		currentGrade = current.Previous.Value;
 		//Debug.Log("current grade is " + currentGrade);
 
 		TextCurrentLevel.text = Quality.GradeToString(currentGrade);
 		TextCurrentLevel.color = Quality.GradeToColor(currentGrade);
 		foregroundImage.color = Quality.GradeToColor(currentGrade);
 
-		fillAmount = spare;
-		Debug.Log("Move up fill amount is " + fillAmount);
-		float fill = -Mathf.Lerp(barMaxWidth, barMinWidth, fillAmount);
-		foregroundTransform.sizeDelta = new Vector2(fill, barHeight);
-
-		//fillAmount += spare;
-		UpdateQualityBar(Ease);
+		foregroundTransform.DOComplete();
+		
+		fillAmount = 0f;
+		UpdateQualityBar(Ease, LevelChangeEaseTime);
+		Add(spare);
+		
+		//float fill = -Mathf.Lerp(barMinWidth, barMaxWidth, fillAmount);
+		//foregroundTransform.sizeDelta = new Vector2(fill, barHeight);
 
 		// SFX.Play("??");
 

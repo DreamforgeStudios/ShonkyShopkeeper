@@ -5710,7 +5710,7 @@ MonoBehaviour:
   blackOutlines: {fileID: 2100000, guid: 7048bff34b507bf47a1e4f83388a4ce7, type: 2}
   timeLimit: 10
   numberOfSwipes: 0
-  swipeContribution: 0.033
+  swipeContribution: 0.05
   text: {fileID: 1279428232}
   qualityText: {fileID: 332335485}
   timerSlider: {fileID: 1162780407}
@@ -6391,7 +6391,27 @@ Prefab:
     - target: {fileID: 114395486160872878, guid: 6931fda971dcec64aa77a55b25f75812,
         type: 2}
       propertyPath: TickSubtraction
-      value: 0.4
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114395486160872878, guid: 6931fda971dcec64aa77a55b25f75812,
+        type: 2}
+      propertyPath: UpdateSubtraction
+      value: 0.12
+      objectReference: {fileID: 0}
+    - target: {fileID: 114395486160872878, guid: 6931fda971dcec64aa77a55b25f75812,
+        type: 2}
+      propertyPath: StartFill
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114395486160872878, guid: 6931fda971dcec64aa77a55b25f75812,
+        type: 2}
+      propertyPath: StartingGrade
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114395486160872878, guid: 6931fda971dcec64aa77a55b25f75812,
+        type: 2}
+      propertyPath: RegularEaseTime
+      value: 0.05
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6931fda971dcec64aa77a55b25f75812, type: 2}
