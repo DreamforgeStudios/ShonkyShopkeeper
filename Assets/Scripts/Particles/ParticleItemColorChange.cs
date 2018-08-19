@@ -7,7 +7,8 @@ public class ParticleItemColorChange : MonoBehaviour {
     
     public void SetColor(Color color) {
         for (int i = 0; i < SystemsToChange.Count; i++) {
-            SystemsToChange[i].startColor = color;
+            var main = SystemsToChange[i].main;
+            main.startColor = color;
         }
     }
 }

@@ -1030,6 +1030,12 @@ MonoBehaviour:
   MaximumVectorCloseness: 0.25
   AcceptanceThreshold: 0.3
   CutRewardMultiplier: 0.5
+  PunchDurationMultiplier: 0.7
+  PunchVibration: 6
+  PunchElasticity: 0.9
+  RotateEase: 21
+  RotateDurationMultiplier: 0.6
+  RotatePower: 27
   QualityBar: {fileID: 769277905}
   ReturnOrRetryButtons: {fileID: 1281731491}
   CountdownObj: {fileID: 487808227}
@@ -1385,6 +1391,11 @@ Prefab:
     - target: {fileID: 114389526331048720, guid: f059a73a081d6a444b14588d4bf825c7,
         type: 2}
       propertyPath: startTime
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 114389526331048720, guid: f059a73a081d6a444b14588d4bf825c7,
+        type: 2}
+      propertyPath: StartTime
       value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
