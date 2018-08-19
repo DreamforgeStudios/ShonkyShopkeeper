@@ -30,11 +30,13 @@ public class CameraTap : MonoBehaviour {
 
     public void RotateCamera() {
         if (topScreen) {
+            //SFX.Play("sound");
             transform.DORotate(bottomScreenRotation, 0.4f).SetEase(Ease.InOutSine);
 			img.transform.DORotate(bottomScreenRotationImg, 0.4f).SetEase(Ease.InOutSine);
             GameManager.Instance.CameraRotTransfer = bottomScreenRotation.x;
             topScreen = false;
         } else { 
+            //SFX.Play("sound");
             transform.DORotate(topScreenRotation, 0.4f).SetEase(Ease.InOutSine);
 			img.transform.DORotate(topScreenRotationImg, 0.4f).SetEase(Ease.InOutSine);
             GameManager.Instance.CameraRotTransfer = topScreenRotation.x;

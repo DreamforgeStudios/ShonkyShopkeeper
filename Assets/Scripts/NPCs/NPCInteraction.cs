@@ -72,6 +72,7 @@ public class NPCInteraction : MonoBehaviour {
                             hit.transform.GetComponent<NPCWalker>().walkNormal = false;
                             hit.transform.DOScale(1.2f, 2f);
                             hit.transform.DOMove(shopFrontPos, 2f, false).OnComplete(() => SceneManager.LoadScene("Barter"));
+                            //SFX.Play("sound");
                         }
                     }
                 }

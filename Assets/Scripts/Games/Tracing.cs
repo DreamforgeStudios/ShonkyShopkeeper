@@ -191,6 +191,7 @@ public class Tracing : MonoBehaviour {
         FollowSphere.transform.position = mWorldPosition;
 
         if (Input.GetMouseButtonDown(0)) {
+            //SFX.Play("sound");
             isMouseDown = true;
             mouseDownTime = Time.time;
             if (!startTimer) {
@@ -361,6 +362,7 @@ public class Tracing : MonoBehaviour {
         Flash();
         ResetOptimalPoints();
         _currentRune = _dataBase.GetRandomRune();
+        //SFX.Play("sound");
         SplitRuneObject();
         GetNecessaryPositions();
         SetupColliders();

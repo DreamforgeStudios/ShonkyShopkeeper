@@ -225,6 +225,7 @@ public class Smelting : MonoBehaviour {
         particle.Emit((int)(amountToStow * amountOfParticles));
         
         rb.AddTorque(0, 0, -tapForce * amountToStow);
+		//SFX.Play("sound");
 
         // Alternate approach.
         /*

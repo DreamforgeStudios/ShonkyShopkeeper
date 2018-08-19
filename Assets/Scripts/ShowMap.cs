@@ -38,6 +38,7 @@ public class ShowMap : MonoBehaviour
 		FadeButton(Exit,0f,0.05f);
 		Exit.enabled = false;
 		ShopButton.SetActive(false);
+		//SFX.Play("sound");
 	}
 
 	public void ShowMapOnScreen()
@@ -91,6 +92,7 @@ public class ShowMap : MonoBehaviour
 	{
 		//If the town clicked is not currently unlocked
 		if (!Travel.unlockedTowns.Contains(CurrentTownObject(hit.transform.gameObject))) {
+			//SFX.Play("sound");
 			lastTownClicked = hit.transform.gameObject;
 			Travel.Towns selectedTown = CurrentTownObject(lastTownClicked);
 			helperText.enabled = true;
@@ -98,6 +100,7 @@ public class ShowMap : MonoBehaviour
 		}
 		//If the town is unlocked and not the current town
 		else if (currentTown != CurrentTownObject(hit.transform.gameObject)) {
+			//SFX.Play("sound");
 			lastTownClicked = hit.transform.gameObject;
 			Travel.Towns selectedTown = CurrentTownObject(lastTownClicked);
 			helperText.enabled = true;
@@ -114,6 +117,7 @@ public class ShowMap : MonoBehaviour
 		}
 		//If the town has been unlocked, move to selected town
 		else {
+			//SFX.Play("sound");
 			//movementFinished = false;
 			//StartCoroutine(MovePlayerToNewTown(selectedTown));
 	        
@@ -130,22 +134,24 @@ public class ShowMap : MonoBehaviour
 		bool completeTransaction = Travel.UnlockNewTown(selectedTown);
 		//If this was the first town unlocked, make it the current
 		if (Inventory.Instance.GetUnlockedTowns().Count == 1 && completeTransaction) {
+			//SFX.Play("sound");
 			player.SetActive(true);
 			player.transform.position = ReturnTownPosition(selectedTown);
 			helperText.text = "Welcome to " + selectedTown;
 			Travel.ChangeCurrentTown(selectedTown);
 			SaveManager.SaveInventory();
 			PlayerPrefs.SetInt("FirstStart", 1);
-			PlayerPrefs.SetInt("FirstStart",1);
 		}
 		//Else if it was a subsequent town, check the purchase was successful
 		else {
 			if (completeTransaction) {
+				//SFX.Play("sound");
 				helperText.text = selectedTown + " can now be travelled to";
 				SaveManager.SaveInventory();
 			}
 			else {
 				helperText.text = "Insufficent gold to travel to next town";
+				//SFX.Play("sound");
 			}
 		}
 		lastTownClicked = null;
@@ -212,5 +218,6 @@ public class ShowMap : MonoBehaviour
 	private void MovePlayerToTown(Vector3 pos)
 	{
 		player.transform.position = pos;
+		//SFX.Play("sound");
 	}
 }
