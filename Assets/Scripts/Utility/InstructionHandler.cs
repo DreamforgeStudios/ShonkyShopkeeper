@@ -105,9 +105,6 @@ public class InstructionHandler : MonoBehaviour {
 	[ShowIf("TweenTypeIsDual")]
 	public Ease SequenceEase;
 	
-	// TODO: proper unscaled time on tweens...
-
-	
 	[BoxGroup("Object Assignments")]
 	public TextMeshProUGUI InstructionText;
 	
@@ -157,16 +154,14 @@ public class InstructionHandler : MonoBehaviour {
 		seq.AppendInterval(Delay);
 		seq.SetLoops((int) (AliveTime / (DurationIn + DurationOut)));
 		seq.SetUpdate(UseUnscaledTime);
-		
-		if (UseUnscaledTime) {}
 	}
 	
 	[Button("Start Move")]
 	private void StartTweenMove() {
 		Sequence seq = DOTween.Sequence();
-		Vector3 p = InstructionText.transform.position;
-		Tween t1 = InstructionText.transform.DOMove(p + Direction, DurationIn).SetEase(EaseIn);
-		Tween t2 = InstructionText.transform.DOMove(p, DurationOut).SetEase(EaseOut);
+		//Vector3 p = InstructionText.transform.position;
+		Tween t1 = InstructionText.transform.DOLocalMove(Direction, DurationIn).SetEase(EaseIn);
+		Tween t2 = InstructionText.transform.DOLocalMove(Vector3.zero, DurationOut).SetEase(EaseOut);
 
 		seq.Append(t1);
 		seq.Append(t2);
@@ -178,25 +173,27 @@ public class InstructionHandler : MonoBehaviour {
 	[Button("Start Dual")]
 	private void StartTweenDual() {
 		Sequence seq = DOTween.Sequence();
-		Vector3 p = InstructionText.transform.position;
-		Tween t1 = InstructionText.transform.DOMoveY(p.y + VerticalMovePeak, VerticalMoveDurationIn).SetEase(VerticalMoveEaseIn);
-		Tween t2 = InstructionText.transform.DOMoveY(p.y, VerticalMoveDurationOut).SetEase(VerticalMoveEaseOut);
+		Tween t1 = InstructionText.transform.DOLocalMoveY(VerticalMovePeak, VerticalMoveDurationIn).SetEase(VerticalMoveEaseIn);
+		Tween t2 = InstructionText.transform.DOLocalMoveY(0, VerticalMoveDurationOut).SetEase(VerticalMoveEaseOut);
 		seq.Append(t1);
 		seq.Append(t2);
 		seq.SetLoops(VerticalMoveLoops);
+		seq.SetUpdate(UseUnscaledTime);
 		
 		Sequence seq2 = DOTween.Sequence();
-		Tween t3 = InstructionText.transform.DOMoveX(p.x + HorizontalMovePeak, HorizontalMoveDurationIn).SetEase(HorizontalMoveEaseIn);
+		Tween t3 = InstructionText.transform.DOLocalMoveX(HorizontalMovePeak, HorizontalMoveDurationIn).SetEase(HorizontalMoveEaseIn);
 		seq2.Append(seq);
 		seq2.Insert(0, t3);
 		seq2.SetEase(SequenceEase);
+		seq2.SetUpdate(UseUnscaledTime);
 
 		Sequence masterseq = DOTween.Sequence();
-		Tween t4 = InstructionText.transform.DOMoveX(p.x, HorizontalMoveDurationOut).SetEase(HorizontalMoveEaseOut);
+		Tween t4 = InstructionText.transform.DOLocalMoveX(0, HorizontalMoveDurationOut).SetEase(HorizontalMoveEaseOut);
 		masterseq.Append(seq2);
 		masterseq.Append(t4);
 		masterseq.AppendInterval(Delay);
 		masterseq.SetLoops((int) (AliveTime / (HorizontalMoveDurationIn + HorizontalMoveDurationOut)));
+		masterseq.SetUpdate(UseUnscaledTime);
 		masterseq.Play();
 	}
 
@@ -209,7 +206,7 @@ public class InstructionHandler : MonoBehaviour {
 		timeAlive += UseUnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime;
 		if (timeAlive > AliveTime) {
 			// Text fading out.
-			InstructionText.transform.GetComponent<RectTransform>().DOAnchorPos(ZoomOutPos, ZoomOutTime).SetEase(ZoomOutEase);
+			transform.GetComponent<RectTransform>().DOAnchorPos(ZoomOutPos, ZoomOutTime).SetEase(ZoomOutEase).SetUpdate(UseUnscaledTime);
 			started = false;
 		}
 	}
@@ -223,7 +220,7 @@ public class InstructionHandler : MonoBehaviour {
 
 		// Text fading in.
 		// TODO: This shouldn't be tied to this function.
-		InstructionText.transform.GetComponent<RectTransform>().DOAnchorPos(ZoomInPos, ZoomInTime).SetEase(ZoomInEase)
+		transform.GetComponent<RectTransform>().DOAnchorPos(ZoomInPos, ZoomInTime).SetEase(ZoomInEase).SetUpdate(UseUnscaledTime)
 			.OnComplete(() => { functionCallback(); started = true; });
 	}
 }
