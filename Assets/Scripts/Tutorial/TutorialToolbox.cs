@@ -159,8 +159,8 @@ public class TutorialToolbox : MonoBehaviour {
                 SFX.Play("cursor_select");
                 //soundEffects.clip = cursorSelect;
                 //soundEffects.Play();
-                if (tutorialManager.currentToolToInspect == hit.transform.gameObject ||
-                    GameManager.Instance.TutorialIntroComplete)
+                if (tutorialManager.currentToolToInspect == hit.transform.gameObject || (
+                    GameManager.Instance.TutorialIntroComplete))
                 {
                     switch (hit.transform.tag)
                     {
@@ -581,8 +581,7 @@ public class TutorialToolbox : MonoBehaviour {
         index2 = slot.index;
         //Spawn a golem to show item creation 
         //Play SFX
-        GameManager.Instance.InTutorial = false;
-        tutorialManager.LoadNormalInventory();
+        GameManager.Instance.TutorialGolemMade = true;
         SFX.Play("golem_created");
         //soundEffects.clip = golumCreated;
         //soundEffects.Play();
@@ -613,6 +612,11 @@ public class TutorialToolbox : MonoBehaviour {
 
             AchievementManager.Get("golem_create_01");
         }
+
+        TutorialProgressChecker.Instance.Golem = true;
+        TutorialProgressChecker.Instance.OnlyShowTextBox("Your first creation is complete! Check it out in the upper shop area");
+        GameManager.Instance.SendToMine = true;
+        //tutorialManager.LoadNormalInventory();
     }
     //Method used to find the gem type selected
     private string FindGemType(Slot slot1, Slot slot2) {
@@ -637,17 +641,17 @@ public class TutorialToolbox : MonoBehaviour {
         switch (_minigameType) {
             case "Gem":
                 var gemType = GameManager.Instance.GemTypeTransfer;
-                return 3;
+                return 999;
             case "Jewel":
                 var jewelType = GameManager.Instance.GemTypeTransfer;
-                return 3;
+                return 999;
             case "Ore":
                 //return Inventory.Instance.GetMaxRetries(GameManager.Instance.CurrentTown);
                 //Ore and brick games always give two retries
-                return 2;
+                return 999;
             case "Brick":
                 //return Inventory.Instance.GetMaxRetries(GameManager.Instance.CurrentTown);
-                return 2;
+                return 999;
             default:
                 return Inventory.Instance.GetMaxRetries(GameManager.Instance.CurrentTown);
         }

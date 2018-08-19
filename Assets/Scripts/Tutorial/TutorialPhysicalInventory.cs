@@ -62,6 +62,7 @@ public class TutorialPhysicalInventory : MonoBehaviour {
 						newSlot = i;
 						//Invoke("MakeParticle", 0f);
 						MakeParticle(instance);
+						MarkOffInTutorial(instance);
 					}
 
 					if (instance.Quality == Quality.QualityGrade.Mystic) {
@@ -88,6 +89,14 @@ public class TutorialPhysicalInventory : MonoBehaviour {
 		}
 		if (GameManager.Instance.InTutorial && GameManager.Instance.TutorialIntroComplete)
 			HighlightOreAndGem();
+
+		if (GameManager.Instance.InTutorial && TutorialProgressChecker.Instance.ChargedJewel &&
+		    TutorialProgressChecker.Instance.Shell)
+		{
+			TutorialProgressChecker.Instance.readyGolem = true;
+			HighlightShellAndChargedJewel();
+			//TutorialProgressChecker.Instance.ShowCanvas(false);
+		}
 	}
 
 	public void HighlightOreAndGem()
@@ -100,7 +109,8 @@ public class TutorialPhysicalInventory : MonoBehaviour {
 			if (Inventory.Instance.GetItem(i, out instance))
 			{
 				if (instance.item != null &&
-				    (instance.item.GetType() == typeof(Ore) || instance.item.GetType() == typeof(Gem)))
+				    (instance.item.GetType() == typeof(Ore) || instance.item.GetType() == typeof(Gem)) ||
+				    instance.item.GetType() == typeof(Jewel) || instance.item.GetType() == typeof(Brick))
 				{
 					GameObject obj;
 					if (inventorySlots[i].GetPrefabInstance(out obj))
@@ -110,6 +120,38 @@ public class TutorialPhysicalInventory : MonoBehaviour {
 					}
 				}
 			}
+		}
+	}
+	
+	public void HighlightShellAndChargedJewel()
+	{
+		for (int i = 0; i < inventorySlots.Count; i++)
+		{
+			ItemInstance instance;
+			//Debug.Log(string.Format("Checking slot {0} out of {1}", i,inventorySlots.Count));
+			// If an object exists at the specified location.
+			if (Inventory.Instance.GetItem(i, out instance))
+			{
+				if (instance.item != null &&
+				    (instance.item.GetType() == typeof(Shell) || instance.item.GetType() == typeof(ChargedJewel)))
+				{
+					GameObject obj;
+					if (inventorySlots[i].GetPrefabInstance(out obj))
+					{
+						particleChild = Instantiate(particles, obj.transform.position, obj.transform.rotation);
+						particleChild.transform.parent = obj.transform;
+					}
+				}
+			}
+		}
+	}
+
+	private void MarkOffInTutorial(ItemInstance item)
+	{
+		if (GameManager.Instance.TutorialIntroComplete)
+		{
+			TutorialProgressChecker.Instance.UpdateItemBoolean(item.item.GetType().ToString(), true);
+			TutorialProgressChecker.Instance.ShowCanvas(true);
 		}
 	}
 

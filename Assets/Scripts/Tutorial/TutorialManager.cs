@@ -36,6 +36,8 @@ public class TutorialManager : MonoBehaviour
 		SetupInventories();
 		//StartParticles();
 		tutorialCanvas.enabled = false;
+		if (!GameManager.Instance.TutorialIntroComplete)
+			TutorialProgressChecker.Instance.HideCanvas();
 
 		if (GameManager.Instance.InTutorial)
 		{
@@ -65,7 +67,14 @@ public class TutorialManager : MonoBehaviour
 		if (Input.GetMouseButtonDown(0) && !GameManager.Instance.TutorialIntroTopComplete)
 		{
 			NextDialogue();
+		} else if (Input.GetMouseButtonDown(0) && GameManager.Instance.TutorialIntroComplete &&
+		           TutorialProgressChecker.Instance.CanvasEnabled())
+		{
+			TutorialProgressChecker.Instance.HideCanvas();
 		}
+
+		if (TutorialProgressChecker.Instance.Golem && !GameManager.Instance.MineGoleminteractGolem)
+			CheckForCamera();
 	}
 
 	public void NextDialogue()
@@ -102,6 +111,25 @@ public class TutorialManager : MonoBehaviour
 		//Need to start particles for tools		
 	}
 
+	private void CheckForCamera()
+	{
+		if (GameManager.Instance.CameraRotTransfer <= 9f)
+		{
+			cameraButton.gameObject.SetActive(false);
+			tutorialCanvas.enabled = true;
+			if (GameManager.Instance.SendToMine)
+			{
+				TutorialProgressChecker.Instance.OnlyShowTextBox("Try picking up your golem and sending it to the mine");
+				GameManager.Instance.SendToMine = false;
+				HideCanvas();
+			}
+		}
+		else
+		{
+			cameraButton.gameObject.SetActive(true);
+		}
+			
+	}
 	public void StartForcepParticles()
 	{
 		GameObject tool = ItemsToInspect[0];
@@ -233,5 +261,12 @@ public class TutorialManager : MonoBehaviour
 		yield return new WaitForSeconds(1f);
 		tutorialText.text = ToolDialogue[4];
 		StopCoroutine(WandInteraction());
+	}
+
+	IEnumerator WaitforsecondsCanvasHide(float seconds)
+	{
+		yield return new WaitForSeconds(seconds);
+		tutorialCanvas.enabled = false;
+		StopCoroutine(WaitforsecondsCanvasHide(1f));
 	}
 }

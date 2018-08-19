@@ -8,7 +8,7 @@ using UnityEngine.AI;
 using UnityEngine.UI;
 //using UnityEngine.XR.WSA.WebCam;
 
-public class GolemPickup : MonoBehaviour {
+public class TutorialGolemPickup : MonoBehaviour {
     //Currently held golem
     private int pickedUpGolemSlot;
     private GameObject pickedupGolem;
@@ -39,10 +39,6 @@ public class GolemPickup : MonoBehaviour {
     public Image RadialTimer1, RadialTimer2, RadialTimer3;
     private List<Image> _timers;
     public List<DateTime> times = new List<DateTime>();
-    
-    //Particle system to highlight items to be inspected
-    public GameObject particles;
-    private GameObject particleChild;
 
     // Use this for initialization
     void Start() {
@@ -63,10 +59,6 @@ public class GolemPickup : MonoBehaviour {
         } 
         else if (overPortal) {
             Debug.Log("Sending to Mine");
-            if (GameManager.Instance.InTutorial)
-            {
-                GameManager.Instance.WaitingForTimer = true;
-            }
             //SFX.Play("sound");
             int index = GetGolemSlot();
             Mine.Instance.AddGolemAndTime(System.DateTime.Now, index);
@@ -168,16 +160,6 @@ public class GolemPickup : MonoBehaviour {
                                 obj.GetComponent<SackHueChange>().UpdateCurrentColor(instance.pouchType);
                             
                             ResetGolem();
-                            
-                            if (GameManager.Instance.InTutorial && !GameManager.Instance.MineGoleminteractGolem)
-                            {
-                                if (GameManager.Instance.ReturnPouch)
-                                {
-                                    TutorialProgressChecker.Instance.OnlyShowTextBox("Why dont you check out what your golem found by returning to the lower shop!");
-                                    GameManager.Instance.ReturnPouch = false;
-                                    GameManager.Instance.MineGoleminteractGolem = true;
-                                }
-                            }
                         }
                         else
                         {
@@ -230,17 +212,6 @@ public class GolemPickup : MonoBehaviour {
         physicalRep.GetComponent<ShonkyWander>().pickedUp = false;
         physicalRep.GetComponent<ShonkyWander>().HoldPouch();
         SaveManager.SaveShonkyInventory();
-        if (GameManager.Instance.InTutorial && !GameManager.Instance.MineGoleminteractGolem)
-        {
-            if (GameManager.Instance.HasMinePouch)
-            {
-                TutorialProgressChecker.Instance.OnlyShowTextBox("Tap the pouch in the golems hands to put it your inventory!");
-                GameManager.Instance.HasMinePouch = false;
-                particleChild = Instantiate(particles, physicalRep.transform.position, physicalRep.transform.rotation);
-                particleChild.transform.parent = physicalRep.transform;
-                GameManager.Instance.ReturnPouch = true;
-            }
-        }
     }
 
     private void SetGolemBagType(int index)
@@ -326,20 +297,6 @@ public class GolemPickup : MonoBehaviour {
                 timer.DOFade(0.6f, 0.5f);
             }
         }
-
-        if (GameManager.Instance.InTutorial && !GameManager.Instance.MineGoleminteractGolem)
-        {
-            if (GameManager.Instance.WaitingForTimer)
-            {
-                TutorialProgressChecker.Instance.OnlyShowTextBox("Once the yellow timer has filled, your golem is ready to come back!");
-                GameManager.Instance.WaitingForTimer = false;
-            }
-            if (GameManager.Instance.TimerComplete)
-            {
-                TutorialProgressChecker.Instance.OnlyShowTextBox("Tap on the portal to retrieve your golem from the mines!");
-                GameManager.Instance.TimerComplete = false;
-            }
-        }
     }
 
     private void ActivatePortalRings(int amountToCollect, int amountMining)
@@ -350,11 +307,6 @@ public class GolemPickup : MonoBehaviour {
             _timers[i].color = Color.yellow;
             _timers[i].fillAmount = 1f;         
             //SFX.Play("sound");
-            if (GameManager.Instance.InTutorial && !GameManager.Instance.MineGoleminteractGolem)
-            {
-                GameManager.Instance.TimerComplete = true;
-                GameManager.Instance.HasMinePouch = true;
-            }
         }
 
         for (int j = amountToCollect; j < amountToCollect + amountMining; j++)

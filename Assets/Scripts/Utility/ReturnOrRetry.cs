@@ -9,7 +9,10 @@ public class ReturnOrRetry {
 		if (!GameManager.Instance.InTutorial)
 			Initiate.Fade("Shop", Color.black, 2f);
 		else
-			Initiate.Fade("TutorialShop",Color.black,2f);
+		{
+			TutorialProgressChecker.Instance.FinishedComponent(itemString);
+			Initiate.Fade("TutorialShop", Color.black, 2f);
+		}
 	}
 
 	public static void Retry() {
