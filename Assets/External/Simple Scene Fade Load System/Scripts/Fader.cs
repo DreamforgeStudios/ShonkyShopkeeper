@@ -69,7 +69,8 @@ public class Fader : MonoBehaviour
     }
 
     private void WipeFadeOut() {
-        DOTween.To(() => bg.fillAmount, x => bg.fillAmount = x, 0f, .7f).SetUpdate(true).SetEase(Ease.InCubic);
+        DOTween.To(() => bg.fillAmount, x => bg.fillAmount = x, 0f, .7f).SetUpdate(true).SetEase(Ease.InCubic)
+            .OnComplete(() => Initiate.DoneFading());
     }
     
     private AsyncOperation asyncLoad;
