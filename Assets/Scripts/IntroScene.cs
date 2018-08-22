@@ -31,7 +31,15 @@ public class IntroScene : MonoBehaviour {
         }
         loading.enabled = false;
         next.enabled = true;
-        Initiate.Fade("TutorialShop", Color.black, 2f);
+        if (PlayerPrefs.GetInt("TutorialDone") == 1)
+        {
+            Initiate.Fade("Shop", Color.black, 2f);
+        }
+        else
+        {
+            Initiate.Fade("TutorialShop", Color.black, 2f);
+        }
+        
     }
 
     // Update is called once per frame

@@ -43,7 +43,7 @@ public class CameraTap : MonoBehaviour {
             topScreen = true;
         }
 
-        if (!GameManager.Instance.TutorialIntroTopComplete)
+        if (!GameManager.Instance.TutorialIntroTopComplete && GameManager.Instance.InTutorial)
         {
             GameManager.Instance.TutorialIntroTopComplete = true;
             tutManager.NextDialogue();
