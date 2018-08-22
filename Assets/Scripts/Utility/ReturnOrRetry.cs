@@ -14,9 +14,10 @@ public class ReturnOrRetry {
 		}
 	}
 	
-	public static void Return(int goldAmount) {
+	public static void Return(int goldAmount, int shonkyIndex) {
 		//SFX.Play("sound");
         Inventory.Instance.AddGold(goldAmount);
+        ShonkyInventory.Instance.RemoveItem(shonkyIndex);
 		//SceneManager.LoadScene("Shop");
 		// TODO: tutorial consideration for bartering.
 		if (!GameManager.Instance.InTutorial)

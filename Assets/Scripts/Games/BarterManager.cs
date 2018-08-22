@@ -69,9 +69,9 @@ public class BarterManager : MonoBehaviour {
 
     void Awake() {
         // Don't start until we're ready.
-        //Time.timeScale = 0;
-        //ReadyGo.onComplete += () => { Time.timeScale = 1; start = true; };
-	    start = true;
+        Time.timeScale = 0;
+        ReadyGo.onComplete += () => { Time.timeScale = 1; start = true; };
+	    //start = true;
     }
 	
 	// Use this for initialization
@@ -211,7 +211,7 @@ public class BarterManager : MonoBehaviour {
 	}
 	
 	public void Return() {
-		ReturnOrRetry.Return((int)price);
+		ReturnOrRetry.Return((int)price, GameManager.Instance.ShonkyIndexTransfer);
 	}
 	
 	private void GameOver() {
