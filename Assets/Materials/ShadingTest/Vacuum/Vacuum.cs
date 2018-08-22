@@ -7,6 +7,7 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class Vacuum : MonoBehaviour {
 	public GameObject HoleObject;
+	public Vector3 ObjectOffset;
 	public Material[] Materials;
 	public float Strength;
 	[MinMaxSlider(0, 12)]
@@ -27,16 +28,16 @@ public class Vacuum : MonoBehaviour {
 			Materials[i].SetFloat("_Strength", Strength);
 			Materials[i].SetFloat("_Range", MinMaxRange.x);
 			Materials[i].SetFloat("_SoftRange", MinMaxRange.y);
-			Vector3 pos = HoleObject.transform.position;
+			Vector3 pos = HoleObject.transform.position + ObjectOffset;
 			Materials[i].SetVector("_PullPos", new Vector4(pos.x, pos.y, pos.z, 1));
 		}
 	}
 	
 	private void OnDrawGizmos() {
 		if (Materials.Length > 0) {
-			Gizmos.DrawWireSphere(HoleObject.transform.position, Materials[0].GetFloat("_Range"));
+			Gizmos.DrawWireSphere(HoleObject.transform.position + ObjectOffset, MinMaxRange.x);
 			Gizmos.color = Color.yellow;
-			Gizmos.DrawWireSphere(HoleObject.transform.position, Materials[0].GetFloat("_SoftRange"));
+			Gizmos.DrawWireSphere(HoleObject.transform.position + ObjectOffset, MinMaxRange.y);
 		}
 	}
 }
