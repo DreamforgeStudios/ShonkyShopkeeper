@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
 	private static GameManager _instance;
@@ -48,6 +49,12 @@ public class GameManager : MonoBehaviour {
 		if (Debug.isDebugBuild) {
 			// TODO: make this automatically switch on / off.
 			//Debug.unityLogger.logEnabled = false;
+		}
+		string currentScene = SceneManager.GetActiveScene().name;
+
+		if (currentScene == "Shop"){
+			InTutorial = false;
+			TutorialIntroComplete = true;
 		}
 	}
 
