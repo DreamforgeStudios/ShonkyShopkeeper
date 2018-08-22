@@ -971,12 +971,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HoleObject: {fileID: 1888404176520656, guid: e112539ec5ca5544dba5ee4609acab64, type: 2}
+  ObjectOffset: {x: 0.9, y: 0, z: -1}
   Materials:
   - {fileID: 2100000, guid: 0f7d01a628f8f1a4096cfa92f374de6b, type: 2}
   - {fileID: 2100000, guid: 29231eba2b28e8a4ba75a1ba98d04a7c, type: 2}
   - {fileID: 2100000, guid: 41ff46ceeb5fded46b014504ab3bae10, type: 2}
   Strength: 0.2
-  MinMaxRange: {x: 0, y: 3.5}
+  MinMaxRange: {x: 1, y: 1.6}
 --- !u!136 &136543766472153828
 CapsuleCollider:
   m_ObjectHideFlags: 1

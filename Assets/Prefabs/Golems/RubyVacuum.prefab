@@ -954,14 +954,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HoleObject: {fileID: 1888404176520656, guid: e112539ec5ca5544dba5ee4609acab64, type: 2}
+  ObjectOffset: {x: 0.9, y: 0, z: -1}
   Materials:
   - {fileID: 2100000, guid: 02f919a446bb3e546ab663b5a66f40db, type: 2}
-  - {fileID: 2100000, guid: 35cdb3cef7a3c944fa14e6f7f01286c4, type: 3}
+  - {fileID: 2100000, guid: 05d2c68e894cde840b3d002e96b25aef, type: 2}
   - {fileID: 2100000, guid: 0920d232636763a4ebd9d4d32d0a73da, type: 2}
   - {fileID: 2100000, guid: c8c01e7fcb2e33c4285aef2736b24ec6, type: 2}
   - {fileID: 2100000, guid: fd2ee80582548de4cb609b4f5ad7ff87, type: 2}
   Strength: 0.2
-  MinMaxRange: {x: 0, y: 3.5}
+  MinMaxRange: {x: 1, y: 1.6}
 --- !u!114 &114875215103290068
 MonoBehaviour:
   m_ObjectHideFlags: 1

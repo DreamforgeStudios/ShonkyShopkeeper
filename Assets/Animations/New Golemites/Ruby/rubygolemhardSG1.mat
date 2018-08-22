@@ -79,9 +79,9 @@ Material:
     - _OcclusionStrength: 1
     - _Outline: 0.005
     - _Parallax: 0.02
-    - _Range: 0
+    - _Range: 0.99232125
     - _SmoothnessTextureChannel: 0
-    - _SoftRange: 3.5
+    - _SoftRange: 1.5862374
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Strength: 0.2
@@ -91,4 +91,4 @@ Material:
     - _Color: {r: 0.03, g: 0.03, b: 0.03, a: 0.97}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
-    - _PullPos: {r: -6.05, g: 0.97, b: -2.88, a: 1}
+    - _PullPos: {r: -5.15, g: 0.97, b: -3.88, a: 1}

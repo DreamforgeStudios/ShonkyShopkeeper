@@ -15,9 +15,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Shop.unity
     guid: c91e58d7f01ad9440b20bce7657bda57
   - enabled: 1
-    path: Assets/Scenes/Games/Barter.unity
-    guid: ff648dfa30026a3419eb257067105976
-  - enabled: 1
     path: Assets/Scenes/Games/Cutting.unity
     guid: 9046163d059a8ce419e26f2ab3c54248
   - enabled: 1
@@ -29,6 +26,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Games/Tracing.unity
     guid: a0b73164eaf72454ba73b1e3bfb3f674
+  - enabled: 1
+    path: Assets/Scenes/Games/Barter.unity
+    guid: caf2a05602ca3e6448c6fcf4e3665613
   - enabled: 0
     path: Assets/Scenes/TravelScreen.unity
     guid: c6558decf5802294d9f0ecaf782ed3a8
