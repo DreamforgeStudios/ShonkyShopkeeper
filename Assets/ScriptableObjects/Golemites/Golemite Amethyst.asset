@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d58c5823fca9c534a84e61afc43f273e, type: 3}
+  m_Name: Golemite Amethyst
+  m_EditorClassIdentifier: 
+  itemName: Amethyst Golemite
+  physicalRepresentation: {fileID: 1170650753489832, guid: bc8b7676c3335aa49913a827adf9d2a8,
+    type: 2}
+  stackLimit: 1
+  mergeable: 0
+  type: 1
+  basePrice: 200
+  resourceBagType: 1

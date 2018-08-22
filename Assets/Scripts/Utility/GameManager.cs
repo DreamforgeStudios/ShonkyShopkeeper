@@ -51,12 +51,20 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
+	public bool InTutorial = true;
+	public bool TutorialIntroTopComplete = false;
+	public bool TutorialIntroComplete = false;
+	public bool HasInspectedAllInventoryItems = false;
+	public bool TutorialGolemMade = false;
+	public bool MineGoleminteractGolem = false;
+	public bool SendToMine,HasMinePouch, WaitingForTimer, TimerComplete, ReturnPouch, OpenPouch = false;
+	public List<string> InspectedItems;
 	public Item.GemType GemTypeTransfer;
 	public Quality.QualityGrade QualityTransfer;
 	public Personality PersonalityTransfer;
 	public Sprite SpriteTransfer;
     public int RetriesRemaining = 0;
-	public int ShonkyIndexTransfer = -1;
+	public int ShonkyIndexTransfer = 0;
 	public float CameraRotTransfer = 8;
 	
 	public Travel.Towns CurrentTown {

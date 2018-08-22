@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using DG.Tweening; // Tweening / nice lerping.
+using DG.Tweening;
+using UnityEditor;
+// Tweening / nice lerping.
 //using System;
 using UnityEngine.SceneManagement;
 using UnityEngine.Scripting.APIUpdating;
@@ -22,15 +24,36 @@ public class Toolbox : MonoBehaviour {
     public ItemDatabase database;
 
     public float selectedOutlineThickness = 2;
-
+    
+    //THIS IS REALLY DIRTY RIGHT NOW AND I"M SORRY :( IF I HAD MORE TIME IT WOULD BE A SEPARATE SCRIPT
     //Capture the original positions and gameObjects of each tool
-    private Vector3 forcepPos;
-    private Vector3 inspectPos;
-    private Vector3 wandPos;
+    private Transform forcepPos;
+    private Transform inspectPos;
+    private Transform wandPos;
     public GameObject forceps;
     public GameObject magnifyer;
     public GameObject wand;
+    
+    //Wand tip used for particle system pos
+    public GameObject wandTip;
 
+    // Tool Raise pos and rot
+    public Vector3 desiredForcepPos;
+    public Vector3 desiredForcepRot;
+    public Vector3 desiredWandPos;
+    public Vector3 desiredWandRot;
+    public Vector3 desiredInspectPos;
+    public Vector3 desiredInspectRot;
+    public Vector3 halfwayInspectPos;
+    
+    //Original Pos
+    public Vector3 ForcepPos;
+    public Vector3 ForcepRot;
+    public Vector3 WandPos;
+    public Vector3 WandRot;
+    public Vector3 InspectPos;
+    public Vector3 InspectRot;
+    
     // A layer mask so that we only hit slots.
     public LayerMask layerMask;
 
@@ -38,6 +61,9 @@ public class Toolbox : MonoBehaviour {
     public GameObject inspectionPanel;
     public TextMeshProUGUI textHeading;
     public TextMeshProUGUI textInfo;
+    
+    //Variable used to capture which minigame the player is transitioning to and adjust retries accordingly
+    public string _minigameType;
 
     // Helpers.
     //private Inventory inventoryhelper;
@@ -45,12 +71,11 @@ public class Toolbox : MonoBehaviour {
 
     //Audio helpers
     public GameObject audioManager;
-    private AudioSource soundEffects;
-    private AudioClip cursorSelect;
-    private AudioClip golumCreated;
-    private AudioClip itemLift;
-    private AudioClip itemDown;
 
+    //Bin object
+    public GameObject Bin;
+    public Vector3 BinLineUp;
+    
     //Helpers to capture Items, transfoms, slot indexes, gameobjects, movement stages and instances when using forceps
     private Slot currentSelection = null;
     //private Slot secondSelection = null;
@@ -63,7 +88,6 @@ public class Toolbox : MonoBehaviour {
     void Start() {
         currentTool = Tool.Inspector;
         SwitchTool(Tool.Inspector);
-        SetUpAudio();
         //inventoryhelper = Inventory.Instance;
         //forcepPos = GameObject.FindGameObjectWithTag("forcep").transform.position;
         //wandPos = GameObject.FindGameObjectWithTag("wand").transform.position;
@@ -82,13 +106,6 @@ public class Toolbox : MonoBehaviour {
             ProcessTouch();
     }
 
-    private void SetUpAudio() {
-        soundEffects = audioManager.GetComponent<ShopAudioManager>().effects;
-        cursorSelect = audioManager.GetComponent<ShopAudioManager>().cursorSelect;
-        golumCreated = audioManager.GetComponent<ShopAudioManager>().golumCreated;
-        itemLift = audioManager.GetComponent<ShopAudioManager>().itemLift;
-        itemDown = audioManager.GetComponent<ShopAudioManager>().itemDown;
-    }
     private void ProcessMouse() {
         if (Input.GetMouseButtonDown(0)) {
             Cast();
@@ -135,6 +152,9 @@ public class Toolbox : MonoBehaviour {
                     case "Wand": SwitchTool(Tool.Wand); break;
                 }
                 // Must be a slot if it is not a tool.
+            } else if (currentTool == Tool.Forceps && hit.transform.CompareTag("Bin"))
+            {
+                BinItem();
             }
             else {
                 UseTool(hit.transform.GetComponent<Slot>());
@@ -150,7 +170,52 @@ public class Toolbox : MonoBehaviour {
         GameObject curToolObj = ToolToObject(currentTool),
                    newToolObj = ToolToObject(tool);
 
-        // Visual scale feedback.
+        Debug.Log(curToolObj.transform.position);
+        // Return old tool to bench.
+        switch (curToolObj.tag)
+        {
+            case "Forceps":
+                curToolObj.transform.DORotate(ForcepRot, 0.4f).SetEase(Ease.InOutSine);//.OnComplete(() =>
+                curToolObj.transform.DOMove(ForcepPos, 0.4f).SetEase(Ease.InOutSine);
+                curToolObj.GetComponent<ToolFloat>().EndFloat();
+                break;
+            case "Wand":
+                curToolObj.transform.DORotate(WandRot, 0.5f).SetEase(Ease.InOutSine);//.OnComplete(() =>
+                curToolObj.transform.DOMove(WandPos, 1f).SetEase(Ease.InOutSine);
+                curToolObj.GetComponent<ToolFloat>().EndFloat();
+                break;
+            case "Magnifyer":
+                curToolObj.transform.DORotate(InspectRot, 0.5f).SetEase(Ease.InOutSine);//.OnComplete(() =>
+                curToolObj.transform.DOMove(halfwayInspectPos , 0.1f).SetEase(Ease.InOutSine).OnComplete(() => 
+                curToolObj.transform.DOMove(InspectPos, 0.1f).SetEase(Ease.InOutSine));
+                curToolObj.GetComponent<ToolFloat>().EndFloat();
+                break;
+        }
+        
+        //Raise new tool to position
+        switch (newToolObj.tag)
+        {
+            case "Forceps":
+                //SFX.Play("sound");
+                newToolObj.transform.DORotate(desiredForcepRot, 0.9f).SetEase(Ease.InOutSine);//.OnComplete(() =>
+                newToolObj.transform.DOMove(desiredForcepPos, 1f).SetEase(Ease.InOutSine).OnComplete(() =>
+                    newToolObj.GetComponent<ToolFloat>().StartFloat());
+                break;
+            case "Wand":
+                //SFX.Play("sound");
+                newToolObj.transform.DORotate(desiredWandRot, 0.5f).SetEase(Ease.InOutSine);//.OnComplete(() =>
+                newToolObj.transform.DOMove(desiredWandPos, 1f).SetEase(Ease.InOutSine).OnComplete(() =>
+                    newToolObj.GetComponent<ToolFloat>().StartFloat());
+                break;
+            case "Magnifyer":
+                //SFX.Play("sound");
+                newToolObj.transform.DORotate(desiredInspectRot, 1.1f).SetEase(Ease.InOutSine);//.OnComplete(() =>
+                newToolObj.transform.DOMove(halfwayInspectPos , 0.5f).SetEase(Ease.InOutSine).OnComplete(() => 
+                    newToolObj.transform.DOMove(desiredInspectPos, 0.5f).SetEase(Ease.InOutSine).OnComplete(() =>
+                    newToolObj.GetComponent<ToolFloat>().StartFloat()));
+                break;
+        }
+        
         //curToolObj.transform.DOScale(1f, 0.7f).SetEase(Ease.InElastic);
         //newToolObj.transform.DOScale(2f, 0.7f).SetEase(Ease.InElastic);
 
@@ -229,6 +294,7 @@ public class Toolbox : MonoBehaviour {
 
                 textHeading.text = instance.itemName;
                 textInfo.text = instance.itemInfo;
+                //SFX.Play("sound");
                 
                 MoveUp(slot);
             }
@@ -255,8 +321,8 @@ public class Toolbox : MonoBehaviour {
         // Unmark in backend and frontend.
         Inventory.Instance.UnMarkNew(currentSelection.index);
         currentSelection.itemInstance.IsNew = false;
-        GameObject obj;
         /*
+        GameObject obj;
         if (currentSelection.GetPrefabInstance(out obj)) {
             Destroy(obj.GetComponent<Rotate>());
         }
@@ -264,18 +330,25 @@ public class Toolbox : MonoBehaviour {
     }
 
     //Move an Item to a new slot
-    private void UseForceps(Slot slot) {
+    private void UseForceps(Slot slot)
+    {
         Item item;
 
-        if (slot.GetItem(out item) && canSelect) {
+        if (slot.GetItem(out item) && canSelect)
+        {
             //If first selection
-            if (currentSelection == null) {
+            if (currentSelection == null)
+            {
                 this.currentSelection = slot;
                 MoveUp(slot);
+                //SFX.Play("sound");
                 // Second selection.
-            } else {
+            }
+            else
+            {
                 // If the same item is selected, put it back.
-                if (currentSelection == slot) {
+                if (currentSelection == slot)
+                {
                     Debug.Log("Same slot.");
                     MoveDown(slot);
                     currentSelection = null;
@@ -290,29 +363,33 @@ public class Toolbox : MonoBehaviour {
                 GameObject obj1;
                 GameObject obj2;
                 // Move 1 item.
-                if (slot1.GetPrefabInstance(out obj1) && slot2.GetPrefabInstance(out obj2)) {
+                if (slot1.GetPrefabInstance(out obj1) && slot2.GetPrefabInstance(out obj2))
+                {
                     // Don't let user select while we're moving.
                     // TODO: let user select while moving?
                     canSelect = false;
 
                     Transform t1 = obj1.transform,
-                              t2 = obj2.transform;
-                    
+                        t2 = obj2.transform;
+
                     //SFX.Play("item_lift");
                     MoveUp(slot1)
                         .OnComplete(() => t1.DOMove(slot2.transform.position + Vector3.up, 0.6f).SetEase(Ease.OutBack)
                             .OnComplete(() => t1.DOMove(slot2.transform.position, 1f).SetEase(Ease.OutBounce)));
                     MoveUp(slot2)
                         .OnComplete(() => t2.DOMove(slot1.transform.position + Vector3.up, 0.6f).SetEase(Ease.OutBack)
-                            .OnComplete(() => t2.DOMove(slot1.transform.position, 1f).SetEase(Ease.OutBounce).OnComplete(() => canSelect = true)));
+                            .OnComplete(() =>
+                                t2.DOMove(slot1.transform.position, 1f).SetEase(Ease.OutBounce)
+                                    .OnComplete(() => canSelect = true)));
 
                     // This is a bit janky, but might be doing physics based inventory soon, so not bothering.
                     t1.GetComponent<Rotate>().Enable = false;
                     t2.GetComponent<Rotate>().Enable = false;
                     SFX.Play("item_down", 1, 1, 1.5f);
-                    
+
                     ItemInstance inst1, inst2;
-                    if (slot1.GetItemInstance(out inst1) && slot2.GetItemInstance(out inst2)) {
+                    if (slot1.GetItemInstance(out inst1) && slot2.GetItemInstance(out inst2))
+                    {
                         slot1.SetItemInstantiated(inst2, obj2);
                         slot2.SetItemInstantiated(inst1, obj1);
                         Inventory.Instance.SwapItem(slot1.index, slot2.index);
@@ -321,26 +398,34 @@ public class Toolbox : MonoBehaviour {
                     currentSelection = null;
                 }
             }
-        //Else if selected one item and clicked on null slot
-        } else if (currentSelection && !slot.GetItem(out item) && canSelect) {
+
+            //Else if selected one item and clicked on null slot
+        }
+        else if (currentSelection && !slot.GetItem(out item) && canSelect)
+        {
             Slot slot1 = this.currentSelection;
             Slot slot2 = slot;
 
             GameObject obj1;
             // If the slot we selected has something in it.
-            if (slot1.GetPrefabInstance(out obj1)) {//&& currentSelection.GetItemInstance(out inst1) &&
+            if (slot1.GetPrefabInstance(out obj1))
+            {
+                //&& currentSelection.GetItemInstance(out inst1) &&
                 canSelect = false;
                 Transform t1 = obj1.transform;
-                
+
                 SFX.Play("item_lift");
                 MoveUp(slot1)
                     .OnComplete(() => t1.DOMove(slot2.transform.position + Vector3.up, 0.6f).SetEase(Ease.OutBack)
-                        .OnComplete(() => t1.DOMove(slot2.transform.position, 1f).SetEase(Ease.OutBounce).OnComplete(() => canSelect = true)));
+                        .OnComplete(() =>
+                            t1.DOMove(slot2.transform.position, 1f).SetEase(Ease.OutBounce)
+                                .OnComplete(() => canSelect = true)));
                 t1.GetComponent<Rotate>().Enable = false;
                 SFX.Play("item_down", 1, 1, 1.5f);
 
                 ItemInstance inst1;
-                if (slot1.GetItemInstance(out inst1)) {
+                if (slot1.GetItemInstance(out inst1))
+                {
                     slot1.RemoveDontDestroy();
                     slot2.SetItemInstantiated(inst1, obj1);
                     Inventory.Instance.SwapItem(slot1.index, slot2.index);
@@ -352,36 +437,35 @@ public class Toolbox : MonoBehaviour {
             currentSelection = null;
         }
     }
-    
+
     private void UseWand(Slot slot) {
         Item item;
         ItemInstance instance;
         // Minigame detection.
         if (currentSelection == null && slot.GetItemInstance(out instance) && slot.GetItem(out item)) {
+            PlayWandParticles(slot);
             Debug.Log("got something:" + instance.item);
             currentSelection = slot;
+            _minigameType = item.GetType().ToString();
             switch (item.GetType().ToString()) {
                 case "Gem":
                     GameManager.Instance.GemTypeTransfer = (item as Gem).gemType;
-                    StartCoroutine(LoadAsyncScene("Cutting"));
+                    Initiate.Fade("Cutting", Color.black, 2f);
                     MinigameTransition();
                     break;
                 case "Jewel":
                     GameManager.Instance.GemTypeTransfer = (item as Jewel).gemType;
-                    //DataTransfer.GemType = (item as Jewel).gemType.ToString();
                     GameManager.Instance.QualityTransfer = instance.Quality;
-                    //DataTransfer.currentQuality = instance.Quality;
-                    StartCoroutine(LoadAsyncScene("Polishing"));
+                    Initiate.Fade("Polishing", Color.black, 2f);
                     MinigameTransition();
                     break;
                 case "Ore":
-                    StartCoroutine(LoadAsyncScene("Smelting"));
+                    Initiate.Fade("Smelting", Color.black, 2f);
                     MinigameTransition();
                     break;
                 case "Brick":
                     GameManager.Instance.QualityTransfer = instance.Quality;
-                    //DataTransfer.currentQuality = instance.Quality;
-                    StartCoroutine(LoadAsyncScene("Tracing"));
+                    Initiate.Fade("Tracing", Color.black, 2f);
                     MinigameTransition();
                     break;
                 case "ChargedJewel":
@@ -438,17 +522,18 @@ public class Toolbox : MonoBehaviour {
         //Move selection up
         GameObject itemObj;
         if (currentSelection.GetPrefabInstance(out itemObj)) {
+            //SFX.Play("sound");
             Inventory.Instance.RemoveItem(currentSelection.index);
             currentSelection.RemoveDontDestroy();
 
             Transform t = itemObj.transform;
             // Long but temporary...
-            GameManager.Instance.RetriesRemaining = Inventory.Instance.GetMaxRetries(GameManager.Instance.CurrentTown);
+            GameManager.Instance.RetriesRemaining = DetermineMinigameRetries();
 
             // Move and vibration for some "feedback".
             t.DOMove(t.position + (Vector3.up), 0.7f).SetEase(Ease.OutBack)
-                .OnComplete(() => t.DOShakePosition(.5f, .5f, 100, 30f)
-                    .OnComplete(() => asyncLoad.allowSceneActivation = true));
+                .OnComplete(() => t.DOShakePosition(.5f, .5f, 100, 30f));
+            //.OnComplete(() => asyncLoad.allowSceneActivation = true));
         }
     }
     //Method used to combine shonkys
@@ -500,7 +585,12 @@ public class Toolbox : MonoBehaviour {
             return "RubyGolem1";
         } else if (slot1.itemInstance.itemName == "Charged Sapphire" || slot2.itemInstance.itemName == "Charged Sapphire") {
             return "SapphireGolem1";
-        } else {
+        } else if (slot1.itemInstance.itemName == "Charged Amethyst" || slot2.itemInstance.itemName == "Charged Amethyst")
+        {
+            return "AmethystGolem1";
+        }
+        else
+        {
             return "RubyGolem1";
         }
     }
@@ -511,13 +601,15 @@ public class Toolbox : MonoBehaviour {
               oreChance = 1.00f;
         int numberItems = Random.Range(1, 5);
 
+        //SFX.Play("sound");
         var drops = new List<ItemInstance>();
         for (int i = 0; i < numberItems; i++) {
             string dropName;
-            string gem = DetermineGemToDrop();
+            string gem = DetermineGemToDrop(slot);
+            Debug.Log("Gemtype to drop is " + gem);
             float spin = Random.Range(0, 1f);
             if (spin < gemChance) {
-                dropName = DetermineGemToDrop();
+                dropName = gem;
             }
             else if (spin < oreChance) {
                 dropName = "Ore";
@@ -555,23 +647,110 @@ public class Toolbox : MonoBehaviour {
         }
     }
 
-    private string DetermineGemToDrop() {
-        Debug.Log("Current Town is " + Inventory.Instance.GetCurrentTown());
-        switch (Inventory.Instance.GetCurrentTown()) {
-            case Travel.Towns.WickedGrove:
-                return "ruby";
-            case Travel.Towns.FlamingPeak:
-                return "sapphire";
-            case Travel.Towns.GiantsPass:
-                return "emerald";
-            case Travel.Towns.SkyCity:
-                return "ruby";
+    private static string DetermineGemToDrop(Slot slot) {
+        //Get slot index
+        var index = slot.index;
+        //Get resource pouch gemType
+        ItemInstance inst;
+        if (Inventory.Instance.GetItem(index, out inst))
+        {
+            Item.GemType bagType = inst.pouchType;
+            Debug.Log("Current Town is " + Inventory.Instance.GetCurrentTown());
+            switch (bagType) {
+                case Item.GemType.Ruby:
+                    return "ruby";
+                case Item.GemType.Sapphire:
+                    return "sapphire";
+                case Item.GemType.Emerald:
+                    return "emerald";
+                case Item.GemType.Amethyst:
+                    return "amethyst";
+                default:
+                    return "ruby";
+            }
+        }
+        return "ruby";
+    }
+
+    private int DetermineMinigameRetries()
+    {
+        switch (_minigameType) {
+            case "Gem":
+                var gemType = GameManager.Instance.GemTypeTransfer;
+                return Inventory.Instance.GetMaxRetries(gemType);
+            case "Jewel":
+                var jewelType = GameManager.Instance.GemTypeTransfer;
+                return Inventory.Instance.GetMaxRetries(jewelType);
+            case "Ore":
+                //return Inventory.Instance.GetMaxRetries(GameManager.Instance.CurrentTown);
+                //Ore and brick games always give two retries
+                return 2;
+            case "Brick":
+                //return Inventory.Instance.GetMaxRetries(GameManager.Instance.CurrentTown);
+                return 2;
             default:
-                return "ruby";
+                return Inventory.Instance.GetMaxRetries(GameManager.Instance.CurrentTown);
         }
     }
 
+    private void BinItem()
+    {
+        Debug.Log("Hit Bin");
+        if (currentSelection)
+        {
+            //Replace current selection so user cannot stop the tween
+            Slot itemDelete = currentSelection;
+            currentSelection = null;
+            Item item;
+            if (itemDelete.GetItem(out item) && canSelect)
+            {
+                GameObject obj;
+                if (itemDelete.GetPrefabInstance(out obj))
+                {
+                    //This isn't necessary right now as canSelect stops that
+                    canSelect = false;
+                    obj.transform.DOMove(BinLineUp, 0.75f).SetEase(Ease.OutQuad).OnComplete(() =>
+                        obj.transform.DOMove(Bin.transform.position, 0.3f).SetEase(Ease.OutCirc).OnComplete(() => 
+                        SellItem(item, itemDelete)));
+                }
+            }
+        }
+    }
+
+    private void SellItem(Item item, Slot slot)
+    {
+        switch (item.GetType().ToString()) {
+            case "Gem":
+                Inventory.Instance.AddGold(10);
+                break;
+            case "Jewel":
+                Inventory.Instance.AddGold(20);
+                break;
+            case "Ore":
+                Inventory.Instance.AddGold(10);
+                break;
+            case "Brick":
+                Inventory.Instance.AddGold(20);
+                break;
+            case "ChargedJewel":
+                Inventory.Instance.AddGold(50);
+                break;
+            case "Shell":
+                Inventory.Instance.AddGold(50);
+                break;
+        }
+        //SFX.Play("sound");
+        Inventory.Instance.RemoveItem(slot.index);
+        slot.RemoveItem();
+        //SFX.Play("sound");
+        slot = null;
+        SaveManager.SaveInventory();
+        canSelect = true;
+
+    }
+
     // Load a sync in the background.
+    /*
     private AsyncOperation asyncLoad;
     IEnumerator LoadAsyncScene(string sceneName) {
         asyncLoad = SceneManager.LoadSceneAsync(sceneName);
@@ -583,6 +762,15 @@ public class Toolbox : MonoBehaviour {
             Debug.Log("scene not loaded yet.");
             yield return new WaitForSeconds(.1f);
         }
+    }
+    */
+
+    private void PlayWandParticles(Slot slot)
+    {
+        GameObject item;
+        slot.GetPrefabInstance(out item);
+        GameObject obj = ToolToObject(Tool.Wand);
+        obj.GetComponent<ToolFloat>().WandParticles(wandTip.transform.position, item.transform.position);
     }
 
     private void OnDrawGizmos() {

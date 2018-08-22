@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
+// TODO: don't destroy  on load?
 public static class SFX {
     private static SoundDatabase
         soundDB = Object.Instantiate((SoundDatabase) Resources.Load("SFXDatabase"));

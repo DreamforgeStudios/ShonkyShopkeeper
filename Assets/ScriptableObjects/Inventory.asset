@@ -3,7 +3,7 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
@@ -18,60 +18,72 @@ MonoBehaviour:
     IsNew: 0
     ItemIdentifier: pouch
     InMine: 0
+    pouchType: 2
+  - Quantity: 1
+    Quality: 6
+    IsNew: 0
+    ItemIdentifier: shell
+    InMine: 0
+    pouchType: 0
   - Quantity: 1
     Quality: 6
     IsNew: 0
     ItemIdentifier: ore
     InMine: 0
+    pouchType: 0
   - Quantity: 1
     Quality: 6
     IsNew: 0
     ItemIdentifier: ore
     InMine: 0
-  - Quantity: 1
-    Quality: 6
-    IsNew: 0
-    ItemIdentifier: ore
-    InMine: 0
+    pouchType: 0
   - Quantity: 1
     Quality: 6
     IsNew: 0
     ItemIdentifier: ruby
     InMine: 0
+    pouchType: 0
   - Quantity: 1
     Quality: 0
     IsNew: 0
     ItemIdentifier: sapphire
     InMine: 0
+    pouchType: 0
   - Quantity: 1
     Quality: 6
     IsNew: 0
     ItemIdentifier: emerald
     InMine: 0
-  - Quantity: 0
+    pouchType: 0
+  - Quantity: 1
+    Quality: 6
+    IsNew: 0
+    ItemIdentifier: pouch
+    InMine: 0
+    pouchType: 0
+  - Quantity: 1
+    Quality: 6
+    IsNew: 0
+    ItemIdentifier: pouch
+    InMine: 0
+    pouchType: 3
+  - Quantity: 1
+    Quality: 4
+    IsNew: 0
+    ItemIdentifier: charged amethyst
+    InMine: 0
+    pouchType: 0
+  - Quantity: 1
+    Quality: 2
+    IsNew: 0
+    ItemIdentifier: cut amethyst
+    InMine: 0
+    pouchType: 0
+  - Quantity: 1
     Quality: 0
     IsNew: 0
-    ItemIdentifier: 
+    ItemIdentifier: amethyst
     InMine: 0
-  - Quantity: 0
-    Quality: 0
-    IsNew: 0
-    ItemIdentifier: 
-    InMine: 0
-  - Quantity: 0
-    Quality: 0
-    IsNew: 0
-    ItemIdentifier: 
-    InMine: 0
-  - Quantity: 0
-    Quality: 0
-    IsNew: 0
-    ItemIdentifier: 
-    InMine: 0
-  - Quantity: 0
-    Quality: 0
-    IsNew: 0
-    ItemIdentifier: 
-    InMine: 0
+    pouchType: 0
   unlockedTowns: 
   currentTown: 0

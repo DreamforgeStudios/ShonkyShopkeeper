@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Items/Inventory", fileName = "Inventory.asset")]
@@ -67,8 +68,8 @@ public class Inventory : ScriptableObject {
 
     private void CheckInitialisation() {
         if (unlockedTowns == null) {
-            Debug.Log("Unlocked town list is null");
             unlockedTowns = new List<Travel.Towns>();
+            unlockedTowns.Add(Travel.Towns.Tutorial);
         }
     }
 
@@ -83,14 +84,50 @@ public class Inventory : ScriptableObject {
 
     public int GetMaxRetries(Travel.Towns town) {
         int index = unlockedTowns.IndexOf(town);
-        if (index == 0) {
+        if (index == 0 || index == 1) {
             return 3;
-        } else if (index == 1) {
-            return 2;
         } else if (index == 2) {
+            return 2;
+        } else if (index == 3) {
             return 1;
         } else {
             return 2;
+        }
+    }
+
+    public int GetMaxRetries(Item.GemType gem)
+    {
+        Travel.Towns townOfGem = TownOfGem(gem);
+        int index = unlockedTowns.IndexOf(townOfGem);
+        switch (index)
+        {
+                case 0:
+                    return 3;
+                case 1:
+                    return 3;
+                case 2:
+                    return 2;
+                case 3:
+                    return 1;
+                default:
+                    return 3;
+        }
+    }
+
+    private Travel.Towns TownOfGem(Item.GemType gem)
+    {
+        switch (gem)
+        {
+                case Item.GemType.Ruby:
+                    return Travel.Towns.FlamingPeak;
+                case Item.GemType.Emerald:
+                    return Travel.Towns.WickedGrove;
+                case Item.GemType.Sapphire:
+                    return Travel.Towns.SkyCity;
+                case Item.GemType.Amethyst:
+                    return Travel.Towns.GiantsPass;
+                default:
+                    return Travel.Towns.FlamingPeak;
         }
     }
     

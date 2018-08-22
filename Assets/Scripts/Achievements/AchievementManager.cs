@@ -10,6 +10,7 @@ public static class AchievementManager {
         // If true, successfully unlocked.  If false, already unlocked.
         Achievement a;
         if (achievementDB.TryFindAchievementWithKey(key, out a)) {
+            //SFX.Play("sound");
             return achievementDB.Unlock(a);
         }
         

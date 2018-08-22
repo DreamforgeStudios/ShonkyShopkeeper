@@ -15,6 +15,7 @@ public static class Travel {
     //Replace town names once confirmed
     //All Possible towns in game
     public enum Towns {
+        Tutorial,
         WickedGrove,
         FlamingPeak,
         GiantsPass,
@@ -71,5 +72,22 @@ public static class Travel {
 
     public static Towns ReturnCurrentTown() {
         return Inventory.Instance.GetCurrentTown();
+    }
+
+    public static Item.GemType CurrentTownGemType()
+    {
+        switch (currentTown)
+        {
+                case Towns.WickedGrove:
+                    return Item.GemType.Emerald;
+                case Towns.FlamingPeak:
+                    return Item.GemType.Ruby;
+                case Towns.SkyCity:
+                    return Item.GemType.Sapphire;
+                case Towns.GiantsPass:
+                    return Item.GemType.Amethyst;
+                default:
+                    return Item.GemType.Ruby;
+        }
     }
 }

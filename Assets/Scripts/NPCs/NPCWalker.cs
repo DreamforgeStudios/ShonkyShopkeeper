@@ -53,11 +53,19 @@ public class NPCWalker : MonoBehaviour {
 
     public void WizardPunch(float strength, float duration) {
         walkCycle = true;
-        wizard.transform.DOPunchRotation(Vector3.forward * 25 * strength, duration, 0).SetEase(Ease.InOutBack).OnComplete(() => walkCycle = false);
+        //wizard.transform.DOPunchRotation(Vector3.forward * 25 * strength, duration, 0).SetEase(Ease.InOutBack).OnComplete(() => walkCycle = false);
     }
 
     public void SetWalkDirection(int walkDirection) {
 		this.walkDirection = walkDirection;
+	    if (walkDirection == -1)
+	    {
+		    transform.eulerAngles = new Vector3(0f,180f,0f);
+	    }
+	    else
+	    {
+		    transform.eulerAngles = new Vector3(0f,0f,0f);
+	    }
 	}
 
 	public void SetWalkSpeed(float walkSpeed) {

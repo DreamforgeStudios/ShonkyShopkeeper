@@ -3,7 +3,7 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
@@ -19,9 +19,17 @@ MonoBehaviour:
     - golem_created
     - item_lift
     - item_down
+    - quality_bar_deplete
+    - bump_small
+    - fire_loop
+    - game_instrumental
     m_values:
     - {fileID: 8300000, guid: 2c0dcf73926fa024ab5066e2aa7e29d6, type: 3}
     - {fileID: 8300000, guid: bd590c4fc0302fd4387f41d98bf562de, type: 3}
     - {fileID: 8300000, guid: eb5889f693425144e872ad0ab011b93f, type: 3}
     - {fileID: 8300000, guid: 81473efa551ee394bbf7f64df01a69e6, type: 3}
+    - {fileID: 8300000, guid: 8e82138200cf4bd46b2eefb7dfffe0e2, type: 3}
+    - {fileID: 8300000, guid: b1676682d3decfe4a8d547163e7e2301, type: 3}
+    - {fileID: 8300000, guid: ca59e8a674390e74c834bacc66d88370, type: 3}
+    - {fileID: 8300000, guid: c884aa3db571c1b488b95ec16f38fed0, type: 3}
   ClipKey: golem_create

@@ -18,12 +18,8 @@ public class IntroScene : MonoBehaviour {
     List<TextMeshProUGUI> texts;
     private int textCounter = 0;
 
-    //To tell if this is the first time starting
-    int firstStart = 0;
-
     // Use this for initialization
     void Start() {
-        PlayerPrefs.DeleteKey("FirstStart");
         texts = new List<TextMeshProUGUI>();
         texts.Add(text1);
         texts.Add(text2);
@@ -35,18 +31,13 @@ public class IntroScene : MonoBehaviour {
         }
         loading.enabled = false;
         next.enabled = true;
-
-        firstStart = PlayerPrefs.GetInt("FirstStart");
+        Initiate.Fade("TutorialShop", Color.black, 2f);
     }
 
     // Update is called once per frame
     void Update() {
-        if (firstStart == 0) {
-            if (Input.GetMouseButtonDown(0)) {
-                AdvanceText();
-            }
-        } else {
-            SceneManager.LoadScene("Shop");
+        if (Input.GetMouseButtonDown(0)) {
+            AdvanceText();
         }
     }
 
@@ -64,7 +55,7 @@ public class IntroScene : MonoBehaviour {
         if (textCounter == texts.Count) {
             next.enabled = false;
             loading.enabled = true;
-            SceneManager.LoadScene("Hall");
+            Initiate.Fade("Hall", Color.black, 2f);
         }
         textCounter++;
     }

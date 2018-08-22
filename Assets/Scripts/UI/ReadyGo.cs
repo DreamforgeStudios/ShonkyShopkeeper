@@ -3,16 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using DG.Tweening;
+using NaughtyAttributes;
 
 public class ReadyGo : MonoBehaviour {
 	public TextMeshProUGUI text;
 	public bool waitForInitialTap;
 
 	private int wordIndex;
+	[ReorderableList]
 	public string[] words;
+	[ReorderableList]
 	public float[] timeouts;
+	[ReorderableList]
 	public Color[] colors;
 
+	[ReorderableList]
 	public AudioClip[] sounds;	// Not in use yet...
 	private float curTime;
 	private bool start = false;
@@ -28,6 +33,8 @@ public class ReadyGo : MonoBehaviour {
 		// Timescale independent...
 		text.transform.DOPunchScale(Vector3.one * 0.5f, 0.3f).SetUpdate(true);
 		text.color = colors[wordIndex];
+		
+		start = !waitForInitialTap;
 	}
 	
 	// Update is called once per frame

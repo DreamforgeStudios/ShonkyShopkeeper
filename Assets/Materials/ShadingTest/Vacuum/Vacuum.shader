@@ -6,10 +6,10 @@
 		_Noise ("Pull Noise", 2D) = "white" {}
 		_FragNoise ("Fragment Noise", 2D) = "white" {}
 
-		_PullPos ("Pull Position", Vector) = (0,0,0,0)
-		_Strength ("Strength", Float) = 3
-		_Range ("Range", Range(0, 10)) = 2
-		_SoftRange ("Soft Range", Range(0, 12)) = 3
+		//_PullPos ("Pull Position", Vector) = (0,0,0,0)
+		//_Strength ("Strength", Float) = 3
+		//_Range ("Range", Range(0, 10)) = 2
+		//_SoftRange ("Soft Range", Range(0, 12)) = 3
 
 		_Color ("Main Color", Color) = (0.5,0.5,0.5, 1)
 		_Ramp ("Ramp", 2D) = "gray" {}
@@ -87,7 +87,7 @@
 
 				// Vertex to add...
 				float3 toAdd = (_PullPos - worldVertex) * val * noise;
-				toAdd = mul(unity_WorldToObject, toAdd);
+				toAdd = mul(unity_WorldToObject, float4(toAdd.xyz,0.0));
 				// Pass it to the pixel shader.
 				o.add = toAdd; 
 				v.vertex += float4(toAdd, 1);

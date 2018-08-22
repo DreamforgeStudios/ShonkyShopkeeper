@@ -19,9 +19,11 @@ public class TracingFeedbackFade : MonoBehaviour {
             if (alpha.a > 0) {
                 alpha.a = Mathf.Lerp(alpha.a, 0, Time.deltaTime * 2.5f);
                 spriteRenderer.color = alpha;
+                /*
                 if (alpha.a < 0.2) {
-                    Instantiate(cross, transform.position, transform.rotation);
+                    //Instantiate(cross, transform.position, transform.rotation);
                 }
+                */
             }
         }
     }

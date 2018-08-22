@@ -109,4 +109,65 @@ public class Mine : ScriptableObject {
     public void Save() {
         SaveManager.SaveMineInventory();
     }
+
+    public bool GolemsInMine()
+    {
+        if (golemTable.Count > 0 || instantReturn.Count > 0)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public bool ReadyToReturn()
+    {
+        if (instantReturn.Count > 0)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public int AmountOfGolemsInMine()
+    {
+        return golemTable.Count;
+    }
+
+    public int AmountReadyToReturn()
+    {
+        return instantReturn.Count; //+ ReadyToReturnGolems();
+    }
+    
+    /*
+    private int ReadyToReturnGolems() {
+        //Find Golems to be returned
+        int numberOfGolems = 0;
+        foreach (KeyValuePair<DateTime, int> golem in golemTable) {
+            TimeSpan elapsedTime = DateTime.Now - golem.Key;
+            if (elapsedTime.Seconds > mineTimeSeconds)
+            {
+                numberOfGolems++;
+            }
+        }
+
+        return numberOfGolems;
+    }
+    */
+    public List<DateTime> TimeRemaining()
+    {
+        List<DateTime> entryTimes = new List<DateTime>();
+        foreach (KeyValuePair<DateTime, int> golem in golemTable)
+        {
+            entryTimes.Add(golem.Key);
+        }
+
+        return entryTimes;
+    }
+
+    public float MiningTime()
+    {
+        return mineTimeSeconds;
+    }
 }

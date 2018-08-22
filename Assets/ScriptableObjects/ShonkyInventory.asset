@@ -14,26 +14,31 @@ MonoBehaviour:
   shonkyInventory:
   - Quantity: 1
     Quality: 5
-    IsNew: 0
-    ItemIdentifier: RubyGolem1
-    InMine: 1
-  - Quantity: 0
-    Quality: 6
+    IsNew: 1
+    ItemIdentifier: rubygolem1
+    InMine: 0
+    pouchType: 0
+  - Quantity: 1
+    Quality: 5
     IsNew: 0
     ItemIdentifier: 
     InMine: 0
-  - Quantity: 0
-    Quality: 0
-    IsNew: 0
+    pouchType: 0
+  - Quantity: 1
+    Quality: 5
+    IsNew: 1
     ItemIdentifier: 
     InMine: 0
-  - Quantity: 0
-    Quality: 0
-    IsNew: 0
-    ItemIdentifier: 
-    InMine: 0
+    pouchType: 2
   - Quantity: 0
     Quality: 0
     IsNew: 0
     ItemIdentifier: 
     InMine: 0
+    pouchType: 0
+  - Quantity: 0
+    Quality: 0
+    IsNew: 0
+    ItemIdentifier: 
+    InMine: 0
+    pouchType: 0

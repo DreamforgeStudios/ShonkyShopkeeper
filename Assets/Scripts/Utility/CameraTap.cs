@@ -13,6 +13,8 @@ public class CameraTap : MonoBehaviour {
 	private Vector3 bottomScreenRotationImg = new Vector3(0, 0, -180);//Quaternion.Euler(0, 0, 180);
 	public Image img;
 
+    public TutorialManager tutManager;
+
     public void Awake() {
         //If top screenRotation was last remembered
         if (topScreenRotation.x == GameManager.Instance.CameraRotTransfer) {
@@ -28,16 +30,28 @@ public class CameraTap : MonoBehaviour {
 
     public void RotateCamera() {
         if (topScreen) {
+            //SFX.Play("sound");
             transform.DORotate(bottomScreenRotation, 0.4f).SetEase(Ease.InOutSine);
 			img.transform.DORotate(bottomScreenRotationImg, 0.4f).SetEase(Ease.InOutSine);
             GameManager.Instance.CameraRotTransfer = bottomScreenRotation.x;
             topScreen = false;
         } else { 
+            //SFX.Play("sound");
             transform.DORotate(topScreenRotation, 0.4f).SetEase(Ease.InOutSine);
 			img.transform.DORotate(topScreenRotationImg, 0.4f).SetEase(Ease.InOutSine);
             GameManager.Instance.CameraRotTransfer = topScreenRotation.x;
             topScreen = true;
         }
+
+        if (!GameManager.Instance.TutorialIntroTopComplete)
+        {
+            GameManager.Instance.TutorialIntroTopComplete = true;
+            tutManager.NextDialogue();
+            tutManager.StartForcepParticles();
+            if (GameManager.Instance.TutorialIntroComplete)
+                tutManager.HideCanvas();
+        }
+            
     }
 
 	public bool AtTopScreen() {

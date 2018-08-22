@@ -6,7 +6,7 @@ using UnityEngine;
 [System.Serializable]
 public abstract class Item : ScriptableObject {
     public enum GemType {
-        Ruby, Diamond, Sapphire, Emerald
+        Ruby, Amethyst, Sapphire, Emerald
     }
     
     public string itemName;
@@ -24,6 +24,7 @@ public class ItemInstance {
     public bool IsNew;
     public string ItemIdentifier;
     public bool InMine;
+    public Item.GemType pouchType;
     
     public string itemInfo {
         get { return GetItemInfo(); }

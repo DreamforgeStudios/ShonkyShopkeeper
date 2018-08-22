@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 33314008630973120}
   - component: {fileID: 23922619629403032}
   - component: {fileID: 114317204434971964}
+  - component: {fileID: 114593667664072462}
   m_Layer: 0
   m_Name: Ruby Jewel
   m_TagString: Untagged
@@ -36,8 +37,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1239518241767308}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 13, y: 13, z: 13}
+  m_LocalPosition: {x: 1.2243605, y: 0.89348686, z: 1.6822689}
+  m_LocalScale: {x: 12, y: 12, z: 12}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -57,7 +58,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 7048bff34b507bf47a1e4f83388a4ce7, type: 2}
+  - {fileID: 2100000, guid: bfc6eab2a0e506c41a1254befb6f9fd3, type: 2}
   - {fileID: 2100000, guid: bfc6eab2a0e506c41a1254befb6f9fd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -97,5 +98,45 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Axis: {x: 0, y: 1, z: 0}
-  Speed: 0.5
+  Speed: 18
+  UseUnscaledTime: 0
   Enable: 0
+--- !u!114 &114593667664072462
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1239518241767308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a131e6734d445466a9eaac47dd64ac75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _GlobalProjectionDir: {x: 0, y: -1, z: 0}
+  _GlobalShadowResolution: 2
+  _GlobalShadowCullingMode: 0
+  _EnableCutOff: 0
+  _GlobalCutOffDistance: 10000
+  _GlobalFlipX: 0
+  _GlobalFlipY: 0
+  _ShadowSize: 0.075
+  _ShadowColor: {r: 1, g: 1, b: 1, a: 1}
+  _ShadowOpacity: 0.5
+  _Material: {fileID: 2100000, guid: 255326f2182144b0aa35e6b50aa1b832, type: 2}
+  _IsLight: 0
+  _ShadowLocalOffset: {x: 0, y: 0, z: 0}
+  _RotationAngleOffset: {x: 0, y: 0, z: 0, w: 1}
+  _FreezeXRot: 1
+  _FreezeYRot: 0
+  _FreezeZRot: 1
+  _UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0.5
+    width: 0.5
+    height: 0.5
+  _AutoSizeOpacity: 1
+  _AutoSOCutOffDistance: 10
+  _AutoSORayOriginOffset: 0
+  _AutoSOMaxScaleMultiplier: 4
+  _AutoSORaycastLayer: 8

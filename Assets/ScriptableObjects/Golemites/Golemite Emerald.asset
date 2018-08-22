@@ -3,7 +3,7 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Name: Golemite Emerald
   m_EditorClassIdentifier: 
   itemName: Emerald Golemite
-  physicalRepresentation: {fileID: 1518501985870954, guid: 0523b3f9b28bf944fab00edfc706e9c0,
+  physicalRepresentation: {fileID: 1051346172663554, guid: a4fcd2f7796591f4793b128484a49665,
     type: 2}
   stackLimit: 1
   mergeable: 0
   type: 3
   basePrice: 100
+  resourceBagType: 0

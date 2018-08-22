@@ -49,7 +49,7 @@ public class NPCSpawner : MonoBehaviour {
 			// Find a clone to use.
 			GameObject clone = null;
 			for (int i = 0; i < spawnPool.Length; i++) {
-				if (!spawnPool[i].active) {
+				if (!spawnPool[i].activeSelf) {
 					clone = spawnPool[i];
 					break;
 				}
