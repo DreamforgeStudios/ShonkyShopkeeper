@@ -722,6 +722,7 @@ public class TutorialToolbox : MonoBehaviour {
             TutorialProgressChecker.Instance.OnlyShowTextBox("Now youve got everything you need to begin your Golemancy journey! When you are" +
                                                              "ready to continue click the Map to venture out into the world Zauberheim!");
             GameManager.Instance.InTutorial = false;
+            GameManager.Instance.InMap = true;
         }
     }
     

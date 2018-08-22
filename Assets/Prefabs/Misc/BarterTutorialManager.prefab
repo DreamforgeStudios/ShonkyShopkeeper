@@ -9,66 +9,55 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1481217776389756}
+  m_RootGameObject: {fileID: 1321240017932574}
   m_IsPrefabAsset: 1
---- !u!1 &1481217776389756
+--- !u!1 &1321240017932574
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4601959681223680}
-  - component: {fileID: 114101895670874992}
+  - component: {fileID: 4836637355753428}
+  - component: {fileID: 114871753110055094}
   m_Layer: 0
-  m_Name: GameManager
+  m_Name: BarterTutorialManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4601959681223680
+--- !u!4 &4836637355753428
 Transform:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1481217776389756}
+  m_GameObject: {fileID: 1321240017932574}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.2749714, y: 0.6454522, z: -8.619543}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114101895670874992
+--- !u!114 &114871753110055094
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1481217776389756}
+  m_GameObject: {fileID: 1321240017932574}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79e77e8152f47b44ca1c917f938974cc, type: 3}
+  m_Script: {fileID: 11500000, guid: 41940a102e9ae174eb24879994673310, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InTutorial: 1
-  TutorialIntroTopComplete: 0
-  TutorialIntroComplete: 0
-  InMap: 0
-  HasInspectedAllInventoryItems: 0
-  TutorialGolemMade: 0
-  MineGoleminteractGolem: 0
-  SendToMine: 0
-  HasMinePouch: 0
-  WaitingForTimer: 0
-  TimerComplete: 0
-  ReturnPouch: 0
-  OpenPouch: 0
-  InspectedItems: []
-  GemTypeTransfer: 0
-  QualityTransfer: 0
-  PersonalityTransfer: {fileID: 0}
-  SpriteTransfer: {fileID: 0}
-  RetriesRemaining: 0
-  ShonkyIndexTransfer: -1
-  CameraRotTransfer: 8
+  textObj: {fileID: 0}
+  shopButtonObj: {fileID: 0}
+  sphere: {fileID: 0}
+  particles: {fileID: 0}
+  particleChild: {fileID: 0}
+  textBox: {fileID: 0}
+  currentTextNumber: 0
+  clickedNPC: 0
+  CanMoveCamera: 0
+  tutorialDialogue: []

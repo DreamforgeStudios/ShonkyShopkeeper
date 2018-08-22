@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
 	private static GameManager _instance;
@@ -49,11 +50,16 @@ public class GameManager : MonoBehaviour {
 			// TODO: make this automatically switch on / off.
 			//Debug.unityLogger.logEnabled = false;
 		}
+		string currentScene = SceneManager.GetActiveScene().name;
+
+		if (currentScene == "Shop"){
+			InTutorial = false;
+			TutorialIntroComplete = true;
+		}
 	}
 
 	public bool InTutorial = true;
-	public bool TutorialIntroTopComplete = false;
-	public bool TutorialIntroComplete = false;
+	public bool TutorialIntroTopComplete, TutorialIntroComplete, InMap, BarterTutorial = false;
 	public bool HasInspectedAllInventoryItems = false;
 	public bool TutorialGolemMade = false;
 	public bool MineGoleminteractGolem = false;
