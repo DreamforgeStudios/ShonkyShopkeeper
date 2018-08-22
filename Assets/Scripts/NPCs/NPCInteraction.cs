@@ -68,6 +68,11 @@ public class NPCInteraction : MonoBehaviour {
                         if (ShonkyInventory.Instance.GetItem(randomShonky, out chosenShonky)) {
                             GameManager.Instance.ShonkyIndexTransfer = randomShonky;
 
+                            if (GameManager.Instance.BarterTutorial)
+                            {
+                                GameManager.Instance.BarterTutorial = false;
+                                PlayerPrefs.SetInt("TutorialDone", 1);
+                            }
                             //Move NPC to shop front and initiate barter
                             hit.transform.GetComponent<NPCWalker>().walkNormal = false;
                             hit.transform.DOScale(1.2f, 2f);

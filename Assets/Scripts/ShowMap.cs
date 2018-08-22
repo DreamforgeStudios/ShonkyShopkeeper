@@ -49,6 +49,10 @@ public class ShowMap : MonoBehaviour
 		Exit.enabled = true;
 		player.SetActive(true);
 		MovePlayerToTown(ReturnTownPosition(currentTown));
+		if (GameManager.Instance.InMap && !MapTutorial.Instance.clickedOrb)
+		{
+			MapTutorial.Instance.ClickedSphere();
+		}
 	}
 	
 	private void Setup()
@@ -125,6 +129,7 @@ public class ShowMap : MonoBehaviour
 			helperText.enabled = false;
 			lastTownClicked = null;
 			SaveManager.SaveInventory();
+			Initiate.Fade("Shop", Color.black, 2f);
 
 		}
 	}
@@ -133,6 +138,8 @@ public class ShowMap : MonoBehaviour
 	private void AttemptToBuyTown(Travel.Towns selectedTown) {
 		bool completeTransaction = Travel.UnlockNewTown(selectedTown);
 		//If this was the first town unlocked, make it the current
+		Debug.Log(Inventory.Instance.GetUnlockedTowns().Count + " unlocked towns");
+		Debug.Log("Complete transaction " + completeTransaction);
 		if (Inventory.Instance.GetUnlockedTowns().Count == 1 && completeTransaction) {
 			//SFX.Play("sound");
 			player.SetActive(true);
@@ -141,12 +148,24 @@ public class ShowMap : MonoBehaviour
 			Travel.ChangeCurrentTown(selectedTown);
 			SaveManager.SaveInventory();
 			PlayerPrefs.SetInt("FirstStart", 1);
+			if (GameManager.Instance.InMap)
+			{
+				GameManager.Instance.InMap = false;
+				GameManager.Instance.BarterTutorial = true;
+			}
+			Initiate.Fade("Shop", Color.black, 2f);
 		}
 		//Else if it was a subsequent town, check the purchase was successful
 		else {
 			if (completeTransaction) {
 				//SFX.Play("sound");
+				if (GameManager.Instance.InMap)
+				{
+					GameManager.Instance.InMap = false;
+					GameManager.Instance.BarterTutorial = true;
+				}
 				helperText.text = selectedTown + " can now be travelled to";
+				Initiate.Fade("Shop", Color.black, 2f);
 				SaveManager.SaveInventory();
 			}
 			else {

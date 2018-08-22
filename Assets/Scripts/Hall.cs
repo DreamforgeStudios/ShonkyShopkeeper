@@ -15,7 +15,7 @@ public class Hall : MonoBehaviour
 	//Variables for handling camera and globe movement
 	private bool forward, mapInteraction = false;
 	public Vector3 frontPos, backPos;
-	public GameObject globe;
+	public GameObject globe, townColliders;
 	public float speed = 100.0f;
 	public float Xrot, Yrot = 0f;
 	
@@ -49,7 +49,8 @@ public class Hall : MonoBehaviour
 		if (_mapManager.EnableGlobe)
 		{
 			CheckCamera();
-			ShopButton.SetActive(true);
+			//ShopButton.SetActive(true);
+			townColliders.SetActive(false);
 			if (Input.GetMouseButtonUp(0))
 			{
 				if (_click && (Time.time - _currentHoldDuration) < _holdThreshold)
@@ -66,6 +67,7 @@ public class Hall : MonoBehaviour
 		else
 		{
 			ShopButton.SetActive(false);
+			townColliders.SetActive(true);
 		}
 	}
 
@@ -85,14 +87,14 @@ public class Hall : MonoBehaviour
 	private void Setup()
 	{
 		goldAmount.enabled = false;
-		ShopButton.SetActive(true);
+		ShopButton.SetActive(false);
 		_mapManager = MapManager.GetComponent<ShowMap>();
 	}
 
 	private void MoveCamera()
 	{
 		//Debug.Log("Map Interaction is " + mapInteraction + " and forward is " + forward);
-		if (!mapInteraction)
+		if (!mapInteraction && MapTutorial.Instance.CanMoveCamera)
 		{
 			//Debug.Log("Not interacting with map");
 			if (!forward)
@@ -117,8 +119,10 @@ public class Hall : MonoBehaviour
 		{
 			RaycastHit hit;
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+			Debug.DrawLine(ray.origin,ray.direction,Color.red);
 			if (Physics.Raycast(ray, out hit, 1))
 			{
+				Debug.Log(hit.transform.gameObject.name + " hit");
 				//Debug.Log(hit.transform.gameObject.name);
 				if (hit.transform.gameObject.CompareTag("Globe") || mapInteraction)
 				{

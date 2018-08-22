@@ -35,7 +35,7 @@ public static class Travel {
     //Costs to unlock various towns
     public static int[] costsToUnlock = {
         0,
-        1,
+        0,
         1,
         1,
         1
