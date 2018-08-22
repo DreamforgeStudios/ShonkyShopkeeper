@@ -48,6 +48,21 @@ public class RadialBar : MonoBehaviour {
 		UpdateMaterial();
 	}
 
+	public void ChangePoint(Vector4 point, Color color) {
+		int p = Points.FindIndex(x => x == point);
+
+		if (p >= 0) {
+			// TODO: don't hard code this.
+			var tmp = Points[p];
+			tmp.z = (float) BarterManager.Segment.Bad;
+			
+			Points[p] = tmp;
+			Colors[p] = color;
+		} else {
+			Debug.LogWarning("Could not change point " + point + " because it was not present in the list of points.");
+		}
+	}
+
 	// Not sure if vectors are passed by reference, but if they aren't, then this method has the potential to
 	//  remove unintended points.  Use with care.
 	public void RemovePoint(Vector4 point) {

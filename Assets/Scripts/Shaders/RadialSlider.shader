@@ -1,6 +1,6 @@
 ﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
-Shader "Custom/SpriteGradient" {
+Shader "Custom/RadialSlider" {
 Properties {
     _MainTex ("Main Texture", 2D) = "white" {}
     
@@ -73,9 +73,9 @@ Properties {
             // Radius checking (make the quad into a circle).
             // TODO: cleanup.
             float rad = _RadiusWidth;
-            if (fragAngle < _CursorPosition + 10 &&
-                fragAngle > _CursorPosition - 10) {
-                float stepamount = inverselerp(10, 0, abs(fragAngle - _CursorPosition));
+            if (fragAngle < _CursorPosition + 15 &&
+                fragAngle > _CursorPosition - 15) {
+                float stepamount = inverselerp(15, 0, abs(fragAngle - _CursorPosition));
                 float p = 2.0 * stepamount * stepamount;
                 stepamount = stepamount < 0.5 ? p : -p + (4.0 * stepamount) - 1.0;
                 rad += stepamount * 0.03;
@@ -84,8 +84,11 @@ Properties {
             float d = distance(float4(0,0,0,1), i.original);
             float r = lerp(0, 0.5 - rad, _Radius / 1);
             if (!(d > r && d < r + rad)) {
-                clip(-1);
+                // Workaround for buggy clip() behaviour on macOS.
+                c.a = -1;
             }
+            
+            clip(c.a);
             
             // Loop through each point that has been sent to the shader.
             // Point.x = angle.
@@ -95,17 +98,6 @@ Properties {
                 if (fragAngle > _Points[i].x - _Points[i].y * .5 &&
                     fragAngle < _Points[i].x + _Points[i].y * .5) {
                     c = float4(_Colors[i], 1);
-                    /*
-                    if (_Points[i].z == 0) {
-                        c = _Color;
-                    } else if (_Points[i].z == 1) {
-                        c = _Color2;
-                    } else if (_Points[i].z == 2) {
-                        c = _Color3;
-                    } else if (_Points[i].z == 3) {
-                        c = _Color4;
-                    }
-                    */
                 }
             }
             

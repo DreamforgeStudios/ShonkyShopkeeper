@@ -4,15 +4,25 @@ using UnityEngine.SceneManagement;
 public class ReturnOrRetry {
 	public static void Return(string itemString, Quality.QualityGrade grade) {
 		//SFX.Play("sound");
-        Inventory.Instance.InsertItem(new ItemInstance(itemString, 1, grade, true));
+		Inventory.Instance.InsertItem(new ItemInstance(itemString, 1, grade, true));
 		//SceneManager.LoadScene("Shop");
-		if (!GameManager.Instance.InTutorial)
+		if (!GameManager.Instance.InTutorial) {
 			Initiate.Fade("Shop", Color.black, 2f);
-		else
-		{
+		} else {
 			TutorialProgressChecker.Instance.FinishedComponent(itemString);
 			Initiate.Fade("TutorialShop", Color.black, 2f);
 		}
+	}
+	
+	public static void Return(int goldAmount) {
+		//SFX.Play("sound");
+        Inventory.Instance.AddGold(goldAmount);
+		//SceneManager.LoadScene("Shop");
+		// TODO: tutorial consideration for bartering.
+		if (!GameManager.Instance.InTutorial)
+			Initiate.Fade("Shop", Color.black, 2f);
+		else
+			Initiate.Fade("TutorialShop", Color.black, 2f);
 	}
 
 	public static void Retry() {

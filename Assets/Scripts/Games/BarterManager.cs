@@ -4,6 +4,8 @@ using UnityEngine;
 using NaughtyAttributes;
 using UnityEngine.UI;
 using System.Linq;
+using System.Security.Cryptography;
+using DG.Tweening;
 using Random = UnityEngine.Random;
 
 [System.Serializable]
@@ -30,6 +32,7 @@ public class SegmentInfo {
 public class BarterManager : MonoBehaviour {
 	private Quality.QualityGrade golemQuality;
 	private ItemInstance golem;
+	private GameObject golemClone;
 	private bool start = false;
 	private float price = 0f;
 	private float happiness = 0.5f;
@@ -54,7 +57,11 @@ public class BarterManager : MonoBehaviour {
 	[BoxGroup("Object Assignments")]
 	public Countdown HourGlass;
 	[BoxGroup("Object Assignments")]
-	public Image WizardRenderer;
+	public SpriteRenderer WizardRenderer;
+	[BoxGroup("Object Assignments")]
+	public GameObject Wand;
+	[BoxGroup("Object Assignments")]
+	public GameObject BackToShop;
 	
 	public enum Segment {
 		Best, Good, Bad, Ok
@@ -82,8 +89,8 @@ public class BarterManager : MonoBehaviour {
 	        golemQuality = golem.Quality;
         }
 
-		GameObject clone = Instantiate(golem.item.physicalRepresentation, GolemSpawnPoint.transform.position, GolemSpawnPoint.transform.rotation, GolemSpawnPoint.transform);
-		clone.GetComponent<Rigidbody>().isKinematic = true;
+		golemClone = Instantiate(golem.item.physicalRepresentation, GolemSpawnPoint.transform.position, GolemSpawnPoint.transform.rotation, GolemSpawnPoint.transform);
+		golemClone.GetComponent<Rigidbody>().isKinematic = true;
 
 		if (GameManager.Instance.SpriteTransfer != null) {
 			WizardRenderer.sprite = GameManager.Instance.SpriteTransfer;
@@ -95,6 +102,8 @@ public class BarterManager : MonoBehaviour {
 		//SegmentInfosDict = BuildDictionary(SegmentInfos);
 		// TODO: this isn't very obvious, is there a better way?
 		RadialBar.DefaultColor = SegmentInfoDict[Segment.Ok].Color;
+
+		c = PriceText.color;
 
 		GeneratePoints();
 	}
@@ -122,6 +131,15 @@ public class BarterManager : MonoBehaviour {
 	}
 
 	private void ProcessTouch() {
+		// Don't let the player use multiple fingers, and don't run if there's no input.
+		if (Input.touchCount > 1 || Input.touchCount == 0) {
+			return;
+		}
+
+		Touch touch = Input.GetTouch(0);
+		if (touch.phase == TouchPhase.Began) {
+			CalculateAndDoHit();
+		}
 	}
 
 	private void CalculateAndDoHit() {
@@ -130,50 +148,52 @@ public class BarterManager : MonoBehaviour {
 		var points = RadialBar.Points;
 		foreach (var point in points) {
 			if (sliderAngle > point.x - point.y * .5f && sliderAngle < point.x + point.y * .5f) {
-				Hit((Segment) point.z);
+				Hit(point, (Segment) point.z);
 				return;
 			}
 		}
 		
-		Hit(Segment.Ok);
+		// This happens when the user hits nothing, which defaults as "OK".
+		Hit(Vector4.zero, Segment.Ok);
 	}
 
-	private void Hit(Segment value) {
+	private Color c;
+	private void Hit(Vector4 point, Segment value) {
 		//SegmentInfo pt = SegmentInfos.Find(x => Segment.Bad == value);
 		SegmentInfo info = SegmentInfoDict[value];
+
+		// TODO, base speed and stuff off how well they're doing.
+		Animator anim = golemClone.GetComponent<Animator>();
+		anim.SetBool("Pickup", true);
+		anim.speed += .5f;
 		
-		switch (value) {
-			case Segment.Best:
-				DebugText.color = Color.green;
-				break;
-			case Segment.Good:
-				DebugText.color = new Color(.6f, 1, 0);
-				break;
-			case Segment.Ok:
-				DebugText.color = Color.yellow;
-				break;
-			case Segment.Bad:
-				DebugText.color = Color.red;
-				break;
-			default:
-				DebugText.text = "Undefined.";
-				DebugText.color = Color.gray;
-				break;
-		}
+		RadialBar.ChangePoint(point, SegmentInfoDict[Segment.Bad].Color);
 
 		HourGlass.CurrentTimeRemaining += info.TimeAdd;
 		price += info.PriceAdd;
 		happiness = Mathf.Clamp01(happiness + info.HappinessAdd);
 
-		
 		PriceText.text = "Price: $" + price;
+		// TODO: when the design is finalised, allow these to be altered through parameters.
+		// BUG: its possible that the transform gets punched into space if the user spams hard enough.
+		PriceText.rectTransform.DOPunchAnchorPos(Vector2.up * 5, .7f);
+		PriceText.DOColor(info.Color, .5f).SetEase(Ease.OutCirc).OnComplete(() => PriceText.DOColor(c, .5f).SetEase(Ease.OutCirc));
+			
 		HappinessText.text = "Happy: " + (happiness * 100).ToString("0") + "%";
+		HappinessText.rectTransform.DOPunchAnchorPos(Vector2.up * 5, .7f);
+		HappinessText.DOColor(info.Color, .5f).SetEase(Ease.OutCirc).OnComplete(() => HappinessText.DOColor(c, .5f).SetEase(Ease.OutCirc));
+		
 		DebugText.text = value.ToString();
+		DebugText.color = info.Color;
+
+		Wand.transform.DORotate(Vector3.right * 150f, .7f, RotateMode.LocalAxisAdd).SetEase(Ease.OutCirc);
+		
 		RadialSlider.PauseForDuration(.2f);
 	}
 
 	private void GeneratePoints() {
 		// TODO: quality and golem type should affect this?
+		// TODO: add likelyhood for each segment to appear.
 		float occupied = RadialSlider.MinRotation;
 		float between = Mathf.Abs(RadialSlider.MinRotation) + Mathf.Abs(RadialSlider.MaxRotation) ;
 		float segmentSize = between / NumberOfSegments;
@@ -190,8 +210,14 @@ public class BarterManager : MonoBehaviour {
 		}
 	}
 	
+	public void Return() {
+		ReturnOrRetry.Return((int)price);
+	}
+	
 	private void GameOver() {
 		Countdown.onComplete -= GameOver;
 		start = false;
+		
+		BackToShop.SetActive(true);
 	}
 }
