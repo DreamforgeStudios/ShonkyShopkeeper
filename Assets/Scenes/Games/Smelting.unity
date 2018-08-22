@@ -278,7 +278,7 @@ MonoBehaviour:
   Ore: {fileID: 1193304486839174, guid: d47b7e9e9ccfb824682664e7597e1cd7, type: 2}
   Brick: {fileID: 1257862236138780, guid: 01ccfa630fadfcf4895c8e382b417a11, type: 2}
   SmeltingPot: {fileID: 1082950358}
-  ShineParticleSystem: {fileID: 1788415763621164, guid: 809cf3f88a097d149bacbdd3c32095c8,
+  ShineParticleSystem: {fileID: 1788415763621164, guid: 9ef7007e418f072428735a1ffd779a9d,
     type: 2}
   SmokeParticleSystem: {fileID: 1355471223123628, guid: 180835a7c302012459814d067c52dbdd,
     type: 2}

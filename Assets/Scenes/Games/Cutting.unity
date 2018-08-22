@@ -404,7 +404,7 @@ Prefab:
         type: 2}
       propertyPath: ShineParticleSystem
       value: 
-      objectReference: {fileID: 1788415763621164, guid: 809cf3f88a097d149bacbdd3c32095c8,
+      objectReference: {fileID: 1788415763621164, guid: 9ef7007e418f072428735a1ffd779a9d,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0fe2e4e842ca5149acfb09b4f5f2873, type: 2}

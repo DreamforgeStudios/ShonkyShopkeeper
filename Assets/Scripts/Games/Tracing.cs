@@ -71,6 +71,7 @@ public class Tracing : MonoBehaviour {
     //Quality bar.
     public QualityBar qualityBar;
     public GameObject returnOrRetryButtons;
+    public BrickSpawnManager brickSpawnmanager;
     private bool start = false;
     
     //Canvas flash
@@ -243,6 +244,8 @@ public class Tracing : MonoBehaviour {
         ShowUIButtons();
         _dataBase.HideUI();
         _canTrace = false;
+        
+        brickSpawnmanager.Upgrade();
     }
 
     /*

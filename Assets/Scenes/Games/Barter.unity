@@ -2253,7 +2253,7 @@ Prefab:
     - target: {fileID: 114021709454070972, guid: 4afd061383759384895ed2493d1c9425,
         type: 2}
       propertyPath: words.Array.data[0]
-      value: Heat the ore.
+      value: Sell your Golem
       objectReference: {fileID: 0}
     - target: {fileID: 114021709454070972, guid: 4afd061383759384895ed2493d1c9425,
         type: 2}
@@ -2379,6 +2379,11 @@ Prefab:
         type: 2}
       propertyPath: m_fontSize
       value: 66.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114021709454070972, guid: 4afd061383759384895ed2493d1c9425,
+        type: 2}
+      propertyPath: waitForInitialTap
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4afd061383759384895ed2493d1c9425, type: 2}
