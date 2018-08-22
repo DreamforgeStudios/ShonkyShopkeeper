@@ -91,7 +91,7 @@ public class TutorialPhysicalShonkyInventory : MonoBehaviour {
                 }
             }
         }
-        HighlightGolem();
+        //HighlightGolem();
     }
     
     private void HighlightGolem()
@@ -107,8 +107,8 @@ public class TutorialPhysicalShonkyInventory : MonoBehaviour {
                     GameObject obj;
                     if (shonkySlots[i].GetPrefabInstance(out obj))
                     {
-                        particleChild = Instantiate(particles, obj.transform.position, obj.transform.rotation);
-                        particleChild.transform.parent = obj.transform;
+                        //particleChild = Instantiate(particles, obj.transform.position, obj.transform.rotation);
+                        //particleChild.transform.parent = obj.transform;
                     }
                 }
             }
