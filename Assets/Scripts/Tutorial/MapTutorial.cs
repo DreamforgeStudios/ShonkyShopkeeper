@@ -69,6 +69,9 @@ public class MapTutorial : MonoBehaviour
 
 	private void Update()
 	{
+		if (!GameManager.Instance.InMap)
+			textObj.SetActive(false);
+		
 		if (textEnabled && Input.GetMouseButtonDown(0) && currentTextNumber > 3)
 		{
 			DetermineTutorialProgress();

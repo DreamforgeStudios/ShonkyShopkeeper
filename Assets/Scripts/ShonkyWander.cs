@@ -144,7 +144,7 @@ public class ShonkyWander : MonoBehaviour {
             
         }
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2f);
         Debug.Log("Reenabling agent");
         pickedUp = false;
         agent.enabled = true;

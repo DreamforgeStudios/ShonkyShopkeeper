@@ -68,6 +68,13 @@ public class TutorialManager : MonoBehaviour
 		
 	}
 
+	public void SkipTutorial()
+	{
+		GameManager.Instance.InTutorial = false;
+		GameManager.Instance.InMap = true;
+		LoadNormalInventory();
+	}
+
 	private void CheckForInput()
 	{
 		
