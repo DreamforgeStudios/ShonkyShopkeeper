@@ -44,8 +44,11 @@ public class MapTutorial : MonoBehaviour
 		if (GameManager.Instance.InMap)
 			CheckForTutProgressChecker();
 		else
-			Destroy(this.gameObject);
-
+		{
+			HideCanvas();
+			CanMoveCamera = true;
+			//Destroy(this.gameObject);
+		}
 	}
 
 	//MAP TUTORIAL START

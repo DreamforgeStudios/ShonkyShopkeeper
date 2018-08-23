@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class IntroScene : MonoBehaviour {
     //For Old Intro
     public RawImage BG;
+    /*
     public TextMeshProUGUI text1;
     public TextMeshProUGUI text2;
     public TextMeshProUGUI text3;
@@ -17,9 +18,14 @@ public class IntroScene : MonoBehaviour {
     public TextMeshProUGUI next;
     List<TextMeshProUGUI> texts;
     private int textCounter = 0;
+    */
+
+    public Inventory defaultInventory, tutorialInventory;
+    public ShonkyInventory defaultShonkyInventory, TutorialShonkyInventory;
 
     // Use this for initialization
     void Start() {
+        /*
         texts = new List<TextMeshProUGUI>();
         texts.Add(text1);
         texts.Add(text2);
@@ -39,16 +45,39 @@ public class IntroScene : MonoBehaviour {
         {
             Initiate.Fade("TutorialShop", Color.black, 2f);
         }
-        
+        */
     }
 
     // Update is called once per frame
     void Update() {
+        /*
         if (Input.GetMouseButtonDown(0)) {
             AdvanceText();
         }
+        */
     }
 
+    public void StartTutorial()
+    {
+        SaveManager.LoadFromTemplate(tutorialInventory);
+        SaveManager.LoadFromShonkyTemplate(TutorialShonkyInventory);
+        SaveManager.SaveInventory();
+        SaveManager.SaveShonkyInventory();
+        Initiate.Fade("TutorialShop", Color.black, 2f);
+    }
+
+    public void StartNoTutorial()
+    {
+        GameManager.Instance.InTutorial = false;
+        GameManager.Instance.TutorialIntroComplete = true;
+        SaveManager.LoadFromTemplate(defaultInventory);
+        SaveManager.LoadFromShonkyTemplate(defaultShonkyInventory);
+        SaveManager.SaveInventory();
+        SaveManager.SaveShonkyInventory();
+        Initiate.Fade("Shop", Color.black, 2f);
+    }
+
+    /*
     private void AdvanceText() {
         if (textCounter == 0) {
             BG.CrossFadeAlpha(0.1f, 2f, false);
@@ -67,6 +96,6 @@ public class IntroScene : MonoBehaviour {
         }
         textCounter++;
     }
-    
+    */
 }
 
