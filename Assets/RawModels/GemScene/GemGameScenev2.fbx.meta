@@ -424,7 +424,82 @@ ModelImporter:
     4300150: midring_left
     4300152: outerring_left
     4300154: centregem_left
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Woodfinish
+    second: {fileID: 2100000, guid: ba61cb13ddbb44556964cb5d8e4c3f31, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: backdrop
+    second: {fileID: 2100000, guid: 180c8743c0024445ab575e799c610d53, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: deeppurplegem
+    second: {fileID: 2100000, guid: 5b0ec96bd240b4594918a152f99a9c5e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: innerringside
+    second: {fileID: 2100000, guid: 7f6e24f8e641e4298adc89019c8bbd31, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: innerringtop
+    second: {fileID: 2100000, guid: 4409f177c83ae468ba2a92940e3395a9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert1
+    second: {fileID: 2100000, guid: 6c6bd1f15a5e542b58ea5af8fc9a1f39, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lighpurplegem
+    second: {fileID: 2100000, guid: a3c3ca39cfb2147b395bfc8d003ad92f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lightwood
+    second: {fileID: 2100000, guid: e7833e429bd1741cc9e132ef6f049acb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: midringside
+    second: {fileID: 2100000, guid: 90e26e01b37e24cfd946e9f6c16afc6c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: midringtop
+    second: {fileID: 2100000, guid: 2393a18b24ce249dfb0514fba7c0dd4b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: outerringside
+    second: {fileID: 2100000, guid: c63e74e3020ad4203859073ceb837940, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: outerringtop
+    second: {fileID: 2100000, guid: 1b1fd9159298e47a3aa486119eb8c1c9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pipes
+    second: {fileID: 2100000, guid: a9ba9c98d367a4db1bc2b7e51f1e8eb5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: siderings
+    second: {fileID: 2100000, guid: 856670bb2d0e24c55bcb573453313548, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: vines
+    second: {fileID: 2100000, guid: 1480dc2dbe2e6468cbba72fbd8ee987a, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
