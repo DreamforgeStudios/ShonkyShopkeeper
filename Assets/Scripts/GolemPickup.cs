@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using UnityEditor.Experimental.UIElements.GraphView;
 using UnityEngine;
 using UnityEngine.AI;
 //using UnityEngine.Experimental.UIElements;
@@ -78,9 +79,16 @@ public class GolemPickup : MonoBehaviour {
             pickedupGolem = null;
             overPortal = false;
         }
+
+        if (Input.GetMouseButtonUp(0) && pickedupGolem != null)
+        {
+            ResetGolem();
+        }
+        /*
         else if (pickedupGolem != null) {
             ResetGolem();
         }
+        */
 
         UpdateUITimer();
     }
@@ -142,21 +150,17 @@ public class GolemPickup : MonoBehaviour {
     private void GolemGrab() {
         //Debug.Log("Casting Ray");
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Debug.DrawLine(ray.origin,ray.direction,Color.green);
         RaycastHit hit;
         //Do an accuracy check before hand to ensure one isn't picked up and floating away
         holding = CheckAccuracy();
         if (!holding)
             ResetGolem();
 
-        if (Physics.Raycast(ray, out hit, 20)) {
+        if (Physics.Raycast(ray, out hit, 40)) {
             //If a golem
             if (hit.transform.gameObject.tag == "Golem") {
-                //Check we don't currently have another golem held, if so reset it
-                if (pickedupGolem != null && pickedupGolem != hit.transform.gameObject) {
-                    Debug.Log("Reseting golem");
-                    ResetGolem();
-                }
-                else {
+                if (pickedupGolem == null || holding){
                     //If not holding a pouch
                     if (!hit.transform.gameObject.GetComponent<ShonkyWander>().IsHoldingPouch())
                     {
@@ -202,7 +206,9 @@ public class GolemPickup : MonoBehaviour {
                             if (insertedSlot.GetPrefabInstance(out obj))
                                 obj.GetComponent<SackHueChange>().UpdateCurrentColor(instance.pouchType);
                             
-                            ResetGolem();
+                            //Causes spasms with golem
+                            //ResetGolem();
+                            pickedupGolem = null;
                             
                             if (GameManager.Instance.InTutorial && !GameManager.Instance.MineGoleminteractGolem)
                             {
@@ -220,10 +226,19 @@ public class GolemPickup : MonoBehaviour {
                         else
                         {
                             //SFX.Play("sound");
+                            pickedupGolem = null;
                         }
                     }
                 }
-            }
+                else
+                {
+                    //Check we don't currently have another golem held, if so reset it
+                    if (pickedupGolem != null && pickedupGolem != hit.transform.gameObject) {
+                        Debug.Log("Reseting golem");
+                        ResetGolem();
+                }
+            } 
+                }
             else if (Mine.Instance.ReadyToCollect() && hit.transform.gameObject.CompareTag("PortalEntry")
                      && pickedupGolem == null) {
                 golems = null;
@@ -232,27 +247,31 @@ public class GolemPickup : MonoBehaviour {
                     ReturnGolem(golem);
                 }
             }
+            /*
             else {
                 ResetGolem();
-            }
+            }*/
         }
     }
 
     private void ResetGolem() {
         if (pickedupGolem != null) {
+            Debug.Log("Resetting Golem");
             //pickedupGolem.GetComponent<NavMeshAgent>().enabled = true;
             //Input.
-            Debug.Log(String.Format("last pos is {0} while transform is {1}. Direction is {2}", 
-                lastPos,pickedupGolem.transform.position, (pickedupGolem.transform.position - lastPos).normalized));
+            //Debug.Log(String.Format("last pos is {0} while transform is {1}. Direction is {2}", 
+                //lastPos,pickedupGolem.transform.position, (pickedupGolem.transform.position - lastPos).normalized));
             Vector3 direction = (pickedupGolem.transform.position - lastPos).normalized;
             //Vector3 direction = Input.GetTouch(0).deltaPosition;
             Debug.DrawLine(pickedupGolem.transform.position,lastPos,Color.green);
+            golemRb.useGravity = true;
             golemRb.AddForce(direction * 10000f);
             pickedupGolem.GetComponent<ShonkyWander>().FloatToPen();
             GameManager.pickedUpGolem = false;
             pickedupGolem = null;
         }
     }
+
     //This method is used to give returning golems resource pouches
     private void ReturnGolem(int golem)
     {
@@ -334,25 +353,34 @@ public class GolemPickup : MonoBehaviour {
     private void HoldGolem(RaycastHit hit)
     {
         //SFX.Play("sound");
+        Debug.Log(Vector3.Distance(Camera.main.transform.position, pickedupGolem.transform.position) + "is the distance");
         lastPos = pickedupGolem.transform.position;
         golemRb = pickedupGolem.GetComponent<Rigidbody>();
+        golemRb.useGravity = false;
         pickedupGolem.GetComponent<ShonkyWander>().pickedUp = true;
         pickedupGolem.GetComponent<ShonkyWander>().PickUpAnimation(true);
         pickedupGolem.GetComponent<NavMeshAgent>().enabled = false;
-        modifiedMousePos = Camera.main.ScreenPointToRay(Input.mousePosition).GetPoint(6.5f);
+        modifiedMousePos = Camera.main.ScreenPointToRay(Input.mousePosition).GetPoint(7.4f);
+        //modifiedMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         float XPos = Mathf.Clamp(modifiedMousePos.x, -5f, 4.5f);
         float ZPos = Mathf.Clamp(modifiedMousePos.z, -5.45f, -1.95f);
         boundedPos = new Vector3(XPos,modifiedMousePos.y,ZPos);
-        golemRb.MovePosition(boundedPos);
-        //pickedupGolem.transform.position = boundedPos;
+        //golemRb.MovePosition(boundedPos);
+        pickedupGolem.transform.position = boundedPos;
+        //Debug.Log(String.Format("Golem position is {0}, mouse position is {1} and bounded mouse position is {2}",
+            //pickedupGolem.transform.position,Camera.main.ScreenToWorldPoint(Input.mousePosition),boundedPos));
         CheckIfOverPortal();
     }
 
     private bool CheckAccuracy() {
         if (pickedupGolem != null) {
+            //Debug.Log("Holding distance is " + Vector3.Distance(pickedupGolem.transform.position, modifiedMousePos));
             if (Vector3.Distance(pickedupGolem.transform.position, modifiedMousePos) > 2f)
+            {
                 return false;
+            }
             else
+            //Debug.Log("Holding");
                return true;
         }
         return true;
