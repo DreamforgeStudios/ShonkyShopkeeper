@@ -1,0 +1,166 @@
+fileFormatVersion: 2
+guid: 5bcdf6ece85df1e40b61d9e0e2faa699
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: Armature.001
+    100002: Gem Suc
+    100004: Gem Suc_end
+    100006: Head
+    100008: Head_end
+    100010: L.Arm Lower
+    100012: L.Arm Lower_end
+    100014: L.Arm Upper
+    100016: L.Arm Upper.001
+    100018: L.Arm Upper.001_end
+    100020: L.Leg Lower
+    100022: L.Leg Lower_end
+    100024: L.Leg Upper
+    100026: 'Neck '
+    100028: R.Arm Lower
+    100030: R.Arm Lower_end
+    100032: R.Arm Upper
+    100034: R.Arm Upper.002
+    100036: R.Arm Upper.002_end
+    100038: R.Leg Lower
+    100040: R.Leg Lower_end
+    100042: R.Leg Upper
+    100044: //RootNode
+    100046: Sapphire_Golem1_sapphire
+    100048: Spin 1
+    100050: Spine 2
+    100052: Spine 3
+    100054: Spine 4
+    400000: Armature.001
+    400002: Gem Suc
+    400004: Gem Suc_end
+    400006: Head
+    400008: Head_end
+    400010: L.Arm Lower
+    400012: L.Arm Lower_end
+    400014: L.Arm Upper
+    400016: L.Arm Upper.001
+    400018: L.Arm Upper.001_end
+    400020: L.Leg Lower
+    400022: L.Leg Lower_end
+    400024: L.Leg Upper
+    400026: 'Neck '
+    400028: R.Arm Lower
+    400030: R.Arm Lower_end
+    400032: R.Arm Upper
+    400034: R.Arm Upper.002
+    400036: R.Arm Upper.002_end
+    400038: R.Leg Lower
+    400040: R.Leg Lower_end
+    400042: R.Leg Upper
+    400044: //RootNode
+    400046: Sapphire_Golem1_sapphire
+    400048: Spin 1
+    400050: Spine 2
+    400052: Spine 3
+    400054: Spine 4
+    2100000: lambert3SG
+    2100002: lambert8SG
+    2100004: lambert9SG
+    4300000: Sapphire_Golem1_sapphire
+    7400000: Armature.001|AGGRESSIVE POSE
+    7400002: Armature.001|AGGRESSIVE TRANSITION
+    7400004: Armature.001|BAG WALK
+    7400006: Armature.001|CONFIDANT POSE
+    7400008: Armature.001|CONFIDANT TRANSITION
+    7400010: Armature.001|DANCE
+    7400012: Armature.001|DEFAULT POSE
+    7400014: Armature.001|DROP
+    7400016: Armature.001|IDLE
+    7400018: Armature.001|JOYOUS POSE
+    7400020: Armature.001|JOYOUS TRANSITION
+    7400022: Armature.001|JUMP TO LIFE
+    7400024: Armature.001|NIL1
+    7400026: Armature.001|NIL2
+    7400028: Armature.001|PICKED UP
+    7400030: Armature.001|WALK
+    9500000: //RootNode
+    13700000: Sapphire_Golem1_sapphire
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 0.01
+    hasPreviousCalculatedGlobalScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
