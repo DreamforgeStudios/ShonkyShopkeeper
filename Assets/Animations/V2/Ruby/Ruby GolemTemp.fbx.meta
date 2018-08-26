@@ -74,7 +74,32 @@ ModelImporter:
     7400028: Armature.001|WALK
     9500000: //RootNode
     13700000: Ruby_Golem_smoothv3_rubygolemhard1
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: rubygemSG
+    second: {fileID: 2100000, guid: 638508a88f02cdc46b08ce0bb2433b14, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: rubygolemhardSG
+    second: {fileID: 2100000, guid: 8b8549cc6b60c034da7f34fc7f1824de, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: rubygolemhardSG1
+    second: {fileID: 2100000, guid: 925b770852ee5134eb396f0d486e0c02, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: rubygolemhardSG2
+    second: {fileID: 2100000, guid: 6813e6cb7b6c85d49b37ddf0ea359e92, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: rubyhollowsSG
+    second: {fileID: 2100000, guid: 5608752952444bd45be1c355e1002a9b, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -105,7 +130,7 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: 0.0006
     meshCompression: 0
     addColliders: 0
     importVisibility: 1
@@ -124,8 +149,8 @@ ModelImporter:
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
-    useFileScale: 1
-    previousCalculatedGlobalScale: 0.01
+    useFileScale: 0
+    previousCalculatedGlobalScale: 0.0006
     hasPreviousCalculatedGlobalScale: 1
   tangentSpace:
     normalSmoothAngle: 60

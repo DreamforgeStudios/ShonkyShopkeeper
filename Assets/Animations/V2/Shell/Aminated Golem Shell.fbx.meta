@@ -55,7 +55,22 @@ ModelImporter:
     7400006: Armature|Zapping to Life Animation
     9500000: //RootNode
     13700000: golemshell
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: body
+    second: {fileID: 2100000, guid: b546796d7f2a80c4ebd716570bfbe152, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: core
+    second: {fileID: 2100000, guid: ed3e7c5893b9497488da8d6ca719cc98, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: hollow
+    second: {fileID: 2100000, guid: 16e863efe37b2e34990fe506d19f58ec, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -198,7 +213,7 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: 0.005
     meshCompression: 0
     addColliders: 0
     importVisibility: 1
@@ -217,8 +232,8 @@ ModelImporter:
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
-    useFileScale: 1
-    previousCalculatedGlobalScale: 0.01
+    useFileScale: 0
+    previousCalculatedGlobalScale: 0.005
     hasPreviousCalculatedGlobalScale: 1
   tangentSpace:
     normalSmoothAngle: 60
