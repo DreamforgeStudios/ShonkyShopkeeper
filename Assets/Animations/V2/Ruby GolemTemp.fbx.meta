@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 5bcdf6ece85df1e40b61d9e0e2faa699
+guid: 4827fe11a6a629143a7a0af8c9449cde
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
@@ -11,26 +11,22 @@ ModelImporter:
     100010: L.Arm Lower
     100012: L.Arm Lower_end
     100014: L.Arm Upper
-    100016: L.Arm Upper.001
-    100018: L.Arm Upper.001_end
-    100020: L.Leg Lower
-    100022: L.Leg Lower_end
-    100024: L.Leg Upper
-    100026: 'Neck '
-    100028: R.Arm Lower
-    100030: R.Arm Lower_end
-    100032: R.Arm Upper
-    100034: R.Arm Upper.002
-    100036: R.Arm Upper.002_end
-    100038: R.Leg Lower
-    100040: R.Leg Lower_end
-    100042: R.Leg Upper
-    100044: //RootNode
-    100046: Sapphire_Golem1_sapphire
-    100048: Spin 1
-    100050: Spine 2
-    100052: Spine 3
-    100054: Spine 4
+    100016: L.Leg Lower
+    100018: L.Leg Lower_end
+    100020: L.Leg Upper
+    100022: 'Neck '
+    100024: R.Arm Lower
+    100026: R.Arm Lower_end
+    100028: R.Arm Upper
+    100030: R.Leg Lower
+    100032: R.Leg Lower_end
+    100034: R.Leg Upper
+    100036: //RootNode
+    100038: Ruby_Golem_smoothv3_rubygolemhard1
+    100040: Spin 1
+    100042: Spine 2
+    100044: Spine 3
+    100046: Spine 4
     400000: Armature.001
     400002: Gem Suc
     400004: Gem Suc_end
@@ -39,30 +35,28 @@ ModelImporter:
     400010: L.Arm Lower
     400012: L.Arm Lower_end
     400014: L.Arm Upper
-    400016: L.Arm Upper.001
-    400018: L.Arm Upper.001_end
-    400020: L.Leg Lower
-    400022: L.Leg Lower_end
-    400024: L.Leg Upper
-    400026: 'Neck '
-    400028: R.Arm Lower
-    400030: R.Arm Lower_end
-    400032: R.Arm Upper
-    400034: R.Arm Upper.002
-    400036: R.Arm Upper.002_end
-    400038: R.Leg Lower
-    400040: R.Leg Lower_end
-    400042: R.Leg Upper
-    400044: //RootNode
-    400046: Sapphire_Golem1_sapphire
-    400048: Spin 1
-    400050: Spine 2
-    400052: Spine 3
-    400054: Spine 4
-    2100000: lambert3SG
-    2100002: lambert8SG
-    2100004: lambert9SG
-    4300000: Sapphire_Golem1_sapphire
+    400016: L.Leg Lower
+    400018: L.Leg Lower_end
+    400020: L.Leg Upper
+    400022: 'Neck '
+    400024: R.Arm Lower
+    400026: R.Arm Lower_end
+    400028: R.Arm Upper
+    400030: R.Leg Lower
+    400032: R.Leg Lower_end
+    400034: R.Leg Upper
+    400036: //RootNode
+    400038: Ruby_Golem_smoothv3_rubygolemhard1
+    400040: Spin 1
+    400042: Spine 2
+    400044: Spine 3
+    400046: Spine 4
+    2100000: rubygolemhardSG
+    2100002: rubygolemhardSG1
+    2100004: rubygolemhardSG2
+    2100006: rubyhollowsSG
+    2100008: rubygemSG
+    4300000: Ruby_Golem_smoothv3_rubygolemhard1
     7400000: Armature.001|AGGRESSIVE POSE
     7400002: Armature.001|AGGRESSIVE TRANSITION
     7400004: Armature.001|BAG WALK
@@ -75,12 +69,11 @@ ModelImporter:
     7400018: Armature.001|JOYOUS POSE
     7400020: Armature.001|JOYOUS TRANSITION
     7400022: Armature.001|JUMP TO LIFE
-    7400024: Armature.001|NIL1
-    7400026: Armature.001|NIL2
-    7400028: Armature.001|PICKED UP
-    7400030: Armature.001|WALK
+    7400024: Armature.001|NIL.001
+    7400026: Armature.001|PICKED UP
+    7400028: Armature.001|WALK
     9500000: //RootNode
-    13700000: Sapphire_Golem1_sapphire
+    13700000: Ruby_Golem_smoothv3_rubygolemhard1
   externalObjects: {}
   materials:
     importMaterials: 1

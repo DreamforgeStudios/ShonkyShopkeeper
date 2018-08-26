@@ -57,17 +57,23 @@ ModelImporter:
     2100002: lambert10SG
     2100004: lambert11SG
     4300000: Emerald_Golem2_emerald
-    7400000: DANCE
-    7400002: Armature.001|DANCE
-    7400004: Armature.001|DEFAULT POSE
-    7400006: Armature.001|DROP
-    7400008: Armature.001|IDLE
-    7400010: Armature.001|NIL
-    7400012: Armature.001|NIL2
-    7400014: Armature.001|NIL3
-    7400016: Armature.001|NIL4
-    7400018: Armature.001|PICKED UP
-    7400020: Armature.001|WALK
+    7400000: Armature.001|AGGRESSIVE POSE
+    7400002: Armature.001|AGGRESSIVE TRANSITION
+    7400004: Armature.001|CONFIDANT POSE
+    7400006: Armature.001|CONFIDANT TRANSITION
+    7400008: Armature.001|DANCE
+    7400010: Armature.001|DEFAULT POSE
+    7400012: Armature.001|DROP
+    7400014: Armature.001|IDLE
+    7400016: Armature.001|JOYOUS POSE
+    7400018: Armature.001|JOYOUS TRANSITION
+    7400020: Armature.001|JUMP TO LIFE
+    7400022: Armature.001|NIL
+    7400024: Armature.001|NIL2
+    7400026: Armature.001|NIL3
+    7400028: Armature.001|NIL4
+    7400030: Armature.001|PICKED UP
+    7400032: Armature.001|WALK
     9500000: //RootNode
     10800000: Lamp
     13700000: Emerald_Golem2_emerald
