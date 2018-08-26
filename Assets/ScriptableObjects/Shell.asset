@@ -3,7 +3,7 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: Shell
   m_EditorClassIdentifier: 
   itemName: Shonky Shell
-  physicalRepresentation: {fileID: 1225479041669926, guid: ad6da3f94664cf84fb2227c1887abb0f,
+  physicalRepresentation: {fileID: 1169626038650988, guid: c39e78ba7a1884e429e62a59840b7b6b,
     type: 2}
   stackLimit: 1
   mergeable: 1
