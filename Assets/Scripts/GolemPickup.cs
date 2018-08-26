@@ -159,8 +159,9 @@ public class GolemPickup : MonoBehaviour {
 
         if (Physics.Raycast(ray, out hit, 40)) {
             //If a golem
-            if (hit.transform.gameObject.tag == "Golem") {
-                if (pickedupGolem == null || holding){
+            if (hit.transform.gameObject.CompareTag("Golem") || holding) {
+                Debug.Log("Hit golem");
+                if (pickedupGolem == null){
                     //If not holding a pouch
                     if (!hit.transform.gameObject.GetComponent<ShonkyWander>().IsHoldingPouch())
                     {
@@ -226,18 +227,20 @@ public class GolemPickup : MonoBehaviour {
                         else
                         {
                             //SFX.Play("sound");
-                            pickedupGolem = null;
+                            //pickedupGolem = null;
+                            HoldGolem(hit);
                         }
                     }
-                }
-                else
+                /*}
+                else if (pickedupGolem != null && pickedupGolem != hit.transform.gameObject)
                 {
                     //Check we don't currently have another golem held, if so reset it
-                    if (pickedupGolem != null && pickedupGolem != hit.transform.gameObject) {
-                        Debug.Log("Reseting golem");
-                        ResetGolem();
-                }
-            } 
+                    ResetGolem();
+                */
+            } else if (pickedupGolem != null)
+                {
+                    HoldGolem();
+                } 
                 }
             else if (Mine.Instance.ReadyToCollect() && hit.transform.gameObject.CompareTag("PortalEntry")
                      && pickedupGolem == null) {
@@ -265,7 +268,7 @@ public class GolemPickup : MonoBehaviour {
             //Vector3 direction = Input.GetTouch(0).deltaPosition;
             Debug.DrawLine(pickedupGolem.transform.position,lastPos,Color.green);
             golemRb.useGravity = true;
-            golemRb.AddForce(direction * 10000f);
+            golemRb.AddForce(direction * 5000f);
             pickedupGolem.GetComponent<ShonkyWander>().FloatToPen();
             GameManager.pickedUpGolem = false;
             pickedupGolem = null;
@@ -353,22 +356,57 @@ public class GolemPickup : MonoBehaviour {
     private void HoldGolem(RaycastHit hit)
     {
         //SFX.Play("sound");
-        Debug.Log(Vector3.Distance(Camera.main.transform.position, pickedupGolem.transform.position) + "is the distance");
         lastPos = pickedupGolem.transform.position;
         golemRb = pickedupGolem.GetComponent<Rigidbody>();
         golemRb.useGravity = false;
         pickedupGolem.GetComponent<ShonkyWander>().pickedUp = true;
         pickedupGolem.GetComponent<ShonkyWander>().PickUpAnimation(true);
         pickedupGolem.GetComponent<NavMeshAgent>().enabled = false;
+        
+        //Clamp rotation to avoid unusual spins.
+        float rotZ = ClampAngle(pickedupGolem.transform.eulerAngles.z, -35f, 35f);
+        float rotX = ClampAngle(pickedupGolem.transform.eulerAngles.x, -35f, 35f);
+        pickedupGolem.transform.localEulerAngles = new Vector3(rotX,pickedupGolem.transform.localEulerAngles.y,rotZ);
+        
+        //Clamp position
         modifiedMousePos = Camera.main.ScreenPointToRay(Input.mousePosition).GetPoint(7.4f);
-        //modifiedMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        float XPos = Mathf.Clamp(modifiedMousePos.x, -5f, 4.5f);
-        float ZPos = Mathf.Clamp(modifiedMousePos.z, -5.45f, -1.95f);
-        boundedPos = new Vector3(XPos,modifiedMousePos.y,ZPos);
+        float XPos = Mathf.Clamp(modifiedMousePos.x, -6f, 5f);
+        float ZPos = Mathf.Clamp(modifiedMousePos.z, -5.45f, -1.8f);
+        float YPos = Mathf.Clamp(modifiedMousePos.y, -1.7f, 2.6f);
+        boundedPos = new Vector3(XPos,YPos,ZPos);
         //golemRb.MovePosition(boundedPos);
         pickedupGolem.transform.position = boundedPos;
+
+        //Debug.Log("Bounded pos is " + boundedPos);
         //Debug.Log(String.Format("Golem position is {0}, mouse position is {1} and bounded mouse position is {2}",
             //pickedupGolem.transform.position,Camera.main.ScreenToWorldPoint(Input.mousePosition),boundedPos));
+        CheckIfOverPortal();
+    }
+    
+    //Secondary function which takes the existing pickedup golem as the parameter
+    private void HoldGolem()
+    {
+        //SFX.Play("sound");
+        lastPos = pickedupGolem.transform.position;
+        golemRb = pickedupGolem.GetComponent<Rigidbody>();
+        golemRb.useGravity = false;
+        pickedupGolem.GetComponent<ShonkyWander>().pickedUp = true;
+        pickedupGolem.GetComponent<ShonkyWander>().PickUpAnimation(true);
+        pickedupGolem.GetComponent<NavMeshAgent>().enabled = false;
+        
+        //Clamp rotation to avoid unusual spins.
+        float rotZ = ClampAngle(pickedupGolem.transform.eulerAngles.z, -35f, 35f);
+        float rotX = ClampAngle(pickedupGolem.transform.eulerAngles.x, -35f, 35f);
+        pickedupGolem.transform.localEulerAngles = new Vector3(rotX, pickedupGolem.transform.localEulerAngles.y, rotZ);
+        
+        //Clamp position
+        modifiedMousePos = Camera.main.ScreenPointToRay(Input.mousePosition).GetPoint(7.4f);
+        float XPos = Mathf.Clamp(modifiedMousePos.x, -6f, 5f);
+        float ZPos = Mathf.Clamp(modifiedMousePos.z, -5.45f, -1.8f);
+        float YPos = Mathf.Clamp(modifiedMousePos.y, -1.7f, 2.6f);
+        boundedPos = new Vector3(XPos,YPos,ZPos);
+        pickedupGolem.transform.position = boundedPos;
+        
         CheckIfOverPortal();
     }
 
@@ -383,7 +421,34 @@ public class GolemPickup : MonoBehaviour {
             //Debug.Log("Holding");
                return true;
         }
-        return true;
+        return false;
+    }
+    
+    //Clamping function from: https://forum.unity.com/threads/limiting-rotation-with-mathf-clamp.171294/
+    static float ClampAngle(float angle, float min, float max)
+    {
+        if (min < 0 && max > 0 && (angle > max || angle < min))
+        {
+            angle -= 360;
+            if (angle > max || angle < min)
+            {
+                if (Mathf.Abs(Mathf.DeltaAngle(angle, min)) < Mathf.Abs(Mathf.DeltaAngle(angle, max))) return min;
+                else return max;
+            }
+        }
+        else if(min > 0 && (angle > max || angle < min))
+        {
+            angle += 360;
+            if (angle > max || angle < min)
+            {
+                if (Mathf.Abs(Mathf.DeltaAngle(angle, min)) < Mathf.Abs(Mathf.DeltaAngle(angle, max))) return min;
+                else return max;
+            }
+        }
+ 
+        if (angle < min) return min;
+        else if (angle > max) return max;
+        else return angle;
     }
 
     private void CheckIfOverPortal() {
