@@ -23,6 +23,41 @@ MonoBehaviour:
     - bump_small
     - fire_loop
     - game_instrumental
+    - Tap_to_look_DOWN
+    - Screen_wipe
+    - Achieve_Hall_Tap
+    - Tap_to_look_UP
+    - Mini_Game_timer
+    - Game_Quality_Mystic
+    - Game_Quality_Magical
+    - Game_Quality_Sturdy
+    - Game_Quality_Passable
+    - Game_Quality_Brittle
+    - Game_Quality_Junk
+    - Mini_Game_Retry_Button
+    - Mini_Game_Quality_loss
+    - Mini_Game_Quality_gain
+    - Gain_Gold
+    - Fail_Tap
+    - Achieve_Popup
+    - Map_location_select
+    - Location_query_purchase
+    - location_purchase
+    - Traveling_chimes
+    - Map_icon_arrives
+    - Globe_Touch_Loop
+    - Forceps_Select
+    - Item_lifted
+    - Item_shifted
+    - Magnifier_Select
+    - Mag_item_select
+    - Wand_select
+    - wand_mini_game_initiate
+    - Wand_nominigame_tap
+    - Res_pouch_open
+    - Bin_item_goaway
+    - Item_Appear
+    - Item_Appear_Mystic
     m_values:
     - {fileID: 8300000, guid: 2c0dcf73926fa024ab5066e2aa7e29d6, type: 3}
     - {fileID: 8300000, guid: bd590c4fc0302fd4387f41d98bf562de, type: 3}
@@ -32,4 +67,39 @@ MonoBehaviour:
     - {fileID: 8300000, guid: b1676682d3decfe4a8d547163e7e2301, type: 3}
     - {fileID: 8300000, guid: ca59e8a674390e74c834bacc66d88370, type: 3}
     - {fileID: 8300000, guid: c884aa3db571c1b488b95ec16f38fed0, type: 3}
+    - {fileID: 8300000, guid: 3b389c3235c1c5946ae8de11e0f15ff4, type: 3}
+    - {fileID: 8300000, guid: 6a7b588d8416aff48b8f5f8dbe5b8bca, type: 3}
+    - {fileID: 8300000, guid: 05882647e0e91384b974cf1a3734eb39, type: 3}
+    - {fileID: 8300000, guid: 3ebdabde6a331504a990eaedfd90d4a6, type: 3}
+    - {fileID: 8300000, guid: 488e29430e3709d4ebf6f9c0b53e515d, type: 3}
+    - {fileID: 8300000, guid: 734965f8f07d08b43a4cf5f934f4d09c, type: 3}
+    - {fileID: 8300000, guid: f4a1f4bd075673a40914fac239d4cfe6, type: 3}
+    - {fileID: 8300000, guid: babfd39f0919e7d4787cadc86b38d815, type: 3}
+    - {fileID: 8300000, guid: b9e068d2b31fe7a4186578242d8a60ae, type: 3}
+    - {fileID: 8300000, guid: 457639ebf9dae354bae104ea6a3220e6, type: 3}
+    - {fileID: 8300000, guid: fbaae34c94e027f44ae97cc072c3b757, type: 3}
+    - {fileID: 8300000, guid: e077465b86e7caf4e8a229b8044c939f, type: 3}
+    - {fileID: 8300000, guid: c2c24ca7244ba11499804cf816a70983, type: 3}
+    - {fileID: 8300000, guid: 492b815442bd7134a9c3b84648f12e0f, type: 3}
+    - {fileID: 8300000, guid: 9e1dc3a8b5f75e046b96bfff31a84b72, type: 3}
+    - {fileID: 8300000, guid: 9649de3936a0d5e46a9f8b4c3312a3ee, type: 3}
+    - {fileID: 8300000, guid: 08d72b128db475c469a816dd4fbbf899, type: 3}
+    - {fileID: 8300000, guid: 8d8eb6b1d5f1359479073bb4658888df, type: 3}
+    - {fileID: 8300000, guid: 31268adddf1d0864080e0eaa5df57fa9, type: 3}
+    - {fileID: 8300000, guid: 55754fa9371129a43bcb84a8275a2cff, type: 3}
+    - {fileID: 8300000, guid: 4fbee91853dc75e4aa21f25f027c3450, type: 3}
+    - {fileID: 8300000, guid: 6e0de813127e61645b6185b3e5408dba, type: 3}
+    - {fileID: 8300000, guid: 3cb93c1514ee0964fb81b165c52f3dca, type: 3}
+    - {fileID: 8300000, guid: 147e53ddffe28824db8acdff662b1c49, type: 3}
+    - {fileID: 8300000, guid: f87486f7413379042a1110159222c506, type: 3}
+    - {fileID: 8300000, guid: 5f821e7366b353f4382bb7f2df1bc3a4, type: 3}
+    - {fileID: 8300000, guid: ce779304c00f44b4ea7692f919b4b754, type: 3}
+    - {fileID: 8300000, guid: 9559cc3acce5c324694721189005748b, type: 3}
+    - {fileID: 8300000, guid: f863b065482595948aa811180f74a6ed, type: 3}
+    - {fileID: 8300000, guid: ddaa6350b0e9c1741baeb0413dc00997, type: 3}
+    - {fileID: 8300000, guid: 9e07ee0f5890fe94ca482823b2cc6078, type: 3}
+    - {fileID: 8300000, guid: 128cbb801f2334546a6999f1c36c4911, type: 3}
+    - {fileID: 8300000, guid: 90a62763e87d37b4dbbbbb2948ebde50, type: 3}
+    - {fileID: 8300000, guid: e2081b471b5c7ae49b8ac0c4448da642, type: 3}
+    - {fileID: 8300000, guid: 4a096cac1bfe00d4a8c5dde436893898, type: 3}
   ClipKey: golem_create
