@@ -36,8 +36,9 @@ public class CameraTap : MonoBehaviour {
 			img.transform.DORotate(bottomScreenRotationImg, 0.4f).SetEase(Ease.InOutSine);
             GameManager.Instance.CameraRotTransfer = bottomScreenRotation.x;
             topScreen = false;
-        } else { 
+        } else {
             //SFX.Play("sound");
+            SFX.Play("Tap_to_look_UP", 1f, 1f, 0f, false, 0f);
             transform.DORotate(topScreenRotation, 0.4f).SetEase(Ease.InOutSine);
 			img.transform.DORotate(topScreenRotationImg, 0.4f).SetEase(Ease.InOutSine);
             GameManager.Instance.CameraRotTransfer = topScreenRotation.x;

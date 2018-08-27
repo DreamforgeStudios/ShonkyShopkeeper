@@ -65,6 +65,7 @@ public class Fader : MonoBehaviour
     private void WipeFadeIn() {
         // Remove two slashes when implementing sound.
         // SFX.Play("sound");
+        SFX.Play("Screen_wipe", 1f, 1f, 0f, false, 0f);
         StartCoroutine(LoadAsyncScene(fadeScene));
         DOTween.To(() => bg.fillAmount, x => bg.fillAmount = x, 1f, .7f).SetUpdate(true).SetEase(Ease.InCubic)
             .OnComplete(() => asyncLoad.allowSceneActivation = true);
@@ -73,6 +74,7 @@ public class Fader : MonoBehaviour
     private void WipeFadeOut() {
         // Remove two slashes when implementing sound.
         // SFX.Play("sound");
+        SFX.Play("Screen_wipe", 1f, 1f, 0f, false, 0f);
         DOTween.To(() => bg.fillAmount, x => bg.fillAmount = x, 0f, .7f).SetUpdate(true).SetEase(Ease.InCubic)
             .OnComplete(() => Initiate.DoneFading());
     }

@@ -43,8 +43,9 @@ public class ShowMap : MonoBehaviour
 		FadeButton(Exit,0f,0.05f);
 		Exit.enabled = false;
 		ShopButton.SetActive(false);
-		//SFX.Play("sound");
-		HideTownUIAndButtons();
+        //SFX.Play("sound");
+        SFX.Play("Globe_Touch_Loop", 1f, 1f, 0f, false, 0f);
+        HideTownUIAndButtons();
 	}
 
 	public void HideTownUIAndButtons()
@@ -110,7 +111,8 @@ public class ShowMap : MonoBehaviour
 				Debug.Log(hit.transform.gameObject.name);
 				if (lastTownClicked == null && hit.transform.gameObject.tag == "Town") {
 					FirstClick(hit);
-				}
+                    //SFX.Play("Map_location_select", 1f, 1f, 0f, false, 0f);
+                }
 				//If the player has double clicked on a town
 				else if (hit.transform.gameObject == lastTownClicked && lastTownClicked.tag == "Town")
 				{
@@ -130,8 +132,9 @@ public class ShowMap : MonoBehaviour
 	{
 		//If the town clicked is not currently unlocked
 		if (!Travel.unlockedTowns.Contains(CurrentTownObject(hit.transform.gameObject))) {
-			//SFX.Play("sound");
-			lastTownClicked = hit.transform.gameObject;
+            //SFX.Play("sound");
+            SFX.Play("Location_query_purchase", 1f, 1f, 0f, false, 0f);
+            lastTownClicked = hit.transform.gameObject;
 			Travel.Towns selectedTown = CurrentTownObject(lastTownClicked);
 			helperText.enabled = true;
 			helperText.text = "Click " + selectedTown + " again if you wish to purchase it for " + Travel.NextPurchaseCost() + " gold";
@@ -139,8 +142,9 @@ public class ShowMap : MonoBehaviour
 		}
 		//If the town is unlocked and not the current town
 		else if (currentTown != CurrentTownObject(hit.transform.gameObject)) {
-			//SFX.Play("sound");
-			lastTownClicked = hit.transform.gameObject;
+            //SFX.Play("sound");
+            SFX.Play("Map_location_select", 1f, 1f, 0f, false, 0f);
+            lastTownClicked = hit.transform.gameObject;
 			Travel.Towns selectedTown = CurrentTownObject(lastTownClicked);
 			helperText.enabled = true;
 			helperText.text = "Click " + selectedTown + " again if you wish to travel to it";
@@ -175,11 +179,11 @@ public class ShowMap : MonoBehaviour
 		}
 		//If the town has been unlocked, move to selected town
 		else {
-			//SFX.Play("sound");
-			//movementFinished = false;
-			//StartCoroutine(MovePlayerToNewTown(selectedTown));
-	        
-			Travel.ChangeCurrentTown(selectedTown);
+            //SFX.Play("sound");
+            //movementFinished = false;
+            //StartCoroutine(MovePlayerToNewTown(selectedTown));
+
+            Travel.ChangeCurrentTown(selectedTown);
 			helperText.enabled = false;
 			lastTownClicked = null;
 			SaveManager.SaveInventory();
@@ -212,8 +216,9 @@ public class ShowMap : MonoBehaviour
 		//Else if it was a subsequent town, check the purchase was successful
 		else {
 			if (completeTransaction) {
-				//SFX.Play("sound");
-				if (GameManager.Instance.InMap)
+                //SFX.Play("sound");
+                SFX.Play("location_purchase", 1f, 1f, 0f, false, 0f);
+                if (GameManager.Instance.InMap)
 				{
 					GameManager.Instance.InMap = false;
 					GameManager.Instance.BarterTutorial = true;
@@ -224,8 +229,9 @@ public class ShowMap : MonoBehaviour
 			}
 			else {
 				helperText.text = "Insufficent gold to travel to next town";
-				//SFX.Play("sound");
-			}
+                //SFX.Play("sound");
+                SFX.Play("Fail_Tap", 1f, 1f, 0f, false, 0f);
+            }
 		}
 		lastTownClicked = null;
 		//CheckUnlockedTowns();
@@ -264,8 +270,9 @@ public class ShowMap : MonoBehaviour
 		//Else if it was a subsequent town, check the purchase was successful
 		else {
 			if (completeTransaction) {
-				//SFX.Play("sound");
-				if (GameManager.Instance.InMap)
+                //SFX.Play("sound");
+                SFX.Play("location_purchase", 1f, 1f, 0f, false, 0f);
+                if (GameManager.Instance.InMap)
 				{
 					GameManager.Instance.InMap = false;
 					GameManager.Instance.BarterTutorial = true;
@@ -276,8 +283,9 @@ public class ShowMap : MonoBehaviour
 			}
 			else {
 				helperText.text = "Insufficent gold to travel to next town";
-				//SFX.Play("sound");
-			}
+                //SFX.Play("sound");
+                SFX.Play("Fail_Tap", 1f, 1f, 0f, false, 0f);
+            }
 		}
 		lastTownClicked = null;
 		//CheckUnlockedTowns();
@@ -343,6 +351,7 @@ public class ShowMap : MonoBehaviour
 	private void MovePlayerToTown(Vector3 pos)
 	{
 		player.transform.position = pos;
-		//SFX.Play("sound");
-	}
+        //SFX.Play("sound");
+        SFX.Play("Traveling_chimes", 1f, 1f, 0f, false, 0f);
+    }
 }

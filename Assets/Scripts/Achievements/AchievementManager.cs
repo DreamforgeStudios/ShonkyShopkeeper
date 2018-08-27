@@ -11,6 +11,7 @@ public static class AchievementManager {
         Achievement a;
         if (achievementDB.TryFindAchievementWithKey(key, out a)) {
             //SFX.Play("sound");
+            SFX.Play("Achieve_Popup", 1f, 1f, 0f, false, 0f);
             return achievementDB.Unlock(a);
         }
         
