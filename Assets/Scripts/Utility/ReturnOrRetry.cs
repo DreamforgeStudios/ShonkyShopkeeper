@@ -15,7 +15,8 @@ public class ReturnOrRetry {
 	}
 	
 	public static void Return(int goldAmount, int shonkyIndex) {
-		//SFX.Play("sound");
+        //SFX.Play("sound");
+        SFX.Play("Mini_Game_Retry_Button", 1f, 1f, 0f, false, 0f);
         Inventory.Instance.AddGold(goldAmount);
         ShonkyInventory.Instance.RemoveItem(shonkyIndex);
 		//SceneManager.LoadScene("Shop");
@@ -28,7 +29,8 @@ public class ReturnOrRetry {
 
 	public static void Retry() {
         if (GameManager.Instance.RetriesRemaining > 0) {
-	        //SFX.Play("sound");
+            //SFX.Play("sound");
+            SFX.Play("Mini_Game_Retry_Button", 1f, 1f, 0f, false, 0f);
             GameManager.Instance.RetriesRemaining--;
             //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 	        Initiate.Fade(SceneManager.GetActiveScene().name, Color.black, 2f);

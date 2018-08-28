@@ -52,8 +52,9 @@ public class Countdown : MonoBehaviour {
 	}
 	
 	private void OnTimerTick() {
-		//SFX.Play("sound");
-		transform.DOPunchRotation(Vector3.forward * 25, 0.4f, 18);
+        //SFX.Play("sound");
+        SFX.Play("Mini_Game_timer", 1f, 1f, 0f, false, 0f);
+        transform.DOPunchRotation(Vector3.forward * 25, 0.4f, 18);
 		if (onTick != null)
 			onTick();
 	}
