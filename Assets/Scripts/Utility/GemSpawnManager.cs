@@ -17,7 +17,7 @@ public class GemSpawnManager : MonoBehaviour {
 	private GameObject cloneAfter;
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 		GameObject clone;
 		switch (GameManager.Instance.GemTypeTransfer) {
 			case (Item.GemType.Ruby): {
@@ -62,7 +62,8 @@ public class GemSpawnManager : MonoBehaviour {
 		// Setting inactive is faster.  We'll probably pay for the whole destroy cost in loading anyway though.
 		spawnedClone.SetActive(false);
 		
-		Instantiate(cloneAfter, cloneAfter.transform.position, cloneAfter.transform.rotation, transform);
+		//Instantiate(cloneAfter, cloneAfter.transform.position, cloneAfter.transform.rotation, transform);
+		Instantiate(cloneAfter, spawnedClone.transform.position, spawnedClone.transform.rotation, transform);
 
 		// TODO: Change gem...
 		// Destroy(spawnedClone);
