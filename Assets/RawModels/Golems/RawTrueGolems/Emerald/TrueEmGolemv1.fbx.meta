@@ -1,30 +1,50 @@
 fileFormatVersion: 2
-guid: d0cc36d5d047d8e47a690422b88334a4
+guid: ace0e5b49d7cbe44abfa7ea3cb45a767
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
-    100000: Bigrubygolem1
-    100002: Bigrubygolem1_ruby6
-    100004: ruby6
-    100006: rubygolem224
-    100008: transform5
-    100010: transform6
+    100000: emerald3
+    100002: Emerald_golem5
+    100004: transform19
+    100006: transform20
+    100008: TrueEmeraldGolem3
+    100010: TrueEmeraldGolem3_Emerald_golem5
     100012: //RootNode
-    400000: Bigrubygolem1
-    400002: Bigrubygolem1_ruby6
-    400004: ruby6
-    400006: rubygolem224
-    400008: transform5
-    400010: transform6
+    400000: emerald3
+    400002: Emerald_golem5
+    400004: transform19
+    400006: transform20
+    400008: TrueEmeraldGolem3
+    400010: TrueEmeraldGolem3_Emerald_golem5
     400012: //RootNode
-    2100000: rubyhollows
-    2100002: rubygem
-    2100004: rubybase
-    2100006: hollow
-    2300000: Bigrubygolem1_ruby6
-    3300000: Bigrubygolem1_ruby6
-    4300000: Bigrubygolem1_ruby6
-  externalObjects: {}
+    2100000: emeraldgolem
+    2100002: emeraldbase
+    2100004: hollow
+    2100006: Default_Material
+    2300000: TrueEmeraldGolem3_Emerald_golem5
+    3300000: TrueEmeraldGolem3_Emerald_golem5
+    4300000: TrueEmeraldGolem3_Emerald_golem5
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Default_Material
+    second: {fileID: 2100000, guid: 20b6b2d1bf43131448f9b5137361b76e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: emeraldbase
+    second: {fileID: 2100000, guid: 2f861289e1b08e84db909041ae6acd37, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: emeraldgolem
+    second: {fileID: 2100000, guid: 6ead6edf265410a4a9f9eba23aaadc56, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: hollow
+    second: {fileID: 2100000, guid: 2bd01daaa86650746a0be1602813d581, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -55,7 +75,7 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: 0.01
     meshCompression: 0
     addColliders: 0
     importVisibility: 1
@@ -74,7 +94,7 @@ ModelImporter:
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
-    useFileScale: 1
+    useFileScale: 0
     previousCalculatedGlobalScale: 1
     hasPreviousCalculatedGlobalScale: 0
   tangentSpace:
