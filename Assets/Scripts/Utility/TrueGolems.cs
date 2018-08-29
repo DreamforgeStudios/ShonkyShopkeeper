@@ -6,6 +6,7 @@ public static class TrueGolems {
 
     public enum TrueGolem
     {
+        nill,
         rubyGolem,
         sapphireGolem,
         amethystGolem,
@@ -40,7 +41,7 @@ public static class TrueGolems {
             case "amethyst":
                 return TrueGolem.amethystGolem;
             default:
-                return TrueGolem.rubyGolem;
+                return TrueGolem.nill;
         }
     }
     
