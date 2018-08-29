@@ -49,6 +49,7 @@ public class Inventory : ScriptableObject {
     public ItemInstance[] inventory;
     public List<Travel.Towns> unlockedTowns;
     public Travel.Towns currentTown;
+    public List<TrueGolems.TrueGolem> unlockedTrueGolems;
 
     public void UnlockTown(Travel.Towns town) {
         CheckInitialisation();
@@ -145,6 +146,25 @@ public class Inventory : ScriptableObject {
 
         return false;
     }
+    
+    //True Golem tracking
+    public List<TrueGolems.TrueGolem> GetUnlockedTrueGolems()
+    {
+        return unlockedTrueGolems;
+    }
+    
+    //Unlock method
+    public bool UnlockTrueGolem(TrueGolems.TrueGolem golem) {
+        if (TrueGolems.PotentialUnlockTrueGolem(golem))
+        {
+            Debug.Log("Adding new True Golem");
+            unlockedTrueGolems.Add(golem);
+            Save();
+            return true;
+        }
+
+        return false;
+    } 
 
     // Get an item if it exists.
     public bool GetItem(int index, out ItemInstance item) {
