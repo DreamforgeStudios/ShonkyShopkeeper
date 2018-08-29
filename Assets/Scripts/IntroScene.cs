@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
@@ -8,62 +9,30 @@ using UnityEngine.UI;
 public class IntroScene : MonoBehaviour {
     //For Old Intro
     public RawImage BG;
-    /*
+    public Button startGame1, startGame2;
+    
     public TextMeshProUGUI text1;
-    public TextMeshProUGUI text2;
-    public TextMeshProUGUI text3;
-    public TextMeshProUGUI text4;
-    public TextMeshProUGUI text5;
-    public TextMeshProUGUI loading;
-    public TextMeshProUGUI next;
-    List<TextMeshProUGUI> texts;
-    private int textCounter = 0;
-    */
+    public List<string> narrative;
+    private bool text1enabled, continueNarrative, goToTutorial = false;
+    private int currentNarrativeString = 0;
 
     public Inventory defaultInventory, tutorialInventory;
     public ShonkyInventory defaultShonkyInventory, TutorialShonkyInventory;
 
-    // Use this for initialization
-    void Start() {
-        /*
-        texts = new List<TextMeshProUGUI>();
-        texts.Add(text1);
-        texts.Add(text2);
-        texts.Add(text3);
-        texts.Add(text4);
-        texts.Add(text5);
-        foreach (TextMeshProUGUI text in texts) {
-            text.enabled = true;
-        }
-        loading.enabled = false;
-        next.enabled = true;
-        if (PlayerPrefs.GetInt("TutorialDone") == 1)
-        {
-            Initiate.Fade("Shop", Color.black, 2f);
-        }
-        else
-        {
-            Initiate.Fade("TutorialShop", Color.black, 2f);
-        }
-        */
-    }
-
-    // Update is called once per frame
-    void Update() {
-        /*
-        if (Input.GetMouseButtonDown(0)) {
-            AdvanceText();
-        }
-        */
+    private void Start()
+    {
+        text1.CrossFadeAlpha(0f, 0.25f, false);
     }
 
     public void StartTutorial()
     {
+        goToTutorial = true;
         SaveManager.LoadFromTemplate(tutorialInventory);
         SaveManager.LoadFromShonkyTemplate(TutorialShonkyInventory);
         SaveManager.SaveInventory();
         SaveManager.SaveShonkyInventory();
-        Initiate.Fade("TutorialShop", Color.black, 2f);
+        StartCoroutine(StartIntro());
+        //Initiate.Fade("TutorialShop", Color.black, 2f);
     }
 
     public void StartNoTutorial()
@@ -74,28 +43,61 @@ public class IntroScene : MonoBehaviour {
         SaveManager.LoadFromShonkyTemplate(defaultShonkyInventory);
         SaveManager.SaveInventory();
         SaveManager.SaveShonkyInventory();
-        Initiate.Fade("Shop", Color.black, 2f);
+        StartCoroutine(StartIntro());
+        //Initiate.Fade("Shop", Color.black, 2f);
     }
 
-    /*
-    private void AdvanceText() {
-        if (textCounter == 0) {
-            BG.CrossFadeAlpha(0.1f, 2f, false);
-            text1.CrossFadeAlpha(255f, 2f, false);
+    private IEnumerator StartIntro()
+    {
+        BG.DOColor(Color.black, 2f);
+        FadeButtonCompletely(startGame1);
+        FadeButtonCompletely(startGame2);
+        yield return new WaitForSeconds(2f);
+        text1.text = ProgressNarrative();
+        currentNarrativeString++;
+        yield return new WaitForSeconds(4f);
+        StartCoroutine(ShowText());
+        yield return new WaitForSeconds(7f);
+        StartCoroutine(ShowText());
+        yield return new WaitForSeconds(8f);
+        StartCoroutine(ShowText());
+        yield return new WaitForSeconds(3f);
+        if (goToTutorial)
+        {
+            Initiate.Fade("TutorialShop", Color.black, 2f);
         }
-        if (textCounter > 0 && textCounter < texts.Count) {
-            texts[textCounter -1].CrossFadeAlpha(0f, 2f, false);
-            if (textCounter <= texts.Count) {
-                texts[textCounter].CrossFadeAlpha(255f, 2f, false);
-            }
+        else
+        {
+            Initiate.Fade("Shop", Color.black, 2f);
         }
-        if (textCounter == texts.Count) {
-            next.enabled = false;
-            loading.enabled = true;
-            Initiate.Fade("Hall", Color.black, 2f);
-        }
-        textCounter++;
     }
-    */
+
+    private void FadeButtonCompletely(Button button)
+    {
+        button.GetComponent<Image>().DOFade(0f, 2f);
+        button.transform.GetChild(0).GetComponent<TextMeshProUGUI>().DOFade(0f, 2f);
+    }
+
+    private IEnumerator ShowText()
+    {   
+        text1.CrossFadeAlpha(0f,1f,false);
+        yield return new WaitForSeconds(1f);
+        text1.text = ProgressNarrative();
+        text1.CrossFadeAlpha(255f,5f,false);
+        StopCoroutine(ShowText());
+    }
+    
+    private string ProgressNarrative()
+    {
+        if (!text1enabled && currentNarrativeString == 0)
+        {
+            text1.CrossFadeAlpha(255f, 3f, false);
+            text1enabled = false;
+            return narrative[currentNarrativeString];
+        }
+        Debug.Log("Current text " + currentNarrativeString);
+        currentNarrativeString++;
+        return narrative[currentNarrativeString];
+    }
 }
 
