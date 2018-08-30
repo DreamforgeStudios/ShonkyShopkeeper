@@ -73,7 +73,7 @@ public class Smelting : MonoBehaviour {
     }
 
 	void Start () {
-		SFX.Play("game_instrumental", looping: true);
+		SFX.Play("CraftingOre", looping: true);
 		SFX.Play("fire_loop", looping: true);
 		
 		rb = GetComponent<Rigidbody>();

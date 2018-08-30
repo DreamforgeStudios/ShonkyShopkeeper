@@ -86,6 +86,8 @@ public class Tracing : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
+        SFX.Play("CraftingOre",1f,1f,0f,true,0f);
+        //SFX.Play();
         Countdown.onComplete += GameOver;
         finishTime = Time.time + 10f;
         GeneralSetup();
