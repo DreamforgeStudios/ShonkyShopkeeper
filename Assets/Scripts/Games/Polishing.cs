@@ -13,12 +13,6 @@ public class Polishing : MonoBehaviour {
     public QualityBar qualityBar;
     public GemSpawnManager GemSpawnManager;
 
-    //Need to get the correct material based on gemtype passed in
-    public Material Ruby;
-    public Material Sapphire;
-    public Material Emerald;
-    public Material blackOutlines;
-
     //Time Variables
     private float startTime;
     private float currentTime;
@@ -71,30 +65,8 @@ public class Polishing : MonoBehaviour {
     // Use this for initialization
     void Start() {
         mainCamera = Camera.main;
+        //keyPoint = gemObject.transform.position;
         keyPoint = gemObject.transform.position;
-        Material[] materials = new Material[2];
-        //Determine gem material
-        switch (GameManager.Instance.GemTypeTransfer.ToString()) {
-            case ("Ruby"):
-                materials[0] = blackOutlines;
-                materials[1] = Ruby;
-                gemObject.GetComponent<Renderer>().materials = materials;
-                break;
-            case ("Sapphire"):
-                materials[0] = blackOutlines;
-                materials[1] = Sapphire;
-                gemObject.GetComponent<Renderer>().materials = materials;
-                break;
-            case ("Emerald"):
-                materials[0] = blackOutlines;
-                materials[1] = Emerald;
-                gemObject.GetComponent<Renderer>().materials = materials;
-                break;
-            //case ("Diamond"):
-              //  gemObject.GetComponent<Renderer>().material = Ruby;
-              //  break;
-
-        }
         //nextScene.enabled = false;
         //retryScene.enabled = false;
         //qualityText.enabled = false;
@@ -125,9 +97,9 @@ public class Polishing : MonoBehaviour {
         //gemObject.GetComponent<Renderer>().material.color = Color.Lerp(colourStart, ColourEnd, (numberOfSwipes + 1) / (timeLimit * 10));
     }
 
-    private void GetInput() {
-        Vector3 mPosition = Input.mousePosition;
-        mWorldPosition = mainCamera.ScreenToWorldPoint(mPosition);
+    private void GetInput()
+    {
+        mWorldPosition = Camera.main.ScreenPointToRay(Input.mousePosition).GetPoint(15f);
         currentTime = Time.time;
         text.text = "Swipes: " + numberOfSwipes;
         //if (Input.touchCount > 0) {
@@ -144,7 +116,8 @@ public class Polishing : MonoBehaviour {
         }
 
         if (isMouseDown) {
-            Debug.Log(numberOfSwipes);
+            //Debug.Log(numberOfSwipes);
+            Debug.Log("mouse world position x is" + mWorldPosition.x + "target is " + keyPoint.x);
             if (mWorldPosition.x < keyPoint.x && !coroutineRunning) {
                 StartCoroutine(CalculateSwipes(true));
                 coroutineRunning = true;
@@ -159,7 +132,9 @@ public class Polishing : MonoBehaviour {
     IEnumerator CalculateSwipes(bool leftSideStart) {
         //while (currentTime < finishTime) {
         // A dirty fix...
-        while (true) {
+        while (true)
+        {
+            //Debug.Log("left side start is " + leftSideStart);
             //for (int i = 0; i < Input.touchCount; i++) {
             if (leftSideStart) {
                 if (mWorldPosition.x > keyPoint.x) {

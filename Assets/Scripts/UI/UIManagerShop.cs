@@ -5,58 +5,40 @@ using UnityEngine.UI;
 using DG.Tweening;
 
 public class UIManagerShop : MonoBehaviour {
-    //private Camera main;
-    //public Canvas mineDesignTravelIcons;
-    //public GameObject toolboxTools;
-    public SpriteRenderer shopBG;
-    public Sprite town1, town2, town3, town4;
-    public GameObject frostBG;
+	//Order is WickedGrove, FlamingPeak, GiantsPass, SkyCity
+    public List<GameObject> animatedTowns;
 
 
 	// Use this for initialization
 	void Start () {
-        //main = Camera.main;
-    }
-	
-	// Update is called once per frame
-	void FixedUpdate () {
-        /*
-        if (main.GetComponent<CameraTap>().AtTopScreen()) {
-            mineDesignTravelIcons.enabled = false;
-            toolboxTools.SetActive(false);
-        } else {
-            mineDesignTravelIcons.enabled = true;
-            toolboxTools.SetActive(true);
-        }
-        */
-        DetermineBG();
-	}
-
-    // TODO: running and changing sprites every frame is bad for performance, try to run this once.
-    private void DetermineBG() {
-        //Debug.Log(Travel.ReturnCurrentTown());
-        switch (Travel.ReturnCurrentTown()) {
-            case Travel.Towns.WickedGrove:
-                shopBG.sprite = town1;
-                SetFrostBG(true);
-                break;
-            case Travel.Towns.FlamingPeak:
-                shopBG.sprite = town2;
-                SetFrostBG(false);
-                break;
-            case Travel.Towns.GiantsPass:
-                shopBG.sprite = town3;
-                SetFrostBG(true);
-                break;
-            case Travel.Towns.SkyCity:
-                shopBG.sprite = town4;
-                SetFrostBG(false);
-                break;
-        }
+	    SetTownBackground(Inventory.Instance.currentTown);
     }
 
-    private void SetFrostBG(bool activate)
+	//Set all backgrounds as inactive then activate select one
+    private void SetTownBackground(Travel.Towns currentTown)
     {
-        frostBG.SetActive(activate);
+	    foreach (GameObject townBG in animatedTowns)
+	    {
+		    townBG.SetActive(false);
+	    }
+
+	    switch (currentTown)
+	    {
+		    case Travel.Towns.WickedGrove:
+			    animatedTowns[0].SetActive(true);
+			    break;
+		    case Travel.Towns.FlamingPeak:
+			    animatedTowns[1].SetActive(true);
+			    break;
+		    case Travel.Towns.GiantsPass:
+			    animatedTowns[2].SetActive(true);
+			    break;
+		    case Travel.Towns.SkyCity:
+			    animatedTowns[3].SetActive(true);
+			    break;
+		    default: 
+			    animatedTowns[0].SetActive(true);
+			    break;
+	    }
     }
 }

@@ -10,6 +10,7 @@ public class GolemTrinkets : MonoBehaviour
 	public GameObject Ball;
 	
 	//Interaction variables
+	public bool interactionMaster;
 	public bool _interaction = false;
 	private bool currentGolem = false;
 	private float _cooldown = 10.0f;
@@ -30,17 +31,21 @@ public class GolemTrinkets : MonoBehaviour
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		if (currentGolem)
-			_interaction = _chosenGolem.GetComponent<ShonkyWander>().TrinketInteraction();
-		//Debug.Log("Next kick is " + _nextKick + " and time is " + Time.time + " and ball interaction is " + _interaction);
-		if (_nextKick < Time.time && !_interaction)
+	void Update()
+	{
+		if (interactionMaster)
 		{
-			if (GetActiveGolems())
+			if (currentGolem)
+				_interaction = _chosenGolem.GetComponent<ShonkyWander>().TrinketInteraction();
+			//Debug.Log("Next kick is " + _nextKick + " and time is " + Time.time + " and ball interaction is " + _interaction);
+			if (_nextKick < Time.time && !_interaction)
 			{
-				_chosenGolem = ChooseRandomGolem();
-				//Debug.Log("Start interaction");
-				InteractWithItem();
+				if (GetActiveGolems())
+				{
+					_chosenGolem = ChooseRandomGolem();
+					//Debug.Log("Start interaction");
+					InteractWithItem();
+				}
 			}
 		}
 	}

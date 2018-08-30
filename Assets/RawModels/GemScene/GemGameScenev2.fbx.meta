@@ -1,0 +1,584 @@
+fileFormatVersion: 2
+guid: 27c2b93ff41514ab286518f2d7704948
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: background
+    100002: branch1
+    100004: branch2
+    100006: branch3
+    100008: Branches
+    100010: centregem_left
+    100012: centregem_left 1
+    100014: centregem_left 2
+    100016: Floater_1
+    100018: Floater_2
+    100020: Floater_Bottom
+    100022: floatergem_left1
+    100024: floatergem_left1 1
+    100026: floatergem_left2
+    100028: floatergem_left2 1
+    100030: floatergem_left3
+    100032: floatergem_left3 1
+    100034: floatergem_left4
+    100036: floatergem_left4 1
+    100038: Gem_Bits
+    100040: gembit1
+    100042: gembit10
+    100044: gembit11
+    100046: gembit2
+    100048: gembit3
+    100050: gembit4
+    100052: gembit5
+    100054: gembit6
+    100056: gembit7
+    100058: gembit8
+    100060: gembit9
+    100062: //RootNode
+    100064: innerring_left
+    100066: innerring_left 1
+    100068: innerring_left 2
+    100070: midring_left
+    100072: midring_left 1
+    100074: midring_left 2
+    100076: outerring_left
+    100078: outerring_left 1
+    100080: outerring_left 2
+    100082: pCylinder14
+    100084: pCylinder15
+    100086: pCylinder16
+    100088: pCylinder17
+    100090: pCylinder18
+    100092: pCylinder19
+    100094: pCylinder20
+    100096: pCylinder21
+    100098: pCylinder22
+    100100: pCylinder23
+    100102: pCylinder24
+    100104: pCylinder25
+    100106: pCylinder26
+    100108: pCylinder27
+    100110: pCylinder28
+    100112: pCylinder29
+    100114: pCylinder30
+    100116: pCylinder31
+    100118: pCylinder32
+    100120: pCylinder33
+    100122: pCylinder34
+    100124: pCylinder35
+    100126: pCylinder36
+    100128: pCylinder37
+    100130: pCylinder38
+    100132: pCylinder39
+    100134: pCylinder40
+    100136: pCylinder7
+    100138: pCylinder8
+    100140: pCylinder9
+    100142: Roots
+    100144: supportrings_left1
+    100146: supportrings_left1 1
+    100148: supportrings_left2
+    100150: supportrings_left2 1
+    100152: supportrings_left3
+    100154: supportrings_left3 1
+    100156: supportrings_left4
+    100158: supportrings_left4 1
+    100160: vine1
+    100162: vine2
+    100164: vine3
+    100166: vine4
+    100168: vine5
+    100170: Vines
+    400000: background
+    400002: branch1
+    400004: branch2
+    400006: branch3
+    400008: Branches
+    400010: centregem_left
+    400012: centregem_left 1
+    400014: centregem_left 2
+    400016: Floater_1
+    400018: Floater_2
+    400020: Floater_Bottom
+    400022: floatergem_left1
+    400024: floatergem_left1 1
+    400026: floatergem_left2
+    400028: floatergem_left2 1
+    400030: floatergem_left3
+    400032: floatergem_left3 1
+    400034: floatergem_left4
+    400036: floatergem_left4 1
+    400038: Gem_Bits
+    400040: gembit1
+    400042: gembit10
+    400044: gembit11
+    400046: gembit2
+    400048: gembit3
+    400050: gembit4
+    400052: gembit5
+    400054: gembit6
+    400056: gembit7
+    400058: gembit8
+    400060: gembit9
+    400062: //RootNode
+    400064: innerring_left
+    400066: innerring_left 1
+    400068: innerring_left 2
+    400070: midring_left
+    400072: midring_left 1
+    400074: midring_left 2
+    400076: outerring_left
+    400078: outerring_left 1
+    400080: outerring_left 2
+    400082: pCylinder14
+    400084: pCylinder15
+    400086: pCylinder16
+    400088: pCylinder17
+    400090: pCylinder18
+    400092: pCylinder19
+    400094: pCylinder20
+    400096: pCylinder21
+    400098: pCylinder22
+    400100: pCylinder23
+    400102: pCylinder24
+    400104: pCylinder25
+    400106: pCylinder26
+    400108: pCylinder27
+    400110: pCylinder28
+    400112: pCylinder29
+    400114: pCylinder30
+    400116: pCylinder31
+    400118: pCylinder32
+    400120: pCylinder33
+    400122: pCylinder34
+    400124: pCylinder35
+    400126: pCylinder36
+    400128: pCylinder37
+    400130: pCylinder38
+    400132: pCylinder39
+    400134: pCylinder40
+    400136: pCylinder7
+    400138: pCylinder8
+    400140: pCylinder9
+    400142: Roots
+    400144: supportrings_left1
+    400146: supportrings_left1 1
+    400148: supportrings_left2
+    400150: supportrings_left2 1
+    400152: supportrings_left3
+    400154: supportrings_left3 1
+    400156: supportrings_left4
+    400158: supportrings_left4 1
+    400160: vine1
+    400162: vine2
+    400164: vine3
+    400166: vine4
+    400168: vine5
+    400170: Vines
+    2100000: backdrop
+    2100002: innerringtop
+    2100004: innerringside
+    2100006: pipes
+    2100008: midringtop
+    2100010: midringside
+    2100012: outerringtop
+    2100014: outerringside
+    2100016: deeppurplegem
+    2100018: lighpurplegem
+    2100020: siderings
+    2100022: lambert1
+    2100024: lightwood
+    2100026: vines
+    2100028: Woodfinish
+    2300000: background
+    2300002: branch1
+    2300004: branch2
+    2300006: branch3
+    2300008: centregem_left
+    2300010: centregem_left 1
+    2300012: centregem_left 2
+    2300014: floatergem_left1
+    2300016: floatergem_left1 1
+    2300018: floatergem_left2
+    2300020: floatergem_left2 1
+    2300022: floatergem_left3
+    2300024: floatergem_left3 1
+    2300026: floatergem_left4
+    2300028: floatergem_left4 1
+    2300030: gembit1
+    2300032: gembit10
+    2300034: gembit11
+    2300036: gembit2
+    2300038: gembit3
+    2300040: gembit4
+    2300042: gembit5
+    2300044: gembit6
+    2300046: gembit7
+    2300048: gembit8
+    2300050: gembit9
+    2300052: innerring_left
+    2300054: innerring_left 1
+    2300056: innerring_left 2
+    2300058: midring_left
+    2300060: midring_left 1
+    2300062: midring_left 2
+    2300064: outerring_left
+    2300066: outerring_left 1
+    2300068: outerring_left 2
+    2300070: pCylinder14
+    2300072: pCylinder15
+    2300074: pCylinder16
+    2300076: pCylinder17
+    2300078: pCylinder18
+    2300080: pCylinder19
+    2300082: pCylinder20
+    2300084: pCylinder21
+    2300086: pCylinder22
+    2300088: pCylinder23
+    2300090: pCylinder24
+    2300092: pCylinder25
+    2300094: pCylinder26
+    2300096: pCylinder27
+    2300098: pCylinder28
+    2300100: pCylinder29
+    2300102: pCylinder30
+    2300104: pCylinder31
+    2300106: pCylinder32
+    2300108: pCylinder33
+    2300110: pCylinder34
+    2300112: pCylinder35
+    2300114: pCylinder36
+    2300116: pCylinder37
+    2300118: pCylinder38
+    2300120: pCylinder39
+    2300122: pCylinder40
+    2300124: pCylinder7
+    2300126: pCylinder8
+    2300128: pCylinder9
+    2300130: supportrings_left1
+    2300132: supportrings_left1 1
+    2300134: supportrings_left2
+    2300136: supportrings_left2 1
+    2300138: supportrings_left3
+    2300140: supportrings_left3 1
+    2300142: supportrings_left4
+    2300144: supportrings_left4 1
+    2300146: vine1
+    2300148: vine2
+    2300150: vine3
+    2300152: vine4
+    2300154: vine5
+    3300000: background
+    3300002: branch1
+    3300004: branch2
+    3300006: branch3
+    3300008: centregem_left
+    3300010: centregem_left 1
+    3300012: centregem_left 2
+    3300014: floatergem_left1
+    3300016: floatergem_left1 1
+    3300018: floatergem_left2
+    3300020: floatergem_left2 1
+    3300022: floatergem_left3
+    3300024: floatergem_left3 1
+    3300026: floatergem_left4
+    3300028: floatergem_left4 1
+    3300030: gembit1
+    3300032: gembit10
+    3300034: gembit11
+    3300036: gembit2
+    3300038: gembit3
+    3300040: gembit4
+    3300042: gembit5
+    3300044: gembit6
+    3300046: gembit7
+    3300048: gembit8
+    3300050: gembit9
+    3300052: innerring_left
+    3300054: innerring_left 1
+    3300056: innerring_left 2
+    3300058: midring_left
+    3300060: midring_left 1
+    3300062: midring_left 2
+    3300064: outerring_left
+    3300066: outerring_left 1
+    3300068: outerring_left 2
+    3300070: pCylinder14
+    3300072: pCylinder15
+    3300074: pCylinder16
+    3300076: pCylinder17
+    3300078: pCylinder18
+    3300080: pCylinder19
+    3300082: pCylinder20
+    3300084: pCylinder21
+    3300086: pCylinder22
+    3300088: pCylinder23
+    3300090: pCylinder24
+    3300092: pCylinder25
+    3300094: pCylinder26
+    3300096: pCylinder27
+    3300098: pCylinder28
+    3300100: pCylinder29
+    3300102: pCylinder30
+    3300104: pCylinder31
+    3300106: pCylinder32
+    3300108: pCylinder33
+    3300110: pCylinder34
+    3300112: pCylinder35
+    3300114: pCylinder36
+    3300116: pCylinder37
+    3300118: pCylinder38
+    3300120: pCylinder39
+    3300122: pCylinder40
+    3300124: pCylinder7
+    3300126: pCylinder8
+    3300128: pCylinder9
+    3300130: supportrings_left1
+    3300132: supportrings_left1 1
+    3300134: supportrings_left2
+    3300136: supportrings_left2 1
+    3300138: supportrings_left3
+    3300140: supportrings_left3 1
+    3300142: supportrings_left4
+    3300144: supportrings_left4 1
+    3300146: vine1
+    3300148: vine2
+    3300150: vine3
+    3300152: vine4
+    3300154: vine5
+    4300000: background
+    4300002: innerring_left
+    4300004: midring_left
+    4300006: outerring_left
+    4300008: centregem_left
+    4300010: floatergem_left1
+    4300012: floatergem_left2
+    4300014: floatergem_left3
+    4300016: floatergem_left4
+    4300018: supportrings_left1
+    4300020: supportrings_left2
+    4300022: supportrings_left3
+    4300024: supportrings_left4
+    4300026: innerring_left
+    4300028: midring_left
+    4300030: outerring_left
+    4300032: centregem_left
+    4300034: floatergem_left1
+    4300036: floatergem_left2
+    4300038: floatergem_left3
+    4300040: floatergem_left4
+    4300042: supportrings_left1
+    4300044: supportrings_left2
+    4300046: supportrings_left3
+    4300048: supportrings_left4
+    4300050: gembit1
+    4300052: gembit2
+    4300054: gembit3
+    4300056: gembit4
+    4300058: gembit5
+    4300060: gembit6
+    4300062: gembit7
+    4300064: gembit8
+    4300066: gembit9
+    4300068: gembit10
+    4300070: gembit11
+    4300072: branch1
+    4300074: branch2
+    4300076: branch3
+    4300078: vine1
+    4300080: vine2
+    4300082: vine3
+    4300084: vine4
+    4300086: vine5
+    4300088: pCylinder8
+    4300090: pCylinder9
+    4300092: pCylinder7
+    4300094: pCylinder15
+    4300096: pCylinder17
+    4300098: pCylinder16
+    4300100: pCylinder14
+    4300102: pCylinder18
+    4300104: pCylinder19
+    4300106: pCylinder20
+    4300108: pCylinder21
+    4300110: pCylinder22
+    4300112: pCylinder23
+    4300114: pCylinder24
+    4300116: pCylinder25
+    4300118: pCylinder26
+    4300120: pCylinder27
+    4300122: pCylinder28
+    4300124: pCylinder29
+    4300126: pCylinder30
+    4300128: pCylinder31
+    4300130: pCylinder32
+    4300132: pCylinder33
+    4300134: pCylinder34
+    4300136: pCylinder35
+    4300138: pCylinder36
+    4300140: pCylinder37
+    4300142: pCylinder38
+    4300144: pCylinder39
+    4300146: pCylinder40
+    4300148: innerring_left
+    4300150: midring_left
+    4300152: outerring_left
+    4300154: centregem_left
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Woodfinish
+    second: {fileID: 2100000, guid: ba61cb13ddbb44556964cb5d8e4c3f31, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: backdrop
+    second: {fileID: 2100000, guid: 180c8743c0024445ab575e799c610d53, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: deeppurplegem
+    second: {fileID: 2100000, guid: 5b0ec96bd240b4594918a152f99a9c5e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: innerringside
+    second: {fileID: 2100000, guid: 7f6e24f8e641e4298adc89019c8bbd31, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: innerringtop
+    second: {fileID: 2100000, guid: 4409f177c83ae468ba2a92940e3395a9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert1
+    second: {fileID: 2100000, guid: 6c6bd1f15a5e542b58ea5af8fc9a1f39, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lighpurplegem
+    second: {fileID: 2100000, guid: a3c3ca39cfb2147b395bfc8d003ad92f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lightwood
+    second: {fileID: 2100000, guid: e7833e429bd1741cc9e132ef6f049acb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: midringside
+    second: {fileID: 2100000, guid: 90e26e01b37e24cfd946e9f6c16afc6c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: midringtop
+    second: {fileID: 2100000, guid: 2393a18b24ce249dfb0514fba7c0dd4b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: outerringside
+    second: {fileID: 2100000, guid: c63e74e3020ad4203859073ceb837940, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: outerringtop
+    second: {fileID: 2100000, guid: 1b1fd9159298e47a3aa486119eb8c1c9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pipes
+    second: {fileID: 2100000, guid: a9ba9c98d367a4db1bc2b7e51f1e8eb5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: siderings
+    second: {fileID: 2100000, guid: 856670bb2d0e24c55bcb573453313548, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: vines
+    second: {fileID: 2100000, guid: 1480dc2dbe2e6468cbba72fbd8ee987a, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
