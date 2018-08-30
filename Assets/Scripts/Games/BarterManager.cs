@@ -78,6 +78,7 @@ public class BarterManager : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
+		SFX.Play("BiddingTrack",1f,1f,0f,true,0f);
 		Countdown.onComplete += GameOver;
 		
         ItemInstance tmp;

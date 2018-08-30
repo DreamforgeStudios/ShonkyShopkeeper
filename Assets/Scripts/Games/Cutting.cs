@@ -98,7 +98,9 @@ public class Cutting : MonoBehaviour {
         ReadyGo.onComplete += () => { Time.timeScale = 1; start = true; };
     }
 
-    void Start () {
+    void Start ()
+    {
+	    SFX.Play("CraftingGem", 1f, 1f, 0f, true, 0f);
 		Countdown.onComplete += GameOver;
 	    activeCuts = new LinkedList<CutPoint>();
 	    

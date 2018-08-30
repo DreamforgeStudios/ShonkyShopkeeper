@@ -12,7 +12,8 @@ public class UIManagerShop : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 	    SetTownBackground(Inventory.Instance.currentTown);
-    }
+		SetTownMusic(Inventory.Instance.currentTown);
+	}
 
 	//Set all backgrounds as inactive then activate select one
     private void SetTownBackground(Travel.Towns currentTown)
@@ -41,4 +42,26 @@ public class UIManagerShop : MonoBehaviour {
 			    break;
 	    }
     }
+
+	private void SetTownMusic(Travel.Towns currentTown)
+	{
+		switch (currentTown)
+		{
+			case Travel.Towns.WickedGrove:
+				SFX.Play("WickedGroveTrack",1f,1f,0f,true,0f);
+				break;
+			case Travel.Towns.FlamingPeak:
+				SFX.Play("FlamingPeakTrack",1f,1f,0f,true,0f);
+				break;
+			case Travel.Towns.GiantsPass:
+				SFX.Play("GiantsPassTrack",1f,1f,0f,true,0f);
+				break;
+			case Travel.Towns.SkyCity:
+				SFX.Play("SkyCityTrack",1f,1f,0f,true,0f);
+				break;
+			default: 
+				SFX.Play("WickedGroveTrack",1f,1f,0f,true,0f);
+				break;
+		}
+	}
 }

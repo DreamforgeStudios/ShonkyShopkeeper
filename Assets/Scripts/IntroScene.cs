@@ -22,6 +22,7 @@ public class IntroScene : MonoBehaviour {
     private void Start()
     {
         text1.CrossFadeAlpha(0f, 0.25f, false);
+        SFX.Play("MainMenuTrack", 1f, 1f, 0f, true, 0f);
     }
 
     public void StartTutorial()

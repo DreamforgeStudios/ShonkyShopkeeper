@@ -64,6 +64,7 @@ public class Polishing : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
+        SFX.Play("CraftingGem",1f,1f,0f,true,0f);
         mainCamera = Camera.main;
         //keyPoint = gemObject.transform.position;
         keyPoint = gemObject.transform.position;
@@ -71,7 +72,6 @@ public class Polishing : MonoBehaviour {
         //retryScene.enabled = false;
         //qualityText.enabled = false;
         emitParams = new ParticleSystem.EmitParams();
-        //SFX.Play("sound");
         Countdown.onComplete += GameOver;
     }
 
