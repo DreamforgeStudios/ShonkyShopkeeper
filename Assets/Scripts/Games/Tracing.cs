@@ -170,7 +170,7 @@ public class Tracing : MonoBehaviour {
         for (int i = 0; i < _currentRuneHitPoints.transform.childCount; i++)
         {
             Vector3 position = _currentRuneHitPoints.transform.GetChild(i).gameObject.transform.position;
-            position.z = 10;
+            //position.z = 14.251f;
             optimalPoints.Add(position);
         }       
         //DrawOptimalLines();
@@ -181,16 +181,20 @@ public class Tracing : MonoBehaviour {
         for (int i = 0; i < _currentRuneColliders.transform.childCount; i++)
         {
             GameObject collider = _currentRuneColliders.transform.GetChild(i).gameObject;
-            Vector3 colliderTransform = collider.transform.position;
-            colliderTransform.z = 10;
-            collider.transform.position = colliderTransform;
+            //Vector3 colliderTransform = collider.transform.position;
+            //colliderTransform.z = 10;
+            //collider.transform.position = colliderTransform;
         }
     }
     
     private void GetInput() {
         Vector3 mPosition = Input.mousePosition;
-        Vector3 mWorldPosition = _mainCamera.ScreenToWorldPoint(mPosition);
-        mWorldPosition.z = 10;
+        //Vector3 mWorldPosition = _mainCamera.ScreenToWorldPoint(mPosition);
+        //Vector3 mWorldPosition = _mainCamera.ScreenToWorldPoint()
+        Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
+        Vector3 mWorldPosition = ray.direction;
+        mWorldPosition.z = 14.251f;
+        Debug.Log("mworldposition is " + mWorldPosition);
         FollowSphere.transform.position = mWorldPosition;
 
         if (Input.GetMouseButtonDown(0)) {

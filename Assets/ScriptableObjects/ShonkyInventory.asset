@@ -27,13 +27,13 @@ MonoBehaviour:
   - Quantity: 1
     Quality: 5
     IsNew: 1
-    ItemIdentifier: 
+    ItemIdentifier: emeraldgolem1
     InMine: 0
     pouchType: 2
   - Quantity: 0
     Quality: 0
     IsNew: 0
-    ItemIdentifier: 
+    ItemIdentifier: amethystgolem1
     InMine: 0
     pouchType: 0
   - Quantity: 0
