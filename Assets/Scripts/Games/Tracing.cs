@@ -49,7 +49,7 @@ public class Tracing : MonoBehaviour {
 
     //Distance and tracking variables
     public int hitPoints = 0;
-    public float maxDistanceAway;
+    public float maxDistanceAway = 0.5f;
     private bool foundNumber = false;
     private int lastIndex = 0;
     private float bestDistanceSoFar;
@@ -188,13 +188,10 @@ public class Tracing : MonoBehaviour {
     }
     
     private void GetInput() {
-        Vector3 mPosition = Input.mousePosition;
-        //Vector3 mWorldPosition = _mainCamera.ScreenToWorldPoint(mPosition);
-        //Vector3 mWorldPosition = _mainCamera.ScreenToWorldPoint()
         Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
-        Vector3 mWorldPosition = ray.direction;
-        mWorldPosition.z = 14.251f;
-        Debug.Log("mworldposition is " + mWorldPosition);
+        Vector3 mWorldPosition = ray.GetPoint(0.3f);
+        //mWorldPosition.z = 14.251f;
+        //Debug.Log("mworldposition is " + mWorldPosition);
         FollowSphere.transform.position = mWorldPosition;
 
         if (Input.GetMouseButtonDown(0)) {
@@ -216,7 +213,7 @@ public class Tracing : MonoBehaviour {
             score = CalculateColliderPenalties(CalculateAccuracy(CalculateWin()));
             if (score > 0)
             {
-                Debug.Log("adding score of " + score);
+                //Debug.Log("adding score of " + score);
                 qualityBar.Add(score/1000,true);
                 _finalScore += score;
                 scoreText.text = string.Format("Final score is {0}", _finalScore);
@@ -271,17 +268,17 @@ public class Tracing : MonoBehaviour {
 
         if (success) {
             averageDistanceAway = totalDistanceAway / optimalPointIndex.Count;
-            //Debug.Log("avg dist away = " + averageDistanceAway);
-            if (averageDistanceAway >= 0 && averageDistanceAway <= 0.63) {
+            Debug.Log("avg dist away = " + averageDistanceAway);
+            if (averageDistanceAway >= 0 && averageDistanceAway <= 0.025) {
                 return 1000;
             }
-            else if (averageDistanceAway > 0.63 && averageDistanceAway < 0.67) {
+            else if (averageDistanceAway > 0.025 && averageDistanceAway < 0.05) {
                 return 850;
             }
-            else if (averageDistanceAway > 0.67 && averageDistanceAway < 0.7) {
+            else if (averageDistanceAway > 0.05 && averageDistanceAway < 0.067) {
                 return 700;
             }
-            else if (averageDistanceAway > 0.7 && averageDistanceAway < 0.77) {
+            else if (averageDistanceAway > 0.067 && averageDistanceAway < 0.5) {
                 return 550;
             }
             else {
@@ -345,7 +342,6 @@ public class Tracing : MonoBehaviour {
         for (int j = 0; j < playerPoints.Count; j++) {
             if (Vector3.Distance(playerPoints[j], positionArea) < maxDistanceAway)
                 if (Vector3.Distance(playerPoints[j], positionArea) <= bestDistanceSoFar && j > lastIndex) {
-                    //Debug.Log("Found close point");
                     bestDistanceSoFar = Vector3.Distance(playerPoints[j], positionArea);
                     lastIndex = j;
                     foundNumber = true;
@@ -364,6 +360,8 @@ public class Tracing : MonoBehaviour {
         optimalPoints.Clear();
         playerPoints.RemoveRange(0, playerPoints.Count);
         optimalPointIndex.RemoveRange(0, optimalPointIndex.Count);
+        averageDistanceAway = 0f;
+        totalDistanceAway = 0f;
     }
 
     private void NextRune()
@@ -395,7 +393,7 @@ public class Tracing : MonoBehaviour {
         flashAlpha.a = 0f;
         WhiteFlash.color = flashAlpha;
         WhiteFlash.enabled = true;
-        WhiteFlash.DOFade(0.8f, 0.15f).OnComplete(() => WhiteFlash.DOFade(0f, 1f));
+        WhiteFlash.DOFade(0.95f, 0.15f).OnComplete(() => WhiteFlash.DOFade(0f, 1f));
         
     }
 

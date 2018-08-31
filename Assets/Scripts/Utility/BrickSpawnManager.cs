@@ -8,12 +8,14 @@ public class BrickSpawnManager : MonoBehaviour {
 	
 	public GameObject Brick;
 	public GameObject Shell;
+	public GameObject TracingSceneBrick;
 	
 	public GameObject ShineParticleSystem;
 	public GameObject SmokeParticleSystem;
 
 	public float ScaleOverrideShine;
 	public float ScaleOverrideSmoke;
+	public float ScaleOverrideShell;
 
 
 	//private GameObject spawnedClone;
@@ -25,16 +27,18 @@ public class BrickSpawnManager : MonoBehaviour {
 	}
 
 	public void Upgrade() {
+		TracingSceneBrick.SetActive(false);
 		// Workaround for orthographic camera in tracing scene.....
-		var clone = Instantiate(SmokeParticleSystem, transform.position + Vector3.back * 2.5f, Quaternion.identity, transform);
+		var clone = Instantiate(SmokeParticleSystem, transform.position + Vector3.forward * 2.5f, Quaternion.identity, transform);
 		clone.transform.localScale = new Vector3(ScaleOverrideSmoke, ScaleOverrideSmoke, ScaleOverrideSmoke);
 		
-		clone = Instantiate(ShineParticleSystem, transform.position + Vector3.forward * 2.5f, Quaternion.identity, transform);
+		clone = Instantiate(ShineParticleSystem, transform.position + Vector3.forward * 2.6f, Quaternion.identity, transform);
 		clone.transform.localScale = new Vector3(ScaleOverrideShine, ScaleOverrideShine, ScaleOverrideShine);
 		
 		//spawnedClone.SetActive(false);
 		//SmeltingPot.SetActive(false);
 		
-		Instantiate(Shell, Shell.transform.position, Shell.transform.rotation, transform);
+		clone = Instantiate(Shell, transform.position + Vector3.forward * 2.5f, transform.rotation, transform);
+		clone.transform.localScale = new Vector3(ScaleOverrideShell, ScaleOverrideShell, ScaleOverrideShell);
 	}
 }
