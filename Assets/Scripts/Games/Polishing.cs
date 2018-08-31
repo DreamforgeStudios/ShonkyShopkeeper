@@ -182,7 +182,12 @@ public class Polishing : MonoBehaviour {
 
 		grade = Quality.CalculateCombinedQuality(GameManager.Instance.QualityTransfer, grade);
         
-        GemSpawnManager.UpgradeGem();
+        if (grade == Quality.QualityGrade.Junk)
+            GemSpawnManager.UpgradeGem(false);
+        else
+        {
+            GemSpawnManager.UpgradeGem(true);
+        }
 
         ShowUIButtons();
     }

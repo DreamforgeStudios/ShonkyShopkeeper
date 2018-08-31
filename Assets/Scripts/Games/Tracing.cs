@@ -242,13 +242,19 @@ public class Tracing : MonoBehaviour {
         qualityText.gameObject.SetActive(true);
         qualityBar.Disappear();
         ResetOptimalPoints();
+        FollowSphere.SetActive(false);
         _currentRuneSprite.SetActive(false);
 		grade = Quality.CalculateCombinedQuality(GameManager.Instance.QualityTransfer, grade);
         ShowUIButtons();
         _dataBase.HideUI();
         _canTrace = false;
         
-        brickSpawnmanager.Upgrade();
+        if (grade == Quality.QualityGrade.Junk)
+            brickSpawnmanager.Upgrade(false);
+        else
+        {
+            brickSpawnmanager.Upgrade(true);
+        }
     }
 
     /*

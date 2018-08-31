@@ -285,8 +285,11 @@ public class Cutting : MonoBehaviour {
 		GradeText.text = Quality.GradeToString(grade);
 		GradeText.color = Quality.GradeToColor(grade);
 		GradeText.gameObject.SetActive(true);
+		if (grade == Quality.QualityGrade.Junk)
+			GemSpawnManager.UpgradeGem(false);
+		else
+			GemSpawnManager.UpgradeGem(true);
 		
-		GemSpawnManager.UpgradeGem();
 
 		foreach (CutPoint cut in activeCuts) {
 			Destroy(cut.gameObject);

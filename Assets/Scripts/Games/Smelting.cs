@@ -233,9 +233,10 @@ public class Smelting : MonoBehaviour {
         qualityText.color = Quality.GradeToColor(grade);
         qualityText.gameObject.SetActive(true);
         qualityBar.Disappear();
-	    
-	    OreSpawnManager.Upgrade();
-
+	    if (grade == Quality.QualityGrade.Junk)
+			OreSpawnManager.Upgrade(false);
+	    else
+		    OreSpawnManager.Upgrade(true);
         ShowUIButtons();
     }
 	

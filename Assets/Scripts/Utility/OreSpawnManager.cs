@@ -24,16 +24,29 @@ public class OreSpawnManager : MonoBehaviour {
 		spawnedClone.transform.DOLocalMove(Vector3.zero, InitialTweenDuration).SetEase(Ease.InBack);
 	}
 
-	public void Upgrade() {
-		var spawn = Instantiate(Brick, Brick.transform.position, Brick.transform.rotation, transform);
+	public void Upgrade(bool success) {
+		if (success)
+		{
+			var spawn = Instantiate(Brick, Brick.transform.position, Brick.transform.rotation, transform);
 
-		var a = Instantiate(SmokeParticleSystem, spawn.transform.position + Vector3.back * 1.5f, Quaternion.identity, transform);
-		a.transform.localScale = new Vector3(ScaleOverride, ScaleOverride, ScaleOverride);
+			var a = Instantiate(SmokeParticleSystem, spawn.transform.position + Vector3.back * 1.5f,
+				Quaternion.identity, transform);
+			a.transform.localScale = new Vector3(ScaleOverride, ScaleOverride, ScaleOverride);
 
-		a = Instantiate(ShineParticleSystem, spawn.transform.position + Vector3.forward * 1.5f, Quaternion.identity, transform);
-		a.transform.localScale = new Vector3(ScaleOverride, ScaleOverride, ScaleOverride);
-		
-		spawnedClone.SetActive(false);
-		SmeltingPot.SetActive(false);
+			a = Instantiate(ShineParticleSystem, spawn.transform.position + Vector3.forward * 1.5f, Quaternion.identity,
+				transform);
+			a.transform.localScale = new Vector3(ScaleOverride, ScaleOverride, ScaleOverride);
+
+			spawnedClone.SetActive(false);
+			SmeltingPot.SetActive(false);
+		}
+		else
+		{
+			var a = Instantiate(SmokeParticleSystem, Brick.transform.position + Vector3.back * 1.5f,
+				Quaternion.identity, transform);
+			a.transform.localScale = new Vector3(ScaleOverride, ScaleOverride, ScaleOverride);
+			spawnedClone.SetActive(false);
+			SmeltingPot.SetActive(false);
+		}
 	}
 }

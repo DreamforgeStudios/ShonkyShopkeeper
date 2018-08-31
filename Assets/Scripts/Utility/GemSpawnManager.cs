@@ -54,16 +54,27 @@ public class GemSpawnManager : MonoBehaviour {
 		//clone.GetComponent<Rotate>().Enable = true;
 	}
 
-	public void UpgradeGem() {
-		Instantiate(SmokeParticleSystem, transform.position + Vector3.back * 2.5f, Quaternion.identity, transform);
-		Instantiate(ShineParticleSystem, transform.position + Vector3.forward * 2.5f, Quaternion.identity, transform);
-		
-		//Destroy(spawnedClone);
-		// Setting inactive is faster.  We'll probably pay for the whole destroy cost in loading anyway though.
-		spawnedClone.SetActive(false);
-		
-		//Instantiate(cloneAfter, cloneAfter.transform.position, cloneAfter.transform.rotation, transform);
-		Instantiate(cloneAfter, spawnedClone.transform.position, spawnedClone.transform.rotation, transform);
+	public void UpgradeGem(bool Success) {
+		if (Success)
+		{
+			Instantiate(SmokeParticleSystem, transform.position + Vector3.back * 2.5f, Quaternion.identity, transform);
+			Instantiate(ShineParticleSystem, transform.position + Vector3.forward * 2.5f, Quaternion.identity,
+				transform);
+
+			//Destroy(spawnedClone);
+			// Setting inactive is faster.  We'll probably pay for the whole destroy cost in loading anyway though.
+			spawnedClone.SetActive(false);
+
+			//Instantiate(cloneAfter, cloneAfter.transform.position, cloneAfter.transform.rotation, transform);
+			Instantiate(cloneAfter, spawnedClone.transform.position, spawnedClone.transform.rotation, transform);
+		}
+		else
+		{
+			Instantiate(SmokeParticleSystem, transform.position + Vector3.back * 2.5f, Quaternion.identity, transform);
+			
+			// Setting inactive is faster.  We'll probably pay for the whole destroy cost in loading anyway though.
+			spawnedClone.SetActive(false);
+		}
 
 		// TODO: Change gem...
 		// Destroy(spawnedClone);
