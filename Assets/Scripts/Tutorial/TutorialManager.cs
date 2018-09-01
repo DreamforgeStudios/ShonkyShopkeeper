@@ -187,7 +187,7 @@ public class TutorialManager : MonoBehaviour
 		SaveManager.LoadFromTemplate(RegularInventory);
 		SaveManager.SaveInventory();
 		SaveManager.SaveShonkyInventory();
-		physicalInv.PopulateInitial();
+		//physicalInv.PopulateInitial();
 		tutorialCanvas.gameObject.SetActive(true);
 		travelButton.gameObject.SetActive(true);
 		tutorialText.text =

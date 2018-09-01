@@ -8,15 +8,15 @@ using TMPro;
 using UnityEngine.AI;
 using UnityEngine.UI;
 
-public class CombineIntoGolem : MonoBehaviour
+public class CombineIntoGolemTut : MonoBehaviour
 {
 	public GameObject item1Position, item2Position, desiredPosition;
 	public Camera mainCamera;
 	public Canvas canvasOverlay;
 	private int oldCameraCullingMask;
 	public ParticleSystem smoke;
-	public Toolbox toolbox;
-	public PhysicalShonkyInventory physicalShonkyInventory;
+	public TutorialToolbox toolbox;
+	public TutorialPhysicalShonkyInventory physicalShonkyInventory;
 	
 	//UI image to fade background
 	public RawImage BGFader;
