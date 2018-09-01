@@ -43,8 +43,8 @@ TagManager:
   - OverlayedMap
   - GlobalProjectorLayer
   - InventoryBin
-  - 
-  - 
+  - Shop
+  - ItemsToCombine
   - 
   - 
   - 

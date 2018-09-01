@@ -83,6 +83,9 @@ public class Toolbox : MonoBehaviour {
 
     // Debug.
     private Ray previousRay;
+    
+    //To Access Combining Object and script
+    public CombineIntoGolem golemCombiner;
 
     // Use this for initialization
     void Start() {
@@ -490,21 +493,7 @@ public class Toolbox : MonoBehaviour {
                     
                     // Check for a free slot.
                     if (ShonkyInventory.Instance.FreeSlot()) {
-                        GameObject obj1, obj2;
-                        Vector2 midPoint;
-                        if (currentSelection.GetPrefabInstance(out obj1) && slot.GetPrefabInstance(out obj2)) {
-                            Transform t1 = obj1.transform,
-                                      t2 = obj2.transform;
-                            
-                            midPoint = ((currentSelection.transform.position + Vector3.up) + (slot.transform.position + Vector3.up) / 2f);
-                            
-                            //SFX.Play("item_lift");
-                            t2.DOMove(slot.transform.position + Vector3.up, 0.7f).SetEase(Ease.OutBack)
-                                .OnComplete(() => t2.DOMove(midPoint, 0.6f).SetEase(Ease.OutBack));
-                            t1.DOMove(currentSelection.transform.position + Vector3.up, 0.7f).SetEase(Ease.OutBack)
-                                .OnComplete(() => t1.DOMove(midPoint, 0.6f).SetEase(Ease.OutBack))
-                                    .OnComplete(() => CombineItems(slot));
-                        }
+                        golemCombiner.GolemAnimationSequence(currentSelection, slot);
                     } else {
                         GameObject itemObj;
                         if (currentSelection.GetPrefabInstance(out itemObj)) {
@@ -550,11 +539,7 @@ public class Toolbox : MonoBehaviour {
         int index1, index2;
         index1 = currentSelection.index;
         index2 = slot.index;
-        //Spawn a golem to show item creation 
-        //Play SFX
         //SFX.Play("golem_created");
-        //soundEffects.clip = golumCreated;
-        //soundEffects.Play();
         Debug.Log("Created Golem");
         //Get the average quality of the shell and charged gem, assign to new golem.
         Quality.QualityGrade item1 = currentSelection.itemInstance.Quality;

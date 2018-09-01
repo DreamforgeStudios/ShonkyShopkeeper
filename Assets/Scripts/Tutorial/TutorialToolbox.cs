@@ -94,6 +94,7 @@ public class TutorialToolbox : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
+        SFX.Play("WickedGroveTrack",1f,1f,0f,true,0f);
         currentTool = Tool.None;
         SwitchTool(Tool.None);
         //inventoryhelper = Inventory.Instance;
@@ -336,6 +337,7 @@ public class TutorialToolbox : MonoBehaviour {
             {
                 currentSelection = slot;
                 inspectionPanel.SetActive(true);
+                SFX.Play("Mag_item_select", 1f, 1f, 0f, false, 0f);
                 textHeading.text = instance.itemName;
                 textInfo.text = instance.itemInfo;
 
@@ -384,6 +386,7 @@ public class TutorialToolbox : MonoBehaviour {
             {
                 this.currentSelection = slot;
                 MoveUp(slot);
+                SFX.Play("Item_lifted", 1f, 1f, 0f, false, 0f);
                 // Second selection.
             }
             else
@@ -415,6 +418,7 @@ public class TutorialToolbox : MonoBehaviour {
                         t2 = obj2.transform;
 
                     //SFX.Play("item_lift");
+                    SFX.Play("Item_shifted", 1f, 1f, 0f, false, 0f);
                     MoveUp(slot1)
                         .OnComplete(() => t1.DOMove(slot2.transform.position + Vector3.up, 0.6f).SetEase(Ease.OutBack)
                             .OnComplete(() => t1.DOMove(slot2.transform.position, 1f).SetEase(Ease.OutBounce)));
@@ -566,6 +570,7 @@ public class TutorialToolbox : MonoBehaviour {
         //Move selection up
         GameObject itemObj;
         if (currentSelection.GetPrefabInstance(out itemObj)) {
+            SFX.Play("item_lift");
             Inventory.Instance.RemoveItem(currentSelection.index);
             currentSelection.RemoveDontDestroy();
 
@@ -671,6 +676,7 @@ public class TutorialToolbox : MonoBehaviour {
         float gemChance = 0.4f,
               oreChance = 1.00f;
         int numberItems = UnityEngine.Random.Range(6, 12);
+        SFX.Play("Res_pouch_open", 1f, 1f, 0f, false, 0f);
 
         //SFX.Play("sound");
         var drops = new List<ItemInstance>();
@@ -801,6 +807,7 @@ public class TutorialToolbox : MonoBehaviour {
         slot.RemoveItem();
         slot = null;
         SaveManager.SaveInventory();
+        SFX.Play("Bin_item_goaway", 1f, 1f, 0f, false, 0f);
         canSelect = true;
 
     }
