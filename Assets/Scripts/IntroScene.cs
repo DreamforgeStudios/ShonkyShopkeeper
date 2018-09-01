@@ -29,6 +29,7 @@ public class IntroScene : MonoBehaviour {
     {
         optionsObject.SetActive(false);
         goToTutorial = true;
+        GameManager.Instance.InTutorial = true;
         SaveManager.LoadFromTemplate(tutorialInventory);
         SaveManager.LoadFromShonkyTemplate(TutorialShonkyInventory);
         SaveManager.SaveInventory();

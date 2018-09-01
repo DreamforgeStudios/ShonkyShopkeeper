@@ -298,8 +298,16 @@ public class Cutting : MonoBehaviour {
 		ShowUIButtons();
 	}
 
-	public void Return() {
+	public void JunkReturn()
+	{
 		ReturnOrRetry.Return("Cut " + GameManager.Instance.GemTypeTransfer, grade);
+	}
+
+	public void Return() {
+		if (grade != Quality.QualityGrade.Junk)
+			ReturnOrRetry.Return("Cut " + GameManager.Instance.GemTypeTransfer, grade);
+		else
+			ReturnOrRetryButtons.GetComponent<UpdateRetryButton>().WarningTextEnable();
 	}
 
 	public void Retry() {

@@ -192,10 +192,18 @@ public class Polishing : MonoBehaviour {
         ShowUIButtons();
     }
     
-    // Return to shop.
-	public void Return() {
-		ReturnOrRetry.Return("Charged " + GameManager.Instance.GemTypeTransfer, grade);
-	}
+    public void JunkReturn()
+    {
+        ReturnOrRetry.Return("Charged " + GameManager.Instance.GemTypeTransfer, grade);
+    }
+
+    public void Return() {
+        if (grade != Quality.QualityGrade.Junk)
+            ReturnOrRetry.Return("Charged " + GameManager.Instance.GemTypeTransfer, grade);
+        else
+            returnOrRetryButtons.GetComponent<UpdateRetryButton>().WarningTextEnable();
+    }
+
 
     // Retry (roload scene).
 	public void Retry() {

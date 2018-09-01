@@ -240,8 +240,16 @@ public class Smelting : MonoBehaviour {
         ShowUIButtons();
     }
 	
-	public void Return() {
+	public void JunkReturn()
+	{
 		ReturnOrRetry.Return("Brick", grade);
+	}
+
+	public void Return() {
+		if (grade != Quality.QualityGrade.Junk)
+			ReturnOrRetry.Return("Brick", grade);
+		else
+			returnOrRetryButtons.GetComponent<UpdateRetryButton>().WarningTextEnable();
 	}
 
 	public void Retry() {

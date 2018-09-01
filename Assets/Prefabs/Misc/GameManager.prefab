@@ -51,10 +51,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79e77e8152f47b44ca1c917f938974cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InTutorial: 1
+  PlayingAudio: 1
+  InTutorial: 0
   TutorialIntroTopComplete: 0
   TutorialIntroComplete: 0
   InMap: 0
+  BarterTutorial: 0
   HasInspectedAllInventoryItems: 0
   TutorialGolemMade: 0
   MineGoleminteractGolem: 0

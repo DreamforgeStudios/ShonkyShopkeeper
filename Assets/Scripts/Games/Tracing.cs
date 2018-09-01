@@ -403,8 +403,16 @@ public class Tracing : MonoBehaviour {
         
     }
 
+    public void JunkReturn()
+    {
+        ReturnOrRetry.Return("shell", grade);
+    }
+
     public void Return() {
-		ReturnOrRetry.Return("shell", grade);
+        if (grade != Quality.QualityGrade.Junk)
+		    ReturnOrRetry.Return("shell", grade);
+        else
+            returnOrRetryButtons.GetComponent<UpdateRetryButton>().WarningTextEnable();
 	}
 
 	public void Retry() {
