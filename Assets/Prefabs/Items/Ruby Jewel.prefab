@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 23922619629403032}
   - component: {fileID: 114317204434971964}
   - component: {fileID: 114593667664072462}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Ruby Jewel
   m_TagString: Untagged
   m_Icon: {fileID: 0}

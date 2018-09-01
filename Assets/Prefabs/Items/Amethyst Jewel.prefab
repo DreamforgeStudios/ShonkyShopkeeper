@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4715260383668738}
   - component: {fileID: 114391723677073908}
   - component: {fileID: 23969068622885604}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Amethyst Jewel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 4831900035805578}
   - component: {fileID: 33060247124052166}
   - component: {fileID: 23404649364705768}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Amythest
   m_TagString: Untagged
   m_Icon: {fileID: 0}

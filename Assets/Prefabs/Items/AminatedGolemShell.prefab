@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4060014638597778}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34,7 +34,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4503324371386692}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: L.Lower Leg_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49,7 +49,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4972273648678066}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: L.Low Arm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -64,7 +64,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4999224957606278}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: R.Lower Arm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -79,7 +79,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4834889950117452}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Armature
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4194182770578004}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Spine3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -109,7 +109,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4246253177684816}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Spine1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124,7 +124,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4599070893872324}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Head_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -140,7 +140,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4335077308477012}
   - component: {fileID: 137700538339799726}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: golemshell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -155,7 +155,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4797825472117894}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: R.Upper Arm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -170,7 +170,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4791372953773434}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: L.Upper Arm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -185,7 +185,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4732898319465204}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Spine4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -200,7 +200,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4207307877359466}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: R.Lower Leg_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -215,7 +215,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4866053734039848}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: L.Lower Leg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -230,7 +230,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4088454347102758}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: R.Upper Leg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -245,7 +245,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4696028008346196}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: L.Upper Leg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -260,7 +260,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4130023685439420}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: R.Lower Leg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -275,7 +275,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4747709504864718}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Spine2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -290,7 +290,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4917544780037466}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: R.Lower Arm_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -305,7 +305,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4363440955608268}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: L.Low Arm_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -323,7 +323,8 @@ GameObject:
   - component: {fileID: 95623191807204032}
   - component: {fileID: 23850433358766330}
   - component: {fileID: 114043774920687356}
-  m_Layer: 0
+  - component: {fileID: 114524590177472794}
+  m_Layer: 16
   m_Name: AminatedGolemShell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -490,7 +491,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1991232834625290}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.299, z: 0}
+  m_LocalPosition: {x: -0.74297583, y: 1.47, z: -6.75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4834889950117452}
@@ -667,7 +668,7 @@ Animator:
   m_GameObject: {fileID: 1991232834625290}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: d53eb0ed8d4a9424aab2a717b102e902, type: 3}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e8270fe5189e5fb44a1a93ad045d370c, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -691,6 +692,32 @@ MonoBehaviour:
   Speed: 18
   UseUnscaledTime: 0
   Enable: 0
+--- !u!114 &114524590177472794
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1991232834625290}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27351f8a2de3e594c82df9a654aa9acf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _emitterTransform: {fileID: 0}
+  _emitterPosition: {x: -0.25, y: 0.25, z: -0}
+  _receiverTransform: {fileID: 0}
+  _receiverPosition: {x: 0.25, y: -0.25, z: 0}
+  _throttle: 0.439
+  _pulseInterval: 0.2
+  _boltLength: 0.611
+  _lengthRandomness: 0.844
+  _noiseAmplitude: 1.2
+  _noiseFrequency: 0.1
+  _noiseMotion: 0.1
+  _color: {r: 1, g: 0.9094448, b: 0, a: 1}
+  _mesh: {fileID: 11400000, guid: ae28d7200908fb34ab683612d325defa, type: 2}
+  _randomSeed: 0
+  _shader: {fileID: 4800000, guid: 5f407f89f9b1b6a48a8b5352c16afef9, type: 3}
 --- !u!137 &137700538339799726
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

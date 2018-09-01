@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 114918205132289050}
   - component: {fileID: 114855160710706448}
   - component: {fileID: 114891991170334766}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Emerald Charged
   m_TagString: Untagged
   m_Icon: {fileID: 0}

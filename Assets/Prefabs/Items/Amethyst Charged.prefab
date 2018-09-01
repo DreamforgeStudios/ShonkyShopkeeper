@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4210073999543526}
   - component: {fileID: 114701540451735470}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Amethyst Charged
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 33324670277767950}
   - component: {fileID: 23815641609410738}
   - component: {fileID: 114381404966021708}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Amythest
   m_TagString: Untagged
   m_Icon: {fileID: 0}

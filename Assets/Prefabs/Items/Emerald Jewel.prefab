@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 23363242102059836}
   - component: {fileID: 114429009820613670}
   - component: {fileID: 114357207711250286}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Emerald Jewel
   m_TagString: Untagged
   m_Icon: {fileID: 0}

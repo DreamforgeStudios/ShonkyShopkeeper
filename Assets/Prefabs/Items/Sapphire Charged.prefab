@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 114411790927180388}
   - component: {fileID: 114933279950307722}
   - component: {fileID: 114607968521336308}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Sapphire Charged
   m_TagString: Untagged
   m_Icon: {fileID: 0}

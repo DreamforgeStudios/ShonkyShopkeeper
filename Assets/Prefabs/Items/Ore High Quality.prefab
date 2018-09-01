@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4620424201572350}
   - component: {fileID: 33009993931992196}
   - component: {fileID: 23069319548602608}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: pPlatonic8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 4952327843603254}
   - component: {fileID: 33792374450853490}
   - component: {fileID: 23086325934654034}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: pPlatonic9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -55,7 +55,7 @@ GameObject:
   - component: {fileID: 4643630820851704}
   - component: {fileID: 33484915119749326}
   - component: {fileID: 23674425523374432}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: pPlatonic10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74,7 +74,7 @@ GameObject:
   - component: {fileID: 23599445044549314}
   - component: {fileID: 114623776551706924}
   - component: {fileID: 114869082472703826}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Ore High Quality
   m_TagString: Untagged
   m_Icon: {fileID: 0}

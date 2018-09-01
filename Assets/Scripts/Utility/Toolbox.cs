@@ -493,7 +493,7 @@ public class Toolbox : MonoBehaviour {
                     
                     // Check for a free slot.
                     if (ShonkyInventory.Instance.FreeSlot()) {
-                        golemCombiner.GolemAnimationSequence(currentSelection, slot);
+                        golemCombiner.GolemAnimationSequence(currentSelection, item1, slot, item2);
                     } else {
                         GameObject itemObj;
                         if (currentSelection.GetPrefabInstance(out itemObj)) {
@@ -531,45 +531,18 @@ public class Toolbox : MonoBehaviour {
             //.OnComplete(() => asyncLoad.allowSceneActivation = true));
         }
     }
-    //Method used to combine shonkys
-    private void CombineItems(Slot slot) {
 
-        //Find index of items and remove from inventory backend
-        string gemType = FindGemType(slot, currentSelection);
-        int index1, index2;
-        index1 = currentSelection.index;
-        index2 = slot.index;
-        //SFX.Play("golem_created");
-        Debug.Log("Created Golem");
-        //Get the average quality of the shell and charged gem, assign to new golem.
-        Quality.QualityGrade item1 = currentSelection.itemInstance.Quality;
-        Quality.QualityGrade item2 = slot.itemInstance.Quality;
-        Quality.QualityGrade avg = Quality.CalculateCombinedQuality(item1, item2);
-        ItemInstance newGolem = new ItemInstance(gemType, 1, avg, true);
-        int index = ShonkyInventory.Instance.InsertItem(newGolem);
-        if (index != -1)
-        {
-            PenSlot pSlot = physicalShonkyInventory.GetSlotAtIndex(index);
-            GameObject clone = Instantiate(newGolem.item.physicalRepresentation, pSlot.transform.position,
-                pSlot.transform.rotation);
-            //PhysicalShonkyInventory.Instance.InsertItemAtSlot(index, newGolem, inst);
-            //Move new golem to pen
-            pSlot.SetItemInstantiated(newGolem,clone);
-            physicalShonkyInventory.MoveToPen(index);
-            //Remove backend items
-            Inventory.Instance.RemoveItem(index1);
-            Inventory.Instance.RemoveItem(index2);
-            //Remove front end items
-            currentSelection.RemoveItem();
-            slot.RemoveItem();
-            //reset selection
-            currentSelection = null;
-
-            AchievementManager.Get("golem_create_01");
-        }
+    public void ClearGolemCreation(Slot slot)
+    {
+        //Remove front end items
+        currentSelection.RemoveItem();
+        slot.RemoveItem();
+        //reset selection
+        currentSelection = null;
+        AchievementManager.Get("golem_create_01");
     }
     //Method used to find the gem type selected
-    private string FindGemType(Slot slot1, Slot slot2) {
+    public string FindGemType(Slot slot1, Slot slot2) {
         if (slot1.itemInstance.itemName == "Charged Emerald" || slot2.itemInstance.itemName == "Charged Emerald") {
             return "EmeraldGolem1";
         } else if (slot1.itemInstance.itemName == "Charged Ruby" || slot2.itemInstance.itemName == "Charged Ruby") {

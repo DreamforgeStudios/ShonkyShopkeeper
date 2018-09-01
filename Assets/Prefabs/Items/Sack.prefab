@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4212686884626570}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Bone_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34,7 +34,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4225842901550218}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Armature
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50,7 +50,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4147118239310798}
   - component: {fileID: 95491988768171222}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Sack2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -65,7 +65,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4961247106320828}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Bone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -81,7 +81,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4285650307181744}
   - component: {fileID: 137640722663972766}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: pSphere1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99,7 +99,7 @@ GameObject:
   - component: {fileID: 114107954671727774}
   - component: {fileID: 114362743101552336}
   - component: {fileID: 114991195933726884}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Sack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
