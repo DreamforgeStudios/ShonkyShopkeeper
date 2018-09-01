@@ -399,3 +399,12 @@ MonoBehaviour:
     Background: {fileID: 0}
     IsBackgroundRecursive: 0
     IsBackgroundCustom: 0
+  - Type: 1
+    Key: Assets/Prefabs/Golems/TestGolemJoints
+    SmallIcon: {fileID: 2800000, guid: ea65303ce70bce04bac71ac0192169c2, type: 3}
+    LargeIcon: {fileID: 2800000, guid: f9030a6ddac7ca546afff92cc9949939, type: 3}
+    IsIconRecursive: 0
+    IsIconCustom: 0
+    Background: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsBackgroundCustom: 0

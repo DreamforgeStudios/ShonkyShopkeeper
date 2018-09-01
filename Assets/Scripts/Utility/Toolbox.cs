@@ -143,7 +143,7 @@ public class Toolbox : MonoBehaviour {
         //Debug.Log("casting...");
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask)) {
             if (hit.transform.CompareTag("Forceps") || hit.transform.CompareTag("Wand") || hit.transform.CompareTag("Magnifyer")) {
-                SFX.Play("cursor_select");
+                //SFX.Play("cursor_select");
                 //soundEffects.clip = cursorSelect;
                 //soundEffects.Play();
                 switch (hit.transform.tag) {
@@ -197,18 +197,21 @@ public class Toolbox : MonoBehaviour {
         {
             case "Forceps":
                 //SFX.Play("sound");
+                SFX.Play("cursor_select");
                 newToolObj.transform.DORotate(desiredForcepRot, 0.9f).SetEase(Ease.InOutSine);//.OnComplete(() =>
                 newToolObj.transform.DOMove(desiredForcepPos, 1f).SetEase(Ease.InOutSine).OnComplete(() =>
                     newToolObj.GetComponent<ToolFloat>().StartFloat());
                 break;
             case "Wand":
                 //SFX.Play("sound");
+                SFX.Play("Wand_select", 1f, 1f, 0f, false, 0f);
                 newToolObj.transform.DORotate(desiredWandRot, 0.5f).SetEase(Ease.InOutSine);//.OnComplete(() =>
                 newToolObj.transform.DOMove(desiredWandPos, 1f).SetEase(Ease.InOutSine).OnComplete(() =>
                     newToolObj.GetComponent<ToolFloat>().StartFloat());
                 break;
             case "Magnifyer":
                 //SFX.Play("sound");
+                SFX.Play("Magnifier_Select", 1f, 1f, 0f, false, 0f);
                 newToolObj.transform.DORotate(desiredInspectRot, 1.1f).SetEase(Ease.InOutSine);//.OnComplete(() =>
                 newToolObj.transform.DOMove(halfwayInspectPos , 0.5f).SetEase(Ease.InOutSine).OnComplete(() => 
                     newToolObj.transform.DOMove(desiredInspectPos, 0.5f).SetEase(Ease.InOutSine).OnComplete(() =>
@@ -249,7 +252,7 @@ public class Toolbox : MonoBehaviour {
         GameObject itemObj;
         Tweener tween = null;
         if (slot.GetPrefabInstance(out itemObj)) {
-            SFX.Play("item_lift");
+            //SFX.Play("item_lift");
             Transform t = itemObj.transform;
             tween = t.DOMove(slot.transform.position + (Vector3.up), 0.7f).SetEase(Ease.OutBack);
             t.GetComponent<Rotate>().Enable = true;
@@ -291,7 +294,7 @@ public class Toolbox : MonoBehaviour {
             } else {
                 currentSelection = slot;
                 inspectionPanel.SetActive(true);
-
+                SFX.Play("Mag_item_select", 1f, 1f, 0f, false, 0f);
                 textHeading.text = instance.itemName;
                 textInfo.text = instance.itemInfo;
                 //SFX.Play("sound");
@@ -342,6 +345,7 @@ public class Toolbox : MonoBehaviour {
                 this.currentSelection = slot;
                 MoveUp(slot);
                 //SFX.Play("sound");
+                SFX.Play("Item_lifted", 1f, 1f, 0f, false, 0f);
                 // Second selection.
             }
             else
@@ -373,6 +377,7 @@ public class Toolbox : MonoBehaviour {
                         t2 = obj2.transform;
 
                     //SFX.Play("item_lift");
+                    SFX.Play("Item_shifted", 1f, 1f, 0f, false, 0f);
                     MoveUp(slot1)
                         .OnComplete(() => t1.DOMove(slot2.transform.position + Vector3.up, 0.6f).SetEase(Ease.OutBack)
                             .OnComplete(() => t1.DOMove(slot2.transform.position, 1f).SetEase(Ease.OutBounce)));
@@ -414,7 +419,7 @@ public class Toolbox : MonoBehaviour {
                 canSelect = false;
                 Transform t1 = obj1.transform;
 
-                SFX.Play("item_lift");
+                //SFX.Play("item_lift");
                 MoveUp(slot1)
                     .OnComplete(() => t1.DOMove(slot2.transform.position + Vector3.up, 0.6f).SetEase(Ease.OutBack)
                         .OnComplete(() =>
@@ -493,7 +498,7 @@ public class Toolbox : MonoBehaviour {
                             
                             midPoint = ((currentSelection.transform.position + Vector3.up) + (slot.transform.position + Vector3.up) / 2f);
                             
-                            SFX.Play("item_lift");
+                            //SFX.Play("item_lift");
                             t2.DOMove(slot.transform.position + Vector3.up, 0.7f).SetEase(Ease.OutBack)
                                 .OnComplete(() => t2.DOMove(midPoint, 0.6f).SetEase(Ease.OutBack));
                             t1.DOMove(currentSelection.transform.position + Vector3.up, 0.7f).SetEase(Ease.OutBack)
@@ -523,6 +528,7 @@ public class Toolbox : MonoBehaviour {
         GameObject itemObj;
         if (currentSelection.GetPrefabInstance(out itemObj)) {
             //SFX.Play("sound");
+            SFX.Play("item_lift");
             Inventory.Instance.RemoveItem(currentSelection.index);
             currentSelection.RemoveDontDestroy();
 
@@ -546,7 +552,7 @@ public class Toolbox : MonoBehaviour {
         index2 = slot.index;
         //Spawn a golem to show item creation 
         //Play SFX
-        SFX.Play("golem_created");
+        //SFX.Play("golem_created");
         //soundEffects.clip = golumCreated;
         //soundEffects.Play();
         Debug.Log("Created Golem");
@@ -602,6 +608,8 @@ public class Toolbox : MonoBehaviour {
         int numberItems = Random.Range(1, 5);
 
         //SFX.Play("sound");
+        SFX.Play("Res_pouch_open", 1f, 1f, 0f, false, 0f);
+
         var drops = new List<ItemInstance>();
         for (int i = 0; i < numberItems; i++) {
             string dropName;
@@ -740,9 +748,13 @@ public class Toolbox : MonoBehaviour {
                 break;
         }
         //SFX.Play("sound");
+        //Current gain gold SFX is a bit overbearing
+        //Disabled for the time being
+        //SFX.Play("Gain_Gold", 1f, 1f, 0f, false, 0f);
         Inventory.Instance.RemoveItem(slot.index);
         slot.RemoveItem();
         //SFX.Play("sound");
+        SFX.Play("Bin_item_goaway", 1f, 1f, 0f, false, 0f);
         slot = null;
         SaveManager.SaveInventory();
         canSelect = true;

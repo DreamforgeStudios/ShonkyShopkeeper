@@ -77,8 +77,11 @@ public class ShonkyInventory : ScriptableObject {
             item = null;
             return false;
         }
-
+        
         item = shonkyInventory[index];
+        /*
+        UnlockTrueGolem(item);
+        */
         return true;
     }
 
@@ -100,13 +103,43 @@ public class ShonkyInventory : ScriptableObject {
             if (SlotEmpty(i)) { //|| PossibleEmpties(i)) {
                 //Debug.Log("Inserted at slot " + i);
                 shonkyInventory[i] = item;
+                if (CheckIfTrueGolem(item))
+                {
+                    UnlockTrueGolem(item);
+                }
                 Save();
                 return i;
             }
         }
-
         // Couldn't find a free slot.
         return -1;
+    }
+
+    public bool CheckIfTrueGolem(ItemInstance item)
+    {
+        if (!GameManager.Instance.InTutorial)
+        {
+            if (item.item.GetType() == typeof(Shonky))
+            {
+                Quality.QualityGrade golemQuality = item.Quality;
+                if (golemQuality == Quality.QualityGrade.Mystic)
+                {
+                    string gemType = (item.item as Shonky).type.ToString();
+                    if (TrueGolems.PotentialUnlockTrueGolem(TrueGolems.GemStringToGolem(gemType)))
+                    {
+                        return true;
+                    }
+                }
+                        
+            }
+        }
+        return false;
+    }
+
+    private bool UnlockTrueGolem(ItemInstance item)
+    {
+        string gemType = (item.item as Shonky).type.ToString();
+        return Inventory.Instance.UnlockTrueGolem(TrueGolems.GemStringToGolem(gemType));
     }
 
     public bool SlotEmpty(int index) {

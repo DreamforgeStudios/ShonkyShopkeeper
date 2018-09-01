@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: Golemite Ruby
   m_EditorClassIdentifier: 
   itemName: Ruby Golemite
-  physicalRepresentation: {fileID: 1502045311230178, guid: d570b29b1bf69bb40b5b6fecf540305b,
+  physicalRepresentation: {fileID: 1566433109312832, guid: 69321ce15d5f0784693d75ef4667ecf3,
     type: 2}
   stackLimit: 1
   mergeable: 0

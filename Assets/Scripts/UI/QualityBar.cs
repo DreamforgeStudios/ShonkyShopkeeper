@@ -199,14 +199,18 @@ public class QualityBar : MonoBehaviour
 		fillAmount = 1f;// - spare;
 		UpdateQualityBar(Ease, LevelChangeEaseTime);
 		Subtract(spare);
-		
-		//float fill = -Mathf.Lerp(barMinWidth, barMaxWidth, fillAmount);
-		//foregroundTransform.sizeDelta = new Vector2(fill, barHeight);
-		
 
-		SFX.Play("quality_bar_deplete");
+        //float fill = -Mathf.Lerp(barMinWidth, barMaxWidth, fillAmount);
+        //foregroundTransform.sizeDelta = new Vector2(fill, barHeight);
 
-		return true;
+
+        //Original SFX
+        //SFX.Play("quality_bar_deplete");
+
+        //New SFX entered on 27/8/18 by Pierre
+        SFX.Play("Mini_Game_Quality_loss", 1f, 1f, 0f, false, 0f);
+
+        return true;
 	}
 
 	// Moves to the next quality level in the queue.  If none is available, returns false.
@@ -235,12 +239,14 @@ public class QualityBar : MonoBehaviour
 		fillAmount = 0f;
 		UpdateQualityBar(Ease, LevelChangeEaseTime);
 		Add(spare);
-		
-		//float fill = -Mathf.Lerp(barMinWidth, barMaxWidth, fillAmount);
-		//foregroundTransform.sizeDelta = new Vector2(fill, barHeight);
 
-		// SFX.Play("??");
+        //float fill = -Mathf.Lerp(barMinWidth, barMaxWidth, fillAmount);
+        //foregroundTransform.sizeDelta = new Vector2(fill, barHeight);
 
-		return true;
+        // SFX.Play("??");
+        //New SFX placed by Pierre 27/8/18
+        SFX.Play("Mini_Game_Quality_gain", 1f, 1f, 0f, false, 0f);
+
+        return true;
 	}
 }
