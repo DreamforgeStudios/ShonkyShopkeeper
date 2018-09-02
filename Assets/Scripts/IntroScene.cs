@@ -77,6 +77,10 @@ public class IntroScene : MonoBehaviour {
         Initiate.Fade("Shop", Color.black, 2f);
     }
 
+    public void StartDev() {
+        Initiate.Fade("Uncontaminated", Color.black, 2f);
+    }
+
     /*
     private void AdvanceText() {
         if (textCounter == 0) {

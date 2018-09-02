@@ -12,7 +12,7 @@ public class RotateWithGyro : MonoBehaviour {
 	
 	private bool enableGyro, enableAccel;
 
-	public Text accel;
+	//public Text accel;
 
 	// Box group these.
 	[Range(-1, 1)]
@@ -54,9 +54,8 @@ public class RotateWithGyro : MonoBehaviour {
 	private Vector3[] accelerations;
 
 	private int counter = 0;
-
 	void Update () {
-		counter = (counter + 1) % SAMPLE_SIZE;
+		counter = ++counter % SAMPLE_SIZE;
 
 		if (enableGyro) {
 			VialMaterial.SetVector("_UpDirection", Input.gyro.gravity);
@@ -73,8 +72,6 @@ public class RotateWithGyro : MonoBehaviour {
 			avg.y = -avg.y;
 			avg.x = -avg.x;
 			
-			accel.text = avg.ToString();
-
 			Vector4 rotationVec = avg * RotationMultiplier;
 			rotationVec.z = 0;
 			rotationVec.y = -rotationVec.y;

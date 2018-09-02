@@ -221,7 +221,7 @@ public class Cutting : MonoBehaviour {
 		// Calculate the vector which is perpendicular to cut so that we can rotate around it.
 		// https://gamedev.stackexchange.com/questions/70075/how-can-i-find-the-perpendicular-to-a-2d-vector
 		Vector3 perpendicular = new Vector3(direction.y, -direction.x, direction.z) * RotatePower;
-		activeRotation = activeRotation = GemSpawnManager.Gem.transform.DORotate(perpendicular, score * RotateDurationMultiplier, RotateMode.WorldAxisAdd)
+		activeRotation = GemSpawnManager.Gem.transform.DORotate(perpendicular, score * RotateDurationMultiplier, RotateMode.WorldAxisAdd)
 			.SetEase(RotateEase);
 	}
 	

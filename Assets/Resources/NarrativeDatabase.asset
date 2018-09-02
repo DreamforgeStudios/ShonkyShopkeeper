@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b76cb02d7e630064c944beb11c90a3ce, type: 3}
+  m_Name: NarrativeDatabase
+  m_EditorClassIdentifier: 
+  GizmoPrefab: {fileID: 1332457355533254, guid: 11da7b10b3ad39f47bcf3ad8559d85dd,
+    type: 2}
+  KeyedNarrativeElements:
+    m_keys:
+    - new_game_01
+    m_values:
+    - Texts:
+      - There was once a humble shopkeeper possessed of a rare and obscure talent.
+      - By taking mystically infused gems and binding them to rock figurines, stone
+        could be brought to life.
+      - This Golemancer made their living traveling from town to town, seeking new
+        crafting materials and selling golems to any locals that took a fancy.
+      - Though small and simple, there was something captivating about the Golems.  Watching
+        them romp and cavort, the Golemancer couldn't shake the feeling that there
+        was more to them.
+      - A secret.
+      Unlocked: 0

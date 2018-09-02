@@ -3,7 +3,7 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
@@ -13,58 +13,53 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AchievementPrefab: {fileID: 1519730181909492, guid: 66644b9227c366248b6a4b69d136e0c8,
     type: 2}
-  AchievementList:
-  - Key: golem_create_01
-    Achievement:
-      Icon: {fileID: 21300000, guid: 1b66a1f52901ee54cbe94a7f33d6e8d9, type: 3}
+  KeyedAchievements:
+    m_keys:
+    - golem_create_01
+    - item_quality_01
+    - cut_jewel_01
+    - charged_jewel_01
+    - brick_01
+    - golem_shell_01
+    - barter_sell_01
+    m_values:
+    - Icon: {fileID: 21300000, guid: 1b66a1f52901ee54cbe94a7f33d6e8d9, type: 3}
       Heading: Achievement Get!
       Description: Craft your first golem.
       Progress: 0
       FinalProgress: 0
       Unlocked: 0
-  - Key: item_quality_01
-    Achievement:
-      Icon: {fileID: 21300000, guid: 1b66a1f52901ee54cbe94a7f33d6e8d9, type: 3}
+    - Icon: {fileID: 21300000, guid: 1b66a1f52901ee54cbe94a7f33d6e8d9, type: 3}
       Heading: Achievement Get!
-      Description: Craft your first mystic item.
+      Description: Craft your first Mystic item.
       Progress: 0
       FinalProgress: 0
       Unlocked: 0
-  - Key: cut_jewel_01
-    Achievement:
-      Icon: {fileID: 21300000, guid: 1b66a1f52901ee54cbe94a7f33d6e8d9, type: 3}
+    - Icon: {fileID: 21300000, guid: 1b66a1f52901ee54cbe94a7f33d6e8d9, type: 3}
       Heading: A Cut Above
-      Description: You've made your first Cut Jewel!
+      Description: You've mode your first Cut Jewel!
       Progress: 0
       FinalProgress: 0
       Unlocked: 0
-  - Key: charged_jewel_01
-    Achievement:
-      Icon: {fileID: 21300000, guid: 1b66a1f52901ee54cbe94a7f33d6e8d9, type: 3}
+    - Icon: {fileID: 21300000, guid: 1b66a1f52901ee54cbe94a7f33d6e8d9, type: 3}
       Heading: Charging Ahead
       Description: You've made your first Charged Jewel!
       Progress: 0
       FinalProgress: 0
       Unlocked: 0
-  - Key: brick_01
-    Achievement:
-      Icon: {fileID: 21300000, guid: 1b66a1f52901ee54cbe94a7f33d6e8d9, type: 3}
+    - Icon: {fileID: 21300000, guid: 1b66a1f52901ee54cbe94a7f33d6e8d9, type: 3}
       Heading: Humble Brickinnings
       Description: Great job on your first brick!
       Progress: 0
       FinalProgress: 0
       Unlocked: 0
-  - Key: golem_shell_01
-    Achievement:
-      Icon: {fileID: 21300000, guid: 1b66a1f52901ee54cbe94a7f33d6e8d9, type: 3}
+    - Icon: {fileID: 21300000, guid: 1b66a1f52901ee54cbe94a7f33d6e8d9, type: 3}
       Heading: Wow! Shell!
       Description: Your first golem shell; a handsome one too.
       Progress: 0
       FinalProgress: 0
       Unlocked: 0
-  - Key: barter_sell_01
-    Achievement:
-      Icon: {fileID: 21300000, guid: 1b66a1f52901ee54cbe94a7f33d6e8d9, type: 3}
+    - Icon: {fileID: 21300000, guid: 1b66a1f52901ee54cbe94a7f33d6e8d9, type: 3}
       Heading: Sold Well
       Description: Your first sold golem and happy customer.
       Progress: 0
