@@ -90,10 +90,8 @@ public class TutorialPhysicalInventory : MonoBehaviour {
 		if (GameManager.Instance.InTutorial && GameManager.Instance.TutorialIntroComplete)
 			HighlightOreAndGem();
 
-		if (GameManager.Instance.InTutorial && TutorialProgressChecker.Instance.ChargedJewel &&
-		    TutorialProgressChecker.Instance.Shell)
+		if (GameManager.Instance.InTutorial && TutorialProgressChecker.Instance.readyGolem)
 		{
-			TutorialProgressChecker.Instance.readyGolem = true;
 			HighlightShellAndChargedJewel();
 			//TutorialProgressChecker.Instance.ShowCanvas(false);
 		}
@@ -150,7 +148,7 @@ public class TutorialPhysicalInventory : MonoBehaviour {
 	{
 		if (GameManager.Instance.TutorialIntroComplete)
 		{
-			TutorialProgressChecker.Instance.UpdateItemBoolean(item.item.GetType().ToString(), true);
+			TutorialProgressChecker.Instance.UpdateItemStatus(item.item.GetType().ToString(), TutorialProgressChecker.ImageStatus.JustAchieved);
 			TutorialProgressChecker.Instance.ShowCanvas(true);
 		}
 	}

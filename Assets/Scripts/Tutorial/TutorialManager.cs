@@ -89,7 +89,7 @@ public class TutorialManager : MonoBehaviour
 			TutorialProgressChecker.Instance.HideCanvas();
 		}
 
-		if (TutorialProgressChecker.Instance.Golem && !GameManager.Instance.MineGoleminteractGolem)
+		if (TutorialProgressChecker.Instance.golemMade && !GameManager.Instance.MineGoleminteractGolem)
 			CheckForCamera();
 		else if (GameManager.Instance.MineGoleminteractGolem && GameManager.Instance.OpenPouch)
 		{
