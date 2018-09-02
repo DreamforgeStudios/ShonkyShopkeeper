@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Wobble : MonoBehaviour {
-	Renderer rend;
 	Vector3 lastPos;
 	Vector3 velocity;
 	Vector3 lastRot;  
@@ -19,13 +18,13 @@ public class Wobble : MonoBehaviour {
 	float time = 0.5f;
 
 	public Material VialMaterial;
-	private int upDirID;
+	private int upDirID, wobbleXID, wobbleZID;
    
 	// Use this for initialization
 	void Start() {
-		rend = GetComponent<Renderer>();
-
 		upDirID = Shader.PropertyToID("_UpDirection");
+		wobbleXID = Shader.PropertyToID("_WobbleX");
+		wobbleZID = Shader.PropertyToID("_WobbleZ");
 	}
 	
 	private void Update() {
@@ -40,11 +39,11 @@ public class Wobble : MonoBehaviour {
 		wobbleAmountZ = wobbleAmountToAddZ * Mathf.Sin(pulse * time);
  
 		// send it to the shader
-		VialMaterial.SetFloat("_WobbleX", wobbleAmountX);
-		VialMaterial.SetFloat("_WobbleZ", wobbleAmountZ);
+		VialMaterial.SetFloat(wobbleXID, wobbleAmountX);
+		VialMaterial.SetFloat(wobbleZID, wobbleAmountZ);
  
 		// velocity
-		Vector3 newRot = VialMaterial.GetVector("_UpDirection");
+		Vector3 newRot = VialMaterial.GetVector(upDirID);
 		velocity = (lastPos - transform.position) / Time.deltaTime;
 		angularVelocity = newRot - lastRot;//transform.rotation.eulerAngles - lastRot;
  
