@@ -52,6 +52,7 @@ public class TutorialProgressChecker : MonoBehaviour {
 			{shell, ImageStatus.UnAchieved},
 			{jewel, ImageStatus.UnAchieved},
 			{chargedJewel, ImageStatus.UnAchieved},
+			{golem, ImageStatus.UnAchieved}
 		};
 	}
 
@@ -78,6 +79,9 @@ public class TutorialProgressChecker : MonoBehaviour {
 	public TextMeshProUGUI textbox;
 	public GameObject textBackground;
 	public GameObject UIProgressImages;
+	
+	//Used to store edits to the dictionary
+	private List<string> stringsToUpdate;
 
 	public void ShowCanvas(bool showImage)
 	{
@@ -99,11 +103,13 @@ public class TutorialProgressChecker : MonoBehaviour {
 
 	private void UpdateCanvas()
 	{
+		stringsToUpdate = new List<string>();
 		foreach (KeyValuePair<string, ImageStatus> entry in schematicProgress)
 		{
 			Debug.Log("Entry is " + entry.Key + " image is " + entry.Value);
 			ImageHandling(entry.Key, entry.Value);
 		}
+		SetToAchieved();
 
 		if (schematicProgress[golem] == ImageStatus.Achieved)
 		{
@@ -144,12 +150,12 @@ public class TutorialProgressChecker : MonoBehaviour {
 					foreach (var image in relevantImages)
 					{
 						image.gameObject.SetActive(true);
-						image.CrossFadeAlpha(1.0f,3f,false);
+						//image.CrossFadeAlpha(1.0f,3f,false);
 						var imgAlpha = image.color;
 						imgAlpha.a = 1.0f;
 						image.DOFade(1.0f, 3f).OnComplete(() => image.color = imgAlpha);
 					}
-					SetToAchieved(relevantImages);
+					stringsToUpdate.Add(item);
 					break;
 				case ImageStatus.Achieved:
 					foreach (var image in relevantImages)
@@ -188,24 +194,11 @@ public class TutorialProgressChecker : MonoBehaviour {
 		return images;
 	}
 
-	private void SetToAchieved(List<Image> images)
+	private void SetToAchieved()
 	{
-		if (images.Contains(BrickFade))
+		foreach (string entry in stringsToUpdate)
 		{
-			schematicProgress[brick] = ImageStatus.Achieved;
-		} else if (images.Contains(ShellFade))
-		{
-			schematicProgress[shell] = ImageStatus.Achieved;
-		} else if (images.Contains(JewelFade))
-		{
-			schematicProgress[jewel] = ImageStatus.Achieved;
-		} else if (images.Contains(ChargedJewelFade))
-		{
-			schematicProgress[chargedJewel] = ImageStatus.Achieved;
-		}
-		else
-		{
-			schematicProgress[golem] = ImageStatus.Achieved;
+			schematicProgress[entry] = ImageStatus.Achieved;
 		}
 	}
 
@@ -223,6 +216,9 @@ public class TutorialProgressChecker : MonoBehaviour {
 				schematicProgress[jewel] = achieved;
 				break;
 			case "ChargedJewel":
+				schematicProgress[chargedJewel] = achieved;
+				break;
+			case "Golem":
 				schematicProgress[chargedJewel] = achieved;
 				break;
 		}

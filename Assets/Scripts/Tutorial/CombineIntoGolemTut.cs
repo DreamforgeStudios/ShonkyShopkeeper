@@ -139,6 +139,9 @@ public class CombineIntoGolemTut : MonoBehaviour
 		golemText.text = string.Format("New {0} {1} Golem!", grade, gemType);
 		yield return new WaitForSeconds(3f);
 		golemObj.transform.DOMove(slot.transform.position, 1f, false).OnComplete(() => RestartGolem(golemObj));
+		//Need to show golem schematic
+		TutorialProgressChecker.Instance.UpdateItemStatus("Golem",TutorialProgressChecker.ImageStatus.JustAchieved);
+		TutorialProgressChecker.Instance.ShowCanvas(true);
 	}
 
 	private void RestartGolem(GameObject clone)
