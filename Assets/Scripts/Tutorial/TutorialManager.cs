@@ -26,6 +26,8 @@ public class TutorialManager : MonoBehaviour
 	private int currentDialogue = 0;
 	public Button travelButton;
 	public Button cameraButton;
+	//Image used to highlight cameraButton
+	public Image cameraHighlight;
 	
 	//Particle system to highlight items to be inspected
 	public GameObject particles;
@@ -107,14 +109,17 @@ public class TutorialManager : MonoBehaviour
 			{
 				cameraButton.enabled = true;
 				cameraButton.gameObject.SetActive(true);
+				cameraHighlight.gameObject.SetActive(true);
 			} else if (currentDialogue == 3)
 			{
+				cameraHighlight.gameObject.SetActive(false);
 				StartParticles(ItemsToInspect[0]);
 			}
 		} else if (currentDialogue == 2)
 		{
 			if (GameManager.Instance.TutorialIntroTopComplete)
 			{
+				cameraHighlight.gameObject.SetActive(false);
 				currentDialogue++;
 			}
 		} 
