@@ -4,24 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System.IO.IsolatedStorage;
+using NaughtyAttributes;
 
 // I'm not sure if it's better to merge this with AchievementDatabase using method overloading, or keep it separate...
 [System.Serializable]
 [CreateAssetMenu(menuName = "NarrativeDatabase", fileName = "NarrativeDatabase.asset")]
 public class NarrativeDatabase : ScriptableObject {
 	public GameObject GizmoPrefab;
-    
-    private PopupTextManager gizmoPrefabInstance;
-    public PopupTextManager GizmoPrefabInstance {
-        get {
-            if (gizmoPrefabInstance == null) {
-                gizmoPrefabInstance = Instantiate(GizmoPrefab).GetComponent<PopupTextManager>();
-            }
-
-            return gizmoPrefabInstance;
-            
-        }
-    }
 	
     // The dictionary we define narrative elements in.
     public StringNarrativeElementDictionary KeyedNarrativeElements;
@@ -60,7 +49,7 @@ public class NarrativeDatabase : ScriptableObject {
     }
 
     private void Display(NarrativeElement element) {
-        var clone = GizmoPrefabInstance;
+        PopupTextManager clone = Instantiate(GizmoPrefab, GameObject.FindGameObjectWithTag("MainCamera").transform).GetComponent<PopupTextManager>();
         clone.PopupTexts = element.Texts;
         clone.Init();
         clone.DoEnterAnimation();
@@ -100,5 +89,11 @@ public class NarrativeDatabase : ScriptableObject {
         
         var path = Path.Combine(Application.persistentDataPath, "narratives.txt");
         File.WriteAllLines(path, readKeys.ToArray());
+    }
+
+    public string key;
+    [Button("UnlockKey")]
+    private void UnlockString() {
+        NarrativeManager.Read(key);
     }
 }

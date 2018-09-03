@@ -16,6 +16,10 @@ MonoBehaviour:
   KeyedNarrativeElements:
     m_keys:
     - new_game_01
+    - mystic_shell_01
+    - mystic_charged_jewel_01
+    - true_golem_01
+    - true_golem_02
     m_values:
     - Texts:
       - There was once a humble shopkeeper possessed of a rare and obscure talent.
@@ -28,3 +32,27 @@ MonoBehaviour:
         was more to them.
       - A secret.
       Unlocked: 0
+    - Texts:
+      - The Golemancer had made many shells before, but this one was special.  It
+        seemed to be already alive and moving.
+      Unlocked: 0
+    - Texts:
+      - Though all jewels be blessed with beauty, this one was sublime.  It gleamed
+        and sparkled, pulsing like a beating heart.
+      Unlocked: 0
+    - Texts:
+      - The mystic energies dissipated to reveal a golem, but this one was nothing
+        like what had come before.
+      - It was larger and more elegant of form, a magicial nimbus clinging to it.
+      - As the Golemancer stood stunned, it held its stone hands up and surveyed the
+        shop interior.  It looked at the Golemancer and said...
+      Unlocked: 0
+    - Texts:
+      - As the exquisite jewel entered the golem shell, the Golemancer could see a
+        familiarity to the eddies of magical energy forming.
+      - The cadence and motion of the mystic currents had the distinct puissance of
+        a greater conjuring.
+      - All at once there came a violent burst and the head sockets of the Golem shell
+        lit up.  It fixed it's newly glowing eyes on the Golemancer and said...
+      Unlocked: 0
+  key: mystic_charged_jewel_01

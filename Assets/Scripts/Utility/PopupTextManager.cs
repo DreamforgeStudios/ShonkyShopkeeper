@@ -53,15 +53,12 @@ public class PopupTextManager : MonoBehaviour {
 	//private Button closerBtn;
 	//private RectTransform rTransform;
 
-	private bool entered = true;
-	
-	// Use this for initialization
-	void Start () {
-		closerMat = Closer.GetComponent<MeshRenderer>().material;
-		
-		Init();
-	}
+	private bool entered = false;
 
+	void Start() {
+		// Init();
+	}
+	
 	void Update() {
 		// Check where we are running the program.
 		RuntimePlatform p = Application.platform;
@@ -75,6 +72,7 @@ public class PopupTextManager : MonoBehaviour {
 
 	// Put the narrative manager back to a default state.
 	public void Init() {
+		closerMat = Closer.GetComponent<MeshRenderer>().material;
 		ActivePage = 0;
 		TextFront.text = PopupTexts[ActivePage];
 		UpdateCloser();
@@ -112,23 +110,23 @@ public class PopupTextManager : MonoBehaviour {
 	// Enter the scene.
 	public void DoEnterAnimation() {
 		if (entered) return;
-		
-        transform.DOMove(EndScrollPosition, ScrollDurationIn).SetEase(ScrollEaseIn)
-            .OnComplete(() => entered = true);
+
+		transform.DOLocalMove(EndScrollPosition, ScrollDurationIn).SetEase(ScrollEaseIn)
+			.OnComplete(() => entered = true);
 	}
 
 	[Button("Exit")]
 	// Leave the scene.
 	public void DoExitAnimation() {
 		if (!entered) return;
-		
-		transform.DOMove(StartScrollPosition, ScrollDurationOut).SetEase(ScrollEaseOut)
-			.OnComplete(() => entered = false);
+
+		transform.DOLocalMove(StartScrollPosition, ScrollDurationOut).SetEase(ScrollEaseOut)
+			.OnComplete( () => Destroy(gameObject)); // We probably shouldn't destroy, but not sure what else to do atm.
 	}
 
 	// Update the closer so that if we're on the last page it can be closed.
 	private void UpdateCloser() {
-		if (entered && ActivePage >= PopupTexts.Count - 1) {
+		if (ActivePage >= PopupTexts.Count - 1) {
 			closerMat.color = Color.green;
 		} else {
 			closerMat.color = Color.red;
