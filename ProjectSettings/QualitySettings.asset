@@ -8,7 +8,7 @@ QualitySettings:
   m_QualitySettings:
   - serializedVersion: 2
     name: Very Low
-    pixelLightCount: 0
+    pixelLightCount: 1
     shadows: 0
     shadowResolution: 0
     shadowProjection: 1
@@ -212,4 +212,4 @@ QualitySettings:
     excludedTargetPlatforms: []
   m_PerPlatformDefaultQuality:
     Android: 0
-    Standalone: 0
+    Standalone: 5
