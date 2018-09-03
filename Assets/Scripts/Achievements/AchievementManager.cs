@@ -6,7 +6,27 @@ public static class AchievementManager {
     private static AchievementDatabase
         achievementDB = Object.Instantiate((AchievementDatabase) Resources.Load("AchievementDatabase"));
 
-    public static bool Get(string key) {
+    public static void Get(string key) {
+        // Queue up displays AFTER the scene has loaded.  Avoids things randomly popping up and being jarring while the
+        // wipe is playing.  We lose the boolean return value here.  Bummer
+        if (Initiate.IsFading) {
+            Initiate.onFinishFading += () => DoGet(key);
+        } else {
+            DoGet(key);
+        }
+    }
+    
+    public static void Increment(string key, int amount = 1) {
+        // Queue up displays AFTER the scene has loaded.  Avoids things randomly popping up and being jarring while the
+        // wipe is playing.  We lose the boolean return value here.  Bummer
+        if (Initiate.IsFading) {
+            Initiate.onFinishFading += () => DoIncrement(key, amount);
+        } else {
+            DoIncrement(key, amount);
+        }
+    }
+
+    private static bool DoGet(string key) {
         // If true, successfully unlocked.  If false, already unlocked.
         Achievement a;
         if (achievementDB.TryFindAchievementWithKey(key, out a)) {
@@ -17,8 +37,8 @@ public static class AchievementManager {
         
         return false;
     }
-    
-    public static bool Increment(string key, int amount = 1) {
+
+    private static bool DoIncrement(string key, int amount) {
         Achievement a;
         if (achievementDB.TryFindAchievementWithKey(key, out a)) {
             return achievementDB.Increment(a, amount);
