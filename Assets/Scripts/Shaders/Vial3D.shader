@@ -17,7 +17,7 @@
 	}
 	
 	SubShader {
-		Tags { "Queue"="Geometry" }
+		Tags { "Queue"="Geometry" "DisableBatching" = "True" }
 
 		Pass
 		{
@@ -48,7 +48,7 @@
 
 			sampler2D _MainTex, _EmptyTex;
 			half _FillAmount, _WobbleX, _WobbleZ;
-			float4 _TopColor, _RimColor, _FoamColor, _Tint;
+			fixed4 _TopColor, _RimColor, _FoamColor, _Tint;
 			fixed _Rim, _RimPower;
 			
 			fixed4 _UpDirection;
@@ -94,6 +94,11 @@
 				fixed4 col = tex2D(_MainTex, i.uv) * _Tint;
                 fixed4 emptyCol = tex2D(_EmptyTex, i.uv) * _Tint;
                 
+                // rim light
+                fixed dotProduct = 1 - pow(dot(i.normal, i.viewDir), _RimPower);
+                fixed4 RimResult = smoothstep(0.5, 1.0, dotProduct);
+                RimResult *= _RimColor;
+                
                 // foam edge
                 fixed4 foam = (step(i.fillEdge, 0.5) - step(i.fillEdge, (0.5 - _Rim)))  ;
                 fixed4 foamColored = foam * _FoamColor;
@@ -102,7 +107,7 @@
                 fixed4 resultColored = result * col;
                 // both together, with the texture
                 fixed4 finalResult = resultColored + foamColored;               
-                //finalResult.rgb += RimResult;
+                finalResult.rgb += RimResult;
  
                 // color of backfaces/ top
                 fixed4 topColor = _TopColor * (foam + result);

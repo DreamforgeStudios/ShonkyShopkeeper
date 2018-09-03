@@ -58,6 +58,7 @@ public class RotateWithGyro : MonoBehaviour {
 		counter = ++counter % SAMPLE_SIZE;
 
 		if (enableGyro) {
+			// Rudementary support only at this stage -- no hardware.
 			VialMaterial.SetVector("_UpDirection", Input.gyro.gravity);
 		} else if (enableAccel) {
 			accelerations[counter] = Input.acceleration;
@@ -76,7 +77,7 @@ public class RotateWithGyro : MonoBehaviour {
 			rotationVec.z = 0;
 			rotationVec.y = -rotationVec.y;
 			
-			gameObject.transform.rotation = originalRotation * Quaternion.Euler(-rotationVec);
+			//gameObject.transform.rotation = originalRotation * Quaternion.Euler(-rotationVec);
 			
 			VialMaterial.SetVector(updirID, avg);
 		} else {
@@ -84,7 +85,7 @@ public class RotateWithGyro : MonoBehaviour {
 			Vector4 rotationVec = vec * RotationMultiplier;
 			rotationVec.z = 0;
 			
-			gameObject.transform.rotation = originalRotation * Quaternion.Euler(-rotationVec);
+			//gameObject.transform.rotation = originalRotation * Quaternion.Euler(-rotationVec);
 			VialMaterial.SetVector(updirID, vec);
 		}
 	}
