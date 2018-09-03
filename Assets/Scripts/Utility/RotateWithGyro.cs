@@ -12,7 +12,7 @@ public class RotateWithGyro : MonoBehaviour {
 	
 	private bool enableGyro, enableAccel;
 
-	public Text accel;
+	//public Text accel;
 
 	// Box group these.
 	[Range(-1, 1)]
@@ -54,11 +54,11 @@ public class RotateWithGyro : MonoBehaviour {
 	private Vector3[] accelerations;
 
 	private int counter = 0;
-
 	void Update () {
-		counter = (counter + 1) % SAMPLE_SIZE;
+		counter = ++counter % SAMPLE_SIZE;
 
 		if (enableGyro) {
+			// Rudementary support only at this stage -- no hardware.
 			VialMaterial.SetVector("_UpDirection", Input.gyro.gravity);
 		} else if (enableAccel) {
 			accelerations[counter] = Input.acceleration;
@@ -73,13 +73,11 @@ public class RotateWithGyro : MonoBehaviour {
 			avg.y = -avg.y;
 			avg.x = -avg.x;
 			
-			accel.text = avg.ToString();
-
 			Vector4 rotationVec = avg * RotationMultiplier;
 			rotationVec.z = 0;
 			rotationVec.y = -rotationVec.y;
 			
-			gameObject.transform.rotation = originalRotation * Quaternion.Euler(-rotationVec);
+			//gameObject.transform.rotation = originalRotation * Quaternion.Euler(-rotationVec);
 			
 			VialMaterial.SetVector(updirID, avg);
 		} else {
@@ -87,7 +85,7 @@ public class RotateWithGyro : MonoBehaviour {
 			Vector4 rotationVec = vec * RotationMultiplier;
 			rotationVec.z = 0;
 			
-			gameObject.transform.rotation = originalRotation * Quaternion.Euler(-rotationVec);
+			//gameObject.transform.rotation = originalRotation * Quaternion.Euler(-rotationVec);
 			VialMaterial.SetVector(updirID, vec);
 		}
 	}

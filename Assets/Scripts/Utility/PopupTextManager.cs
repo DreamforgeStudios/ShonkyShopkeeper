@@ -19,7 +19,7 @@ public class PopupTextManager : MonoBehaviour {
 	public Ease ScrollEaseIn;
 	[BoxGroup("Scroll Parameters")]
 	public Ease ScrollEaseOut;
-	
+
 	[BoxGroup("Text Parameters")]
 	public List<string> PopupTexts;
 	[BoxGroup("Text Parameters")]
@@ -30,95 +30,147 @@ public class PopupTextManager : MonoBehaviour {
 	public Ease FadeEaseIn = Ease.InOutSine;
 	[BoxGroup("Text Parameters")]
 	public Ease FadeEaseOut = Ease.InOutSine;
+	[BoxGroup("Text Parameters")]
+    // A layer mask so that we only hit slots.
+    public LayerMask LayerMask;
 
+	//[BoxGroup("Object Assignments")]
+	//public CanvasScaler scaler;
 	[BoxGroup("Object Assignments")]
-	public CanvasScaler scaler;
+	public TextMeshPro TextFront;
 	[BoxGroup("Object Assignments")]
-	public TextMeshProUGUI TextFront;
-	[BoxGroup("Object Assignments")]
-	public TextMeshProUGUI TextBack;
+	public TextMeshPro TextBack;
 	[BoxGroup("Object Assignments")]
 	public GameObject Turner;
+	// The 'closer' is the object that allows the user to close the text box.
 	[BoxGroup("Object Assignments")]
 	public GameObject Closer;
 	
-	[ReadOnly]
-	public int activePage = 0;
+	[ReadOnly] // only read only in inspector.
+	public int ActivePage = 0;
 
-	private Image closerImg;
-	private Button closerBtn;
-	private RectTransform rTransform;
+	private Material closerMat;
+	//private Button closerBtn;
+	//private RectTransform rTransform;
 
 	private bool entered = false;
+
+	void Start() {
+		// Init();
+	}
 	
-	// TODO: responsive page turner.
+	void Update() {
+		// Check where we are running the program.
+		RuntimePlatform p = Application.platform;
+		if (p == RuntimePlatform.WindowsEditor || p == RuntimePlatform.WindowsPlayer || p == RuntimePlatform.OSXEditor || p == RuntimePlatform.OSXPlayer)
+			// Process mouse inputs.
+			ProcessMouse();
+		else if (p == RuntimePlatform.IPhonePlayer || p == RuntimePlatform.Android)
+			// Process touch inputs.
+			ProcessTouch();
+	}
 
-	// Use this for initialization
-	void Start () {
-		TextFront.text = PopupTexts[activePage];
-
-		closerImg = Closer.GetComponent<Image>();
-		closerBtn = Closer.GetComponent<Button>();
-		
+	// Put the narrative manager back to a default state.
+	public void Init() {
+		closerMat = Closer.GetComponent<MeshRenderer>().material;
+		ActivePage = 0;
+		TextFront.text = PopupTexts[ActivePage];
 		UpdateCloser();
 	}
 
-	[Button("Enter")]
-	// TODO; add some force to the 'vial' shader here.
-	public void DoEnterAnimation() {
-		if (entered) return;
-		
-        GetComponent<RectTransform>().DOAnchorPos(EndScrollPosition, ScrollDurationIn).SetEase(ScrollEaseIn)
-            .OnComplete(() => entered = true);
+	private void ProcessMouse() {
+		if (Input.GetMouseButtonDown(0)) {
+			RaycastHit hit;
+			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+			if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask)) {
+				if (hit.transform.CompareTag("MainButton"))
+					NextText();
+				else if (hit.transform.CompareTag("Aux"))
+					DoExitAnimation();
+			}
+		}
 	}
+	
+	private void ProcessTouch() {
+        if (Input.touchCount == 0) {
+            return;
+        }
 
-	[Button("Exit")]
-	public void DoExitAnimation() {
-		if (!entered) return;
-		
-		GetComponent<RectTransform>().DOAnchorPos(StartScrollPosition, ScrollDurationOut).SetEase(ScrollEaseOut)
-			.OnComplete(() => entered = false);
-	}
-
-	private void UpdateCloser() {
-		if (entered && activePage >= PopupTexts.Count - 1) {
-			closerImg.color = Color.green;
-			closerBtn.enabled = true;
-		} else {
-			closerImg.color = Color.red;
-			closerBtn.enabled = false;
+		RaycastHit hit;
+		Ray ray = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
+		if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask)) {
+			if (hit.transform.CompareTag("MainButton"))
+				NextText();
+			else if (hit.transform.CompareTag("Aux"))
+				DoExitAnimation();
 		}
 	}
 
+	[Button("Enter")]
+	// Enter the scene.
+	public void DoEnterAnimation() {
+		if (entered) return;
+
+		transform.DOLocalMove(EndScrollPosition, ScrollDurationIn).SetEase(ScrollEaseIn)
+			.OnComplete(() => entered = true);
+	}
+
+	[Button("Exit")]
+	// Leave the scene.
+	public void DoExitAnimation() {
+		if (!entered) return;
+
+		transform.DOLocalMove(StartScrollPosition, ScrollDurationOut).SetEase(ScrollEaseOut)
+			.OnComplete( () => Destroy(gameObject)); // We probably shouldn't destroy, but not sure what else to do atm.
+	}
+
+	// Update the closer so that if we're on the last page it can be closed.
+	private void UpdateCloser() {
+		if (ActivePage >= PopupTexts.Count - 1) {
+			closerMat.color = Color.green;
+		} else {
+			closerMat.color = Color.red;
+		}
+	}
+	
+	// Keep track of tweens so that going fast doesn't break things.
+	private Tween textBackTween, textFrontTween;
+	// Moves to the next page of text (if there is one).
 	[Button("Next")]
 	public void NextText() {
-		if (activePage + 1 >= PopupTexts.Count) return;
+		if (ActivePage + 1 >= PopupTexts.Count) return;
+		
+		textBackTween.Complete();
+		textFrontTween.Complete();
 		
 		TextBack.alpha = 1f;
 		TextFront.alpha = 0f;
 		
 		TextBack.text = TextFront.text;
-        TextFront.text = PopupTexts[++activePage];
+        TextFront.text = PopupTexts[++ActivePage];
 
-		DOTween.To(x => TextBack.alpha = x, 1f, 0f, FadeDurationOut).SetEase(FadeEaseOut);
-		DOTween.To(x => TextFront.alpha = x, 0f, 1f, FadeDurationIn).SetEase(FadeEaseIn);
+		textBackTween = DOTween.To(x => TextBack.alpha = x, 1f, 0f, FadeDurationOut).SetEase(FadeEaseOut);
+		textFrontTween = DOTween.To(x => TextFront.alpha = x, 0f, 1f, FadeDurationIn).SetEase(FadeEaseIn);
 
 		UpdateCloser();
 	}
 
-	// TODO: animate.
+	// Moves to the previous page of text (if there is one).
 	[Button("Previous")]
 	public void PreviousText() {
-		if (activePage <= 0) return;
+		if (ActivePage <= 0) return;
+		
+		textBackTween.Complete();
+		textFrontTween.Complete();
 		
 		TextBack.alpha = 1f;
 		TextFront.alpha = 0f;
 		
 		TextBack.text = TextFront.text;
-        TextFront.text = PopupTexts[--activePage];
+        TextFront.text = PopupTexts[--ActivePage];
 
-		DOTween.To(x => TextBack.alpha = x, 1f, 0f, FadeDurationOut).SetEase(FadeEaseOut);
-		DOTween.To(x => TextFront.alpha = x, 0f, 1f, FadeDurationIn).SetEase(FadeEaseIn);
+		textBackTween = DOTween.To(x => TextBack.alpha = x, 1f, 0f, FadeDurationOut).SetEase(FadeEaseOut);
+		textFrontTween = DOTween.To(x => TextFront.alpha = x, 0f, 1f, FadeDurationIn).SetEase(FadeEaseIn);
 		
 		UpdateCloser();
 	}

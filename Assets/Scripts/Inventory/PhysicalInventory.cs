@@ -63,17 +63,23 @@ public class PhysicalInventory : MonoBehaviour {
 					if (instance.Quality == Quality.QualityGrade.Mystic) {
 						AchievementManager.Get("item_quality_01");
 					}
-					// TODO: should this pop up on the cutting screen or when you go back to the inventory???
+					
 					if (instance.item != null) {
 						var type = instance.item.GetType();
 						if (type == typeof(Jewel)) {
 							AchievementManager.Get("cut_jewel_01");
 						} else if (type == typeof(ChargedJewel)) {
 							AchievementManager.Get("charged_jewel_01");
+							if (instance.Quality == Quality.QualityGrade.Mystic) {
+								NarrativeManager.Read("mystic_charged_jewel_01");
+							}
 						} else if (type == typeof(Brick)) {
 							AchievementManager.Get("brick_01");
 						} else if (type == typeof(Shell)) {
 							AchievementManager.Get("golem_shell_01");
+							if (instance.Quality == Quality.QualityGrade.Mystic) {
+								NarrativeManager.Read("mystic_shell_01");
+							}
 						}
 					}
 				}

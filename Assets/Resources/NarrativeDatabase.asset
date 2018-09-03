@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b76cb02d7e630064c944beb11c90a3ce, type: 3}
+  m_Name: NarrativeDatabase
+  m_EditorClassIdentifier: 
+  GizmoPrefab: {fileID: 1332457355533254, guid: 11da7b10b3ad39f47bcf3ad8559d85dd,
+    type: 2}
+  KeyedNarrativeElements:
+    m_keys:
+    - new_game_01
+    - mystic_shell_01
+    - mystic_charged_jewel_01
+    - true_golem_01
+    - true_golem_02
+    m_values:
+    - Texts:
+      - There was once a humble shopkeeper possessed of a rare and obscure talent.
+      - By taking mystically infused gems and binding them to rock figurines, stone
+        could be brought to life.
+      - This Golemancer made their living traveling from town to town, seeking new
+        crafting materials and selling golems to any locals that took a fancy.
+      - Though small and simple, there was something captivating about the Golems.  Watching
+        them romp and cavort, the Golemancer couldn't shake the feeling that there
+        was more to them.
+      - A secret.
+      Unlocked: 0
+    - Texts:
+      - The Golemancer had made many shells before, but this one was special.  It
+        seemed to be already alive and moving.
+      Unlocked: 0
+    - Texts:
+      - Though all jewels be blessed with beauty, this one was sublime.  It gleamed
+        and sparkled, pulsing like a beating heart.
+      Unlocked: 0
+    - Texts:
+      - The mystic energies dissipated to reveal a golem, but this one was nothing
+        like what had come before.
+      - It was larger and more elegant of form, a magicial nimbus clinging to it.
+      - As the Golemancer stood stunned, it held its stone hands up and surveyed the
+        shop interior.  It looked at the Golemancer and said...
+      Unlocked: 0
+    - Texts:
+      - As the exquisite jewel entered the golem shell, the Golemancer could see a
+        familiarity to the eddies of magical energy forming.
+      - The cadence and motion of the mystic currents had the distinct puissance of
+        a greater conjuring.
+      - All at once there came a violent burst and the head sockets of the Golem shell
+        lit up.  It fixed it's newly glowing eyes on the Golemancer and said...
+      Unlocked: 0
+  key: mystic_charged_jewel_01

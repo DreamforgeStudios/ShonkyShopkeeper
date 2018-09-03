@@ -27,6 +27,8 @@ TagManager:
   - Bin
   - TutorialShine
   - TutorialProgress
+  - Aux
+  - MainButton
   layers:
   - Default
   - TransparentFX
