@@ -20,6 +20,7 @@ public class Smelting : MonoBehaviour {
     public Sprite feedbackPositive;
     public Sprite feedbackNegative;
     public Material feedbackMaterial;
+	public ParticleSystem feedbackParticleSystem;
 
 	public OreSpawnManager OreSpawnManager;
     //private Image feedbackContainer;
@@ -229,6 +230,7 @@ public class Smelting : MonoBehaviour {
         Countdown.onComplete -= GameOver;
 
         grade = qualityBar.Finish();
+	    feedbackParticleSystem.Stop();
         qualityText.text = Quality.GradeToString(grade);
         qualityText.color = Quality.GradeToColor(grade);
         qualityText.gameObject.SetActive(true);
