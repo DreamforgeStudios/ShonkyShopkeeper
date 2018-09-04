@@ -5,7 +5,7 @@ using DG.Tweening;
 
 public class Rotate : MonoBehaviour {
 	public Vector3 Axis = Vector3.up;
-	public float Speed = .5f;
+	public float Speed = 18f;
 	public bool UseUnscaledTime = false;
 	public bool Enable = false;
 
