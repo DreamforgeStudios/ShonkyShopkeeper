@@ -581,7 +581,7 @@ public class TutorialToolbox : MonoBehaviour {
         slot.RemoveItem();
         //reset selection
         currentSelection = null;
-        //AchievementManager.Get("golem_create_01");
+        AchievementManager.Get("golem_create_01");
     }
     //Method used to find the gem type selected
     public string FindGemType(Slot slot1, Slot slot2) {

@@ -1,9 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using DG.Tweening;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.Experimental.PlayerLoop;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -23,7 +26,6 @@ public class TutorialProgressChecker : MonoBehaviour {
 					var container = new GameObject("TutorialManager");
 					_instance = container.AddComponent<TutorialProgressChecker>();
 					_instance.SetupManager();
-					Instance.UpdateDictionary();
 				}
 			}
 
@@ -44,25 +46,42 @@ public class TutorialProgressChecker : MonoBehaviour {
 
 	private void SetupManager() {
 		DontDestroyOnLoad(gameObject);
-		Ore = true;
-		Gem = true;
+		schematicProgress = new Dictionary<string, ImageStatus>()
+		{
+			{brick, ImageStatus.UnAchieved},
+			{shell, ImageStatus.UnAchieved},
+			{jewel, ImageStatus.UnAchieved},
+			{chargedJewel, ImageStatus.UnAchieved},
+			{golem, ImageStatus.UnAchieved}
+		};
 	}
 
 	public bool CanvasEnabled()
 	{
 		return Progress.isActiveAndEnabled;
 	}
+
+	public enum ImageStatus
+	{
+		Achieved,
+		JustAchieved,
+		UnAchieved
+	}
 	
 	//Manager start
-	public bool Ore, Brick, Shell, Gem, Jewel, ChargedJewel, readyGolem, Golem = false;
 	public Canvas Progress;
-	public Image Top, Bottom, GolemImg, BrickFade, ShellFade, JewelFade, ChargedJewelFade, GolemFade;
-	private Dictionary<Image, bool> booleanProgress = new Dictionary<Image, bool>();
+	public Image BrickFade, ShellFade, JewelFade, ChargedJewelFade, TopArrow,BottomArrow,CombineArrow, GolemFade;
+	private string brick = "Brick", shell = "Shell", jewel = "Jewel", chargedJewel = "Charged Jewel", golem = "Golem";
+	private Dictionary<string, ImageStatus> schematicProgress;
 	private string componentMessage;
-	private bool newComponent, golemText = false;
+	private bool newComponent = false;
+	public bool golemMade, readyGolem = false;
 	public TextMeshProUGUI textbox;
 	public GameObject textBackground;
 	public GameObject UIProgressImages;
+	
+	//Used to store edits to the dictionary
+	private List<string> stringsToUpdate;
 
 	public void ShowCanvas(bool showImage)
 	{
@@ -84,16 +103,19 @@ public class TutorialProgressChecker : MonoBehaviour {
 
 	private void UpdateCanvas()
 	{
-		UpdateDictionary();
-		Debug.Log(booleanProgress.Count);
-		foreach (KeyValuePair<Image, bool> entry in booleanProgress)
+		stringsToUpdate = new List<string>();
+		foreach (KeyValuePair<string, ImageStatus> entry in schematicProgress)
 		{
 			Debug.Log("Entry is " + entry.Key + " image is " + entry.Value);
-			if (entry.Value && entry.Key.color.a >= 0.5f)
-			{
-				entry.Key.CrossFadeAlpha(0.0f,3f,false);
-			}
+			ImageHandling(entry.Key, entry.Value);
 		}
+		SetToAchieved();
+
+		if (schematicProgress[golem] == ImageStatus.Achieved)
+		{
+			golemMade = true;
+		}
+
 		//Update text box
 		if (newComponent)
 		{
@@ -103,50 +125,103 @@ public class TutorialProgressChecker : MonoBehaviour {
 		//Fade Canvas
 		StartCoroutine(FadeCanvas());
 
-		if (Shell && ChargedJewel)
-			readyGolem = true;
 		//If ready to make a golem give text help
-		if (readyGolem && !golemText)
+		if (schematicProgress[chargedJewel] == ImageStatus.Achieved && schematicProgress[shell] == ImageStatus.Achieved 
+		                                                      && schematicProgress[golem] == ImageStatus.UnAchieved)
 		{
-			golemText = true;
+			readyGolem = true;
 			textbox.text = "Now you can use your wand to combine the shell and charged jewel into a golem!";
 			ShowCanvas(false);
 		}
 	}
 
-	public void UpdateItemBoolean(string type, bool achieved)
+	private void ImageHandling(String item, ImageStatus status)
 	{
-		Debug.Log("Got a " + type + " and it is " + true);
-		switch (type)
+		List<Image> relevantImages = ItemToImage(item);
+		switch (status)
 		{
-			case "Ore":
-				Ore = achieved;
-				break;
-			case "Brick":
-				Brick = achieved;
-				break;
-			case "Shell":
-				Shell = achieved;
-				break;
-			case "Gem":
-				Gem = achieved;
-				break;
-			case "Jewel":
-				Jewel = achieved;
-				break;
-			case "ChargedJewel":
-				ChargedJewel = achieved;
-				break;
+				case ImageStatus.UnAchieved:
+					foreach (var image in relevantImages)
+					{
+						image.gameObject.SetActive(false);
+					}
+					break;
+				case ImageStatus.JustAchieved:
+					foreach (var image in relevantImages)
+					{
+						image.gameObject.SetActive(true);
+						//image.CrossFadeAlpha(1.0f,3f,false);
+						var imgAlpha = image.color;
+						imgAlpha.a = 1.0f;
+						image.DOFade(1.0f, 3f).OnComplete(() => image.color = imgAlpha);
+					}
+					stringsToUpdate.Add(item);
+					break;
+				case ImageStatus.Achieved:
+					foreach (var image in relevantImages)
+					{
+						image.gameObject.SetActive(true);
+					}
+
+					break;
 		}
 	}
 
-	private void UpdateDictionary()
+	private List<Image> ItemToImage(string item)
 	{
-		booleanProgress[BrickFade] = Brick;
-		booleanProgress[ShellFade] = Shell;
-		booleanProgress[JewelFade] = Jewel;
-		booleanProgress[ChargedJewelFade] = ChargedJewel;
-		booleanProgress[GolemFade] = Golem;
+		List<Image> images = new List<Image>();
+		switch (item)
+		{
+			case "Brick":
+				images.Add(BrickFade);
+				break;
+			case "Shell":
+				images.Add(ShellFade);
+				images.Add(TopArrow);
+				break;
+			case "Jewel":
+				images.Add(JewelFade);
+				break;
+			case "Charged Jewel":
+				images.Add(ChargedJewelFade);
+				images.Add(BottomArrow);
+				break;
+			case "Golem":
+				images.Add(GolemFade);
+				images.Add(CombineArrow);
+				break;
+		}
+		return images;
+	}
+
+	private void SetToAchieved()
+	{
+		foreach (string entry in stringsToUpdate)
+		{
+			schematicProgress[entry] = ImageStatus.Achieved;
+		}
+	}
+
+	public void UpdateItemStatus(string type, ImageStatus achieved)
+	{
+		switch (type)
+		{
+			case "Brick":
+				schematicProgress[brick] = achieved;
+				break;
+			case "Shell":
+				schematicProgress[shell] = achieved;
+				break;
+			case "Jewel":
+				schematicProgress[jewel] = achieved;
+				break;
+			case "ChargedJewel":
+				schematicProgress[chargedJewel] = achieved;
+				break;
+			case "Golem":
+				schematicProgress[chargedJewel] = achieved;
+				break;
+		}
 	}
 
 	public void FinishedComponent(string component)

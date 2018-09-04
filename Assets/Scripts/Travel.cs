@@ -36,9 +36,9 @@ public static class Travel {
     public static int[] costsToUnlock = {
         0,
         0,
-        1,
-        1,
-        1
+        150,
+        200,
+        300
     };
 
     //Method to unlock new town
