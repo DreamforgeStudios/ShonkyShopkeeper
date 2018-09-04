@@ -34,7 +34,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1254513141539440}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -51,6 +51,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fff170905357efb48b10638e0e211aa5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BeforeGemPosition: {x: 0, y: 4.9, z: 0}
+  AfterGemPosition: {x: 0, y: 4.9, z: 0}
+  SmokePosition: {x: 0, y: 4.9, z: -2.5}
+  ShinePosition: {x: 0, y: 4.9, z: 2.5}
   RubyBefore: {fileID: 1856760731175576, guid: ef4ca7026e30c6841acba87d46a682cc, type: 2}
   EmeraldBefore: {fileID: 1006543426847186, guid: 9655f32c0e4085c49a288fa17677ef50,
     type: 2}
@@ -65,5 +69,7 @@ MonoBehaviour:
     type: 2}
   AmethystAfter: {fileID: 1978599015653460, guid: d2c44ca621b85c84e900ab4ab1a1d2ce,
     type: 2}
-  ParticleSystem: {fileID: 1788415763621164, guid: 809cf3f88a097d149bacbdd3c32095c8,
+  ShineParticleSystem: {fileID: 1788415763621164, guid: 9ef7007e418f072428735a1ffd779a9d,
+    type: 2}
+  SmokeParticleSystem: {fileID: 1355471223123628, guid: 180835a7c302012459814d067c52dbdd,
     type: 2}

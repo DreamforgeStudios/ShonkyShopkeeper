@@ -132,7 +132,7 @@ public class Cutting : MonoBehaviour {
 			var cutPosition = GenerateNewCutPosition();
 			CutPoint clone = Instantiate(CutPrefab, cutPosition, Quaternion.identity, cutContainer.transform);
 			// TODO: this is a bit messy, move GemObject calculation somewhere else.
-			clone.CutVector = -(cutPosition - GemSpawnManager.transform.position)*1.8f;
+			clone.CutVector = -(cutPosition - GemSpawnManager.Gem.transform.position)*1.8f;
 			clone.onSpawnComplete += cut => activeCuts.AddLast(cut);
 			//SFX.Play("sound");
 
@@ -234,7 +234,7 @@ public class Cutting : MonoBehaviour {
 		Vector3 vecPos = Utility.RotateAroundPivot(MaxStartPoint.normalized * distance, Vector3.forward,
 			new Vector3(0, 0, Random.Range(0f, MaxAngle)));
 		    
-		return vecPos + GemSpawnManager.transform.position;
+		return vecPos + GemSpawnManager.Gem.transform.position;
 	}
 
 	// Find cut point closest to another position.

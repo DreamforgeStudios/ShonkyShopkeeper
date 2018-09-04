@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GemSpawnManager : MonoBehaviour {
+	public Vector3 BeforeGemPosition, AfterGemPosition,
+				   SmokePosition, ShinePosition;
+	
 	public GameObject RubyBefore, EmeraldBefore, SapphireBefore, AmethystBefore;
 	public GameObject RubyAfter, EmeraldAfter, SapphireAfter, AmethystAfter;
 	public GameObject ShineParticleSystem;
 	public GameObject SmokeParticleSystem;
 
-	[HideInInspector]
 	public GameObject Gem {
 		get { return spawnedClone; }
 	}
@@ -50,33 +52,37 @@ public class GemSpawnManager : MonoBehaviour {
 
 		// Note: using the clone position allows for some more agency in placing gems, but means that the cutting game
 		// may use the wrong position.  A fix may be to expose the spawned gem for the cut manager to use.
-		spawnedClone = Instantiate(clone, clone.transform.position, clone.transform.rotation, transform);
+		spawnedClone = Instantiate(clone, BeforeGemPosition, clone.transform.rotation, transform);
 		//clone.GetComponent<Rotate>().Enable = true;
 	}
 
 	public void UpgradeGem(bool Success) {
-		if (Success)
-		{
-			Instantiate(SmokeParticleSystem, transform.position + Vector3.back * 2.5f, Quaternion.identity, transform);
-			Instantiate(ShineParticleSystem, transform.position + Vector3.forward * 2.5f, Quaternion.identity,
-				transform);
+		if (Success) {
+			Instantiate(SmokeParticleSystem, SmokePosition, Quaternion.identity, transform);
+			Instantiate(ShineParticleSystem, ShinePosition, Quaternion.identity, transform);
 
 			//Destroy(spawnedClone);
 			// Setting inactive is faster.  We'll probably pay for the whole destroy cost in loading anyway though.
 			spawnedClone.SetActive(false);
 
 			//Instantiate(cloneAfter, cloneAfter.transform.position, cloneAfter.transform.rotation, transform);
-			Instantiate(cloneAfter, spawnedClone.transform.position, spawnedClone.transform.rotation, transform);
-		}
-		else
-		{
-			Instantiate(SmokeParticleSystem, transform.position + Vector3.back * 2.5f, Quaternion.identity, transform);
+			Instantiate(cloneAfter, AfterGemPosition, cloneAfter.transform.rotation, transform);
+		} else {
+			Instantiate(SmokeParticleSystem, SmokePosition, Quaternion.identity, transform);
 			
 			// Setting inactive is faster.  We'll probably pay for the whole destroy cost in loading anyway though.
 			spawnedClone.SetActive(false);
 		}
+	}
 
-		// TODO: Change gem...
-		// Destroy(spawnedClone);
+	private void OnDrawGizmos() {
+		Gizmos.color = Color.yellow;
+		Gizmos.DrawWireSphere(BeforeGemPosition, 1);
+		Gizmos.color = Color.green;
+		Gizmos.DrawWireSphere(AfterGemPosition, 1);
+
+		Gizmos.color = Color.magenta;
+		Gizmos.DrawWireCube(SmokePosition, Vector3.one);
+		Gizmos.DrawWireCube(ShinePosition, Vector3.one);
 	}
 }
