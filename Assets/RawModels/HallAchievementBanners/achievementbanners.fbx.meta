@@ -1,0 +1,199 @@
+fileFormatVersion: 2
+guid: 029154e8711b9034295b9678c3e7edd0
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: ach1
+    100002: ach10
+    100004: ach11
+    100006: ach12
+    100008: ach2
+    100010: ach3
+    100012: ach4
+    100014: ach5
+    100016: ach6
+    100018: ach7
+    100020: ach8
+    100022: ach9
+    100024: //RootNode
+    100026: bann12
+    100028: bann12 1
+    100030: bann12 10
+    100032: bann12 11
+    100034: bann12 2
+    100036: bann12 3
+    100038: bann12 4
+    100040: bann12 5
+    100042: bann12 6
+    100044: bann12 7
+    100046: bann12 8
+    100048: bann12 9
+    100050: nban1
+    100052: nban10
+    100054: nban11
+    100056: nban12
+    100058: nban2
+    100060: nban3
+    100062: nban4
+    100064: nban5
+    100066: nban6
+    100068: nban7
+    100070: nban8
+    100072: nban9
+    400000: ach1
+    400002: ach10
+    400004: ach11
+    400006: ach12
+    400008: ach2
+    400010: ach3
+    400012: ach4
+    400014: ach5
+    400016: ach6
+    400018: ach7
+    400020: ach8
+    400022: ach9
+    400024: //RootNode
+    400026: bann12
+    400028: bann12 1
+    400030: bann12 10
+    400032: bann12 11
+    400034: bann12 2
+    400036: bann12 3
+    400038: bann12 4
+    400040: bann12 5
+    400042: bann12 6
+    400044: bann12 7
+    400046: bann12 8
+    400048: bann12 9
+    400050: nban1
+    400052: nban10
+    400054: nban11
+    400056: nban12
+    400058: nban2
+    400060: nban3
+    400062: nban4
+    400064: nban5
+    400066: nban6
+    400068: nban7
+    400070: nban8
+    400072: nban9
+    2100000: banner1
+    2300000: bann12
+    2300002: bann12 1
+    2300004: bann12 10
+    2300006: bann12 11
+    2300008: bann12 2
+    2300010: bann12 3
+    2300012: bann12 4
+    2300014: bann12 5
+    2300016: bann12 6
+    2300018: bann12 7
+    2300020: bann12 8
+    2300022: bann12 9
+    3300000: bann12
+    3300002: bann12 1
+    3300004: bann12 10
+    3300006: bann12 11
+    3300008: bann12 2
+    3300010: bann12 3
+    3300012: bann12 4
+    3300014: bann12 5
+    3300016: bann12 6
+    3300018: bann12 7
+    3300020: bann12 8
+    3300022: bann12 9
+    4300000: bann12
+    4300002: bann12
+    4300004: bann12
+    4300006: bann12
+    4300008: bann12
+    4300010: bann12
+    4300012: bann12
+    4300014: bann12
+    4300016: bann12
+    4300018: bann12
+    4300020: bann12
+    4300022: bann12
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

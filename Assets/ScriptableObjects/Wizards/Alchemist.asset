@@ -9,7 +9,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bb1ac92398f324584bc91c4195b59e77, type: 3}
-  m_Name: WizardSprite
+  m_Name: Alchemist
   m_EditorClassIdentifier: 
   Name: 
   Front: {fileID: 0}

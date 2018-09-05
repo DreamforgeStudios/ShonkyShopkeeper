@@ -66,6 +66,24 @@ MonoBehaviour:
     - FlamingPeakTrack
     - SkyCityTrack
     - GiantsPassTrack
+    - Portal_sipping
+    - Portal_Suck
+    - Mine_portal_fini
+    - Smelting_Flame_Jet
+    - Tracing_nxtshape
+    - Tracing_taphold
+    - Tracing_badtouch
+    - Cutting_circle_appears
+    - Cutting_tap
+    - Cutting_good_cut
+    - Polish_swipe
+    - Polishing_Pulse1
+    - Polishing_Pulse2
+    - Polishing_Pulse3
+    - Bidding_GreenTap
+    - Bidding_FailTap
+    - Golem Struggle Voices
+    - Golem Exclaim Voices
     m_values:
     - {fileID: 8300000, guid: 2c0dcf73926fa024ab5066e2aa7e29d6, type: 3}
     - {fileID: 8300000, guid: bd590c4fc0302fd4387f41d98bf562de, type: 3}
@@ -118,4 +136,22 @@ MonoBehaviour:
     - {fileID: 8300000, guid: bda76bb63a949624297b51dc9714d55c, type: 3}
     - {fileID: 8300000, guid: 6cfecaf82a16b8f4b9858370e808bcc6, type: 3}
     - {fileID: 8300000, guid: 693ce9fd0b1271a438e7a23402c6e171, type: 3}
+    - {fileID: 8300000, guid: c93656a45acd1f7459c9b6433fad2ebf, type: 3}
+    - {fileID: 8300000, guid: 28f444a333f06df4b8e18fa8249d1e86, type: 3}
+    - {fileID: 8300000, guid: cea0f866d5e471e468b9689df8dd9b07, type: 3}
+    - {fileID: 8300000, guid: 1b1e539cf3d870a4198f39f8bf3ee248, type: 3}
+    - {fileID: 8300000, guid: 3527fff708b5dc04597d5c38e3183e4c, type: 3}
+    - {fileID: 8300000, guid: 54daa09c73bb503488ec3545214b5e14, type: 3}
+    - {fileID: 8300000, guid: b55e8fa0a73318342a945f28a091ad64, type: 3}
+    - {fileID: 8300000, guid: ec515d28655eab049902ef838a23afda, type: 3}
+    - {fileID: 8300000, guid: b41314e9a4a70754bbe3c74390b7588e, type: 3}
+    - {fileID: 8300000, guid: dc9139411c12c9346a1451c80f85fad3, type: 3}
+    - {fileID: 8300000, guid: 48c88ab66abde734fadb60720362ff8b, type: 3}
+    - {fileID: 8300000, guid: 5008664b71494184aa70e35ee1e65efe, type: 3}
+    - {fileID: 8300000, guid: 21b96eadb13082d44ac6179cb91ee4d4, type: 3}
+    - {fileID: 8300000, guid: e284658a48b06e04883645ebc97bc7a2, type: 3}
+    - {fileID: 8300000, guid: ef93bcc83497c5a4abd0db45d5a849b2, type: 3}
+    - {fileID: 8300000, guid: ec51049668661f14bb2b745a8ebda426, type: 3}
+    - {fileID: 8300000, guid: 22b468a3a9b9c7d499a61a1bda6e2b0b, type: 3}
+    - {fileID: 8300000, guid: de4d58ebfbaffe44986cfc79a50ca716, type: 3}
   ClipKey: golem_create
