@@ -8,7 +8,7 @@ public class NPCWalker : MonoBehaviour {
 	// TODO: random walk speed variance?
 	public float walkSpeed;
 
-	public Personality personality;
+	public WizardSprite WizardSprite;
 
     private SpriteRenderer wizard;
 
