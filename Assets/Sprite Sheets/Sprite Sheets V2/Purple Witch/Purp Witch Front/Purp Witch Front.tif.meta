@@ -1,0 +1,258 @@
+fileFormatVersion: 2
+guid: 18a5a2291da34fb46bd5e36d87ff25d2
+timeCreated: 1534381856
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Purp Witch Front_Head
+    21300002: Purp Witch Front_Body
+    21300004: Purp Witch Front_Hair1
+    21300006: Purp Witch Front_Hair2
+    21300008: Purp Witch Front_Skirt2
+    21300010: Purp Witch Front_Skirt1
+    21300012: Purp Witch Front_L.Shoulder
+    21300014: Purp Witch Front_L.Hand
+    21300016: Purp Witch Front_L.Arm
+    21300018: Purp Witch Front_R.Arm
+    21300020: Purp Witch Front_10
+    21300022: Purp Witch Front_Broom
+    21300024: Purp Witch Front_R.Shoulder
+  serializedVersion: 4
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: -1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaUsage: 1
+  alphaIsTransparency: 0
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: Standalone
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Purp Witch Front_Head
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 983
+        width: 487
+        height: 466
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Purp Witch Front_Body
+      rect:
+        serializedVersion: 2
+        x: 147
+        y: 206
+        width: 400
+        height: 544
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Purp Witch Front_Hair1
+      rect:
+        serializedVersion: 2
+        x: 695
+        y: 471
+        width: 242
+        height: 370
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Purp Witch Front_Hair2
+      rect:
+        serializedVersion: 2
+        x: 936
+        y: 460
+        width: 247
+        height: 387
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Purp Witch Front_Skirt2
+      rect:
+        serializedVersion: 2
+        x: 971
+        y: 53
+        width: 171
+        height: 245
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Purp Witch Front_Skirt1
+      rect:
+        serializedVersion: 2
+        x: 747
+        y: 53
+        width: 170
+        height: 245
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Purp Witch Front_L.Shoulder
+      rect:
+        serializedVersion: 2
+        x: 1284
+        y: 319
+        width: 128
+        height: 190
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Purp Witch Front_L.Hand
+      rect:
+        serializedVersion: 2
+        x: 1264
+        y: 1330
+        width: 106
+        height: 126
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Purp Witch Front_L.Arm
+      rect:
+        serializedVersion: 2
+        x: 1247
+        y: 1000
+        width: 153
+        height: 227
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Purp Witch Front_R.Arm
+      rect:
+        serializedVersion: 2
+        x: 1789
+        y: 986
+        width: 152
+        height: 228
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Purp Witch Front_10
+      rect:
+        serializedVersion: 2
+        x: 1790
+        y: 1331
+        width: 107
+        height: 125
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Purp Witch Front_Broom
+      rect:
+        serializedVersion: 2
+        x: 1719
+        y: 74
+        width: 166
+        height: 823
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Purp Witch Front_R.Shoulder
+      rect:
+        serializedVersion: 2
+        x: 1522
+        y: 319
+        width: 128
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
