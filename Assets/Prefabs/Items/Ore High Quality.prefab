@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4620424201572350}
   - component: {fileID: 33009993931992196}
   - component: {fileID: 23069319548602608}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: pPlatonic8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 4952327843603254}
   - component: {fileID: 33792374450853490}
   - component: {fileID: 23086325934654034}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: pPlatonic9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -55,7 +55,7 @@ GameObject:
   - component: {fileID: 4643630820851704}
   - component: {fileID: 33484915119749326}
   - component: {fileID: 23674425523374432}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: pPlatonic10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74,7 +74,7 @@ GameObject:
   - component: {fileID: 23599445044549314}
   - component: {fileID: 114623776551706924}
   - component: {fileID: 114869082472703826}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Ore High Quality
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -331,14 +331,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _GlobalProjectionDir: {x: 0, y: -1, z: 0}
-  _GlobalShadowResolution: 2
+  _GlobalShadowResolution: 1
   _GlobalShadowCullingMode: 0
   _EnableCutOff: 0
-  _GlobalCutOffDistance: 10000
+  _GlobalCutOffDistance: 1
   _GlobalFlipX: 0
   _GlobalFlipY: 0
   _ShadowSize: 0.05
-  _ShadowColor: {r: 1, g: 1, b: 1, a: 1}
+  _ShadowColor: {r: 0.3679245, g: 0.3679245, b: 0.3679245, a: 1}
   _ShadowOpacity: 0.5
   _Material: {fileID: 2100000, guid: 255326f2182144b0aa35e6b50aa1b832, type: 2}
   _IsLight: 0

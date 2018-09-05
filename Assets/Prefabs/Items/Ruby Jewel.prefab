@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 23922619629403032}
   - component: {fileID: 114317204434971964}
   - component: {fileID: 114593667664072462}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Ruby Jewel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -120,7 +120,7 @@ MonoBehaviour:
   _GlobalFlipX: 0
   _GlobalFlipY: 0
   _ShadowSize: 0.075
-  _ShadowColor: {r: 1, g: 1, b: 1, a: 1}
+  _ShadowColor: {r: 0.3679245, g: 0.3679245, b: 0.3679245, a: 1}
   _ShadowOpacity: 0.5
   _Material: {fileID: 2100000, guid: 255326f2182144b0aa35e6b50aa1b832, type: 2}
   _IsLight: 0

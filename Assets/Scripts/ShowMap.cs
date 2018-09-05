@@ -58,6 +58,8 @@ public class ShowMap : MonoBehaviour
 		travelButton.gameObject.SetActive(false);
 		lastTownClicked = null;
 		backButton.gameObject.SetActive(false);
+		if (!EnableGlobe)
+			player.SetActive(true);
 	}
 
 	private void ShowTown(int townIndex, Travel.Towns clickedTown)
@@ -65,6 +67,7 @@ public class ShowMap : MonoBehaviour
 		backButton.gameObject.SetActive(true);
 		townGraphics[townIndex].SetActive(true);
 		currentTownSelected = clickedTown;
+		player.SetActive(false);
 		if (!Travel.unlockedTowns.Contains(clickedTown)) {
 			purchaseButton.gameObject.SetActive(true);
 		}
@@ -100,6 +103,7 @@ public class ShowMap : MonoBehaviour
 
 	private void Update()
 	{
+		goldAmount.text = string.Format("<sprite=0> {0}",Inventory.Instance.goldCount);
 		if (!EnableGlobe && Input.GetMouseButtonDown(0))
 		{
 			Debug.Log("Shooting ray");
@@ -141,13 +145,15 @@ public class ShowMap : MonoBehaviour
 			DetermineTownIndexAndOpen(selectedTown);
 		}
 		//If the town is unlocked and not the current town
-		else if (currentTown != CurrentTownObject(hit.transform.gameObject)) {
+		else //if (currentTown != CurrentTownObject(hit.transform.gameObject)) {
+		{
             //SFX.Play("sound");
             SFX.Play("Map_location_select", 1f, 1f, 0f, false, 0f);
             lastTownClicked = hit.transform.gameObject;
 			Travel.Towns selectedTown = CurrentTownObject(lastTownClicked);
 			helperText.enabled = true;
 			helperText.text = "Click " + selectedTown + " again if you wish to travel to it";
+			DetermineTownIndexAndOpen(selectedTown);
 		}
 	}
 
@@ -200,7 +206,7 @@ public class ShowMap : MonoBehaviour
 		Debug.Log("Complete transaction " + completeTransaction);
 		if (Inventory.Instance.GetUnlockedTowns().Count == 1 && completeTransaction) {
 			//SFX.Play("sound");
-			player.SetActive(true);
+			player.SetActive(false);
 			player.transform.position = ReturnTownPosition(selectedTown);
 			helperText.text = "Welcome to " + selectedTown;
 			Travel.ChangeCurrentTown(selectedTown);
@@ -254,7 +260,7 @@ public class ShowMap : MonoBehaviour
 		Debug.Log("Complete transaction " + completeTransaction);
 		if (Inventory.Instance.GetUnlockedTowns().Count == 1 && completeTransaction) {
 			//SFX.Play("sound");
-			player.SetActive(true);
+			player.SetActive(false);
 			player.transform.position = ReturnTownPosition(currentTownSelected);
 			helperText.text = "Welcome to " + currentTownSelected;
 			Travel.ChangeCurrentTown(currentTownSelected);
@@ -278,6 +284,7 @@ public class ShowMap : MonoBehaviour
 					GameManager.Instance.BarterTutorial = true;
 				}
 				helperText.text = currentTownSelected + " can now be travelled to";
+				Travel.ChangeCurrentTown(currentTownSelected);
 				Initiate.Fade("Shop", Color.black, 2f);
 				SaveManager.SaveInventory();
 			}

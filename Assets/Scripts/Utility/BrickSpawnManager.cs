@@ -4,19 +4,20 @@ using Unity.Collections;
 using UnityEngine;
 
 public class BrickSpawnManager : MonoBehaviour {
-	//public float InitialTweenDuration;
+	public Vector3 BeforePosition, AfterPosition,
+				   SmokePosition, ShinePosition;
 	
 	public GameObject Brick;
 	public GameObject Shell;
+	public GameObject TracingSceneBrick;
 	
 	public GameObject ShineParticleSystem;
 	public GameObject SmokeParticleSystem;
 
-	public float ScaleOverrideShine;
-	public float ScaleOverrideSmoke;
-
-
-	//private GameObject spawnedClone;
+	public float ScaleOverrideShine, ScaleOverrideSmoke;
+	public Vector3 RotationOverrideShine, RotationOverrideSmoke;
+	
+	public bool Debug;
 
 	// Use this for initialization
 	void Start() {
@@ -24,17 +25,35 @@ public class BrickSpawnManager : MonoBehaviour {
 		//spawnedClone.transform.DOMove(Vector3.zero, InitialTweenDuration).SetEase(Ease.InBack);
 	}
 
-	public void Upgrade() {
-		// Workaround for orthographic camera in tracing scene.....
-		var clone = Instantiate(SmokeParticleSystem, transform.position + Vector3.back * 2.5f, Quaternion.identity, transform);
-		clone.transform.localScale = new Vector3(ScaleOverrideSmoke, ScaleOverrideSmoke, ScaleOverrideSmoke);
-		
-		clone = Instantiate(ShineParticleSystem, transform.position + Vector3.forward * 2.5f, Quaternion.identity, transform);
-		clone.transform.localScale = new Vector3(ScaleOverrideShine, ScaleOverrideShine, ScaleOverrideShine);
-		
-		//spawnedClone.SetActive(false);
-		//SmeltingPot.SetActive(false);
-		
-		Instantiate(Shell, Shell.transform.position, Shell.transform.rotation, transform);
+	public void Upgrade(bool Success) {
+		TracingSceneBrick.SetActive(false);
+
+		if (Success) {
+			var clone = Instantiate(SmokeParticleSystem, SmokePosition, Quaternion.Euler(RotationOverrideShine), transform);
+			clone.transform.localScale = new Vector3(ScaleOverrideSmoke, ScaleOverrideSmoke, ScaleOverrideSmoke);
+
+			clone = Instantiate(ShineParticleSystem, ShinePosition, Quaternion.Euler(RotationOverrideShine), transform);
+			clone.transform.localScale = new Vector3(ScaleOverrideShine, ScaleOverrideShine, ScaleOverrideShine);
+
+			clone = Instantiate(Shell, AfterPosition, Shell.transform.rotation, transform);
+			//clone.transform.localScale = new Vector3(ScaleOverrideShell, ScaleOverrideShell, ScaleOverrideShell);
+		} else {
+			var clone = Instantiate(SmokeParticleSystem, SmokePosition, Quaternion.Euler(RotationOverrideSmoke), transform);
+			clone.transform.localScale = new Vector3(ScaleOverrideSmoke, ScaleOverrideSmoke, ScaleOverrideSmoke);
+			
+		}
+	}
+	
+	private void OnDrawGizmos() {
+		if (Debug) {
+			Gizmos.color = Color.yellow;
+			Gizmos.DrawWireSphere(BeforePosition, 1);
+			Gizmos.color = Color.green;
+			Gizmos.DrawWireSphere(AfterPosition, 1);
+
+			Gizmos.color = Color.magenta;
+			Gizmos.DrawWireCube(SmokePosition, Vector3.one);
+			Gizmos.DrawWireCube(ShinePosition, Vector3.one);
+		}
 	}
 }

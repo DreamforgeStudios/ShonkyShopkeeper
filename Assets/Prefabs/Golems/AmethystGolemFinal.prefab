@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4838843357296770}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: R.Arm Lower_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34,7 +34,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4061713541588248}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: HeldSack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49,7 +49,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4741417552183242}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: L.Leg Lower_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -65,7 +65,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4980486616070840}
   - component: {fileID: 95904115202370706}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Sack2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -80,7 +80,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4917285250449100}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Gem Suc
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4623075948219964}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Bone_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -110,7 +110,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4725078004055658}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: L.Arm Lower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -126,7 +126,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4015381552193658}
   - component: {fileID: 137837415769859336}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: pSphere1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -141,7 +141,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4089839110500088}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: L.Leg Lower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -156,7 +156,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4061155522681594}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: R.Arm Upper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -171,7 +171,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4372487260391730}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -186,7 +186,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4354875292603974}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: L.Arm Lower_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -201,7 +201,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4841202024263312}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: L.Arm Upper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -216,7 +216,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4057178423268180}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Armature.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -231,7 +231,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4462968404811654}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: L.Leg Upper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -246,7 +246,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4089974070928202}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Spine 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -266,7 +266,7 @@ GameObject:
   - component: {fileID: 54566363033542514}
   - component: {fileID: 195881723698978282}
   - component: {fileID: 114740994723185286}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: AmethystGolemFinal
   m_TagString: Golem
   m_Icon: {fileID: 0}
@@ -281,7 +281,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4224596873473536}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: R.Arm Lower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -298,7 +298,7 @@ GameObject:
   - component: {fileID: 4891682501620100}
   - component: {fileID: 137560612397225640}
   - component: {fileID: 135882502784241844}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Amythest_Golem2_amythest_golem3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -313,7 +313,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4167808549734994}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Head_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -328,7 +328,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4676863685573778}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Spine 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -343,7 +343,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4014344751013624}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: R.Leg Lower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -358,7 +358,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4423293088512316}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Spin 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -373,7 +373,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4300280396980328}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Spine 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -388,7 +388,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4249268147659552}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Gem Suc_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -403,7 +403,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4516698127586610}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Bone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -418,7 +418,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4736706955613778}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: 'Neck '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -433,7 +433,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4132666353932188}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Armature
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -448,7 +448,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4863399979478642}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: R.Leg Lower_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -463,7 +463,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4821318768023560}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: R.Leg Upper
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: metal
-  m_Shader: {fileID: 10706, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: 
+  m_Shader: {fileID: 4800000, guid: 4c01f4dcfcb8b934083f9e08df8dc97a, type: 3}
+  m_ShaderKeywords: _GLOSSYREFLECTIONS_OFF _NORMALMAP
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -55,7 +55,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Ramp:
-        m_Texture: {fileID: 2800000, guid: 4a056241e2722dc46a7262a8e7073fd9, type: 3}
+        m_Texture: {fileID: 2800000, guid: 74888548d1ffaf0439b98ecd9cbb0c29, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecRamp:
@@ -68,24 +68,24 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _GlossMapScale: 1
-    - _Glossiness: 0
-    - _GlossyReflections: 1
-    - _Metallic: 0
+    - _Glossiness: 0.095
+    - _GlossyReflections: 0
+    - _Metallic: 0.404
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Outline: 0.002
     - _Parallax: 0.02
-    - _Shininess: 0.085
+    - _Shininess: 0.515
     - _SmoothnessTextureChannel: 0
-    - _Specular: 1.1
+    - _Specular: 3.5
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 0.5188679, g: 0.5188679, b: 0.5188679, a: 1}
-    - _DiffuseMaxColor: {r: 0.6132076, g: 0.6132076, b: 0.6132076, a: 1}
+    - _DiffuseMaxColor: {r: 0.46226418, g: 0.46226418, b: 0.46226418, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
-    - _MainColor: {r: 0.5849056, g: 0.5849056, b: 0.5849056, a: 1}
+    - _MainColor: {r: 0.4811321, g: 0.4811321, b: 0.4811321, a: 1}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
-    - _SpecularColor: {r: 0.24528301, g: 0.24528301, b: 0.24528301, a: 1}
+    - _SpecularColor: {r: 0, g: 0, b: 0, a: 1}

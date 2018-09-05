@@ -64,6 +64,7 @@ public class Polishing : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
+        SFX.Play("CraftingGem",1f,1f,0f,true,0f);
         mainCamera = Camera.main;
         //keyPoint = gemObject.transform.position;
         keyPoint = gemObject.transform.position;
@@ -71,7 +72,6 @@ public class Polishing : MonoBehaviour {
         //retryScene.enabled = false;
         //qualityText.enabled = false;
         emitParams = new ParticleSystem.EmitParams();
-        //SFX.Play("sound");
         Countdown.onComplete += GameOver;
     }
 
@@ -182,15 +182,28 @@ public class Polishing : MonoBehaviour {
 
 		grade = Quality.CalculateCombinedQuality(GameManager.Instance.QualityTransfer, grade);
         
-        GemSpawnManager.UpgradeGem();
+        if (grade == Quality.QualityGrade.Junk)
+            GemSpawnManager.UpgradeGem(false);
+        else
+        {
+            GemSpawnManager.UpgradeGem(true);
+        }
 
         ShowUIButtons();
     }
     
-    // Return to shop.
-	public void Return() {
-		ReturnOrRetry.Return("Charged " + GameManager.Instance.GemTypeTransfer, grade);
-	}
+    public void JunkReturn()
+    {
+        ReturnOrRetry.Return("Charged " + GameManager.Instance.GemTypeTransfer, grade);
+    }
+
+    public void Return() {
+        if (grade != Quality.QualityGrade.Junk)
+            ReturnOrRetry.Return("Charged " + GameManager.Instance.GemTypeTransfer, grade);
+        else
+            returnOrRetryButtons.GetComponent<UpdateRetryButton>().WarningTextEnable();
+    }
+
 
     // Retry (roload scene).
 	public void Retry() {

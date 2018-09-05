@@ -20,6 +20,7 @@ public class Smelting : MonoBehaviour {
     public Sprite feedbackPositive;
     public Sprite feedbackNegative;
     public Material feedbackMaterial;
+	public ParticleSystem feedbackParticleSystem;
 
 	public OreSpawnManager OreSpawnManager;
     //private Image feedbackContainer;
@@ -73,7 +74,7 @@ public class Smelting : MonoBehaviour {
     }
 
 	void Start () {
-		SFX.Play("game_instrumental", looping: true);
+		SFX.Play("CraftingOre", looping: true);
 		SFX.Play("fire_loop", looping: true);
 		
 		rb = GetComponent<Rigidbody>();
@@ -229,18 +230,28 @@ public class Smelting : MonoBehaviour {
         Countdown.onComplete -= GameOver;
 
         grade = qualityBar.Finish();
+	    feedbackParticleSystem.Stop();
         qualityText.text = Quality.GradeToString(grade);
         qualityText.color = Quality.GradeToColor(grade);
         qualityText.gameObject.SetActive(true);
         qualityBar.Disappear();
-	    
-	    OreSpawnManager.Upgrade();
-
+	    if (grade == Quality.QualityGrade.Junk)
+			OreSpawnManager.Upgrade(false);
+	    else
+		    OreSpawnManager.Upgrade(true);
         ShowUIButtons();
     }
 	
-	public void Return() {
+	public void JunkReturn()
+	{
 		ReturnOrRetry.Return("Brick", grade);
+	}
+
+	public void Return() {
+		if (grade != Quality.QualityGrade.Junk)
+			ReturnOrRetry.Return("Brick", grade);
+		else
+			returnOrRetryButtons.GetComponent<UpdateRetryButton>().WarningTextEnable();
 	}
 
 	public void Retry() {

@@ -3,17 +3,20 @@ using System.Collections;
 using UnityEngine.UI;
 public static class Initiate
 {
-    static bool areWeFading = false;
+    public static bool IsFading = false;
     private static Fader fadeObj = null;
+
+    public delegate void OnFinishFading();
+    public static event OnFinishFading onFinishFading;
 
     //Create Fader object and assing the fade scripts and assign all the variables
     public static void Fade(string scene, Color col, float multiplier)
     {
-        if (areWeFading) {
+        if (IsFading) {
             Debug.Log("Already Fading");
             return;
         } else {
-            areWeFading = true;
+            IsFading = true;
             if (fadeObj == null) {
                 GameObject init = new GameObject();
                 init.name = "Fader";
@@ -40,6 +43,9 @@ public static class Initiate
     }
 
     public static void DoneFading() {
-        areWeFading = false;
+        IsFading = false;
+        if (onFinishFading != null) {
+            onFinishFading();
+        }
     }
 }

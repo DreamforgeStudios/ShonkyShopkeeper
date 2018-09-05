@@ -6,6 +6,9 @@ using DG.Tweening;
 public class OreSpawnManager : MonoBehaviour {
 	public float InitialTweenDuration;
 	
+	public Vector3 BeforePosition, AfterPosition,
+				   SmokePosition, ShinePosition;
+	
 	public GameObject Ore;
 	public GameObject Brick;
 	public GameObject SmeltingPot;
@@ -13,27 +16,49 @@ public class OreSpawnManager : MonoBehaviour {
 	public GameObject ShineParticleSystem;
 	public GameObject SmokeParticleSystem;
 
-	public float ScaleOverride;
+	public float ScaleOverrideSmoke, ScaleOverrideShine;
+
+	public bool Debug;
 
 
 	private GameObject spawnedClone;
 
 	// Use this for initialization
 	void Start() {
-		spawnedClone = Instantiate(Ore, Ore.transform.position, Ore.transform.rotation, transform);
+		spawnedClone = Instantiate(Ore, BeforePosition, Ore.transform.rotation, transform);
 		spawnedClone.transform.DOLocalMove(Vector3.zero, InitialTweenDuration).SetEase(Ease.InBack);
 	}
 
-	public void Upgrade() {
-		var spawn = Instantiate(Brick, Brick.transform.position, Brick.transform.rotation, transform);
+	public void Upgrade(bool success) {
+		if (success) {
+			var spawn = Instantiate(Brick, AfterPosition, Brick.transform.rotation, transform);
 
-		var a = Instantiate(SmokeParticleSystem, spawn.transform.position + Vector3.back * 1.5f, Quaternion.identity, transform);
-		a.transform.localScale = new Vector3(ScaleOverride, ScaleOverride, ScaleOverride);
+			var a = Instantiate(SmokeParticleSystem, SmokePosition, Quaternion.identity, transform);
+			a.transform.localScale = new Vector3(ScaleOverrideSmoke, ScaleOverrideSmoke, ScaleOverrideSmoke);
 
-		a = Instantiate(ShineParticleSystem, spawn.transform.position + Vector3.forward * 1.5f, Quaternion.identity, transform);
-		a.transform.localScale = new Vector3(ScaleOverride, ScaleOverride, ScaleOverride);
-		
-		spawnedClone.SetActive(false);
-		SmeltingPot.SetActive(false);
+			a = Instantiate(ShineParticleSystem, ShinePosition, Quaternion.identity, transform);
+			a.transform.localScale = new Vector3(ScaleOverrideShine, ScaleOverrideShine, ScaleOverrideShine);
+
+			spawnedClone.SetActive(false);
+			SmeltingPot.SetActive(false);
+		} else {
+			var a = Instantiate(SmokeParticleSystem, SmokePosition, Quaternion.identity, transform);
+			a.transform.localScale = new Vector3(ScaleOverrideSmoke, ScaleOverrideSmoke, ScaleOverrideSmoke);
+			spawnedClone.SetActive(false);
+			SmeltingPot.SetActive(false);
+		}
+	}
+	
+	private void OnDrawGizmos() {
+		if (Debug) {
+			Gizmos.color = Color.yellow;
+			Gizmos.DrawWireSphere(BeforePosition, 1);
+			Gizmos.color = Color.green;
+			Gizmos.DrawWireSphere(AfterPosition, 1);
+
+			Gizmos.color = Color.magenta;
+			Gizmos.DrawWireCube(SmokePosition, Vector3.one);
+			Gizmos.DrawWireCube(ShinePosition, Vector3.one);
+		}
 	}
 }

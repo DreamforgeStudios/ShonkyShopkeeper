@@ -13,7 +13,7 @@ public class StringAudioClipDictionary : SerializableDictionary<string, AudioCli
 public class SoundDatabase : ScriptableObject {
     public AudioSourceHelper AudioSourcePrefab;
     [ShowNonSerializedField]
-    public const int MaxAudioSourceInstances = 5;
+    public const int MAX_AUDIO_SOURCES = 5;
     
     // To keep the scene neat...
     private GameObject audioParent = null;
@@ -40,7 +40,7 @@ public class SoundDatabase : ScriptableObject {
             }
 
             if (src == null) {
-                if (size < MaxAudioSourceInstances) {
+                if (size < MAX_AUDIO_SOURCES) {
                     src = Instantiate(AudioSourcePrefab, AudioParent.transform);
                     audioSourceInstances.Add(src);
                 }

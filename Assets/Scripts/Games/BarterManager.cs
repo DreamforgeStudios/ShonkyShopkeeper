@@ -62,6 +62,8 @@ public class BarterManager : MonoBehaviour {
 	public GameObject Wand;
 	[BoxGroup("Object Assignments")]
 	public GameObject BackToShop;
+	[BoxGroup("Object Assignments")]
+	public ParticleSystem CoinFallParticles;
 	
 	public enum Segment {
 		Best, Good, Bad, Ok
@@ -76,6 +78,7 @@ public class BarterManager : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
+		SFX.Play("BiddingTrack",1f,1f,0f,true,0f);
 		Countdown.onComplete += GameOver;
 		
         ItemInstance tmp;
@@ -187,6 +190,15 @@ public class BarterManager : MonoBehaviour {
 		DebugText.color = info.Color;
 
 		Wand.transform.DORotate(Vector3.right * 150f, .7f, RotateMode.LocalAxisAdd).SetEase(Ease.OutCirc);
+
+		if (info.PriceAdd > 0) {
+			var burst = CoinFallParticles.emission.GetBurst(0);
+			burst.cycleCount = (int) (info.PriceAdd * .1f);
+			CoinFallParticles.emission.SetBurst(0, burst);
+			CoinFallParticles.Stop();
+			CoinFallParticles.time = 0;
+			CoinFallParticles.Play();
+		}
 		
 		RadialSlider.PauseForDuration(.2f);
 	}

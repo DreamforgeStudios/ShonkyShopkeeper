@@ -82,8 +82,8 @@ public class TracingDataBase : MonoBehaviour
 	
 	private void RotateRune(int runeIndex)
 	{
-		float randomRot = Random.Range(-40f, 136f);
-		_allRunes[runeIndex].transform.eulerAngles = new Vector3(0,0,randomRot);
+		float randomRot = Random.Range(0f, 360f);
+		_allRunes[runeIndex].transform.localEulerAngles = new Vector3(0,0,randomRot);
 	}
 
 	private void ModifyAlpha(int runeIndex)

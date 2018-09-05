@@ -49,7 +49,7 @@ public class Tracing : MonoBehaviour {
 
     //Distance and tracking variables
     public int hitPoints = 0;
-    public float maxDistanceAway;
+    public float maxDistanceAway = 0.5f;
     private bool foundNumber = false;
     private int lastIndex = 0;
     private float bestDistanceSoFar;
@@ -86,6 +86,8 @@ public class Tracing : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
+        SFX.Play("CraftingOre",1f,1f,0f,true,0f);
+        //SFX.Play();
         Countdown.onComplete += GameOver;
         finishTime = Time.time + 10f;
         GeneralSetup();
@@ -168,7 +170,7 @@ public class Tracing : MonoBehaviour {
         for (int i = 0; i < _currentRuneHitPoints.transform.childCount; i++)
         {
             Vector3 position = _currentRuneHitPoints.transform.GetChild(i).gameObject.transform.position;
-            position.z = 10;
+            //position.z = 14.251f;
             optimalPoints.Add(position);
         }       
         //DrawOptimalLines();
@@ -179,16 +181,17 @@ public class Tracing : MonoBehaviour {
         for (int i = 0; i < _currentRuneColliders.transform.childCount; i++)
         {
             GameObject collider = _currentRuneColliders.transform.GetChild(i).gameObject;
-            Vector3 colliderTransform = collider.transform.position;
-            colliderTransform.z = 10;
-            collider.transform.position = colliderTransform;
+            //Vector3 colliderTransform = collider.transform.position;
+            //colliderTransform.z = 10;
+            //collider.transform.position = colliderTransform;
         }
     }
     
     private void GetInput() {
-        Vector3 mPosition = Input.mousePosition;
-        Vector3 mWorldPosition = _mainCamera.ScreenToWorldPoint(mPosition);
-        mWorldPosition.z = 10;
+        Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
+        Vector3 mWorldPosition = ray.GetPoint(0.3f);
+        //mWorldPosition.z = 14.251f;
+        //Debug.Log("mworldposition is " + mWorldPosition);
         FollowSphere.transform.position = mWorldPosition;
 
         if (Input.GetMouseButtonDown(0)) {
@@ -210,7 +213,7 @@ public class Tracing : MonoBehaviour {
             score = CalculateColliderPenalties(CalculateAccuracy(CalculateWin()));
             if (score > 0)
             {
-                Debug.Log("adding score of " + score);
+                //Debug.Log("adding score of " + score);
                 qualityBar.Add(score/1000,true);
                 _finalScore += score;
                 scoreText.text = string.Format("Final score is {0}", _finalScore);
@@ -239,13 +242,19 @@ public class Tracing : MonoBehaviour {
         qualityText.gameObject.SetActive(true);
         qualityBar.Disappear();
         ResetOptimalPoints();
+        FollowSphere.SetActive(false);
         _currentRuneSprite.SetActive(false);
 		grade = Quality.CalculateCombinedQuality(GameManager.Instance.QualityTransfer, grade);
         ShowUIButtons();
         _dataBase.HideUI();
         _canTrace = false;
         
-        brickSpawnmanager.Upgrade();
+        if (grade == Quality.QualityGrade.Junk)
+            brickSpawnmanager.Upgrade(false);
+        else
+        {
+            brickSpawnmanager.Upgrade(true);
+        }
     }
 
     /*
@@ -265,17 +274,17 @@ public class Tracing : MonoBehaviour {
 
         if (success) {
             averageDistanceAway = totalDistanceAway / optimalPointIndex.Count;
-            //Debug.Log("avg dist away = " + averageDistanceAway);
-            if (averageDistanceAway >= 0 && averageDistanceAway <= 0.63) {
+            Debug.Log("avg dist away = " + averageDistanceAway);
+            if (averageDistanceAway >= 0 && averageDistanceAway <= 0.025) {
                 return 1000;
             }
-            else if (averageDistanceAway > 0.63 && averageDistanceAway < 0.67) {
+            else if (averageDistanceAway > 0.025 && averageDistanceAway < 0.05) {
                 return 850;
             }
-            else if (averageDistanceAway > 0.67 && averageDistanceAway < 0.7) {
+            else if (averageDistanceAway > 0.05 && averageDistanceAway < 0.067) {
                 return 700;
             }
-            else if (averageDistanceAway > 0.7 && averageDistanceAway < 0.77) {
+            else if (averageDistanceAway > 0.067 && averageDistanceAway < 0.5) {
                 return 550;
             }
             else {
@@ -339,7 +348,6 @@ public class Tracing : MonoBehaviour {
         for (int j = 0; j < playerPoints.Count; j++) {
             if (Vector3.Distance(playerPoints[j], positionArea) < maxDistanceAway)
                 if (Vector3.Distance(playerPoints[j], positionArea) <= bestDistanceSoFar && j > lastIndex) {
-                    //Debug.Log("Found close point");
                     bestDistanceSoFar = Vector3.Distance(playerPoints[j], positionArea);
                     lastIndex = j;
                     foundNumber = true;
@@ -358,6 +366,8 @@ public class Tracing : MonoBehaviour {
         optimalPoints.Clear();
         playerPoints.RemoveRange(0, playerPoints.Count);
         optimalPointIndex.RemoveRange(0, optimalPointIndex.Count);
+        averageDistanceAway = 0f;
+        totalDistanceAway = 0f;
     }
 
     private void NextRune()
@@ -389,12 +399,20 @@ public class Tracing : MonoBehaviour {
         flashAlpha.a = 0f;
         WhiteFlash.color = flashAlpha;
         WhiteFlash.enabled = true;
-        WhiteFlash.DOFade(0.8f, 0.15f).OnComplete(() => WhiteFlash.DOFade(0f, 1f));
+        WhiteFlash.DOFade(0.95f, 0.15f).OnComplete(() => WhiteFlash.DOFade(0f, 1f));
         
     }
 
+    public void JunkReturn()
+    {
+        ReturnOrRetry.Return("shell", grade);
+    }
+
     public void Return() {
-		ReturnOrRetry.Return("shell", grade);
+        if (grade != Quality.QualityGrade.Junk)
+		    ReturnOrRetry.Return("shell", grade);
+        else
+            returnOrRetryButtons.GetComponent<UpdateRetryButton>().WarningTextEnable();
 	}
 
 	public void Retry() {

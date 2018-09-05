@@ -46,10 +46,12 @@ public class Hall : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
+		goldAmount.text = string.Format("<sprite=0> {0}",Inventory.Instance.goldCount);
 		if (_mapManager.EnableGlobe)
 		{
 			CheckCamera();
-			//ShopButton.SetActive(true);
+			if (!GameManager.Instance.InMap)
+				ShopButton.SetActive(true);
 			townColliders.SetActive(false);
 			if (Input.GetMouseButtonUp(0))
 			{

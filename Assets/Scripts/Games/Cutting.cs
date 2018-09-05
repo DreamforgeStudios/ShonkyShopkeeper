@@ -98,7 +98,9 @@ public class Cutting : MonoBehaviour {
         ReadyGo.onComplete += () => { Time.timeScale = 1; start = true; };
     }
 
-    void Start () {
+    void Start ()
+    {
+	    SFX.Play("CraftingGem", 1f, 1f, 0f, true, 0f);
 		Countdown.onComplete += GameOver;
 	    activeCuts = new LinkedList<CutPoint>();
 	    
@@ -130,7 +132,7 @@ public class Cutting : MonoBehaviour {
 			var cutPosition = GenerateNewCutPosition();
 			CutPoint clone = Instantiate(CutPrefab, cutPosition, Quaternion.identity, cutContainer.transform);
 			// TODO: this is a bit messy, move GemObject calculation somewhere else.
-			clone.CutVector = -(cutPosition - GemSpawnManager.transform.position)*1.8f;
+			clone.CutVector = -(cutPosition - GemSpawnManager.Gem.transform.position)*1.8f;
 			clone.onSpawnComplete += cut => activeCuts.AddLast(cut);
 			//SFX.Play("sound");
 
@@ -221,7 +223,7 @@ public class Cutting : MonoBehaviour {
 		// Calculate the vector which is perpendicular to cut so that we can rotate around it.
 		// https://gamedev.stackexchange.com/questions/70075/how-can-i-find-the-perpendicular-to-a-2d-vector
 		Vector3 perpendicular = new Vector3(direction.y, -direction.x, direction.z) * RotatePower;
-		activeRotation = activeRotation = GemSpawnManager.Gem.transform.DORotate(perpendicular, score * RotateDurationMultiplier, RotateMode.WorldAxisAdd)
+		activeRotation = GemSpawnManager.Gem.transform.DORotate(perpendicular, score * RotateDurationMultiplier, RotateMode.WorldAxisAdd)
 			.SetEase(RotateEase);
 	}
 	
@@ -232,7 +234,7 @@ public class Cutting : MonoBehaviour {
 		Vector3 vecPos = Utility.RotateAroundPivot(MaxStartPoint.normalized * distance, Vector3.forward,
 			new Vector3(0, 0, Random.Range(0f, MaxAngle)));
 		    
-		return vecPos + GemSpawnManager.transform.position;
+		return vecPos + GemSpawnManager.Gem.transform.position;
 	}
 
 	// Find cut point closest to another position.
@@ -283,8 +285,11 @@ public class Cutting : MonoBehaviour {
 		GradeText.text = Quality.GradeToString(grade);
 		GradeText.color = Quality.GradeToColor(grade);
 		GradeText.gameObject.SetActive(true);
+		if (grade == Quality.QualityGrade.Junk)
+			GemSpawnManager.UpgradeGem(false);
+		else
+			GemSpawnManager.UpgradeGem(true);
 		
-		GemSpawnManager.UpgradeGem();
 
 		foreach (CutPoint cut in activeCuts) {
 			Destroy(cut.gameObject);
@@ -293,8 +298,16 @@ public class Cutting : MonoBehaviour {
 		ShowUIButtons();
 	}
 
-	public void Return() {
+	public void JunkReturn()
+	{
 		ReturnOrRetry.Return("Cut " + GameManager.Instance.GemTypeTransfer, grade);
+	}
+
+	public void Return() {
+		if (grade != Quality.QualityGrade.Junk)
+			ReturnOrRetry.Return("Cut " + GameManager.Instance.GemTypeTransfer, grade);
+		else
+			ReturnOrRetryButtons.GetComponent<UpdateRetryButton>().WarningTextEnable();
 	}
 
 	public void Retry() {

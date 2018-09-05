@@ -90,10 +90,14 @@ public class TutorialToolbox : MonoBehaviour {
 
     // Debug.
     private Ray previousRay;
+    
+    //Combiner
+    public CombineIntoGolemTut golemCombiner;
 
     // Use this for initialization
     void Start()
     {
+        SFX.Play("WickedGroveTrack",1f,1f,0f,true,0f);
         currentTool = Tool.None;
         SwitchTool(Tool.None);
         //inventoryhelper = Inventory.Instance;
@@ -336,6 +340,7 @@ public class TutorialToolbox : MonoBehaviour {
             {
                 currentSelection = slot;
                 inspectionPanel.SetActive(true);
+                SFX.Play("Mag_item_select", 1f, 1f, 0f, false, 0f);
                 textHeading.text = instance.itemName;
                 textInfo.text = instance.itemInfo;
 
@@ -384,6 +389,7 @@ public class TutorialToolbox : MonoBehaviour {
             {
                 this.currentSelection = slot;
                 MoveUp(slot);
+                SFX.Play("Item_lifted", 1f, 1f, 0f, false, 0f);
                 // Second selection.
             }
             else
@@ -415,6 +421,7 @@ public class TutorialToolbox : MonoBehaviour {
                         t2 = obj2.transform;
 
                     //SFX.Play("item_lift");
+                    SFX.Play("Item_shifted", 1f, 1f, 0f, false, 0f);
                     MoveUp(slot1)
                         .OnComplete(() => t1.DOMove(slot2.transform.position + Vector3.up, 0.6f).SetEase(Ease.OutBack)
                             .OnComplete(() => t1.DOMove(slot2.transform.position, 1f).SetEase(Ease.OutBounce)));
@@ -529,21 +536,7 @@ public class TutorialToolbox : MonoBehaviour {
                     
                     // Check for a free slot.
                     if (ShonkyInventory.Instance.FreeSlot()) {
-                        GameObject obj1, obj2;
-                        Vector2 midPoint;
-                        if (currentSelection.GetPrefabInstance(out obj1) && slot.GetPrefabInstance(out obj2)) {
-                            Transform t1 = obj1.transform,
-                                      t2 = obj2.transform;
-                            
-                            midPoint = ((currentSelection.transform.position + Vector3.up) + (slot.transform.position + Vector3.up) / 2f);
-                            
-                            SFX.Play("item_lift");
-                            t2.DOMove(slot.transform.position + Vector3.up, 0.7f).SetEase(Ease.OutBack)
-                                .OnComplete(() => t2.DOMove(midPoint, 0.6f).SetEase(Ease.OutBack));
-                            t1.DOMove(currentSelection.transform.position + Vector3.up, 0.7f).SetEase(Ease.OutBack)
-                                .OnComplete(() => t1.DOMove(midPoint, 0.6f).SetEase(Ease.OutBack))
-                                    .OnComplete(() => CombineItems(slot));
-                        }
+                        golemCombiner.GolemAnimationSequence(currentSelection, item1, slot, item2);
                     } else {
                         GameObject itemObj;
                         if (currentSelection.GetPrefabInstance(out itemObj)) {
@@ -566,6 +559,7 @@ public class TutorialToolbox : MonoBehaviour {
         //Move selection up
         GameObject itemObj;
         if (currentSelection.GetPrefabInstance(out itemObj)) {
+            SFX.Play("item_lift");
             Inventory.Instance.RemoveItem(currentSelection.index);
             currentSelection.RemoveDontDestroy();
 
@@ -579,56 +573,18 @@ public class TutorialToolbox : MonoBehaviour {
             //.OnComplete(() => asyncLoad.allowSceneActivation = true));
         }
     }
-    //Method used to combine shonkys
-    private void CombineItems(Slot slot) {
-
-        //Find index of items and remove from inventory backend
-        string gemType = FindGemType(slot, currentSelection);
-        int index1, index2;
-        index1 = currentSelection.index;
-        index2 = slot.index;
-        //Spawn a golem to show item creation 
-        //Play SFX
-        GameManager.Instance.TutorialGolemMade = true;
-        SFX.Play("golem_created");
-        //soundEffects.clip = golumCreated;
-        //soundEffects.Play();
-        Debug.Log("Created Golem");
-        //Get the average quality of the shell and charged gem, assign to new golem.
-        Quality.QualityGrade item1 = currentSelection.itemInstance.Quality;
-        Quality.QualityGrade item2 = slot.itemInstance.Quality;
-        Quality.QualityGrade avg = Quality.CalculateCombinedQuality(item1, item2);
-        ItemInstance newGolem = new ItemInstance(gemType, 1, avg, true);
-        int index = ShonkyInventory.Instance.InsertItem(newGolem);
-        if (index != -1)
-        {
-            PenSlot pSlot = physicalShonkyInventory.GetSlotAtIndex(index);
-            GameObject clone = Instantiate(newGolem.item.physicalRepresentation, pSlot.transform.position,
-                pSlot.transform.rotation);
-            //PhysicalShonkyInventory.Instance.InsertItemAtSlot(index, newGolem, inst);
-            //Move new golem to pen
-            pSlot.SetItemInstantiated(newGolem,clone);
-            physicalShonkyInventory.MoveToPen(index);
-            //Remove backend items
-            Inventory.Instance.RemoveItem(index1);
-            Inventory.Instance.RemoveItem(index2);
-            //Remove front end items
-            currentSelection.RemoveItem();
-            slot.RemoveItem();
-            //reset selection
-            currentSelection = null;
-
-            AchievementManager.Get("golem_create_01");
-        }
-
-        TutorialProgressChecker.Instance.Golem = true;
-        TutorialProgressChecker.Instance.OnlyShowTextBox("Your first creation is complete! Check it out in the upper shop area");
-        GameManager.Instance.SendToMine = true;
-        GameManager.Instance.TutorialIntroComplete = true;
-        //tutorialManager.LoadNormalInventory();
+    
+    public void ClearGolemCreation(Slot slot)
+    {
+        //Remove front end items
+        currentSelection.RemoveItem();
+        slot.RemoveItem();
+        //reset selection
+        currentSelection = null;
+        AchievementManager.Get("golem_create_01");
     }
     //Method used to find the gem type selected
-    private string FindGemType(Slot slot1, Slot slot2) {
+    public string FindGemType(Slot slot1, Slot slot2) {
         if (slot1.itemInstance.itemName == "Charged Emerald" || slot2.itemInstance.itemName == "Charged Emerald") {
             return "EmeraldGolem1";
         } else if (slot1.itemInstance.itemName == "Charged Ruby" || slot2.itemInstance.itemName == "Charged Ruby") {
@@ -671,6 +627,7 @@ public class TutorialToolbox : MonoBehaviour {
         float gemChance = 0.4f,
               oreChance = 1.00f;
         int numberItems = UnityEngine.Random.Range(6, 12);
+        SFX.Play("Res_pouch_open", 1f, 1f, 0f, false, 0f);
 
         //SFX.Play("sound");
         var drops = new List<ItemInstance>();
@@ -801,6 +758,7 @@ public class TutorialToolbox : MonoBehaviour {
         slot.RemoveItem();
         slot = null;
         SaveManager.SaveInventory();
+        SFX.Play("Bin_item_goaway", 1f, 1f, 0f, false, 0f);
         canSelect = true;
 
     }

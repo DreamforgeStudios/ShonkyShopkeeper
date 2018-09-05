@@ -9,8 +9,8 @@ using UnityEngine.UI;
 public class IntroScene : MonoBehaviour {
     //For Old Intro
     public RawImage BG;
-    public Button startGame1, startGame2;
-    
+    public Button startGame1, startGame2, optionsButton;
+    public GameObject optionsObject;
     public TextMeshProUGUI text1;
     public List<string> narrative;
     private bool text1enabled, continueNarrative, goToTutorial = false;
@@ -22,11 +22,14 @@ public class IntroScene : MonoBehaviour {
     private void Start()
     {
         text1.CrossFadeAlpha(0f, 0.25f, false);
+        SFX.Play("MainMenuTrack", 1f, 1f, 0f, true, 0f);
     }
 
     public void StartTutorial()
     {
+        optionsObject.SetActive(false);
         goToTutorial = true;
+        GameManager.Instance.InTutorial = true;
         SaveManager.LoadFromTemplate(tutorialInventory);
         SaveManager.LoadFromShonkyTemplate(TutorialShonkyInventory);
         SaveManager.SaveInventory();
@@ -37,6 +40,7 @@ public class IntroScene : MonoBehaviour {
 
     public void StartNoTutorial()
     {
+        optionsObject.SetActive(false);
         GameManager.Instance.InTutorial = false;
         GameManager.Instance.TutorialIntroComplete = true;
         SaveManager.LoadFromTemplate(defaultInventory);
@@ -52,6 +56,7 @@ public class IntroScene : MonoBehaviour {
         BG.DOColor(Color.black, 2f);
         FadeButtonCompletely(startGame1);
         FadeButtonCompletely(startGame2);
+        FadeButtonCompletely(optionsButton);
         yield return new WaitForSeconds(2f);
         text1.text = ProgressNarrative();
         currentNarrativeString++;
@@ -98,6 +103,13 @@ public class IntroScene : MonoBehaviour {
         Debug.Log("Current text " + currentNarrativeString);
         currentNarrativeString++;
         return narrative[currentNarrativeString];
+    }
+
+    public void EnableOptionsScreen()
+    {
+        Debug.Log("Clicked Button");
+        optionsObject.SetActive(true);
+        optionsObject.GetComponent<OptionsScreen>().EnableOptions();
     }
 }
 

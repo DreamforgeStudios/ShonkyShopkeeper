@@ -9,16 +9,20 @@ public static class SFX {
         soundDB = Object.Instantiate((SoundDatabase) Resources.Load("SFXDatabase"));
     
     public static void Play(string sound, float volume = 1, float pitch = 1, float delay = 0, bool looping = false, float playaAt = 0) {
-        var clip = soundDB.GetClip(sound);
+        if (GameManager.Instance.PlayingAudio) {
+            var clip = soundDB.GetClip(sound);
 
-        var source = soundDB.AudioSourceInstance;
-        source.clip = clip;
-        source.volume = volume;
-        source.pitch = pitch;
-        source.time = playaAt;
-        source.loop = looping;
+            var source = soundDB.AudioSourceInstance;
+            source.clip = clip;
+            source.volume = volume;
+            source.pitch = pitch;
+            source.time = playaAt;
+            source.loop = looping;
 
-        source.PlayDelayed(delay);
+            source.PlayDelayed(delay);
+        } else {
+            StopAll();
+        }
     }
 
     public static void StopAll() {

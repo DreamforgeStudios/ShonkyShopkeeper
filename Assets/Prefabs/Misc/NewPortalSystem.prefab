@@ -315,7 +315,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1888404176520656}
   m_LocalRotation: {x: -0, y: 0.004517529, z: -0, w: 0.9999898}
-  m_LocalPosition: {x: -6.05, y: 0.97, z: -2.88}
+  m_LocalPosition: {x: -6.05, y: 0.97, z: -3.11}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4865986752640818}
@@ -18399,7 +18399,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 4
+      scalar: 2
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -31694,8 +31694,8 @@ ParticleSystemRenderer:
   m_ReflectionProbeUsage: 0
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: ba9865942c949074d8b31d04afaf5c70, type: 2}
-  - {fileID: 2100000, guid: ba9865942c949074d8b31d04afaf5c70, type: 2}
+  - {fileID: 2100000, guid: 96e02884595bea941ae0263db182739f, type: 2}
+  - {fileID: 2100000, guid: 96e02884595bea941ae0263db182739f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

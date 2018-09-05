@@ -58,6 +58,14 @@ MonoBehaviour:
     - Bin_item_goaway
     - Item_Appear
     - Item_Appear_Mystic
+    - MainMenuTrack
+    - BiddingTrack
+    - CraftingOre
+    - CraftingGem
+    - WickedGroveTrack
+    - FlamingPeakTrack
+    - SkyCityTrack
+    - GiantsPassTrack
     m_values:
     - {fileID: 8300000, guid: 2c0dcf73926fa024ab5066e2aa7e29d6, type: 3}
     - {fileID: 8300000, guid: bd590c4fc0302fd4387f41d98bf562de, type: 3}
@@ -102,4 +110,12 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 90a62763e87d37b4dbbbbb2948ebde50, type: 3}
     - {fileID: 8300000, guid: e2081b471b5c7ae49b8ac0c4448da642, type: 3}
     - {fileID: 8300000, guid: 4a096cac1bfe00d4a8c5dde436893898, type: 3}
+    - {fileID: 8300000, guid: c9fbe3999d050524e861c0d429053bd6, type: 3}
+    - {fileID: 8300000, guid: b1e1210faf530294cb6de0fc7e55dc29, type: 3}
+    - {fileID: 8300000, guid: 8b34468c4e105ca4bacf15ed05b85bdf, type: 3}
+    - {fileID: 8300000, guid: 1a15b3f29cd75a84d9ae7da9ae3d61fc, type: 3}
+    - {fileID: 8300000, guid: 720b80b732796954b908ed42961d0796, type: 3}
+    - {fileID: 8300000, guid: bda76bb63a949624297b51dc9714d55c, type: 3}
+    - {fileID: 8300000, guid: 6cfecaf82a16b8f4b9858370e808bcc6, type: 3}
+    - {fileID: 8300000, guid: 693ce9fd0b1271a438e7a23402c6e171, type: 3}
   ClipKey: golem_create
