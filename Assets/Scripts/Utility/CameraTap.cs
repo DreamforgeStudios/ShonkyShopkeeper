@@ -48,10 +48,16 @@ public class CameraTap : MonoBehaviour {
         if (!GameManager.Instance.TutorialIntroTopComplete && GameManager.Instance.InTutorial)
         {
             GameManager.Instance.TutorialIntroTopComplete = true;
-            tutManager.NextDialogue();
+            //tutManager.NextDialogue();
             tutManager.StartForcepParticles();
-            if (GameManager.Instance.TutorialIntroComplete)
-                tutManager.HideCanvas();
+            tutManager.EnableCameraTap(false,false);
+        }
+
+        if (GameManager.Instance.MineGoleminteractGolem && !topScreen)
+        {
+            GameManager.Instance.OpenPouch = true;
+            tutManager.PouchText();
+            
         }
             
     }

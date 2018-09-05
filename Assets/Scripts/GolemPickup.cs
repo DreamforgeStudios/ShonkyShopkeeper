@@ -20,7 +20,7 @@ public class GolemPickup : MonoBehaviour {
     private Vector3 modifiedMousePos;
     private Vector3 mousePos;
     private bool overPortal = false;
-    private bool holding = false;
+    private bool holding, textboxShowing = false;
     private Rigidbody golemRb;
     private Vector3 boundedPos;
     private Vector3 lastPos;
@@ -37,6 +37,7 @@ public class GolemPickup : MonoBehaviour {
     public TutorialPhysicalInventory tutInv;
     public TutorialPhysicalShonkyInventory tutShonkyInv;
     public PhysicalShonkyInventory shonkyInv;
+    public TutorialManager tutManager;
 
     //Radial progress bar
     public Image RadialTimer1, RadialTimer2, RadialTimer3;
@@ -46,6 +47,7 @@ public class GolemPickup : MonoBehaviour {
     //Particle system to highlight items to be inspected
     public GameObject particles;
     private GameObject particleChild;
+    
 
     // Use this for initialization
     void Start() {
@@ -215,12 +217,10 @@ public class GolemPickup : MonoBehaviour {
                             {
                                 if (GameManager.Instance.ReturnPouch)
                                 {
-                                    Debug.Log("ReturnedPouch");
-                                    StartCoroutine(TutorialResourcePouch("Why dont you check out what your golem found by returning to the lower shop!"));
-                                    StopCoroutine(TutorialResourcePouch("Why dont you check out what your golem found by returning to the lower shop!"));
+                                    //tutManager.StartDialogue(tutManager.tapPouch);
                                     GameManager.Instance.ReturnPouch = false;
                                     GameManager.Instance.MineGoleminteractGolem = true;
-                                    GameManager.Instance.OpenPouch = true;
+                                    //GameManager.Instance.OpenPouch = true;
                                 }
                             }
                         }
@@ -294,20 +294,10 @@ public class GolemPickup : MonoBehaviour {
         {
             if (GameManager.Instance.HasMinePouch)
             {
-                StartCoroutine(TutorialResourcePouch("Tap the pouch in the golems hands to put it your inventory!"));
-                StopCoroutine(TutorialResourcePouch("Tap the pouch in the golems hands to put it your inventory!"));
+                tutManager.StartDialogue(tutManager.tapPouch);
+                GameManager.Instance.ReturnPouch = true;
             }
         }
-    }
-
-    private IEnumerator TutorialResourcePouch(string text)
-    {
-        yield return new WaitForSeconds(5f);
-        TutorialProgressChecker.Instance.OnlyShowTextBox(text);
-        GameManager.Instance.HasMinePouch = false;
-        //particleChild = Instantiate(particles, physicalRep.transform.position, physicalRep.transform.rotation);
-        //particleChild.transform.parent = physicalRep.transform;
-        GameManager.Instance.ReturnPouch = true;
     }
 
     private void SetGolemBagType(int index)
@@ -488,14 +478,14 @@ public class GolemPickup : MonoBehaviour {
         {            
             if (GameManager.Instance.WaitingForTimer)
             {
-                TutorialProgressChecker.Instance.OnlyShowTextBox("Once the yellow timer has filled, your golem is ready to come back!");
                 GameManager.Instance.WaitingForTimer = false;
             }
-            if (GameManager.Instance.TimerComplete)
+            if (GameManager.Instance.TimerComplete && !textboxShowing)
             {
-                TutorialProgressChecker.Instance.OnlyShowTextBox("Tap on the portal to retrieve your golem from the mines!");
+                tutManager.StartDialogue(tutManager.retrieveGolem);
                 GameManager.Instance.HasMinePouch = true;
                 GameManager.Instance.TimerComplete = false;
+                textboxShowing = true;
             }
         }
     }
