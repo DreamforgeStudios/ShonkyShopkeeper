@@ -236,6 +236,7 @@ public class TutorialManager : MonoBehaviour
 		SaveManager.SaveInventory();
 		SaveManager.SaveShonkyInventory();
 		travelButton.gameObject.SetActive(true);
+		GameManager.Instance.CameraRotTransfer = 8f;
 	}
 
 	private void StartParticles(GameObject tool)

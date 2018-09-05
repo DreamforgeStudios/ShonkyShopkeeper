@@ -177,4 +177,10 @@ public class PopupTextManager : MonoBehaviour {
 		
 		UpdateCloser();
 	}
+	
+	//Temporary method to allow it to be used on the map screen - Sorry
+	public void EnterModified()
+	{
+		entered = true;
+	}
 }
