@@ -117,7 +117,8 @@ public class CutPoint : MonoBehaviour {
 
 	[Button("Set Selected")]
 	public void SetSelected() {
-		r.material.color = ActiveCircleColor.Evaluate(0);
+        SFX.Play("Cutting_tap");
+        r.material.color = ActiveCircleColor.Evaluate(0);
 		lr.colorGradient = ActiveLRStart;
 
 		startWidthTween.Complete();

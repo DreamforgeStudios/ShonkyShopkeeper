@@ -197,10 +197,10 @@ public class Smelting : MonoBehaviour {
 	public void Stow() {
         float amountToStow = accelerationCurve.Evaluate(heldTime);
         particle.Emit((int)(amountToStow * amountOfParticles));
-        SFX.Play("bump_small");
+        //SFX.Play("bump_small");
         
         rb.AddTorque(0, 0, -tapForce * amountToStow);
-		//SFX.Play("sound");
+		SFX.Play("Smelting_Flame_Jet");
 
         // Alternate approach.
         /*
