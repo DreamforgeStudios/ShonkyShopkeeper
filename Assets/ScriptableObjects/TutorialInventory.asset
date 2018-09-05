@@ -32,15 +32,15 @@ MonoBehaviour:
     InMine: 0
     pouchType: 0
   - Quantity: 0
-    Quality: 0
+    Quality: 2
     IsNew: 0
-    ItemIdentifier: 
+    ItemIdentifier: shell
     InMine: 0
     pouchType: 0
   - Quantity: 0
-    Quality: 0
+    Quality: 5
     IsNew: 0
-    ItemIdentifier: 
+    ItemIdentifier: charged ruby
     InMine: 0
     pouchType: 0
   - Quantity: 1

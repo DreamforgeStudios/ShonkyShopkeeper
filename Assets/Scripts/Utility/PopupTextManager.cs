@@ -49,6 +49,9 @@ public class PopupTextManager : MonoBehaviour {
 	[ReadOnly] // only read only in inspector.
 	public int ActivePage = 0;
 
+	[ReadOnly] 
+	public bool closed = false;
+
 	private Material closerMat;
 	//private Button closerBtn;
 	//private RectTransform rTransform;
@@ -119,7 +122,7 @@ public class PopupTextManager : MonoBehaviour {
 	// Leave the scene.
 	public void DoExitAnimation() {
 		if (!entered) return;
-
+		closed = true;
 		transform.DOLocalMove(StartScrollPosition, ScrollDurationOut).SetEase(ScrollEaseOut)
 			.OnComplete( () => Destroy(gameObject)); // We probably shouldn't destroy, but not sure what else to do atm.
 	}
