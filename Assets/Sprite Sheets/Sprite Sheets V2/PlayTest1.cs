@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayTest1 : StateMachineBehaviour {
-
     //animation["Test 1"].wrapMode = WrapMode.Once;
     //animation.Play("Test 1");
 
