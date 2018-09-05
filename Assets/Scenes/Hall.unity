@@ -1149,16 +1149,6 @@ Prefab:
       propertyPath: m_isInputParsingRequired
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 33047039078996862, guid: 82083a64ece4f5a40951c2e35974f325,
-        type: 2}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 33454765475889016, guid: 82083a64ece4f5a40951c2e35974f325,
-        type: 2}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 114941400407673144, guid: 82083a64ece4f5a40951c2e35974f325,
         type: 2}
       propertyPath: m_havePropertiesChanged
