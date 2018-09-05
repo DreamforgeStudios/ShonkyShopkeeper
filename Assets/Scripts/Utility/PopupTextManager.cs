@@ -45,6 +45,10 @@ public class PopupTextManager : MonoBehaviour {
 	// The 'closer' is the object that allows the user to close the text box.
 	[BoxGroup("Object Assignments")]
 	public GameObject Closer;
+	[BoxGroup("Object Assignments")]
+	public Material CloserMaterial;
+	[BoxGroup("Object Assignments")]
+	public Camera RenderCamera;
 	
 	[ReadOnly] // only read only in inspector.
 	public int ActivePage = 0;
@@ -52,7 +56,6 @@ public class PopupTextManager : MonoBehaviour {
 	[ReadOnly] 
 	public bool closed = false;
 
-	private Material closerMat;
 	//private Button closerBtn;
 	//private RectTransform rTransform;
 
@@ -75,7 +78,7 @@ public class PopupTextManager : MonoBehaviour {
 
 	// Put the narrative manager back to a default state.
 	public void Init() {
-		closerMat = Closer.GetComponent<MeshRenderer>().material;
+		//CloserMaterial = Closer.GetComponent<MeshRenderer>().material;
 		ActivePage = 0;
 		TextFront.text = PopupTexts[ActivePage];
 		UpdateCloser();
@@ -84,8 +87,10 @@ public class PopupTextManager : MonoBehaviour {
 	private void ProcessMouse() {
 		if (Input.GetMouseButtonDown(0)) {
 			RaycastHit hit;
-			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+			Ray ray = RenderCamera.ScreenPointToRay(Input.mousePosition);
+			this.ray = ray;
 			if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask)) {
+				Debug.Log("Hit" + hit.transform.name);
 				if (hit.transform.CompareTag("MainButton"))
 					NextText();
 				else if (hit.transform.CompareTag("Aux"))
@@ -93,14 +98,19 @@ public class PopupTextManager : MonoBehaviour {
 			}
 		}
 	}
-	
+
+	private Ray ray;
+	private void OnDrawGizmos() {
+		Gizmos.DrawRay(ray);
+	}
+
 	private void ProcessTouch() {
         if (Input.touchCount == 0) {
             return;
         }
 
 		RaycastHit hit;
-		Ray ray = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
+		Ray ray = RenderCamera.ScreenPointToRay(Input.GetTouch(0).position);
 		if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask)) {
 			if (hit.transform.CompareTag("MainButton"))
 				NextText();
@@ -124,15 +134,15 @@ public class PopupTextManager : MonoBehaviour {
 		if (!entered) return;
 		closed = true;
 		transform.DOLocalMove(StartScrollPosition, ScrollDurationOut).SetEase(ScrollEaseOut)
-			.OnComplete( () => Destroy(gameObject)); // We probably shouldn't destroy, but not sure what else to do atm.
+			.OnComplete(() => Destroy(gameObject.transform.parent.gameObject)); // We probably shouldn't destroy, but not sure what else to do atm.
 	}
 
 	// Update the closer so that if we're on the last page it can be closed.
 	private void UpdateCloser() {
 		if (ActivePage >= PopupTexts.Count - 1) {
-			closerMat.color = Color.green;
+			CloserMaterial.color = Color.green;
 		} else {
-			closerMat.color = Color.red;
+			CloserMaterial.color = Color.red;
 		}
 	}
 	

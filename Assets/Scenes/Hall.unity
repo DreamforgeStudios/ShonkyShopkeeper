@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311992, g: 0.38074034, b: 0.35872713, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -323,7 +323,7 @@ Prefab:
         type: 2}
       propertyPath: gizmoPrefab
       value: 
-      objectReference: {fileID: 1332457355533254, guid: 11da7b10b3ad39f47bcf3ad8559d85dd,
+      objectReference: {fileID: 1668627367969516, guid: 7ee18a29f02ec0145a189d1fce7433d9,
         type: 2}
     - target: {fileID: 114374969198963020, guid: 25dd6878305a78d42bb9578ec9c719c1,
         type: 2}
@@ -338,7 +338,7 @@ Prefab:
     - target: {fileID: 114374969198963020, guid: 25dd6878305a78d42bb9578ec9c719c1,
         type: 2}
       propertyPath: intro.Array.data[2]
-      value: ' In order to sell your wares you''re going to need to find some customers!'
+      value: In order to sell your wares you're going to need to find some customers!
       objectReference: {fileID: 0}
     - target: {fileID: 114374969198963020, guid: 25dd6878305a78d42bb9578ec9c719c1,
         type: 2}
@@ -353,7 +353,7 @@ Prefab:
     - target: {fileID: 114374969198963020, guid: 25dd6878305a78d42bb9578ec9c719c1,
         type: 2}
       propertyPath: map.Array.data[0]
-      value: ' Four great cities, each with unique customers and golems to create!'
+      value: Four great cities, each with unique customers and golems to create!
       objectReference: {fileID: 0}
     - target: {fileID: 114374969198963020, guid: 25dd6878305a78d42bb9578ec9c719c1,
         type: 2}
@@ -4888,7 +4888,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 130871
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0

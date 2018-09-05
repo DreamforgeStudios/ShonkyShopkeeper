@@ -77,8 +77,8 @@ public class TutorialManager : MonoBehaviour
 	public void StartDialogue(List<string> dialogue)
 	{
 		toolbox.canSelect = false;
-		clone = Instantiate(gizmoPrefab,
-			GameObject.FindGameObjectWithTag("MainCamera").transform).GetComponent<PopupTextManager>();
+        clone = Instantiate(gizmoPrefab, GameObject.FindGameObjectWithTag("MainCamera").transform)
+	        .GetComponentInChildren<PopupTextManager>();
 		clone.PopupTexts = dialogue;
 		clone.Init();
 		clone.DoEnterAnimation();

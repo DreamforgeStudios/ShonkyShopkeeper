@@ -64,8 +64,8 @@ public class BarterTutorial : MonoBehaviour
 
 	private void Start()
 	{
-		clone = Instantiate(gizmoPrefab,
-			GameObject.FindGameObjectWithTag("MainCamera").transform).GetComponent<PopupTextManager>();
+        clone = Instantiate(gizmoPrefab, GameObject.FindGameObjectWithTag("MainCamera").transform)
+	        .GetComponentInChildren<PopupTextManager>();
 		clone.PopupTexts = tutorialDialogue;
 		clone.Init();
 		clone.DoEnterAnimation();

@@ -125,8 +125,8 @@ public class TutorialProgressChecker : MonoBehaviour {
 									&& schematicProgress[golem] == ImageStatus.UnAchieved && !readyGolem)
 		{
 			readyGolem = true;
-			clone = Instantiate(gizmoPrefab,
-				GameObject.FindGameObjectWithTag("MainCamera").transform).GetComponent<PopupTextManager>();
+            clone = Instantiate(gizmoPrefab, GameObject.FindGameObjectWithTag("MainCamera").transform)
+                .GetComponentInChildren<PopupTextManager>();
 			clone.PopupTexts = dialogue;
 			clone.Init();
 			clone.DoEnterAnimation();

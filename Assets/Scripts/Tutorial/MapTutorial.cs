@@ -53,7 +53,7 @@ public class MapTutorial : MonoBehaviour
 
 	//MAP TUTORIAL START
 
-	public GameObject shopButtonObj, sphere, particles, particleChild, gizmoPrefab, gizmoTiny;
+	public GameObject shopButtonObj, sphere, particles, particleChild, gizmoPrefab;
 	public bool clickedOrb, CanMoveCamera  = false;
 	public List<string> intro, map;
 	private PopupTextManager clone;
@@ -62,7 +62,6 @@ public class MapTutorial : MonoBehaviour
 	private void Start()
 	{
 		StartDialogue(intro);
-		gizmoTiny.SetActive(false);
 	}
 	
 	private void CheckForTutProgressChecker()
@@ -75,13 +74,14 @@ public class MapTutorial : MonoBehaviour
 	
 	public void StartDialogue(List<string> dialogue)
 	{
-		clone = Instantiate(gizmoPrefab,
-			GameObject.FindGameObjectWithTag("MainCamera").transform).GetComponent<PopupTextManager>();
+        clone = Instantiate(gizmoPrefab, GameObject.FindGameObjectWithTag("MainCamera").transform)
+	        .GetComponentInChildren<PopupTextManager>();
 		clone.PopupTexts = dialogue;
 		clone.Init();
 		clone.DoEnterAnimation();
 	}
 
+	/*
 	public void StartTinyDialogue(List<string> dialogue)
 	{
 		gizmoTiny.SetActive(true);
@@ -90,6 +90,7 @@ public class MapTutorial : MonoBehaviour
 		clone.Init();
 		clone.EnterModified();
 	}
+	*/
 	
 	private void Update()
 	{
@@ -104,7 +105,7 @@ public class MapTutorial : MonoBehaviour
 	{
 		StopSphereParticle();
 		clickedOrb = true;
-		StartTinyDialogue(map);
+		StartDialogue(map);
 	}
 	
 	private void StartSphereParticles()
