@@ -356,7 +356,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkDirection: 0
   walkSpeed: 1
-  personality: {fileID: 11400000, guid: 220d617a2d1fda24b863eb05faa7c3bd, type: 2}
+  WizardFront: {fileID: 1130878422398642, guid: a1a0f52d72ce66246b1095bf7869084d,
+    type: 2}
   walkNormal: 1
 --- !u!212 &212000461968307460
 SpriteRenderer:
