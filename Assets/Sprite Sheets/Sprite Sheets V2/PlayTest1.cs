@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayTest1 : StateMachineBehaviour {
-
-    animation["Test 1"].wrapMode = WrapMode.Once;
-    animation.Play("Test 1");
+    //animation["Test 1"].wrapMode = WrapMode.Once;
+    //animation.Play("Test 1");
 
 	 // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 	//override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {

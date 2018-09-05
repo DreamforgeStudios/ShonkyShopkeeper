@@ -58,13 +58,10 @@ public class NPCWalker : MonoBehaviour {
 
     public void SetWalkDirection(int walkDirection) {
 		this.walkDirection = walkDirection;
-	    if (walkDirection == -1)
-	    {
-		    transform.eulerAngles = new Vector3(0f,180f,0f);
-	    }
-	    else
-	    {
+	    if (walkDirection == -1) {
 		    transform.eulerAngles = new Vector3(0f,0f,0f);
+	    } else {
+		    transform.eulerAngles = new Vector3(0f,180f,0f);
 	    }
 	}
 
