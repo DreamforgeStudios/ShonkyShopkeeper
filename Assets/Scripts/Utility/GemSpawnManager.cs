@@ -11,7 +11,7 @@ public class GemSpawnManager : MonoBehaviour {
 	public GameObject ShineParticleSystem;
 	public GameObject SmokeParticleSystem;
 
-	public bool Debug;
+	public bool EnableDebug;
 
 	public GameObject Gem {
 		get { return spawnedClone; }
@@ -78,7 +78,7 @@ public class GemSpawnManager : MonoBehaviour {
 	}
 
 	private void OnDrawGizmos() {
-		if (Debug) {
+		if (EnableDebug) {
 			Gizmos.color = Color.yellow;
 			Gizmos.DrawWireSphere(BeforeGemPosition, 1);
 			Gizmos.color = Color.green;

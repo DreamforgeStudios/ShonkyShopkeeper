@@ -18,7 +18,7 @@ public class OreSpawnManager : MonoBehaviour {
 
 	public float ScaleOverrideSmoke, ScaleOverrideShine;
 
-	public bool Debug;
+	public bool EnableDebug;
 
 
 	private GameObject spawnedClone;
@@ -50,7 +50,7 @@ public class OreSpawnManager : MonoBehaviour {
 	}
 	
 	private void OnDrawGizmos() {
-		if (Debug) {
+		if (EnableDebug) {
 			Gizmos.color = Color.yellow;
 			Gizmos.DrawWireSphere(BeforePosition, 1);
 			Gizmos.color = Color.green;

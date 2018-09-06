@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class BarterTutorial : MonoBehaviour {
+public class BarterTutorial : MonoBehaviour
+{
 
 	private static BarterTutorial _instance;
 
@@ -45,55 +46,28 @@ public class BarterTutorial : MonoBehaviour {
 		else
 			Destroy(this.gameObject);
 	}
-	
+
 	//START BARTER TUTORIAL
-	public GameObject textObj, particles, particleChild;
-	public TextMeshProUGUI textBox;
-	public int currentTextNumber;
+	public GameObject particles, particleChild, gizmoPrefab;
 	private bool textEnabled = false;
-	public bool clickedNPC  = false;
+	public bool clickedNPC = false;
 	public List<string> tutorialDialogue = new List<string>();
-	
+	private PopupTextManager clone;
+
 	private void CheckForTutProgressChecker()
 	{
 		Debug.Log("Started barter tutorial manager");
 		DontDestroyOnLoad(gameObject);
 		GameObject obj = GameObject.FindGameObjectWithTag("TutorialProgress");
 		Destroy(obj);
-		currentTextNumber = 0;
-		ShowCanvas();
 	}
-	
-	private void ShowCanvas()
+
+	private void Start()
 	{
-		textObj.SetActive(true);
-		DetermineText();
-	}
-	
-	private void DetermineText()
-	{
-		OnlyShowTextBox(tutorialDialogue[currentTextNumber]);
-	}
-	
-	private IEnumerator FadeCanvas()
-	{
-		yield return new WaitForSeconds(3);
-		if (currentTextNumber == 0)
-		{
-			currentTextNumber++;
-			DetermineText();
-			yield return new WaitForSeconds(3);
-		}
-		textEnabled = false;
-		textObj.SetActive(false);
-		
-	}
-	
-	public void OnlyShowTextBox(string text)
-	{
-		textObj.SetActive(true);
-		textEnabled = true;
-		textBox.text = text;
-		StartCoroutine(FadeCanvas());
+        clone = Instantiate(gizmoPrefab, GameObject.FindGameObjectWithTag("MainCamera").transform)
+	        .GetComponentInChildren<PopupTextManager>();
+		clone.PopupTexts = tutorialDialogue;
+		clone.Init();
+		clone.DoEnterAnimation();
 	}
 }

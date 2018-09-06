@@ -18,6 +18,8 @@ public class TutorialPhysicalInventory : MonoBehaviour {
 	//Particle system to highlight items to be inspected
 	public GameObject particles;
 	private GameObject particleChild;
+	public List<GameObject> particlesOnItems;
+	public bool createdParticles = false;
 
 	// Use this for initialization
 	void Start () {
@@ -99,26 +101,43 @@ public class TutorialPhysicalInventory : MonoBehaviour {
 
 	public void HighlightOreAndGem()
 	{
-		for (int i = 0; i < inventorySlots.Count; i++)
+		if (!createdParticles)
 		{
-			ItemInstance instance;
-			//Debug.Log(string.Format("Checking slot {0} out of {1}", i,inventorySlots.Count));
-			// If an object exists at the specified location.
-			if (Inventory.Instance.GetItem(i, out instance))
+			particlesOnItems = new List<GameObject>();
+			for (int i = 0; i < inventorySlots.Count; i++)
 			{
-				if (instance.item != null &&
-				    (instance.item.GetType() == typeof(Ore) || instance.item.GetType() == typeof(Gem)) ||
-				    instance.item.GetType() == typeof(Jewel) || instance.item.GetType() == typeof(Brick))
+				ItemInstance instance;
+				//Debug.Log(string.Format("Checking slot {0} out of {1}", i,inventorySlots.Count));
+				// If an object exists at the specified location.
+				if (Inventory.Instance.GetItem(i, out instance))
 				{
-					GameObject obj;
-					if (inventorySlots[i].GetPrefabInstance(out obj))
+					if (instance.item != null &&
+					    (instance.item.GetType() == typeof(Ore) || instance.item.GetType() == typeof(Gem)) ||
+					    instance.item.GetType() == typeof(Jewel) || instance.item.GetType() == typeof(Brick))
 					{
-						particleChild = Instantiate(particles, obj.transform.position, obj.transform.rotation);
-						particleChild.transform.parent = obj.transform;
+						GameObject obj;
+						if (inventorySlots[i].GetPrefabInstance(out obj))
+						{
+							particleChild = Instantiate(particles, obj.transform.position, obj.transform.rotation);
+							particleChild.transform.parent = obj.transform;
+							particlesOnItems.Add(particleChild);
+						}
 					}
 				}
 			}
+
+			createdParticles = true;
 		}
+	}
+
+	public void DestroyParticlesOnItems()
+	{
+		foreach (GameObject particle in particlesOnItems)
+		{
+			Destroy(particle);
+		}
+
+		createdParticles = false;
 	}
 	
 	public void HighlightShellAndChargedJewel()

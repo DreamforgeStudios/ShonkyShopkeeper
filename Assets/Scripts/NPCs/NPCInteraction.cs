@@ -6,14 +6,14 @@ using UnityEngine.SceneManagement;
 using DG.Tweening;
 
 public class NPCInteraction : MonoBehaviour {
-
     //Variables related to NPC interaction
     private int numberOfPlayerShonkys;
-    public float baseChanceOfApproach = 30.0f;
+    //public float baseChanceOfApproach = 30.0f;
     //private int numberOfInteractionsLately = 0;
-    public int maxInteractions = 5;
-    public GameObject shopFront;
-    private Vector3 shopFrontPos;
+    //public int maxInteractions = 5;
+    public Vector3 shopFrontPos;
+
+    public bool EnableDebug;
 
     //Variables related to numberOfInteractions
     //private float nextResetTime;
@@ -28,7 +28,7 @@ public class NPCInteraction : MonoBehaviour {
         //penShonkys = GameObject.FindGameObjectsWithTag("Shonky");
         //generator = new System.Random();
         //nextResetTime = Time.time + cooldown;
-        shopFrontPos = shopFront.transform.position;
+        //shopFrontPos = shopFront.transform.position;
     }
 
     // Update is called once per frame
@@ -54,22 +54,22 @@ public class NPCInteraction : MonoBehaviour {
             Debug.DrawRay(ray.origin, ray.direction * 10, Color.red, 5f);
             if (Physics.Raycast(ray, out hit, 100)) {
                 //Debug.Log(hit.transform.gameObject.name);
-                if (hit.transform.gameObject.tag == "NPC") {
+                if (hit.transform.gameObject.CompareTag("NPC")) {
                     //Need to determine if the player has any shonkys and what indexes they are at
                     List<int> shonkyIndexes = ShonkyInventory.Instance.PopulatedShonkySlots();
                     //If they do, select a random one and pass to the barter screen
                     Debug.Log(shonkyIndexes.Count);
                     if (shonkyIndexes.Count > 0) {
                         GameManager.Instance.SpriteTransfer = hit.transform.GetComponent<SpriteRenderer>().sprite;
-                        GameManager.Instance.PersonalityTransfer = hit.transform.GetComponent<NPCWalker>().personality;
+                        GameManager.Instance.WizardFrontTransfer = hit.transform.GetComponent<NPCWalker>().WizardFront;
+                        //GameManager.Instance.PersonalityTransfer = hit.transform.GetComponent<NPCWalker>().personality;
 
                         int randomShonky = shonkyIndexes[UnityEngine.Random.Range(0, shonkyIndexes.Count)];
                         ItemInstance chosenShonky;
                         if (ShonkyInventory.Instance.GetItem(randomShonky, out chosenShonky)) {
                             GameManager.Instance.ShonkyIndexTransfer = randomShonky;
 
-                            if (GameManager.Instance.BarterTutorial)
-                            {
+                            if (GameManager.Instance.BarterTutorial) {
                                 GameManager.Instance.BarterTutorial = false;
                                 PlayerPrefs.SetInt("TutorialDone", 1);
                             }
@@ -83,5 +83,10 @@ public class NPCInteraction : MonoBehaviour {
                 }
             }
         }
+    }
+
+    private void OnDrawGizmos() {
+        if (EnableDebug)
+            Gizmos.DrawWireSphere(shopFrontPos, 1f);
     }
 }

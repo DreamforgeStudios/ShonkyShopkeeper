@@ -70,6 +70,8 @@ public class GameManager : MonoBehaviour {
 	public Quality.QualityGrade QualityTransfer;
 	public Personality PersonalityTransfer;
 	public Sprite SpriteTransfer;
+	public GameObject WizardFrontTransfer;
+	//public GameObject 
     public int RetriesRemaining = 0;
 	public int ShonkyIndexTransfer = 0;
 	public float CameraRotTransfer = 8;

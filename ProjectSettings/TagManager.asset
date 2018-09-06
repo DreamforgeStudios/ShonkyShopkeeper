@@ -47,7 +47,7 @@ TagManager:
   - InventoryBin
   - Shop
   - Items
-  - 
+  - WorldUI
   - 
   - 
   - 
@@ -78,36 +78,9 @@ TagManager:
   - name: Back Ground
     uniqueID: 2112221883
     locked: 0
-  - name: Housing 3
-    uniqueID: 943911965
-    locked: 0
-  - name: GP-NPCS 3
-    uniqueID: 524042573
-    locked: 0
-  - name: Housing 2
-    uniqueID: 3247425407
-    locked: 0
-  - name: GP-NPCS 2
-    uniqueID: 2242012975
-    locked: 0
-  - name: Housing 1
-    uniqueID: 41688851
-    locked: 0
-  - name: GP-Customers
-    uniqueID: 2568662131
-    locked: 0
-  - name: Fore Ground
-    uniqueID: 1058563441
-    locked: 0
-  - name: New Layer
+  - name: Towns
     uniqueID: 734231505
     locked: 0
-  - name: New Layer
+  - name: Customers
     uniqueID: 3400020623
-    locked: 0
-  - name: New Layer
-    uniqueID: 1814070457
-    locked: 0
-  - name: New Layer
-    uniqueID: 2356026517
     locked: 0

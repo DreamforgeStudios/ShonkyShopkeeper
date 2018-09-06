@@ -134,9 +134,9 @@ public class Cutting : MonoBehaviour {
 			// TODO: this is a bit messy, move GemObject calculation somewhere else.
 			clone.CutVector = -(cutPosition - GemSpawnManager.Gem.transform.position)*1.8f;
 			clone.onSpawnComplete += cut => activeCuts.AddLast(cut);
-			//SFX.Play("sound");
+            SFX.Play("Cutting_circle_appears");
 
-			timeIntervalCounter = 0;
+            timeIntervalCounter = 0;
 		}
 		
 		timeIntervalCounter += Time.deltaTime;
@@ -197,7 +197,7 @@ public class Cutting : MonoBehaviour {
         //Debug.Log("Calculated a closeness value of: " + val);
         if (val < AcceptanceThreshold) {
 	        // TODO: animation.
-	        SFX.Play("bump_small");
+	        SFX.Play("Cutting_good_cut");
 	        PushGem(cutVector, 1 - val);
 			QualityBar.Add((1-val) * CutRewardMultiplier, true);
 			activeCuts.Remove(cut);
