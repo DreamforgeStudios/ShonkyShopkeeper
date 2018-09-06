@@ -12,6 +12,9 @@ using Random = UnityEngine.Random;
 public class SegmentInfoDictionary : SerializableDictionary<BarterManager.Segment, SegmentInfo> {}
 
 [System.Serializable]
+public class PriceInfoDictionary : SerializableDictionary<Quality.QualityGrade, float> {}
+
+[System.Serializable]
 public class SegmentInfo {
 	//[SerializeField]
 	//public BarterManager.Segment Segment;
@@ -41,6 +44,8 @@ public class BarterManager : MonoBehaviour {
 	public int NumberOfSegments;
 	[BoxGroup("Balance")]
 	public SegmentInfoDictionary SegmentInfoDict;
+	[BoxGroup("Balance")]
+	public PriceInfoDictionary PriceInfoDict;
 
 	[BoxGroup("Object Assignments")]
 	public GameObject GolemSpawnPoint;
@@ -106,6 +111,8 @@ public class BarterManager : MonoBehaviour {
 		// TODO: this isn't very obvious, is there a better way?
 		RadialBar.DefaultColor = SegmentInfoDict[Segment.Ok].Color;
 
+		price = PriceInfoDict[golemQuality];
+		PriceText.text = "$" + price;
 		c = PriceText.color;
 
 		GeneratePoints();

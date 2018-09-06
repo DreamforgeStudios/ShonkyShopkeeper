@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
-using DG.Tweening;
 
 public class ColorFlicker : MonoBehaviour {
 	public Color Color1, Color2;
