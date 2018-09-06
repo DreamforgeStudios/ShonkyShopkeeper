@@ -32320,6 +32320,30 @@ Prefab:
       propertyPath: physicalShonkyInventory
       value: 
       objectReference: {fileID: 1114992762}
+    - target: {fileID: 224953514206288344, guid: fe781476debd99b4a842d887b67c102f,
+        type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -12
+      objectReference: {fileID: 0}
+    - target: {fileID: 224953514206288344, guid: fe781476debd99b4a842d887b67c102f,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 99
+      objectReference: {fileID: 0}
+    - target: {fileID: 4740058425600692, guid: fe781476debd99b4a842d887b67c102f, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -5.42
+      objectReference: {fileID: 0}
+    - target: {fileID: 224335328756048356, guid: fe781476debd99b4a842d887b67c102f,
+        type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 224335328756048356, guid: fe781476debd99b4a842d887b67c102f,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: -116
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fe781476debd99b4a842d887b67c102f, type: 2}
   m_IsPrefabAsset: 0
