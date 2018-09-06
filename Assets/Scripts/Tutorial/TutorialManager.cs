@@ -93,7 +93,7 @@ public class TutorialManager : MonoBehaviour
 
 	private void CheckForInput()
 	{
-		//Debug.Log("Can select" + toolbox.canSelect);
+		Debug.Log("Can select" + toolbox.canSelect);
 		if (!GameManager.Instance.TutorialIntroTopComplete && clone.closed)
 		{
 			EnableCameraTap(true,true);
@@ -123,16 +123,23 @@ public class TutorialManager : MonoBehaviour
 					}
 					break;
 				default:
-					toolbox.canSelect = false;
+					toolbox.canSelect = true;
 					break;
 			}
 
 			toolbox.canSelect = true;
 		}
-		else if (clone.closed)
+		else if (InspectedAllItems())
 		{
 			toolbox.canSelect = true;
 		}
+		else if (clone != null)
+		{
+			if (clone.closed)
+			{
+				toolbox.canSelect = true;
+			}
+		} 
 		else
 		{
 			toolbox.canSelect = false;
