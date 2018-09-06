@@ -567,6 +567,7 @@ public class Toolbox : MonoBehaviour {
 
         //SFX.Play("sound");
         SFX.Play("Res_pouch_open", 1f, 1f, 0f, false, 0f);
+        AchievementManager.Get("pouch_open_01");
 
         var drops = new List<ItemInstance>();
         for (int i = 0; i < numberItems; i++) {

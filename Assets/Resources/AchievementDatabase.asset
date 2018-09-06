@@ -22,46 +22,81 @@ MonoBehaviour:
     - brick_01
     - golem_shell_01
     - barter_sell_01
+    - unlock_town_01
+    - pouch_open_01
+    - all_towns
+    - true_golem_01
+    - true_golem_02
     m_values:
-    - Icon: {fileID: 21300000, guid: 1b66a1f52901ee54cbe94a7f33d6e8d9, type: 3}
+    - Icon: {fileID: 21300000, guid: d5de4ac819390d6488500999031d9d24, type: 3}
       Heading: Achievement Get!
       Description: Craft your first golem.
       Progress: 0
       FinalProgress: 0
       Unlocked: 0
-    - Icon: {fileID: 21300000, guid: 1b66a1f52901ee54cbe94a7f33d6e8d9, type: 3}
+    - Icon: {fileID: 21300000, guid: 64dceed3d6271bb4784131cc46b3958a, type: 3}
       Heading: Achievement Get!
       Description: Craft your first Mystic item.
       Progress: 0
       FinalProgress: 0
       Unlocked: 0
-    - Icon: {fileID: 21300000, guid: 1b66a1f52901ee54cbe94a7f33d6e8d9, type: 3}
+    - Icon: {fileID: 21300000, guid: 17619c8ccfbf5164689941139e4c7eab, type: 3}
       Heading: A Cut Above
       Description: You've mode your first Cut Jewel!
       Progress: 0
       FinalProgress: 0
       Unlocked: 0
-    - Icon: {fileID: 21300000, guid: 1b66a1f52901ee54cbe94a7f33d6e8d9, type: 3}
+    - Icon: {fileID: 21300000, guid: 77b6f279b0dbd374e94a1dfbf766d1d9, type: 3}
       Heading: Charging Ahead
       Description: You've made your first Charged Jewel!
       Progress: 0
       FinalProgress: 0
       Unlocked: 0
-    - Icon: {fileID: 21300000, guid: 1b66a1f52901ee54cbe94a7f33d6e8d9, type: 3}
+    - Icon: {fileID: 21300000, guid: c8866d9473e2dce48af7d896a7cc479f, type: 3}
       Heading: Humble Brickinnings
       Description: Great job on your first brick!
       Progress: 0
       FinalProgress: 0
       Unlocked: 0
-    - Icon: {fileID: 21300000, guid: 1b66a1f52901ee54cbe94a7f33d6e8d9, type: 3}
+    - Icon: {fileID: 21300000, guid: 089d6a961ac44ba449d1e0876d025e7e, type: 3}
       Heading: Wow! Shell!
       Description: Your first golem shell; a handsome one too.
       Progress: 0
       FinalProgress: 0
       Unlocked: 0
-    - Icon: {fileID: 21300000, guid: 1b66a1f52901ee54cbe94a7f33d6e8d9, type: 3}
+    - Icon: {fileID: 21300000, guid: 602a0525b509b1f47828fa6b66af75b4, type: 3}
       Heading: Sold Well
       Description: Your first sold golem and happy customer.
       Progress: 0
       FinalProgress: 0
+      Unlocked: 0
+    - Icon: {fileID: 21300000, guid: 6bff26730af4b864c92bfe8fa63b88c3, type: 3}
+      Heading: The journey begins!
+      Description: Exciting!  Time to see what the rest of Zauberheim has in store.
+      Progress: 0
+      FinalProgress: 0
+      Unlocked: 0
+    - Icon: {fileID: 21300000, guid: a45937fb787a10a4885a791173bd35d5, type: 3}
+      Heading: What's in the bag!?!
+      Description: Excellent!  More resources to work with.
+      Progress: 0
+      FinalProgress: 0
+      Unlocked: 0
+    - Icon: {fileID: 21300000, guid: 45b249d1f08bf064a83d15c507434a4b, type: 3}
+      Heading: Final Frontier!
+      Description: You've travelled to every town in Zauberheim!
+      Progress: 0
+      FinalProgress: 4
+      Unlocked: 0
+    - Icon: {fileID: 21300000, guid: b4815c03cf1353e4f9c9f656a3ec4fa6, type: 3}
+      Heading: Mystic Confluence!
+      Description: You've made a true golem.  That's no small feat.
+      Progress: 0
+      FinalProgress: 0
+      Unlocked: 0
+    - Icon: {fileID: 21300000, guid: 70249dd477c69f34fb376456e0fc0fd1, type: 3}
+      Heading: The Ritual Draws Near...
+      Description: You're so close!  A single true golem remains to be made.
+      Progress: 0
+      FinalProgress: 3
       Unlocked: 0
