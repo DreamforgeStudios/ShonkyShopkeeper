@@ -24,9 +24,9 @@ public class PhysicalAchievement : MonoBehaviour
 	private void CheckForAchievements()
 	{
 		foreach (var kvp in achievementDict) {
-			if (kvp.Value.Unlocked)
+			Debug.Log(kvp.Key + " is being checked");
+			if (AchievementManager.CheckUnlocked(kvp.Key))
 			{
-				Debug.Log(kvp.Key + " is unlocked");
 				DetermineIndexAndUnlockBanner(kvp);
 			}
 		}
