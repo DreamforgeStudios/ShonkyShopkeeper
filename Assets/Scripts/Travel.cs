@@ -51,6 +51,8 @@ public static class Travel {
         
         if (Inventory.Instance.RemoveGold(newTownCost)) {
             Inventory.Instance.UnlockTown(newTown);
+            AchievementManager.Get("unlock_town_01");
+            AchievementManager.Increment("all_towns");
             //unlockedTowns.Add(newTown);
             //lockedTowns.Remove(newTown);
             Debug.Log("Town is unlocked: " + newTown);
