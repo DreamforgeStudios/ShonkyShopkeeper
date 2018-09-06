@@ -566,7 +566,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkDirection: 0
   walkSpeed: 1
-  WizardSprite: {fileID: 0}
+  WizardFront: {fileID: 1040995669444438, guid: 7a3682a29aefa214c93eb33b662ef64d,
+    type: 2}
   walkNormal: 1
 --- !u!212 &212064909624281724
 SpriteRenderer:

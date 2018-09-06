@@ -93,7 +93,7 @@ public class TutorialManager : MonoBehaviour
 
 	private void CheckForInput()
 	{
-		Debug.Log("Can select" + toolbox.canSelect);
+		//Debug.Log("Can select" + toolbox.canSelect);
 		if (!GameManager.Instance.TutorialIntroTopComplete && clone.closed)
 		{
 			EnableCameraTap(true,true);

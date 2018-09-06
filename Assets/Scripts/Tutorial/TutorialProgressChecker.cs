@@ -87,7 +87,7 @@ public class TutorialProgressChecker : MonoBehaviour {
 
 	private void Update()
 	{
-		Debug.Log("Canvas enabled is " + canvasEnabled);
+		//Debug.Log("Canvas enabled is " + canvasEnabled);
 		if (canvasEnabled && Input.GetMouseButtonDown(0))
 		{
 			HideCanvas();
