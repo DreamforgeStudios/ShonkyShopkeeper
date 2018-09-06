@@ -100,11 +100,13 @@ public class BarterManager : MonoBehaviour {
 		golemClone = Instantiate(golem.item.physicalRepresentation, GolemSpawnPoint.transform.position, GolemSpawnPoint.transform.rotation, GolemSpawnPoint.transform);
 		golemClone.GetComponent<Rigidbody>().isKinematic = true;
 
+		/*
 		if (GameManager.Instance.SpriteTransfer != null) {
 			WizardRenderer.sprite = GameManager.Instance.SpriteTransfer;
 		} else {
 			Debug.LogWarning("Wizard sprite was not transfered, will use defaut.");
 		}
+		*/
 
 		// Build a dictionary based on the list, which is easier for code to use.
 		//SegmentInfosDict = BuildDictionary(SegmentInfos);
