@@ -45,9 +45,8 @@ public class MapTutorial : MonoBehaviour
 			CheckForTutProgressChecker();
 		else
 		{
-			//HideCanvas();
 			CanMoveCamera = true;
-			//Destroy(this.gameObject);
+			Destroy(this.gameObject);
 		}
 	}
 

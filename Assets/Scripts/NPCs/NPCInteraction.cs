@@ -60,7 +60,6 @@ public class NPCInteraction : MonoBehaviour {
                     //If they do, select a random one and pass to the barter screen
                     Debug.Log(shonkyIndexes.Count);
                     if (shonkyIndexes.Count > 0) {
-                        GameManager.Instance.SpriteTransfer = hit.transform.GetComponent<SpriteRenderer>().sprite;
                         GameManager.Instance.WizardFrontTransfer = hit.transform.GetComponent<NPCWalker>().WizardFront;
                         //GameManager.Instance.PersonalityTransfer = hit.transform.GetComponent<NPCWalker>().personality;
 
@@ -74,7 +73,7 @@ public class NPCInteraction : MonoBehaviour {
                                 PlayerPrefs.SetInt("TutorialDone", 1);
                             }
                             //Move NPC to shop front and initiate barter
-                            hit.transform.GetComponent<NPCWalker>().walkNormal = false;
+                            hit.transform.GetComponent<NPCWalker>().ShowFront();
                             hit.transform.DOScale(1.2f, 2f);
                             hit.transform.DOMove(shopFrontPos, 2f, false).OnComplete(() => SceneManager.LoadScene("Barter"));
                             //SFX.Play("sound");

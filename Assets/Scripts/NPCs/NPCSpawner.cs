@@ -96,9 +96,9 @@ public class NPCSpawner : MonoBehaviour {
             case Travel.Towns.WickedGrove:
                 return potentialSpawns[0];
             case Travel.Towns.FlamingPeak:
-                return potentialSpawns[1];
-            case Travel.Towns.GiantsPass:
                 return potentialSpawns[2];
+            case Travel.Towns.GiantsPass:
+                return potentialSpawns[1];
             case Travel.Towns.SkyCity:
                 return potentialSpawns[3];
             default:

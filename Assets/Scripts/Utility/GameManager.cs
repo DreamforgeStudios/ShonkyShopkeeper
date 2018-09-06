@@ -69,7 +69,7 @@ public class GameManager : MonoBehaviour {
 	public Item.GemType GemTypeTransfer;
 	public Quality.QualityGrade QualityTransfer;
 	public Personality PersonalityTransfer;
-	public Sprite SpriteTransfer;
+	//public Sprite SpriteTransfer;
 	public GameObject WizardFrontTransfer;
 	//public GameObject 
     public int RetriesRemaining = 0;

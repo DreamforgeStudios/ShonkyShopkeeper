@@ -9,6 +9,7 @@ public class NPCWalker : MonoBehaviour {
 	public float walkSpeed;
 
 	public GameObject WizardFront;
+	private GameObject instantiatedFrontClone;
 
     private SpriteRenderer wizard;
 
@@ -63,6 +64,13 @@ public class NPCWalker : MonoBehaviour {
 	    } else {
 		    transform.eulerAngles = new Vector3(0f,180f,0f);
 	    }
+	}
+
+	public void ShowFront()
+	{
+		walkNormal = false;
+		instantiatedFrontClone = Instantiate(WizardFront, transform.position,transform.rotation);
+
 	}
 
 	public void SetWalkSpeed(float walkSpeed) {
