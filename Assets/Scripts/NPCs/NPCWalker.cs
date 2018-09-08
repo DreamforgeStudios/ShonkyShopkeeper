@@ -8,7 +8,7 @@ public class NPCWalker : MonoBehaviour {
 	// TODO: random walk speed variance?
 	public float walkSpeed;
 
-	public GameObject WizardFront;
+	public GameObject WizardFront, WizardSide;
 	private GameObject instantiatedFrontClone;
 
     private SpriteRenderer wizard;
@@ -19,11 +19,16 @@ public class NPCWalker : MonoBehaviour {
     private bool walkCycle = false;
     public bool walkNormal = true;
 
+	private NPCSpawner spawner;
+
 	// Use this for initialization
 	void Start () {
         wizard = GetComponent<SpriteRenderer>();
 		//InvokeRepeating("TestAndDestroy", 2f, 2f);
         walkNormal = true;
+		WizardSide.SetActive(true);
+		WizardFront.SetActive(false);
+		spawner = GameObject.FindWithTag("NPCSpawner").GetComponent<NPCSpawner>();
 	}
 	
 	// Update is called once per frame
@@ -68,9 +73,20 @@ public class NPCWalker : MonoBehaviour {
 
 	public void ShowFront()
 	{
+		//Switch to front
 		walkNormal = false;
-		instantiatedFrontClone = Instantiate(WizardFront, transform.position,transform.rotation);
+		WizardSide.SetActive(false);
+		WizardFront.SetActive(true);
+		
+		//Need to stop the NPC spawner from spawning more NPCs and clipping them through the current NPC
+		spawner.isInteracting = true;
 
+	}
+
+	public void FrontIdle()
+	{
+		Animator animator = WizardFront.transform.GetChild(0).GetComponent<Animator>();
+		animator.SetBool("Idle",true);
 	}
 
 	public void SetWalkSpeed(float walkSpeed) {

@@ -75,7 +75,11 @@ public class NPCInteraction : MonoBehaviour {
                             //Move NPC to shop front and initiate barter
                             hit.transform.GetComponent<NPCWalker>().ShowFront();
                             hit.transform.DOScale(1.2f, 2f);
-                            hit.transform.DOMove(shopFrontPos, 2f, false).OnComplete(() => SceneManager.LoadScene("Barter"));
+                            hit.transform.DOMove(shopFrontPos, 2f,
+                                    false)
+                                .OnComplete(() =>
+                                    hit.transform.GetComponent<NPCWalker>()
+                                        .FrontIdle()); //.OnComplete(() => SceneManager.LoadScene("Barter"));
                             //SFX.Play("sound");
                         }
                     }
