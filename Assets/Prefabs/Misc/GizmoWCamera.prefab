@@ -819,7 +819,7 @@ MonoBehaviour:
   MaxWobble: 0.05
   WobbleSpeed: 0.8
   Recovery: 3
-  VialMaterial: {fileID: 2100000, guid: c3f83223118ccc74180a4a8247e8628e, type: 2}
+  vial: {fileID: 1434553019500486}
 --- !u!114 &114157950379570424
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -988,7 +988,6 @@ MonoBehaviour:
   TextBack: {fileID: 114689791168976096}
   Turner: {fileID: 0}
   Closer: {fileID: 1772603439475674}
-  CloserMaterial: {fileID: 2100000, guid: 7b9785c0978941549a41987d4b7d3942, type: 3}
   RenderCamera: {fileID: 20392834565787524}
   ActivePage: 0
   closed: 0
@@ -1003,7 +1002,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2618680230213a44989c2dfaaa8a1e8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VialMaterial: {fileID: 2100000, guid: c3f83223118ccc74180a4a8247e8628e, type: 2}
+  vial: {fileID: 1434553019500486}
   ManualX: 0
   ManualY: 1
   ManualZ: 0

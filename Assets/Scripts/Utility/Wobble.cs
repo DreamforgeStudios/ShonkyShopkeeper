@@ -17,11 +17,16 @@ public class Wobble : MonoBehaviour {
 	float pulse;
 	float time = 0.5f;
 
-	public Material VialMaterial;
+	public GameObject vial;
+	private Material vialMaterial;
 	private int upDirID, wobbleXID, wobbleZID;
    
 	// Use this for initialization
 	void Start() {
+		// Accessing the material through the renderer at start is better because it will use the instanced material,
+		//  and so material values wont change for the sake of source control.
+		vialMaterial = vial.GetComponent<Renderer>().material;
+		
 		upDirID = Shader.PropertyToID("_UpDirection");
 		wobbleXID = Shader.PropertyToID("_WobbleX");
 		wobbleZID = Shader.PropertyToID("_WobbleZ");
@@ -39,11 +44,11 @@ public class Wobble : MonoBehaviour {
 		wobbleAmountZ = wobbleAmountToAddZ * Mathf.Sin(pulse * time);
  
 		// send it to the shader
-		VialMaterial.SetFloat(wobbleXID, wobbleAmountX);
-		VialMaterial.SetFloat(wobbleZID, wobbleAmountZ);
+		vialMaterial.SetFloat(wobbleXID, wobbleAmountX);
+		vialMaterial.SetFloat(wobbleZID, wobbleAmountZ);
  
 		// velocity
-		Vector3 newRot = VialMaterial.GetVector(upDirID);
+		Vector3 newRot = vialMaterial.GetVector(upDirID);
 		velocity = (lastPos - transform.position) / Time.deltaTime;
 		angularVelocity = newRot - lastRot;//transform.rotation.eulerAngles - lastRot;
  
