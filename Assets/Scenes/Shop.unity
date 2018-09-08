@@ -22193,17 +22193,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 114871753110055094, guid: 6dff22c9c7049814482bff2b334f8813,
-        type: 2}
-      propertyPath: textObj
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 114871753110055094, guid: 6dff22c9c7049814482bff2b334f8813,
-        type: 2}
-      propertyPath: gizmoPrefab
-      value: 
-      objectReference: {fileID: 1668627367969516, guid: 7ee18a29f02ec0145a189d1fce7433d9,
-        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6dff22c9c7049814482bff2b334f8813, type: 2}
   m_IsPrefabAsset: 0
