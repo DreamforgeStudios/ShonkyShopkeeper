@@ -8,22 +8,29 @@ public class NPCWalker : MonoBehaviour {
 	// TODO: random walk speed variance?
 	public float walkSpeed;
 
-	public GameObject WizardFront;
+	public GameObject WizardFront, WizardSide;
 	private GameObject instantiatedFrontClone;
 
     private SpriteRenderer wizard;
 
 	private bool enteredScreen = false;
+	public Vector3 preShopScale;
 
     //Variables for walking animation and going to shop front when clicked
     private bool walkCycle = false;
     public bool walkNormal = true;
+
+	private NPCSpawner spawner;
+	public Vector3 endPosition;
 
 	// Use this for initialization
 	void Start () {
         wizard = GetComponent<SpriteRenderer>();
 		//InvokeRepeating("TestAndDestroy", 2f, 2f);
         walkNormal = true;
+		WizardSide.SetActive(true);
+		WizardFront.SetActive(false);
+		spawner = GameObject.FindWithTag("NPCSpawner").GetComponent<NPCSpawner>();
 	}
 	
 	// Update is called once per frame
@@ -68,9 +75,21 @@ public class NPCWalker : MonoBehaviour {
 
 	public void ShowFront()
 	{
+		//Switch to front
 		walkNormal = false;
-		instantiatedFrontClone = Instantiate(WizardFront, transform.position,transform.rotation);
+		WizardSide.SetActive(false);
+		WizardFront.SetActive(true);
+		
+		//Need to stop the NPC spawner from spawning more NPCs and clipping them through the current NPC
+		spawner.isInteracting = true;
 
+	}
+
+	public void FrontIdle()
+	{
+		Animator animator = WizardFront.transform.GetChild(0).GetComponent<Animator>();
+		animator.SetBool("Idle",true);
+		StartCoroutine(HideAfterSeconds(7.0f));
 	}
 
 	public void SetWalkSpeed(float walkSpeed) {
@@ -81,6 +100,20 @@ public class NPCWalker : MonoBehaviour {
 		transform.localScale = new Vector3(scale * transform.localScale.x,
 										   scale * transform.localScale.y,
 										   transform.localScale.z);
+	}
+	
+	IEnumerator HideAfterSeconds(float seconds) {
+		spawner.StopCoroutine(spawner.HideAfterSeconds(this.gameObject,0f));
+		yield return new WaitForSeconds(seconds);
+		spawner.isInteracting = false;
+		Vector3 backPos = endPosition;
+		WizardFront.SetActive(false);
+		WizardSide.SetActive(true);
+		gameObject.transform.DOMove(backPos, 2f, false);
+		gameObject.transform.DOScale(preShopScale, 2f);
+		yield return new WaitForSeconds(3.0f);
+		walkNormal = true;
+		spawner.StartCoroutine(spawner.HideAfterSeconds(this.gameObject, 1.0f));
 	}
 
 	// Later...???

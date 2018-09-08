@@ -29,6 +29,7 @@ TagManager:
   - TutorialProgress
   - Aux
   - MainButton
+  - NPCSpawner
   layers:
   - Default
   - TransparentFX
@@ -48,7 +49,7 @@ TagManager:
   - Shop
   - Items
   - WorldUI
-  - 
+  - NPC
   - 
   - 
   - 

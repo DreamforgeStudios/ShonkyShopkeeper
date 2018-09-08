@@ -24,6 +24,9 @@ public class NPCSpawner : MonoBehaviour {
 	public float walkTime;
 	private float timer;
 
+	//Boolean to stop other NPCs from appearing on the screen and clipping through the current one (layering)
+	public bool isInteracting = false;
+	
 	// For drawing gizmos.
 	public bool debug = true;
 
@@ -45,7 +48,7 @@ public class NPCSpawner : MonoBehaviour {
 	void Update () {
 		timer += Time.deltaTime;
 		// Instantiate an NPC and set them walking.
-		if (timer > spawnInterval) {
+		if (timer > spawnInterval && !isInteracting) {
 			// Find a clone to use.
 			GameObject clone = null;
 			for (int i = 0; i < spawnPool.Length; i++) {
@@ -62,11 +65,16 @@ public class NPCSpawner : MonoBehaviour {
 			clone.SetActive(true);
 			int positionToSpawn = Random.Range(0, spawns.Length);
 			clone.transform.position = spawns[positionToSpawn];
-			
+
 			NPCWalker walker = clone.GetComponent<NPCWalker>();
 			walker.SetWalkDirection(spawnDirections[positionToSpawn]);
 			walker.SetWalkSpeed(walkSpeed);
 			walker.SetScale(Random.Range(scaleMin, scaleMax));
+
+			if (positionToSpawn == 0)
+				walker.endPosition = spawns[1];
+			else
+				walker.endPosition = spawns[0];
 
 			StartCoroutine(HideAfterSeconds(clone, walkTime));
 
@@ -106,8 +114,11 @@ public class NPCSpawner : MonoBehaviour {
         }
     }
 
-	IEnumerator HideAfterSeconds(GameObject obj, float seconds) {
+	public IEnumerator HideAfterSeconds(GameObject obj, float seconds) {
 		yield return new WaitForSeconds(seconds);
-		obj.SetActive(false);
+		if (obj.GetComponent<NPCWalker>().walkNormal)
+			obj.SetActive(false);
+		else 
+			yield return  new WaitForSeconds(3.0f);
 	}
 }
