@@ -181,7 +181,7 @@ GameObject:
   - component: {fileID: 4841544632455892}
   - component: {fileID: 114373782133943574}
   - component: {fileID: 65287041994943610}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: NPCPirate
   m_TagString: NPC
   m_Icon: {fileID: 0}

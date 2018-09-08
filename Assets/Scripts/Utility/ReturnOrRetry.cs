@@ -20,6 +20,8 @@ public class ReturnOrRetry {
         SFX.Play("Mini_Game_Retry_Button", 1f, 1f, 0f, false, 0f);
         Inventory.Instance.AddGold(goldAmount);
         ShonkyInventory.Instance.RemoveItem(shonkyIndex);
+		GameManager.pickedUpGolem = false;
+		SaveManager.SaveShonkyInventory();
 		//SceneManager.LoadScene("Shop");
 		// TODO: tutorial consideration for bartering.
 		if (!GameManager.Instance.InTutorial)

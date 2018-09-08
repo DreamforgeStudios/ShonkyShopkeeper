@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.AI;
 //using UnityEngine.Experimental.UIElements;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 //using UnityEngine.XR.WSA.WebCam;
 
 public class GolemPickup : MonoBehaviour {
@@ -19,7 +20,7 @@ public class GolemPickup : MonoBehaviour {
     //Grabbing Variables
     private Vector3 modifiedMousePos;
     private Vector3 mousePos;
-    private bool overPortal = false;
+    private bool overPortal, overNPC = false;
     private bool holding, textboxShowing = false;
     private Rigidbody golemRb;
     private Vector3 boundedPos;
@@ -48,6 +49,8 @@ public class GolemPickup : MonoBehaviour {
     public GameObject particles;
     private GameObject particleChild;
     
+    //To reset NPC spawner interaction
+    public NPCSpawner spawner;
 
     // Use this for initialization
     void Start() {
@@ -80,6 +83,26 @@ public class GolemPickup : MonoBehaviour {
             pickedupGolem.SetActive(false);
             pickedupGolem = null;
             overPortal = false;
+        } else if (overNPC) {
+            Debug.Log("Sending to Barter");
+        
+            //SFX.Play("sound");
+            int index = GetGolemSlot();
+            Debug.Log(index + " is the index");
+            if (index != -1)
+            {
+                GameManager.Instance.ShonkyIndexTransfer = index;
+                pickedupGolem = null;
+                overNPC = false;
+                spawner.isInteracting = false;
+                SaveManager.SaveShonkyInventory();
+                ResetGolem();
+                SceneManager.LoadScene("Barter");
+            }
+            else
+            {
+                ResetGolem();
+            }
         }
 
         if (Input.GetMouseButtonUp(0) && pickedupGolem != null)
@@ -101,20 +124,16 @@ public class GolemPickup : MonoBehaviour {
         {
             for (int i = 0; i < shonkyInv.amountOfSlots; i++)
             {
+                Debug.Log("Checking slot " + i + " of " + shonkyInv.amountOfSlots);
                 PenSlot slot = shonkyInv.shonkySlots[i];
                 GameObject obj;
                 if (slot.GetPrefabInstance(out obj))
                 {
+                    Debug.Log("obj name is " + obj.name);
                     if (obj == pickedupGolem)
                         return slot.index;
                 }
-                else
-                {
-                    return -1;
-                }
-
             }
-
             return -1;
         }
         else
@@ -156,13 +175,14 @@ public class GolemPickup : MonoBehaviour {
         RaycastHit hit;
         //Do an accuracy check before hand to ensure one isn't picked up and floating away
         holding = CheckAccuracy();
+        //Debug.Log("currently holding " + holding);
         if (!holding)
             ResetGolem();
 
         if (Physics.Raycast(ray, out hit, 40)) {
             //If a golem
             if (hit.transform.gameObject.CompareTag("Golem") || holding) {
-                Debug.Log("Hit golem");
+                //Debug.Log("Hit golem");
                 if (pickedupGolem == null){
                     //If not holding a pouch
                     if (!hit.transform.gameObject.GetComponent<ShonkyWander>().IsHoldingPouch())
@@ -272,6 +292,8 @@ public class GolemPickup : MonoBehaviour {
             pickedupGolem.GetComponent<ShonkyWander>().FloatToPen();
             GameManager.pickedUpGolem = false;
             pickedupGolem = null;
+            overNPC = false;
+            overPortal = false;
         }
     }
 
@@ -371,6 +393,7 @@ public class GolemPickup : MonoBehaviour {
         //Debug.Log(String.Format("Golem position is {0}, mouse position is {1} and bounded mouse position is {2}",
             //pickedupGolem.transform.position,Camera.main.ScreenToWorldPoint(Input.mousePosition),boundedPos));
         CheckIfOverPortal();
+        CheckIfOverNPC();
     }
     
     //Secondary function which takes the existing pickedup golem as the parameter
@@ -398,6 +421,7 @@ public class GolemPickup : MonoBehaviour {
         pickedupGolem.transform.position = boundedPos;
         
         CheckIfOverPortal();
+        CheckIfOverNPC();
     }
 
     private bool CheckAccuracy() {
@@ -441,19 +465,46 @@ public class GolemPickup : MonoBehaviour {
         else return angle;
     }
 
-    private void CheckIfOverPortal() {
+    private void CheckIfOverPortal()
+    {
         //Continue to raycast to check if it is over entry portal
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit secondHit;
         int layerMask = LayerMask.GetMask("MinePortal");
-        if (Physics.Raycast(ray, out secondHit, 10, layerMask)) {
+        if (Physics.Raycast(ray, out secondHit, 10, layerMask))
+        {
             overPortal = true;
             //SFX.Play("sound");
         }
-        else {
+        else
+        {
             overPortal = false;
         }
-        //Debug.Log(overPortal + " is over portal");
+    }
+
+    private void CheckIfOverNPC() {
+        //Debug.Log("Checking if over NPC");
+        //Continue to raycast to check if it is over entry portal
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit secondHit;
+        int layerMask = LayerMask.GetMask("NPC");
+        Debug.DrawRay(ray.origin,ray.direction,Color.yellow);
+        if (Physics.Raycast(ray, out secondHit, Mathf.Infinity, layerMask))
+        {
+            Debug.Log("Shot ray and hit " + secondHit.transform.gameObject.name);
+            if (secondHit.transform.gameObject.GetComponent<NPCWalker>().walkNormal == false)
+            {
+                overNPC = true;
+            }
+            else
+            {
+                overNPC = false;
+            }
+        }
+        else
+        {
+            overNPC = false;
+        }
     }
 
     private void UpdateUITimer()

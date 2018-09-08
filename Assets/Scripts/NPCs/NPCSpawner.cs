@@ -71,6 +71,11 @@ public class NPCSpawner : MonoBehaviour {
 			walker.SetWalkSpeed(walkSpeed);
 			walker.SetScale(Random.Range(scaleMin, scaleMax));
 
+			if (positionToSpawn == 0)
+				walker.endPosition = spawns[1];
+			else
+				walker.endPosition = spawns[0];
+
 			StartCoroutine(HideAfterSeconds(clone, walkTime));
 
 			timer = 0f;
@@ -109,7 +114,7 @@ public class NPCSpawner : MonoBehaviour {
         }
     }
 
-	IEnumerator HideAfterSeconds(GameObject obj, float seconds) {
+	public IEnumerator HideAfterSeconds(GameObject obj, float seconds) {
 		yield return new WaitForSeconds(seconds);
 		if (obj.GetComponent<NPCWalker>().walkNormal)
 			obj.SetActive(false);

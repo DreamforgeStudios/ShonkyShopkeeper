@@ -244,7 +244,7 @@ GameObject:
   - component: {fileID: 4912946858482508}
   - component: {fileID: 114618479649251150}
   - component: {fileID: 65150806587066694}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: NPCAlchy
   m_TagString: NPC
   m_Icon: {fileID: 0}
