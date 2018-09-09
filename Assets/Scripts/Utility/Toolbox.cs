@@ -422,7 +422,7 @@ public class Toolbox : MonoBehaviour {
                 canSelect = false;
                 Transform t1 = obj1.transform;
 
-                //SFX.Play("item_lift");
+                SFX.Play("Item_shifted", 1f, 1f, 0f, false, 0f);
                 MoveUp(slot1)
                     .OnComplete(() => t1.DOMove(slot2.transform.position + Vector3.up, 0.6f).SetEase(Ease.OutBack)
                         .OnComplete(() =>

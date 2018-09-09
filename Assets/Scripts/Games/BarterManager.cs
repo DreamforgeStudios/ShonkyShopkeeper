@@ -179,6 +179,9 @@ public class BarterManager : MonoBehaviour {
 		anim.SetBool("Pickup", true);
 		anim.speed += .5f;
 		
+		//Play relevant SFX based on point hit
+		PlaySFX(value);
+		
 		RadialBar.ChangePoint(point, SegmentInfoDict[Segment.Bad].Color);
 
 		HourGlass.CurrentTimeRemaining += info.TimeAdd;
@@ -210,6 +213,14 @@ public class BarterManager : MonoBehaviour {
 		}
 		
 		RadialSlider.PauseForDuration(.2f);
+	}
+
+	private void PlaySFX(Segment value)
+	{
+		if (value == Segment.Best || value == Segment.Good)
+			SFX.Play("Bidding_GreenTap",1f,1f,0f,false);
+		if (value == Segment.Bad)
+			SFX.Play("Bidding_FailTap",1f,1f,0f,false,0f);
 	}
 
 	private void GeneratePoints() {
