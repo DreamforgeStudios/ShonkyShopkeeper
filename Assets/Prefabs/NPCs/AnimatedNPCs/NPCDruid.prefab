@@ -638,11 +638,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e007f6f4578bcf40a07408acf392993, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wizardName: druid
   walkDirection: 0
   walkSpeed: 0
   WizardFront: {fileID: 1595304397995640}
   WizardSide: {fileID: 1150353888359644}
+  preShopScale: {x: 0, y: 0, z: 0}
   walkNormal: 1
+  endPosition: {x: 0, y: 0, z: 0}
 --- !u!212 &212155280086674140
 SpriteRenderer:
   m_ObjectHideFlags: 1

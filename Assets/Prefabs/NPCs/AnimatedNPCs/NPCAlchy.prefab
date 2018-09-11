@@ -806,11 +806,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e007f6f4578bcf40a07408acf392993, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wizardName: alchy
   walkDirection: 0
   walkSpeed: 0
   WizardFront: {fileID: 1084177668716296}
   WizardSide: {fileID: 1560628108918006}
+  preShopScale: {x: 0, y: 0, z: 0}
   walkNormal: 1
+  endPosition: {x: 0, y: 0, z: 0}
 --- !u!212 &212032436542981194
 SpriteRenderer:
   m_ObjectHideFlags: 1

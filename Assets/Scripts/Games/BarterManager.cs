@@ -35,7 +35,7 @@ public class SegmentInfo {
 public class BarterManager : MonoBehaviour {
 	private Quality.QualityGrade golemQuality;
 	private ItemInstance golem;
-	private GameObject golemClone;
+	private GameObject golemClone, wizardClone;
 	private bool start = false;
 	private float price = 0f;
 	private float happiness = 0.5f;
@@ -50,6 +50,8 @@ public class BarterManager : MonoBehaviour {
 	[BoxGroup("Object Assignments")]
 	public GameObject GolemSpawnPoint;
 	[BoxGroup("Object Assignments")]
+	public GameObject WizardSpawnPoint;
+	[BoxGroup("Object Assignments")]
 	public RadialBar RadialBar;
 	[BoxGroup("Object Assignments")]
 	public RadialSlider RadialSlider;
@@ -62,13 +64,15 @@ public class BarterManager : MonoBehaviour {
 	[BoxGroup("Object Assignments")]
 	public Countdown HourGlass;
 	[BoxGroup("Object Assignments")]
-	public SpriteRenderer WizardRenderer;
-	[BoxGroup("Object Assignments")]
 	public GameObject Wand;
 	[BoxGroup("Object Assignments")]
 	public GameObject BackToShop;
 	[BoxGroup("Object Assignments")]
 	public ParticleSystem CoinFallParticles;
+	[BoxGroup("Object Assignments")]
+	public List<string> NPCNames;
+	[BoxGroup("Object Assignments")]
+	public List<GameObject> NPCPrefabs;
 	
 	public enum Segment {
 		Best, Good, Bad, Ok
@@ -86,8 +90,9 @@ public class BarterManager : MonoBehaviour {
 		SFX.Play("BiddingTrack",1f,1f,0f,true,0f);
 		Countdown.onComplete += GameOver;
 		
+		// If no golem has been transfered (maybe we're launching directly from the scene), then use a default.
+		//  otherwise, use the golem which was transfered.
         ItemInstance tmp;
-		// TODO: ShonkyInventory and Inventory should automatically initialise, without having to use InitializeFromDefault somewhere.
         if (ShonkyInventory.Instance != null && ShonkyInventory.Instance.GetItem(GameManager.Instance.ShonkyIndexTransfer, out tmp)) {
             golem = tmp;
 	        golemQuality = golem.Quality;
@@ -98,7 +103,23 @@ public class BarterManager : MonoBehaviour {
         }
 
 		golemClone = Instantiate(golem.item.physicalRepresentation, GolemSpawnPoint.transform.position, GolemSpawnPoint.transform.rotation, GolemSpawnPoint.transform);
+		//golemClone = Instantiate(golem.item.physicalRepresentation, GolemSpawnPoint.transform);
 		golemClone.GetComponent<Rigidbody>().isKinematic = true;
+
+		// If no wizard has been transfered, use a default.
+		//  otherwise, use the wizard which was transfered.
+		GameObject wizardPrefab;
+		int index;
+		string name = GameManager.Instance.WizardTransfer;
+		if (!string.IsNullOrEmpty(name) && (index = NPCNames.IndexOf(name)) >= 0) {
+			wizardPrefab = NPCPrefabs[index];
+		} else {
+	        Debug.LogWarning("Wizard was not transfered or is incorrect.  Will use default wizard.");
+			wizardPrefab = NPCPrefabs[0];
+		}
+
+		wizardClone = Instantiate(wizardPrefab, WizardSpawnPoint.transform);
+		//wizardClone.GetComponent<NPCWalker>().FrontIdle();
 
 		/*
 		if (GameManager.Instance.SpriteTransfer != null) {

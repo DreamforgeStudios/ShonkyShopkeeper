@@ -105,7 +105,24 @@ public class ShonkyInventory : ScriptableObject {
                 shonkyInventory[i] = item;
                 if (CheckIfTrueGolem(item))
                 {
+                    NarrativeManager.Read("true_golem_01");
                     UnlockTrueGolem(item);
+                    switch (Inventory.Instance.GetUnlockedTrueGolems().Count) {
+                        case 1:
+                            NarrativeManager.Read("true_golem_01");
+                            break;
+                        case 2:
+                            NarrativeManager.Read("true_golem_02");
+                            break;
+                        case 3:
+                            NarrativeManager.Read("true_golem_03");
+                            break;
+                        case 4:
+                            NarrativeManager.Read("true_golem_04");
+                            break;
+                        default:
+                            break;
+                    }
                 }
                 Save();
                 return i;

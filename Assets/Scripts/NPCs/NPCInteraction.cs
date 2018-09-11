@@ -60,7 +60,7 @@ public class NPCInteraction : MonoBehaviour {
                     //Debug.Log(shonkyIndexes.Count);
                     if (shonkyIndexes.Count > 0)
                     {
-                        GameManager.Instance.WizardFrontTransfer = hit.transform.GetComponent<NPCWalker>().WizardFront;
+                        GameManager.Instance.WizardTransfer = hit.transform.GetComponent<NPCWalker>().wizardName;
                         if (GameManager.Instance.BarterTutorial)
                         {
                             GameManager.Instance.BarterTutorial = false;

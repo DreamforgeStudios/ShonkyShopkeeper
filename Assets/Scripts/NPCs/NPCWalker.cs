@@ -4,6 +4,7 @@ using UnityEngine;
 using DG.Tweening;
 
 public class NPCWalker : MonoBehaviour {
+	public string wizardName;
 	public int walkDirection;
 	// TODO: random walk speed variance?
 	public float walkSpeed;

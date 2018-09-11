@@ -1088,11 +1088,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e007f6f4578bcf40a07408acf392993, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wizardName: witch
   walkDirection: 0
   walkSpeed: 0
   WizardFront: {fileID: 1808122714635752}
   WizardSide: {fileID: 1643943885121458}
+  preShopScale: {x: 0, y: 0, z: 0}
   walkNormal: 1
+  endPosition: {x: 0, y: 0, z: 0}
 --- !u!212 &212062326784406378
 SpriteRenderer:
   m_ObjectHideFlags: 1
