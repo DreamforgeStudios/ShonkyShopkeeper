@@ -60,6 +60,8 @@ public class BarterManager : MonoBehaviour {
 	[BoxGroup("Object Assignments")]
 	public TextMeshProUGUI PriceText;
 	[BoxGroup("Object Assignments")]
+	public TextMeshProUGUI SoldText;
+	[BoxGroup("Object Assignments")]
 	public TextMeshProUGUI HappinessText;
 	[BoxGroup("Object Assignments")]
 	public Countdown HourGlass;
@@ -115,11 +117,14 @@ public class BarterManager : MonoBehaviour {
 			wizardPrefab = NPCPrefabs[index];
 		} else {
 	        Debug.LogWarning("Wizard was not transfered or is incorrect.  Will use default wizard.");
-			wizardPrefab = NPCPrefabs[0];
+			wizardPrefab = NPCPrefabs[1];
 		}
 
+		// This isn't a walking NPC, so disable the walking script.  If we don't we'll have errors about detecting spawn point.
 		wizardClone = Instantiate(wizardPrefab, WizardSpawnPoint.transform);
-		//wizardClone.GetComponent<NPCWalker>().FrontIdle();
+		wizardClone.GetComponent<NPCWalker>().enabled = false;
+		wizardClone.GetComponent<NPC>().ShowFront();
+		wizardClone.GetComponent<NPC>().FrontIdle();
 
 		/*
 		if (GameManager.Instance.SpriteTransfer != null) {
@@ -135,7 +140,7 @@ public class BarterManager : MonoBehaviour {
 		RadialBar.DefaultColor = SegmentInfoDict[Segment.Ok].Color;
 
 		price = PriceInfoDict[golemQuality];
-		PriceText.text = "$" + price;
+		PriceText.text = "Price: <sprite=0>" + price;
 		c = PriceText.color;
 
 		GeneratePoints();
@@ -209,7 +214,7 @@ public class BarterManager : MonoBehaviour {
 		price += info.PriceAdd;
 		happiness = Mathf.Clamp01(happiness + info.HappinessAdd);
 
-		PriceText.text = "Price: $" + price;
+		PriceText.text = "Price: <sprite=0>" + price;
 		// TODO: when the design is finalised, allow these to be altered through parameters.
 		// BUG: its possible that the transform gets punched into space if the user spams hard enough.
 		PriceText.rectTransform.DOPunchAnchorPos(Vector2.up * 5, .7f);
@@ -271,6 +276,20 @@ public class BarterManager : MonoBehaviour {
 		Countdown.onComplete -= GameOver;
 		start = false;
 		
+		PriceText.gameObject.SetActive(false);
+		DebugText.gameObject.SetActive(false);
+		SoldText.text = "<color=red>SOLD</color>\n<sprite=0>" + price;
+		SoldText.gameObject.SetActive(true);
 		BackToShop.SetActive(true);
+		RadialBar.gameObject.SetActive(false);
+
+		golemClone.transform.SetParent(wizardClone.transform);
+		golemClone.transform.DOMove(wizardClone.transform.position, .9f);
+		var anim = golemClone.GetComponent<Animator>();
+		anim.SetBool("Pickup", false);
+		anim.SetBool("Idle", true);
+		
+		wizardClone.GetComponent<NPC>().ShowSide();
+		//wizardClone.GetComponent<NPC>().
 	}
 }

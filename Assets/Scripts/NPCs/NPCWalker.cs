@@ -9,29 +9,27 @@ public class NPCWalker : MonoBehaviour {
 	// TODO: random walk speed variance?
 	public float walkSpeed;
 
-	public GameObject WizardFront, WizardSide;
+	//public GameObject WizardFront, WizardSide;
 	private GameObject instantiatedFrontClone;
 
-    private SpriteRenderer wizard;
-
-	private bool enteredScreen = false;
+	//private bool enteredScreen = false;
 	public Vector3 preShopScale;
 
     //Variables for walking animation and going to shop front when clicked
-    private bool walkCycle = false;
+    //private bool walkCycle = false;
     public bool walkNormal = true;
 
-	private NPCSpawner spawner;
+	public NPC NPC;
+	[HideInInspector]
+	public NPCSpawner Spawner;
 	public Vector3 endPosition;
 
 	// Use this for initialization
 	void Start () {
-        wizard = GetComponent<SpriteRenderer>();
 		//InvokeRepeating("TestAndDestroy", 2f, 2f);
-        walkNormal = true;
-		WizardSide.SetActive(true);
-		WizardFront.SetActive(false);
-		spawner = GameObject.FindWithTag("NPCSpawner").GetComponent<NPCSpawner>();
+        //walkNormal = true;
+		NPC.ShowSide();
+		Spawner = GameObject.FindWithTag("NPCSpawner").GetComponent<NPCSpawner>();
 	}
 	
 	// Update is called once per frame
@@ -39,11 +37,14 @@ public class NPCWalker : MonoBehaviour {
         if (walkNormal)
 		    transform.position += new Vector3(walkDirection * walkSpeed * Time.deltaTime, 0, 0);
 
+		/*
         if (!walkCycle)
             WizardPunch(0.1f, 0.5f);
+            */
 	}
 
 	// Check if the object is on the screen.  If not, set inactive.
+	/*
 	private void TestAndDestroy() {
 		bool onScreen = TestOnScreen();
 		if (onScreen && !enteredScreen) {
@@ -52,18 +53,23 @@ public class NPCWalker : MonoBehaviour {
 			this.gameObject.SetActive(false);
 		}
 	}
+	*/
 
+	/*
 	private bool TestOnScreen() {
 		Vector3 screenPoint = Camera.main.WorldToViewportPoint(transform.position);
 		return screenPoint.z > 0 && screenPoint.x > 0 &&
 			   screenPoint.x < 1 && screenPoint.y > 0 &&
 			   screenPoint.y < 1;
 	}
+	*/
 
+	/*
     public void WizardPunch(float strength, float duration) {
         walkCycle = true;
         //wizard.transform.DOPunchRotation(Vector3.forward * 25 * strength, duration, 0).SetEase(Ease.InOutBack).OnComplete(() => walkCycle = false);
     }
+    */
 
     public void SetWalkDirection(int walkDirection) {
 		this.walkDirection = walkDirection;
@@ -74,6 +80,7 @@ public class NPCWalker : MonoBehaviour {
 	    }
 	}
 
+	/*
 	public void ShowFront()
 	{
 		//Switch to front
@@ -82,16 +89,19 @@ public class NPCWalker : MonoBehaviour {
 		WizardFront.SetActive(true);
 		
 		//Need to stop the NPC spawner from spawning more NPCs and clipping them through the current NPC
-		spawner.isInteracting = true;
+		Spawner.isInteracting = true;
 
 	}
+	*/
 
+	/*
 	public void FrontIdle()
 	{
 		Animator animator = WizardFront.transform.GetChild(0).GetComponent<Animator>();
 		animator.SetBool("Idle",true);
 		StartCoroutine(HideAfterSeconds(7.0f));
 	}
+	*/
 
 	public void SetWalkSpeed(float walkSpeed) {
 		this.walkSpeed = walkSpeed;
@@ -103,18 +113,17 @@ public class NPCWalker : MonoBehaviour {
 										   transform.localScale.z);
 	}
 	
-	IEnumerator HideAfterSeconds(float seconds) {
-		spawner.StopCoroutine(spawner.HideAfterSeconds(this.gameObject,0f));
+	public IEnumerator HideAfterSeconds(float seconds) {
+		Spawner.StopCoroutine(Spawner.HideAfterSeconds(this.gameObject,0f));
 		yield return new WaitForSeconds(seconds);
-		spawner.isInteracting = false;
+		Spawner.isInteracting = false;
 		Vector3 backPos = endPosition;
-		WizardFront.SetActive(false);
-		WizardSide.SetActive(true);
+		NPC.ShowSide();
 		gameObject.transform.DOMove(backPos, 2f, false);
 		gameObject.transform.DOScale(preShopScale, 2f);
 		yield return new WaitForSeconds(3.0f);
 		walkNormal = true;
-		spawner.StartCoroutine(spawner.HideAfterSeconds(this.gameObject, 1.0f));
+		Spawner.StartCoroutine(Spawner.HideAfterSeconds(this.gameObject, 1.0f));
 	}
 
 	// Later...???

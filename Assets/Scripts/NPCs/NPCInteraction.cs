@@ -68,11 +68,29 @@ public class NPCInteraction : MonoBehaviour {
                         }
 
                         //Move NPC to shop front and initiate barter
+                        var NPC = hit.transform.GetComponent<NPC>();
+                        var NPCW = hit.transform.GetComponent<NPCWalker>();
+                        
+                        // Show the front and stop the NPC from walking.  Also stop the spawner from spawning so that
+                        //  new NPCs dont clip through the current one.
+                        NPC.ShowFront();
+                        NPCW.walkNormal = false;
+                        NPCW.Spawner.isInteracting = true;
+                        NPCW.preShopScale = hit.transform.localScale;
+                        NPCW.transform.DOScale(1.2f, 2f);
+                        NPCW.transform.DOMove(shopFrontPos, 2f, false)
+                            .OnComplete(() => {
+                                NPC.FrontIdle();
+                                NPCW.StartCoroutine(NPCW.HideAfterSeconds(7.0f));
+                            });
+                        
+                        /*
                         hit.transform.GetComponent<NPCWalker>().ShowFront();
                         hit.transform.GetComponent<NPCWalker>().preShopScale = hit.transform.localScale;
                         hit.transform.DOScale(1.2f, 2f);
                         hit.transform.DOMove(shopFrontPos, 2f, false)
                             .OnComplete(() => hit.transform.GetComponent<NPCWalker>().FrontIdle());
+                            */
                     }
                 }
                 Debug.Log("Did not Hit NPC");

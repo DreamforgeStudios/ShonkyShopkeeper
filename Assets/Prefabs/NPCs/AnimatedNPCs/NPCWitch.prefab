@@ -164,6 +164,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4930181436541628}
   - component: {fileID: 114095890898438936}
+  - component: {fileID: 114954695662169518}
   - component: {fileID: 65365827357528682}
   m_Layer: 18
   m_Name: NPCWitch
@@ -979,7 +980,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1404473101418216}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.64, z: 6.24}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.6, y: 0.6, z: 1}
   m_Children:
   - {fileID: 4062115221091034}
@@ -1091,11 +1092,24 @@ MonoBehaviour:
   wizardName: witch
   walkDirection: 0
   walkSpeed: 0
-  WizardFront: {fileID: 1808122714635752}
-  WizardSide: {fileID: 1643943885121458}
   preShopScale: {x: 0, y: 0, z: 0}
   walkNormal: 1
+  NPC: {fileID: 114954695662169518}
+  Spawner: {fileID: 0}
   endPosition: {x: 0, y: 0, z: 0}
+--- !u!114 &114954695662169518
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1404473101418216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24bfda538e816614fa827337ceb7bc9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WizardFront: {fileID: 1808122714635752}
+  WizardSide: {fileID: 1643943885121458}
 --- !u!212 &212062326784406378
 SpriteRenderer:
   m_ObjectHideFlags: 1

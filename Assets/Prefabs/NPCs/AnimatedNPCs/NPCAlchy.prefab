@@ -243,6 +243,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4912946858482508}
   - component: {fileID: 114618479649251150}
+  - component: {fileID: 114631754449845270}
   - component: {fileID: 65150806587066694}
   m_Layer: 18
   m_Name: NPCAlchy
@@ -681,7 +682,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1508162097942690}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.8791745, y: 0.80428123, z: -0.72}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4974078167499454}
@@ -809,11 +810,24 @@ MonoBehaviour:
   wizardName: alchy
   walkDirection: 0
   walkSpeed: 0
-  WizardFront: {fileID: 1084177668716296}
-  WizardSide: {fileID: 1560628108918006}
   preShopScale: {x: 0, y: 0, z: 0}
   walkNormal: 1
+  NPC: {fileID: 114631754449845270}
+  Spawner: {fileID: 0}
   endPosition: {x: 0, y: 0, z: 0}
+--- !u!114 &114631754449845270
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1508162097942690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24bfda538e816614fa827337ceb7bc9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WizardFront: {fileID: 1084177668716296}
+  WizardSide: {fileID: 1560628108918006}
 --- !u!212 &212032436542981194
 SpriteRenderer:
   m_ObjectHideFlags: 1
