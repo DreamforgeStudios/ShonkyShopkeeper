@@ -26,6 +26,15 @@ public static class AchievementManager {
         }
     }
 
+    public static bool CheckUnlocked(string key) {
+        Achievement a;
+        if (achievementDB.TryFindAchievementWithKey(key, out a)) {
+            return a.Unlocked;
+        }
+
+        return false;
+    }
+
     private static bool DoGet(string key) {
         // If true, successfully unlocked.  If false, already unlocked.
         Achievement a;

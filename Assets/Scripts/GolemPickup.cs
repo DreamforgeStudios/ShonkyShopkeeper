@@ -2,11 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using UnityEditor.Experimental.UIElements;
 //using UnityEditor.Experimental.UIElements.GraphView;
 using UnityEngine;
 using UnityEngine.AI;
 //using UnityEngine.Experimental.UIElements;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 //using UnityEngine.XR.WSA.WebCam;
 
 public class GolemPickup : MonoBehaviour {
@@ -19,8 +21,8 @@ public class GolemPickup : MonoBehaviour {
     //Grabbing Variables
     private Vector3 modifiedMousePos;
     private Vector3 mousePos;
-    private bool overPortal = false;
-    private bool holding = false;
+    private bool overPortal, overNPC, portalReturnPlaying, holdingSound = false;
+    private bool holding, textboxShowing = false;
     private Rigidbody golemRb;
     private Vector3 boundedPos;
     private Vector3 lastPos;
@@ -37,6 +39,7 @@ public class GolemPickup : MonoBehaviour {
     public TutorialPhysicalInventory tutInv;
     public TutorialPhysicalShonkyInventory tutShonkyInv;
     public PhysicalShonkyInventory shonkyInv;
+    public TutorialManager tutManager;
 
     //Radial progress bar
     public Image RadialTimer1, RadialTimer2, RadialTimer3;
@@ -46,6 +49,9 @@ public class GolemPickup : MonoBehaviour {
     //Particle system to highlight items to be inspected
     public GameObject particles;
     private GameObject particleChild;
+    
+    //To reset NPC spawner interaction
+    public NPCSpawner spawner;
 
     // Use this for initialization
     void Start() {
@@ -70,7 +76,7 @@ public class GolemPickup : MonoBehaviour {
             {
                 GameManager.Instance.WaitingForTimer = true;
             }
-            //SFX.Play("sound");
+            SFX.Play("Portal_Suck",1f,1f,0f,false,0f);
             int index = GetGolemSlot();
             Mine.Instance.AddGolemAndTime(System.DateTime.Now, index);
             SetGolemInMine(index, true);
@@ -78,6 +84,26 @@ public class GolemPickup : MonoBehaviour {
             pickedupGolem.SetActive(false);
             pickedupGolem = null;
             overPortal = false;
+        } else if (overNPC) {
+            Debug.Log("Sending to Barter");
+        
+            //SFX.Play("sound");
+            int index = GetGolemSlot();
+            Debug.Log(index + " is the index");
+            if (index != -1)
+            {
+                GameManager.Instance.ShonkyIndexTransfer = index;
+                pickedupGolem = null;
+                overNPC = false;
+                spawner.isInteracting = false;
+                SaveManager.SaveShonkyInventory();
+                ResetGolem();
+                SceneManager.LoadScene("Barter");
+            }
+            else
+            {
+                ResetGolem();
+            }
         }
 
         if (Input.GetMouseButtonUp(0) && pickedupGolem != null)
@@ -99,20 +125,16 @@ public class GolemPickup : MonoBehaviour {
         {
             for (int i = 0; i < shonkyInv.amountOfSlots; i++)
             {
+                Debug.Log("Checking slot " + i + " of " + shonkyInv.amountOfSlots);
                 PenSlot slot = shonkyInv.shonkySlots[i];
                 GameObject obj;
                 if (slot.GetPrefabInstance(out obj))
                 {
+                    Debug.Log("obj name is " + obj.name);
                     if (obj == pickedupGolem)
                         return slot.index;
                 }
-                else
-                {
-                    return -1;
-                }
-
             }
-
             return -1;
         }
         else
@@ -154,13 +176,14 @@ public class GolemPickup : MonoBehaviour {
         RaycastHit hit;
         //Do an accuracy check before hand to ensure one isn't picked up and floating away
         holding = CheckAccuracy();
+        //Debug.Log("currently holding " + holding);
         if (!holding)
             ResetGolem();
 
         if (Physics.Raycast(ray, out hit, 40)) {
             //If a golem
             if (hit.transform.gameObject.CompareTag("Golem") || holding) {
-                Debug.Log("Hit golem");
+                //Debug.Log("Hit golem");
                 if (pickedupGolem == null){
                     //If not holding a pouch
                     if (!hit.transform.gameObject.GetComponent<ShonkyWander>().IsHoldingPouch())
@@ -176,7 +199,7 @@ public class GolemPickup : MonoBehaviour {
                         int golemIndex = GetGolemSlot();
                         if (pouchSlot > -1) {
                             //Reset golem and set pouch to inventory
-                            //SFX.Play("sound");
+                            SFX.Play("Golem Exlaim Voices",1f,1f,0f,false,0f);
                             hit.transform.gameObject.GetComponent<ShonkyWander>().RemovePouch();
                             Slot insertedSlot;
                             if (!GameManager.Instance.InTutorial)
@@ -215,12 +238,10 @@ public class GolemPickup : MonoBehaviour {
                             {
                                 if (GameManager.Instance.ReturnPouch)
                                 {
-                                    Debug.Log("ReturnedPouch");
-                                    StartCoroutine(TutorialResourcePouch("Why dont you check out what your golem found by returning to the lower shop!"));
-                                    StopCoroutine(TutorialResourcePouch("Why dont you check out what your golem found by returning to the lower shop!"));
+                                    //tutManager.StartDialogue(tutManager.tapPouch);
                                     GameManager.Instance.ReturnPouch = false;
                                     GameManager.Instance.MineGoleminteractGolem = true;
-                                    GameManager.Instance.OpenPouch = true;
+                                    //GameManager.Instance.OpenPouch = true;
                                 }
                             }
                         }
@@ -260,10 +281,8 @@ public class GolemPickup : MonoBehaviour {
     private void ResetGolem() {
         if (pickedupGolem != null) {
             Debug.Log("Resetting Golem");
-            //pickedupGolem.GetComponent<NavMeshAgent>().enabled = true;
-            //Input.
-            //Debug.Log(String.Format("last pos is {0} while transform is {1}. Direction is {2}", 
-                //lastPos,pickedupGolem.transform.position, (pickedupGolem.transform.position - lastPos).normalized));
+            holdingSound = false;
+            SFX.StopSpecific("Golem Struggle Voices");            
             Vector3 direction = (pickedupGolem.transform.position - lastPos).normalized;
             //Vector3 direction = Input.GetTouch(0).deltaPosition;
             Debug.DrawLine(pickedupGolem.transform.position,lastPos,Color.green);
@@ -272,6 +291,8 @@ public class GolemPickup : MonoBehaviour {
             pickedupGolem.GetComponent<ShonkyWander>().FloatToPen();
             GameManager.pickedUpGolem = false;
             pickedupGolem = null;
+            overNPC = false;
+            overPortal = false;
         }
     }
 
@@ -280,8 +301,11 @@ public class GolemPickup : MonoBehaviour {
     {
         SetGolemInMine(golem, false);
         SetGolemBagType(golem);
-        GameObject physicalRep = GetGolemObj(golem);
+        //Stop portal sound and play return sound
+        portalReturnPlaying = true;
         //SFX.Play("sound");
+        
+        GameObject physicalRep = GetGolemObj(golem);
         physicalRep.SetActive(true);
         physicalRep.transform.position = exitPortalLocation;
         //SFX.Play("sound");
@@ -294,20 +318,10 @@ public class GolemPickup : MonoBehaviour {
         {
             if (GameManager.Instance.HasMinePouch)
             {
-                StartCoroutine(TutorialResourcePouch("Tap the pouch in the golems hands to put it your inventory!"));
-                StopCoroutine(TutorialResourcePouch("Tap the pouch in the golems hands to put it your inventory!"));
+                tutManager.StartDialogue(tutManager.tapPouch);
+                GameManager.Instance.ReturnPouch = true;
             }
         }
-    }
-
-    private IEnumerator TutorialResourcePouch(string text)
-    {
-        yield return new WaitForSeconds(5f);
-        TutorialProgressChecker.Instance.OnlyShowTextBox(text);
-        GameManager.Instance.HasMinePouch = false;
-        //particleChild = Instantiate(particles, physicalRep.transform.position, physicalRep.transform.rotation);
-        //particleChild.transform.parent = physicalRep.transform;
-        GameManager.Instance.ReturnPouch = true;
     }
 
     private void SetGolemBagType(int index)
@@ -377,10 +391,13 @@ public class GolemPickup : MonoBehaviour {
         //golemRb.MovePosition(boundedPos);
         pickedupGolem.transform.position = boundedPos;
 
-        //Debug.Log("Bounded pos is " + boundedPos);
-        //Debug.Log(String.Format("Golem position is {0}, mouse position is {1} and bounded mouse position is {2}",
-            //pickedupGolem.transform.position,Camera.main.ScreenToWorldPoint(Input.mousePosition),boundedPos));
+        if (!holdingSound)
+        {
+            SFX.Play("Golem Struggle Voices",1f,1f,0f,true,0f);
+            holdingSound = true;
+        }
         CheckIfOverPortal();
+        CheckIfOverNPC();
     }
     
     //Secondary function which takes the existing pickedup golem as the parameter
@@ -407,7 +424,13 @@ public class GolemPickup : MonoBehaviour {
         boundedPos = new Vector3(XPos,YPos,ZPos);
         pickedupGolem.transform.position = boundedPos;
         
+        if (!holdingSound)
+        {
+            SFX.Play("Golem Struggle Voices",1f,1f,0f,true,0f);
+            holdingSound = true;
+        }
         CheckIfOverPortal();
+        CheckIfOverNPC();
     }
 
     private bool CheckAccuracy() {
@@ -451,19 +474,54 @@ public class GolemPickup : MonoBehaviour {
         else return angle;
     }
 
-    private void CheckIfOverPortal() {
+    private void CheckIfOverPortal()
+    {
         //Continue to raycast to check if it is over entry portal
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit secondHit;
         int layerMask = LayerMask.GetMask("MinePortal");
-        if (Physics.Raycast(ray, out secondHit, 10, layerMask)) {
-            overPortal = true;
-            //SFX.Play("sound");
+        if (Physics.Raycast(ray, out secondHit, 10, layerMask))
+        {
+            if (!overPortal)
+            {
+                SFX.Play("Portal_sipping", 1.5f, 1f, 0f, true, 0f);
+                overPortal = true;
+            }
         }
-        else {
-            overPortal = false;
+        //Really dirty but need a way to prevent the sound being constantly initiated.
+        else
+        {
+            if (overPortal)
+            {
+                overPortal = false;
+                SFX.StopSpecific("Portal_sipping");
+            }
         }
-        //Debug.Log(overPortal + " is over portal");
+    }
+
+    private void CheckIfOverNPC() {
+        //Debug.Log("Checking if over NPC");
+        //Continue to raycast to check if it is over entry portal
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit secondHit;
+        int layerMask = LayerMask.GetMask("NPC");
+        Debug.DrawRay(ray.origin,ray.direction,Color.yellow);
+        if (Physics.Raycast(ray, out secondHit, Mathf.Infinity, layerMask))
+        {
+            Debug.Log("Shot ray and hit " + secondHit.transform.gameObject.name);
+            if (secondHit.transform.gameObject.GetComponent<NPCWalker>().walkNormal == false)
+            {
+                overNPC = true;
+            }
+            else
+            {
+                overNPC = false;
+            }
+        }
+        else
+        {
+            overNPC = false;
+        }
     }
 
     private void UpdateUITimer()
@@ -488,14 +546,14 @@ public class GolemPickup : MonoBehaviour {
         {            
             if (GameManager.Instance.WaitingForTimer)
             {
-                TutorialProgressChecker.Instance.OnlyShowTextBox("Once the yellow timer has filled, your golem is ready to come back!");
                 GameManager.Instance.WaitingForTimer = false;
             }
-            if (GameManager.Instance.TimerComplete)
+            if (GameManager.Instance.TimerComplete && !textboxShowing)
             {
-                TutorialProgressChecker.Instance.OnlyShowTextBox("Tap on the portal to retrieve your golem from the mines!");
+                tutManager.StartDialogue(tutManager.retrieveGolem);
                 GameManager.Instance.HasMinePouch = true;
                 GameManager.Instance.TimerComplete = false;
+                textboxShowing = true;
             }
         }
     }
@@ -518,10 +576,18 @@ public class GolemPickup : MonoBehaviour {
             _timers[j].DOFade(0.8f, 2f);
             _timers[j].color = Color.yellow;
             _timers[j].fillAmount = Mathf.Lerp(0f, 1f, milliseconds/ (Mine.Instance.MiningTime() * 1000f));
-            if (GameManager.Instance.InTutorial && _timers[j].fillAmount > 0.95f)
+            if (_timers[j].fillAmount > 0.95f)
             {
-                GameManager.Instance.TimerComplete = true;
+                if (GameManager.Instance.InTutorial)
+                    GameManager.Instance.TimerComplete = true;
+                //Need to boolean lock to prevent constant instantiation
+                if (_timers[j].fillAmount > 0.99f && !portalReturnPlaying)
+                {
+                    SFX.Play("Mine_portal_fini",1f,1f,0f,true,0f);
+                    portalReturnPlaying = true;
+                }
             }
+            
         }
 
         for (int k = amountToCollect + amountMining; k < _timers.Count; k++)

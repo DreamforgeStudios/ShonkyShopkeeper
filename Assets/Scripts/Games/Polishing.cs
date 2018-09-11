@@ -50,6 +50,9 @@ public class Polishing : MonoBehaviour {
     public ParticleSystem particle;
     public int amountOfParticles;
     private ParticleSystem.EmitParams emitParams;
+    
+    //Quick and dirty sound tracking
+    private bool pulse1, pulse2, pulse3 = false;
 
     // DB.
     //public ItemDatabase db;
@@ -88,6 +91,7 @@ public class Polishing : MonoBehaviour {
             timerSlider.maxValue = finishTime;
             Color sliderColour = Color.Lerp(Color.green, Color.red, timerSlider.value / timerSlider.maxValue);
             sliderImage.color = sliderColour;
+            CalculateRelevantSFX();
         } else {
             //GameOver();
         }
@@ -95,6 +99,76 @@ public class Polishing : MonoBehaviour {
 
     private void ObjectColourLerp() {
         //gemObject.GetComponent<Renderer>().material.color = Color.Lerp(colourStart, ColourEnd, (numberOfSwipes + 1) / (timeLimit * 10));
+    }
+
+    //Really quick and dirty
+    private void CalculateRelevantSFX()
+    {
+        Quality.QualityGrade grade = qualityBar.ReturnCurrentGrade();
+        Debug.Log("grade is " + grade);
+        if (grade == Quality.QualityGrade.Junk || grade == Quality.QualityGrade.Brittle)
+        {
+            if (!pulse1)
+            {
+                Debug.Log("Playing pulse 1");
+                pulse1 = true;
+                SFX.Play("Polishing_Pulse1", 1f, 1f, 0f, true, 0f);
+            }
+
+            if (pulse2)
+            {
+                SFX.StopSpecific("Polishing_Pulse2");
+                pulse2 = false;
+            }
+
+            if (pulse3)
+            {
+                SFX.StopSpecific("Polishing_Pulse3");
+                pulse3 = false;
+            }
+
+        } else if (grade == Quality.QualityGrade.Passable || grade == Quality.QualityGrade.Sturdy)
+        {
+            if (pulse1)
+            {
+                pulse1 = false;
+                SFX.StopSpecific("Polishing_Pulse1");
+            }
+
+            if (!pulse2)
+            {
+                Debug.Log("Playing pulse 2");
+                SFX.Play("Polishing_Pulse2",1f,1f,0f,true,0f);
+                pulse2 = true;
+            }
+
+            if (pulse3)
+            {
+                SFX.StopSpecific("Polishing_Pulse3");
+                pulse3 = false;
+            } 
+        }
+        else
+        {
+            if (pulse1)
+            {
+                pulse1 = false;
+                SFX.StopSpecific("Polishing_Pulse1");
+            }
+
+            if (pulse2)
+            {
+                SFX.StopSpecific("Polishing_Pulse2");
+                pulse2 = false;
+            }
+
+            if (!pulse3)
+            {
+                Debug.Log("Playing pulse 3");
+                SFX.Play("Polishing_Pulse3",1f,1f,0f,true,0f);
+                pulse3 = true;
+            } 
+        }
     }
 
     private void GetInput()
@@ -161,8 +235,9 @@ public class Polishing : MonoBehaviour {
         //StopCoroutine(CalculateSwipes(false));
     }
 
-    private void AddSwipe() {
-        //SFX.Play("sound");
+    private void AddSwipe()
+    {
+        SFX.Play("Polish_swipe", 1f, 1f, 0f, false, 0f);
         numberOfSwipes++;
         qualityBar.Add(swipeContribution, true);
     }

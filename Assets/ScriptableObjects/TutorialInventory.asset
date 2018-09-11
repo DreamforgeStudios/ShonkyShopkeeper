@@ -32,13 +32,13 @@ MonoBehaviour:
     InMine: 0
     pouchType: 0
   - Quantity: 0
-    Quality: 0
+    Quality: 2
     IsNew: 0
     ItemIdentifier: 
     InMine: 0
     pouchType: 0
   - Quantity: 0
-    Quality: 0
+    Quality: 5
     IsNew: 0
     ItemIdentifier: 
     InMine: 0

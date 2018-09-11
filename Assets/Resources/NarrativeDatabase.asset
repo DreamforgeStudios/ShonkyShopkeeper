@@ -11,7 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b76cb02d7e630064c944beb11c90a3ce, type: 3}
   m_Name: NarrativeDatabase
   m_EditorClassIdentifier: 
-  GizmoPrefab: {fileID: 1332457355533254, guid: 11da7b10b3ad39f47bcf3ad8559d85dd,
+  GizmoPrefab: {fileID: 1668627367969516, guid: 7ee18a29f02ec0145a189d1fce7433d9,
     type: 2}
   KeyedNarrativeElements:
     m_keys:

@@ -12,6 +12,9 @@ using Random = UnityEngine.Random;
 public class SegmentInfoDictionary : SerializableDictionary<BarterManager.Segment, SegmentInfo> {}
 
 [System.Serializable]
+public class PriceInfoDictionary : SerializableDictionary<Quality.QualityGrade, float> {}
+
+[System.Serializable]
 public class SegmentInfo {
 	//[SerializeField]
 	//public BarterManager.Segment Segment;
@@ -41,6 +44,8 @@ public class BarterManager : MonoBehaviour {
 	public int NumberOfSegments;
 	[BoxGroup("Balance")]
 	public SegmentInfoDictionary SegmentInfoDict;
+	[BoxGroup("Balance")]
+	public PriceInfoDictionary PriceInfoDict;
 
 	[BoxGroup("Object Assignments")]
 	public GameObject GolemSpawnPoint;
@@ -95,17 +100,21 @@ public class BarterManager : MonoBehaviour {
 		golemClone = Instantiate(golem.item.physicalRepresentation, GolemSpawnPoint.transform.position, GolemSpawnPoint.transform.rotation, GolemSpawnPoint.transform);
 		golemClone.GetComponent<Rigidbody>().isKinematic = true;
 
+		/*
 		if (GameManager.Instance.SpriteTransfer != null) {
 			WizardRenderer.sprite = GameManager.Instance.SpriteTransfer;
 		} else {
 			Debug.LogWarning("Wizard sprite was not transfered, will use defaut.");
 		}
+		*/
 
 		// Build a dictionary based on the list, which is easier for code to use.
 		//SegmentInfosDict = BuildDictionary(SegmentInfos);
 		// TODO: this isn't very obvious, is there a better way?
 		RadialBar.DefaultColor = SegmentInfoDict[Segment.Ok].Color;
 
+		price = PriceInfoDict[golemQuality];
+		PriceText.text = "$" + price;
 		c = PriceText.color;
 
 		GeneratePoints();
@@ -170,6 +179,9 @@ public class BarterManager : MonoBehaviour {
 		anim.SetBool("Pickup", true);
 		anim.speed += .5f;
 		
+		//Play relevant SFX based on point hit
+		PlaySFX(value);
+		
 		RadialBar.ChangePoint(point, SegmentInfoDict[Segment.Bad].Color);
 
 		HourGlass.CurrentTimeRemaining += info.TimeAdd;
@@ -201,6 +213,14 @@ public class BarterManager : MonoBehaviour {
 		}
 		
 		RadialSlider.PauseForDuration(.2f);
+	}
+
+	private void PlaySFX(Segment value)
+	{
+		if (value == Segment.Best || value == Segment.Good)
+			SFX.Play("Bidding_GreenTap",1f,1f,0f,false);
+		if (value == Segment.Bad)
+			SFX.Play("Bidding_FailTap",1f,1f,0f,false,0f);
 	}
 
 	private void GeneratePoints() {

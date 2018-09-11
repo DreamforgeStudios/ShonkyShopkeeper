@@ -422,7 +422,7 @@ public class Toolbox : MonoBehaviour {
                 canSelect = false;
                 Transform t1 = obj1.transform;
 
-                //SFX.Play("item_lift");
+                SFX.Play("Item_shifted", 1f, 1f, 0f, false, 0f);
                 MoveUp(slot1)
                     .OnComplete(() => t1.DOMove(slot2.transform.position + Vector3.up, 0.6f).SetEase(Ease.OutBack)
                         .OnComplete(() =>
@@ -567,6 +567,7 @@ public class Toolbox : MonoBehaviour {
 
         //SFX.Play("sound");
         SFX.Play("Res_pouch_open", 1f, 1f, 0f, false, 0f);
+        AchievementManager.Get("pouch_open_01");
 
         var drops = new List<ItemInstance>();
         for (int i = 0; i < numberItems; i++) {
@@ -687,22 +688,22 @@ public class Toolbox : MonoBehaviour {
     {
         switch (item.GetType().ToString()) {
             case "Gem":
-                Inventory.Instance.AddGold(10);
+                Inventory.Instance.AddGold(5);
                 break;
             case "Jewel":
-                Inventory.Instance.AddGold(20);
+                SellJewelOrBrick(slot);
                 break;
             case "Ore":
-                Inventory.Instance.AddGold(10);
+                Inventory.Instance.AddGold(5);
                 break;
             case "Brick":
-                Inventory.Instance.AddGold(20);
+                SellJewelOrBrick(slot);
                 break;
             case "ChargedJewel":
-                Inventory.Instance.AddGold(50);
+                SellChargedJewelOrShell(slot);
                 break;
             case "Shell":
-                Inventory.Instance.AddGold(50);
+                SellChargedJewelOrShell(slot);
                 break;
         }
         //SFX.Play("sound");
@@ -717,6 +718,68 @@ public class Toolbox : MonoBehaviour {
         SaveManager.SaveInventory();
         canSelect = true;
 
+    }
+
+    private void SellChargedJewelOrShell(Slot slot)
+    {
+        Quality.QualityGrade grade;
+        ItemInstance instance;
+        if (slot.GetItemInstance(out instance))
+        {
+            grade = instance.Quality;
+            switch (grade)
+            {
+                case Quality.QualityGrade.Brittle:
+                    Inventory.Instance.AddGold(10);
+                    break;
+                case Quality.QualityGrade.Passable:
+                    Inventory.Instance.AddGold(10);
+                    break;
+                case Quality.QualityGrade.Sturdy:
+                    Inventory.Instance.AddGold(12);
+                    break;
+                case Quality.QualityGrade.Magical:
+                    Inventory.Instance.AddGold(15);
+                    break;
+                case Quality.QualityGrade.Mystic:
+                    Inventory.Instance.AddGold(20);
+                    break;
+                case Quality.QualityGrade.Junk:
+                    Inventory.Instance.AddGold(5);
+                    break;
+            }
+        }
+    }
+    
+    private void SellJewelOrBrick(Slot slot)
+    {
+        Quality.QualityGrade grade;
+        ItemInstance instance;
+        if (slot.GetItemInstance(out instance))
+        {
+            grade = instance.Quality;
+            switch (grade)
+            {
+                case Quality.QualityGrade.Brittle:
+                    Inventory.Instance.AddGold(7);
+                    break;
+                case Quality.QualityGrade.Passable:
+                    Inventory.Instance.AddGold(7);
+                    break;
+                case Quality.QualityGrade.Sturdy:
+                    Inventory.Instance.AddGold(9);
+                    break;
+                case Quality.QualityGrade.Magical:
+                    Inventory.Instance.AddGold(10);
+                    break;
+                case Quality.QualityGrade.Mystic:
+                    Inventory.Instance.AddGold(15);
+                    break;
+                case Quality.QualityGrade.Junk:
+                    Inventory.Instance.AddGold(5);
+                    break;
+            }
+        }
     }
 
     // Load a sync in the background.

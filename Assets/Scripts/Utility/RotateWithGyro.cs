@@ -8,7 +8,8 @@ public class RotateWithGyro : MonoBehaviour {
 	// Sample size for accelerometer.
 	private const int SAMPLE_SIZE = 15;
 	
-	public Material VialMaterial;
+	public GameObject vial;
+	private Material vialMaterial;
 	
 	private bool enableGyro, enableAccel;
 
@@ -49,6 +50,8 @@ public class RotateWithGyro : MonoBehaviour {
 		updirID = Shader.PropertyToID("_UpDirection");
 
 		originalRotation = gameObject.transform.rotation;
+
+		vialMaterial = vial.GetComponent<Renderer>().material;
 	}
 	
 	private Vector3[] accelerations;
@@ -59,7 +62,7 @@ public class RotateWithGyro : MonoBehaviour {
 
 		if (enableGyro) {
 			// Rudementary support only at this stage -- no hardware.
-			VialMaterial.SetVector("_UpDirection", Input.gyro.gravity);
+			vialMaterial.SetVector("_UpDirection", Input.gyro.gravity);
 		} else if (enableAccel) {
 			accelerations[counter] = Input.acceleration;
 
@@ -79,14 +82,14 @@ public class RotateWithGyro : MonoBehaviour {
 			
 			//gameObject.transform.rotation = originalRotation * Quaternion.Euler(-rotationVec);
 			
-			VialMaterial.SetVector(updirID, avg);
+			vialMaterial.SetVector(updirID, avg);
 		} else {
 			Vector4 vec = new Vector4(ManualX, ManualY, -ManualZ + ZAdd, ManualW);
 			Vector4 rotationVec = vec * RotationMultiplier;
 			rotationVec.z = 0;
 			
 			//gameObject.transform.rotation = originalRotation * Quaternion.Euler(-rotationVec);
-			VialMaterial.SetVector(updirID, vec);
+			vialMaterial.SetVector(updirID, vec);
 		}
 	}
 }

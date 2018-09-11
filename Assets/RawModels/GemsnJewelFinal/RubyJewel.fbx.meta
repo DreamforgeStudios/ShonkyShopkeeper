@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: e7df415143729864b875e815be663211
+=======
+guid: 3e636be87414a9245b3b5d97e0f2507e
+>>>>>>> master
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
@@ -8,7 +12,11 @@ ModelImporter:
     2100000: rubygem
     2300000: //RootNode
     3300000: //RootNode
+<<<<<<< HEAD
     4300000: Ruby_Jewel1
+=======
+    4300000: Ruby_Jewel
+>>>>>>> master
   externalObjects: {}
   materials:
     importMaterials: 1

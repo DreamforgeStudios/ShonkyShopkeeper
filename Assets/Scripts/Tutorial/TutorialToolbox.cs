@@ -86,7 +86,7 @@ public class TutorialToolbox : MonoBehaviour {
     //Helpers to capture Items, transfoms, slot indexes, gameobjects, movement stages and instances when using forceps
     private Slot currentSelection = null;
     //private Slot secondSelection = null;
-    private bool canSelect = true;
+    public bool canSelect = true;
 
     // Debug.
     private Ray previousRay;
@@ -120,7 +120,7 @@ public class TutorialToolbox : MonoBehaviour {
 
     private void ProcessMouse() {
         if (Input.GetMouseButtonDown(0)) {
-            if (GameManager.Instance.TutorialIntroTopComplete)
+            if (GameManager.Instance.TutorialIntroTopComplete && canSelect)
                 Cast();
                 //tutorialManager.HideCanvas();
       
@@ -190,7 +190,8 @@ public class TutorialToolbox : MonoBehaviour {
                 //BinItem();
             }
             else {
-                UseTool(hit.transform.GetComponent<Slot>());
+                if (canSelect)
+                    UseTool(hit.transform.GetComponent<Slot>());
             }
         }
         else {
@@ -203,8 +204,10 @@ public class TutorialToolbox : MonoBehaviour {
         GameObject curToolObj = ToolToObject(currentTool),
                    newToolObj = ToolToObject(tool);
         
+        
         if (!GameManager.Instance.TutorialIntroComplete)
             ShowInfo(newToolObj);
+            
         
         Debug.Log(curToolObj.transform.position);
         // Return old tool to bench.
@@ -262,18 +265,16 @@ public class TutorialToolbox : MonoBehaviour {
         // Hide the inspector, kinda annoying.
         HideInspector();
     }
-
+    
     private void ShowInfo(GameObject tool)
     {
         if (!GameManager.Instance.InspectedItems.Contains(tool.name) && tool.name != "NoneTool")
         {
-            tutorialManager.InspectItem(tool);
-        }
-        else
-        {
-            tutorialManager.HideCanvas();
+            //tutorialManager.InspectItem(tool);
+            tutorialManager.StopParticle(tool);
         }
     }
+    
     // Use the right tool on the slot.
     private void UseTool(Slot slot) {
         switch (currentTool) {
@@ -345,6 +346,10 @@ public class TutorialToolbox : MonoBehaviour {
                 textInfo.text = instance.itemInfo;
 
                 MoveUp(slot);
+                if (!GameManager.Instance.TutorialIntroComplete)
+                {
+                    tutorialManager.FinishInspectorUse();
+                }
             }
         } else {
             HideInspector();
@@ -381,111 +386,119 @@ public class TutorialToolbox : MonoBehaviour {
     private void UseForceps(Slot slot)
     {
         Item item;
-
-        if (slot.GetItem(out item) && canSelect)
-        {
-            //If first selection
-            if (currentSelection == null)
+            if (slot.GetItem(out item))
             {
-                this.currentSelection = slot;
-                MoveUp(slot);
-                SFX.Play("Item_lifted", 1f, 1f, 0f, false, 0f);
-                // Second selection.
-            }
-            else
-            {
-                // If the same item is selected, put it back.
-                if (currentSelection == slot)
+                //If first selection
+                if (currentSelection == null)
                 {
-                    Debug.Log("Same slot.");
-                    MoveDown(slot);
-                    currentSelection = null;
-                    return;
+                    this.currentSelection = slot;
+                    MoveUp(slot);
+                    SFX.Play("Item_lifted", 1f, 1f, 0f, false, 0f);
+                    // Second selection.
+                }
+                else
+                {
+                    // If the same item is selected, put it back.
+                    if (currentSelection == slot)
+                    {
+                        Debug.Log("Same slot.");
+                        MoveDown(slot);
+                        currentSelection = null;
+                        return;
+                    }
+
+                    // Make things make more sense.
+                    Slot slot1 = this.currentSelection;
+                    Slot slot2 = slot;
+
+                    // Move objects to other slot.
+                    GameObject obj1;
+                    GameObject obj2;
+                    // Move 1 item.
+                    if (slot1.GetPrefabInstance(out obj1) && slot2.GetPrefabInstance(out obj2))
+                    {
+                        // Don't let user select while we're moving.
+                        // TODO: let user select while moving?
+                        canSelect = false;
+
+                        Transform t1 = obj1.transform,
+                            t2 = obj2.transform;
+
+                        //SFX.Play("item_lift");
+                        SFX.Play("Item_shifted", 1f, 1f, 0f, false, 0f);
+                        MoveUp(slot1)
+                            .OnComplete(() => t1.DOMove(slot2.transform.position + Vector3.up, 0.6f)
+                                .SetEase(Ease.OutBack)
+                                .OnComplete(() => t1.DOMove(slot2.transform.position, 1f).SetEase(Ease.OutBounce)));
+                        MoveUp(slot2)
+                            .OnComplete(() => t2.DOMove(slot1.transform.position + Vector3.up, 0.6f)
+                                .SetEase(Ease.OutBack)
+                                .OnComplete(() =>
+                                    t2.DOMove(slot1.transform.position, 1f).SetEase(Ease.OutBounce)
+                                        .OnComplete(() => canSelect = true)));
+
+                        // This is a bit janky, but might be doing physics based inventory soon, so not bothering.
+                        t1.GetComponent<Rotate>().Enable = false;
+                        t2.GetComponent<Rotate>().Enable = false;
+                        SFX.Play("item_down", 1, 1, 1.5f);
+
+                        ItemInstance inst1, inst2;
+                        if (slot1.GetItemInstance(out inst1) && slot2.GetItemInstance(out inst2))
+                        {
+                            slot1.SetItemInstantiated(inst2, obj2);
+                            slot2.SetItemInstantiated(inst1, obj1);
+                            Inventory.Instance.SwapItem(slot1.index, slot2.index);
+                        }
+
+                        currentSelection = null;
+                        //If tutorial of forceps, remove glow from items
+                        if (!GameManager.Instance.TutorialIntroComplete)
+                            tutorialManager.FinishForcepsMovement();
+
+                    }
                 }
 
-                // Make things make more sense.
+                //Else if selected one item and clicked on null slot
+            }
+            else if (currentSelection && !slot.GetItem(out item) && canSelect)
+            {
                 Slot slot1 = this.currentSelection;
                 Slot slot2 = slot;
 
-                // Move objects to other slot.
                 GameObject obj1;
-                GameObject obj2;
-                // Move 1 item.
-                if (slot1.GetPrefabInstance(out obj1) && slot2.GetPrefabInstance(out obj2))
+                // If the slot we selected has something in it.
+                if (slot1.GetPrefabInstance(out obj1))
                 {
-                    // Don't let user select while we're moving.
-                    // TODO: let user select while moving?
+                    //&& currentSelection.GetItemInstance(out inst1) &&
                     canSelect = false;
+                    Transform t1 = obj1.transform;
 
-                    Transform t1 = obj1.transform,
-                        t2 = obj2.transform;
-
-                    //SFX.Play("item_lift");
-                    SFX.Play("Item_shifted", 1f, 1f, 0f, false, 0f);
+                    SFX.Play("item_lift");
                     MoveUp(slot1)
                         .OnComplete(() => t1.DOMove(slot2.transform.position + Vector3.up, 0.6f).SetEase(Ease.OutBack)
-                            .OnComplete(() => t1.DOMove(slot2.transform.position, 1f).SetEase(Ease.OutBounce)));
-                    MoveUp(slot2)
-                        .OnComplete(() => t2.DOMove(slot1.transform.position + Vector3.up, 0.6f).SetEase(Ease.OutBack)
                             .OnComplete(() =>
-                                t2.DOMove(slot1.transform.position, 1f).SetEase(Ease.OutBounce)
+                                t1.DOMove(slot2.transform.position, 1f).SetEase(Ease.OutBounce)
                                     .OnComplete(() => canSelect = true)));
-
-                    // This is a bit janky, but might be doing physics based inventory soon, so not bothering.
                     t1.GetComponent<Rotate>().Enable = false;
-                    t2.GetComponent<Rotate>().Enable = false;
                     SFX.Play("item_down", 1, 1, 1.5f);
 
-                    ItemInstance inst1, inst2;
-                    if (slot1.GetItemInstance(out inst1) && slot2.GetItemInstance(out inst2))
+                    ItemInstance inst1;
+                    if (slot1.GetItemInstance(out inst1))
                     {
-                        slot1.SetItemInstantiated(inst2, obj2);
+                        slot1.RemoveDontDestroy();
                         slot2.SetItemInstantiated(inst1, obj1);
                         Inventory.Instance.SwapItem(slot1.index, slot2.index);
                     }
 
                     currentSelection = null;
-                }
-            }
-
-            //Else if selected one item and clicked on null slot
-        }
-        else if (currentSelection && !slot.GetItem(out item) && canSelect)
-        {
-            Slot slot1 = this.currentSelection;
-            Slot slot2 = slot;
-
-            GameObject obj1;
-            // If the slot we selected has something in it.
-            if (slot1.GetPrefabInstance(out obj1))
-            {
-                //&& currentSelection.GetItemInstance(out inst1) &&
-                canSelect = false;
-                Transform t1 = obj1.transform;
-
-                SFX.Play("item_lift");
-                MoveUp(slot1)
-                    .OnComplete(() => t1.DOMove(slot2.transform.position + Vector3.up, 0.6f).SetEase(Ease.OutBack)
-                        .OnComplete(() =>
-                            t1.DOMove(slot2.transform.position, 1f).SetEase(Ease.OutBounce)
-                                .OnComplete(() => canSelect = true)));
-                t1.GetComponent<Rotate>().Enable = false;
-                SFX.Play("item_down", 1, 1, 1.5f);
-
-                ItemInstance inst1;
-                if (slot1.GetItemInstance(out inst1))
-                {
-                    slot1.RemoveDontDestroy();
-                    slot2.SetItemInstantiated(inst1, obj1);
-                    Inventory.Instance.SwapItem(slot1.index, slot2.index);
+                    //If tutorial of forceps, remove glow from items
+                    if (!GameManager.Instance.TutorialIntroComplete)
+                        tutorialManager.FinishForcepsMovement();
                 }
 
                 currentSelection = null;
             }
-
-            currentSelection = null;
         }
-    }
 
     private void UseWand(Slot slot) {
         Item item;
@@ -676,8 +689,7 @@ public class TutorialToolbox : MonoBehaviour {
         if (GameManager.Instance.InTutorial)
         {
             Debug.Log("Finished phase 1 of tutorial");
-            TutorialProgressChecker.Instance.OnlyShowTextBox("Now youve got everything you need to begin your Golemancy journey! When you are" +
-                                                             "ready to continue click the Map to venture out into the world Zauberheim!");
+            tutorialManager.FinishTutorial();
             GameManager.Instance.InTutorial = false;
             GameManager.Instance.InMap = true;
         }

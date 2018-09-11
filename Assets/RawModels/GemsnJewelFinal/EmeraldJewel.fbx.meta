@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: b20cc61bd9e7c104c835c20cab8a7a8b
+=======
+guid: 2e2daa8b21b6af44dae8a9c135e1b6c9
+>>>>>>> master
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
@@ -8,7 +12,11 @@ ModelImporter:
     2100000: emeraldbase1
     2300000: //RootNode
     3300000: //RootNode
+<<<<<<< HEAD
     4300000: EmeraldJewel1
+=======
+    4300000: EmeraldJewel
+>>>>>>> master
   externalObjects: {}
   materials:
     importMaterials: 1

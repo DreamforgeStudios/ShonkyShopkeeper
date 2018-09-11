@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Wizard Sprite", fileName = "WizardSprite.asset")]
-public class WizardSprite : ScriptableObject {
+/*
+public class WizardSprite {
 	public string Name;
-	public Sprite Front, Side, Best, Good, OK, Bad;
+	public GameObject WizardFront;
+	//public Sprite Front, Side, Best, Good, OK, Bad;
 }
+*/

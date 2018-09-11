@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: 3d6fbed2f014a73449aa02736a3282c1
+=======
+guid: 2732617a977acec4e9fe4874f5afef07
+>>>>>>> master
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
@@ -8,7 +12,11 @@ ModelImporter:
     2100000: rubygem
     2300000: //RootNode
     3300000: //RootNode
+<<<<<<< HEAD
     4300000: RubyGem1
+=======
+    4300000: RubyGem
+>>>>>>> master
   externalObjects: {}
   materials:
     importMaterials: 1

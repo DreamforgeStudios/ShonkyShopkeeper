@@ -45,15 +45,25 @@ public class PopupTextManager : MonoBehaviour {
 	// The 'closer' is the object that allows the user to close the text box.
 	[BoxGroup("Object Assignments")]
 	public GameObject Closer;
+	[BoxGroup("Object Assignments")]
+	public Camera RenderCamera;
 	
 	[ReadOnly] // only read only in inspector.
 	public int ActivePage = 0;
 
-	private Material closerMat;
+	[ReadOnly] 
+	public bool closed = false;
+
 	//private Button closerBtn;
 	//private RectTransform rTransform;
+	
+	public delegate void OnClose();
+	public static event OnClose onClose;
+	public delegate void OnPageTurn();
+	public static event OnPageTurn onPageTurn;
 
 	private bool entered = false;
+	private Material closerMaterial;
 
 	void Start() {
 		// Init();
@@ -71,8 +81,9 @@ public class PopupTextManager : MonoBehaviour {
 	}
 
 	// Put the narrative manager back to a default state.
+	[Button("Init")]
 	public void Init() {
-		closerMat = Closer.GetComponent<MeshRenderer>().material;
+		closerMaterial = Closer.GetComponent<Renderer>().material;
 		ActivePage = 0;
 		TextFront.text = PopupTexts[ActivePage];
 		UpdateCloser();
@@ -81,8 +92,9 @@ public class PopupTextManager : MonoBehaviour {
 	private void ProcessMouse() {
 		if (Input.GetMouseButtonDown(0)) {
 			RaycastHit hit;
-			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+			Ray ray = RenderCamera.ScreenPointToRay(Input.mousePosition);
 			if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask)) {
+				Debug.Log("Hit" + hit.transform.name);
 				if (hit.transform.CompareTag("MainButton"))
 					NextText();
 				else if (hit.transform.CompareTag("Aux"))
@@ -90,19 +102,23 @@ public class PopupTextManager : MonoBehaviour {
 			}
 		}
 	}
-	
+
 	private void ProcessTouch() {
         if (Input.touchCount == 0) {
             return;
         }
 
-		RaycastHit hit;
-		Ray ray = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
-		if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask)) {
-			if (hit.transform.CompareTag("MainButton"))
-				NextText();
-			else if (hit.transform.CompareTag("Aux"))
-				DoExitAnimation();
+		// Get the first touch, and if the touch has just started, check if it hit the buttons.
+		Touch touch = Input.GetTouch(0);
+		if (touch.phase == TouchPhase.Began) {
+			RaycastHit hit;
+			Ray ray = RenderCamera.ScreenPointToRay(touch.position);
+			if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask)) {
+				if (hit.transform.CompareTag("MainButton"))
+					NextText();
+				else if (hit.transform.CompareTag("Aux"))
+					DoExitAnimation();
+			}
 		}
 	}
 
@@ -119,17 +135,20 @@ public class PopupTextManager : MonoBehaviour {
 	// Leave the scene.
 	public void DoExitAnimation() {
 		if (!entered) return;
-
+		closed = true;
 		transform.DOLocalMove(StartScrollPosition, ScrollDurationOut).SetEase(ScrollEaseOut)
-			.OnComplete( () => Destroy(gameObject)); // We probably shouldn't destroy, but not sure what else to do atm.
+			.OnComplete(() => {
+				OnCloseTick();
+				Destroy(gameObject.transform.parent.gameObject);
+			}); // We probably shouldn't destroy, but not sure what else to do atm.
 	}
 
 	// Update the closer so that if we're on the last page it can be closed.
 	private void UpdateCloser() {
 		if (ActivePage >= PopupTexts.Count - 1) {
-			closerMat.color = Color.green;
+			closerMaterial.color = Color.green;
 		} else {
-			closerMat.color = Color.red;
+			closerMaterial.color = Color.red;
 		}
 	}
 	
@@ -152,6 +171,8 @@ public class PopupTextManager : MonoBehaviour {
 		textBackTween = DOTween.To(x => TextBack.alpha = x, 1f, 0f, FadeDurationOut).SetEase(FadeEaseOut);
 		textFrontTween = DOTween.To(x => TextFront.alpha = x, 0f, 1f, FadeDurationIn).SetEase(FadeEaseIn);
 
+		OnPageTurnTick();
+
 		UpdateCloser();
 	}
 
@@ -172,6 +193,22 @@ public class PopupTextManager : MonoBehaviour {
 		textBackTween = DOTween.To(x => TextBack.alpha = x, 1f, 0f, FadeDurationOut).SetEase(FadeEaseOut);
 		textFrontTween = DOTween.To(x => TextFront.alpha = x, 0f, 1f, FadeDurationIn).SetEase(FadeEaseIn);
 		
+		OnPageTurnTick();
+		
 		UpdateCloser();
+	}
+
+	// Occurs when the Gizmo has left the scene (just before being destroyed).
+	public void OnCloseTick() {
+		if (onClose != null) {
+			onClose();
+		}
+	}
+	
+	// Occurs when the 'page' has been turned.  Happens as soon as the button is pressed.
+	public void OnPageTurnTick() {
+		if (onPageTurn != null) {
+			onPageTurn();
+		}
 	}
 }

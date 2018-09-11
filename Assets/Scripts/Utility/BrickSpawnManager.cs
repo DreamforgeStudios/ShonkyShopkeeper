@@ -17,7 +17,7 @@ public class BrickSpawnManager : MonoBehaviour {
 	public float ScaleOverrideShine, ScaleOverrideSmoke;
 	public Vector3 RotationOverrideShine, RotationOverrideSmoke;
 	
-	public bool Debug;
+	public bool EnableDebug;
 
 	// Use this for initialization
 	void Start() {
@@ -45,7 +45,7 @@ public class BrickSpawnManager : MonoBehaviour {
 	}
 	
 	private void OnDrawGizmos() {
-		if (Debug) {
+		if (EnableDebug) {
 			Gizmos.color = Color.yellow;
 			Gizmos.DrawWireSphere(BeforePosition, 1);
 			Gizmos.color = Color.green;

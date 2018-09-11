@@ -45,96 +45,58 @@ public class MapTutorial : MonoBehaviour
 			CheckForTutProgressChecker();
 		else
 		{
-			HideCanvas();
 			CanMoveCamera = true;
-			//Destroy(this.gameObject);
+			Destroy(this.gameObject);
 		}
 	}
 
 	//MAP TUTORIAL START
 
-	public GameObject textObj, shopButtonObj, sphere, particles, particleChild;
-	public TextMeshProUGUI textBox;
-	public int currentTextNumber;
-	private bool textEnabled = false;
+	public GameObject shopButtonObj, sphere, particles, particleChild, gizmoPrefab;
 	public bool clickedOrb, CanMoveCamera  = false;
-	public List<string> tutorialDialogue = new List<string>();
+	public List<string> intro, map;
+	private PopupTextManager clone;
 
+
+	private void Start()
+	{
+		StartDialogue(intro);
+	}
+	
 	private void CheckForTutProgressChecker()
 	{
 		DontDestroyOnLoad(gameObject);
 		GameObject obj = GameObject.FindGameObjectWithTag("TutorialProgress");
 		Destroy(obj);
-		currentTextNumber = 0;
 		shopButtonObj.SetActive(false);
-		ShowCanvas();
+	}
+	
+	public void StartDialogue(List<string> dialogue)
+	{
+        clone = Instantiate(gizmoPrefab, GameObject.FindGameObjectWithTag("MainCamera").transform)
+	        .GetComponentInChildren<PopupTextManager>();
+		clone.PopupTexts = dialogue;
+		clone.Init();
+		clone.DoEnterAnimation();
 	}
 
+	/*
+	public void StartTinyDialogue(List<string> dialogue)
+	{
+		gizmoTiny.SetActive(true);
+		clone = gizmoTiny.GetComponent<PopupTextManager>();
+		clone.PopupTexts = dialogue;
+		clone.Init();
+		clone.EnterModified();
+	}
+	*/
+	
 	private void Update()
 	{
-		if (!GameManager.Instance.InMap)
-			textObj.SetActive(false);
-		
-		if (textEnabled && Input.GetMouseButtonDown(0) && currentTextNumber > 3)
+		if (clone.closed && !CanMoveCamera)
 		{
-			DetermineTutorialProgress();
-		}
-	}
-
-	private void DetermineTutorialProgress()
-	{
-		if (currentTextNumber == 4)
-		{
-			ShowCanvas();
-		} else if (currentTextNumber == 5 && clickedOrb)
-		{
-			ShowCanvas();
-		} else if (currentTextNumber == 6 && clickedOrb)
-		{
-			ShowCanvas();
-		}
-	}
-
-	private void ShowCanvas()
-	{
-		textObj.SetActive(true);
-		DetermineText();
-	}
-
-	private void HideCanvas()
-	{
-		textObj.SetActive(false);
-	}
-
-	private void DetermineText()
-	{
-		OnlyShowTextBox(tutorialDialogue[currentTextNumber]);
-	}
-
-	private IEnumerator FadeCanvas()
-	{
-		yield return new WaitForSeconds(3);
-		if (currentTextNumber < 4)
-		{
-			currentTextNumber++;
-			if (currentTextNumber == 4)
-			{
-				CanMoveCamera = true;
-				StartSphereParticles();
-			}
-
-			DetermineText();
-			yield return new WaitForSeconds(3f);
-		}
-		else
-		{
-			textEnabled = false;
-			textObj.SetActive(false);
-			if (currentTextNumber == 5)
-			{
-				currentTextNumber++;
-				DetermineText();
-			}
+			CanMoveCamera = true;
+			StartSphereParticles();
 		}
 	}
 
@@ -142,16 +104,7 @@ public class MapTutorial : MonoBehaviour
 	{
 		StopSphereParticle();
 		clickedOrb = true;
-		currentTextNumber++;
-		DetermineText();
-	}
-
-	public void OnlyShowTextBox(string text)
-	{
-		textObj.SetActive(true);
-		textEnabled = true;
-		textBox.text = text;
-		StartCoroutine(FadeCanvas());
+		StartDialogue(map);
 	}
 	
 	private void StartSphereParticles()

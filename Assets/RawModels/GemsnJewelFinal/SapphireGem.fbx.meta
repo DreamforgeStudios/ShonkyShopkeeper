@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: a5a81753d28631a488a0276e7faaf561
+=======
+guid: 2fbd7977745627344a0cdf02d7b0d49d
+>>>>>>> master
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
@@ -8,7 +12,11 @@ ModelImporter:
     2100000: Sapphirebase
     2300000: //RootNode
     3300000: //RootNode
+<<<<<<< HEAD
     4300000: SapphireGem1
+=======
+    4300000: SapphireGem
+>>>>>>> master
   externalObjects: {}
   materials:
     importMaterials: 1
