@@ -51,7 +51,7 @@ public class RotateWithGyro : MonoBehaviour {
 
 		originalRotation = gameObject.transform.rotation;
 
-		vialMaterial = vial.GetComponent<Renderer>().material;
+		vialMaterial = vial.GetComponent<Renderer>().materials[0];
 	}
 	
 	private Vector3[] accelerations;
@@ -62,7 +62,8 @@ public class RotateWithGyro : MonoBehaviour {
 
 		if (enableGyro) {
 			// Rudementary support only at this stage -- no hardware.
-			vialMaterial.SetVector("_UpDirection", Input.gyro.gravity);
+			//vialMaterial.SetVector("_UpDirection", Input.gyro.gravity);
+			Shader.SetGlobalVector(updirID, Input.gyro.gravity);
 		} else if (enableAccel) {
 			accelerations[counter] = Input.acceleration;
 
@@ -74,7 +75,7 @@ public class RotateWithGyro : MonoBehaviour {
 			avg /= accelerations.Length;
 			avg.z = avg.z + ZAdd;
 			avg.y = -avg.y;
-			avg.x = -avg.x;
+			avg.x = avg.x;
 			
 			Vector4 rotationVec = avg * RotationMultiplier;
 			rotationVec.z = 0;
@@ -82,14 +83,16 @@ public class RotateWithGyro : MonoBehaviour {
 			
 			//gameObject.transform.rotation = originalRotation * Quaternion.Euler(-rotationVec);
 			
-			vialMaterial.SetVector(updirID, avg);
+			Shader.SetGlobalVector(updirID, avg);
+			//vialMaterial.SetVector(updirID, avg);
 		} else {
 			Vector4 vec = new Vector4(ManualX, ManualY, -ManualZ + ZAdd, ManualW);
 			Vector4 rotationVec = vec * RotationMultiplier;
 			rotationVec.z = 0;
 			
 			//gameObject.transform.rotation = originalRotation * Quaternion.Euler(-rotationVec);
-			vialMaterial.SetVector(updirID, vec);
+			Shader.SetGlobalVector(updirID, vec);
+			//vialMaterial.SetVector(updirID, vec);
 		}
 	}
 }
