@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 public class ReturnOrRetry {
 	public static void Return(string itemString, Quality.QualityGrade grade) {
 		//SFX.Play("sound");
+		Debug.Log("grade is " + grade);
 		if (grade != Quality.QualityGrade.Junk)
 			Inventory.Instance.InsertItem(new ItemInstance(itemString, 1, grade, true));
 		//SceneManager.LoadScene("Shop");
