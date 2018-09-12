@@ -19,4 +19,10 @@ public class NPC : MonoBehaviour {
 		Animator animator = WizardFront.transform.GetChild(0).GetComponent<Animator>();
 		animator.SetBool("Idle", true);
 	}
+
+	public void Turn() {
+		var angles = transform.eulerAngles;
+		angles.y += 180f;
+		transform.eulerAngles = angles;
+	}
 }

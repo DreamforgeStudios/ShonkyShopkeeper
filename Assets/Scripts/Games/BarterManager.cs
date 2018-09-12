@@ -47,6 +47,10 @@ public class BarterManager : MonoBehaviour {
 	[BoxGroup("Balance")]
 	public PriceInfoDictionary PriceInfoDict;
 
+	// TODO, enter position?
+	[BoxGroup("Properties")]
+	public Vector3 ExitPosition;
+
 	[BoxGroup("Object Assignments")]
 	public GameObject GolemSpawnPoint;
 	[BoxGroup("Object Assignments")]
@@ -117,7 +121,7 @@ public class BarterManager : MonoBehaviour {
 			wizardPrefab = NPCPrefabs[index];
 		} else {
 	        Debug.LogWarning("Wizard was not transfered or is incorrect.  Will use default wizard.");
-			wizardPrefab = NPCPrefabs[1];
+			wizardPrefab = NPCPrefabs[0];
 		}
 
 		// This isn't a walking NPC, so disable the walking script.  If we don't we'll have errors about detecting spawn point.
@@ -282,14 +286,15 @@ public class BarterManager : MonoBehaviour {
 		SoldText.gameObject.SetActive(true);
 		BackToShop.SetActive(true);
 		RadialBar.gameObject.SetActive(false);
-
-		golemClone.transform.SetParent(wizardClone.transform);
-		golemClone.transform.DOMove(wizardClone.transform.position, .9f);
+		
 		var anim = golemClone.GetComponent<Animator>();
 		anim.SetBool("Pickup", false);
 		anim.SetBool("Idle", true);
-		
-		wizardClone.GetComponent<NPC>().ShowSide();
-		//wizardClone.GetComponent<NPC>().
+		golemClone.transform.SetParent(wizardClone.transform);
+		golemClone.transform.DOMove(wizardClone.transform.position, .9f).OnComplete(() => {
+			wizardClone.GetComponent<NPC>().ShowSide();
+			wizardClone.GetComponent<NPC>().Turn();
+			wizardClone.transform.DOMove(ExitPosition, 4f);
+		});
 	}
 }
