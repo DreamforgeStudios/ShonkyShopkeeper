@@ -1,0 +1,141 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1430208831020704}
+  m_IsPrefabAsset: 1
+--- !u!1 &1430208831020704
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4179866576928700}
+  - component: {fileID: 33585927031943134}
+  - component: {fileID: 23677161378468242}
+  - component: {fileID: 114063556027905424}
+  - component: {fileID: 114886791822964044}
+  m_Layer: 0
+  m_Name: RubyGem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4179866576928700
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1430208831020704}
+  m_LocalRotation: {x: 0.023913706, y: -0, z: -0, w: 0.9997141}
+  m_LocalPosition: {x: -2.409339, y: -2.928, z: -7.914}
+  m_LocalScale: {x: 40, y: 40, z: 40}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!23 &23677161378468242
+MeshRenderer:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1430208831020704}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
+  m_Materials:
+  - {fileID: 2100000, guid: ff6deadafc10b1c42b6ed23d84d1cd7f, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &33585927031943134
+MeshFilter:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1430208831020704}
+  m_Mesh: {fileID: 4300000, guid: 3d6fbed2f014a73449aa02736a3282c1, type: 3}
+--- !u!114 &114063556027905424
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1430208831020704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a131e6734d445466a9eaac47dd64ac75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _GlobalProjectionDir: {x: 0, y: -1, z: 0}
+  _GlobalShadowResolution: 1
+  _GlobalShadowCullingMode: 0
+  _EnableCutOff: 0
+  _GlobalCutOffDistance: 1
+  _GlobalFlipX: 0
+  _GlobalFlipY: 0
+  _ShadowSize: 0.025
+  _ShadowColor: {r: 0.3679245, g: 0.3679245, b: 0.3679245, a: 1}
+  _ShadowOpacity: 0.5
+  _Material: {fileID: 2100000, guid: 255326f2182144b0aa35e6b50aa1b832, type: 2}
+  _IsLight: 0
+  _ShadowLocalOffset: {x: 0, y: 0, z: 0}
+  _RotationAngleOffset: {x: 0, y: 0, z: 0, w: 1}
+  _FreezeXRot: 1
+  _FreezeYRot: 0
+  _FreezeZRot: 1
+  _UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0.5
+    width: 0.5
+    height: 0.5
+  _AutoSizeOpacity: 1
+  _AutoSOCutOffDistance: 10
+  _AutoSORayOriginOffset: 0
+  _AutoSOMaxScaleMultiplier: 4
+  _AutoSORaycastLayer: 8
+--- !u!114 &114886791822964044
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1430208831020704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 320df158a64baf94da5335432a9741ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Axis: {x: 0, y: 1, z: 0}
+  Speed: 18
+  UseUnscaledTime: 0
+  Enable: 0

@@ -400,7 +400,7 @@ MonoBehaviour:
   SmokePosition: {x: 0, y: 2, z: -8.7}
   ShinePosition: {x: 0, y: 2, z: -6.7}
   Ore: {fileID: 1193304486839174, guid: d47b7e9e9ccfb824682664e7597e1cd7, type: 2}
-  Brick: {fileID: 1257862236138780, guid: 01ccfa630fadfcf4895c8e382b417a11, type: 2}
+  Brick: {fileID: 1083791450134484, guid: df973a5f2f5136a49978dd0a8339d629, type: 2}
   SmeltingPot: {fileID: 1279717474}
   ShineParticleSystem: {fileID: 1788415763621164, guid: 9ef7007e418f072428735a1ffd779a9d,
     type: 2}
