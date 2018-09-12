@@ -30,6 +30,7 @@ TagManager:
   - Aux
   - MainButton
   - NPCSpawner
+  - TutorialManager
   layers:
   - Default
   - TransparentFX

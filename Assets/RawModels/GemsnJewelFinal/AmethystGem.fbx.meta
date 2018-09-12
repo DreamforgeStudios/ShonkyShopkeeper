@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
+guid: 240aeaa8714d4b54b8502e65ad3a1af0
+=======
 guid: 365222ef1b270da429886c6826dfb6ad
+>>>>>>> master
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
@@ -8,7 +12,11 @@ ModelImporter:
     2100000: amythest
     2300000: //RootNode
     3300000: //RootNode
+<<<<<<< HEAD
+    4300000: AmethystGem1
+=======
     4300000: AmethystGem
+>>>>>>> master
   externalObjects: {}
   materials:
     importMaterials: 1

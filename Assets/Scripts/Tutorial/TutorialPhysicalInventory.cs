@@ -99,7 +99,7 @@ public class TutorialPhysicalInventory : MonoBehaviour {
 		}
 	}
 
-	public void HighlightOreAndGem()
+	public PopupTextManager.OnClose HighlightOreAndGem()
 	{
 		if (!createdParticles)
 		{
@@ -128,6 +128,8 @@ public class TutorialPhysicalInventory : MonoBehaviour {
 
 			createdParticles = true;
 		}
+
+		return () => { PopupTextManager.onClose -= HighlightOreAndGem();};
 	}
 
 	public void DestroyParticlesOnItems()
