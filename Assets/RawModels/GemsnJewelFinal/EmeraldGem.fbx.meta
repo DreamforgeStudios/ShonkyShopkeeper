@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
+guid: 56f706f295baa99458fbbd3d1ddd4424
+=======
 guid: 2ef4a080c74135447b6ed2ab1918a301
+>>>>>>> master
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
@@ -8,7 +12,11 @@ ModelImporter:
     2100000: EmeraldGreen
     2300000: //RootNode
     3300000: //RootNode
+<<<<<<< HEAD
+    4300000: EmeraldGem1
+=======
     4300000: EmeraldGem
+>>>>>>> master
   externalObjects: {}
   materials:
     importMaterials: 1
