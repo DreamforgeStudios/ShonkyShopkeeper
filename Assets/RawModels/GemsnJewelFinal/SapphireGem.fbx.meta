@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<< HEAD
 guid: a5a81753d28631a488a0276e7faaf561
-=======
-guid: 2fbd7977745627344a0cdf02d7b0d49d
->>>>>>> master
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
@@ -12,11 +8,8 @@ ModelImporter:
     2100000: Sapphirebase
     2300000: //RootNode
     3300000: //RootNode
-<<<<<<< HEAD
     4300000: SapphireGem1
-=======
-    4300000: SapphireGem
->>>>>>> master
+    9500000: //RootNode
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -68,8 +61,8 @@ ModelImporter:
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
     useFileScale: 1
-    previousCalculatedGlobalScale: 1
-    hasPreviousCalculatedGlobalScale: 0
+    previousCalculatedGlobalScale: 0.01
+    hasPreviousCalculatedGlobalScale: 1
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
@@ -94,7 +87,7 @@ ModelImporter:
     hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 0
+  animationType: 2
   humanoidOversampling: 1
   additionalBone: 0
   userData: 
