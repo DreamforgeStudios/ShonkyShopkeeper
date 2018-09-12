@@ -54,7 +54,11 @@ public class TutorialManager : MonoBehaviour
 	{
 		SetupInventories();
 		if (!GameManager.Instance.TutorialIntroComplete)
+		{
 			TutorialProgressChecker.Instance.HideCanvas();
+			EnableCameraTap(false, false);
+		}
+
 
 		if (GameManager.Instance.InTutorial)
 		{
@@ -93,11 +97,11 @@ public class TutorialManager : MonoBehaviour
 
 	private void CheckForInput()
 	{
-		Debug.Log("Can select" + toolbox.canSelect);
+		//Debug.Log("Can select" + toolbox.canSelect);
 		if (!GameManager.Instance.TutorialIntroTopComplete && clone.closed)
 		{
-			EnableCameraTap(true,true);
-		} else if (!GameManager.Instance.TutorialIntroComplete && ItemsToInspect.Contains(currentToolToInspect) && clone.closed)
+			PopupTextManager.onClose += EnableCameraTap(true, true);
+		} else if (!GameManager.Instance.TutorialIntroComplete && ItemsToInspect.Contains(currentToolToInspect))
 		{
 			//List is Forceps, ResourceBin, Magnifying Glass & Wand
 			string toolString = currentToolToInspect.gameObject.name;
@@ -106,20 +110,22 @@ public class TutorialManager : MonoBehaviour
 				case "Forceps":
 					if (!physicalInv.createdParticles)
 					{
-						physicalInv.HighlightOreAndGem();
+						PopupTextManager.onClose += physicalInv.HighlightOreAndGem();
+						
 					}
 					break;
 				case "Magnifying Glass":
 					if (!physicalInv.createdParticles)
 					{
-						physicalInv.HighlightOreAndGem();
+						PopupTextManager.onClose += physicalInv.HighlightOreAndGem();
 					}
 					break;
 				case "Wand":
 					if (!physicalInv.createdParticles)
 					{
-						physicalInv.HighlightOreAndGem();
-						InspectItem(currentToolToInspect);
+						PopupTextManager.onClose += physicalInv.HighlightOreAndGem();
+						PopupTextManager.onClose += InspectItem(currentToolToInspect);
+						
 					}
 					break;
 				default:
@@ -135,10 +141,9 @@ public class TutorialManager : MonoBehaviour
 		}
 		else if (clone != null)
 		{
-			if (clone.closed)
-			{
-				toolbox.canSelect = true;
-			}
+			PopupTextManager.onClose += () => toolbox.canSelect = true;
+			PopupTextManager.onClose -= () => toolbox.canSelect = true;
+				
 		} 
 		else
 		{
@@ -156,11 +161,13 @@ public class TutorialManager : MonoBehaviour
 	}
 
 	//Self explainatory
-	public void EnableCameraTap(bool button, bool glow)
+	public PopupTextManager.OnClose EnableCameraTap(bool button, bool glow)
 	{
+		Debug.Log("enabling camera");
 		cameraButton.enabled = button;
 		cameraButton.gameObject.SetActive(button);
 		cameraHighlight.gameObject.SetActive(glow);
+		return () => {PopupTextManager.onClose -= EnableCameraTap(false, false); };
 	}
 
 	public void IntroduceGolem()
@@ -287,7 +294,7 @@ public class TutorialManager : MonoBehaviour
 		}			
 	}
 
-	public void InspectItem(GameObject tool)
+	public PopupTextManager.OnClose InspectItem(GameObject tool)
 	{
 		if (!GameManager.Instance.HasInspectedAllInventoryItems &&
 		    !GameManager.Instance.InspectedItems.Contains(tool.name) &&
@@ -320,5 +327,7 @@ public class TutorialManager : MonoBehaviour
 		{
 			toolbox.canSelect = true;
 		}
+
+		return () => { PopupTextManager.onClose -= InspectItem(currentToolToInspect); };
 	}
 }

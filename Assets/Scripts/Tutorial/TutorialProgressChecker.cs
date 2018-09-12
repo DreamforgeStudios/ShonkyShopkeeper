@@ -136,6 +136,7 @@ public class TutorialProgressChecker : MonoBehaviour {
 		{
 			canvasEnabled = false;
 			golemTextDone = true;
+			tutManager = GameObject.FindGameObjectWithTag("TutorialManager").GetComponent<TutorialManager>();
 			tutManager.IntroduceGolem();
 		}
 	}

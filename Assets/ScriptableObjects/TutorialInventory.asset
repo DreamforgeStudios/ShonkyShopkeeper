@@ -68,7 +68,7 @@ MonoBehaviour:
     InMine: 0
     pouchType: 0
   - Quantity: 0
-    Quality: 0
+    Quality: 3
     IsNew: 0
     ItemIdentifier: 
     InMine: 0
@@ -80,7 +80,7 @@ MonoBehaviour:
     InMine: 0
     pouchType: 0
   - Quantity: 0
-    Quality: 0
+    Quality: 3
     IsNew: 0
     ItemIdentifier: 
     InMine: 0
