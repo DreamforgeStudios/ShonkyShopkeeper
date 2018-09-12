@@ -72,6 +72,8 @@ public class BarterManager : MonoBehaviour {
 	[BoxGroup("Object Assignments")]
 	public GameObject Wand;
 	[BoxGroup("Object Assignments")]
+	public ParticleSystem WandParticleSystem;
+	[BoxGroup("Object Assignments")]
 	public GameObject BackToShop;
 	[BoxGroup("Object Assignments")]
 	public ParticleSystem CoinFallParticles;
@@ -232,6 +234,7 @@ public class BarterManager : MonoBehaviour {
 		DebugText.color = info.Color;
 
 		Wand.transform.DORotate(Vector3.right * 150f, .7f, RotateMode.LocalAxisAdd).SetEase(Ease.OutCirc);
+		WandParticleSystem.Play();
 
 		if (info.PriceAdd > 0) {
 			var burst = CoinFallParticles.emission.GetBurst(0);
