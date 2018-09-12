@@ -138,4 +138,4 @@ MonoBehaviour:
   _AutoSOCutOffDistance: 10
   _AutoSORayOriginOffset: 0
   _AutoSOMaxScaleMultiplier: 4
-  _AutoSORaycastLayer: 8
+  _AutoSORaycastLayer: 15

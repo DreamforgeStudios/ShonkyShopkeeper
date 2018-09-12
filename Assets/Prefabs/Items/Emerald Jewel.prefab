@@ -97,10 +97,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _GlobalProjectionDir: {x: 0, y: -1, z: 0}
-  _GlobalShadowResolution: 2
+  _GlobalShadowResolution: 1
   _GlobalShadowCullingMode: 0
   _EnableCutOff: 0
-  _GlobalCutOffDistance: 10000
+  _GlobalCutOffDistance: 1
   _GlobalFlipX: 0
   _GlobalFlipY: 0
   _ShadowSize: 0.1
@@ -123,7 +123,7 @@ MonoBehaviour:
   _AutoSOCutOffDistance: 10
   _AutoSORayOriginOffset: 0
   _AutoSOMaxScaleMultiplier: 4
-  _AutoSORaycastLayer: 8
+  _AutoSORaycastLayer: 15
 --- !u!114 &114429009820613670
 MonoBehaviour:
   m_ObjectHideFlags: 1
