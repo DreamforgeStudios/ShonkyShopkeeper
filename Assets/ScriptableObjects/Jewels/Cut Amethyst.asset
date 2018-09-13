@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: Cut Amethyst
   m_EditorClassIdentifier: 
   itemName: Cut Amethyst
-  physicalRepresentation: {fileID: 1157935195056966, guid: 81799e468b4673d4b9ed6fa6b173fae1,
+  physicalRepresentation: {fileID: 1269611735117156, guid: ecbdf08905729994ea332a56a41a5940,
     type: 2}
   stackLimit: 1
   mergeable: 0

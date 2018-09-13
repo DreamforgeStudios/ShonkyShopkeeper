@@ -61,6 +61,8 @@ public class Smelting : MonoBehaviour {
     public QualityBar qualityBar;
 	public GameObject returnOrRetryButtons;
 
+	private Quality.QualityGrade grade = Quality.QualityGrade.Unset;
+
     // For looking up items.
 
 
@@ -74,6 +76,7 @@ public class Smelting : MonoBehaviour {
     }
 
 	void Start () {
+		//Debug.Log(gameObject.name);
 		SFX.Play("CraftingOre", looping: true);
 		SFX.Play("fire_loop", looping: true);
 		
@@ -224,11 +227,8 @@ public class Smelting : MonoBehaviour {
         }
     }
 
-	
-	private Quality.QualityGrade grade = Quality.QualityGrade.Unset;
     private void GameOver() {
         Countdown.onComplete -= GameOver;
-
         grade = qualityBar.Finish();
 	    feedbackParticleSystem.Stop();
         qualityText.text = Quality.GradeToString(grade);

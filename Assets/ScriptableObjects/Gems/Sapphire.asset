@@ -3,7 +3,7 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: Sapphire
   m_EditorClassIdentifier: 
   itemName: Sapphire
-  physicalRepresentation: {fileID: 1747987567064450, guid: 3dd1e9269e2c329408325464afc2f238,
+  physicalRepresentation: {fileID: 1798756650748950, guid: ccd44aee3bf9eb54cbe54d75d4a73d67,
     type: 2}
   stackLimit: 1
   mergeable: 0

@@ -165,6 +165,7 @@ public class QualityBar : MonoBehaviour
 
 	public void PlayRelevantQualitySFX(Quality.QualityGrade grade)
 	{
+		Debug.Log("Playing grade sound " + grade);
 		switch (grade)
 		{
 			case Quality.QualityGrade.Junk:

@@ -3,7 +3,7 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: Charged Ruby
   m_EditorClassIdentifier: 
   itemName: Charged Ruby
-  physicalRepresentation: {fileID: 1690819606338208, guid: fccd07b01faf4cd40845ce2d757628e0,
+  physicalRepresentation: {fileID: 1055008095443328, guid: 0ab23a3574d5cac419627bd5d6c67712,
     type: 2}
   stackLimit: 1
   mergeable: 1
