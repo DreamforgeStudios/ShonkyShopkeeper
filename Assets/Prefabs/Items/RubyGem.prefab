@@ -103,7 +103,7 @@ MonoBehaviour:
   _GlobalCutOffDistance: 1
   _GlobalFlipX: 0
   _GlobalFlipY: 0
-  _ShadowSize: 0.025
+  _ShadowSize: 0.032
   _ShadowColor: {r: 0.3679245, g: 0.3679245, b: 0.3679245, a: 1}
   _ShadowOpacity: 0.5
   _Material: {fileID: 2100000, guid: 255326f2182144b0aa35e6b50aa1b832, type: 2}
@@ -123,7 +123,7 @@ MonoBehaviour:
   _AutoSOCutOffDistance: 10
   _AutoSORayOriginOffset: 0
   _AutoSOMaxScaleMultiplier: 4
-  _AutoSORaycastLayer: 8
+  _AutoSORaycastLayer: 15
 --- !u!114 &114886791822964044
 MonoBehaviour:
   m_ObjectHideFlags: 1
