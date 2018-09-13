@@ -123,13 +123,8 @@ MonoBehaviour:
   _AutoSOCutOffDistance: 10
   _AutoSORayOriginOffset: 0
   _AutoSOMaxScaleMultiplier: 4
-<<<<<<< HEAD:Assets/Prefabs/Items/Ruby.prefab
   _AutoSORaycastLayer: 15
---- !u!114 &114995567094001550
-=======
-  _AutoSORaycastLayer: 8
 --- !u!114 &114603722864913796
->>>>>>> Matthew:Assets/Prefabs/Items/RubyJewel.prefab
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}

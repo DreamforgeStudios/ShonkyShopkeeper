@@ -150,13 +150,8 @@ MonoBehaviour:
   _AutoSOCutOffDistance: 10
   _AutoSORayOriginOffset: 0
   _AutoSOMaxScaleMultiplier: 4
-<<<<<<< HEAD:Assets/Prefabs/Items/Sapphire Charged.prefab
   _AutoSORaycastLayer: 15
---- !u!114 &114933279950307722
-=======
-  _AutoSORaycastLayer: 8
 --- !u!114 &114979724412742676
->>>>>>> Matthew:Assets/Prefabs/Items/SapphireChargedJewel.prefab
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}

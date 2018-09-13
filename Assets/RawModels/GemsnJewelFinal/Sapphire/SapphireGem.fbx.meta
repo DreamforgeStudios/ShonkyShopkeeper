@@ -10,16 +10,12 @@ ModelImporter:
     3300000: //RootNode
     4300000: SapphireGem1
     9500000: //RootNode
-<<<<<<< HEAD:Assets/RawModels/GemsnJewelFinal/SapphireGem.fbx.meta
-  externalObjects: {}
-=======
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Sapphirebase
     second: {fileID: 2100000, guid: 64fdecda975a4b64abd727d485bfe25e, type: 2}
->>>>>>> Matthew:Assets/RawModels/GemsnJewelFinal/Sapphire/SapphireGem.fbx.meta
   materials:
     importMaterials: 1
     materialName: 0
@@ -69,11 +65,7 @@ ModelImporter:
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
-<<<<<<< HEAD:Assets/RawModels/GemsnJewelFinal/SapphireGem.fbx.meta
-    useFileScale: 1
-=======
     useFileScale: 0
->>>>>>> Matthew:Assets/RawModels/GemsnJewelFinal/Sapphire/SapphireGem.fbx.meta
     previousCalculatedGlobalScale: 0.01
     hasPreviousCalculatedGlobalScale: 1
   tangentSpace:

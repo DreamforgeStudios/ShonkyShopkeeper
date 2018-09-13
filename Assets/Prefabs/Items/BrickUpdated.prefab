@@ -135,8 +135,8 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
-  _AutoSizeOpacity: 0
+  _AutoSizeOpacity: 1
   _AutoSOCutOffDistance: 10
   _AutoSORayOriginOffset: 0
-  _AutoSOMaxScaleMultiplier: 2
-  _AutoSORaycastLayer: 0
+  _AutoSOMaxScaleMultiplier: 4
+  _AutoSORaycastLayer: 15

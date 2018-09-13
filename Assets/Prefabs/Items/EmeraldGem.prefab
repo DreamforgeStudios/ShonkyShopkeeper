@@ -118,7 +118,7 @@ MonoBehaviour:
   _GlobalCutOffDistance: 1
   _GlobalFlipX: 0
   _GlobalFlipY: 0
-  _ShadowSize: 0.02
+  _ShadowSize: 0.017
   _ShadowColor: {r: 0.3679245, g: 0.3679245, b: 0.3679245, a: 1}
   _ShadowOpacity: 0.5
   _Material: {fileID: 2100000, guid: 255326f2182144b0aa35e6b50aa1b832, type: 2}
@@ -138,23 +138,4 @@ MonoBehaviour:
   _AutoSOCutOffDistance: 10
   _AutoSORayOriginOffset: 0
   _AutoSOMaxScaleMultiplier: 4
-<<<<<<< HEAD:Assets/Prefabs/Items/Emerald Jewel.prefab
   _AutoSORaycastLayer: 15
---- !u!114 &114429009820613670
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1079469757794084}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 320df158a64baf94da5335432a9741ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Axis: {x: 0, y: 1, z: 0}
-  Speed: 18
-  UseUnscaledTime: 0
-  Enable: 0
-=======
-  _AutoSORaycastLayer: 8
->>>>>>> Matthew:Assets/Prefabs/Items/EmeraldGem.prefab

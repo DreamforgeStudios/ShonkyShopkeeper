@@ -123,10 +123,7 @@ MonoBehaviour:
   _AutoSOCutOffDistance: 10
   _AutoSORayOriginOffset: 0
   _AutoSOMaxScaleMultiplier: 4
-<<<<<<< HEAD:Assets/Prefabs/Items/Sapphire Jewel.prefab
   _AutoSORaycastLayer: 15
-=======
-  _AutoSORaycastLayer: 8
 --- !u!114 &114680572962738264
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -142,4 +139,3 @@ MonoBehaviour:
   Speed: 18
   UseUnscaledTime: 0
   Enable: 0
->>>>>>> Matthew:Assets/Prefabs/Items/SapphireJewel.prefab

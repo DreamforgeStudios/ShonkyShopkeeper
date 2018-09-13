@@ -10,16 +10,12 @@ ModelImporter:
     3300000: //RootNode
     4300000: AmethystGem1
     9500000: //RootNode
-<<<<<<< HEAD:Assets/RawModels/GemsnJewelFinal/AmethystGem.fbx.meta
-  externalObjects: {}
-=======
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: amythest
     second: {fileID: 2100000, guid: dcb346d699927a54881beff08d2e5e6a, type: 2}
->>>>>>> Matthew:Assets/RawModels/GemsnJewelFinal/Amethyst/AmethystGem.fbx.meta
   materials:
     importMaterials: 1
     materialName: 0
@@ -69,13 +65,8 @@ ModelImporter:
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
-<<<<<<< HEAD:Assets/RawModels/GemsnJewelFinal/AmethystGem.fbx.meta
-    useFileScale: 1
-    previousCalculatedGlobalScale: 0.01
-=======
     useFileScale: 0
     previousCalculatedGlobalScale: 0.015
->>>>>>> Matthew:Assets/RawModels/GemsnJewelFinal/Amethyst/AmethystGem.fbx.meta
     hasPreviousCalculatedGlobalScale: 1
   tangentSpace:
     normalSmoothAngle: 60

@@ -10,16 +10,12 @@ ModelImporter:
     3300000: //RootNode
     4300000: RubyGem1
     9500000: //RootNode
-<<<<<<< HEAD:Assets/RawModels/GemsnJewelFinal/RubyGem.fbx.meta
-  externalObjects: {}
-=======
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: rubygem
     second: {fileID: 2100000, guid: ff6deadafc10b1c42b6ed23d84d1cd7f, type: 2}
->>>>>>> Matthew:Assets/RawModels/GemsnJewelFinal/Ruby/RubyGem.fbx.meta
   materials:
     importMaterials: 1
     materialName: 0
@@ -69,11 +65,7 @@ ModelImporter:
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
-<<<<<<< HEAD:Assets/RawModels/GemsnJewelFinal/RubyGem.fbx.meta
-    useFileScale: 1
-=======
     useFileScale: 0
->>>>>>> Matthew:Assets/RawModels/GemsnJewelFinal/Ruby/RubyGem.fbx.meta
     previousCalculatedGlobalScale: 0.01
     hasPreviousCalculatedGlobalScale: 1
   tangentSpace:
