@@ -163,10 +163,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4255859202392908}
-  - component: {fileID: 114576292076236268}
   m_Layer: 0
   m_Name: Pirate Guy
-  m_TagString: NPC
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -287,8 +286,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1806750046894386}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.1171196, y: 1.3, z: 4.22}
-  m_LocalScale: {x: 1.0173635, y: 1.0173635, z: 1.0173635}
+  m_LocalPosition: {x: -107.34628, y: 15.627045, z: -59.15045}
+  m_LocalScale: {x: -1, y: 1.0173635, z: 1.0173635}
   m_Children:
   - {fileID: 4189153651218136}
   m_Father: {fileID: 0}
@@ -327,7 +326,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1856799556468662}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8.380345, y: -3.410987, z: 0}
+  m_LocalPosition: {x: -8.380345, y: -3.410987, z: -5.3199997}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4785910978187326}
@@ -341,7 +340,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1639444548814192}
   m_LocalRotation: {x: -0, y: -0, z: 0.14822868, w: 0.9889531}
-  m_LocalPosition: {x: -8.26, y: -3.15, z: 0}
+  m_LocalPosition: {x: -8.26, y: -3.15, z: -5.32}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4042445219232148}
@@ -369,7 +368,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1400966740037790}
   m_LocalRotation: {x: -0, y: -0, z: -0.015371879, w: 0.9998819}
-  m_LocalPosition: {x: -8.8, y: -1.81, z: 0}
+  m_LocalPosition: {x: -8.8, y: -1.81, z: -5.3199997}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4139900650007646}
@@ -476,23 +475,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkDirection: 0
   walkSpeed: 0
-  WizardFront: {fileID: 0}
-  walkNormal: 1
---- !u!114 &114576292076236268
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1806750046894386}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e007f6f4578bcf40a07408acf392993, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  walkDirection: 0
-  walkSpeed: 0
-  WizardFront: {fileID: 1501538985971386, guid: 359143f8ce927d0449829de9689e687a,
-    type: 2}
+  WizardSprite: {fileID: 0}
   walkNormal: 1
 --- !u!212 &212047880674999900
 SpriteRenderer:
