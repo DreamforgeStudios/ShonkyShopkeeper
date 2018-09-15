@@ -11,7 +11,7 @@ public class OreSpawnManager : MonoBehaviour {
 	
 	public GameObject Ore;
 	public GameObject Brick;
-	public GameObject SmeltingPot;
+	//public GameObject SmeltingPot;
 	
 	public GameObject ShineParticleSystem;
 	public GameObject SmokeParticleSystem;
@@ -40,13 +40,13 @@ public class OreSpawnManager : MonoBehaviour {
 			a.transform.localScale = new Vector3(ScaleOverrideShine, ScaleOverrideShine, ScaleOverrideShine);
 
 			spawnedClone.SetActive(false);
-			SmeltingPot.SetActive(false);
-			Debug.Log("Was success" + success);
+			//SmeltingPot.SetActive(false);
+			//Debug.Log("Was success" + success);
 		} else {
 			var a = Instantiate(SmokeParticleSystem, SmokePosition, Quaternion.identity, transform);
 			a.transform.localScale = new Vector3(ScaleOverrideSmoke, ScaleOverrideSmoke, ScaleOverrideSmoke);
 			spawnedClone.SetActive(false);
-			SmeltingPot.SetActive(false);
+			//SmeltingPot.SetActive(false);
 		}
 	}
 	

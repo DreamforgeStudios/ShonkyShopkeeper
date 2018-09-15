@@ -401,7 +401,6 @@ MonoBehaviour:
   ShinePosition: {x: 0, y: 2, z: -6.7}
   Ore: {fileID: 1193304486839174, guid: d47b7e9e9ccfb824682664e7597e1cd7, type: 2}
   Brick: {fileID: 1083791450134484, guid: df973a5f2f5136a49978dd0a8339d629, type: 2}
-  SmeltingPot: {fileID: 1279717474}
   ShineParticleSystem: {fileID: 1788415763621164, guid: 9ef7007e418f072428735a1ffd779a9d,
     type: 2}
   SmokeParticleSystem: {fileID: 1355471223123628, guid: 180835a7c302012459814d067c52dbdd,
@@ -561,6 +560,7 @@ GameObject:
   - component: {fileID: 617186729}
   - component: {fileID: 617186728}
   - component: {fileID: 617186727}
+  - component: {fileID: 617186731}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -635,6 +635,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 10.5, y: 0, z: 0}
+--- !u!114 &617186731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 617186726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2f3ae3c865f47f459ee5295d5c7b38c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EndPosition: {x: 0.017, y: 1.685, z: -8.524}
+  Ease: 6
+  StartTime: 2.5
+  EaseTime: 1.2
+  UseUnscaledTime: 1
+  RevertOnGameEnd: 1
+  EaseEndTime: 0.6
+  EaseEnd: 21
 --- !u!1001 &765138357
 Prefab:
   m_ObjectHideFlags: 0
@@ -5816,7 +5835,7 @@ Prefab:
     - target: {fileID: 114021709454070972, guid: 4afd061383759384895ed2493d1c9425,
         type: 2}
       propertyPath: timeouts.Array.data[0]
-      value: 1.5
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 114021709454070972, guid: 4afd061383759384895ed2493d1c9425,
         type: 2}
@@ -6255,11 +6274,6 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1162488398}
   m_CullTransparentMesh: 0
---- !u!1 &1279717474 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1958637712378000, guid: c3343ff29546f9948b4ab5bb24f03d50,
-    type: 2}
-  m_PrefabInternal: {fileID: 1759190518}
 --- !u!1001 &1759190518
 Prefab:
   m_ObjectHideFlags: 0
@@ -11278,6 +11292,26 @@ Prefab:
         type: 2}
       propertyPath: m_isInputParsingRequired
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114389526331048720, guid: f059a73a081d6a444b14588d4bf825c7,
+        type: 2}
+      propertyPath: StartTime
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 114842564498865940, guid: f059a73a081d6a444b14588d4bf825c7,
+        type: 2}
+      propertyPath: m_text
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 114842564498865940, guid: f059a73a081d6a444b14588d4bf825c7,
+        type: 2}
+      propertyPath: m_textInfo.characterCount
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114842564498865940, guid: f059a73a081d6a444b14588d4bf825c7,
+        type: 2}
+      propertyPath: m_textInfo.spaceCount
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f059a73a081d6a444b14588d4bf825c7, type: 2}

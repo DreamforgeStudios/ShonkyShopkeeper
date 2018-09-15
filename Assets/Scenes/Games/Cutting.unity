@@ -1878,7 +1878,17 @@ Prefab:
     - target: {fileID: 114389526331048720, guid: f059a73a081d6a444b14588d4bf825c7,
         type: 2}
       propertyPath: StartTime
-      value: 10
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 114842564498865940, guid: f059a73a081d6a444b14588d4bf825c7,
+        type: 2}
+      propertyPath: m_text
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 114842564498865940, guid: f059a73a081d6a444b14588d4bf825c7,
+        type: 2}
+      propertyPath: m_textInfo.characterCount
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f059a73a081d6a444b14588d4bf825c7, type: 2}
