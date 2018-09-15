@@ -108,11 +108,13 @@ public class Smelting : MonoBehaviour {
         if (!start)
             return;
 
-	    // If player is struggling, show instructions again.
+	    // If player seems to be struggling, show instructions again.
 	    if (missDurationCounter > MissDurationTimout) {
 		    missDurationCounter = 0;
 		    instructionManager.PushInstruction();
 	    }
+	    
+        missDurationCounter += Time.deltaTime;
 	    
 		// Check where we are running the program.
 		RuntimePlatform p = Application.platform;
@@ -188,7 +190,6 @@ public class Smelting : MonoBehaviour {
 			// Using a curve seemed like a good idea at the time...
 			qualityBar.Add(closenessCurve.Evaluate(closeness) * closenessContribution * Time.deltaTime, allowMoveUp: true);
         } else {
-			missDurationCounter += Time.deltaTime;
             feedbackMaterial.SetTexture("_MainTex", feedbackNegative.texture);
 			qualityBar.Subtract((1-closenessCurve.Evaluate(closeness - 1)) * closenessContribution * Time.deltaTime, allowMoveDown: true);
         }

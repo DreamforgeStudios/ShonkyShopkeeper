@@ -3629,6 +3629,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   qualityText: {fileID: 1592182624}
   scoreText: {fileID: 1539206107}
+  instructionManager: {fileID: 852581299}
   TracingManager: {fileID: 274039206}
   FollowSphere: {fileID: 1950472021}
   lineRenderer: {fileID: 537076438}
@@ -3641,7 +3642,8 @@ MonoBehaviour:
   startTime: 0
   currentTime: 0
   finishTime: 0
-  timeLimit: 10
+  timeLimit: 20
+  MissDurationTimeout: 4
   qualityBar: {fileID: 78409074}
   returnOrRetryButtons: {fileID: 1615380213}
   brickSpawnmanager: {fileID: 228471296}
@@ -4932,6 +4934,12 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 827772064}
   m_Mesh: {fileID: 4300044, guid: f4a547f54e6024d1a8c0720619d76bfc, type: 3}
+--- !u!114 &852581299 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114730886164029310, guid: bf72b174171c5d542a7f31687cfbe906,
+    type: 2}
+  m_PrefabInternal: {fileID: 481529034}
+  m_Script: {fileID: 11500000, guid: 9891ad7c685757c478f7371d0defd31f, type: 3}
 --- !u!1 &857569681
 GameObject:
   m_ObjectHideFlags: 0

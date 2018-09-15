@@ -12,6 +12,7 @@ using Random = UnityEngine.Random;
 public class Tracing : MonoBehaviour {
     public TextMeshProUGUI qualityText;
     public TextMeshProUGUI scoreText;
+    public InstructionHandler instructionManager;
 
     //Tracing & Vector Lists
     private List<Vector3> playerPoints = new List<Vector3>();
@@ -46,6 +47,7 @@ public class Tracing : MonoBehaviour {
     private float mouseDownTime;
     private SceneManager sceneManager;
     private int designatedStartIndex;
+    private float missDurationCounter;
 
     //Distance and tracking variables
     public int hitPoints = 0;
@@ -67,6 +69,7 @@ public class Tracing : MonoBehaviour {
     private float finalTime;
     public float timeLimit = 10.00f;
     private bool startTimer = false;
+    public float MissDurationTimeout;
 
     //Quality bar.
     public QualityBar qualityBar;
@@ -109,6 +112,13 @@ public class Tracing : MonoBehaviour {
             FadeInRune();
             currentTime = Time.time;
             GetInput();
+
+            if (missDurationCounter > MissDurationTimeout) {
+                missDurationCounter = 0;
+                instructionManager.PushInstruction();
+            }
+
+            missDurationCounter += Time.deltaTime;
         }
 
         if (Time.time > finishTime && _canTrace)
@@ -218,6 +228,7 @@ public class Tracing : MonoBehaviour {
                 _finalScore += score;
                 scoreText.text = string.Format("Final score is {0}", _finalScore);
                 NextRune();
+                missDurationCounter = 0;
             }
         }
 

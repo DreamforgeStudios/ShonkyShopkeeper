@@ -12,12 +12,15 @@ public class Polishing : MonoBehaviour {
     public GameObject gemObject;
     public QualityBar qualityBar;
     public GemSpawnManager GemSpawnManager;
+    public InstructionHandler InstructionManager;
 
     //Time Variables
     private float startTime;
     private float currentTime;
     private float finishTime;
+    private float missDurationCounter;
     public float timeLimit;
+    public float missDurationTimeout;
 
     //Score and Grading
     public int numberOfSwipes = 0;
@@ -92,6 +95,13 @@ public class Polishing : MonoBehaviour {
             Color sliderColour = Color.Lerp(Color.green, Color.red, timerSlider.value / timerSlider.maxValue);
             sliderImage.color = sliderColour;
             CalculateRelevantSFX();
+            
+            if (missDurationCounter > missDurationTimeout) {
+                missDurationCounter = 0;
+                InstructionManager.PushInstruction();
+            }
+
+            missDurationCounter += Time.deltaTime;
         } else {
             //GameOver();
         }
@@ -240,6 +250,7 @@ public class Polishing : MonoBehaviour {
         SFX.Play("Polish_swipe", 1f, 1f, 0f, false, 0f);
         numberOfSwipes++;
         qualityBar.Add(swipeContribution, true);
+        missDurationCounter = 0;
     }
 
 	private Quality.QualityGrade grade = Quality.QualityGrade.Unset;
