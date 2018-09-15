@@ -8,8 +8,8 @@ public class RotateWithGyro : MonoBehaviour {
 	// Sample size for accelerometer.
 	private const int SAMPLE_SIZE = 15;
 	
-	public GameObject vial;
-	private Material vialMaterial;
+	//public GameObject vial;
+	//private Material vialMaterial;
 	
 	private bool enableGyro, enableAccel;
 
@@ -29,7 +29,7 @@ public class RotateWithGyro : MonoBehaviour {
 	public float RotationMultiplier;
 
 
-	private Quaternion originalRotation;
+	//private Quaternion originalRotation;
 	private int updirID;
 	
 	// Use this for initialization
@@ -49,9 +49,9 @@ public class RotateWithGyro : MonoBehaviour {
 
 		updirID = Shader.PropertyToID("_UpDirection");
 
-		originalRotation = gameObject.transform.rotation;
+		//originalRotation = gameObject.transform.rotation;
 
-		vialMaterial = vial.GetComponent<Renderer>().materials[0];
+		//vialMaterial = vial.GetComponent<Renderer>().materials[0];
 	}
 	
 	private Vector3[] accelerations;

@@ -21,6 +21,7 @@ public class Smelting : MonoBehaviour {
     public Sprite feedbackNegative;
     public Material feedbackMaterial;
 	public ParticleSystem feedbackParticleSystem;
+	public InstructionHandler instructionManager;
 
 	public OreSpawnManager OreSpawnManager;
     //private Image feedbackContainer;
@@ -47,21 +48,18 @@ public class Smelting : MonoBehaviour {
     // Curve that defines the multiplier for closeness (how much we should take away).
     public AnimationCurve closenessCurve;
 	public float closenessContribution;
+	public float MissDurationTimout;
 
 	// The rigidbody attached to this game object.
 	private Rigidbody rb;
 	// Previous rotation.
 	private Vector3 prevRotation;
 
-    //Particle System
-    public ParticleSystem particle;
-    public int amountOfParticles = 5;
-    //private ParticleSystem.EmitParams emitParams;
-
     public QualityBar qualityBar;
 	public GameObject returnOrRetryButtons;
 
 	private Quality.QualityGrade grade = Quality.QualityGrade.Unset;
+	private float missDurationCounter;
 
     // For looking up items.
 
@@ -109,6 +107,13 @@ public class Smelting : MonoBehaviour {
     void Update() {
         if (!start)
             return;
+
+	    // If player is struggling, show instructions again.
+	    if (missDurationCounter > MissDurationTimout) {
+		    missDurationCounter = 0;
+		    instructionManager.PushInstruction();
+	    }
+	    
 		// Check where we are running the program.
 		RuntimePlatform p = Application.platform;
 		if (p == RuntimePlatform.WindowsEditor || p == RuntimePlatform.WindowsPlayer || p == RuntimePlatform.OSXEditor || p == RuntimePlatform.OSXPlayer)
@@ -178,10 +183,12 @@ public class Smelting : MonoBehaviour {
     private void UpdateBar() {
 		float closeness = Mathf.Min(Mathf.Abs(transform.eulerAngles.z - successPoint) / successRange, 2);
         if (closeness < 1) {
+	        missDurationCounter = 0;
             feedbackMaterial.SetTexture("_MainTex", feedbackPositive.texture);
 			// Using a curve seemed like a good idea at the time...
 			qualityBar.Add(closenessCurve.Evaluate(closeness) * closenessContribution * Time.deltaTime, allowMoveUp: true);
         } else {
+			missDurationCounter += Time.deltaTime;
             feedbackMaterial.SetTexture("_MainTex", feedbackNegative.texture);
 			qualityBar.Subtract((1-closenessCurve.Evaluate(closeness - 1)) * closenessContribution * Time.deltaTime, allowMoveDown: true);
         }
@@ -199,7 +206,6 @@ public class Smelting : MonoBehaviour {
 
 	public void Stow() {
         float amountToStow = accelerationCurve.Evaluate(heldTime);
-        particle.Emit((int)(amountToStow * amountOfParticles));
         //SFX.Play("bump_small");
         
         rb.AddTorque(0, 0, -tapForce * amountToStow);
@@ -229,6 +235,7 @@ public class Smelting : MonoBehaviour {
 
     private void GameOver() {
         Countdown.onComplete -= GameOver;
+	    start = false;
         grade = qualityBar.Finish();
 	    feedbackParticleSystem.Stop();
         qualityText.text = Quality.GradeToString(grade);

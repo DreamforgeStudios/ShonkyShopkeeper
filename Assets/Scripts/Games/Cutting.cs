@@ -41,6 +41,9 @@ public class Cutting : MonoBehaviour {
 	[BoxGroup("Balance")]
 	[Tooltip("The overall closeness value (0-1) is multiplied by this value and added to the quality bar.")]
 	public float CutRewardMultiplier = .25f;
+	[BoxGroup("Balance")]
+	[Tooltip("How long should the player not have any successes before showing the instruction text again?")]
+	public float MissDurationTimeout;
 	
 	[BoxGroup("Feel")]
 	[Tooltip("The punch duration is decided by the closeness of the cut.  Multiply it by something else using this value.")]
@@ -71,6 +74,8 @@ public class Cutting : MonoBehaviour {
 	public GemSpawnManager GemSpawnManager;
 	[BoxGroup("Object Assignments")]
 	public TextMeshProUGUI GradeText;
+	[BoxGroup("Object Assignments")]
+	public InstructionHandler InstructionManager;
 	
 	
 	// List of all cuts.
@@ -91,6 +96,8 @@ public class Cutting : MonoBehaviour {
 	private Tween activeRotation = null;
 	// Holds cut points, and keeps the scene a bit tidier.
 	private GameObject cutContainer;
+	// Keeps track of how long it's been since the player's last successful swipe.  If too long, show text again.
+	private float missDurationCounter;
 
     void Awake() {
         // Don't start until we're ready.
@@ -139,8 +146,15 @@ public class Cutting : MonoBehaviour {
             timeIntervalCounter = 0;
 		}
 		
+		// If player is struggling, show instructions again.
+		if (missDurationCounter > MissDurationTimeout) {
+			missDurationCounter = 0;
+			InstructionManager.PushInstruction();
+		}
+		
 		timeIntervalCounter += Time.deltaTime;
 		timeCounter += Time.deltaTime;
+	    missDurationCounter += Time.deltaTime;
 	}
 
 	private void ProcessTouch() {
@@ -198,6 +212,7 @@ public class Cutting : MonoBehaviour {
         if (val < AcceptanceThreshold) {
 	        // TODO: animation.
 	        SFX.Play("Cutting_good_cut");
+	        missDurationCounter = 0;
 	        PushGem(cutVector, 1 - val);
 			QualityBar.Add((1-val) * CutRewardMultiplier, true);
 			activeCuts.Remove(cut);
