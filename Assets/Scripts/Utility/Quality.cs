@@ -2,6 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public class PointQuality {
+	public Quality.QualityGrade grade;
+	public float percentage;
+
+	public PointQuality(Quality.QualityGrade grade, float percentage) {
+		this.grade = grade;
+		this.percentage = percentage;
+	}
+
+	public PointQuality() {}
+}
+
 public static class Quality {
 	public enum QualityGrade {
 		Junk,
@@ -38,6 +50,17 @@ public static class Quality {
 		.75f,
 		.875f,
 		.95f
+	};
+	
+	// TODO: different points for different towns?
+	public static float[] pointValues = {
+		0f,
+		1000f,
+		3000f,
+		4500f,
+		6000f,
+		8000f,
+		10000f
 	};
 
 	public static List<QualityGrade> GetPossibleGrades(int shopLevel) {
@@ -130,5 +153,36 @@ public static class Quality {
 		// normally... -> 1 + 4 = 5 / 2 = 2.5 = 2 = Brittle.
 		// we do... -> 1 + 4 + 1 = 5 /2 = 3 = 3 = Sturdy.
 		return (Quality.QualityGrade) ((int)((float)((int)grade1 + (int)grade2) + 1) / 2f);
+	}
+
+	
+	// Calculates a quality grade given number of points.
+	public static QualityGrade CalculateGradeFromPoints(float points) {
+		for (int i = pointValues.Length-1; i > 0; i--) {
+			if (points >= pointValues[i]) {
+				return (QualityGrade) i;
+			}
+		}
+
+		// Tis should never happen.
+		return QualityGrade.Junk;
+	}
+	
+	// Calculates a quality grade (and leftover percentage) given number of points.
+	public static Vector2 CalculateLevelFromPoints(float points) {
+		Vector2 level = Vector2.zero;
+		
+		for (int i = pointValues.Length-2; i > 0; i--) {
+			if (points >= pointValues[i]) {
+				level.x = i;
+				float overflow = points - pointValues[i];
+				float difference = pointValues[i + 1] - pointValues[i];
+				// If the score exceeds our max, correct it to be 1.
+				level.y = Mathf.Clamp01(overflow / difference);
+				break;
+			}
+		}
+
+		return level;
 	}
 }

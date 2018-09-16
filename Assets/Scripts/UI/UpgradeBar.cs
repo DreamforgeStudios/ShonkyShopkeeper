@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,50 +7,74 @@ using TMPro;
 using DG.Tweening;
 using NaughtyAttributes;
 
+[System.Serializable]
+public class QualityPointsDictionary : SerializableDictionary<Quality.QualityGrade, float> {}
+
 public class UpgradeBar : MonoBehaviour {
-	// UI objects to use and some helpers for them.
-	public TextMeshProUGUI TextCurrentLevel;
-	public GameObject Background;
-	//private Image BackgroundImage;
-	private RectTransform BackgroundTransform;
-
-	public GameObject Foreground;
-	private Image foregroundImage;
-	private RectTransform foregroundTransform;
-
+	[BoxGroup("Balance")]
+	// Current amount that the bar is filled + possible grades.
+	public Quality.QualityGrade StartingGrade;
+	
+	[BoxGroup("Feel")]
 	// Padding that the inner bar should have from the outer bar / border.
 	public float Padding;
-
-	// Amount to take away whenever the hourglass ticks.
-	public float TickSubtraction;
+	[BoxGroup("Feel")]
+	public Ease OverallEase;
+	[BoxGroup("Feel")]
+	public Ease LevelUpEase;
+	[BoxGroup("Feel")]
+	public float LevelUpEaseDuration;
+	[BoxGroup("Feel")]
+	public Vector2 EnterEndPosition;
+	[BoxGroup("Feel")]
+	public Ease EnterEase;
+	[BoxGroup("Feel")]
+	public float EnterDuration;
 	
-	// Amount to take away (over time) each second -- UpdateSubtraction * Time.deltaTime.
-	public float UpdateSubtraction;
-
-	// Ease to use.
-	public Ease Ease;
-	public float RegularEaseTime;
-	public float LevelChangeEaseTime;
-
-	[Range(0, 1)]
-	public float StartFill = 1;
-
+	
+	// UI objects to use and some helpers for them.
+	[BoxGroup("Object Assignments")]
+	public TextMeshProUGUI TextCurrentLevel;
+	[BoxGroup("Object Assignments")]
+	public GameObject Background;
+	[BoxGroup("Object Assignments")]
+	public GameObject Foreground;
+	
+	[BoxGroup("Debug")]
+	public float TestPoints;
+	
+	//private Image BackgroundImage;
+	private RectTransform BackgroundTransform;
+	private Image foregroundImage;
+	private RectTransform foregroundTransform;
 	// Helpers for positioning + moving/resizing.
 	private float barHeight;
 	private float barMinWidth;
 	private float barMaxWidth;
-
-	// Current amount that the bar is filled + possible grades.
-	private float fillAmount;
-	private LinkedList<Quality.QualityGrade> grades;
-	public Quality.QualityGrade StartingGrade;
-
+	
+	// State
+	private float fillAmount = 0;
 	private Quality.QualityGrade currentGrade;
+	
+	// Grade data.
+	private LinkedList<Quality.QualityGrade> grades;
+	
+	[Button("Perform")]
+	private void Perform() {
+		PerformFill(TestPoints);
+	}
 
-	// DEBUG.
-	public bool debug;
-	[ShowIf("debug")]
-	public float speedMult;
+	[Button("Reset")]
+	private void Reset() {
+		currentGrade = StartingGrade;
+		TextCurrentLevel.text = Quality.GradeToString(currentGrade);
+		TextCurrentLevel.color = Quality.GradeToColor(currentGrade);
+		foregroundImage.color = Quality.GradeToColor(currentGrade);
+		fillAmount = 0;
+		foregroundTransform.DOComplete();
+		UpdateFillAmount();
+	}
+
 
 	private void Start() {
 		//BackgroundImage = Background.GetComponent<Image>();
@@ -69,7 +94,7 @@ public class UpgradeBar : MonoBehaviour {
 		TextCurrentLevel.color = Quality.GradeToColor(currentGrade);
 		foregroundImage.color = Quality.GradeToColor(currentGrade);
 
-		fillAmount = StartFill;
+		//fillAmount = 0;
 
 		// POSITIONING FOREGROUND BAR.
 		// Foreground bar min/max derived from the background.
@@ -89,84 +114,53 @@ public class UpgradeBar : MonoBehaviour {
 		//foregroundTransform.sizeDelta = new Vector2(-barMaxWidth, barHeight);
 		float fill = -Mathf.Lerp(barMinWidth, barMaxWidth, fillAmount);
 		foregroundTransform.sizeDelta = new Vector2(fill, barHeight);
-
-		// Subscribe to countdown tick.
-		Countdown.onTick += SubtractFixed;
 	}
 
-	private void Update() {
-		if (debug) Add(Time.deltaTime * speedMult, true);
-		// This might be peformance intensive.
-		Subtract(UpdateSubtraction * Time.deltaTime, true);
-	}
-
-	public void Add(float amount, bool allowMoveUp = false) {
-		fillAmount += amount;
-		if (fillAmount >= 1) {
-			if (!allowMoveUp) {
-				fillAmount = 1f;
-				return;
-			}
-
-			//Debug.Log("Fill amount is " + fillAmount + " and amount is " + amount);
-			if (!MoveUpQualityLevel(fillAmount - 1f)) {
-				// TODO: encouragement?
-				fillAmount = 1f;
-			}
-		} else {
-			UpdateQualityBar();
+	public void PerformFill(float points, float startAt = 0) {
+		var achievedQuality = Quality.CalculateLevelFromPoints(points);
+		Debug.Log("Moving up " + achievedQuality + " levels.");
+		
+        fillAmount = 0;
+        UpdateFillAmount();
+		Sequence seq = DOTween.Sequence();
+		for (int i = 0; i < (int) achievedQuality.x; i++) {
+			// Add a new bar fill animation.
+            seq.Append(foregroundTransform.DOSizeDelta(new Vector2(-barMaxWidth, barHeight), LevelUpEaseDuration)
+	            .SetEase(LevelUpEase).OnComplete(() => MoveUpQualityLevel()));
 		}
 
+		// Fill remaining percentage.
+		fillAmount = achievedQuality.y;
+		float fill = -Mathf.Lerp(barMinWidth, barMaxWidth, fillAmount);
+		seq.Append(foregroundTransform.DOSizeDelta(new Vector2(fill, barHeight), .8f).SetEase(Ease.Linear));
+
+		seq.SetEase(OverallEase);
+		seq.Play();
 	}
 
-	public void Subtract(float amount, bool allowMoveDown = false) {
-		fillAmount -= amount;
-		if (fillAmount <= 0) {
-			if (!allowMoveDown) {
-				fillAmount = 0f;
-				UpdateQualityBar();
-				return;
-			}
-
-			if (!MoveDownQualityLevel(-fillAmount)) {
-				// TODO: fail state???
-				fillAmount = 0f;
-			}
-		} else {
-			UpdateQualityBar();
-		}
-	}
-
-	public void SubtractFixed() {
-		fillAmount -= TickSubtraction;
-		if (fillAmount <= 0) {
-			if (!MoveDownQualityLevel(-fillAmount)) {
-				// TODO: fail state???
-				fillAmount = 0f;
-			}
-		} else {
-			UpdateQualityBar();
-		}
+	private void UpdateFillAmount() {
+		float fill = -Mathf.Lerp(barMinWidth, barMaxWidth, fillAmount);
+		foregroundTransform.sizeDelta = new Vector2(fill, barHeight);
 	}
 
 	// Take the current grade as final.
 	public Quality.QualityGrade Finish() {
-		Countdown.onTick -= SubtractFixed;
 		PlayRelevantQualitySFX(currentGrade);
 		return currentGrade;
+	}
+
+	public void Appear() {
+		gameObject.GetComponent<RectTransform>().DOAnchorPos(EnterEndPosition, EnterDuration).SetEase(EnterEase);
 	}
 
 	public void Disappear() {
 		// TODO: spawn some effect...
 		this.gameObject.SetActive(false);
-		
 	}
 
-	public void PlayRelevantQualitySFX(Quality.QualityGrade grade)
-	{
+	public void PlayRelevantQualitySFX(Quality.QualityGrade grade) {
 		Debug.Log("Playing grade sound " + grade);
-		switch (grade)
-		{
+		switch (grade) {
 			case Quality.QualityGrade.Junk:
 				SFX.Play("Game_Quality_Junk",1f,1f,0f,false,0f);
 				break;
@@ -188,61 +182,8 @@ public class UpgradeBar : MonoBehaviour {
 		}
 	}
 
-	private void UpdateQualityBar(Ease ease = Ease.Unset, float easeTime = -1f) {
-		// Hack to work around Unity's variable assignment not being a compile time constant.
-		if (ease == Ease.Unset)
-			ease = this.Ease;
-		if (easeTime <= -1f)
-			easeTime = RegularEaseTime;
-
-
-		// Amount of 'fill' the current bar holds.
-		float fill = -Mathf.Lerp(barMinWidth, barMaxWidth, fillAmount);
-
-		foregroundTransform.DOSizeDelta(new Vector2(fill, barHeight), easeTime).SetEase(ease);
-	}
-
 	// Moves to the next quality level in the queue.  If none is available, returns false.
-	private bool MoveDownQualityLevel(float spare = 0f)
-	{
-		if (currentGrade == grades.Last.Value) {
-			return false;
-		}
-
-		// Update the current grade.
-		var current = grades.Find(currentGrade);
-		if (current == null || current.Next == null) {
-			return false;
-		}
-
-		currentGrade = current.Next.Value;
-
-		TextCurrentLevel.text = Quality.GradeToString(currentGrade);
-		TextCurrentLevel.color = Quality.GradeToColor(currentGrade);
-		foregroundImage.color = Quality.GradeToColor(currentGrade);
-
-		foregroundTransform.DOComplete();
-		
-		fillAmount = 1f;// - spare;
-		UpdateQualityBar(Ease, LevelChangeEaseTime);
-		Subtract(spare);
-
-        //float fill = -Mathf.Lerp(barMinWidth, barMaxWidth, fillAmount);
-        //foregroundTransform.sizeDelta = new Vector2(fill, barHeight);
-
-
-        //Original SFX
-        //SFX.Play("quality_bar_deplete");
-
-        //New SFX entered on 27/8/18 by Pierre
-        SFX.Play("Mini_Game_Quality_loss", 1f, 1f, 0f, false, 0f);
-
-        return true;
-	}
-
-	// Moves to the next quality level in the queue.  If none is available, returns false.
-	private bool MoveUpQualityLevel(float spare = 0f)
-	{
+	private bool MoveUpQualityLevel(float spare = 0f) {
 		if (grades.Count == 5) {
 			return false;
 		}
@@ -264,8 +205,9 @@ public class UpgradeBar : MonoBehaviour {
 		foregroundTransform.DOComplete();
 		
 		fillAmount = 0f;
-		UpdateQualityBar(Ease, LevelChangeEaseTime);
-		Add(spare);
+		UpdateFillAmount();
+		//UpdateQualityBar(Ease, LevelChangeEaseTime);
+		//Add(spare);
 
         //float fill = -Mathf.Lerp(barMinWidth, barMaxWidth, fillAmount);
         //foregroundTransform.sizeDelta = new Vector2(fill, barHeight);
@@ -278,8 +220,7 @@ public class UpgradeBar : MonoBehaviour {
 	}
 
 	//Needed due to SFX for Pierre in Polishing
-	public Quality.QualityGrade ReturnCurrentGrade()
-	{
+	public Quality.QualityGrade ReturnCurrentGrade() {
 		return currentGrade;
 	}
 }
