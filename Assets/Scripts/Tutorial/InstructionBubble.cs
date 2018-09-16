@@ -77,14 +77,24 @@ public class InstructionBubble : MonoBehaviour
 	{
 		HideBubble();
 		activePage = 0;
-		expositionTextBox.text = textToDisplay[activePage];
-		UpdateCloser();
-		Debug.Log("Setting exposition to active");
-		ExpositionBubbleObj.SetActive(true);
-		InstructionBubbleObj.SetActive(false);
-		targetObj = itemToTarget;
 		canvasElement = CanvasElement;
-		Instruction = false;
+		targetObj = itemToTarget;
+		if (textToDisplay.Count > 1)
+		{
+			expositionTextBox.text = textToDisplay[activePage];
+			UpdateCloser();
+			Debug.Log("Setting exposition to active");
+			ExpositionBubbleObj.SetActive(true);
+			InstructionBubbleObj.SetActive(false);
+			Instruction = false;
+		}
+		else
+		{
+			//Dirty way right now to handle single item lists
+			activePage--;
+			ShowInstructionBubbleNextTo();
+
+		}
 	}
 
 	public void ShowInstructionBubbleNextTo()
@@ -98,14 +108,16 @@ public class InstructionBubble : MonoBehaviour
 		if (canvasElement)
 		{
 			pos = targetObj.transform.position;
-			pos = ModifyPosition(pos);
 			Debug.Log("pos = " + pos);
+			pos = ModifyPosition(pos);
+			
 		}
 		else
 		{
 			pos = Camera.main.WorldToViewportPoint(targetObj.transform.position);
-			pos = ModifyPosition(pos);
 			Debug.Log("pos = " + pos);
+			pos = ModifyPosition(pos);
+			
 		}
 
 		InstructionBubbleObj.GetComponent<RectTransform>().anchoredPosition = pos;
@@ -140,14 +152,14 @@ public class InstructionBubble : MonoBehaviour
 	private Vector2 ModifyPosition(Vector2 pos)
 	{
 		if (pos.x >= 400f)
-			pos.x -= 150f;
+			pos.x -= 100f;
 		else
-			pos.x += 150f;
+			pos.x += 100f;
 
-		if (pos.y <= 180f)
-			pos.y += 150f;
+		if (pos.y <= 230f)
+			pos.y += 100f;
 		else
-			pos.y -= 150f;
+			pos.y -= 100f;
 
 		return pos;
 	}
