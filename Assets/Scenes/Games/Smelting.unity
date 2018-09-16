@@ -6364,6 +6364,11 @@ Prefab:
       propertyPath: MissDurationTimout
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114247710891375066, guid: c3343ff29546f9948b4ab5bb24f03d50,
+        type: 2}
+      propertyPath: instructionManager
+      value: 
+      objectReference: {fileID: 1654483031}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c3343ff29546f9948b4ab5bb24f03d50, type: 2}
   m_IsPrefabAsset: 0

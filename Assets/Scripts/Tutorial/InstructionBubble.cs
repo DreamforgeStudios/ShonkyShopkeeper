@@ -152,9 +152,9 @@ public class InstructionBubble : MonoBehaviour
 	private Vector2 ModifyPosition(Vector2 pos)
 	{
 		if (pos.x >= 400f)
-			pos.x -= 100f;
+			pos.x -= 200f;
 		else
-			pos.x += 100f;
+			pos.x += 200f;
 
 		if (pos.y <= 230f)
 			pos.y += 100f;
