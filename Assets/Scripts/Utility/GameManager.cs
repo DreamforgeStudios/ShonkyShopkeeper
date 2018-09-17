@@ -40,6 +40,9 @@ public class GameManager : MonoBehaviour {
 		}
 		
 		SetupGameManager();
+		// Prewarm the audio manager to reduce stuttering.
+		// Not sure if this will work after scene changes because Awake() is only called once on GameManager -- do static C# variables get destroyed?
+		SFX.Prewarm();
 	}
 
 	private void SetupGameManager() {
