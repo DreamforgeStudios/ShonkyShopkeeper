@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class InstructionBubble : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class InstructionBubble : MonoBehaviour
 	public int activePage;
 	public List<string> textToDisplay;
 	public GameObject ExpositionBubbleObj, InstructionBubbleObj;
+	public Vector2 instructionSecondPos;
 	private RectTransform expoBubbleRectT, instrBubbleRectT;
 	public Button nextButton, exitButton;
 	
@@ -151,17 +153,22 @@ public class InstructionBubble : MonoBehaviour
 	//Used to move the scroll away from the target obj, towards the centre of the screen
 	private Vector2 ModifyPosition(Vector2 pos)
 	{
-		if (pos.x >= 400f)
-			pos.x -= 200f;
+		if (pos.x >= 230f)
+			pos.x -= 100f;
 		else
-			pos.x += 200f;
+			pos.x += 160f;
 
-		if (pos.y <= 230f)
+		if (pos.y <= 150f)
 			pos.y += 100f;
 		else
 			pos.y -= 100f;
 
 		return pos;
+	}
+
+	public void MoveInstructionScroll()
+	{
+		InstructionBubbleObj.transform.DOMove(instructionSecondPos, 2f, false);
 	}
 	
 	// Update the closer so that if we're on the last page it can be closed.

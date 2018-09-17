@@ -98,6 +98,11 @@ public class TutorialManager : MonoBehaviour
 
 	}
 
+	public void MoveInstructions()
+	{
+		clone.MoveInstructionScroll();
+	}
+
 	public void SkipTutorial()
 	{
 		GameManager.Instance.InTutorial = false;
@@ -172,7 +177,7 @@ public class TutorialManager : MonoBehaviour
 		
 	}
 
-	//Self explainatory
+	//Self explanatory
 	public InstructionBubble.Instruct EnableCameraTap(bool button, bool glow)
 	{
 		Debug.Log("enabling camera");
