@@ -4,6 +4,7 @@ using DG.Tweening;
 using NaughtyAttributes;
 using TMPro;
 using UnityEngine;
+using UnityScript.Steps;
 
 public class PointsManager : MonoBehaviour {
 	
@@ -16,13 +17,20 @@ public class PointsManager : MonoBehaviour {
 	[BoxGroup("Feel")]
 	public Vector2 PointsTextEndPosition;
 	[BoxGroup("Feel")]
-	public Ease PointsTextEndEase;
+	public Ease PointsTextEndEaseOut;
+	[BoxGroup("Feel")]
+	public Ease PointsTextEndEaseIn;
 	[BoxGroup("Feel")]
 	public float PointsTextEndEaseDuration;
 	[BoxGroup("Feel")]
 	public Ease PointsTextDiminishEase;
 	[BoxGroup("Feel")]
-	public float PointsTextDiminishDuration;
+	[Range(0, 2)]
+	public float PunchAmount = 1f,
+		PunchDuration = 1f,
+		PunchElasticity = 1f;
+	[BoxGroup("Feel")]
+	public int PunchVibration = 10;
 	
 	
 	[BoxGroup("Object Assignments")]
@@ -32,15 +40,7 @@ public class PointsManager : MonoBehaviour {
 	
 	
 	private RectTransform pointsTextTransform;
-
 	private float points;
-
-	[Range(0, 2)]
-	public float PunchAmount = 1f,
-		PunchDuration = 1f,
-		PunchElasticity = 1f;
-
-	public int PunchVibration = 10;
 
 	// Use this for initialization
 	void Start () {
@@ -52,7 +52,9 @@ public class PointsManager : MonoBehaviour {
 		pointsTextTransform.DOComplete();
 		PointsText.DOComplete();
 		pointsTextTransform.DOPunchScale(Vector3.one * PunchAmount, PunchDuration, PunchVibration, PunchElasticity);
-		PointsText.DOColor(PointAddColor, ColorEaseDuration).SetEase(ColorEase);
+		Color originalColor = PointsText.color;
+		PointsText.DOColor(PointAddColor, ColorEaseDuration).SetEase(ColorEase)
+			.OnComplete(() => PointsText.DOColor(originalColor, ColorEaseDuration).SetEase(ColorEase));
 	}
 
 	private void UpdateText() {
@@ -74,14 +76,48 @@ public class PointsManager : MonoBehaviour {
 
 	[Button("Do EndGameTransition")]
 	public void DoEndGameTransition() {
-		//UpgradeBar.gameObject.SetActive(true);
-		UpgradeBar.Appear();
-		gameObject.GetComponent<RectTransform>().DOAnchorPos(PointsTextEndPosition, PointsTextEndEaseDuration).SetEase(PointsTextEndEase)
+		var rect = gameObject.GetComponent<RectTransform>();
+
+
+		// "Complicated" tweening with parameters is a pita, especially when the objects have been separated...
+		//   why did i do that.
+		// Comments are execution intervals i.e. all code in 2. executes at the same time.
+		var seq = DOTween.Sequence();
+		// 1.
+		seq.Append(rect.DOScale(0, PointsTextEndEaseDuration).SetEase(PointsTextEndEaseOut));
+		// 2.
+		seq.AppendCallback(() => {
+			UpgradeBar.Appear();
+			rect.anchoredPosition = PointsTextEndPosition;
+		});
+		seq.Append(rect.DOScale(1, PointsTextEndEaseDuration).SetEase(PointsTextEndEaseIn));
+		// 3.
+		seq.AppendCallback(() => {
+			float upgradeDuration = UpgradeBar.PerformFill(points);
+			DOTween.To(() => points, x => {
+					points = x;
+					UpdateText();
+				}, 0, upgradeDuration)
+				.SetEase(PointsTextDiminishEase);
+		});
+		
+		seq.Play();
+				
+		
+		/*
+		// Version without sequence.
+		rect.DOScale(0, PointsTextEndEaseDuration).SetEase(PointsTextEndEaseOut)
 			.OnComplete(() => {
-				UpgradeBar.PerformFill(points);
-				DOTween.To(() => points, x => { points = x; UpdateText(); }, 0, PointsTextDiminishDuration)
-					.SetEase(PointsTextDiminishEase);
+				UpgradeBar.Appear();
+				rect.anchoredPosition = PointsTextEndPosition;
+				rect.DOScale(1, PointsTextEndEaseDuration).SetEase(PointsTextEndEaseIn)
+					.OnComplete(() => {
+						float upgradeDuration = UpgradeBar.PerformFill(points);
+                        DOTween.To(() => points, x => { points = x; UpdateText(); }, 0, upgradeDuration)
+                            .SetEase(PointsTextDiminishEase);
+					});
 			});
+        */
 	}
 	
 }

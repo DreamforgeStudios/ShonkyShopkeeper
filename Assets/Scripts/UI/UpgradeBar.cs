@@ -116,7 +116,7 @@ public class UpgradeBar : MonoBehaviour {
 		foregroundTransform.sizeDelta = new Vector2(fill, barHeight);
 	}
 
-	public void PerformFill(float points, float startAt = 0) {
+	public float PerformFill(float points, float startAt = 0) {
 		var achievedQuality = Quality.CalculateLevelFromPoints(points);
 		Debug.Log("Moving up " + achievedQuality + " levels.");
 		
@@ -136,6 +136,8 @@ public class UpgradeBar : MonoBehaviour {
 
 		seq.SetEase(OverallEase);
 		seq.Play();
+
+		return seq.Duration();
 	}
 
 	private void UpdateFillAmount() {
