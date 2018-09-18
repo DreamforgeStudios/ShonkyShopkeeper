@@ -99,7 +99,7 @@ public class TutorialPhysicalInventory : MonoBehaviour {
 		}
 	}
 
-	public PopupTextManager.OnClose HighlightOreAndGem()
+	public InstructionBubble.Instruct HighlightOreAndGem()
 	{
 		if (!createdParticles)
 		{
@@ -129,7 +129,7 @@ public class TutorialPhysicalInventory : MonoBehaviour {
 			createdParticles = true;
 		}
 
-		return () => { PopupTextManager.onClose -= HighlightOreAndGem();};
+		return () => { InstructionBubble.onInstruction -= HighlightOreAndGem();};
 	}
 
 	public void DestroyParticlesOnItems()

@@ -100,10 +100,6 @@ public class TutorialToolbox : MonoBehaviour {
         SFX.Play("WickedGroveTrack",1f,1f,0f,true,0f);
         currentTool = Tool.None;
         SwitchTool(Tool.None);
-        //inventoryhelper = Inventory.Instance;
-        //forcepPos = GameObject.FindGameObjectWithTag("forcep").transform.position;
-        //wandPos = GameObject.FindGameObjectWithTag("wand").transform.position;
-        //inspectPos = GameObject.FindGameObjectWithTag("inspector").transform.position;
     }
 
     // Update is called once per frame
@@ -297,6 +293,7 @@ public class TutorialToolbox : MonoBehaviour {
         {
             //tutorialManager.InspectItem(tool);
             tutorialManager.StopParticle(tool);
+            tutorialManager.MoveInstructions();
         }
     }
     
