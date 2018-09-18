@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityScript.Steps;
 
 public class PointsManager : MonoBehaviour {
+	private float points;
 	
 	[BoxGroup("Feel")]
 	public Color PointAddColor;
@@ -39,20 +40,28 @@ public class PointsManager : MonoBehaviour {
 	public UpgradeBar UpgradeBar;
 	
 	
+	public delegate void OnFinishLeveling();
+	public event OnFinishLeveling onFinishLeveling;
+	
 	private RectTransform pointsTextTransform;
-	private float points;
+	// Keep track of the original color so dotween doesn't fuck us and lose it.
+	private Color originalColor;
+	//private Tween colorTween;
+	//private Tween punchTween;
 
 	// Use this for initialization
 	void Start () {
 		pointsTextTransform = PointsText.GetComponent<RectTransform>();
+		originalColor = PointsText.color;
 	}
-
+	
 	[Button("Punch")]
 	private void Punch() {
 		pointsTextTransform.DOComplete();
-		PointsText.DOComplete();
+		int numCompleted = PointsText.DOComplete();
+		Debug.Log("Completed: " + numCompleted);
+		//punchTween.Complete();
 		pointsTextTransform.DOPunchScale(Vector3.one * PunchAmount, PunchDuration, PunchVibration, PunchElasticity);
-		Color originalColor = PointsText.color;
 		PointsText.DOColor(PointAddColor, ColorEaseDuration).SetEase(ColorEase)
 			.OnComplete(() => PointsText.DOColor(originalColor, ColorEaseDuration).SetEase(ColorEase));
 	}
@@ -62,7 +71,6 @@ public class PointsManager : MonoBehaviour {
 	}
 
 	public float DebugPoints;
-
 	[Button("Add Points")]
 	private void AddDebugPoints() {
 		AddPoints(DebugPoints);
@@ -74,10 +82,20 @@ public class PointsManager : MonoBehaviour {
 		Punch();
 	}
 
+	public float GetPoints() {
+		return points;
+	}
+
+	public void OnFinishLevelingTick() {
+		if (onFinishLeveling != null) {
+			onFinishLeveling();
+		}
+		
+	}
+
 	[Button("Do EndGameTransition")]
 	public void DoEndGameTransition() {
-		var rect = gameObject.GetComponent<RectTransform>();
-
+		var rect = PointsText.GetComponent<RectTransform>();
 
 		// "Complicated" tweening with parameters is a pita, especially when the objects have been separated...
 		//   why did i do that.
@@ -98,7 +116,8 @@ public class PointsManager : MonoBehaviour {
 					points = x;
 					UpdateText();
 				}, 0, upgradeDuration)
-				.SetEase(PointsTextDiminishEase);
+				.SetEase(PointsTextDiminishEase)
+				.OnComplete(OnFinishLevelingTick);
 		});
 		
 		seq.Play();

@@ -62,8 +62,10 @@ public class Cutting : MonoBehaviour {
 	[Range(0, 360)]
 	public float RotatePower;
 	
+	//[BoxGroup("Object Assignments")]
+	//public QualityBar QualityBar;
 	[BoxGroup("Object Assignments")]
-	public QualityBar QualityBar;
+	public PointsManager PointsManager;
 	[BoxGroup("Object Assignments")]
 	public GameObject ReturnOrRetryButtons;
 	[BoxGroup("Object Assignments")]
@@ -214,7 +216,8 @@ public class Cutting : MonoBehaviour {
 	        SFX.Play("Cutting_good_cut");
 	        missDurationCounter = 0;
 	        PushGem(cutVector, 1 - val);
-			QualityBar.Add((1-val) * CutRewardMultiplier, true);
+	        PointsManager.AddPoints((1-val) * CutRewardMultiplier);
+			//QualityBar.Add((1-val) * CutRewardMultiplier, true);
 			activeCuts.Remove(cut);
 			Destroy(cut.gameObject);
 	        activeCut = null;
@@ -294,18 +297,18 @@ public class Cutting : MonoBehaviour {
 	private void GameOver() {
 		Countdown.onComplete -= GameOver;
 		start = false;
-		grade = QualityBar.Finish();
-		QualityBar.Disappear();
-		//Quality.QualityGrade grade = Quality.FloatToGrade(grade, 3);
-		GradeText.text = Quality.GradeToString(grade);
-		GradeText.color = Quality.GradeToColor(grade);
-		GradeText.gameObject.SetActive(true);
-		if (grade == Quality.QualityGrade.Junk)
-			GemSpawnManager.UpgradeGem(false);
-		else
-			GemSpawnManager.UpgradeGem(true);
+		grade = Quality.CalculateGradeFromPoints(PointsManager.GetPoints());
+		PointsManager.onFinishLeveling += () => {
+            GemSpawnManager.UpgradeGem(grade);
+			
+			PointsManager.gameObject.SetActive(false);
+            GradeText.text = Quality.GradeToString(grade);
+            GradeText.color = Quality.GradeToColor(grade);
+            GradeText.gameObject.SetActive(true);
+		};
 		
-
+		PointsManager.DoEndGameTransition();
+		
 		foreach (CutPoint cut in activeCuts) {
 			Destroy(cut.gameObject);
 		}

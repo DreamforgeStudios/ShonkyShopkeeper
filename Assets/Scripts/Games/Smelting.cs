@@ -10,12 +10,9 @@ public class Smelting : MonoBehaviour {
 	//public TextMeshProUGUI timer;
 	// Grade object.
 	public TextMeshProUGUI qualityText;
-	// Debug object.
-	public TextMeshProUGUI debug;
     //Two sprites and their holder used to give feedback
     public Sprite more;
     public Sprite less;
-    public Image holder;
 
     public Sprite feedbackPositive;
     public Sprite feedbackNegative;
@@ -55,7 +52,7 @@ public class Smelting : MonoBehaviour {
 	// Previous rotation.
 	private Vector3 prevRotation;
 
-    public QualityBar qualityBar;
+    public PointsManager pointsManager;
 	public GameObject returnOrRetryButtons;
 
 	private Quality.QualityGrade grade = Quality.QualityGrade.Unset;
@@ -98,7 +95,6 @@ public class Smelting : MonoBehaviour {
 		UpdateDebug();
 
         UpdateBar();
-        UpdateFeedback();
 
 		// Record previous location.
 		prevRotation = transform.eulerAngles;
@@ -188,10 +184,10 @@ public class Smelting : MonoBehaviour {
 	        missDurationCounter = 0;
             feedbackMaterial.SetTexture("_MainTex", feedbackPositive.texture);
 			// Using a curve seemed like a good idea at the time...
-			qualityBar.Add(closenessCurve.Evaluate(closeness) * closenessContribution * Time.deltaTime, allowMoveUp: true);
+			pointsManager.AddPoints(closenessCurve.Evaluate(closeness) * closenessContribution * Time.deltaTime);
         } else {
             feedbackMaterial.SetTexture("_MainTex", feedbackNegative.texture);
-			qualityBar.Subtract((1-closenessCurve.Evaluate(closeness - 1)) * closenessContribution * Time.deltaTime, allowMoveDown: true);
+			//qualityBar.Subtract((1-closenessCurve.Evaluate(closeness - 1)) * closenessContribution * Time.deltaTime, allowMoveDown: true);
         }
         //Debug.Log("closeness: " + closeness);
         //Debug.Log("closeness evaluation: " + closenessCurve.Evaluate(closeness));
@@ -222,6 +218,7 @@ public class Smelting : MonoBehaviour {
 		*/
     }
 
+	/*
     private void UpdateFeedback() {
         if(transform.eulerAngles.z < successPoint) {
             holder.enabled = true;
@@ -233,20 +230,23 @@ public class Smelting : MonoBehaviour {
             holder.enabled = false;
         }
     }
+    */
 
     private void GameOver() {
         Countdown.onComplete -= GameOver;
 	    start = false;
-        grade = qualityBar.Finish();
+        grade = Quality.CalculateGradeFromPoints(pointsManager.GetPoints());
 	    feedbackParticleSystem.Stop();
-        qualityText.text = Quality.GradeToString(grade);
-        qualityText.color = Quality.GradeToColor(grade);
-        qualityText.gameObject.SetActive(true);
-        qualityBar.Disappear();
-	    if (grade == Quality.QualityGrade.Junk)
-			OreSpawnManager.Upgrade(false);
-	    else
-		    OreSpawnManager.Upgrade(true);
+	    pointsManager.onFinishLeveling += () => {
+		    OreSpawnManager.Upgrade(grade);
+		    pointsManager.gameObject.SetActive(false);
+		    qualityText.text = Quality.GradeToString(grade);
+		    qualityText.color = Quality.GradeToColor(grade);
+		    qualityText.gameObject.SetActive(true);
+	    };
+	    
+	    pointsManager.DoEndGameTransition();
+	    
         ShowUIButtons();
     }
 	

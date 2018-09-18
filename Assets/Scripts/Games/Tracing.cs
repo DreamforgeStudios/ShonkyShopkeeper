@@ -11,7 +11,7 @@ using Random = UnityEngine.Random;
 
 public class Tracing : MonoBehaviour {
     public TextMeshProUGUI qualityText;
-    public TextMeshProUGUI scoreText;
+    //public TextMeshProUGUI scoreText;
     public InstructionHandler instructionManager;
 
     //Tracing & Vector Lists
@@ -59,6 +59,7 @@ public class Tracing : MonoBehaviour {
     private float averageDistanceAway = 0;
 
     //Score Variables
+    public float ScoreMultiplier;
     private float score = 0;
     private float _finalScore = 0;
 
@@ -72,7 +73,7 @@ public class Tracing : MonoBehaviour {
     public float MissDurationTimeout;
 
     //Quality bar.
-    public QualityBar qualityBar;
+    public PointsManager PointsManager;
     public GameObject returnOrRetryButtons;
     public BrickSpawnManager brickSpawnmanager;
     private bool start = false;
@@ -224,9 +225,9 @@ public class Tracing : MonoBehaviour {
             if (score > 0)
             {
                 //Debug.Log("adding score of " + score);
-                qualityBar.Add(score/1000,true);
+                PointsManager.AddPoints(score * ScoreMultiplier);
                 _finalScore += score;
-                scoreText.text = string.Format("Final score is {0}", _finalScore);
+                //scoreText.text = string.Format("Final score is {0}", _finalScore);
                 NextRune();
                 missDurationCounter = 0;
             }
@@ -247,25 +248,26 @@ public class Tracing : MonoBehaviour {
     private void GameOver()
     {
         Countdown.onComplete -= GameOver;
-        grade = qualityBar.Finish();
-        qualityText.text = Quality.GradeToString(grade);
-        qualityText.color = Quality.GradeToColor(grade);
-        qualityText.gameObject.SetActive(true);
-        qualityBar.Disappear();
-        ResetOptimalPoints();
+
+        var tmpGrade = Quality.CalculateGradeFromPoints(PointsManager.GetPoints());
+        PointsManager.onFinishLeveling += () =>
+        {
+            brickSpawnmanager.Upgrade(tmpGrade);
+            PointsManager.gameObject.SetActive(false);
+            qualityText.text = Quality.GradeToString(tmpGrade);
+            qualityText.color = Quality.GradeToColor(tmpGrade);
+            qualityText.gameObject.SetActive(true);
+        };
+        
+        PointsManager.DoEndGameTransition();
         FollowSphere.SetActive(false);
         _currentRuneSprite.SetActive(false);
-		grade = Quality.CalculateCombinedQuality(GameManager.Instance.QualityTransfer, grade);
+        ResetOptimalPoints();
+        
+		grade = Quality.CalculateCombinedQuality(GameManager.Instance.QualityTransfer, tmpGrade);
         ShowUIButtons();
         _dataBase.HideUI();
         _canTrace = false;
-        
-        if (grade == Quality.QualityGrade.Junk)
-            brickSpawnmanager.Upgrade(false);
-        else
-        {
-            brickSpawnmanager.Upgrade(true);
-        }
     }
 
     /*

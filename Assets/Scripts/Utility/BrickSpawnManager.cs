@@ -25,10 +25,13 @@ public class BrickSpawnManager : MonoBehaviour {
 		//spawnedClone.transform.DOMove(Vector3.zero, InitialTweenDuration).SetEase(Ease.InBack);
 	}
 
-	public void Upgrade(bool Success) {
+	public void Upgrade(Quality.QualityGrade grade) {
 		TracingSceneBrick.SetActive(false);
 
-		if (Success) {
+		if (grade == Quality.QualityGrade.Junk) {
+			var clone = Instantiate(SmokeParticleSystem, SmokePosition, Quaternion.Euler(RotationOverrideSmoke), transform);
+			clone.transform.localScale = new Vector3(ScaleOverrideSmoke, ScaleOverrideSmoke, ScaleOverrideSmoke);
+		} else {
 			var clone = Instantiate(SmokeParticleSystem, SmokePosition, Quaternion.Euler(RotationOverrideShine), transform);
 			clone.transform.localScale = new Vector3(ScaleOverrideSmoke, ScaleOverrideSmoke, ScaleOverrideSmoke);
 
@@ -37,10 +40,6 @@ public class BrickSpawnManager : MonoBehaviour {
 
 			clone = Instantiate(Shell, AfterPosition, Shell.transform.rotation, transform);
 			//clone.transform.localScale = new Vector3(ScaleOverrideShell, ScaleOverrideShell, ScaleOverrideShell);
-		} else {
-			var clone = Instantiate(SmokeParticleSystem, SmokePosition, Quaternion.Euler(RotationOverrideSmoke), transform);
-			clone.transform.localScale = new Vector3(ScaleOverrideSmoke, ScaleOverrideSmoke, ScaleOverrideSmoke);
-			
 		}
 	}
 	

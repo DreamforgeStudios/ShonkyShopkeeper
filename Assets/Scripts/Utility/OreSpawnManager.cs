@@ -29,8 +29,13 @@ public class OreSpawnManager : MonoBehaviour {
 		spawnedClone.transform.DOLocalMove(Vector3.zero, InitialTweenDuration).SetEase(Ease.InBack);
 	}
 
-	public void Upgrade(bool success) {
-		if (success) {
+	public void Upgrade(Quality.QualityGrade grade) {
+		if (grade == Quality.QualityGrade.Junk) {
+			var a = Instantiate(SmokeParticleSystem, SmokePosition, Quaternion.identity, transform);
+			a.transform.localScale = new Vector3(ScaleOverrideSmoke, ScaleOverrideSmoke, ScaleOverrideSmoke);
+			spawnedClone.SetActive(false);
+			//SmeltingPot.SetActive(false);
+		} else {
 			Instantiate(Brick, AfterPosition, Brick.transform.rotation, transform);
 
 			var a = Instantiate(SmokeParticleSystem, SmokePosition, Quaternion.identity, transform);
@@ -42,11 +47,6 @@ public class OreSpawnManager : MonoBehaviour {
 			spawnedClone.SetActive(false);
 			//SmeltingPot.SetActive(false);
 			//Debug.Log("Was success" + success);
-		} else {
-			var a = Instantiate(SmokeParticleSystem, SmokePosition, Quaternion.identity, transform);
-			a.transform.localScale = new Vector3(ScaleOverrideSmoke, ScaleOverrideSmoke, ScaleOverrideSmoke);
-			spawnedClone.SetActive(false);
-			//SmeltingPot.SetActive(false);
 		}
 	}
 	

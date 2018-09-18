@@ -10,7 +10,7 @@ public class Polishing : MonoBehaviour {
     //Misc variables and objects
     private Camera mainCamera;
     public GameObject gemObject;
-    public QualityBar qualityBar;
+    public PointsManager pointsManager;
     public GemSpawnManager GemSpawnManager;
     public InstructionHandler InstructionManager;
 
@@ -36,7 +36,7 @@ public class Polishing : MonoBehaviour {
     private Vector3 mWorldPosition;
 
     //UI elements
-    public TextMeshProUGUI text;
+    //public TextMeshProUGUI text;
     public TextMeshProUGUI qualityText;
     public Slider timerSlider;
     public Image sliderImage;
@@ -114,7 +114,8 @@ public class Polishing : MonoBehaviour {
     //Really quick and dirty
     private void CalculateRelevantSFX()
     {
-        Quality.QualityGrade grade = qualityBar.ReturnCurrentGrade();
+        // Integrating this is a bit annoying, and probably not very efficient.
+        Quality.QualityGrade grade = Quality.CalculateGradeFromPoints(pointsManager.GetPoints());
         Debug.Log("grade is " + grade);
         if (grade == Quality.QualityGrade.Junk || grade == Quality.QualityGrade.Brittle)
         {
@@ -185,7 +186,7 @@ public class Polishing : MonoBehaviour {
     {
         mWorldPosition = Camera.main.ScreenPointToRay(Input.mousePosition).GetPoint(15f);
         currentTime = Time.time;
-        text.text = "Swipes: " + numberOfSwipes;
+        //text.text = "Swipes: " + numberOfSwipes;
         //if (Input.touchCount > 0) {
         if (Input.GetMouseButtonDown(0)) {
             isMouseDown = true;
@@ -249,7 +250,7 @@ public class Polishing : MonoBehaviour {
     {
         SFX.Play("Polish_swipe", 1f, 1f, 0f, false, 0f);
         numberOfSwipes++;
-        qualityBar.Add(swipeContribution, true);
+        pointsManager.AddPoints(swipeContribution);
         missDurationCounter = 0;
     }
 
@@ -260,20 +261,21 @@ public class Polishing : MonoBehaviour {
         //if (gameOver) {
         //CalculateGrade();
         gameOver = true;
-        grade = qualityBar.Finish();
-        qualityText.text = Quality.GradeToString(grade);
-        qualityText.color = Quality.GradeToColor(grade);
-        qualityText.gameObject.SetActive(true);
-        qualityBar.Disappear();
 
-		grade = Quality.CalculateCombinedQuality(GameManager.Instance.QualityTransfer, grade);
-        
-        if (grade == Quality.QualityGrade.Junk)
-            GemSpawnManager.UpgradeGem(false);
-        else
+        var tmpGrade = Quality.CalculateGradeFromPoints(pointsManager.GetPoints());
+        pointsManager.onFinishLeveling += () =>
         {
-            GemSpawnManager.UpgradeGem(true);
-        }
+            GemSpawnManager.UpgradeGem(tmpGrade);
+            pointsManager.gameObject.SetActive(false);
+            qualityText.text = Quality.GradeToString(tmpGrade);
+            qualityText.color = Quality.GradeToColor(tmpGrade);
+            qualityText.gameObject.SetActive(true);
+        };
+            
+        pointsManager.DoEndGameTransition();
+
+        // Combine grade at the end for when we return to shop.
+		grade = Quality.CalculateCombinedQuality(GameManager.Instance.QualityTransfer, tmpGrade);
 
         ShowUIButtons();
     }

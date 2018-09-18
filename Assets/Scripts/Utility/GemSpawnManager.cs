@@ -58,8 +58,14 @@ public class GemSpawnManager : MonoBehaviour {
 		//clone.GetComponent<Rotate>().Enable = true;
 	}
 
-	public void UpgradeGem(bool Success) {
-		if (Success) {
+	public void UpgradeGem(Quality.QualityGrade grade) {
+		// If grade is junk, don't instantiate everything.
+		if (grade == Quality.QualityGrade.Junk) {
+			Instantiate(SmokeParticleSystem, SmokePosition, Quaternion.identity, transform);
+			
+			// Setting inactive is faster.  We'll probably pay for the whole destroy cost in loading anyway though.
+			spawnedClone.SetActive(false);
+		} else {
 			Instantiate(SmokeParticleSystem, SmokePosition, Quaternion.identity, transform);
 			Instantiate(ShineParticleSystem, ShinePosition, Quaternion.identity, transform);
 
@@ -69,11 +75,6 @@ public class GemSpawnManager : MonoBehaviour {
 
 			//Instantiate(cloneAfter, cloneAfter.transform.position, cloneAfter.transform.rotation, transform);
 			Instantiate(cloneAfter, AfterGemPosition, cloneAfter.transform.rotation, transform);
-		} else {
-			Instantiate(SmokeParticleSystem, SmokePosition, Quaternion.identity, transform);
-			
-			// Setting inactive is faster.  We'll probably pay for the whole destroy cost in loading anyway though.
-			spawnedClone.SetActive(false);
 		}
 	}
 
