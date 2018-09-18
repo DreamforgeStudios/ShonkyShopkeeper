@@ -59,7 +59,6 @@ public class PointsManager : MonoBehaviour {
 	private void Punch() {
 		pointsTextTransform.DOComplete();
 		int numCompleted = PointsText.DOComplete();
-		Debug.Log("Completed: " + numCompleted);
 		//punchTween.Complete();
 		pointsTextTransform.DOPunchScale(Vector3.one * PunchAmount, PunchDuration, PunchVibration, PunchElasticity);
 		PointsText.DOColor(PointAddColor, ColorEaseDuration).SetEase(ColorEase)

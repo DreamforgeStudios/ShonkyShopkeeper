@@ -81,7 +81,7 @@ public class CutPoint : MonoBehaviour {
 	private Renderer r;
 	private LineRenderer lr;
 	private Tweener startWidthTween, endWidthTween;
-
+	
 	public delegate void OnSpawnComplete(CutPoint cut);
 	public event OnSpawnComplete onSpawnComplete;
 

@@ -71,7 +71,7 @@ public class Cutting : MonoBehaviour {
 	[BoxGroup("Object Assignments")]
 	public Countdown CountdownObj;
 	[BoxGroup("Object Assignments")]
-	public CutPoint CutPrefab;
+	public NewCutPoint CutPrefab;
 	[BoxGroup("Object Assignments")]
 	public GemSpawnManager GemSpawnManager;
 	[BoxGroup("Object Assignments")]
@@ -81,7 +81,7 @@ public class Cutting : MonoBehaviour {
 	
 	
 	// List of all cuts.
-	private LinkedList<CutPoint> activeCuts;
+	private LinkedList<NewCutPoint> activeCuts;
 	
 	private bool start = false;
 	// Keeps track of the time the game has been ongoing.
@@ -91,7 +91,7 @@ public class Cutting : MonoBehaviour {
 	// Touch origin needs to be passed between frames.
 	private Vector3 touchOrigin;
 	// Keeps track of what cut is currently active.
-	private CutPoint activeCut = null;
+	private NewCutPoint activeCut = null;
 	// Keeps track of the active punch tween, so we don't do multiple at once.
 	private Tween activePunch = null;
 	// Keeps track of the active rotation tween, so we don't do multiple at once.
@@ -111,7 +111,7 @@ public class Cutting : MonoBehaviour {
     {
 	    SFX.Play("CraftingGem", 1f, 1f, 0f, true, 0f);
 		Countdown.onComplete += GameOver;
-	    activeCuts = new LinkedList<CutPoint>();
+	    activeCuts = new LinkedList<NewCutPoint>();
 	    
 	    cutContainer = new GameObject("CutContainer");
     }
@@ -135,13 +135,13 @@ public class Cutting : MonoBehaviour {
 	
 	private void GameLoop() {
 		// If it's time to spawn another cut.
-		if (timeIntervalCounter > Mathf.Lerp(InitialSpawnInterval, EndSpawnInterval, SpawnCurve.Evaluate(timeCounter)) &&
+		if (timeIntervalCounter > Mathf.Lerp(InitialSpawnInterval, EndSpawnInterval, SpawnCurve.Evaluate(timeCounter / CountdownObj.StartTime)) &&
 		    CutPrefab.SpawnTime < CountdownObj.CurrentTimeRemaining) {
 			// TODO: maybe add a parent to keep the scene clean.
 			var cutPosition = GenerateNewCutPosition();
-			CutPoint clone = Instantiate(CutPrefab, cutPosition, Quaternion.identity, cutContainer.transform);
+			NewCutPoint clone = Instantiate(CutPrefab, cutPosition, Quaternion.identity, cutContainer.transform);
 			// TODO: this is a bit messy, move GemObject calculation somewhere else.
-			clone.CutVector = -(cutPosition - GemSpawnManager.Gem.transform.position)*1.8f;
+			clone.CutVector = -(cutPosition - GemSpawnManager.Gem.transform.position)*1.8f; // make the vector a bit longer.
 			clone.onSpawnComplete += cut => activeCuts.AddLast(cut);
             SFX.Play("Cutting_circle_appears");
 
@@ -208,7 +208,7 @@ public class Cutting : MonoBehaviour {
 		}
 	}
 
-	private void PerformCut(CutPoint cut, Vector3 cutVector) {
+	private void PerformCut(NewCutPoint cut, Vector3 cutVector) {
         float val = CalculateCloseness(cut.CutVector, cutVector);
         //Debug.Log("Calculated a closeness value of: " + val);
         if (val < AcceptanceThreshold) {
@@ -252,17 +252,18 @@ public class Cutting : MonoBehaviour {
 		Vector3 vecPos = Utility.RotateAroundPivot(MaxStartPoint.normalized * distance, Vector3.forward,
 			new Vector3(0, 0, Random.Range(0f, MaxAngle)));
 		    
+		// Move the cut to be relative to the gem.
 		return vecPos + GemSpawnManager.Gem.transform.position;
 	}
 
 	// Find cut point closest to another position.
-	private CutPoint FindClosestCutPoint(Vector3 worldPoint) {
+	private NewCutPoint FindClosestCutPoint(Vector3 worldPoint) {
 		if (activeCuts.Count == 0)
 			return null;
 
-		CutPoint closest = null;
+		NewCutPoint closest = null;
 		float minDistance = Mathf.Infinity;
-		foreach (CutPoint cut in activeCuts) {
+		foreach (var cut in activeCuts) {
 			float dist = Vector3.Distance(cut.transform.position, worldPoint);
 			if (dist < minDistance) {
 				closest = cut;
@@ -275,19 +276,20 @@ public class Cutting : MonoBehaviour {
 	}
 	
 	// Produce a scalar value representing how well a user performed a cut.
-	private float CalculateCloseness(Vector3 guideVector, Vector3 userVector) {
-		float vectorCloseness = 0f;
+	private float CalculateCloseness(Vector2 guideVector, Vector2 userVector) {
 		float lengthCloseness = 0f;
+		float vectorCloseness = 0f;
 
-		Vector3 gvn = Vector3.Normalize(guideVector);
-		Vector3 uvn = Vector3.Normalize(userVector);
-		vectorCloseness = 1 - Vector3.Dot(gvn, uvn);
+		float gvl = guideVector.magnitude;
+		float uvl = userVector.magnitude;
+		lengthCloseness = Mathf.InverseLerp(0, MaximumLengthDifference, Mathf.Abs(gvl - uvl));
+		
+		guideVector.Normalize();
+		userVector.Normalize();;
+		vectorCloseness = 1 - Vector3.Dot(guideVector, userVector);
 		vectorCloseness = Mathf.InverseLerp(0, MaximumVectorCloseness, vectorCloseness);
 		//Debug.Log("Vector similarity: " + vectorCloseness);
 
-		float gvl = Vector3.Magnitude(guideVector);
-		float uvl = Vector3.Magnitude(userVector);
-		lengthCloseness = Mathf.InverseLerp(0, MaximumLengthDifference, Mathf.Abs(gvl - uvl));
 		//Debug.Log("Length similarity: " + lengthCloseness);
 
 		return (vectorCloseness + lengthCloseness) / 2f;
@@ -309,7 +311,7 @@ public class Cutting : MonoBehaviour {
 		
 		PointsManager.DoEndGameTransition();
 		
-		foreach (CutPoint cut in activeCuts) {
+		foreach (NewCutPoint cut in activeCuts) {
 			Destroy(cut.gameObject);
 		}
 
