@@ -44,11 +44,13 @@ public class BarterComponentManager : MonoBehaviour {
         this.prevXPos = this.background.transform.position.x;
         this.backgroundMat = background.GetComponent<MeshRenderer>().material;
         this.offset = new Vector2(0, 0);
+		/*
         if (GameManager.Instance.SpriteTransfer) {
             this.wizardSprite.sprite = GameManager.Instance.SpriteTransfer;
         } else {
             Debug.Log("Couldn't find a sprite, will use default.");
         }
+        */
 
         this.basePrice = (shonkyInstance.item as Shonky).basePrice;
         string grade = Quality.GradeToString(shonkyInstance.Quality);

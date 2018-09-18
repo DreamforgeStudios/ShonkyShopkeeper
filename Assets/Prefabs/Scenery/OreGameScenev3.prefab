@@ -9032,6 +9032,8 @@ MonoBehaviour:
   amountOfParticles: 5
   qualityBar: {fileID: 0}
   returnOrRetryButtons: {fileID: 0}
+  grade: 0
+  finalGrade: 0
   heldTickrate: 0.15
 --- !u!198 &198568425055151154
 ParticleSystem:

@@ -74,6 +74,7 @@ public class IntroScene : MonoBehaviour {
         else
         {
             Initiate.Fade("Shop", Color.black, 2f);
+            NarrativeManager.Read("new_game_01");
         }
     }
 

@@ -24,9 +24,9 @@ public class PhysicalAchievement : MonoBehaviour
 	private void CheckForAchievements()
 	{
 		foreach (var kvp in achievementDict) {
-			if (kvp.Value.Unlocked)
+			//Debug.Log(kvp.Key + " is being checked");
+			if (AchievementManager.CheckUnlocked(kvp.Key))
 			{
-				Debug.Log(kvp.Key + " is unlocked");
 				DetermineIndexAndUnlockBanner(kvp);
 			}
 		}
@@ -35,7 +35,7 @@ public class PhysicalAchievement : MonoBehaviour
 	private void DetermineIndexAndUnlockBanner(KeyValuePair<String,Achievement> kvp)
 	{
 		int index = achievementDict.Values.ToList().IndexOf(kvp.Value);
-		Debug.Log("Index unlocked is " + index);
+		//Debug.Log("Index unlocked is " + index);
 		achievementBanners[index].SetActive(true);
 	}
 }

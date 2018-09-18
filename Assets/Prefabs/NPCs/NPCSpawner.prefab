@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1214504180435096}
+  m_IsPrefabAsset: 1
+--- !u!1 &1214504180435096
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4262788440788034}
+  - component: {fileID: 114220895546801766}
+  m_Layer: 0
+  m_Name: NPCSpawner
+  m_TagString: NPCSpawner
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4262788440788034
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1214504180435096}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114220895546801766
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1214504180435096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1ebd55a88d9f8a49888d4717a7d3165, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawns:
+  - {x: 12, y: -1, z: 3}
+  - {x: -12, y: -1, z: 3}
+  spawnDirections: ffffffff01000000
+  potentialSpawns:
+  - {fileID: 1498040254251592, guid: 3ef3ea58a39d5314da02669a428ce438, type: 2}
+  - {fileID: 1246306815514906, guid: b96931908ef68994195cbcc715555342, type: 2}
+  - {fileID: 1508162097942690, guid: a8f29761f4e201741bbd67828aa34586, type: 2}
+  - {fileID: 1404473101418216, guid: 5169d7337f797484798cb25ecaff7144, type: 2}
+  walkSpeed: 2
+  scaleMin: 0.8
+  scaleMax: 1.2
+  spawnInterval: 8
+  walkTime: 13
+  isInteracting: 0
+  debug: 1

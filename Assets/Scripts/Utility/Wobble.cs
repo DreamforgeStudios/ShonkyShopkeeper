@@ -17,11 +17,18 @@ public class Wobble : MonoBehaviour {
 	float pulse;
 	float time = 0.5f;
 
-	public Material VialMaterial;
+	public GameObject vial, text;
+	private Material vialMaterial, fontMaterial;
 	private int upDirID, wobbleXID, wobbleZID;
+	public float WobbleMultiplierGyro, WobbleMultiplierPosition;
    
 	// Use this for initialization
 	void Start() {
+		// Accessing the material through the renderer at start is better because it will use the instanced material,
+		//  and so material values wont change for the sake of source control.
+		vialMaterial = vial.GetComponent<Renderer>().materials[0];
+		fontMaterial = text.GetComponent<Renderer>().materials[0];
+		
 		upDirID = Shader.PropertyToID("_UpDirection");
 		wobbleXID = Shader.PropertyToID("_WobbleX");
 		wobbleZID = Shader.PropertyToID("_WobbleZ");
@@ -39,17 +46,20 @@ public class Wobble : MonoBehaviour {
 		wobbleAmountZ = wobbleAmountToAddZ * Mathf.Sin(pulse * time);
  
 		// send it to the shader
-		VialMaterial.SetFloat(wobbleXID, wobbleAmountX);
-		VialMaterial.SetFloat(wobbleZID, wobbleAmountZ);
+		vialMaterial.SetFloat(wobbleXID, wobbleAmountX);
+		vialMaterial.SetFloat(wobbleZID, wobbleAmountZ);
+		// Send value to TMPro shader.
+		fontMaterial.SetFloat("_FaceUVSpeedX", (wobbleAmountX + wobbleAmountZ) * .2f + .5f);
  
 		// velocity
-		Vector3 newRot = VialMaterial.GetVector(upDirID);
-		velocity = (lastPos - transform.position) / Time.deltaTime;
-		angularVelocity = newRot - lastRot;//transform.rotation.eulerAngles - lastRot;
+		Vector3 newRot = Shader.GetGlobalVector(upDirID);
+		//Vector3 newRot = vialMaterial.GetVector(upDirID);
+		velocity = ((lastPos - transform.position) / Time.deltaTime) * WobbleMultiplierPosition;
+		angularVelocity = ((newRot - lastRot) / Time.deltaTime) * WobbleMultiplierGyro;
  
 		// add clamped velocity to wobble
-		wobbleAmountToAddX += Mathf.Clamp((velocity.x + angularVelocity.z * 0.2f) * MaxWobble, -MaxWobble, MaxWobble);
-		wobbleAmountToAddZ += Mathf.Clamp((velocity.z + angularVelocity.x * 0.2f) * MaxWobble, -MaxWobble, MaxWobble);
+		wobbleAmountToAddX += Mathf.Clamp((velocity.x + angularVelocity.x * 0.2f) * MaxWobble, -MaxWobble, MaxWobble);
+		wobbleAmountToAddZ += Mathf.Clamp((velocity.z + angularVelocity.z * 0.2f) * MaxWobble, -MaxWobble, MaxWobble);
  
 		// keep last position
 		lastPos = transform.position;

@@ -153,12 +153,40 @@ public class QualityBar : MonoBehaviour
 	// Take the current grade as final.
 	public Quality.QualityGrade Finish() {
 		Countdown.onTick -= SubtractFixed;
+		PlayRelevantQualitySFX(currentGrade);
 		return currentGrade;
 	}
 
 	public void Disappear() {
 		// TODO: spawn some effect...
 		this.gameObject.SetActive(false);
+		
+	}
+
+	public void PlayRelevantQualitySFX(Quality.QualityGrade grade)
+	{
+		Debug.Log("Playing grade sound " + grade);
+		switch (grade)
+		{
+			case Quality.QualityGrade.Junk:
+				SFX.Play("Game_Quality_Junk",1f,1f,0f,false,0f);
+				break;
+			case Quality.QualityGrade.Brittle:
+				SFX.Play("Game_Quality_Brittle",1f,1f,0f,false,0f);
+				break;
+			case Quality.QualityGrade.Passable:
+				SFX.Play("Game_Quality_Passable",1f,1f,0f,false,0f);
+				break;
+			case Quality.QualityGrade.Sturdy:
+				SFX.Play("Game_Quality_Sturdy",1f,1f,0f,false,0f);
+				break;
+			case Quality.QualityGrade.Magical:
+				SFX.Play("Game_Quality_Magical",1f,1f,0f,false,0f);
+				break;
+			case Quality.QualityGrade.Mystic:
+				SFX.Play("Game_Quality_Mystic",1f,1f,0f,false,0f);
+				break;
+		}
 	}
 
 	private void UpdateQualityBar(Ease ease = Ease.Unset, float easeTime = -1f) {
@@ -248,5 +276,11 @@ public class QualityBar : MonoBehaviour
         SFX.Play("Mini_Game_Quality_gain", 1f, 1f, 0f, false, 0f);
 
         return true;
+	}
+
+	//Needed due to SFX for Pierre in Polishing
+	public Quality.QualityGrade ReturnCurrentGrade()
+	{
+		return currentGrade;
 	}
 }

@@ -63,7 +63,7 @@ Material:
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 10
-    - _FillAmount: -0.3
+    - _FillAmount: -0.35
     - _GlossMapScale: 1
     - _Glossiness: 0
     - _GlossyReflections: 1
@@ -71,20 +71,20 @@ Material:
     - _Mode: 3
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _Rim: 0.0202
-    - _RimPower: 1.61
+    - _Rim: 0.012
+    - _RimPower: 1.39
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
-    - _WobbleX: -3.9228537e-11
-    - _WobbleZ: 0.0000000029293916
+    - _WobbleX: 0.047977958
+    - _WobbleZ: 5.3978017e-11
     - _ZWrite: 0
     m_Colors:
     - _Color: {r: 0, g: 1, b: 1, a: 0.83766234}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
     - _FoamColor: {r: 0.8345576, g: 0.9811321, b: 0.6247775, a: 1}
-    - _RimColor: {r: 0.7924528, g: 0.69528764, b: 0.25044498, a: 1}
+    - _RimColor: {r: 0.052591056, g: 0, b: 0.509434, a: 1}
     - _Tint: {r: 1, g: 1, b: 1, a: 0.5647059}
     - _TopColor: {r: 0.71271104, g: 0.9433962, b: 0.50284797, a: 1}
     - _UpDirection: {r: 0, g: 1, b: 0, a: 0}

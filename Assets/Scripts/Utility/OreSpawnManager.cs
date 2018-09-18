@@ -31,7 +31,7 @@ public class OreSpawnManager : MonoBehaviour {
 
 	public void Upgrade(bool success) {
 		if (success) {
-			var spawn = Instantiate(Brick, AfterPosition, Brick.transform.rotation, transform);
+			Instantiate(Brick, AfterPosition, Brick.transform.rotation, transform);
 
 			var a = Instantiate(SmokeParticleSystem, SmokePosition, Quaternion.identity, transform);
 			a.transform.localScale = new Vector3(ScaleOverrideSmoke, ScaleOverrideSmoke, ScaleOverrideSmoke);
@@ -41,6 +41,7 @@ public class OreSpawnManager : MonoBehaviour {
 
 			spawnedClone.SetActive(false);
 			SmeltingPot.SetActive(false);
+			Debug.Log("Was success" + success);
 		} else {
 			var a = Instantiate(SmokeParticleSystem, SmokePosition, Quaternion.identity, transform);
 			a.transform.localScale = new Vector3(ScaleOverrideSmoke, ScaleOverrideSmoke, ScaleOverrideSmoke);

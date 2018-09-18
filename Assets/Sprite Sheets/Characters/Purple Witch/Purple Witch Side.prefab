@@ -413,8 +413,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1844710281737434}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -38.433796, y: 61.607212, z: 0}
-  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
+  m_LocalPosition: {x: -99.076866, y: 13.7493725, z: -72.17708}
+  m_LocalScale: {x: -0.8, y: 0.8, z: 1}
   m_Children:
   - {fileID: 4632781199719616}
   - {fileID: 4642456574680712}
@@ -566,8 +566,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkDirection: 0
   walkSpeed: 1
-  WizardFront: {fileID: 1040995669444438, guid: 7a3682a29aefa214c93eb33b662ef64d,
-    type: 2}
+  WizardSprite: {fileID: 0}
   walkNormal: 1
 --- !u!212 &212064909624281724
 SpriteRenderer:

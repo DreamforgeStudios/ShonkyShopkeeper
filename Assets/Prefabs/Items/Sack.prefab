@@ -261,7 +261,7 @@ MonoBehaviour:
   _AutoSOCutOffDistance: 10
   _AutoSORayOriginOffset: 0
   _AutoSOMaxScaleMultiplier: 4
-  _AutoSORaycastLayer: 8
+  _AutoSORaycastLayer: 15
 --- !u!114 &114991195933726884
 MonoBehaviour:
   m_ObjectHideFlags: 1

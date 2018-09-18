@@ -161,6 +161,8 @@ public class Inventory : ScriptableObject {
             CheckTrueGolemInitialisation();
             Debug.Log("Adding new True Golem");
             unlockedTrueGolems.Add(golem);
+            AchievementManager.Get("true_golem_01");
+            AchievementManager.Increment("true_golem_02");
             Save();
             return true;
         }

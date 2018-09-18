@@ -11,14 +11,14 @@ public class ColorFlicker : MonoBehaviour {
 	public float Randomness;
 	public bool UseUnscaledTime;
 
-	private Light light;
+	private Light lightObj;
 
 	private float realFlickerDuration;
 	private Color activeColor, inactiveColor;
 	void Start () {
-		light = GetComponent<Light>();
+		lightObj = GetComponent<Light>();
 		
-		light.color = Color1;
+		lightObj.color = Color1;
 		activeColor = Color1;
 		inactiveColor = Color2;
 
@@ -29,7 +29,7 @@ public class ColorFlicker : MonoBehaviour {
 	void Update() {
 		lerpPoint += UseUnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime;
 		float lerpVal = Mathf.InverseLerp(0, FlickerDuration, lerpPoint);
-		light.color = Color.Lerp(activeColor, inactiveColor, lerpVal);
+		lightObj.color = Color.Lerp(activeColor, inactiveColor, lerpVal);
 
 		if (lerpPoint >= realFlickerDuration) {
 			realFlickerDuration = FlickerDuration + Random.Range(-Randomness, Randomness);

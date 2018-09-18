@@ -200,72 +200,97 @@ public class TutorialToolbox : MonoBehaviour {
     }
 
     // Switch tools, animations and all.
-    public void SwitchTool(Tool tool) {
+    public void SwitchTool(Tool tool)
+    {
         GameObject curToolObj = ToolToObject(currentTool),
-                   newToolObj = ToolToObject(tool);
-        
-        
-        if (!GameManager.Instance.TutorialIntroComplete)
-            ShowInfo(newToolObj);
-            
-        
-        Debug.Log(curToolObj.transform.position);
-        // Return old tool to bench.
-        switch (curToolObj.tag)
-        {
-            case "Forceps":
-                curToolObj.transform.DORotate(ForcepRot, 0.4f).SetEase(Ease.InOutSine);//.OnComplete(() =>
-                curToolObj.transform.DOMove(ForcepPos, 0.4f).SetEase(Ease.InOutSine);
-                curToolObj.GetComponent<ToolFloat>().EndFloat();
-                break;
-            case "Wand":
-                curToolObj.transform.DORotate(WandRot, 0.5f).SetEase(Ease.InOutSine);//.OnComplete(() =>
-                curToolObj.transform.DOMove(WandPos, 1f).SetEase(Ease.InOutSine);
-                curToolObj.GetComponent<ToolFloat>().EndFloat();
-                break;
-            case "Magnifyer":
-                curToolObj.transform.DORotate(InspectRot, 0.5f).SetEase(Ease.InOutSine);//.OnComplete(() =>
-                curToolObj.transform.DOMove(halfwayInspectPos , 0.1f).SetEase(Ease.InOutSine).OnComplete(() => 
-                curToolObj.transform.DOMove(InspectPos, 0.1f).SetEase(Ease.InOutSine));
-                curToolObj.GetComponent<ToolFloat>().EndFloat();
-                break;
-        }
-        
-        //Raise new tool to position
-        switch (newToolObj.tag)
-        {
-            case "Forceps":
-                newToolObj.transform.DORotate(desiredForcepRot, 0.9f).SetEase(Ease.InOutSine);//.OnComplete(() =>
-                newToolObj.transform.DOMove(desiredForcepPos, 1f).SetEase(Ease.InOutSine).OnComplete(() =>
-                    newToolObj.GetComponent<ToolFloat>().StartFloat());
-                break;
-            case "Wand":
-                newToolObj.transform.DORotate(desiredWandRot, 0.5f).SetEase(Ease.InOutSine);//.OnComplete(() =>
-                newToolObj.transform.DOMove(desiredWandPos, 1f).SetEase(Ease.InOutSine).OnComplete(() =>
-                    newToolObj.GetComponent<ToolFloat>().StartFloat());
-                break;
-            case "Magnifyer":
-                newToolObj.transform.DORotate(desiredInspectRot, 1.1f).SetEase(Ease.InOutSine);//.OnComplete(() =>
-                newToolObj.transform.DOMove(halfwayInspectPos , 0.5f).SetEase(Ease.InOutSine).OnComplete(() => 
-                    newToolObj.transform.DOMove(desiredInspectPos, 0.5f).SetEase(Ease.InOutSine).OnComplete(() =>
-                    newToolObj.GetComponent<ToolFloat>().StartFloat()));
-                break;
-        }
-        
-        //curToolObj.transform.DOScale(1f, 0.7f).SetEase(Ease.InElastic);
-        //newToolObj.transform.DOScale(2f, 0.7f).SetEase(Ease.InElastic);
-        if (curToolObj != emptyTool)
-            curToolObj.GetComponent<Outline>().OutlineWidth = 0;
-        if (newToolObj != emptyTool)
-        newToolObj.GetComponent<Outline>().OutlineWidth = selectedOutlineThickness;
+            newToolObj = ToolToObject(tool);
 
-        // Finally actually swap tools.
-        currentTool = tool;
+        if (canSelect && curToolObj != newToolObj)
+        {
+            if (!GameManager.Instance.TutorialIntroComplete)
+                ShowInfo(newToolObj);
 
-        // Hide the inspector, kinda annoying.
-        HideInspector();
+
+            Sequence newTool = DOTween.Sequence();
+            Sequence oldTool = DOTween.Sequence();
+            // Return old tool to bench.
+            canSelect = false;
+            switch (curToolObj.tag)
+            {
+                case "Forceps":
+                    oldTool.Append(curToolObj.transform.DORotate(ForcepRot, 0.2f).SetEase(Ease.InOutSine));
+                    oldTool.Join(curToolObj.transform.DOMove(ForcepPos, 0.2f).SetEase(Ease.InOutSine)
+                        .OnComplete(() => canSelect = true));
+                    curToolObj.GetComponent<ToolFloat>().EndFloat();
+                    oldTool.Play();
+                    break;
+                case "Wand":
+                    oldTool.Append(curToolObj.transform.DORotate(WandRot, 0.2f).SetEase(Ease.InOutSine));
+                    oldTool.Join(curToolObj.transform.DOMove(WandPos, 0.2f).SetEase(Ease.InOutSine).OnComplete(() =>
+                        canSelect = true));
+                    curToolObj.GetComponent<ToolFloat>().EndFloat();
+                    oldTool.Play();
+                    break;
+                case "Magnifyer":
+                    oldTool.Append(curToolObj.transform.DORotate(InspectRot, 0.2f).SetEase(Ease.InOutSine));
+                    oldTool.Join(curToolObj.transform.DOMove(halfwayInspectPos, 0.1f).SetEase(Ease.InOutSine)
+                        .OnComplete(() =>
+                            curToolObj.transform.DOMove(InspectPos, 0.1f).SetEase(Ease.InOutSine)
+                                .OnComplete(() => canSelect = true)));
+                    curToolObj.GetComponent<ToolFloat>().EndFloat();
+                    oldTool.Play();
+                    break;
+            }
+
+            //Raise new tool to position
+            switch (newToolObj.tag)
+            {
+                case "Forceps":
+                    //SFX.Play("sound");
+                    SFX.Play("cursor_select");
+                    newTool.Append(newToolObj.transform.DORotate(desiredForcepRot, 0.2f).SetEase(Ease.InOutSine));
+                    newTool.Join(newToolObj.transform.DOMove(desiredForcepPos, 0.2f).SetEase(Ease.InOutSine).OnComplete(
+                        () =>
+                            canSelect = true).OnComplete(() => newToolObj.GetComponent<ToolFloat>().StartFloat()));
+                    newTool.Play();
+                    break;
+                case "Wand":
+                    //SFX.Play("sound");
+                    SFX.Play("Wand_select", 1f, 1f, 0f, false, 0f);
+                    newTool.Append(newToolObj.transform.DORotate(desiredWandRot, 0.2f).SetEase(Ease.InOutSine));
+                    newTool.Join(newToolObj.transform.DOMove(desiredWandPos, 0.2f).SetEase(Ease.InOutSine).OnComplete(() => 
+                        canSelect = true).OnComplete(() => newToolObj.GetComponent<ToolFloat>().StartFloat()));                
+                    newTool.Play();
+                    break;
+                case "Magnifyer":
+                    //SFX.Play("sound");
+                    SFX.Play("Magnifier_Select", 1f, 1f, 0f, false, 0f);
+                    newTool.Append(newToolObj.transform.DORotate(desiredInspectRot,0.2f).SetEase(Ease.InOutSine));
+                    newTool.Join(newToolObj.transform.DOMove(halfwayInspectPos, 0.1f).SetEase(Ease.InOutSine)
+                        .OnComplete(() =>
+                            newToolObj.transform.DOMove(desiredInspectPos, 0.1f).SetEase(Ease.InOutSine).OnComplete(
+                                    () =>
+                                        canSelect = true)
+                                .OnComplete(() => newToolObj.GetComponent<ToolFloat>().StartFloat())));
+                    newTool.Play();        
+                    break;
+            }
+
+            //curToolObj.transform.DOScale(1f, 0.7f).SetEase(Ease.InElastic);
+            //newToolObj.transform.DOScale(2f, 0.7f).SetEase(Ease.InElastic);
+            if (curToolObj != emptyTool)
+                curToolObj.GetComponent<Outline>().OutlineWidth = 0;
+            if (newToolObj != emptyTool)
+                newToolObj.GetComponent<Outline>().OutlineWidth = selectedOutlineThickness;
+
+            // Finally actually swap tools.
+            currentTool = tool;
+
+            // Hide the inspector, kinda annoying.
+            HideInspector();
+        }
     }
-    
+
     private void ShowInfo(GameObject tool)
     {
         if (!GameManager.Instance.InspectedItems.Contains(tool.name) && tool.name != "NoneTool")

@@ -99,7 +99,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4758615965079828}
-  - component: {fileID: 114952868321462238}
   - component: {fileID: 65565281205116620}
   - component: {fileID: 212155052844885438}
   m_Layer: 0
@@ -372,21 +371,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &114952868321462238
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1130878422398642}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e007f6f4578bcf40a07408acf392993, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  walkDirection: 0
-  walkSpeed: 0
-  WizardFront: {fileID: 1130878422398642}
-  walkNormal: 1
 --- !u!212 &212019763796920622
 SpriteRenderer:
   m_ObjectHideFlags: 1

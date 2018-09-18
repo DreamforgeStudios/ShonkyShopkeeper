@@ -45,9 +45,8 @@ public class MapTutorial : MonoBehaviour
 			CheckForTutProgressChecker();
 		else
 		{
-			//HideCanvas();
 			CanMoveCamera = true;
-			//Destroy(this.gameObject);
+			Destroy(this.gameObject);
 		}
 	}
 
@@ -94,24 +93,28 @@ public class MapTutorial : MonoBehaviour
 	
 	private void Update()
 	{
-		if (clone.closed && !CanMoveCamera)
-		{
-			CanMoveCamera = true;
-			StartSphereParticles();
+		
+		if (!CanMoveCamera && clone.closed)
+		{			
+			PopupTextManager.onClose += StartSphereParticles();
 		}
 	}
 
 	public void ClickedSphere()
 	{
+		CanMoveCamera = true;
 		StopSphereParticle();
 		clickedOrb = true;
 		StartDialogue(map);
 	}
 	
-	private void StartSphereParticles()
+	private PopupTextManager.OnClose StartSphereParticles()
 	{
+		Debug.Log("starting sphere particles");
+		CanMoveCamera = true;
 		particleChild = Instantiate(particles, sphere.transform.position, sphere.transform.rotation);
 		particleChild.transform.parent = sphere.transform;
+		return () => { PopupTextManager.onClose -= StartSphereParticles(); };
 	}
 	
 	private void StopSphereParticle()
