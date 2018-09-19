@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class InputTrail : MonoBehaviour {
 	private TrailRenderer trailRenderer;
-	private bool follow = false;
+	private ParticleSystem particleSystem;
 
 	void Start() {
 		trailRenderer = GetComponent<TrailRenderer>();
+		particleSystem = GetComponent<ParticleSystem>();
 	}
 	
 	// Update is called once per frame
@@ -25,24 +26,36 @@ public class InputTrail : MonoBehaviour {
 		Touch touch = Input.GetTouch(0);
 		if (touch.phase == TouchPhase.Began) {
 			trailRenderer.emitting = false;
+			var e = particleSystem.emission;
+			e.enabled = false;
 			transform.position = Utility.ConvertToWorldPoint(touch.position);
 		} else if (touch.phase == TouchPhase.Moved) {
 			trailRenderer.emitting = true;
+			var e = particleSystem.emission;
+			e.enabled = true;
 			transform.position = Utility.ConvertToWorldPoint(touch.position);
 		} else if (touch.phase == TouchPhase.Ended) {
 			trailRenderer.emitting = false;
+			var e = particleSystem.emission;
+			e.enabled = false;
 		}
 	}
 
 	private void ProcessMouse() {
 		if (Input.GetMouseButtonDown(0)) {
 			trailRenderer.emitting = false;
+			var e = particleSystem.emission;
+			e.enabled = false;
 			transform.position = Utility.ConvertToWorldPoint(Input.mousePosition);
 		} else if (Input.GetMouseButton(0)) {
 			trailRenderer.emitting = true;
+			var e = particleSystem.emission;
+			e.enabled = true;
 			transform.position = Utility.ConvertToWorldPoint(Input.mousePosition);
 		} else if (Input.GetMouseButtonUp(0)) {
 			trailRenderer.emitting = false;
+			var e = particleSystem.emission;
+			e.enabled = false;
 		}
 	}
 }
