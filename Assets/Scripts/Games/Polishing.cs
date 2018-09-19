@@ -116,7 +116,7 @@ public class Polishing : MonoBehaviour {
     {
         // Integrating this is a bit annoying, and probably not very efficient.
         Quality.QualityGrade grade = Quality.CalculateGradeFromPoints(pointsManager.GetPoints());
-        Debug.Log("grade is " + grade);
+        //Debug.Log("grade is " + grade);
         if (grade == Quality.QualityGrade.Junk || grade == Quality.QualityGrade.Brittle)
         {
             if (!pulse1)
