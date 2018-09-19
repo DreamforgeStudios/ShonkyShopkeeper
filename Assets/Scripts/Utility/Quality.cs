@@ -158,7 +158,7 @@ public static class Quality {
 	
 	// Calculates a quality grade given number of points.
 	public static QualityGrade CalculateGradeFromPoints(float points) {
-		for (int i = pointValues.Length-1; i > 0; i--) {
+		for (int i = pointValues.Length-2; i > 0; i--) {
 			if (points >= pointValues[i]) {
 				return (QualityGrade) i;
 			}
