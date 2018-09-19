@@ -550,7 +550,7 @@ public class GolemPickup : MonoBehaviour {
             }
             if (GameManager.Instance.TimerComplete && !textboxShowing)
             {
-                tutManager.StartDialogue(tutManager.retrieveGolem, tutManager.retrieveGolem, tutManager.mineTarget, false);
+                tutManager.StartDialogue(tutManager.retrieveGolem, tutManager.retrieveGolemInstruction, tutManager.mineTarget, false);
                 GameManager.Instance.HasMinePouch = true;
                 GameManager.Instance.TimerComplete = false;
                 textboxShowing = true;

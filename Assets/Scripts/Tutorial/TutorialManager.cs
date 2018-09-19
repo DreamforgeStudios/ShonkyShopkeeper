@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using TMPro;
+using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -30,8 +31,11 @@ public class TutorialManager : MonoBehaviour
 	public List<string> wand;
 	public List<string> wandInstruction;
 	public List<string> introduceGolem;
+	public List<string> introduceGolemInstruction;
 	public List<string> pickUpGolem;
+	public List<string> golemMineInstruction;
 	public List<string> retrieveGolem;
+	public List<string> retrieveGolemInstruction;
 	public List<string> tapPouch;
 	public List<string> openPouch;
 	public List<string> tutorialFinish;
@@ -51,7 +55,7 @@ public class TutorialManager : MonoBehaviour
 	public GameObject particles;
 	//public GameObject binParticles;
 	private GameObject particleChild;
-	private bool InspectedItem = false;
+	private bool InspectedItem, inspectedMagnifyer, inspectedWand = false;
 
 	//For text
 	public GameObject speechBubblePrefab;
@@ -125,7 +129,6 @@ public class TutorialManager : MonoBehaviour
 		} else if (!GameManager.Instance.TutorialIntroComplete && ItemsToInspect.Contains(currentToolToInspect) && clone.Instruction)
 		{
 			//List is Forceps, ResourceBin, Magnifying Glass & Wand
-			Debug.Log("Current tool to inspect is" + currentToolToInspect.gameObject.name);
 			string toolString = currentToolToInspect.gameObject.name;
 			switch (toolString)
 			{
@@ -148,11 +151,11 @@ public class TutorialManager : MonoBehaviour
 					toolbox.canSelect = true;
 					break;
 				case "Wand":
-					if (!physicalInv.createdParticles)
+					if (!InspectedItem)
 					{
-						InstructionBubble.onInstruction += physicalInv.HighlightOreAndGem();
-						InstructionBubble.onInstruction += InspectItem(currentToolToInspect);
-						
+						particleChild = Instantiate(particles, currentToolToInspect.transform.position, currentToolToInspect.transform.rotation);
+						particleChild.transform.parent = currentToolToInspect.transform;
+						InspectedItem = true;
 					}
 					toolbox.canSelect = true;
 					break;
@@ -171,10 +174,20 @@ public class TutorialManager : MonoBehaviour
 		{
 			InstructionBubble.onInstruction += () => toolbox.canSelect = true;
 			InstructionBubble.onInstruction -= () => toolbox.canSelect = true;
-			if (ItemsToInspect[0].gameObject.name == "Magnifying Glass")
+			if (!InspectedAllItems())
 			{
-				InstructionBubble.onInstruction += () => currentToolToInspect = ItemsToInspect[0];
-				InstructionBubble.onInstruction -= () => currentToolToInspect = ItemsToInspect[0];
+				Debug.Log("inspected all items " + InspectedAllItems());
+				if (ItemsToInspect[0].gameObject.name == "Magnifying Glass" && !inspectedMagnifyer)
+				{
+					currentToolToInspect = ItemsToInspect[0];
+					inspectedMagnifyer = true;
+				}
+
+				if (ItemsToInspect[0].gameObject.name == "Wand" && !inspectedWand)
+				{
+					currentToolToInspect = ItemsToInspect[0];
+					inspectedWand = true;
+				}
 			}
 		} 
 		else
@@ -196,7 +209,7 @@ public class TutorialManager : MonoBehaviour
 	//Self explanatory
 	public InstructionBubble.Instruct EnableCameraTap(bool button, bool glow)
 	{
-		Debug.Log("enabling camera");
+		//Debug.Log("enabling camera");
 		cameraButton.enabled = button;
 		cameraButton.gameObject.SetActive(button);
 		cameraHighlight.gameObject.SetActive(glow);
@@ -205,7 +218,7 @@ public class TutorialManager : MonoBehaviour
 
 	public void IntroduceGolem()
 	{
-		StartDialogue(introduceGolem, introduceGolem, mineTarget, false);
+		StartDialogue(introduceGolem, introduceGolemInstruction, mineTarget, false);
 		GameManager.Instance.SendToMine = true;
 	}
 
@@ -220,6 +233,12 @@ public class TutorialManager : MonoBehaviour
 		physicalInv.DestroyParticlesOnItems();
 		InspectItem(currentToolToInspect);
 	}
+
+	public void FinishWandUse()
+	{
+		InspectItem(currentToolToInspect);
+		GameManager.Instance.HasInspectedAllInventoryItems = true;
+	}
 	
 	private void CheckForCamera()
 	{
@@ -228,7 +247,7 @@ public class TutorialManager : MonoBehaviour
 			cameraButton.gameObject.SetActive(false);
 			if (GameManager.Instance.SendToMine)
 			{
-				StartDialogue(pickUpGolem, pickUpGolem, mineTarget, false);
+				StartDialogue(pickUpGolem, golemMineInstruction, mineTarget, false);
 				GameManager.Instance.SendToMine = false;
 			}
 		}
@@ -357,11 +376,11 @@ public class TutorialManager : MonoBehaviour
 					break;
 				case "Magnifyer":
 					//StartParticles(ItemsToInspect[0]);
-					currentToolToInspect = ItemsToInspect[0];
 					StartDialogue(wand, wandInstruction, ItemsToInspect[0], false);
 					break;
 				case "Wand":
 					physicalInv.HighlightOreAndGem();
+					toolbox.canSelect = true;
 					break;
 			}
 		}

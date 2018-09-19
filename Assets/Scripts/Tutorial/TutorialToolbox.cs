@@ -116,6 +116,7 @@ public class TutorialToolbox : MonoBehaviour {
 
     private void ProcessMouse() {
         if (Input.GetMouseButtonDown(0)) {
+            Debug.Log("CanSelect is " + canSelect);
             if (GameManager.Instance.TutorialIntroTopComplete && canSelect)
                 Cast();
                 //tutorialManager.HideCanvas();
@@ -152,7 +153,7 @@ public class TutorialToolbox : MonoBehaviour {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         previousRay = ray;
 
-        //Debug.Log("casting...");
+        Debug.Log("casting...");
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask)) {
             if (hit.transform.CompareTag("Forceps") || hit.transform.CompareTag("Wand") ||
                 hit.transform.CompareTag("Magnifyer"))
@@ -529,6 +530,9 @@ public class TutorialToolbox : MonoBehaviour {
         Item item;
         ItemInstance instance;
         // Minigame detection.
+        if (!GameManager.Instance.TutorialIntroComplete)
+            tutorialManager.FinishWandUse();
+        
         if (currentSelection == null && slot.GetItemInstance(out instance) && slot.GetItem(out item) &&
             tutorialManager.InspectedAllItems()) {
             PlayWandParticles(slot);
@@ -559,9 +563,11 @@ public class TutorialToolbox : MonoBehaviour {
                     break;
                 case "ChargedJewel":
                     MoveUp(slot);
+                    tutorialManager.NextInstruction();
                     break;
                 case "Shell":
                     MoveUp(slot);
+                    tutorialManager.NextInstruction();
                     break;
             }
         } else if (currentSelection != null && currentSelection != slot) {
@@ -574,6 +580,7 @@ public class TutorialToolbox : MonoBehaviour {
                     
                     // Check for a free slot.
                     if (ShonkyInventory.Instance.FreeSlot()) {
+                        tutorialManager.HideExposition();
                         golemCombiner.GolemAnimationSequence(currentSelection, item1, slot, item2);
                     } else {
                         GameObject itemObj;
