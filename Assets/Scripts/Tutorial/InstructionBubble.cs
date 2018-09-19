@@ -11,7 +11,7 @@ public class InstructionBubble : MonoBehaviour
 	public LayerMask LayerMask;
 	public RectTransform canvasRectTransform;
 	public TextMeshProUGUI expositionTextBox, instructionTextBox;
-	public bool Instruction, canvasElement = true;
+	public bool Instruction, canvasElement;
 
 	public int activePage;
 	public List<string> informationTextToDisplay, instructionText;
@@ -81,25 +81,13 @@ public class InstructionBubble : MonoBehaviour
 		activePage = 0;
 		canvasElement = CanvasElement;
 		targetObj = itemToTarget;
-		//if (informationTextToDisplay.Count > 1)
-		//{
-			expositionTextBox.text = informationTextToDisplay[activePage];
-			UpdateCloser();
-			Debug.Log("Setting exposition to active");
-			ExpositionBubbleObj.SetActive(true);
-			InstructionBubbleObj.SetActive(false);
-			Instruction = false;
-		//}
-			/*
-		else
-		{
-			//Dirty way right now to handle single item lists
-			//activePage--;
-			//ShowInstructionBubbleNextTo();
-			expositionTextBox.text = informationTextToDisplay[activePage];
 
-		}
-		*/
+		expositionTextBox.text = informationTextToDisplay[activePage];
+		UpdateCloser();
+		Debug.Log("Setting exposition to active");
+		ExpositionBubbleObj.SetActive(true);
+		InstructionBubbleObj.SetActive(false);
+		Instruction = false;
 	}
 
 	public void SetText(List<string> expositionText, List<string> instructionText)
@@ -121,25 +109,27 @@ public class InstructionBubble : MonoBehaviour
 		Instruction = true;
 		instructionTextBox.text = instructionText[activePage];
 		Vector2 pos = new Vector2(0f,0f);
-		
+
 		//Need to manage canvas vs normal gameObjects
-		if (canvasElement)
+		if (targetObj != null)
 		{
-			pos = targetObj.transform.position;
-			Debug.Log("pos = " + pos);
-			pos = ModifyPosition(pos);
-			
-		}
-		else
-		{
-			pos = Camera.main.WorldToScreenPoint(targetObj.transform.position);
-			Debug.Log("pos = " + pos);
-			pos = ModifyPosition(pos);
-			
+			if (canvasElement)
+			{
+				pos = targetObj.transform.position;
+				Debug.Log("pos = " + pos);
+				pos = ModifyPosition(pos);
+			}
+			else
+			{
+				pos = Camera.main.WorldToScreenPoint(targetObj.transform.position);
+				Debug.Log("pos = " + pos);
+				pos = ModifyPosition(pos);
+			}
+			InstructionBubbleObj.transform.position = pos;
 		}
 
 		//InstructionBubbleObj.GetComponent<RectTransform>().anchoredPosition = pos;
-		InstructionBubbleObj.transform.position = pos;
+		
 		InstructionBubbleObj.SetActive(true);
 		ExpositionBubbleObj.SetActive(false);
 		OnInstruct();

@@ -245,12 +245,22 @@ Prefab:
     - target: {fileID: 114374969198963020, guid: 25dd6878305a78d42bb9578ec9c719c1,
         type: 2}
       propertyPath: map.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114374969198963020, guid: 25dd6878305a78d42bb9578ec9c719c1,
         type: 2}
       propertyPath: intro.Array.size
-      value: 5
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114374969198963020, guid: 25dd6878305a78d42bb9578ec9c719c1,
+        type: 2}
+      propertyPath: mapInstructions.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114374969198963020, guid: 25dd6878305a78d42bb9578ec9c719c1,
+        type: 2}
+      propertyPath: introInstructions.Array.size
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4209101326236268, guid: 25dd6878305a78d42bb9578ec9c719c1, type: 2}
       propertyPath: m_LocalPosition.x
@@ -348,7 +358,7 @@ Prefab:
     - target: {fileID: 114374969198963020, guid: 25dd6878305a78d42bb9578ec9c719c1,
         type: 2}
       propertyPath: intro.Array.data[4]
-      value: Check out that Travelling Orb on the pedestal
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 114374969198963020, guid: 25dd6878305a78d42bb9578ec9c719c1,
         type: 2}
@@ -358,8 +368,39 @@ Prefab:
     - target: {fileID: 114374969198963020, guid: 25dd6878305a78d42bb9578ec9c719c1,
         type: 2}
       propertyPath: map.Array.data[1]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 114374969198963020, guid: 25dd6878305a78d42bb9578ec9c719c1,
+        type: 2}
+      propertyPath: introInstructions.Array.data[0]
+      value: Click to move closer to the orb
+      objectReference: {fileID: 0}
+    - target: {fileID: 114374969198963020, guid: 25dd6878305a78d42bb9578ec9c719c1,
+        type: 2}
+      propertyPath: introInstructions.Array.data[1]
+      value: Click on the Travelling Orb on the pedestal to view possible destinations
+      objectReference: {fileID: 0}
+    - target: {fileID: 114374969198963020, guid: 25dd6878305a78d42bb9578ec9c719c1,
+        type: 2}
+      propertyPath: mapInstructions.Array.data[0]
       value: "Choose where you would like to begin your enterprise\u2026"
       objectReference: {fileID: 0}
+    - target: {fileID: 114374969198963020, guid: 25dd6878305a78d42bb9578ec9c719c1,
+        type: 2}
+      propertyPath: mainCanvas
+      value: 
+      objectReference: {fileID: 1669225272}
+    - target: {fileID: 114374969198963020, guid: 25dd6878305a78d42bb9578ec9c719c1,
+        type: 2}
+      propertyPath: speechBubblePrefab
+      value: 
+      objectReference: {fileID: 1241711494845722, guid: 8f4b6c5f2b103b643bef178f9dac29a3,
+        type: 2}
+    - target: {fileID: 114374969198963020, guid: 25dd6878305a78d42bb9578ec9c719c1,
+        type: 2}
+      propertyPath: introTarget
+      value: 
+      objectReference: {fileID: 806330447}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 25dd6878305a78d42bb9578ec9c719c1, type: 2}
   m_IsPrefabAsset: 0
@@ -2401,6 +2442,39 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1027047086}
   m_CullTransparentMesh: 0
+--- !u!1 &1072370059
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1072370060}
+  m_Layer: 5
+  m_Name: ExpositionPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1072370060
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1072370059}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1669225273}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!4 &1105113085 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400016, guid: bcbb7639f54f53647b657d9ceda7d411,
@@ -3791,6 +3865,7 @@ RectTransform:
   - {fileID: 35472231}
   - {fileID: 326454299}
   - {fileID: 1284004421}
+  - {fileID: 1072370060}
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
