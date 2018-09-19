@@ -94,6 +94,8 @@ public class InstructionBubble : MonoBehaviour
 		ExpositionBubbleObj.SetActive(true);
 		InstructionBubbleObj.SetActive(false);
 		Instruction = false;
+		nextButton.onClick.AddListener(NextText);
+		exitButton.onClick.AddListener(delegate { ShowInstructionBubbleNextTo(instructionText); });
 		
 		UpdateCloser();
 	}
@@ -102,12 +104,14 @@ public class InstructionBubble : MonoBehaviour
 	{
 		informationTextToDisplay = expositionText;
 		this.instructionText = instructionText;
+		Debug.Log(instructionText.Count + " is instruction length");
+		
 	}
 
-	public void ShowInstructionBubbleNextTo()
+	public void ShowInstructionBubbleNextTo(List<string> instructions)
 	{
 		Debug.Log("Showing instruction bubble and canvasElement is " + canvasElement);
-		if (instructionText == null)
+		if (instructions == null)
 		{
 			HideBubble();
 			return;
@@ -115,7 +119,8 @@ public class InstructionBubble : MonoBehaviour
 		
 		activePage = 0;
 		Instruction = true;
-		instructionTextBox.text = instructionText[activePage];
+		Debug.Log(instructions.Count + " is instruction length");
+		instructionTextBox.text = instructions[activePage];
 		Vector2 pos = new Vector2(0f,0f);
 		RectTransform rectTransform = InstructionBubbleObj.GetComponent<RectTransform>();
 
@@ -207,7 +212,10 @@ public class InstructionBubble : MonoBehaviour
 
 	public void MoveInstructionScroll()
 	{
-		InstructionBubbleObj.transform.DOMove(instructionSecondPos, 2f, false);
+		RectTransform rectTransform = InstructionBubbleObj.GetComponent<RectTransform>();
+		Vector2 pos = new Vector3(0.85f, 0.75f);
+		pos = Camera.main.ViewportToScreenPoint(pos);
+		InstructionBubbleObj.transform.DOMove(pos, 2f, false);
 	}
 	
 	// Update the closer so that if we're on the last page it can be closed.
