@@ -91,6 +91,12 @@ public class TutorialManager : MonoBehaviour
 
 		if (!GameManager.Instance.InTutorial)
 			travelButton.gameObject.SetActive(true);
+
+		if (travelButton.gameObject.activeSelf && clone != null)
+		{
+			if (clone.Instruction)
+				HideExposition();
+		}
 	}
 
 	public void StartDialogue(List<string> dialogue, List<string> instruction, GameObject target, bool canvasElement)
@@ -176,7 +182,7 @@ public class TutorialManager : MonoBehaviour
 			InstructionBubble.onInstruction -= () => toolbox.canSelect = true;
 			if (!InspectedAllItems())
 			{
-				Debug.Log("inspected all items " + InspectedAllItems());
+				//Debug.Log("inspected all items " + InspectedAllItems());
 				if (ItemsToInspect[0].gameObject.name == "Magnifying Glass" && !inspectedMagnifyer)
 				{
 					currentToolToInspect = ItemsToInspect[0];
@@ -218,7 +224,7 @@ public class TutorialManager : MonoBehaviour
 
 	public void IntroduceGolem()
 	{
-		StartDialogue(introduceGolem, introduceGolemInstruction, mineTarget, false);
+		StartDialogue(introduceGolem, introduceGolemInstruction, mineTarget, true);
 		GameManager.Instance.SendToMine = true;
 	}
 
@@ -247,7 +253,7 @@ public class TutorialManager : MonoBehaviour
 			cameraButton.gameObject.SetActive(false);
 			if (GameManager.Instance.SendToMine)
 			{
-				StartDialogue(pickUpGolem, golemMineInstruction, mineTarget, false);
+				StartDialogue(pickUpGolem, golemMineInstruction, mineTarget, true);
 				GameManager.Instance.SendToMine = false;
 			}
 		}
@@ -261,7 +267,7 @@ public class TutorialManager : MonoBehaviour
 	public void PouchText()
 	{
 		cameraButton.gameObject.SetActive(true);
-		StartDialogue(openPouch, openPouch, ItemsInspected[2], false);
+		StartDialogue(openPouch, null, mineTarget, true);
 		GameManager.Instance.OpenPouch = false;
 	}
 
@@ -400,6 +406,11 @@ public class TutorialManager : MonoBehaviour
 	{
 		Debug.Log("Hiding Exposition");
 		clone.DestroyItem();
+	}
+
+	public void StartFinalComponentParticles()
+	{
+		physicalInv.HighlightShellAndChargedJewel();
 	}
 
 	public void StartItemParticles()

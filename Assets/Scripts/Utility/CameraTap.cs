@@ -58,7 +58,8 @@ public class CameraTap : MonoBehaviour {
         if (GameManager.Instance.MineGoleminteractGolem && !topScreen)
         {
             GameManager.Instance.OpenPouch = true;
-            tutManager.PouchText();
+            tutManager.NextInstruction();
+            //tutManager.PouchText();
             
         }
             

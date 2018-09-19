@@ -75,6 +75,8 @@ public class GolemPickup : MonoBehaviour {
             if (GameManager.Instance.InTutorial)
             {
                 GameManager.Instance.WaitingForTimer = true;
+                if (!GameManager.Instance.SendToMine)
+                    tutManager.NextInstruction();
             }
             SFX.Play("Portal_Suck",1f,1f,0f,false,0f);
             int index = GetGolemSlot();
@@ -238,7 +240,7 @@ public class GolemPickup : MonoBehaviour {
                             {
                                 if (GameManager.Instance.ReturnPouch)
                                 {
-                                    //tutManager.StartDialogue(tutManager.tapPouch);
+                                    tutManager.NextInstruction();
                                     GameManager.Instance.ReturnPouch = false;
                                     GameManager.Instance.MineGoleminteractGolem = true;
                                     //GameManager.Instance.OpenPouch = true;
@@ -318,7 +320,8 @@ public class GolemPickup : MonoBehaviour {
         {
             if (GameManager.Instance.HasMinePouch)
             {
-                tutManager.StartDialogue(tutManager.tapPouch, tutManager.tapPouch, tutManager.mineTarget, false);
+                tutManager.HideExposition();
+                tutManager.StartDialogue(tutManager.tapPouch, tutManager.openPouch, tutManager.mineTarget, true);
                 GameManager.Instance.ReturnPouch = true;
             }
         }
@@ -550,7 +553,8 @@ public class GolemPickup : MonoBehaviour {
             }
             if (GameManager.Instance.TimerComplete && !textboxShowing)
             {
-                tutManager.StartDialogue(tutManager.retrieveGolem, tutManager.retrieveGolemInstruction, tutManager.mineTarget, false);
+                tutManager.HideExposition();
+                tutManager.StartDialogue(tutManager.retrieveGolem, tutManager.retrieveGolemInstruction, tutManager.mineTarget, true);
                 GameManager.Instance.HasMinePouch = true;
                 GameManager.Instance.TimerComplete = false;
                 textboxShowing = true;

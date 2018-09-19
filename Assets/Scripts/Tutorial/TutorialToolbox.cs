@@ -673,6 +673,9 @@ public class TutorialToolbox : MonoBehaviour {
               oreChance = 1.00f;
         int numberItems = UnityEngine.Random.Range(6, 12);
         SFX.Play("Res_pouch_open", 1f, 1f, 0f, false, 0f);
+        
+        if (GameManager.Instance.OpenPouch)
+            tutorialManager.PouchText();
 
         //SFX.Play("sound");
         var drops = new List<ItemInstance>();

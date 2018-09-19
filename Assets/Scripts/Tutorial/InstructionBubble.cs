@@ -111,6 +111,12 @@ public class InstructionBubble : MonoBehaviour
 	public void ShowInstructionBubbleNextTo()
 	{
 		Debug.Log("Showing instruction bubble and canvasElement is " + canvasElement);
+		if (instructionText == null)
+		{
+			HideBubble();
+			return;
+		}
+		
 		activePage = 0;
 		Instruction = true;
 		instructionTextBox.text = instructionText[activePage];
@@ -126,13 +132,13 @@ public class InstructionBubble : MonoBehaviour
 		}
 		else
 		{
-			pos = Camera.main.WorldToViewportPoint(targetObj.transform.position);
+			pos = Camera.main.WorldToScreenPoint(targetObj.transform.position);
 			Debug.Log("pos = " + pos);
 			pos = ModifyPosition(pos);
 			
 		}
 
-		InstructionBubbleObj.GetComponent<RectTransform>().anchoredPosition = pos;
+		//InstructionBubbleObj.GetComponent<RectTransform>().anchoredPosition = pos;
 		InstructionBubbleObj.transform.position = pos;
 		InstructionBubbleObj.SetActive(true);
 		ExpositionBubbleObj.SetActive(false);
@@ -176,7 +182,7 @@ public class InstructionBubble : MonoBehaviour
 		if (pos.x >= 230f)
 			pos.x -= 160f;
 		else
-			pos.x += 160f;
+			pos.x += 200f;
 
 		if (pos.y <= 150f)
 			pos.y += 100f;

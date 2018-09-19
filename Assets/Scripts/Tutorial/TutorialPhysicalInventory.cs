@@ -120,6 +120,7 @@ public class TutorialPhysicalInventory : MonoBehaviour {
 						{
 							particleChild = Instantiate(particles, obj.transform.position, obj.transform.rotation);
 							particleChild.transform.parent = obj.transform;
+							particleChild.transform.localScale = new Vector3(1f, 1f, 1f);
 							particlesOnItems.Add(particleChild);
 						}
 					}
@@ -159,6 +160,7 @@ public class TutorialPhysicalInventory : MonoBehaviour {
 					{
 						particleChild = Instantiate(particles, obj.transform.position, obj.transform.rotation);
 						particleChild.transform.parent = obj.transform;
+						particleChild.transform.localScale = new Vector3(1f, 1f, 1f);
 					}
 				}
 			}
