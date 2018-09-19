@@ -20,9 +20,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4311965993374450}
   - component: {fileID: 96602181136648900}
+  - component: {fileID: 198766297346018070}
   - component: {fileID: 114531449100825038}
   - component: {fileID: 199464597779477454}
-  - component: {fileID: 198766297346018070}
   m_Layer: 0
   m_Name: TouchRenderer
   m_TagString: Untagged
