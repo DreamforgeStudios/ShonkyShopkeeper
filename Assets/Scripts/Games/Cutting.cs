@@ -114,6 +114,9 @@ public class Cutting : MonoBehaviour {
 	    activeCuts = new LinkedList<NewCutPoint>();
 	    
 	    cutContainer = new GameObject("CutContainer");
+
+	    // Spawn our first cut straight away instead of waiting.
+	    timeIntervalCounter = InitialSpawnInterval;
     }
 
 	void Update () {
