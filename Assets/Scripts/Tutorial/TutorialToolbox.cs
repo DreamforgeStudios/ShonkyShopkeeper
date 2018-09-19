@@ -116,6 +116,7 @@ public class TutorialToolbox : MonoBehaviour {
 
     private void ProcessMouse() {
         if (Input.GetMouseButtonDown(0)) {
+            Debug.Log("CanSelect is " + canSelect);
             if (GameManager.Instance.TutorialIntroTopComplete && canSelect)
                 Cast();
                 //tutorialManager.HideCanvas();
@@ -152,7 +153,7 @@ public class TutorialToolbox : MonoBehaviour {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         previousRay = ray;
 
-        //Debug.Log("casting...");
+        Debug.Log("casting...");
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask)) {
             if (hit.transform.CompareTag("Forceps") || hit.transform.CompareTag("Wand") ||
                 hit.transform.CompareTag("Magnifyer"))
@@ -294,6 +295,8 @@ public class TutorialToolbox : MonoBehaviour {
             //tutorialManager.InspectItem(tool);
             tutorialManager.StopParticle(tool);
             tutorialManager.MoveInstructions();
+            tutorialManager.NextInstruction();
+            tutorialManager.StartItemParticles();
         }
     }
     
@@ -417,6 +420,7 @@ public class TutorialToolbox : MonoBehaviour {
                     MoveUp(slot);
                     SFX.Play("Item_lifted", 1f, 1f, 0f, false, 0f);
                     // Second selection.
+                    tutorialManager.NextInstruction();
                 }
                 else
                 {
@@ -526,6 +530,9 @@ public class TutorialToolbox : MonoBehaviour {
         Item item;
         ItemInstance instance;
         // Minigame detection.
+        if (!GameManager.Instance.TutorialIntroComplete)
+            tutorialManager.FinishWandUse();
+        
         if (currentSelection == null && slot.GetItemInstance(out instance) && slot.GetItem(out item) &&
             tutorialManager.InspectedAllItems()) {
             PlayWandParticles(slot);
@@ -556,9 +563,11 @@ public class TutorialToolbox : MonoBehaviour {
                     break;
                 case "ChargedJewel":
                     MoveUp(slot);
+                    tutorialManager.NextInstruction();
                     break;
                 case "Shell":
                     MoveUp(slot);
+                    tutorialManager.NextInstruction();
                     break;
             }
         } else if (currentSelection != null && currentSelection != slot) {
@@ -571,6 +580,7 @@ public class TutorialToolbox : MonoBehaviour {
                     
                     // Check for a free slot.
                     if (ShonkyInventory.Instance.FreeSlot()) {
+                        tutorialManager.HideExposition();
                         golemCombiner.GolemAnimationSequence(currentSelection, item1, slot, item2);
                     } else {
                         GameObject itemObj;
@@ -663,6 +673,9 @@ public class TutorialToolbox : MonoBehaviour {
               oreChance = 1.00f;
         int numberItems = UnityEngine.Random.Range(6, 12);
         SFX.Play("Res_pouch_open", 1f, 1f, 0f, false, 0f);
+        
+        if (GameManager.Instance.OpenPouch)
+            tutorialManager.PouchText();
 
         //SFX.Play("sound");
         var drops = new List<ItemInstance>();

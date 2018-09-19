@@ -69,7 +69,7 @@ public class TutorialProgressChecker : MonoBehaviour {
 	}
 	
 	//Manager start
-	public Canvas Progress;
+	public Canvas Progress, mainCanvas;
 	public Image BrickFade, ShellFade, JewelFade, ChargedJewelFade, TopArrow,BottomArrow,CombineArrow, GolemFade;
 	private string brick = "Brick", shell = "Shell", jewel = "Jewel", chargedJewel = "Charged Jewel", golem = "Golem";
 	private Dictionary<string, ImageStatus> schematicProgress;
@@ -80,9 +80,7 @@ public class TutorialProgressChecker : MonoBehaviour {
 	public bool canvasEnabled = false;
 	
 	//For text
-	public GameObject gizmoPrefab;
-	private PopupTextManager clone;
-	public List<string> dialogue;
+	public List<string> dialogue, dialogueInstruction;
 	public TutorialManager tutManager;
 
 	private void Update()
@@ -125,11 +123,9 @@ public class TutorialProgressChecker : MonoBehaviour {
 									&& schematicProgress[golem] == ImageStatus.UnAchieved && !readyGolem)
 		{
 			readyGolem = true;
-            clone = Instantiate(gizmoPrefab, GameObject.FindGameObjectWithTag("MainCamera").transform)
-                .GetComponentInChildren<PopupTextManager>();
-			clone.PopupTexts = dialogue;
-			clone.Init();
-			clone.DoEnterAnimation();
+			tutManager = GameObject.FindGameObjectWithTag("TutorialManager").GetComponent<TutorialManager>();
+			tutManager.StartDialogue(dialogue,dialogueInstruction,UIProgressImages, true);
+			tutManager.StartFinalComponentParticles();
 		}
 
 		if (golemMade && !golemTextDone)

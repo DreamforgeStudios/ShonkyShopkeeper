@@ -14,14 +14,14 @@ public class InstructionBubble : MonoBehaviour
 	public bool Instruction, canvasElement = true;
 
 	public int activePage;
-	public List<string> textToDisplay;
+	public List<string> informationTextToDisplay, instructionText;
 	public GameObject ExpositionBubbleObj, InstructionBubbleObj;
 	public Vector2 instructionSecondPos;
 	private RectTransform expoBubbleRectT, instrBubbleRectT;
 	public Button nextButton, exitButton;
 	
 	//Gameobject the instruction scroll with appear next to 
-	private GameObject targetObj;
+	public GameObject targetObj;
 	
 	//Event when it goes from exposition -> instruction
 	public delegate void Instruct();
@@ -81,29 +81,45 @@ public class InstructionBubble : MonoBehaviour
 		activePage = 0;
 		canvasElement = CanvasElement;
 		targetObj = itemToTarget;
-		if (textToDisplay.Count > 1)
-		{
-			expositionTextBox.text = textToDisplay[activePage];
+		//if (informationTextToDisplay.Count > 1)
+		//{
+			expositionTextBox.text = informationTextToDisplay[activePage];
 			UpdateCloser();
 			Debug.Log("Setting exposition to active");
 			ExpositionBubbleObj.SetActive(true);
 			InstructionBubbleObj.SetActive(false);
 			Instruction = false;
-		}
+		//}
+			/*
 		else
 		{
 			//Dirty way right now to handle single item lists
-			activePage--;
-			ShowInstructionBubbleNextTo();
+			//activePage--;
+			//ShowInstructionBubbleNextTo();
+			expositionTextBox.text = informationTextToDisplay[activePage];
 
 		}
+		*/
+	}
+
+	public void SetText(List<string> expositionText, List<string> instructionText)
+	{
+		informationTextToDisplay = expositionText;
+		this.instructionText = instructionText;
 	}
 
 	public void ShowInstructionBubbleNextTo()
 	{
 		Debug.Log("Showing instruction bubble and canvasElement is " + canvasElement);
+		if (instructionText == null)
+		{
+			HideBubble();
+			return;
+		}
+		
+		activePage = 0;
 		Instruction = true;
-		instructionTextBox.text = textToDisplay[++activePage];
+		instructionTextBox.text = instructionText[activePage];
 		Vector2 pos = new Vector2(0f,0f);
 		
 		//Need to manage canvas vs normal gameObjects
@@ -116,16 +132,26 @@ public class InstructionBubble : MonoBehaviour
 		}
 		else
 		{
-			pos = Camera.main.WorldToViewportPoint(targetObj.transform.position);
+			pos = Camera.main.WorldToScreenPoint(targetObj.transform.position);
 			Debug.Log("pos = " + pos);
 			pos = ModifyPosition(pos);
 			
 		}
 
-		InstructionBubbleObj.GetComponent<RectTransform>().anchoredPosition = pos;
+		//InstructionBubbleObj.GetComponent<RectTransform>().anchoredPosition = pos;
 		InstructionBubbleObj.transform.position = pos;
 		InstructionBubbleObj.SetActive(true);
 		ExpositionBubbleObj.SetActive(false);
+		OnInstruct();
+	}
+
+	public void NextInstructionText()
+	{
+		if (activePage + 1 < instructionText.Count)
+		{
+			instructionTextBox.text = instructionText[++activePage];
+			OnInstruct();
+		}
 	}
 
 	public void DestroyItem()
@@ -142,10 +168,10 @@ public class InstructionBubble : MonoBehaviour
 	}
 	
 	public void NextText() {
-		Debug.Log(activePage + " is active page and textCount is " + textToDisplay.Count);
-		if (activePage + 1 >= textToDisplay.Count) return;
+		Debug.Log(activePage + " is active page and textCount is " + informationTextToDisplay.Count);
+		if (activePage + 1 >= informationTextToDisplay.Count) return;
 		activePage++;
-		expositionTextBox.text = textToDisplay[activePage];
+		expositionTextBox.text = informationTextToDisplay[activePage];
 		
 		UpdateCloser();
 	}
@@ -154,9 +180,9 @@ public class InstructionBubble : MonoBehaviour
 	private Vector2 ModifyPosition(Vector2 pos)
 	{
 		if (pos.x >= 230f)
-			pos.x -= 100f;
+			pos.x -= 160f;
 		else
-			pos.x += 160f;
+			pos.x += 200f;
 
 		if (pos.y <= 150f)
 			pos.y += 100f;
@@ -173,7 +199,7 @@ public class InstructionBubble : MonoBehaviour
 	
 	// Update the closer so that if we're on the last page it can be closed.
 	private void UpdateCloser() {
-		if (activePage >= textToDisplay.Count - 2) {
+		if (activePage >= informationTextToDisplay.Count - 1) {
 			exitButton.gameObject.SetActive(true);
 			nextButton.gameObject.SetActive(false);
 		} else {
