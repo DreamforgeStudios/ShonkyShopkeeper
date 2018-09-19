@@ -50,7 +50,7 @@ public class CameraTap : MonoBehaviour {
             GameManager.Instance.TutorialIntroTopComplete = true;
             //tutManager.NextDialogue();
             tutManager.HideExposition();
-            tutManager.StartForcepParticles();
+            tutManager.StartToolText();
             tutManager.EnableCameraTap(false,false);
             
         }

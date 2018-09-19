@@ -273,9 +273,10 @@ MonoBehaviour:
   textToDisplay: []
   ExpositionBubbleObj: {fileID: 1982051180567856}
   InstructionBubbleObj: {fileID: 1995093813265364}
-  instructionSecondPos: {x: 400, y: 220}
+  instructionSecondPos: {x: 575, y: 330}
   nextButton: {fileID: 114084786545525426}
   exitButton: {fileID: 114139287159025526}
+  targetObj: {fileID: 0}
 --- !u!114 &114213316413415604
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -399,11 +400,11 @@ MonoBehaviour:
     lineCount: 1
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 0
+  m_havePropertiesChanged: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 0
+  m_isInputParsingRequired: 1
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
@@ -540,11 +541,11 @@ MonoBehaviour:
     lineCount: 1
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 0
+  m_havePropertiesChanged: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 0
+  m_isInputParsingRequired: 1
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:

@@ -294,6 +294,8 @@ public class TutorialToolbox : MonoBehaviour {
             //tutorialManager.InspectItem(tool);
             tutorialManager.StopParticle(tool);
             tutorialManager.MoveInstructions();
+            tutorialManager.NextInstruction();
+            tutorialManager.StartItemParticles();
         }
     }
     
@@ -417,6 +419,7 @@ public class TutorialToolbox : MonoBehaviour {
                     MoveUp(slot);
                     SFX.Play("Item_lifted", 1f, 1f, 0f, false, 0f);
                     // Second selection.
+                    tutorialManager.NextInstruction();
                 }
                 else
                 {

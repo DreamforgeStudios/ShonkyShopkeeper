@@ -318,7 +318,7 @@ public class GolemPickup : MonoBehaviour {
         {
             if (GameManager.Instance.HasMinePouch)
             {
-                tutManager.StartDialogue(tutManager.tapPouch, tutManager.mineTarget, false);
+                tutManager.StartDialogue(tutManager.tapPouch, tutManager.tapPouch, tutManager.mineTarget, false);
                 GameManager.Instance.ReturnPouch = true;
             }
         }
@@ -550,7 +550,7 @@ public class GolemPickup : MonoBehaviour {
             }
             if (GameManager.Instance.TimerComplete && !textboxShowing)
             {
-                tutManager.StartDialogue(tutManager.retrieveGolem,tutManager.mineTarget, false);
+                tutManager.StartDialogue(tutManager.retrieveGolem, tutManager.retrieveGolem, tutManager.mineTarget, false);
                 GameManager.Instance.HasMinePouch = true;
                 GameManager.Instance.TimerComplete = false;
                 textboxShowing = true;
