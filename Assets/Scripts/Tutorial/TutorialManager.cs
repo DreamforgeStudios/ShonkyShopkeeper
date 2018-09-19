@@ -79,7 +79,7 @@ public class TutorialManager : MonoBehaviour
 			cameraButton.gameObject.SetActive(false);
 			if (!GameManager.Instance.TutorialIntroComplete)
 			{
-				StartDialogue(TutorialCameraExpo, TutorialCameraInstruction, cameraButton.gameObject, true);
+				StartDialogue(TutorialCameraExpo, TutorialCameraInstruction, mainCanvas, cameraButton.gameObject, true);
 			}
 		}
 	}
@@ -99,7 +99,8 @@ public class TutorialManager : MonoBehaviour
 		}
 	}
 
-	public void StartDialogue(List<string> dialogue, List<string> instruction, GameObject target, bool canvasElement)
+	public void StartDialogue(List<string> dialogue, List<string> instruction, Canvas mainCanvas, GameObject target, 
+		bool canvasElement)
 	{
 		toolbox.canSelect = false;
 		
@@ -109,7 +110,7 @@ public class TutorialManager : MonoBehaviour
         clone = Instantiate(speechBubblePrefab, mainCanvas.transform)
 	        .GetComponentInChildren<InstructionBubble>();
 		clone.SetText(dialogue,instruction);
-		clone.Init(target,canvasElement);
+		clone.Init(target,canvasElement, mainCanvas);
 
 	}
 
@@ -224,7 +225,7 @@ public class TutorialManager : MonoBehaviour
 
 	public void IntroduceGolem()
 	{
-		StartDialogue(introduceGolem, introduceGolemInstruction, mineTarget, true);
+		StartDialogue(introduceGolem, introduceGolemInstruction, mainCanvas, mineTarget, true);
 		GameManager.Instance.SendToMine = true;
 	}
 
@@ -253,7 +254,7 @@ public class TutorialManager : MonoBehaviour
 			cameraButton.gameObject.SetActive(false);
 			if (GameManager.Instance.SendToMine)
 			{
-				StartDialogue(pickUpGolem, golemMineInstruction, mineTarget, true);
+				StartDialogue(pickUpGolem, golemMineInstruction, mainCanvas, mineTarget, true);
 				GameManager.Instance.SendToMine = false;
 			}
 		}
@@ -267,14 +268,14 @@ public class TutorialManager : MonoBehaviour
 	public void PouchText()
 	{
 		cameraButton.gameObject.SetActive(true);
-		StartDialogue(openPouch, null, mineTarget, true);
+		StartDialogue(openPouch, null, mainCanvas, mineTarget, true);
 		GameManager.Instance.OpenPouch = false;
 	}
 
 	public void StartToolText()
 	{
 		GameObject tool = ItemsToInspect[0];
-		StartDialogue(ToolIntro,forceps,tool,false);
+		StartDialogue(ToolIntro,forceps, mainCanvas,tool,false);
 		currentToolToInspect = tool;
 	}
 
@@ -312,7 +313,7 @@ public class TutorialManager : MonoBehaviour
 
 	public void FinishTutorial()
 	{
-		StartDialogue(tutorialFinish, tutorialFinish, travelButton.gameObject, true);
+		StartDialogue(tutorialFinish, tutorialFinish, mainCanvas, travelButton.gameObject, true);
 		SaveManager.SaveInventory();
 		SaveManager.SaveShonkyInventory();
 		travelButton.gameObject.SetActive(true);
@@ -378,11 +379,11 @@ public class TutorialManager : MonoBehaviour
 				case "Forceps":
 					//StartParticles(ItemsToInspect[0]);
 					//currentToolToInspect = ItemsToInspect[0];
-					StartDialogue(magnifier, magnifierInstruction, ItemsToInspect[0], false);
+					StartDialogue(magnifier, magnifierInstruction, mainCanvas, ItemsToInspect[0], false);
 					break;
 				case "Magnifyer":
 					//StartParticles(ItemsToInspect[0]);
-					StartDialogue(wand, wandInstruction, ItemsToInspect[0], false);
+					StartDialogue(wand, wandInstruction, mainCanvas, ItemsToInspect[0], false);
 					break;
 				case "Wand":
 					physicalInv.HighlightOreAndGem();

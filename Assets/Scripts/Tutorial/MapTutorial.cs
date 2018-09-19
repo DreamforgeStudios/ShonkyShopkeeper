@@ -61,7 +61,7 @@ public class MapTutorial : MonoBehaviour
 
 	private void Start()
 	{
-		StartDialogue(intro,introInstructions,null,false);
+		StartDialogue(intro,introInstructions, mainCanvas, null,false);
 	}
 	
 	private void CheckForTutProgressChecker()
@@ -72,7 +72,7 @@ public class MapTutorial : MonoBehaviour
 		shopButtonObj.SetActive(false);
 	}
 	
-	public void StartDialogue(List<string> dialogue, List<string> instruction, GameObject target, bool canvasElement)
+	public void StartDialogue(List<string> dialogue, List<string> instruction, Canvas canvas, GameObject target, bool canvasElement)
 	{	
 		if (clone != null)
 			clone.DestroyItem();
@@ -80,7 +80,7 @@ public class MapTutorial : MonoBehaviour
 		clone = Instantiate(speechBubblePrefab, mainCanvas.transform)
 			.GetComponentInChildren<InstructionBubble>();
 		clone.SetText(dialogue,instruction);
-		clone.Init(target,canvasElement);
+		clone.Init(target,canvasElement,canvas);
 
 	}
 	
@@ -98,7 +98,7 @@ public class MapTutorial : MonoBehaviour
 		CanMoveCamera = true;
 		StopSphereParticle();
 		clickedOrb = true;
-		StartDialogue(map, mapInstructions,sphere,false);
+		StartDialogue(map, mapInstructions, mainCanvas, sphere,false);
 	}
 	
 	private InstructionBubble.Instruct StartSphereParticles()

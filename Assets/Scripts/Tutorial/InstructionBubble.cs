@@ -15,7 +15,7 @@ public class InstructionBubble : MonoBehaviour
 
 	public int activePage;
 	public List<string> informationTextToDisplay, instructionText;
-	public GameObject ExpositionBubbleObj, InstructionBubbleObj;
+	public GameObject ExpositionBubbleObj, InstructionBubbleObj, expositionBubblePrefab, instructionBubblePrefab;
 	public Vector2 instructionSecondPos;
 	private RectTransform expoBubbleRectT, instrBubbleRectT;
 	public Button nextButton, exitButton;
@@ -30,7 +30,7 @@ public class InstructionBubble : MonoBehaviour
 	private void Start()
 	{
 		mainCamera = Camera.main;
-		expoBubbleRectT = ExpositionBubbleObj.GetComponent<RectTransform>();
+		//expoBubbleRectT = ExpositionBubbleObj.GetComponent<RectTransform>();
 		//ExpositionBubbleObj.gameObject.SetActive(false);
 		//InstructionBubbleObj.gameObject.SetActive(false);
 	}
@@ -75,19 +75,27 @@ public class InstructionBubble : MonoBehaviour
 		}
 	}
 
-	public void Init(GameObject itemToTarget, bool CanvasElement)
+	public void Init(GameObject itemToTarget, bool CanvasElement, Canvas canvasToApply)
 	{
 		HideBubble();
 		activePage = 0;
 		canvasElement = CanvasElement;
 		targetObj = itemToTarget;
+		canvasRectTransform = canvasToApply.GetComponent<RectTransform>();
 
-		expositionTextBox.text = informationTextToDisplay[activePage];
-		UpdateCloser();
 		Debug.Log("Setting exposition to active");
+		ExpositionBubbleObj = Instantiate(expositionBubblePrefab, canvasToApply.transform);
+		InstructionBubbleObj = Instantiate(instructionBubblePrefab, canvasToApply.transform);
+		nextButton = ExpositionBubbleObj.transform.GetChild(1).GetComponent<Button>();
+		exitButton = ExpositionBubbleObj.transform.GetChild(2).GetComponent<Button>();
+		expositionTextBox = ExpositionBubbleObj.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+		instructionTextBox = InstructionBubbleObj.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+		expositionTextBox.text = informationTextToDisplay[activePage];
 		ExpositionBubbleObj.SetActive(true);
 		InstructionBubbleObj.SetActive(false);
 		Instruction = false;
+		
+		UpdateCloser();
 	}
 
 	public void SetText(List<string> expositionText, List<string> instructionText)
@@ -109,23 +117,32 @@ public class InstructionBubble : MonoBehaviour
 		Instruction = true;
 		instructionTextBox.text = instructionText[activePage];
 		Vector2 pos = new Vector2(0f,0f);
+		RectTransform rectTransform = InstructionBubbleObj.GetComponent<RectTransform>();
 
 		//Need to manage canvas vs normal gameObjects
 		if (targetObj != null)
 		{
 			if (canvasElement)
 			{
-				pos = targetObj.transform.position;
+				pos = targetObj.transform.position;//Camera.main.WorldToViewportPoint(targetObj.transform.position);
 				Debug.Log("pos = " + pos);
 				pos = ModifyPosition(pos);
+				InstructionBubbleObj.transform.position = pos;
 			}
 			else
 			{
-				pos = Camera.main.WorldToScreenPoint(targetObj.transform.position);
+				pos = Camera.main.WorldToViewportPoint(targetObj.transform.position);
 				Debug.Log("pos = " + pos);
 				pos = ModifyPosition(pos);
+				Debug.Log("Modified pos = " + pos);
+				Vector2 WorldObject_ScreenPosition=new Vector2(
+					((pos.x*rectTransform.sizeDelta.x)-(rectTransform.sizeDelta.x*0.5f)),
+					((pos.y*rectTransform.sizeDelta.y)-(rectTransform.sizeDelta.y*0.5f)));
+				pos = WorldObject_ScreenPosition;
+				Debug.Log("Final pos = " + pos);
+				InstructionBubbleObj.GetComponent<RectTransform>().anchoredPosition = pos;
 			}
-			InstructionBubbleObj.transform.position = pos;
+			
 		}
 
 		//InstructionBubbleObj.GetComponent<RectTransform>().anchoredPosition = pos;
@@ -147,13 +164,19 @@ public class InstructionBubble : MonoBehaviour
 	public void DestroyItem()
 	{
 		Instruction = false;
+		Destroy(ExpositionBubbleObj);
+		Destroy(InstructionBubbleObj);
 		Destroy(this.gameObject);
 	}
 
 	public void HideBubble()
 	{
+		if (InstructionBubbleObj != null)
 		InstructionBubbleObj.SetActive(false);
+		
+		if (ExpositionBubbleObj != null)
 		ExpositionBubbleObj.SetActive(false);
+		
 		Instruction = false;
 	}
 	
@@ -169,15 +192,15 @@ public class InstructionBubble : MonoBehaviour
 	//Used to move the scroll away from the target obj, towards the centre of the screen
 	private Vector2 ModifyPosition(Vector2 pos)
 	{
-		if (pos.x >= 230f)
-			pos.x -= 160f;
+		if (pos.x >= 0.5f)
+			pos.x -= 0.5f;
 		else
-			pos.x += 200f;
+			pos.x += 0.5f;
 
-		if (pos.y <= 150f)
-			pos.y += 100f;
+		if (pos.y <= 0.5f)
+			pos.y += 0.3f;
 		else
-			pos.y -= 100f;
+			pos.y -= 0.3f;
 
 		return pos;
 	}
