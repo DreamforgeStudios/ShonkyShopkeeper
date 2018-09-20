@@ -279,16 +279,6 @@ public class TutorialManager : MonoBehaviour
 		currentToolToInspect = tool;
 	}
 
-	/*
-	public void StartForcepParticles()
-	{
-		particleChild = Instantiate(particles, tool.transform.position, tool.transform.rotation);
-		particleChild.transform.parent = tool.transform;
-		currentToolToInspect = tool;
-		StartDialogue(forceps, forcepsInstruction, ItemsToInspect[0], false);
-	}
-	*/
-
 	private void SetupInventories()
 	{
 		if (!GameManager.Instance.HasInspectedAllInventoryItems)
@@ -305,6 +295,7 @@ public class TutorialManager : MonoBehaviour
 	public void LoadNormalInventory()
 	{
 		SaveManager.LoadFromTemplate(RegularInventory);
+		SaveManager.LoadFromShonkyTemplate(RegularGolemInventory);
 		SaveManager.SaveInventory();
 		SaveManager.SaveShonkyInventory();
 		//physicalInv.PopulateInitial();

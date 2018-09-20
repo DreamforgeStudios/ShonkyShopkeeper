@@ -55,13 +55,13 @@ public class MapTutorial : MonoBehaviour
 	public GameObject shopButtonObj, sphere, particles, particleChild, speechBubblePrefab, introTarget;
 	public bool clickedOrb, CanMoveCamera  = false;
 	public List<string> intro, introInstructions, map, mapInstructions;
-	private InstructionBubble clone;
+	public InstructionBubble clone;
 	public Canvas mainCanvas;
 
 
 	private void Start()
 	{
-		StartDialogue(intro,introInstructions, mainCanvas, null,false);
+		StartDialogue(intro,introInstructions, mainCanvas, sphere, false);
 	}
 	
 	private void CheckForTutProgressChecker()
@@ -98,7 +98,12 @@ public class MapTutorial : MonoBehaviour
 		CanMoveCamera = true;
 		StopSphereParticle();
 		clickedOrb = true;
-		StartDialogue(map, mapInstructions, mainCanvas, sphere,false);
+		StartDialogue(map, mapInstructions, mainCanvas, introTarget,true);
+	}
+	
+	public void NextInstruction()
+	{
+		clone.NextInstructionText();
 	}
 	
 	private InstructionBubble.Instruct StartSphereParticles()

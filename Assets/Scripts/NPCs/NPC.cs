@@ -18,6 +18,14 @@ public class NPC : MonoBehaviour {
 	public void FrontIdle() {
 		Animator animator = WizardFront.transform.GetChild(0).GetComponent<Animator>();
 		animator.SetBool("Idle", true);
+
+		if (GameManager.Instance.BarterTutorial)
+		{
+			BarterTutorial.Instance.NextInstruction();
+			BarterTutorial.Instance.StartShonkyParticles();
+			GameManager.Instance.BarterNPC = false;
+			GameManager.Instance.OfferNPC = true;
+		}
 	}
 
 	public void Turn() {

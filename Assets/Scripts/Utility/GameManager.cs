@@ -63,7 +63,7 @@ public class GameManager : MonoBehaviour {
 
 	public bool PlayingAudio = true;
 	public bool InTutorial = false;
-	public bool TutorialIntroTopComplete, TutorialIntroComplete, InMap, BarterTutorial = false;
+	public bool TutorialIntroTopComplete, TutorialIntroComplete, InMap, BarterTutorial, BarterNPC, OfferNPC = false;
 	public bool HasInspectedAllInventoryItems = false;
 	public bool TutorialGolemMade = false;
 	public bool MineGoleminteractGolem = false;

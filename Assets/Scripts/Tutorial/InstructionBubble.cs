@@ -107,7 +107,6 @@ public class InstructionBubble : MonoBehaviour
 	{
 		informationTextToDisplay = expositionText;
 		this.instructionText = instructionText;
-		Debug.Log(instructionText.Count + " is instruction length");
 		
 	}
 
@@ -132,7 +131,7 @@ public class InstructionBubble : MonoBehaviour
 		{
 			if (canvasElement)
 			{
-				pos = Camera.main.ScreenToViewportPoint(targetObj.transform.position);//Camera.main.WorldToViewportPoint(targetObj.transform.position);
+				pos = Camera.main.ScreenToViewportPoint(targetObj.transform.position);
 				Debug.Log("pos = " + pos);
 				pos = ModifyPosition(pos);
 				pos = Camera.main.ViewportToScreenPoint(pos);
@@ -144,12 +143,6 @@ public class InstructionBubble : MonoBehaviour
 				Debug.Log("pos = " + pos);
 				pos = ModifyPosition(pos);
 				Debug.Log("Modified pos = " + pos);
-				/*
-				Vector2 WorldObject_ScreenPosition=new Vector2(
-					((pos.x*rectTransform.sizeDelta.x)-(rectTransform.sizeDelta.x*0.5f)),
-					((pos.y*rectTransform.sizeDelta.y)-(rectTransform.sizeDelta.y*0.5f)));
-				pos = WorldObject_ScreenPosition;
-				*/
 				pos = Camera.main.ViewportToScreenPoint(pos);
 				Debug.Log("Final pos = " + pos);
 				InstructionBubbleObj.transform.position = pos;
@@ -174,11 +167,23 @@ public class InstructionBubble : MonoBehaviour
 		}
 	}
 
+	public void PreviousInstructionText()
+	{
+		if (activePage - 1 > 0)
+		{
+			instructionTextBox.text = instructionText[--activePage];
+			OnInstruct();
+		}
+	}
+
 	public void DestroyItem()
 	{
 		Instruction = false;
-		Destroy(ExpositionBubbleObj);
-		Destroy(InstructionBubbleObj);
+		if(ExpositionBubbleObj != null)
+			Destroy(ExpositionBubbleObj);
+		if (InstructionBubbleObj != null)
+			Destroy(InstructionBubbleObj);
+		
 		Destroy(this.gameObject);
 	}
 
@@ -206,14 +211,14 @@ public class InstructionBubble : MonoBehaviour
 	private Vector2 ModifyPosition(Vector2 pos)
 	{
 		if (pos.x >= 0.5f)
-			pos.x -= 0.25f;
+			pos.x -= 0.35f;
 		else
-			pos.x += 0.25f;
+			pos.x += 0.35f;
 
 		if (pos.y <= 0.5f)
-			pos.y += 0.25f;
+			pos.y += 0.2f;
 		else
-			pos.y -= 0.25f;
+			pos.y -= 0.2f;
 
 		return pos;
 	}

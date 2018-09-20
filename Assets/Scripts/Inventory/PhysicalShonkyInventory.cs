@@ -17,6 +17,10 @@ public class PhysicalShonkyInventory : MonoBehaviour {
     //Mine inv
     public Mine mineInventory;
 
+    //Used for particles in bartering tutorial
+    public GameObject particlePrefab;
+    private List<GameObject> particleGolems;
+
     /*
     private static PhysicalShonkyInventory _instance;
     public static PhysicalShonkyInventory Instance {
@@ -58,6 +62,30 @@ public class PhysicalShonkyInventory : MonoBehaviour {
     // Update is called once per frame
     void Update() {
 
+    }
+
+    public void HighlightGolems()
+    {
+        particleGolems = new List<GameObject>();
+        for (int i = 0; i < shonkySlots.Count; i++)
+        {
+            GameObject obj;
+            if (shonkySlots[i].GetPrefabInstance(out obj))
+            {
+                GameObject particleChild = Instantiate(particlePrefab, obj.transform.position, obj.transform.rotation);
+                particleChild.transform.parent = obj.transform;
+                particleChild.transform.localScale = new Vector3(1f, 1f, 1f);
+                particleGolems.Add(particleChild);
+            }
+        }
+    }
+
+    public void RemoveParticles()
+    {
+        foreach (GameObject particle in particleGolems)
+        {
+            Destroy(particle);
+        }
     }
 
     public void PopulateInitial() {

@@ -14,6 +14,7 @@ public class ShowMap : MonoBehaviour
 	public LayerMask Mask;
 	
 	private GameObject lastTownClicked;
+	private int lastTownIDClicked;
 	
 	//Current Town
 	private Travel.Towns currentTown {
@@ -100,7 +101,8 @@ public class ShowMap : MonoBehaviour
 		}
 		helperText.enabled = false;
 	}
-
+	
+	/*
 	private void Update()
 	{
 		goldAmount.text = string.Format("<sprite=0> {0}",Inventory.Instance.goldCount);
@@ -129,6 +131,14 @@ public class ShowMap : MonoBehaviour
 				}
 			}
 		}
+	}
+	*/
+
+	public void ClickTownButton(int townID)
+	{
+		SFX.Play("Map_location_select", 1f, 1f, 0f, false, 0f);
+		Travel.Towns selectedTown = CurrentTownObject(townID);
+		DetermineTownIndexAndOpen(selectedTown);
 	}
 	
 	//Used when the player clicks on a gameobject that represents a town the first time
@@ -333,6 +343,22 @@ public class ShowMap : MonoBehaviour
 			case "Town3":
 				return Travel.Towns.GiantsPass;
 			case "Town4":
+				return Travel.Towns.SkyCity;
+			default:
+				return currentTown;
+		}
+	}
+	
+	//Return current town
+	private Travel.Towns CurrentTownObject(int id) {
+		switch (id) {
+			case 0:
+				return Travel.Towns.WickedGrove;
+			case 1:
+				return Travel.Towns.FlamingPeak;
+			case 2:
+				return Travel.Towns.GiantsPass;
+			case 3:
 				return Travel.Towns.SkyCity;
 			default:
 				return currentTown;

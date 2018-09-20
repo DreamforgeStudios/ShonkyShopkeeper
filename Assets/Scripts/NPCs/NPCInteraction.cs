@@ -15,6 +15,9 @@ public class NPCInteraction : MonoBehaviour {
 
     public bool EnableDebug;
 
+    //used to trigger particles on golems when pickedup and NPC at shop
+    public GameObject NPCHit;
+
     //private GameObject[] penShonkys;
     //System.Random generator;
 
@@ -61,16 +64,12 @@ public class NPCInteraction : MonoBehaviour {
                     if (shonkyIndexes.Count > 0)
                     {
                         GameManager.Instance.WizardTransfer = hit.transform.GetComponent<NPCWalker>().wizardName;
-                        if (GameManager.Instance.BarterTutorial)
-                        {
-                            GameManager.Instance.BarterTutorial = false;
-                            PlayerPrefs.SetInt("TutorialDone", 1);
-                        }
 
                         //Move NPC to shop front and initiate barter
                         var NPC = hit.transform.GetComponent<NPC>();
                         var NPCW = hit.transform.GetComponent<NPCWalker>();
-                        
+
+                        NPCHit = hit.transform.gameObject;
                         // Show the front and stop the NPC from walking.  Also stop the spawner from spawning so that
                         //  new NPCs dont clip through the current one.
                         NPC.ShowFront();

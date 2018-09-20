@@ -52,6 +52,7 @@ public class GolemPickup : MonoBehaviour {
     
     //To reset NPC spawner interaction
     public NPCSpawner spawner;
+    public NPCInteraction NPCinteraction;
 
     // Use this for initialization
     void Start() {
@@ -89,6 +90,12 @@ public class GolemPickup : MonoBehaviour {
         } else if (overNPC) {
             Debug.Log("Sending to Barter");
         
+            if (GameManager.Instance.BarterTutorial)
+            {
+                GameManager.Instance.BarterTutorial = false;
+                PlayerPrefs.SetInt("TutorialDone", 1);
+            }
+            
             //SFX.Play("sound");
             int index = GetGolemSlot();
             Debug.Log(index + " is the index");
@@ -407,6 +414,14 @@ public class GolemPickup : MonoBehaviour {
     //Secondary function which takes the existing pickedup golem as the parameter
     private void HoldGolem()
     {
+        if (GameManager.Instance.BarterTutorial)
+        {
+            if (GameManager.Instance.OfferNPC)
+            {
+                BarterTutorial.Instance.RemoveShonkyParticles();
+                NPCinteraction.NPCHit.GetComponent<NPCWalker>().EnableParticles();
+            }
+        }
         //SFX.Play("sound");
         lastPos = pickedupGolem.transform.position;
         golemRb = pickedupGolem.GetComponent<Rigidbody>();
