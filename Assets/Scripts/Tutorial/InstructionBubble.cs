@@ -30,9 +30,6 @@ public class InstructionBubble : MonoBehaviour
 	private void Start()
 	{
 		mainCamera = Camera.main;
-		//expoBubbleRectT = ExpositionBubbleObj.GetComponent<RectTransform>();
-		//ExpositionBubbleObj.gameObject.SetActive(false);
-		//InstructionBubbleObj.gameObject.SetActive(false);
 	}
 	
 	void Update() {
@@ -84,6 +81,9 @@ public class InstructionBubble : MonoBehaviour
 		canvasRectTransform = canvasToApply.GetComponent<RectTransform>();
 
 		Debug.Log("Setting exposition to active");
+		/*
+		 * Link all variables. Really dirty right now
+		 */
 		ExpositionBubbleObj = Instantiate(expositionBubblePrefab, canvasToApply.transform);
 		InstructionBubbleObj = Instantiate(instructionBubblePrefab, canvasToApply.transform);
 		nextButton = ExpositionBubbleObj.transform.GetChild(1).GetComponent<Button>();
@@ -97,6 +97,9 @@ public class InstructionBubble : MonoBehaviour
 		nextButton.onClick.AddListener(NextText);
 		exitButton.onClick.AddListener(delegate { ShowInstructionBubbleNextTo(instructionText); });
 		
+		//Set position to middle of screen
+		Vector2 defaultPos = new Vector2(0.5f,0.5f);
+		ExpositionBubbleObj.transform.position = Camera.main.ViewportToScreenPoint(defaultPos);
 		UpdateCloser();
 	}
 
@@ -129,9 +132,10 @@ public class InstructionBubble : MonoBehaviour
 		{
 			if (canvasElement)
 			{
-				pos = targetObj.transform.position;//Camera.main.WorldToViewportPoint(targetObj.transform.position);
+				pos = Camera.main.ScreenToViewportPoint(targetObj.transform.position);//Camera.main.WorldToViewportPoint(targetObj.transform.position);
 				Debug.Log("pos = " + pos);
 				pos = ModifyPosition(pos);
+				pos = Camera.main.ViewportToScreenPoint(pos);
 				InstructionBubbleObj.transform.position = pos;
 			}
 			else
@@ -140,12 +144,16 @@ public class InstructionBubble : MonoBehaviour
 				Debug.Log("pos = " + pos);
 				pos = ModifyPosition(pos);
 				Debug.Log("Modified pos = " + pos);
+				/*
 				Vector2 WorldObject_ScreenPosition=new Vector2(
 					((pos.x*rectTransform.sizeDelta.x)-(rectTransform.sizeDelta.x*0.5f)),
 					((pos.y*rectTransform.sizeDelta.y)-(rectTransform.sizeDelta.y*0.5f)));
 				pos = WorldObject_ScreenPosition;
+				*/
+				pos = Camera.main.ViewportToScreenPoint(pos);
 				Debug.Log("Final pos = " + pos);
-				InstructionBubbleObj.GetComponent<RectTransform>().anchoredPosition = pos;
+				InstructionBubbleObj.transform.position = pos;
+				//InstructionBubbleObj.GetComponent<RectTransform>().anchoredPosition = pos;
 			}
 			
 		}
@@ -198,14 +206,14 @@ public class InstructionBubble : MonoBehaviour
 	private Vector2 ModifyPosition(Vector2 pos)
 	{
 		if (pos.x >= 0.5f)
-			pos.x -= 0.5f;
+			pos.x -= 0.25f;
 		else
-			pos.x += 0.5f;
+			pos.x += 0.25f;
 
 		if (pos.y <= 0.5f)
-			pos.y += 0.3f;
+			pos.y += 0.25f;
 		else
-			pos.y -= 0.3f;
+			pos.y -= 0.25f;
 
 		return pos;
 	}
