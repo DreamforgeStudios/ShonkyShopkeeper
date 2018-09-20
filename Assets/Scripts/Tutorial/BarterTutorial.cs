@@ -48,11 +48,13 @@ public class BarterTutorial : MonoBehaviour
 	}
 
 	//START BARTER TUTORIAL
-	public GameObject particles, particleChild, gizmoPrefab;
+	public GameObject particles, particleChild, speechBubblePrefab, dialogueTarget;
+	public Canvas mainCanvas;
 	private bool textEnabled = false;
 	public bool clickedNPC = false;
-	public List<string> tutorialDialogue = new List<string>();
-	private PopupTextManager clone;
+	public List<string> tutorialDialogue, tutorialInstructions;
+	private InstructionBubble clone;
+	public PhysicalShonkyInventory shonkyInv;
 
 	private void CheckForTutProgressChecker()
 	{
@@ -64,10 +66,38 @@ public class BarterTutorial : MonoBehaviour
 
 	private void Start()
 	{
-        clone = Instantiate(gizmoPrefab, GameObject.FindGameObjectWithTag("MainCamera").transform)
-	        .GetComponentInChildren<PopupTextManager>();
-		clone.PopupTexts = tutorialDialogue;
-		clone.Init();
-		clone.DoEnterAnimation();
+		GameManager.Instance.BarterNPC = true;
+        StartDialogue(tutorialDialogue, tutorialInstructions, mainCanvas,dialogueTarget, true);
+	}
+	
+	public void StartDialogue(List<string> dialogue, List<string> instruction, Canvas canvas, GameObject target, bool canvasElement)
+	{	
+		if (clone != null)
+			clone.DestroyItem();
+		
+		clone = Instantiate(speechBubblePrefab, mainCanvas.transform)
+			.GetComponentInChildren<InstructionBubble>();
+		clone.SetText(dialogue,instruction);
+		clone.Init(target,canvasElement,canvas);
+	}
+	
+	public void NextInstruction()
+	{
+		clone.NextInstructionText();
+	}
+
+	public void PreviousInstruction()
+	{
+		clone.PreviousInstructionText();
+	}
+
+	public void StartShonkyParticles()
+	{
+		shonkyInv.HighlightGolems();
+	}
+
+	public void RemoveShonkyParticles()
+	{
+		shonkyInv.RemoveParticles();
 	}
 }

@@ -52,15 +52,16 @@ public class MapTutorial : MonoBehaviour
 
 	//MAP TUTORIAL START
 
-	public GameObject shopButtonObj, sphere, particles, particleChild, gizmoPrefab;
+	public GameObject shopButtonObj, sphere, particles, particleChild, speechBubblePrefab, introTarget;
 	public bool clickedOrb, CanMoveCamera  = false;
-	public List<string> intro, map;
-	private PopupTextManager clone;
+	public List<string> intro, introInstructions, map, mapInstructions;
+	public InstructionBubble clone;
+	public Canvas mainCanvas;
 
 
 	private void Start()
 	{
-		StartDialogue(intro);
+		StartDialogue(intro,introInstructions, mainCanvas, sphere, false);
 	}
 	
 	private void CheckForTutProgressChecker()
@@ -71,32 +72,24 @@ public class MapTutorial : MonoBehaviour
 		shopButtonObj.SetActive(false);
 	}
 	
-	public void StartDialogue(List<string> dialogue)
-	{
-        clone = Instantiate(gizmoPrefab, GameObject.FindGameObjectWithTag("MainCamera").transform)
-	        .GetComponentInChildren<PopupTextManager>();
-		clone.PopupTexts = dialogue;
-		clone.Init();
-		clone.DoEnterAnimation();
-	}
+	public void StartDialogue(List<string> dialogue, List<string> instruction, Canvas canvas, GameObject target, bool canvasElement)
+	{	
+		if (clone != null)
+			clone.DestroyItem();
+		
+		clone = Instantiate(speechBubblePrefab, mainCanvas.transform)
+			.GetComponentInChildren<InstructionBubble>();
+		clone.SetText(dialogue,instruction);
+		clone.Init(target,canvasElement,canvas);
 
-	/*
-	public void StartTinyDialogue(List<string> dialogue)
-	{
-		gizmoTiny.SetActive(true);
-		clone = gizmoTiny.GetComponent<PopupTextManager>();
-		clone.PopupTexts = dialogue;
-		clone.Init();
-		clone.EnterModified();
 	}
-	*/
 	
 	private void Update()
 	{
 		
-		if (!CanMoveCamera && clone.closed)
+		if (!CanMoveCamera && clone.Instruction)
 		{			
-			PopupTextManager.onClose += StartSphereParticles();
+			InstructionBubble.onInstruction += StartSphereParticles();
 		}
 	}
 
@@ -105,16 +98,21 @@ public class MapTutorial : MonoBehaviour
 		CanMoveCamera = true;
 		StopSphereParticle();
 		clickedOrb = true;
-		StartDialogue(map);
+		StartDialogue(map, mapInstructions, mainCanvas, introTarget,true);
 	}
 	
-	private PopupTextManager.OnClose StartSphereParticles()
+	public void NextInstruction()
+	{
+		clone.NextInstructionText();
+	}
+	
+	private InstructionBubble.Instruct StartSphereParticles()
 	{
 		Debug.Log("starting sphere particles");
 		CanMoveCamera = true;
 		particleChild = Instantiate(particles, sphere.transform.position, sphere.transform.rotation);
 		particleChild.transform.parent = sphere.transform;
-		return () => { PopupTextManager.onClose -= StartSphereParticles(); };
+		return () => { InstructionBubble.onInstruction -= StartSphereParticles(); };
 	}
 	
 	private void StopSphereParticle()

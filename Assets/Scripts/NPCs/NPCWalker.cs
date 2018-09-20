@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.Serialization;
 
 public class NPCWalker : MonoBehaviour {
 	public string wizardName;
@@ -24,12 +25,15 @@ public class NPCWalker : MonoBehaviour {
 	public NPCSpawner Spawner;
 	public Vector3 endPosition;
 
+	public GameObject particleChild, particlePrefab;
+
 	// Use this for initialization
 	void Start () {
 		//InvokeRepeating("TestAndDestroy", 2f, 2f);
         //walkNormal = true;
 		NPC.ShowSide();
 		Spawner = GameObject.FindWithTag("NPCSpawner").GetComponent<NPCSpawner>();
+		EnableParticles();
 	}
 	
 	// Update is called once per frame
@@ -37,10 +41,11 @@ public class NPCWalker : MonoBehaviour {
         if (walkNormal)
 		    transform.position += new Vector3(walkDirection * walkSpeed * Time.deltaTime, 0, 0);
 
-		/*
-        if (!walkCycle)
-            WizardPunch(0.1f, 0.5f);
-            */
+		if (GameManager.Instance.BarterTutorial)
+		{
+			EnableParticles();
+			DisableParticles();
+		}
 	}
 
 	// Check if the object is on the screen.  If not, set inactive.
@@ -80,6 +85,26 @@ public class NPCWalker : MonoBehaviour {
 	    }
 	}
 
+	public void EnableParticles()
+	{
+		if ((GameManager.Instance.BarterNPC || GameManager.Instance.OfferNPC) && particleChild == null && 
+		    GameManager.Instance.BarterTutorial)
+		{
+			Debug.Log("Enabling particles");
+			particleChild = Instantiate(particlePrefab, this.transform);
+			particleChild.transform.localScale = new Vector3(1f, 1f, 1f);
+		}
+	}
+
+	public void DisableParticles()
+	{
+		if (particleChild != null && (!GameManager.Instance.BarterNPC && !GameManager.Instance.OfferNPC))
+		{
+			Destroy(particleChild);
+			Debug.Log("Disabling particles");
+		}
+	}
+
 	/*
 	public void ShowFront()
 	{
@@ -116,6 +141,15 @@ public class NPCWalker : MonoBehaviour {
 	public IEnumerator HideAfterSeconds(float seconds) {
 		Spawner.StopCoroutine(Spawner.HideAfterSeconds(this.gameObject,0f));
 		yield return new WaitForSeconds(seconds);
+		//Reset Instruction if in tutorial
+		if (GameManager.Instance.BarterTutorial)
+		{
+			BarterTutorial.Instance.PreviousInstruction();
+			BarterTutorial.Instance.RemoveShonkyParticles();
+			GameManager.Instance.BarterNPC = true;
+			GameManager.Instance.OfferNPC = false;
+		}
+
 		Spawner.isInteracting = false;
 		Vector3 backPos = endPosition;
 		NPC.ShowSide();

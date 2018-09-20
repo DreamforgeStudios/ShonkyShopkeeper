@@ -33,6 +33,9 @@ public class Hall : MonoBehaviour
 	private bool _click = false;
 	private float _currentHoldDuration;
 	
+	//Tutorial Element
+	public MapTutorial mapTutorialManager;
+	
 	// Use this for initialization
 	void Start ()
 	{
@@ -104,6 +107,11 @@ public class Hall : MonoBehaviour
 				Debug.Log("Moving Forward");
 				Camera.main.transform.DOMove(frontPos, 1f).SetEase(Ease.InOutSine).OnComplete(() => forward = true);
 				goldAmount.enabled = true;
+				if (GameManager.Instance.InMap)
+				{
+					if (mapTutorialManager.clone != null)
+						mapTutorialManager.NextInstruction();
+				}
 			}
 			else
 			{

@@ -11,11 +11,11 @@ public class InstructionBubble : MonoBehaviour
 	public LayerMask LayerMask;
 	public RectTransform canvasRectTransform;
 	public TextMeshProUGUI expositionTextBox, instructionTextBox;
-	public bool Instruction, canvasElement = true;
+	public bool Instruction, canvasElement;
 
 	public int activePage;
 	public List<string> informationTextToDisplay, instructionText;
-	public GameObject ExpositionBubbleObj, InstructionBubbleObj;
+	public GameObject ExpositionBubbleObj, InstructionBubbleObj, expositionBubblePrefab, instructionBubblePrefab;
 	public Vector2 instructionSecondPos;
 	private RectTransform expoBubbleRectT, instrBubbleRectT;
 	public Button nextButton, exitButton;
@@ -30,9 +30,6 @@ public class InstructionBubble : MonoBehaviour
 	private void Start()
 	{
 		mainCamera = Camera.main;
-		expoBubbleRectT = ExpositionBubbleObj.GetComponent<RectTransform>();
-		//ExpositionBubbleObj.gameObject.SetActive(false);
-		//InstructionBubbleObj.gameObject.SetActive(false);
 	}
 	
 	void Update() {
@@ -75,43 +72,48 @@ public class InstructionBubble : MonoBehaviour
 		}
 	}
 
-	public void Init(GameObject itemToTarget, bool CanvasElement)
+	public void Init(GameObject itemToTarget, bool CanvasElement, Canvas canvasToApply)
 	{
 		HideBubble();
 		activePage = 0;
 		canvasElement = CanvasElement;
 		targetObj = itemToTarget;
-		//if (informationTextToDisplay.Count > 1)
-		//{
-			expositionTextBox.text = informationTextToDisplay[activePage];
-			UpdateCloser();
-			Debug.Log("Setting exposition to active");
-			ExpositionBubbleObj.SetActive(true);
-			InstructionBubbleObj.SetActive(false);
-			Instruction = false;
-		//}
-			/*
-		else
-		{
-			//Dirty way right now to handle single item lists
-			//activePage--;
-			//ShowInstructionBubbleNextTo();
-			expositionTextBox.text = informationTextToDisplay[activePage];
+		canvasRectTransform = canvasToApply.GetComponent<RectTransform>();
 
-		}
-		*/
+		Debug.Log("Setting exposition to active");
+		/*
+		 * Link all variables. Really dirty right now
+		 */
+		ExpositionBubbleObj = Instantiate(expositionBubblePrefab, canvasToApply.transform);
+		InstructionBubbleObj = Instantiate(instructionBubblePrefab, canvasToApply.transform);
+		nextButton = ExpositionBubbleObj.transform.GetChild(1).GetComponent<Button>();
+		exitButton = ExpositionBubbleObj.transform.GetChild(2).GetComponent<Button>();
+		expositionTextBox = ExpositionBubbleObj.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+		instructionTextBox = InstructionBubbleObj.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+		expositionTextBox.text = informationTextToDisplay[activePage];
+		ExpositionBubbleObj.SetActive(true);
+		InstructionBubbleObj.SetActive(false);
+		Instruction = false;
+		nextButton.onClick.AddListener(NextText);
+		exitButton.onClick.AddListener(delegate { ShowInstructionBubbleNextTo(instructionText); });
+		
+		//Set position to middle of screen
+		Vector2 defaultPos = new Vector2(0.5f,0.5f);
+		ExpositionBubbleObj.transform.position = Camera.main.ViewportToScreenPoint(defaultPos);
+		UpdateCloser();
 	}
 
 	public void SetText(List<string> expositionText, List<string> instructionText)
 	{
 		informationTextToDisplay = expositionText;
 		this.instructionText = instructionText;
+		
 	}
 
-	public void ShowInstructionBubbleNextTo()
+	public void ShowInstructionBubbleNextTo(List<string> instructions)
 	{
 		Debug.Log("Showing instruction bubble and canvasElement is " + canvasElement);
-		if (instructionText == null)
+		if (instructions == null)
 		{
 			HideBubble();
 			return;
@@ -119,27 +121,38 @@ public class InstructionBubble : MonoBehaviour
 		
 		activePage = 0;
 		Instruction = true;
-		instructionTextBox.text = instructionText[activePage];
+		Debug.Log(instructions.Count + " is instruction length");
+		instructionTextBox.text = instructions[activePage];
 		Vector2 pos = new Vector2(0f,0f);
-		
+		RectTransform rectTransform = InstructionBubbleObj.GetComponent<RectTransform>();
+
 		//Need to manage canvas vs normal gameObjects
-		if (canvasElement)
+		if (targetObj != null)
 		{
-			pos = targetObj.transform.position;
-			Debug.Log("pos = " + pos);
-			pos = ModifyPosition(pos);
-			
-		}
-		else
-		{
-			pos = Camera.main.WorldToScreenPoint(targetObj.transform.position);
-			Debug.Log("pos = " + pos);
-			pos = ModifyPosition(pos);
+			if (canvasElement)
+			{
+				pos = Camera.main.ScreenToViewportPoint(targetObj.transform.position);
+				Debug.Log("pos = " + pos);
+				pos = ModifyPosition(pos);
+				pos = Camera.main.ViewportToScreenPoint(pos);
+				InstructionBubbleObj.transform.position = pos;
+			}
+			else
+			{
+				pos = Camera.main.WorldToViewportPoint(targetObj.transform.position);
+				Debug.Log("pos = " + pos);
+				pos = ModifyPosition(pos);
+				Debug.Log("Modified pos = " + pos);
+				pos = Camera.main.ViewportToScreenPoint(pos);
+				Debug.Log("Final pos = " + pos);
+				InstructionBubbleObj.transform.position = pos;
+				//InstructionBubbleObj.GetComponent<RectTransform>().anchoredPosition = pos;
+			}
 			
 		}
 
 		//InstructionBubbleObj.GetComponent<RectTransform>().anchoredPosition = pos;
-		InstructionBubbleObj.transform.position = pos;
+		
 		InstructionBubbleObj.SetActive(true);
 		ExpositionBubbleObj.SetActive(false);
 		OnInstruct();
@@ -154,16 +167,34 @@ public class InstructionBubble : MonoBehaviour
 		}
 	}
 
+	public void PreviousInstructionText()
+	{
+		if (activePage - 1 > 0)
+		{
+			instructionTextBox.text = instructionText[--activePage];
+			OnInstruct();
+		}
+	}
+
 	public void DestroyItem()
 	{
 		Instruction = false;
+		if(ExpositionBubbleObj != null)
+			Destroy(ExpositionBubbleObj);
+		if (InstructionBubbleObj != null)
+			Destroy(InstructionBubbleObj);
+		
 		Destroy(this.gameObject);
 	}
 
 	public void HideBubble()
 	{
+		if (InstructionBubbleObj != null)
 		InstructionBubbleObj.SetActive(false);
+		
+		if (ExpositionBubbleObj != null)
 		ExpositionBubbleObj.SetActive(false);
+		
 		Instruction = false;
 	}
 	
@@ -179,22 +210,25 @@ public class InstructionBubble : MonoBehaviour
 	//Used to move the scroll away from the target obj, towards the centre of the screen
 	private Vector2 ModifyPosition(Vector2 pos)
 	{
-		if (pos.x >= 230f)
-			pos.x -= 160f;
+		if (pos.x >= 0.5f)
+			pos.x -= 0.35f;
 		else
-			pos.x += 200f;
+			pos.x += 0.35f;
 
-		if (pos.y <= 150f)
-			pos.y += 100f;
+		if (pos.y <= 0.5f)
+			pos.y += 0.2f;
 		else
-			pos.y -= 100f;
+			pos.y -= 0.2f;
 
 		return pos;
 	}
 
 	public void MoveInstructionScroll()
 	{
-		InstructionBubbleObj.transform.DOMove(instructionSecondPos, 2f, false);
+		RectTransform rectTransform = InstructionBubbleObj.GetComponent<RectTransform>();
+		Vector2 pos = new Vector3(0.85f, 0.75f);
+		pos = Camera.main.ViewportToScreenPoint(pos);
+		InstructionBubbleObj.transform.DOMove(pos, 2f, false);
 	}
 	
 	// Update the closer so that if we're on the last page it can be closed.
