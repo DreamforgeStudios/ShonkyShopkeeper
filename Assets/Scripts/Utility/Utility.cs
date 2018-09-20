@@ -18,10 +18,18 @@ public static class Utility {
 		return Mathf.Atan2(det, dot) * Mathf.Rad2Deg;
 	}
 	
-	public static Vector3 ConvertToWorldPoint(Vector3 screenPoint) {
-		// If this is changed from 10, it fucks up.
-		// I think that 10 indicates 10 units FROM the camera, not 10 in the scene.
-		screenPoint.z = 10;
+	public static Vector3 ConvertToWorldPoint(Vector3 screenPoint, float z = 10) {
+		screenPoint.z = z;
 		return Camera.main.ScreenToWorldPoint(screenPoint);
+	}
+
+	public static Vector3 ConvertToScreenPoint(Vector3 worldPoint, float z = 10) {
+		return Camera.main.WorldToScreenPoint(worldPoint);
+	}
+
+	public static Vector3 ConvertToScreenPoint(Vector3 worldPoint, Canvas canvas, float z = 10) {
+		Vector3 p = Camera.main.WorldToScreenPoint(worldPoint);
+		p *= canvas.scaleFactor;
+		return p;
 	}
 }
