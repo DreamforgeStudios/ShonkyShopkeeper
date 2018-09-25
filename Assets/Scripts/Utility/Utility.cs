@@ -23,13 +23,7 @@ public static class Utility {
 		return Camera.main.ScreenToWorldPoint(screenPoint);
 	}
 
-	public static Vector3 ConvertToScreenPoint(Vector3 worldPoint, float z = 10) {
+	public static Vector3 ConvertToScreenPoint(Vector3 worldPoint) {
 		return Camera.main.WorldToScreenPoint(worldPoint);
-	}
-
-	public static Vector3 ConvertToScreenPoint(Vector3 worldPoint, Canvas canvas, float z = 10) {
-		Vector3 p = Camera.main.WorldToScreenPoint(worldPoint);
-		p *= canvas.scaleFactor;
-		return p;
 	}
 }
