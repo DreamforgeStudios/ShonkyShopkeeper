@@ -103,9 +103,9 @@ public class ShonkyInventory : ScriptableObject {
             if (SlotEmpty(i)) { //|| PossibleEmpties(i)) {
                 //Debug.Log("Inserted at slot " + i);
                 shonkyInventory[i] = item;
+                PersistentData.Instance.GolemsCrafted++;
                 if (CheckIfTrueGolem(item))
                 {
-                    NarrativeManager.Read("true_golem_01");
                     UnlockTrueGolem(item);
                     switch (Inventory.Instance.GetUnlockedTrueGolems().Count) {
                         case 1:
@@ -124,6 +124,8 @@ public class ShonkyInventory : ScriptableObject {
                             break;
                     }
                 }
+                
+                PersistentData.Instance.Save();
                 Save();
                 return i;
             }

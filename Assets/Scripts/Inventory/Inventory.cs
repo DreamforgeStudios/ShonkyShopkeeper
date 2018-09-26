@@ -59,6 +59,7 @@ public class Inventory : ScriptableObject {
         }
         
         unlockedTowns.Add(town);
+        
         Save();
     }
 
@@ -134,12 +135,17 @@ public class Inventory : ScriptableObject {
     
     public void AddGold(int amount) {
         goldCount += amount;
+        PersistentData.Instance.GoldEarnt += amount;
+        PersistentData.Instance.Save();
+        
         Save();
     }
 
     public bool RemoveGold(int amount) {
         if (goldCount - amount >= 0) {
             goldCount -= amount;
+            PersistentData.Instance.GoldSpent += amount;
+            PersistentData.Instance.Save();
             Save();
             return true;
         }
@@ -163,6 +169,7 @@ public class Inventory : ScriptableObject {
             unlockedTrueGolems.Add(golem);
             AchievementManager.Get("true_golem_01");
             AchievementManager.Increment("true_golem_02");
+            PersistentData.Instance.Save();
             Save();
             return true;
         }
@@ -208,6 +215,9 @@ public class Inventory : ScriptableObject {
             if (SlotEmpty(i)) {
                 //Debug.Log("Inserted at slot " + i);
                 inventory[i] = item;
+                PersistentData.Instance.TotalItemsCrafted++;
+                PersistentData.Instance.AddItem(item);
+                PersistentData.Instance.Save();
                 Save();
                 return i;
             }
