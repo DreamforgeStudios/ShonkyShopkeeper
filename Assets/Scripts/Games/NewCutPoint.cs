@@ -150,12 +150,6 @@ public class NewCutPoint : MonoBehaviour {
 		SpinnerSpriteRenderer.sortingOrder = 0;
 		LineSpriteRenderer.sortingOrder = 0;
 	}
-	
-	// Update is called once per frame
-	private float spawnTimeCounter = 0;
-	private bool spawned = false;
-	void Update () {
-	}
 
 	private void OnSpawnCompleteTick() {
 		if (onSpawnComplete != null) {

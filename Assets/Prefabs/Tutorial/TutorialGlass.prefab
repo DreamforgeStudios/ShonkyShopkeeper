@@ -28,7 +28,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &114510132454523958
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -72,19 +72,55 @@ MonoBehaviour:
   ObjectPresets:
   - ObjectInfos:
     - Object: {fileID: 0}
-      Offset: {x: 4.5, y: 0, z: 0}
+      Offset: {x: -170, y: -25, z: 0}
+      Heading: Gold Amount
+      Description: 
+    - Object: {fileID: 0}
+      Offset: {x: -200, y: 0, z: 0}
+      Heading: Go to Inventory
+      Description: 
+    - Object: {fileID: 0}
+      Offset: {x: 180, y: 0, z: 0}
+      Heading: Go to Map Room
+      Description: 
+    - Object: {fileID: 0}
+      Offset: {x: 200, y: 0, z: 0}
+      Heading: Mine Portal
+      Description: Throw Golems in to get resources.
+  - ObjectInfos:
+    - Object: {fileID: 0}
+      Offset: {x: -170, y: -25, z: 0}
+      Heading: Gold Amount
+      Description: 
+    - Object: {fileID: 0}
+      Offset: {x: -200, y: 0, z: 0}
+      Heading: Go to Shop
+      Description: 
+    - Object: {fileID: 0}
+      Offset: {x: 180, y: 0, z: 0}
+      Heading: Go to Map Room
+      Description: 
+    - Object: {fileID: 0}
+      Offset: {x: 200, y: 0, z: 0}
+      Heading: Bin Portal
+      Description: (With forceps) Tap Item then bin portal to trash that item for
+        a small amount of gold.
+    - Object: {fileID: 0}
+      Offset: {x: 200, y: 0, z: 0}
       Heading: Forceps
-      Description: These are the forceps.
+      Description: (While selected) Tap two items to swap position.
     - Object: {fileID: 0}
-      Offset: {x: 4.5, y: 0, z: 0}
-      Heading: Magnifier
-      Description: This is the magnifier.
+      Offset: {x: 275, y: 50, z: 0}
+      Heading: Magnifying Glass
+      Description: (While selected) Tap to inspect item quality and open resource
+        pouches.
     - Object: {fileID: 0}
-      Offset: {x: 0, y: 0, z: 0}
-      Heading: Button
-      Description: This is a button.
+      Offset: {x: -180, y: 0, z: 0}
+      Heading: Golemancer's Wand
+      Description: (While selected) Tap to craft items.  Tap two finished items to
+        combine them into a golem.
   Canvas: {fileID: 0}
-  InfoIndex: 0
+  Index: 0
   DebugIndex: 0
 --- !u!222 &222569802172795522
 CanvasRenderer:
