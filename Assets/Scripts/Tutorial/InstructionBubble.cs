@@ -132,7 +132,7 @@ public class InstructionBubble : MonoBehaviour
 			if (canvasElement)
 			{
 				pos = Camera.main.ScreenToViewportPoint(targetObj.transform.position);
-				Debug.Log("pos = " + pos);
+				//Debug.Log("pos = " + pos);
 				pos = ModifyPosition(pos);
 				pos = Camera.main.ViewportToScreenPoint(pos);
 				InstructionBubbleObj.transform.position = pos;
@@ -140,11 +140,11 @@ public class InstructionBubble : MonoBehaviour
 			else
 			{
 				pos = Camera.main.WorldToViewportPoint(targetObj.transform.position);
-				Debug.Log("pos = " + pos);
+				//Debug.Log("pos = " + pos);
 				pos = ModifyPosition(pos);
-				Debug.Log("Modified pos = " + pos);
+				//Debug.Log("Modified pos = " + pos);
 				pos = Camera.main.ViewportToScreenPoint(pos);
-				Debug.Log("Final pos = " + pos);
+				//Debug.Log("Final pos = " + pos);
 				InstructionBubbleObj.transform.position = pos;
 				//InstructionBubbleObj.GetComponent<RectTransform>().anchoredPosition = pos;
 			}

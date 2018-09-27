@@ -61,7 +61,9 @@ public class MapTutorial : MonoBehaviour
 
 	private void Start()
 	{
+		CanMoveCamera = false;
 		StartDialogue(intro,introInstructions, mainCanvas, sphere, false);
+		StartSphereParticles();
 	}
 	
 	private void CheckForTutProgressChecker()
@@ -88,8 +90,8 @@ public class MapTutorial : MonoBehaviour
 	{
 		
 		if (!CanMoveCamera && clone.Instruction)
-		{			
-			InstructionBubble.onInstruction += StartSphereParticles();
+		{
+			CanMoveCamera = true;
 		}
 	}
 
@@ -109,7 +111,6 @@ public class MapTutorial : MonoBehaviour
 	private InstructionBubble.Instruct StartSphereParticles()
 	{
 		Debug.Log("starting sphere particles");
-		CanMoveCamera = true;
 		particleChild = Instantiate(particles, sphere.transform.position, sphere.transform.rotation);
 		particleChild.transform.parent = sphere.transform;
 		return () => { InstructionBubble.onInstruction -= StartSphereParticles(); };
