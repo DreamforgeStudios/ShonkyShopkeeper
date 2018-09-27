@@ -188,7 +188,7 @@ public class Polishing : MonoBehaviour {
         currentTime = Time.time;
         //text.text = "Swipes: " + numberOfSwipes;
         //if (Input.touchCount > 0) {
-        if (Input.GetMouseButtonDown(0)) {
+        if (Input.GetMouseButton(0)) {
             isMouseDown = true;
             if (!coroutineRunning) {
                 startTime = Time.time;
