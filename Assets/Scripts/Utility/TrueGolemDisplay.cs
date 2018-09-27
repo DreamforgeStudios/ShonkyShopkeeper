@@ -6,16 +6,16 @@ using UnityEngine;
 
 public class TrueGolemDisplay : MonoBehaviour
 {
-
+	public Inventory defaultInv;
 	public List<GameObject> trueGolemModels;
 	// Use this for initialization
 	void Start ()
 	{
+		SaveManager.LoadOrInitializeInventory(defaultInv);
 		ResetGolems();
 		List<TrueGolems.TrueGolem> golemsUnlocked = Inventory.Instance.GetUnlockedTrueGolems();
 		//Greater than one because of the nill in enum used for instantiation purposes
 		Debug.Log("Golems unlocked count is " + golemsUnlocked.Count());
-		Debug.Log("First index is " + golemsUnlocked[0]);
 		if (golemsUnlocked.Count > 0)
 		{
 			foreach (TrueGolems.TrueGolem trueGolem in golemsUnlocked)

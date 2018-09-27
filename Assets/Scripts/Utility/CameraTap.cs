@@ -41,7 +41,8 @@ public class CameraTap : MonoBehaviour {
 			img.transform.DORotate(bottomScreenRotationImg, 0.4f).SetEase(Ease.InOutSine);
             GameManager.Instance.CameraRotTransfer = bottomScreenRotation.x;
             topScreen = false;
-            tutGlass.Index = 1;
+            if (tutGlass != null)
+                tutGlass.Index = 1;
         } else {
             //SFX.Play("sound");
             SFX.Play("Tap_to_look_UP", 1f, 1f, 0f, false, 0f);
@@ -49,7 +50,8 @@ public class CameraTap : MonoBehaviour {
 			img.transform.DORotate(topScreenRotationImg, 0.4f).SetEase(Ease.InOutSine);
             GameManager.Instance.CameraRotTransfer = topScreenRotation.x;
             topScreen = true;
-            tutGlass.Index = 0;
+            if (tutGlass != null)
+                tutGlass.Index = 0;
         }
 
         if (!GameManager.Instance.TutorialIntroTopComplete && GameManager.Instance.InTutorial)
