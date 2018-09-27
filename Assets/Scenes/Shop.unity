@@ -357,49 +357,14 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 224924367671327204, guid: fadff37d377d3974981ee0353baee59a,
+    - target: {fileID: 114907663061263040, guid: fadff37d377d3974981ee0353baee59a,
         type: 2}
-      propertyPath: m_AnchorMin.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224924367671327204, guid: fadff37d377d3974981ee0353baee59a,
-        type: 2}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224924367671327204, guid: fadff37d377d3974981ee0353baee59a,
-        type: 2}
-      propertyPath: m_AnchorMax.x
+      propertyPath: m_havePropertiesChanged
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 224924367671327204, guid: fadff37d377d3974981ee0353baee59a,
+    - target: {fileID: 114907663061263040, guid: fadff37d377d3974981ee0353baee59a,
         type: 2}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 224924367671327204, guid: fadff37d377d3974981ee0353baee59a,
-        type: 2}
-      propertyPath: m_AnchoredPosition.x
-      value: 0.11705017
-      objectReference: {fileID: 0}
-    - target: {fileID: 224924367671327204, guid: fadff37d377d3974981ee0353baee59a,
-        type: 2}
-      propertyPath: m_SizeDelta.x
-      value: 0.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 224924367671327204, guid: fadff37d377d3974981ee0353baee59a,
-        type: 2}
-      propertyPath: m_SizeDelta.y
-      value: -127.01
-      objectReference: {fileID: 0}
-    - target: {fileID: 224924367671327204, guid: fadff37d377d3974981ee0353baee59a,
-        type: 2}
-      propertyPath: m_AnchoredPosition.y
-      value: -44.89
-      objectReference: {fileID: 0}
-    - target: {fileID: 114758243816560444, guid: fadff37d377d3974981ee0353baee59a,
-        type: 2}
-      propertyPath: m_lineSpacing
+      propertyPath: m_isInputParsingRequired
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114758243816560444, guid: fadff37d377d3974981ee0353baee59a,
@@ -408,41 +373,6 @@ Prefab:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114758243816560444, guid: fadff37d377d3974981ee0353baee59a,
-        type: 2}
-      propertyPath: m_isInputParsingRequired
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114758243816560444, guid: fadff37d377d3974981ee0353baee59a,
-        type: 2}
-      propertyPath: m_text
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 114758243816560444, guid: fadff37d377d3974981ee0353baee59a,
-        type: 2}
-      propertyPath: m_textInfo.characterCount
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114758243816560444, guid: fadff37d377d3974981ee0353baee59a,
-        type: 2}
-      propertyPath: m_textInfo.spaceCount
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114758243816560444, guid: fadff37d377d3974981ee0353baee59a,
-        type: 2}
-      propertyPath: m_textInfo.wordCount
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114758243816560444, guid: fadff37d377d3974981ee0353baee59a,
-        type: 2}
-      propertyPath: m_textInfo.lineCount
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114758243816560444, guid: fadff37d377d3974981ee0353baee59a,
-        type: 2}
-      propertyPath: m_textInfo.pageCount
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114907663061263040, guid: fadff37d377d3974981ee0353baee59a,
         type: 2}
       propertyPath: m_isInputParsingRequired
       value: 1
@@ -32565,11 +32495,11 @@ MonoBehaviour:
     lineCount: 1
     pageCount: 1
     materialCount: 2
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 1
+  m_isInputParsingRequired: 0
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:

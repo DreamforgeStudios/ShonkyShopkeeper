@@ -208,7 +208,7 @@ public class BarterManager : MonoBehaviour {
 
 		// TODO, base speed and stuff off how well they're doing.
 		Animator anim = golemClone.GetComponent<Animator>();
-		anim.SetBool("Pickup", true);
+		anim.SetBool("Dance", true);
 		anim.speed += .5f;
 		
 		//Play relevant SFX based on point hit
@@ -291,7 +291,7 @@ public class BarterManager : MonoBehaviour {
 		RadialBar.gameObject.SetActive(false);
 		
 		var anim = golemClone.GetComponent<Animator>();
-		anim.SetBool("Pickup", false);
+		anim.SetBool("Dance", false);
 		anim.SetBool("Idle", true);
 		golemClone.transform.SetParent(wizardClone.transform);
 		golemClone.transform.DOMove(wizardClone.transform.position, .9f).OnComplete(() => {
