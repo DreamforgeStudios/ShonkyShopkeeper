@@ -4948,7 +4948,7 @@ Prefab:
     - target: {fileID: 114374969198963020, guid: 25dd6878305a78d42bb9578ec9c719c1,
         type: 2}
       propertyPath: introInstructions.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4209101326236268, guid: 25dd6878305a78d42bb9578ec9c719c1, type: 2}
       propertyPath: m_LocalPosition.x
@@ -5066,12 +5066,12 @@ Prefab:
     - target: {fileID: 114374969198963020, guid: 25dd6878305a78d42bb9578ec9c719c1,
         type: 2}
       propertyPath: introInstructions.Array.data[1]
-      value: Click on the Travelling Orb on the pedestal to view possible destinations
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 114374969198963020, guid: 25dd6878305a78d42bb9578ec9c719c1,
         type: 2}
       propertyPath: mapInstructions.Array.data[0]
-      value: "Choose where you would like to begin your enterprise\u2026"
+      value: Choose where you would like to begin your enterprise.
       objectReference: {fileID: 0}
     - target: {fileID: 114374969198963020, guid: 25dd6878305a78d42bb9578ec9c719c1,
         type: 2}

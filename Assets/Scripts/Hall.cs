@@ -91,11 +91,12 @@ public class Hall : MonoBehaviour
 				Camera.main.transform.DOMove(frontPos, 1f).SetEase(Ease.InOutSine).OnComplete(() => forward = true);
 				goldAmount.enabled = true;
 				MoveAroundGlobe();
-				if (GameManager.Instance.InMap)
+				if (GameManager.Instance.InMap && !mapTutorialManager.clickedOrb)
 				{
-					if (mapTutorialManager.clone != null)
-						mapTutorialManager.NextInstruction();
+					mapTutorialManager.ClickedSphere();
+					canMoveAround = false;
 				}
+				mapInteraction = true;
 			}
 			else
 			{
@@ -112,15 +113,25 @@ public class Hall : MonoBehaviour
 	{
 		if (forward)
 		{
+			//Just need to handle the tutorial now that the system has changed.
+			if (GameManager.Instance.InMap && mapTutorialManager.clone.Instruction)
+			{
+				canMoveAround = true;
+			}
+			
+			//Raycast for the town  objects.
 			RaycastHit hit;
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			Debug.DrawLine(ray.origin,ray.direction,Color.red,4f);
 			if (Physics.Raycast(ray, out hit, 1))
 			{
-				//Debug.Log(hit.transform.gameObject.name + " hit");
+				Debug.Log(hit.transform.gameObject.name + " hit" + " can select towns " + canMoveAround);
 				if (hit.transform.gameObject.CompareTag("Town") && canMoveAround)
 				{
 					ChooseTown(hit);
+				} else if (GameManager.Instance.InMap)
+				{
+					mapInteraction = true;
 				}
 				else if (mapInteraction && !hit.transform.gameObject.CompareTag("Town"))
 				{
@@ -131,6 +142,7 @@ public class Hall : MonoBehaviour
 		}
 		else
 		{
+			Debug.Log("not sphere");
 			mapInteraction = false;
 		}
 	}
@@ -175,7 +187,8 @@ public class Hall : MonoBehaviour
 	//Moves town objects from the centre of the sphere to each of their respective starting points
 	private void MoveAroundGlobe()
 	{
-		canMoveAround = true;
+		if (!GameManager.Instance.InMap)
+			canMoveAround = true;
 		
 		//Make sure they are on the right layer
 		foreach (GameObject town in townObjects)
@@ -202,6 +215,10 @@ public class Hall : MonoBehaviour
 		if (nextPosition == 4)
 			nextPosition = 0;
 		if (canMoveAround)
+		{
+			townTransform.DOMove(startingPositions[nextPosition].transform.position, 5f, false).SetEase(Ease.InOutQuad)
+				.OnComplete(() => RotateAroundGlobe(townTransform, nextPosition));
+		} else if (GameManager.Instance.InMap)
 		{
 			townTransform.DOMove(startingPositions[nextPosition].transform.position, 5f, false).SetEase(Ease.InOutQuad)
 				.OnComplete(() => RotateAroundGlobe(townTransform, nextPosition));
@@ -280,8 +297,11 @@ public class Hall : MonoBehaviour
 			purchaseButton.gameObject.SetActive(true);
 
 		backButton.gameObject.SetActive(true);
-		goldText.gameObject.SetActive(true);
-		goldText.text = "<sprite=0>" + Inventory.Instance.goldCount;
+		if (!GameManager.Instance.InMap)
+		{
+			goldText.gameObject.SetActive(true);
+			goldText.text = "<sprite=0>" + Inventory.Instance.goldCount;
+		}
 	}
 	
 	//Method used by the back button to hide current town description
