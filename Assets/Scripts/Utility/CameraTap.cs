@@ -22,12 +22,14 @@ public class CameraTap : MonoBehaviour {
             transform.localEulerAngles = topScreenRotation;
             img.transform.localEulerAngles = topScreenRotationImg;
             topScreen = true;
-            tutGlass.Index = 0;
+            if (tutGlass != null)
+                tutGlass.Index = 0;
         } else {
             transform.localEulerAngles = bottomScreenRotation;
             img.transform.localEulerAngles = bottomScreenRotationImg;
             topScreen = false;
-            tutGlass.Index = 1;
+            if (tutGlass != null)
+                tutGlass.Index = 1;
         }
     }
 

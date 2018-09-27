@@ -75,8 +75,6 @@ public class OptionsScreen : MonoBehaviour
 	public void ClearSaveData()
 	{
 		//Doesn't clear, just resets from defaults
-		GameManager.Instance.InTutorial = false;
-		GameManager.Instance.TutorialIntroComplete = true;
 		SaveManager.LoadFromTemplate(defaultInventory);
 		SaveManager.LoadFromShonkyTemplate(defaultShonkyInventory);
 		SaveManager.SaveInventory();

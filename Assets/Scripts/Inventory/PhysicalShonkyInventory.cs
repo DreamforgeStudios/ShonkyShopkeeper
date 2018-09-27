@@ -93,11 +93,11 @@ public class PhysicalShonkyInventory : MonoBehaviour {
             ItemInstance instance;
             // If an object exists at the specified location.
             //Debug.Log("index is " + i);
-            Debug.Log("Checking Shonky Slot: " + i);
+            //Debug.Log("Checking Shonky Slot: " + i);
             if (ShonkyInventory.Instance.GetItem(i, out instance)) {
                 shonkySlots[i].SetItem(instance);
                 GameObject obj;
-                Debug.Log("Found Shonky at slot " + i);
+                //Debug.Log("Found Shonky at slot " + i);
                 if (shonkySlots[i].GetPrefabInstance(out obj)) {
                     if (CheckIfInMine(i))
                     {
@@ -124,11 +124,11 @@ public class PhysicalShonkyInventory : MonoBehaviour {
         {
             if (item.InMine)
             {
-                Debug.Log(index + " is in the mine");
+                //Debug.Log(index + " is in the mine");
                 return true;
             }
         }
-        Debug.Log(index + " Not in Mine");
+        //Debug.Log(index + " Not in Mine");
         return false;
     }
 

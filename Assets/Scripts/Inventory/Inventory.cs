@@ -49,7 +49,7 @@ public class Inventory : ScriptableObject {
     public ItemInstance[] inventory;
     public List<Travel.Towns> unlockedTowns;
     public Travel.Towns currentTown;
-    private List<TrueGolems.TrueGolem> unlockedTrueGolems;
+    public List<TrueGolems.TrueGolem> unlockedTrueGolems;
 
     public void UnlockTown(Travel.Towns town) {
         CheckInitialisation();
@@ -157,13 +157,15 @@ public class Inventory : ScriptableObject {
     public List<TrueGolems.TrueGolem> GetUnlockedTrueGolems()
     {
         CheckTrueGolemInitialisation();
+        Debug.Log(unlockedTrueGolems.Count + " is true golem length");
         return unlockedTrueGolems;
     }
     
     //Unlock method
-    public bool UnlockTrueGolem(TrueGolems.TrueGolem golem) {
+    public void UnlockTrueGolem(TrueGolems.TrueGolem golem) {
         if (TrueGolems.PotentialUnlockTrueGolem(golem))
         {
+            Debug.Log("Unlocking true golem " + golem);
             CheckTrueGolemInitialisation();
             Debug.Log("Adding new True Golem");
             unlockedTrueGolems.Add(golem);
@@ -171,15 +173,15 @@ public class Inventory : ScriptableObject {
             AchievementManager.Increment("true_golem_02");
             PersistentData.Instance.Save();
             Save();
-            return true;
         }
-
-        return false;
     } 
     
     private void CheckTrueGolemInitialisation() {
-        if (unlockedTrueGolems == null) {
+        if (unlockedTrueGolems == null)
+        {
+            Debug.Log(unlockedTrueGolems.Count);
             unlockedTrueGolems = new List<TrueGolems.TrueGolem>();
+            Debug.Log("Resetting true golem list");
             unlockedTrueGolems.Add(TrueGolems.TrueGolem.nill);
         }
     }

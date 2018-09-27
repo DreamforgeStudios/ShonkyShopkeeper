@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Policy;
 using UnityEngine;
 
@@ -11,10 +12,11 @@ public class TrueGolemDisplay : MonoBehaviour
 	void Start ()
 	{
 		ResetGolems();
-		List<TrueGolems.TrueGolem> golemsUnlocked = new List<TrueGolems.TrueGolem>(); 
-		golemsUnlocked = Inventory.Instance.GetUnlockedTrueGolems();
+		List<TrueGolems.TrueGolem> golemsUnlocked = Inventory.Instance.GetUnlockedTrueGolems();
 		//Greater than one because of the nill in enum used for instantiation purposes
-		if (golemsUnlocked.Count > 1)
+		Debug.Log("Golems unlocked count is " + golemsUnlocked.Count());
+		Debug.Log("First index is " + golemsUnlocked[0]);
+		if (golemsUnlocked.Count > 0)
 		{
 			foreach (TrueGolems.TrueGolem trueGolem in golemsUnlocked)
 			{
@@ -31,6 +33,8 @@ public class TrueGolemDisplay : MonoBehaviour
 						break;
 					case TrueGolems.TrueGolem.amethystGolem:
 						trueGolemModels[3].SetActive(true);
+						break;
+					default:
 						break;
 				}
 			}

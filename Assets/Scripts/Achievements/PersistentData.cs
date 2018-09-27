@@ -110,7 +110,7 @@ public class PersistentData : ScriptableObject {
             pd.hideFlags = HideFlags.HideAndDontSave;
             
         } else {
-            pd = Instantiate((PersistentData) Resources.Load("PersistentDataTemplate"));
+            pd = Instantiate((PersistentData) Resources.Load("PersistentData"));
             pd.hideFlags = HideFlags.HideAndDontSave;
         }
 
