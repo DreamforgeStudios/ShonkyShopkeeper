@@ -77,8 +77,10 @@ public class OptionsScreen : MonoBehaviour
 		//Doesn't clear, just resets from defaults
 		SaveManager.LoadFromTemplate(defaultInventory);
 		SaveManager.LoadFromShonkyTemplate(defaultShonkyInventory);
+		SaveManager.LoadFromPersistentDataTemplate();
 		SaveManager.SaveInventory();
 		SaveManager.SaveShonkyInventory();
+		SaveManager.SavePersistentData();
 	}
 	
 	
