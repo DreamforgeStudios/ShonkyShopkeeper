@@ -85,14 +85,10 @@ public class NewCutPoint : MonoBehaviour {
 	private Sequence RunAnimation() {
 		AlignWithCutVector();
 		
+		// Spawning instantly now.
+		OnSpawnCompleteTick();
+		
 		var seq = DOTween.Sequence();
-		/*
-		for (int i = 0; i < NumberOfSpins; i++) {
-            seq.Append(CircleSpriteRenderer.transform.DOLocalRotate(Vector3.forward * 360, RotationSpeed, RotateMode.LocalAxisAdd)
-                .SetEase(EasePerLoop ? RotationEase : Ease.Linear));
-		}
-		*/
-		seq.AppendCallback(OnSpawnCompleteTick);
         seq.Append(SpinnerSpriteRenderer.transform.DOLocalRotate(Vector3.forward * 360, RotationSpeed, RotateMode.LocalAxisAdd)
             .SetEase(EasePerLoop ? RotationEase : Ease.Linear).SetLoops(NumberOfSpins));
 		// TODO: make this use parameters.
@@ -125,8 +121,10 @@ public class NewCutPoint : MonoBehaviour {
 	
 	[Button("Set Selected")]
 	public void SetSelected() {
-		if (animationSeq.fullPosition < LineAppearAtTime)
+		/*
+		if (animationSeq.Elapsed() < LineAppearAtTime)
 			animationSeq.Goto(LineAppearAtTime, true);
+			*/
 		
 		SpinnerSpriteRenderer.transform.DOScale(SpinnerSelectedScale, SpinnerSelectedEaseTime)
 			.SetEase(SpinnerSelectedEase);
