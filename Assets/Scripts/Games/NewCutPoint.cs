@@ -61,10 +61,8 @@ public class NewCutPoint : MonoBehaviour {
 				  lineOriginalScale;
 	private Color spinnerOriginalColor,
 				  lineOriginalColor;
-	// Use this for initialization
-	void Awake () {
-	}
-
+	private Sequence animationSeq;
+	
 	void Start() {
 		// NOTE: we assume that all axis' are scaled the same.
 		spinnerOriginalScale = SpinnerSpriteRenderer.transform.localScale;
@@ -73,7 +71,7 @@ public class NewCutPoint : MonoBehaviour {
 		lineOriginalColor = LineSpriteRenderer.color;
 		
 		Initialize();
-		RunAnimation();
+		animationSeq = RunAnimation();
 	}
 
 	[Button("Reset Values")]
@@ -84,7 +82,7 @@ public class NewCutPoint : MonoBehaviour {
 	}
 
 	[Button("Run Animation")]
-	private void RunAnimation() {
+	private Sequence RunAnimation() {
 		AlignWithCutVector();
 		
 		var seq = DOTween.Sequence();
@@ -94,6 +92,7 @@ public class NewCutPoint : MonoBehaviour {
                 .SetEase(EasePerLoop ? RotationEase : Ease.Linear));
 		}
 		*/
+		seq.AppendCallback(OnSpawnCompleteTick);
         seq.Append(SpinnerSpriteRenderer.transform.DOLocalRotate(Vector3.forward * 360, RotationSpeed, RotateMode.LocalAxisAdd)
             .SetEase(EasePerLoop ? RotationEase : Ease.Linear).SetLoops(NumberOfSpins));
 		// TODO: make this use parameters.
@@ -102,11 +101,12 @@ public class NewCutPoint : MonoBehaviour {
 		Tween drawLine =  DOTween.To(() => LineSpriteMask.alphaCutoff, x => LineSpriteMask.alphaCutoff = x, 0, MaskWipeTime)
 			.SetEase(MaskWipeEase);
 		seq.Insert(LineAppearAtTime, drawLine);
-		seq.InsertCallback(LineAppearAtTime, OnSpawnCompleteTick);
+		//seq.InsertCallback(LineAppearAtTime, OnSpawnCompleteTick);
 		
 		seq.SetEase(EasePerLoop ? Ease.Linear : RotationEase);
 		seq.Play();
-		
+
+		return seq;
 		// TODO: change color as the circle "warms up"?
 	}
 
@@ -125,6 +125,9 @@ public class NewCutPoint : MonoBehaviour {
 	
 	[Button("Set Selected")]
 	public void SetSelected() {
+		if (animationSeq.fullPosition < LineAppearAtTime)
+			animationSeq.Goto(LineAppearAtTime, true);
+		
 		SpinnerSpriteRenderer.transform.DOScale(SpinnerSelectedScale, SpinnerSelectedEaseTime)
 			.SetEase(SpinnerSelectedEase);
 		SpinnerSpriteRenderer.DOColor(SpinnerSelectedColor, SpinnerSelectedEaseTime).SetEase(SpinnerSelectedEase);
