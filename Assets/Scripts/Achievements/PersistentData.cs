@@ -4,6 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 
+public enum Difficulty {
+    Easy,
+    Normal,
+    Hard
+}
+
 [CreateAssetMenu(menuName = "Data/PersistentData", fileName = "PersistentData.asset")]
 [System.Serializable]
 public class PersistentData : ScriptableObject {
@@ -64,6 +70,7 @@ public class PersistentData : ScriptableObject {
     public int GoldEarnt,
         GoldSpent;
 
+    public Difficulty Difficulty;
 
     public void AddItem(ItemInstance item) {
         switch (item.Quality) {

@@ -3553,7 +3553,14 @@ MonoBehaviour:
   chosenFinishColour: {r: 0, g: 1, b: 0.006896496, a: 0}
   hitPoints: 0
   maxDistanceAway: 1
-  ScoreMultiplier: 0.9
+  DifficultySettings:
+    m_keys: 000000000100000002000000
+    m_values:
+    - ScoreMultiplier: 0.9
+    - ScoreMultiplier: 0.8
+    - ScoreMultiplier: 0.6
+  ManualDifficultyOverride: 0
+  ManualDifficulty: 2
   startTime: 0
   currentTime: 0
   finishTime: 0

@@ -7,13 +7,26 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 
-public class Cutting : MonoBehaviour {
-	[BoxGroup("Game Properties")]
+[System.Serializable]
+public class DifficultyCuttingDictionary : SerializableDictionary<Difficulty, CuttingDifficultySettings> {}
+
+[System.Serializable]
+public class CuttingDifficultySettings {
 	public float InitialSpawnInterval;
-	[BoxGroup("Game Properties")]
 	public float EndSpawnInterval;
-	[BoxGroup("Game Properties")]
 	public AnimationCurve SpawnCurve;
+	// If the length of the player's cut vector is longer / shorter by this amount, they will receive a 1 (0%).
+	public float MaximumLengthDifference;
+	// If (one minus) (player's vector (dot) optimal vector) is larger than this amount, they will receive a 1 (0%).
+	public float MaximumVectorCloseness;
+	// The value which determines whether or not a particular cut was a success or fail.  Calculated based on the average
+	//  of the previous two criterion.
+	public float AcceptanceThreshold;
+	// The overall closeness value (0-1) is multiplier by this value and added to the points system.
+	public float CutRewardMultiplier;
+}
+
+public class Cutting : MonoBehaviour {
 	[BoxGroup("Game Properties")]
 	[MinMaxSlider(2.5f, 6f)]
 	public Vector2 MinMaxDistance;
@@ -22,7 +35,20 @@ public class Cutting : MonoBehaviour {
 	[BoxGroup("Game Properties")]
 	public float MaxAngle;
 
-	
+	[BoxGroup("Balance")]
+	public DifficultyCuttingDictionary DifficultySettings;
+	[BoxGroup("Balance")]
+	public bool ManualDifficultyOverride;
+	[BoxGroup("Balance")]
+	[EnableIf("ManualDifficultyOverride")]
+	public Difficulty ManualDifficulty;
+	/*
+	[BoxGroup("Balance")]
+	public float InitialSpawnInterval;
+	[BoxGroup("Balance")]
+	public float EndSpawnInterval;
+	[BoxGroup("Balance")]
+	public AnimationCurve SpawnCurve;
 	[BoxGroup("Balance")]
 	[Tooltip("If the length of the player's cut vector is longer / shorter by this amount, they will receive a 1 (0%)" +
 	         "for that cut.")]
@@ -41,9 +67,7 @@ public class Cutting : MonoBehaviour {
 	[BoxGroup("Balance")]
 	[Tooltip("The overall closeness value (0-1) is multiplied by this value and added to the quality bar.")]
 	public float CutRewardMultiplier = .25f;
-	[BoxGroup("Balance")]
-	[Tooltip("How long should the player not have any successes before showing the instruction text again?")]
-	public float MissDurationTimeout;
+	*/
 	
 	[BoxGroup("Feel")]
 	[Tooltip("The punch duration is decided by the closeness of the cut.  Multiply it by something else using this value.")]
@@ -61,6 +85,9 @@ public class Cutting : MonoBehaviour {
 	[BoxGroup("Feel")]
 	[Range(0, 360)]
 	public float RotatePower;
+	[BoxGroup("Feel")]
+	[Tooltip("How long should the player not have any successes before showing the instruction text again?")]
+	public float MissDurationTimeout;
 	
 	//[BoxGroup("Object Assignments")]
 	//public QualityBar QualityBar;
@@ -100,6 +127,8 @@ public class Cutting : MonoBehaviour {
 	private GameObject cutContainer;
 	// Keeps track of how long it's been since the player's last successful swipe.  If too long, show text again.
 	private float missDurationCounter;
+	// Active difficulty setting.
+	private CuttingDifficultySettings activeDifficultySettings;
 
     void Awake() {
         // Don't start until we're ready.
@@ -111,12 +140,18 @@ public class Cutting : MonoBehaviour {
     {
 	    SFX.Play("CraftingGem", 1f, 1f, 0f, true, 0f);
 		Countdown.onComplete += GameOver;
-	    activeCuts = new LinkedList<NewCutPoint>();
+
+	    Difficulty d = ManualDifficultyOverride ? ManualDifficulty : PersistentData.Instance.Difficulty;
+	    if (!DifficultySettings.TryGetValue(d, out activeDifficultySettings)) {
+		    Debug.LogError("The current difficulty (" + PersistentData.Instance.Difficulty.ToString() +
+		                     ") does not have a CuttingDifficultySettings associated with it.");
+	    }
 	    
+	    activeCuts = new LinkedList<NewCutPoint>();
 	    cutContainer = new GameObject("CutContainer");
 
 	    // Spawn our first cut straight away instead of waiting.
-	    timeIntervalCounter = InitialSpawnInterval;
+	    timeIntervalCounter = activeDifficultySettings.InitialSpawnInterval;
     }
 
 	void Update () {
@@ -138,7 +173,9 @@ public class Cutting : MonoBehaviour {
 	
 	private void GameLoop() {
 		// If it's time to spawn another cut.
-		if (timeIntervalCounter > Mathf.Lerp(InitialSpawnInterval, EndSpawnInterval, SpawnCurve.Evaluate(timeCounter / CountdownObj.StartTime)) &&
+		if (timeIntervalCounter > Mathf.Lerp(activeDifficultySettings.InitialSpawnInterval,
+											 activeDifficultySettings.EndSpawnInterval,
+											 activeDifficultySettings.SpawnCurve.Evaluate(timeCounter / CountdownObj.StartTime)) &&
 		    CutPrefab.SpawnTime < CountdownObj.CurrentTimeRemaining) {
 			// TODO: maybe add a parent to keep the scene clean.
 			var cutPosition = GenerateNewCutPosition();
@@ -214,12 +251,12 @@ public class Cutting : MonoBehaviour {
 	private void PerformCut(NewCutPoint cut, Vector3 cutVector) {
         float val = CalculateCloseness(cut.CutVector, cutVector);
         //Debug.Log("Calculated a closeness value of: " + val);
-        if (val < AcceptanceThreshold) {
+        if (val < activeDifficultySettings.AcceptanceThreshold) {
 	        // TODO: animation.
 	        SFX.Play("Cutting_good_cut");
 	        missDurationCounter = 0;
 	        PushGem(cutVector, 1 - val);
-	        PointsManager.AddPoints((1-val) * CutRewardMultiplier);
+	        PointsManager.AddPoints((1-val) * activeDifficultySettings.CutRewardMultiplier);
 			//QualityBar.Add((1-val) * CutRewardMultiplier, true);
 			activeCuts.Remove(cut);
 			Destroy(cut.gameObject);
@@ -285,12 +322,12 @@ public class Cutting : MonoBehaviour {
 
 		float gvl = guideVector.magnitude;
 		float uvl = userVector.magnitude;
-		lengthCloseness = Mathf.InverseLerp(0, MaximumLengthDifference, Mathf.Abs(gvl - uvl));
+		lengthCloseness = Mathf.InverseLerp(0, activeDifficultySettings.MaximumLengthDifference, Mathf.Abs(gvl - uvl));
 		
 		guideVector.Normalize();
 		userVector.Normalize();;
 		vectorCloseness = 1 - Vector3.Dot(guideVector, userVector);
-		vectorCloseness = Mathf.InverseLerp(0, MaximumVectorCloseness, vectorCloseness);
+		vectorCloseness = Mathf.InverseLerp(0, activeDifficultySettings.MaximumVectorCloseness, vectorCloseness);
 		//Debug.Log("Vector similarity: " + vectorCloseness);
 
 		//Debug.Log("Length similarity: " + lengthCloseness);

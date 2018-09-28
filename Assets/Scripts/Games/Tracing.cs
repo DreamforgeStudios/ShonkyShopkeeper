@@ -3,11 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using DG.Tweening.Core.Easing;
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 using Random = UnityEngine.Random;
+
+[System.Serializable]
+public class DifficultyTracingDictionary : SerializableDictionary<Difficulty, TracingDifficultySettings> {}
+
+[System.Serializable]
+public class TracingDifficultySettings {
+    public float ScoreMultiplier;
+}
 
 public class Tracing : MonoBehaviour {
     public TextMeshProUGUI qualityText;
@@ -59,9 +68,15 @@ public class Tracing : MonoBehaviour {
     private float averageDistanceAway = 0;
 
     //Score Variables
-    public float ScoreMultiplier;
+    public DifficultyTracingDictionary DifficultySettings;
+	public bool ManualDifficultyOverride;
+	[EnableIf("ManualDifficultyOverride")]
+	public Difficulty ManualDifficulty;
+    //public float ScoreMultiplier;
     private float score = 0;
-    private float _finalScore = 0;
+
+    private TracingDifficultySettings activeDifficultySettings;
+    //private float _finalScore = 0;
 
     //Tming Variables
     public float startTime;
@@ -91,6 +106,12 @@ public class Tracing : MonoBehaviour {
     // Use this for initialization
     void Start() {
         SFX.Play("CraftingOre",1f,1f,0f,true,0f);
+        
+	    Difficulty d = ManualDifficultyOverride ? ManualDifficulty : PersistentData.Instance.Difficulty;
+	    if (!DifficultySettings.TryGetValue(d, out activeDifficultySettings)) {
+		    Debug.LogError("The current difficulty (" + PersistentData.Instance.Difficulty.ToString() +
+		                     ") does not have a TracingDifficultySettings associated with it.");
+	    }
         //SFX.Play();
         Countdown.onComplete += GameOver;
         finishTime = Time.time + 10f;
@@ -225,8 +246,8 @@ public class Tracing : MonoBehaviour {
             if (score > 0)
             {
                 //Debug.Log("adding score of " + score);
-                PointsManager.AddPoints(score * ScoreMultiplier);
-                _finalScore += score;
+                PointsManager.AddPoints(score * activeDifficultySettings.ScoreMultiplier);
+                //_finalScore += score;
                 //scoreText.text = string.Format("Final score is {0}", _finalScore);
                 NextRune();
                 missDurationCounter = 0;

@@ -1,73 +1,116 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using NaughtyAttributes;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+[System.Serializable]
+public class DifficultySmeltingDictionary : SerializableDictionary<Difficulty, SmeltingDifficultySettings> {}
+
+[System.Serializable]
+public class SmeltingDifficultySettings {
+	public AnimationCurve ClosenessPointsCurve;
+	// Points multiplier..
+	public float ClosenessContribution;
+
+	public float MinVolatilityNegativeMomentum,
+		MaxVolatilityNegativeMomentum,
+		MinVolatilityTapForce,
+		MaxVolatilityTapForce;
+
+	public AnimationCurve VolatilityCurve;
+}
+
 public class Smelting : MonoBehaviour {
-	// Timer object.
-	//public TextMeshProUGUI timer;
-	// Grade object.
-	public TextMeshProUGUI qualityText;
-    //Two sprites and their holder used to give feedback
-    public Sprite more;
-    public Sprite less;
 
-    public Sprite feedbackPositive;
-    public Sprite feedbackNegative;
-    public Material feedbackMaterial;
-	public ParticleSystem feedbackParticleSystem;
-	public InstructionHandler instructionManager;
-
-	public OreSpawnManager OreSpawnManager;
-    //private Image feedbackContainer;
-
-	// Amount of time that the player should hold the position.
-	//public float holdTime;
-	//private float timeToGo;
-    // The amount of negative momentum we should apply each tick.
-    public float negativeMomentum;
-	// The amount of positive momentum that we should apply on a tap.
-	public float tapForce;
+	[BoxGroup("Game Properties")]
 	// The maximum jump we can make in a single frame.  This is mostly to avoid looping.
 	// Set equal to maxRotation.z if causing problems.
 	public float maxJump;
+	[BoxGroup("Game Properties")]
 	// Success point (z rotation);
 	public float successPoint;
+	[BoxGroup("Game Properties")]
 	// "Green" range.
 	public float successRange;
-	// Debug.
-	public Material debugMaterial;
-	// Grade based on how close player was to the middle.
-    // Curve that defines the impact of holding.
-    public AnimationCurve accelerationCurve;
+
+	/*
+	[BoxGroup("Balance")]
     // Curve that defines the multiplier for closeness (how much we should take away).
     public AnimationCurve closenessCurve;
+	[BoxGroup("Balance")]
+	public float MinVolatilityNegativeMomentum, MaxVolatilityNegativeMomentum,
+				 MinVolatilityTapForce, MaxVolatilityTapForce;
+	[BoxGroup("Balance")]
+	// Curve that defines how volatile the dial becomes over time.
+	public AnimationCurve volatilityCurve;
+	[BoxGroup("Balance")]
 	public float closenessContribution;
+	[BoxGroup("Balance")]
+    // The amount of negative momentum we should apply each tick.
+    public float negativeMomentum;
+	[BoxGroup("Balance")]
+	// The amount of positive momentum that we should apply on a tap.
+	public float tapForce;
+	*/
+
+	[BoxGroup("Balance")]
+	public DifficultySmeltingDictionary DifficultySettings;
+	[BoxGroup("Balance")]
+	public bool ManualDifficultyOverride;
+	[BoxGroup("Balance")]
+	[EnableIf("ManualDifficultyOverride")]
+	public Difficulty ManualDifficulty;
+	
+	[BoxGroup("Feel")]
+    public float heldTickrate;
+	[BoxGroup("Feel")]
+    // Curve that defines the impact of holding.
+    public AnimationCurve accelerationCurve;
+	[BoxGroup("Feel")]
 	public float MissDurationTimout;
 
+	[BoxGroup("Object Assignments")]
+    public PointsManager pointsManager;
+	[BoxGroup("Object Assignments")]
+	public GameObject returnOrRetryButtons;
+	[BoxGroup("Object Assignments")]
+	public TextMeshProUGUI qualityText;
+	[BoxGroup("Object Assignments")]
+    public Sprite feedbackPositive;
+	[BoxGroup("Object Assignments")]
+    public Sprite feedbackNegative;
+	[BoxGroup("Object Assignments")]
+    public Material feedbackMaterial;
+	[BoxGroup("Object Assignments")]
+	public ParticleSystem feedbackParticleSystem;
+	[BoxGroup("Object Assignments")]
+	public InstructionHandler instructionManager;
+	[BoxGroup("Object Assignments")]
+	public OreSpawnManager OreSpawnManager;
+	[BoxGroup("Object Assignments")]
+	public Countdown CountdownObj;
+	[BoxGroup("Object Assignments")]
+	public Transform Dial;
+
+	private Quality.QualityGrade grade = Quality.QualityGrade.Unset;
+	private float missDurationCounter;
 	// The rigidbody attached to this game object.
 	private Rigidbody rb;
 	// Previous rotation.
 	private Vector3 prevRotation;
+	private SmeltingDifficultySettings activeDifficultySettings;
 
-    public PointsManager pointsManager;
-	public GameObject returnOrRetryButtons;
-
-	private Quality.QualityGrade grade = Quality.QualityGrade.Unset;
-	private float missDurationCounter;
-
-    // For looking up items.
-
+	private float timeCounter;
 
     private bool start;
-	//private float runningTotal;
 
     void Awake() {
         // Don't start until we're ready.
         Time.timeScale = 0;
-        ReadyGo.onComplete += (() => { Time.timeScale = 1; start = true; });
+        ReadyGo.onComplete += () => { Time.timeScale = 1; start = true; };
     }
 
 	void Start () {
@@ -75,8 +118,15 @@ public class Smelting : MonoBehaviour {
 		SFX.Play("CraftingOre", looping: true);
 		SFX.Play("fire_loop", looping: true);
 		
-		rb = GetComponent<Rigidbody>();
-		prevRotation = transform.eulerAngles;
+		
+	    Difficulty d = ManualDifficultyOverride ? ManualDifficulty : PersistentData.Instance.Difficulty;
+	    if (!DifficultySettings.TryGetValue(d, out activeDifficultySettings)) {
+		    Debug.LogError("The current difficulty (" + PersistentData.Instance.Difficulty.ToString() +
+		                     ") does not have a SmeltingDifficultySettings associated with it.");
+	    }
+		
+		rb = Dial.GetComponent<Rigidbody>();
+		prevRotation = Dial.transform.eulerAngles;
         Countdown.onComplete += GameOver;
     }
 	
@@ -84,20 +134,24 @@ public class Smelting : MonoBehaviour {
 	void FixedUpdate() {
         if (!start)
             return;
+
+		float volatility = Mathf.Lerp(activeDifficultySettings.MinVolatilityNegativeMomentum,
+			activeDifficultySettings.MaxVolatilityNegativeMomentum,
+			activeDifficultySettings.VolatilityCurve.Evaluate(timeCounter / CountdownObj.StartTime));
 		
         // Continually rotate backwards
-        transform.eulerAngles = new Vector3(0, 0, transform.eulerAngles.z + negativeMomentum);
+		//transform.eulerAngles = new Vector3(0, 0, transform.eulerAngles.z + volatility);// * negativeMomentum);
+        rb.AddTorque(0, 0, volatility);
         // Alternative method.
         //transform.eulerAngles = Vector3.RotateTowards(transform.eulerAngles, maxRotation, negativeMomentum, negativeMomentum);
         
 		// Constrain to rotation boundaries.
 		Constrain();
-		UpdateDebug();
 
         UpdateBar();
 
 		// Record previous location.
-		prevRotation = transform.eulerAngles;
+		prevRotation = Dial.transform.eulerAngles;
 	}
 
     void Update() {
@@ -111,6 +165,7 @@ public class Smelting : MonoBehaviour {
 	    }
 	    
         missDurationCounter += Time.deltaTime;
+	    timeCounter += Time.deltaTime;
 	    
 		// Check where we are running the program.
 		RuntimePlatform p = Application.platform;
@@ -125,7 +180,6 @@ public class Smelting : MonoBehaviour {
     private bool holding = false;
     private float heldTime;
     private float nextTick;
-    public float heldTickrate;
     private void ProcessMouse() {
         if (Input.GetMouseButtonDown(0)) {
             Stow();
@@ -173,18 +227,18 @@ public class Smelting : MonoBehaviour {
 
 	private void Constrain() {
 		// If we've made too big of a jump (probably looped), then don't allow the rotation.
-		if (Mathf.Abs(transform.eulerAngles.z - prevRotation.z) > maxJump) {
-			transform.eulerAngles = prevRotation;
+		if (Mathf.Abs(Dial.eulerAngles.z - prevRotation.z) > maxJump) {
+			Dial.eulerAngles = prevRotation;
 		}
 	}
 
     private void UpdateBar() {
-		float closeness = Mathf.Min(Mathf.Abs(transform.eulerAngles.z - successPoint) / successRange, 2);
+		float closeness = Mathf.Min(Mathf.Abs(Dial.eulerAngles.z - successPoint) / successRange, 2);
         if (closeness < 1) {
 	        missDurationCounter = 0;
             feedbackMaterial.SetTexture("_MainTex", feedbackPositive.texture);
 			// Using a curve seemed like a good idea at the time...
-			pointsManager.AddPoints(closenessCurve.Evaluate(closeness) * closenessContribution * Time.deltaTime);
+			pointsManager.AddPoints(activeDifficultySettings.ClosenessPointsCurve.Evaluate(closeness) * activeDifficultySettings.ClosenessContribution * Time.deltaTime);
         } else {
             feedbackMaterial.SetTexture("_MainTex", feedbackNegative.texture);
 			//qualityBar.Subtract((1-closenessCurve.Evaluate(closeness - 1)) * closenessContribution * Time.deltaTime, allowMoveDown: true);
@@ -195,18 +249,17 @@ public class Smelting : MonoBehaviour {
 	    
     }
 
-	private void UpdateDebug() {
-        float closeness = 1 - Mathf.Abs(transform.eulerAngles.z - successPoint) / successRange;
-        Color lerped = Color.Lerp(Color.red, Color.green, closeness);
-        debugMaterial.color = lerped;
-	}
-
 	public void Stow() {
+		SFX.Play("Smelting_Flame_Jet");
+		
+		float volatility = Mathf.Lerp(activeDifficultySettings.MinVolatilityTapForce,
+			activeDifficultySettings.MaxVolatilityTapForce,
+			activeDifficultySettings.VolatilityCurve.Evaluate(timeCounter / CountdownObj.StartTime));
         float amountToStow = accelerationCurve.Evaluate(heldTime);
         //SFX.Play("bump_small");
         
-        rb.AddTorque(0, 0, -tapForce * amountToStow);
-		SFX.Play("Smelting_Flame_Jet");
+        //rb.AddTorque(0, 0, (-tapForce * volatility) * amountToStow);
+        rb.AddTorque(0, 0, -volatility * amountToStow);
 
         // Alternate approach.
         /*
@@ -217,20 +270,6 @@ public class Smelting : MonoBehaviour {
 		transform.eulerAngles = Vector3.RotateTowards(transform.eulerAngles, transform.eulerAngles + rotAdd, negativeMomentum, negativeMomentum);
 		*/
     }
-
-	/*
-    private void UpdateFeedback() {
-        if(transform.eulerAngles.z < successPoint) {
-            holder.enabled = true;
-            holder.sprite = less;
-        } else if (transform.eulerAngles.z > successPoint) {
-            holder.enabled = true;
-            holder.sprite = more;
-        } else {
-            holder.enabled = false;
-        }
-    }
-    */
 
     private void GameOver() {
         Countdown.onComplete -= GameOver;

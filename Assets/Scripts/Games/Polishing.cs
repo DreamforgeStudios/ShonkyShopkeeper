@@ -1,10 +1,19 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
+
+[System.Serializable]
+public class DifficultyPolishingDictionary : SerializableDictionary<Difficulty, PolishingDifficultySettings> {}
+
+[System.Serializable]
+public class PolishingDifficultySettings {
+    public float SwipeContribution;
+}
 
 public class Polishing : MonoBehaviour {
     //Misc variables and objects
@@ -13,6 +22,7 @@ public class Polishing : MonoBehaviour {
     public PointsManager pointsManager;
     public GemSpawnManager GemSpawnManager;
     public InstructionHandler InstructionManager;
+    
 
     //Time Variables
     private float startTime;
@@ -27,7 +37,12 @@ public class Polishing : MonoBehaviour {
     public static Quality.QualityGrade finalGrade;
 
     // Hwom uch will swipes contribute to the grade increasing.
-    public float swipeContribution;
+    //public float swipeContribution;
+    public DifficultyPolishingDictionary DifficultySettings;
+	public bool ManualDifficultyOverride;
+	[EnableIf("ManualDifficultyOverride")]
+	public Difficulty ManualDifficulty;
+    private PolishingDifficultySettings activeDifficultySettings;
 
     //State Tracking
     private bool isMouseDown;
@@ -71,6 +86,13 @@ public class Polishing : MonoBehaviour {
     // Use this for initialization
     void Start() {
         SFX.Play("CraftingGem",1f,1f,0f,true,0f);
+        
+	    Difficulty d = ManualDifficultyOverride ? ManualDifficulty : PersistentData.Instance.Difficulty;
+	    if (!DifficultySettings.TryGetValue(d, out activeDifficultySettings)) {
+		    Debug.LogError("The current difficulty (" + PersistentData.Instance.Difficulty.ToString() +
+		                     ") does not have a CuttingDifficultySettings associated with it.");
+	    }
+        
         mainCamera = Camera.main;
         //keyPoint = gemObject.transform.position;
         keyPoint = gemObject.transform.position;
@@ -250,7 +272,7 @@ public class Polishing : MonoBehaviour {
     {
         SFX.Play("Polish_swipe", 1f, 1f, 0f, false, 0f);
         numberOfSwipes++;
-        pointsManager.AddPoints(swipeContribution);
+        pointsManager.AddPoints(activeDifficultySettings.SwipeContribution);
         missDurationCounter = 0;
     }
 
