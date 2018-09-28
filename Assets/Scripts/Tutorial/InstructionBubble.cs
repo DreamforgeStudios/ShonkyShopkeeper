@@ -15,7 +15,7 @@ public class InstructionBubble : MonoBehaviour
 
 	public int activePage;
 	public List<string> informationTextToDisplay, instructionText;
-	public GameObject ExpositionBubbleObj, InstructionBubbleObj, expositionBubblePrefab, instructionBubblePrefab;
+	public GameObject ExpositionBubbleObj, InstructionBubbleObj, tutorialRuneObj, expositionBubblePrefab, instructionBubblePrefab, TutorialRunePrefab;
 	public Vector2 instructionSecondPos;
 	private RectTransform expoBubbleRectT, instrBubbleRectT;
 	public Button nextButton, exitButton;
@@ -86,6 +86,7 @@ public class InstructionBubble : MonoBehaviour
 		 */
 		ExpositionBubbleObj = Instantiate(expositionBubblePrefab, canvasToApply.transform);
 		InstructionBubbleObj = Instantiate(instructionBubblePrefab, canvasToApply.transform);
+		tutorialRuneObj = Instantiate(TutorialRunePrefab, canvasToApply.transform);
 		nextButton = ExpositionBubbleObj.transform.GetChild(1).GetComponent<Button>();
 		exitButton = ExpositionBubbleObj.transform.GetChild(2).GetComponent<Button>();
 		expositionTextBox = ExpositionBubbleObj.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
@@ -93,6 +94,7 @@ public class InstructionBubble : MonoBehaviour
 		expositionTextBox.text = informationTextToDisplay[activePage];
 		ExpositionBubbleObj.SetActive(true);
 		InstructionBubbleObj.SetActive(false);
+		tutorialRuneObj.SetActive(false);
 		Instruction = false;
 		nextButton.onClick.AddListener(NextText);
 		exitButton.onClick.AddListener(delegate { ShowInstructionBubbleNextTo(instructionText); });
@@ -150,11 +152,13 @@ public class InstructionBubble : MonoBehaviour
 			}
 			
 		}
-
-		//InstructionBubbleObj.GetComponent<RectTransform>().anchoredPosition = pos;
-		
 		InstructionBubbleObj.SetActive(true);
 		ExpositionBubbleObj.SetActive(false);
+		
+		//Put tutorial indicator over item
+		tutorialRuneObj.GetComponent<TutorialRuneIndicator>().SetPosition(targetObj,canvasElement);
+		tutorialRuneObj.SetActive(true);
+		
 		OnInstruct();
 	}
 
@@ -183,6 +187,8 @@ public class InstructionBubble : MonoBehaviour
 			Destroy(ExpositionBubbleObj);
 		if (InstructionBubbleObj != null)
 			Destroy(InstructionBubbleObj);
+		if (tutorialRuneObj != null)
+			Destroy(tutorialRuneObj);
 		
 		Destroy(this.gameObject);
 	}
