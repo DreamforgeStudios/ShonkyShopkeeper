@@ -87,7 +87,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0.7725673, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -114,7 +114,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0.7079072, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.97088087, b: 0, a: 1}
   m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -142,6 +142,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rune: {fileID: 114427132574580040}
   core: {fileID: 114197064299360574}
+  objectOver: {fileID: 0}
 --- !u!222 &222174118562139790
 CanvasRenderer:
   m_ObjectHideFlags: 1

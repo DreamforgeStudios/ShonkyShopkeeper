@@ -116,7 +116,7 @@ public class TutorialToolbox : MonoBehaviour {
 
     private void ProcessMouse() {
         if (Input.GetMouseButtonDown(0)) {
-            Debug.Log("CanSelect is " + canSelect);
+            //Debug.Log("CanSelect is " + canSelect);
             if (GameManager.Instance.TutorialIntroTopComplete && canSelect)
                 Cast();
                 //tutorialManager.HideCanvas();
@@ -153,14 +153,12 @@ public class TutorialToolbox : MonoBehaviour {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         previousRay = ray;
 
-        Debug.Log("casting...");
+        //Debug.Log("casting...");
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask)) {
             if (hit.transform.CompareTag("Forceps") || hit.transform.CompareTag("Wand") ||
                 hit.transform.CompareTag("Magnifyer"))
             {
                 SFX.Play("cursor_select");
-                //soundEffects.clip = cursorSelect;
-                //soundEffects.Play();
                 if (tutorialManager.currentToolToInspect == hit.transform.gameObject || (
                     GameManager.Instance.TutorialIntroComplete))
                 {
@@ -419,8 +417,16 @@ public class TutorialToolbox : MonoBehaviour {
                     this.currentSelection = slot;
                     MoveUp(slot);
                     SFX.Play("Item_lifted", 1f, 1f, 0f, false, 0f);
-                    // Second selection.
-                    tutorialManager.NextInstruction();
+                    //If not finished the tool tutorial
+                    if (!GameManager.Instance.TutorialIntroComplete)
+                    {
+                        // Second selection.
+                        tutorialManager.NextInstruction();
+                        //Get prefab instance
+                        GameObject obj;
+                        if (slot.GetPrefabInstance(out obj))
+                            tutorialManager.DestroySpecificItemIndicator(obj);
+                    }
                 }
                 else
                 {
@@ -430,6 +436,11 @@ public class TutorialToolbox : MonoBehaviour {
                         Debug.Log("Same slot.");
                         MoveDown(slot);
                         currentSelection = null;
+                        if (!GameManager.Instance.TutorialIntroComplete)
+                        {
+                            tutorialManager.StartItemIndicators();
+                            tutorialManager.PreviousInstruction();
+                        }
                         return;
                     }
 

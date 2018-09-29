@@ -44,9 +44,6 @@ public class TutorialManager : MonoBehaviour
 	public Button travelButton;
 
 	public Button cameraButton;
-
-	//Image used to highlight cameraButton
-	public Image cameraHighlight;
 	
 	//Gameobject to be used with the mine
 	public GameObject mineTarget;
@@ -69,7 +66,7 @@ public class TutorialManager : MonoBehaviour
 		if (!GameManager.Instance.TutorialIntroComplete)
 		{
 			TutorialProgressChecker.Instance.HideCanvas();
-			EnableCameraTap(false, false);
+			EnableCameraTap(false);
 		}
 
 
@@ -132,7 +129,7 @@ public class TutorialManager : MonoBehaviour
 		
 		if (!GameManager.Instance.TutorialIntroTopComplete && clone.Instruction)
 		{
-			InstructionBubble.onInstruction += EnableCameraTap(true, true);
+			InstructionBubble.onInstruction += EnableCameraTap(true);
 		} else if (!GameManager.Instance.TutorialIntroComplete && ItemsToInspect.Contains(currentToolToInspect) && clone.Instruction)
 		{
 			//List is Forceps, ResourceBin, Magnifying Glass & Wand
@@ -214,13 +211,12 @@ public class TutorialManager : MonoBehaviour
 	}
 
 	//Self explanatory
-	public InstructionBubble.Instruct EnableCameraTap(bool button, bool glow)
+	public InstructionBubble.Instruct EnableCameraTap(bool button)
 	{
 		//Debug.Log("enabling camera");
 		cameraButton.enabled = button;
 		cameraButton.gameObject.SetActive(button);
-		cameraHighlight.gameObject.SetActive(glow);
-		return () => {InstructionBubble.onInstruction -= EnableCameraTap(false, false); };
+		return () => {InstructionBubble.onInstruction -= EnableCameraTap(false); };
 	}
 
 	public void IntroduceGolem()
@@ -239,6 +235,7 @@ public class TutorialManager : MonoBehaviour
 	{
 		physicalInv.DestroyParticlesOnItems();
 		InspectItem(currentToolToInspect);
+		
 	}
 
 	public void FinishWandUse()
@@ -375,9 +372,10 @@ public class TutorialManager : MonoBehaviour
 				case "Magnifyer":
 					//StartParticles(ItemsToInspect[0]);
 					StartDialogue(wand, wandInstruction, mainCanvas, ItemsToInspect[0], false);
+					//physicalInv.DestroyParticlesOnItems();
 					break;
 				case "Wand":
-					physicalInv.HighlightOreAndGem();
+					//physicalInv.HighlightOreAndGem();
 					toolbox.canSelect = true;
 					break;
 			}
@@ -394,9 +392,13 @@ public class TutorialManager : MonoBehaviour
 		clone.NextInstructionText();
 	}
 
+	public void PreviousInstruction()
+	{
+		clone.PreviousInstructionText();
+	}
+
 	public void HideExposition()
 	{
-		Debug.Log("Hiding Exposition");
 		clone.DestroyItem();
 	}
 
@@ -407,14 +409,20 @@ public class TutorialManager : MonoBehaviour
 
 	public void StartItemParticles()
 	{
+		
 		if (!physicalInv.createdParticles)
-			InstructionBubble.onInstruction += physicalInv.HighlightOreAndGem();
+			InstructionBubble.onInstruction += physicalInv.HighlightOreAndGem() ;
 
 		toolbox.canSelect = true;
 	}
 
-	public void StartItemParticle()
+	public void StartItemIndicators()
 	{
-		
+		physicalInv.DestroyParticlesOnItems();
+		physicalInv.HighlightOreAndGem();
+	}
+	public void DestroySpecificItemIndicator(GameObject objSelected)
+	{
+		physicalInv.DestroyParticleOverItem(objSelected);
 	}
 }

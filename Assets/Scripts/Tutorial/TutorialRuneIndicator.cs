@@ -8,6 +8,7 @@ public class TutorialRuneIndicator : MonoBehaviour
 {
 	public Image rune, core;
 	private Transform runeT;
+	public GameObject objectOver;
 	
 	// Use this for initialization
 	void Start () {
@@ -30,6 +31,7 @@ public class TutorialRuneIndicator : MonoBehaviour
 
 	public void SetPosition(GameObject objectToBeOver, bool canvasElement)
 	{
+		objectOver = objectToBeOver;
 		runeT = rune.GetComponent<Transform>();
 		Vector2 pos = new Vector2(0f,0f);
 		if (canvasElement)

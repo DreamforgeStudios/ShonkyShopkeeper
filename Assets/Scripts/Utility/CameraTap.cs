@@ -60,7 +60,7 @@ public class CameraTap : MonoBehaviour {
             //tutManager.NextDialogue();
             tutManager.HideExposition();
             tutManager.StartToolText();
-            tutManager.EnableCameraTap(false,false);
+            tutManager.EnableCameraTap(false);
             
         }
 
