@@ -9,7 +9,7 @@ public class NarrativeManager : MonoBehaviour {
     public static void Read(string key) {
         // Queue up displays AFTER the scene has loaded.  Avoids things randomly popping up and being jarring while the
         // wipe is playing.  We lose the boolean return value here.  Bummer
-        if (Initiate.IsFading) {
+        if (Initiate.IsLoading) {
             Initiate.onFinishFading += () => DoRead(key);
         } else {
             DoRead(key);

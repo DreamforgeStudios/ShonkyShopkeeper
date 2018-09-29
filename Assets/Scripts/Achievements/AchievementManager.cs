@@ -9,7 +9,7 @@ public static class AchievementManager {
     public static void Get(string key) {
         // Queue up displays AFTER the scene has loaded.  Avoids things randomly popping up and being jarring while the
         // wipe is playing.  We lose the boolean return value here.  Bummer
-        if (Initiate.IsFading) {
+        if (Initiate.IsLoading) {
             Initiate.onFinishFading += () => DoGet(key);
         } else {
             DoGet(key);
@@ -19,7 +19,7 @@ public static class AchievementManager {
     public static void Increment(string key, int amount = 1) {
         // Queue up displays AFTER the scene has loaded.  Avoids things randomly popping up and being jarring while the
         // wipe is playing.  We lose the boolean return value here.  Bummer
-        if (Initiate.IsFading) {
+        if (Initiate.IsLoading) {
             Initiate.onFinishFading += () => DoIncrement(key, amount);
         } else {
             DoIncrement(key, amount);
