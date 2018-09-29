@@ -215,6 +215,32 @@ public class TutorialPhysicalInventory : MonoBehaviour {
 		}
 	}
 
+	public void HighlightResourcePouch()
+	{
+		for (int i = 0; i < inventorySlots.Count; i++)
+		{
+			ItemInstance instance;
+			// If an object exists at the specified location.
+			if (Inventory.Instance.GetItem(i, out instance))
+			{
+				if (instance.item != null &&
+				    (instance.item.GetType() == typeof(ResourceBag)))
+				{
+					GameObject obj;
+					if (inventorySlots[i].GetPrefabInstance(out obj))
+					{
+						//Indicator
+						Debug.Log("Creating rune Indicator");
+						runeIndicator = Instantiate(runeIndicatorPrefab, mainCanvas.transform);
+						runeIndicator.GetComponent<TutorialRuneIndicator>().SetPosition(obj,false);
+						runeIndicator.transform.localScale = new Vector3(1f,1f,1f);
+						runeIndicatorClones.Add(runeIndicator);
+					}
+				}
+			}
+		}
+	}
+
 	private void MarkOffInTutorial(ItemInstance item)
 	{
 		if (GameManager.Instance.TutorialIntroComplete)

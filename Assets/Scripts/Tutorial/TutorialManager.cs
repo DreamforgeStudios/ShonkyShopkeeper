@@ -58,6 +58,11 @@ public class TutorialManager : MonoBehaviour
 	public GameObject speechBubblePrefab;
 	private InstructionBubble clone;
 	public Canvas mainCanvas;
+	
+	//Local Rune Indicator highlights for the final stages of phase one tutorial
+	public GameObject runeIndicatorPrefab;
+	private GameObject runeIndicatorMagnifyer;
+	private bool runeIndicatorsCreated;
 
 	// Use this for initialization
 	void Start()
@@ -200,7 +205,6 @@ public class TutorialManager : MonoBehaviour
 			CheckForCamera();
 		else if (GameManager.Instance.MineGoleminteractGolem)// && GameManager.Instance.OpenPouch)
 		{
-			//PouchText();
 			cameraButton.gameObject.SetActive(true);
 		}
 		
@@ -249,7 +253,8 @@ public class TutorialManager : MonoBehaviour
 			{
 				Debug.Log("Enabling single golem highlight");
 				GameObject highlightedGolem = golemInv.ReturnSingleGolem();
-				StartDialogue(pickUpGolem, golemMineInstruction, mainCanvas, highlightedGolem, true);
+				StartDialogue(pickUpGolem, golemMineInstruction, mainCanvas, highlightedGolem, false);
+				MoveInstructionScroll();
 				GameManager.Instance.SendToMine = false;
 			}
 		}
@@ -260,12 +265,15 @@ public class TutorialManager : MonoBehaviour
 		}
 	}
 
+	/*
 	public void PouchText()
 	{
 		cameraButton.gameObject.SetActive(true);
 		StartDialogue(openPouch, null, mainCanvas, mineTarget, true);
+		clone.tutorialRuneObj.SetActive(false);
 		GameManager.Instance.OpenPouch = false;
 	}
+	*/
 
 	public void StartToolText()
 	{
@@ -299,7 +307,12 @@ public class TutorialManager : MonoBehaviour
 
 	public void FinishTutorial()
 	{
+		physicalInv.DestroyParticlesOnItems();
 		StartDialogue(tutorialFinish, tutorialFinish, mainCanvas, travelButton.gameObject, true);
+		
+		if (runeIndicatorMagnifyer != null)
+			runeIndicatorMagnifyer.GetComponent<TutorialRuneIndicator>().SetPosition(travelButton.gameObject,true);
+		
 		SaveManager.SaveInventory();
 		SaveManager.SaveShonkyInventory();
 		travelButton.gameObject.SetActive(true);
@@ -438,5 +451,19 @@ public class TutorialManager : MonoBehaviour
 	public void DestroySpecificItemIndicator(GameObject objSelected)
 	{
 		physicalInv.DestroyParticleOverItem(objSelected);
+	}
+
+	public void HighlightMagnifyerAndResourcePouch()
+	{
+		if (!runeIndicatorsCreated)
+		{
+			runeIndicatorMagnifyer = Instantiate(runeIndicatorPrefab, mainCanvas.transform);
+			runeIndicatorMagnifyer.GetComponent<TutorialRuneIndicator>().SetPosition(toolbox.magnifyer, false);
+
+			physicalInv.DestroyParticlesOnItems();
+			physicalInv.HighlightResourcePouch();
+			
+			runeIndicatorsCreated = true;
+		}
 	}
 }
