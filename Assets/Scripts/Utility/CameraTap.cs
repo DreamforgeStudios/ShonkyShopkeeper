@@ -15,6 +15,11 @@ public class CameraTap : MonoBehaviour {
 
     public TutorialManager tutManager;
     public TutorialGlass tutGlass;
+    //Rune Indicator
+    public GameObject runeIndicatorPrefab;
+    public Canvas mainCanvas;
+    private GameObject runeIndicator;
+    private bool runeIndicatorEnabled;
 
     public void Awake() {
         //If top screenRotation was last remembered
@@ -60,7 +65,7 @@ public class CameraTap : MonoBehaviour {
             //tutManager.NextDialogue();
             tutManager.HideExposition();
             tutManager.StartToolText();
-            tutManager.EnableCameraTap(false,false);
+            tutManager.EnableCameraTap(false);
             
         }
 
@@ -68,10 +73,27 @@ public class CameraTap : MonoBehaviour {
         {
             GameManager.Instance.OpenPouch = true;
             tutManager.NextInstruction();
-            //tutManager.PouchText();
-            
+            RemoveHighlight();
+            tutManager.HighlightMagnifyerAndResourcePouch();
         }
-            
+    }
+
+    public void HighlightButton()
+    {
+        if (!runeIndicatorEnabled)
+        {
+            runeIndicator = Instantiate(runeIndicatorPrefab, mainCanvas.transform);
+            runeIndicator.GetComponent<TutorialRuneIndicator>().SetPosition(img.gameObject,true);
+            runeIndicatorEnabled = true;
+        }
+    }
+
+    public void RemoveHighlight()
+    {
+        if (runeIndicator != null)
+            Destroy(runeIndicator);
+
+        runeIndicatorEnabled = false;
     }
 
 	public bool AtTopScreen() {

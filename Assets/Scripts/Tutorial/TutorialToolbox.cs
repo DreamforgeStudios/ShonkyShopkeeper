@@ -5,6 +5,7 @@ using UnityEngine;
 using TMPro;
 using DG.Tweening;
 using UnityEditor;
+using UnityEditor.Experimental.UIElements;
 // Tweening / nice lerping.
 //using System;
 using UnityEngine.SceneManagement;
@@ -116,7 +117,7 @@ public class TutorialToolbox : MonoBehaviour {
 
     private void ProcessMouse() {
         if (Input.GetMouseButtonDown(0)) {
-            Debug.Log("CanSelect is " + canSelect);
+            //Debug.Log("CanSelect is " + canSelect);
             if (GameManager.Instance.TutorialIntroTopComplete && canSelect)
                 Cast();
                 //tutorialManager.HideCanvas();
@@ -153,14 +154,12 @@ public class TutorialToolbox : MonoBehaviour {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         previousRay = ray;
 
-        Debug.Log("casting...");
+        //Debug.Log("casting...");
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask)) {
             if (hit.transform.CompareTag("Forceps") || hit.transform.CompareTag("Wand") ||
                 hit.transform.CompareTag("Magnifyer"))
             {
                 SFX.Play("cursor_select");
-                //soundEffects.clip = cursorSelect;
-                //soundEffects.Play();
                 if (tutorialManager.currentToolToInspect == hit.transform.gameObject || (
                     GameManager.Instance.TutorialIntroComplete))
                 {
@@ -294,7 +293,7 @@ public class TutorialToolbox : MonoBehaviour {
         {
             //tutorialManager.InspectItem(tool);
             tutorialManager.StopParticle(tool);
-            tutorialManager.MoveInstructions();
+            tutorialManager.MoveInstructionScroll();
             tutorialManager.NextInstruction();
             tutorialManager.StartItemParticles();
         }
@@ -372,8 +371,13 @@ public class TutorialToolbox : MonoBehaviour {
 
                 MoveUp(slot);
                 if (!GameManager.Instance.TutorialIntroComplete)
-                {
                     tutorialManager.FinishInspectorUse();
+
+                if (!GameManager.Instance.TutorialGolemMade)
+                {
+                    GameObject obj;
+                    if (slot.GetPrefabInstance(out obj))
+                        tutorialManager.DestroySpecificItemIndicator(obj);
                 }
             }
         } else {
@@ -419,8 +423,16 @@ public class TutorialToolbox : MonoBehaviour {
                     this.currentSelection = slot;
                     MoveUp(slot);
                     SFX.Play("Item_lifted", 1f, 1f, 0f, false, 0f);
-                    // Second selection.
-                    tutorialManager.NextInstruction();
+                    //If not finished the tool tutorial
+                    if (!GameManager.Instance.TutorialIntroComplete)
+                    {
+                        // Second selection.
+                        tutorialManager.NextInstruction();
+                        //Get prefab instance
+                        GameObject obj;
+                        if (slot.GetPrefabInstance(out obj))
+                            tutorialManager.DestroySpecificItemIndicator(obj);
+                    }
                 }
                 else
                 {
@@ -430,6 +442,11 @@ public class TutorialToolbox : MonoBehaviour {
                         Debug.Log("Same slot.");
                         MoveDown(slot);
                         currentSelection = null;
+                        if (!GameManager.Instance.TutorialIntroComplete)
+                        {
+                            tutorialManager.StartItemIndicators();
+                            tutorialManager.PreviousInstruction();
+                        }
                         return;
                     }
 
@@ -563,11 +580,13 @@ public class TutorialToolbox : MonoBehaviour {
                     break;
                 case "ChargedJewel":
                     MoveUp(slot);
-                    tutorialManager.NextInstruction();
+                    if (TutorialProgressChecker.Instance.readyGolem && GameManager.Instance.InTutorial)
+                        tutorialManager.NextInstruction();
                     break;
                 case "Shell":
                     MoveUp(slot);
-                    tutorialManager.NextInstruction();
+                    if (TutorialProgressChecker.Instance.readyGolem && GameManager.Instance.InTutorial)
+                        tutorialManager.NextInstruction();
                     break;
             }
         } else if (currentSelection != null && currentSelection != slot) {
@@ -580,6 +599,17 @@ public class TutorialToolbox : MonoBehaviour {
                     
                     // Check for a free slot.
                     if (ShonkyInventory.Instance.FreeSlot()) {
+                        //If in tutorial, remove the rune indicator
+                        if (!GameManager.Instance.TutorialGolemMade)
+                        {
+                            GameObject obj1, obj2;
+                            if (currentSelection.GetPrefabInstance(out obj1) && slot.GetPrefabInstance(out obj2))
+                            {
+                                tutorialManager.DestroySpecificItemIndicator(obj1);
+                                tutorialManager.DestroySpecificItemIndicator(obj2);
+                            }
+                        }
+
                         tutorialManager.HideExposition();
                         golemCombiner.GolemAnimationSequence(currentSelection, item1, slot, item2);
                     } else {
@@ -605,6 +635,11 @@ public class TutorialToolbox : MonoBehaviour {
         GameObject itemObj;
         if (currentSelection.GetPrefabInstance(out itemObj)) {
             SFX.Play("item_lift");
+            
+            //If in tutorial, remove the rune indicator
+            if (!GameManager.Instance.TutorialGolemMade)
+                tutorialManager.DestroySpecificItemIndicator(itemObj);
+                
             Inventory.Instance.RemoveItem(currentSelection.index);
             currentSelection.RemoveDontDestroy();
 
@@ -674,8 +709,8 @@ public class TutorialToolbox : MonoBehaviour {
         int numberItems = UnityEngine.Random.Range(6, 12);
         SFX.Play("Res_pouch_open", 1f, 1f, 0f, false, 0f);
         
-        if (GameManager.Instance.OpenPouch)
-            tutorialManager.PouchText();
+        //if (GameManager.Instance.OpenPouch)
+            //tutorialManager.PouchText();
 
         //SFX.Play("sound");
         var drops = new List<ItemInstance>();

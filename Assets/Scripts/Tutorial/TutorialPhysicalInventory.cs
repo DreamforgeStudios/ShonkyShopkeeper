@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using DG.Tweening;
 using NaughtyAttributes;
@@ -20,6 +21,12 @@ public class TutorialPhysicalInventory : MonoBehaviour {
 	private GameObject particleChild;
 	public List<GameObject> particlesOnItems;
 	public bool createdParticles = false;
+	
+	//Rune Indicator prefab and associated objects
+	public Canvas mainCanvas;
+	public GameObject runeIndicatorPrefab;
+	public List<GameObject> runeIndicatorClones;
+	private GameObject runeIndicator;
 
 	// Use this for initialization
 	void Start () {
@@ -95,7 +102,6 @@ public class TutorialPhysicalInventory : MonoBehaviour {
 		if (GameManager.Instance.InTutorial && TutorialProgressChecker.Instance.readyGolem)
 		{
 			HighlightShellAndChargedJewel();
-			//TutorialProgressChecker.Instance.ShowCanvas(false);
 		}
 	}
 
@@ -103,7 +109,9 @@ public class TutorialPhysicalInventory : MonoBehaviour {
 	{
 		if (!createdParticles)
 		{
+			DestroyRuneIndicatorOverAllItems();
 			particlesOnItems = new List<GameObject>();
+			runeIndicatorClones = new List<GameObject>();
 			for (int i = 0; i < inventorySlots.Count; i++)
 			{
 				ItemInstance instance;
@@ -118,17 +126,26 @@ public class TutorialPhysicalInventory : MonoBehaviour {
 						GameObject obj;
 						if (inventorySlots[i].GetPrefabInstance(out obj))
 						{
+							//Particles
 							particleChild = Instantiate(particles, obj.transform.position, obj.transform.rotation);
 							particleChild.transform.parent = obj.transform;
 							particleChild.transform.localScale = new Vector3(1f, 1f, 1f);
 							particlesOnItems.Add(particleChild);
+							//Indicator
+							runeIndicator = Instantiate(runeIndicatorPrefab, mainCanvas.transform);
+							runeIndicator.GetComponent<TutorialRuneIndicator>().SetPosition(obj,false);
+							runeIndicator.transform.localScale = new Vector3(1f,1f,1f);
+							runeIndicatorClones.Add(runeIndicator);
 						}
 					}
 				}
 			}
-
 			createdParticles = true;
 		}
+		//Need to set the instructionBubble prefab as the 'top' UI Element
+		GameObject instruction = GameObject.Find("InstructionBubble(Clone)");
+		if (instruction != null)
+			instruction.transform.SetAsLastSibling();
 
 		return () => { InstructionBubble.onInstruction -= HighlightOreAndGem();};
 	}
@@ -139,16 +156,40 @@ public class TutorialPhysicalInventory : MonoBehaviour {
 		{
 			Destroy(particle);
 		}
+		DestroyRuneIndicatorOverAllItems();
 
 		createdParticles = false;
+	}
+
+	public void DestroyRuneIndicatorOverAllItems()
+	{
+		foreach (var VARIABLE in runeIndicatorClones)
+		{
+			Destroy(VARIABLE);
+		}
+	}
+
+	//Use a reverse for loop to check for the targetobj and its associated Rune
+	public void DestroyParticleOverItem(GameObject targetObj)
+	{
+		for (int i = runeIndicatorClones.Count() - 1; i >= 0; i--)
+		{
+			if (runeIndicatorClones[i].GetComponent<TutorialRuneIndicator>().objectOver == targetObj)
+			{
+				GameObject foundObj = runeIndicatorClones[i];
+				runeIndicatorClones.RemoveAt(i);
+				Destroy(foundObj);
+			}
+				
+		}
 	}
 	
 	public void HighlightShellAndChargedJewel()
 	{
+		Debug.Log("highlighting shell and charged Jewel");
 		for (int i = 0; i < inventorySlots.Count; i++)
 		{
 			ItemInstance instance;
-			//Debug.Log(string.Format("Checking slot {0} out of {1}", i,inventorySlots.Count));
 			// If an object exists at the specified location.
 			if (Inventory.Instance.GetItem(i, out instance))
 			{
@@ -158,9 +199,42 @@ public class TutorialPhysicalInventory : MonoBehaviour {
 					GameObject obj;
 					if (inventorySlots[i].GetPrefabInstance(out obj))
 					{
+						//particles
 						particleChild = Instantiate(particles, obj.transform.position, obj.transform.rotation);
 						particleChild.transform.parent = obj.transform;
 						particleChild.transform.localScale = new Vector3(1f, 1f, 1f);
+						particlesOnItems.Add(particleChild);
+						//Indicator
+						runeIndicator = Instantiate(runeIndicatorPrefab, mainCanvas.transform);
+						runeIndicator.GetComponent<TutorialRuneIndicator>().SetPosition(obj,false);
+						runeIndicator.transform.localScale = new Vector3(1f,1f,1f);
+						runeIndicatorClones.Add(runeIndicator);
+					}
+				}
+			}
+		}
+	}
+
+	public void HighlightResourcePouch()
+	{
+		for (int i = 0; i < inventorySlots.Count; i++)
+		{
+			ItemInstance instance;
+			// If an object exists at the specified location.
+			if (Inventory.Instance.GetItem(i, out instance))
+			{
+				if (instance.item != null &&
+				    (instance.item.GetType() == typeof(ResourceBag)))
+				{
+					GameObject obj;
+					if (inventorySlots[i].GetPrefabInstance(out obj))
+					{
+						//Indicator
+						Debug.Log("Creating rune Indicator");
+						runeIndicator = Instantiate(runeIndicatorPrefab, mainCanvas.transform);
+						runeIndicator.GetComponent<TutorialRuneIndicator>().SetPosition(obj,false);
+						runeIndicator.transform.localScale = new Vector3(1f,1f,1f);
+						runeIndicatorClones.Add(runeIndicator);
 					}
 				}
 			}
