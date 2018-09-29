@@ -5,6 +5,7 @@ using UnityEngine;
 using TMPro;
 using DG.Tweening;
 using UnityEditor;
+using UnityEditor.Experimental.UIElements;
 // Tweening / nice lerping.
 //using System;
 using UnityEngine.SceneManagement;
@@ -292,7 +293,7 @@ public class TutorialToolbox : MonoBehaviour {
         {
             //tutorialManager.InspectItem(tool);
             tutorialManager.StopParticle(tool);
-            tutorialManager.MoveInstructions();
+            tutorialManager.MoveInstructionScroll();
             tutorialManager.NextInstruction();
             tutorialManager.StartItemParticles();
         }
@@ -370,8 +371,13 @@ public class TutorialToolbox : MonoBehaviour {
 
                 MoveUp(slot);
                 if (!GameManager.Instance.TutorialIntroComplete)
-                {
                     tutorialManager.FinishInspectorUse();
+
+                if (!GameManager.Instance.TutorialGolemMade)
+                {
+                    GameObject obj;
+                    if (slot.GetPrefabInstance(out obj))
+                        tutorialManager.DestroySpecificItemIndicator(obj);
                 }
             }
         } else {
@@ -574,11 +580,13 @@ public class TutorialToolbox : MonoBehaviour {
                     break;
                 case "ChargedJewel":
                     MoveUp(slot);
-                    tutorialManager.NextInstruction();
+                    if (TutorialProgressChecker.Instance.readyGolem && GameManager.Instance.InTutorial)
+                        tutorialManager.NextInstruction();
                     break;
                 case "Shell":
                     MoveUp(slot);
-                    tutorialManager.NextInstruction();
+                    if (TutorialProgressChecker.Instance.readyGolem && GameManager.Instance.InTutorial)
+                        tutorialManager.NextInstruction();
                     break;
             }
         } else if (currentSelection != null && currentSelection != slot) {
@@ -591,6 +599,17 @@ public class TutorialToolbox : MonoBehaviour {
                     
                     // Check for a free slot.
                     if (ShonkyInventory.Instance.FreeSlot()) {
+                        //If in tutorial, remove the rune indicator
+                        if (!GameManager.Instance.TutorialGolemMade)
+                        {
+                            GameObject obj1, obj2;
+                            if (currentSelection.GetPrefabInstance(out obj1) && slot.GetPrefabInstance(out obj2))
+                            {
+                                tutorialManager.DestroySpecificItemIndicator(obj1);
+                                tutorialManager.DestroySpecificItemIndicator(obj2);
+                            }
+                        }
+
                         tutorialManager.HideExposition();
                         golemCombiner.GolemAnimationSequence(currentSelection, item1, slot, item2);
                     } else {
@@ -616,6 +635,11 @@ public class TutorialToolbox : MonoBehaviour {
         GameObject itemObj;
         if (currentSelection.GetPrefabInstance(out itemObj)) {
             SFX.Play("item_lift");
+            
+            //If in tutorial, remove the rune indicator
+            if (!GameManager.Instance.TutorialGolemMade)
+                tutorialManager.DestroySpecificItemIndicator(itemObj);
+                
             Inventory.Instance.RemoveItem(currentSelection.index);
             currentSelection.RemoveDontDestroy();
 

@@ -29,6 +29,9 @@ public class GolemPickup : MonoBehaviour {
 
     //Exit Portal Location - used for 'respawning' returning golems
     public Vector3 exitPortalLocation;
+    
+    //Portal location used for tutorial
+    public GameObject portal;
 
     //Reference to the pouch itemInstance
     public ItemInstance pouch;
@@ -329,7 +332,7 @@ public class GolemPickup : MonoBehaviour {
             {
                 tutManager.HideExposition();
                 tutManager.StartDialogue(tutManager.tapPouch, tutManager.openPouch, tutManager.mainCanvas, 
-                    tutManager.mineTarget, true);
+                    physicalRep, false);
                 GameManager.Instance.ReturnPouch = true;
             }
         }
@@ -570,7 +573,8 @@ public class GolemPickup : MonoBehaviour {
             if (GameManager.Instance.TimerComplete && !textboxShowing)
             {
                 tutManager.HideExposition();
-                tutManager.StartDialogue(tutManager.retrieveGolem, tutManager.retrieveGolemInstruction, tutManager.mainCanvas, tutManager.mineTarget, true);
+                tutManager.StartDialogue(tutManager.retrieveGolem, tutManager.retrieveGolemInstruction, tutManager.mainCanvas, portal, false);
+                tutManager.MoveInstructionScroll();
                 GameManager.Instance.HasMinePouch = true;
                 GameManager.Instance.TimerComplete = false;
                 textboxShowing = true;

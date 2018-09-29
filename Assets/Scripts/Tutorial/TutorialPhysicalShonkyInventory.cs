@@ -21,26 +21,13 @@ public class TutorialPhysicalShonkyInventory : MonoBehaviour {
     public GameObject particles;
     private GameObject particleChild;
 
-    /*
-    private static PhysicalShonkyInventory _instance;
-    public static PhysicalShonkyInventory Instance {
-        get {
-            if (!_instance) {
-                PhysicalShonkyInventory[] tmp = Resources.FindObjectsOfTypeAll<PhysicalShonkyInventory>();
-                if (tmp.Length > 0) {
-                    _instance = tmp[0];
-                    Debug.Log("Found shonky physical inventory as: " + _instance);
-                }
-                else {
-                    Debug.Log("did not find shonky physical inventory.");
-                    _instance = null;
-                }
-            }
+    //Rune Indicator prefab and associated objects
+    public Canvas mainCanvas;
+    public GameObject runeIndicatorPrefab;
+    public List<GameObject> runeIndicatorClones;
+    private GameObject runeIndicator;
+    private bool HasRunesMade = false;
 
-            return _instance;
-        }
-    }
-    */
     // Use this for initialization
     void Start() {
         // Load example.
@@ -92,24 +79,72 @@ public class TutorialPhysicalShonkyInventory : MonoBehaviour {
         //HighlightGolem();
     }
     
-    private void HighlightGolem()
+    public void HighlightGolems()
     {
-        for (int i = 0; i < shonkySlots.Count; i++)
+        if (!HasRunesMade)
         {
-            ItemInstance instance;
-            //Debug.Log(string.Format("Checking slot {0} out of {1}", i,inventorySlots.Count));
-            // If an object exists at the specified location.
-            if (Inventory.Instance.GetItem(i, out instance))
+            RemoveAllRunes();
+            runeIndicatorClones = new List<GameObject>();
+            for (int i = 0; i < shonkySlots.Count; i++)
             {
-                if (!GameManager.Instance.MineGoleminteractGolem){
-                    GameObject obj;
-                    if (shonkySlots[i].GetPrefabInstance(out obj))
+                ItemInstance instance;
+                // If an object exists at the specified location.
+                if (ShonkyInventory.Instance.GetItem(i, out instance))
+                {
+                    if (!GameManager.Instance.MineGoleminteractGolem)
                     {
-                        //particleChild = Instantiate(particles, obj.transform.position, obj.transform.rotation);
-                        //particleChild.transform.parent = obj.transform;
+                        GameObject obj;
+                        if (shonkySlots[i].GetPrefabInstance(out obj))
+                        {
+                            //Indicator
+                            runeIndicator = Instantiate(runeIndicatorPrefab, mainCanvas.transform);
+                            runeIndicator.GetComponent<TutorialRuneIndicator>().SetPosition(obj, false);
+                            runeIndicator.transform.localScale = new Vector3(1f, 1f, 1f);
+                            runeIndicatorClones.Add(runeIndicator);
+                        }
                     }
                 }
             }
+            HasRunesMade = true;
+        }
+    }
+
+    public void RemoveAllRunes()
+    {
+        HasRunesMade = false;
+        if (runeIndicatorClones != null)
+        {
+            foreach (var VARIABLE in runeIndicatorClones)
+            {
+                Destroy(VARIABLE);
+            }
+        }
+    }
+
+    public GameObject ReturnSingleGolem()
+    {
+        for (int i = 0; i < shonkySlots.Count; i++)
+        {
+            GameObject obj;
+            if (shonkySlots[i].GetPrefabInstance(out obj))
+            {
+                return obj;
+            }
+        }
+        return null;
+    }
+
+    public void RemoveSpecificRune(GameObject prefab)
+    {
+        for (int i = runeIndicatorClones.Count - 1; i >= 0; i--)
+        {
+            if (runeIndicatorClones[i].GetComponent<TutorialRuneIndicator>().objectOver == prefab)
+            {
+                GameObject foundObj = runeIndicatorClones[i];
+                runeIndicatorClones.RemoveAt(i);
+                Destroy(foundObj);
+            }
+				
         }
     }
 

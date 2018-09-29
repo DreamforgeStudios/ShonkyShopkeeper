@@ -9,6 +9,7 @@ public class TutorialRuneIndicator : MonoBehaviour
 	public Image rune, core;
 	private Transform runeT;
 	public GameObject objectOver;
+	private bool overCanvasElement, startedCoroutine = false;
 	
 	// Use this for initialization
 	void Start () {
@@ -26,12 +27,19 @@ public class TutorialRuneIndicator : MonoBehaviour
 
 	private void Update()
 	{
-		runeT.Rotate(Vector3.forward,360f * Time.deltaTime/4f);
+		runeT.Rotate(Vector3.forward,360f * Time.deltaTime/3f);
+		
+		if (!startedCoroutine)
+			//Start coroutine to keep it over the element
+			StartCoroutine(KeepOverElement());
+			
 	}
 
+	//Sets the rune over the top of either the selected gameobject or canvas element
 	public void SetPosition(GameObject objectToBeOver, bool canvasElement)
 	{
 		objectOver = objectToBeOver;
+		overCanvasElement = canvasElement;
 		runeT = rune.GetComponent<Transform>();
 		Vector2 pos = new Vector2(0f,0f);
 		if (canvasElement)
@@ -46,6 +54,27 @@ public class TutorialRuneIndicator : MonoBehaviour
 			pos = Camera.main.WorldToViewportPoint(objectToBeOver.transform.position);
 			pos = Camera.main.ViewportToScreenPoint(pos);
 			runeT.position = pos;
+		}
+	}
+
+	//Need to handle when objects need to move
+	private IEnumerator KeepOverElement()
+	{
+		while (true)
+		{
+			startedCoroutine = true;
+			if (overCanvasElement)
+			{
+				if (runeT.position != objectOver.transform.position)
+					runeT.position = objectOver.transform.position;
+			}
+			else
+			{
+				if (runeT.position != Camera.main.WorldToScreenPoint(objectOver.transform.position))
+					runeT.position = Camera.main.WorldToScreenPoint(objectOver.transform.position);
+			}
+			
+			yield return new WaitForSeconds(0.1f);
 		}
 	}
 }

@@ -218,6 +218,15 @@ public class InstructionBubble : MonoBehaviour
 		
 		Instruction = false;
 	}
+
+	public void MoveScrollsToFront()
+	{
+		if (ExpositionBubbleObj != null)
+			ExpositionBubbleObj.transform.SetAsLastSibling();
+		
+		if (InstructionBubbleObj != null)
+			InstructionBubbleObj.transform.SetAsLastSibling();
+	}
 	
 	public void NextText() {
 		//Debug.Log(activePage + " is active page and textCount is " + informationTextToDisplay.Count);

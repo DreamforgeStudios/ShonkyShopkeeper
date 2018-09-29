@@ -13,7 +13,7 @@ public class TutorialManager : MonoBehaviour
 	public Inventory TutorialInventory, RegularInventory;
 	public ShonkyInventory EmptyInventory, RegularGolemInventory;
 	public TutorialPhysicalInventory physicalInv;
-	public PhysicalShonkyInventory golemInv;
+	public TutorialPhysicalShonkyInventory golemInv;
 	public TutorialToolbox toolbox;
 
 	//Tools to inspect and have been inspected
@@ -108,12 +108,8 @@ public class TutorialManager : MonoBehaviour
 	        .GetComponentInChildren<InstructionBubble>();
 		clone.SetText(dialogue,instruction);
 		clone.Init(target,canvasElement, mainCanvas);
+		clone.MoveScrollsToFront();
 
-	}
-
-	public void MoveInstructions()
-	{
-		clone.MoveInstructionScroll();
 	}
 
 	public void SkipTutorial()
@@ -221,7 +217,7 @@ public class TutorialManager : MonoBehaviour
 
 	public void IntroduceGolem()
 	{
-		StartDialogue(introduceGolem, introduceGolemInstruction, mainCanvas, mineTarget, true);
+		StartDialogue(introduceGolem, introduceGolemInstruction, mainCanvas, cameraButton.gameObject, true);
 		GameManager.Instance.SendToMine = true;
 	}
 
@@ -251,7 +247,9 @@ public class TutorialManager : MonoBehaviour
 			cameraButton.gameObject.SetActive(false);
 			if (GameManager.Instance.SendToMine)
 			{
-				StartDialogue(pickUpGolem, golemMineInstruction, mainCanvas, mineTarget, true);
+				Debug.Log("Enabling single golem highlight");
+				GameObject highlightedGolem = golemInv.ReturnSingleGolem();
+				StartDialogue(pickUpGolem, golemMineInstruction, mainCanvas, highlightedGolem, true);
 				GameManager.Instance.SendToMine = false;
 			}
 		}
@@ -414,6 +412,22 @@ public class TutorialManager : MonoBehaviour
 			InstructionBubble.onInstruction += physicalInv.HighlightOreAndGem() ;
 
 		toolbox.canSelect = true;
+	}
+
+	public void MoveScrollsToFront()
+	{
+		if (clone != null)
+		{
+			clone.MoveScrollsToFront();
+		}
+	}
+
+	public void MoveInstructionScroll()
+	{
+		if (clone != null)
+		{
+			clone.MoveInstructionScroll();
+		}
 	}
 
 	public void StartItemIndicators()
