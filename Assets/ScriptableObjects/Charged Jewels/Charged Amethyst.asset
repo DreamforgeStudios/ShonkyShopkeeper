@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: Charged Amethyst
   m_EditorClassIdentifier: 
   itemName: Charged Amethyst
-  physicalRepresentation: {fileID: 1591588340282672, guid: c76efe347fbbed14fa363b965ffef420,
+  physicalRepresentation: {fileID: 1610013884849470, guid: 93dfc67dee049df42a6fb143e49cb5b7,
     type: 2}
   stackLimit: 1
   mergeable: 0

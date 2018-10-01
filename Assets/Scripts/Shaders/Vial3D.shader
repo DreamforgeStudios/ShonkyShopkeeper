@@ -4,7 +4,7 @@
 	    _Tint ("Tint", Color) = (1,1,1,1)
 		_MainTex ("Main Texture", 2D) = "white" {}
 		_EmptyTex ("Empty Texture", 2D) = "white" {}
-		_FillAmount ("Fill Amount", Range(-5, 5)) = 0.0
+		_FillAmount ("Fill Amount", Range(-2, 2)) = 0.0
 		[HideInInspector] _WobbleX ("WobbleX", Range(-1, 1)) = 0.0
 		[HideInInspector] _WobbleZ ("WobbleZ", Range(-1, 1)) = 0.0
 		_TopColor ("Top Color", Color) = (1,1,1,1)
@@ -13,7 +13,7 @@
 		_RimColor ("Rim Color", Color) = (1,1,1,1)
 		_RimPower ("Rim Power", Range(0,10)) = 0.0
 		
-		_UpDirection ("Up Direction", Vector) = (0,1,0,1)
+		//_UpDirection ("Up Direction", Vector) = (0,1,0,1)
 	}
 	
 	SubShader {
@@ -71,9 +71,13 @@
 				//o.fillEdge = worldPosAdjusted.y + _FillAmount;
 				
 				// find vector origin in world space.
-				fixed3 worldPos = mul(unity_ObjectToWorld, v.vertex);
-				fixed3 worldOriginPos = mul(unity_ObjectToWorld, fixed4(0,0,0,1));
-				fixed3 realWorld = worldPos - worldOriginPos;
+				//fixed3 worldPos = mul(unity_ObjectToWorld, v.vertex);
+				//fixed3 worldOriginPos = mul(unity_ObjectToWorld, fixed4(0,0,0,1));
+				//fixed3 realWorld = worldPos - worldOriginPos;
+				
+				// It should actually be the UpDirection which is flipped, but this is easier to change if
+				//  we decide to go back to world positioning.
+				fixed3 realWorld = fixed3(-v.vertex.y, v.vertex.x, -v.vertex.z);
 				 
 				fixed3 normalizedUp = normalize(_UpDirection.xyz);
 				
@@ -104,7 +108,8 @@
                 fixed4 foamColored = foam * _FoamColor;
                 // rest of the liquid
                 fixed4 result = step(i.fillEdge, 0.5) - foam;
-                fixed4 resultColored = result * col;
+                fixed4 resultColored = result * col + (1-(result + foam)) * emptyCol;
+                
                 // both together, with the texture
                 fixed4 finalResult = resultColored + foamColored;               
                 finalResult.rgb += RimResult;

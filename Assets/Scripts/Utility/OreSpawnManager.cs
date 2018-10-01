@@ -11,14 +11,14 @@ public class OreSpawnManager : MonoBehaviour {
 	
 	public GameObject Ore;
 	public GameObject Brick;
-	public GameObject SmeltingPot;
+	//public GameObject SmeltingPot;
 	
 	public GameObject ShineParticleSystem;
 	public GameObject SmokeParticleSystem;
 
 	public float ScaleOverrideSmoke, ScaleOverrideShine;
 
-	public bool Debug;
+	public bool EnableDebug;
 
 
 	private GameObject spawnedClone;
@@ -29,9 +29,14 @@ public class OreSpawnManager : MonoBehaviour {
 		spawnedClone.transform.DOLocalMove(Vector3.zero, InitialTweenDuration).SetEase(Ease.InBack);
 	}
 
-	public void Upgrade(bool success) {
-		if (success) {
-			var spawn = Instantiate(Brick, AfterPosition, Brick.transform.rotation, transform);
+	public void Upgrade(Quality.QualityGrade grade) {
+		if (grade == Quality.QualityGrade.Junk) {
+			var a = Instantiate(SmokeParticleSystem, SmokePosition, Quaternion.identity, transform);
+			a.transform.localScale = new Vector3(ScaleOverrideSmoke, ScaleOverrideSmoke, ScaleOverrideSmoke);
+			spawnedClone.SetActive(false);
+			//SmeltingPot.SetActive(false);
+		} else {
+			Instantiate(Brick, AfterPosition, Brick.transform.rotation, transform);
 
 			var a = Instantiate(SmokeParticleSystem, SmokePosition, Quaternion.identity, transform);
 			a.transform.localScale = new Vector3(ScaleOverrideSmoke, ScaleOverrideSmoke, ScaleOverrideSmoke);
@@ -40,17 +45,13 @@ public class OreSpawnManager : MonoBehaviour {
 			a.transform.localScale = new Vector3(ScaleOverrideShine, ScaleOverrideShine, ScaleOverrideShine);
 
 			spawnedClone.SetActive(false);
-			SmeltingPot.SetActive(false);
-		} else {
-			var a = Instantiate(SmokeParticleSystem, SmokePosition, Quaternion.identity, transform);
-			a.transform.localScale = new Vector3(ScaleOverrideSmoke, ScaleOverrideSmoke, ScaleOverrideSmoke);
-			spawnedClone.SetActive(false);
-			SmeltingPot.SetActive(false);
+			//SmeltingPot.SetActive(false);
+			//Debug.Log("Was success" + success);
 		}
 	}
 	
 	private void OnDrawGizmos() {
-		if (Debug) {
+		if (EnableDebug) {
 			Gizmos.color = Color.yellow;
 			Gizmos.DrawWireSphere(BeforePosition, 1);
 			Gizmos.color = Color.green;

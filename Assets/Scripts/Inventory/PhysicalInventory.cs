@@ -61,6 +61,7 @@ public class PhysicalInventory : MonoBehaviour {
 					}
 
 					if (instance.Quality == Quality.QualityGrade.Mystic) {
+						SFX.Play("Item_Appear_Mystic",1f,1f,0f,false,0f);
 						AchievementManager.Get("item_quality_01");
 					}
 					

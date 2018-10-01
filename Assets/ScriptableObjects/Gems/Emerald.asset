@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: Emerald
   m_EditorClassIdentifier: 
   itemName: Emerald
-  physicalRepresentation: {fileID: 1699448682367330, guid: 46ed93f1044043b4ba13fd8d53ca5b4b,
+  physicalRepresentation: {fileID: 1202478177869996, guid: ebde02e4a89d06f4c846a0c7100a2494,
     type: 2}
   stackLimit: 1
   mergeable: 0

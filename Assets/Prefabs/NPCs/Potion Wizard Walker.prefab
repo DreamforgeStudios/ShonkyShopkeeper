@@ -28,7 +28,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4042559154914398
 Transform:
   m_ObjectHideFlags: 1
@@ -67,7 +67,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkDirection: 0
   walkSpeed: 0
-  personality: {fileID: 11400000, guid: 45d053d726ef6934f828da577048b578, type: 2}
+  WizardFront: {fileID: 1130878422398642, guid: a1a0f52d72ce66246b1095bf7869084d,
+    type: 2}
   walkNormal: 1
 --- !u!212 &212413014549984866
 SpriteRenderer:

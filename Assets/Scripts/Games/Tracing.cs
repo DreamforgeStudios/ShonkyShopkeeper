@@ -3,15 +3,25 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using DG.Tweening.Core.Easing;
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 using Random = UnityEngine.Random;
 
+[System.Serializable]
+public class DifficultyTracingDictionary : SerializableDictionary<Difficulty, TracingDifficultySettings> {}
+
+[System.Serializable]
+public class TracingDifficultySettings {
+    public float ScoreMultiplier;
+}
+
 public class Tracing : MonoBehaviour {
     public TextMeshProUGUI qualityText;
-    public TextMeshProUGUI scoreText;
+    //public TextMeshProUGUI scoreText;
+    public InstructionHandler instructionManager;
 
     //Tracing & Vector Lists
     private List<Vector3> playerPoints = new List<Vector3>();
@@ -46,6 +56,7 @@ public class Tracing : MonoBehaviour {
     private float mouseDownTime;
     private SceneManager sceneManager;
     private int designatedStartIndex;
+    private float missDurationCounter;
 
     //Distance and tracking variables
     public int hitPoints = 0;
@@ -57,8 +68,15 @@ public class Tracing : MonoBehaviour {
     private float averageDistanceAway = 0;
 
     //Score Variables
+    public DifficultyTracingDictionary DifficultySettings;
+	public bool ManualDifficultyOverride;
+	[EnableIf("ManualDifficultyOverride")]
+	public Difficulty ManualDifficulty;
+    //public float ScoreMultiplier;
     private float score = 0;
-    private float _finalScore = 0;
+
+    private TracingDifficultySettings activeDifficultySettings;
+    //private float _finalScore = 0;
 
     //Tming Variables
     public float startTime;
@@ -67,9 +85,10 @@ public class Tracing : MonoBehaviour {
     private float finalTime;
     public float timeLimit = 10.00f;
     private bool startTimer = false;
+    public float MissDurationTimeout;
 
     //Quality bar.
-    public QualityBar qualityBar;
+    public PointsManager PointsManager;
     public GameObject returnOrRetryButtons;
     public BrickSpawnManager brickSpawnmanager;
     private bool start = false;
@@ -87,6 +106,12 @@ public class Tracing : MonoBehaviour {
     // Use this for initialization
     void Start() {
         SFX.Play("CraftingOre",1f,1f,0f,true,0f);
+        
+	    Difficulty d = ManualDifficultyOverride ? ManualDifficulty : PersistentData.Instance.Difficulty;
+	    if (!DifficultySettings.TryGetValue(d, out activeDifficultySettings)) {
+		    Debug.LogError("The current difficulty (" + PersistentData.Instance.Difficulty.ToString() +
+		                     ") does not have a TracingDifficultySettings associated with it.");
+	    }
         //SFX.Play();
         Countdown.onComplete += GameOver;
         finishTime = Time.time + 10f;
@@ -109,6 +134,13 @@ public class Tracing : MonoBehaviour {
             FadeInRune();
             currentTime = Time.time;
             GetInput();
+
+            if (missDurationCounter > MissDurationTimeout) {
+                missDurationCounter = 0;
+                instructionManager.PushInstruction();
+            }
+
+            missDurationCounter += Time.deltaTime;
         }
 
         if (Time.time > finishTime && _canTrace)
@@ -195,7 +227,7 @@ public class Tracing : MonoBehaviour {
         FollowSphere.transform.position = mWorldPosition;
 
         if (Input.GetMouseButtonDown(0)) {
-            //SFX.Play("sound");
+            SFX.Play("Tracing_taphold");
             isMouseDown = true;
             mouseDownTime = Time.time;
             if (!startTimer) {
@@ -214,10 +246,11 @@ public class Tracing : MonoBehaviour {
             if (score > 0)
             {
                 //Debug.Log("adding score of " + score);
-                qualityBar.Add(score/1000,true);
-                _finalScore += score;
-                scoreText.text = string.Format("Final score is {0}", _finalScore);
+                PointsManager.AddPoints(score * activeDifficultySettings.ScoreMultiplier);
+                //_finalScore += score;
+                //scoreText.text = string.Format("Final score is {0}", _finalScore);
                 NextRune();
+                missDurationCounter = 0;
             }
         }
 
@@ -236,25 +269,26 @@ public class Tracing : MonoBehaviour {
     private void GameOver()
     {
         Countdown.onComplete -= GameOver;
-        grade = qualityBar.Finish();
-        qualityText.text = Quality.GradeToString(grade);
-        qualityText.color = Quality.GradeToColor(grade);
-        qualityText.gameObject.SetActive(true);
-        qualityBar.Disappear();
-        ResetOptimalPoints();
+
+        var tmpGrade = Quality.CalculateGradeFromPoints(PointsManager.GetPoints());
+        PointsManager.onFinishLeveling += () =>
+        {
+            brickSpawnmanager.Upgrade(tmpGrade);
+            PointsManager.gameObject.SetActive(false);
+            qualityText.text = Quality.GradeToString(tmpGrade);
+            qualityText.color = Quality.GradeToColor(tmpGrade);
+            qualityText.gameObject.SetActive(true);
+        };
+        
+        PointsManager.DoEndGameTransition();
         FollowSphere.SetActive(false);
         _currentRuneSprite.SetActive(false);
-		grade = Quality.CalculateCombinedQuality(GameManager.Instance.QualityTransfer, grade);
+        ResetOptimalPoints();
+        
+		grade = Quality.CalculateCombinedQuality(GameManager.Instance.QualityTransfer, tmpGrade);
         ShowUIButtons();
         _dataBase.HideUI();
         _canTrace = false;
-        
-        if (grade == Quality.QualityGrade.Junk)
-            brickSpawnmanager.Upgrade(false);
-        else
-        {
-            brickSpawnmanager.Upgrade(true);
-        }
     }
 
     /*
@@ -375,7 +409,7 @@ public class Tracing : MonoBehaviour {
         Flash();
         ResetOptimalPoints();
         _currentRune = _dataBase.GetRandomRune();
-        //SFX.Play("sound");
+        SFX.Play("Tracing_nxtshape");
         SplitRuneObject();
         GetNecessaryPositions();
         SetupColliders();

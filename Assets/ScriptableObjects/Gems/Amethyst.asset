@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: Amethyst
   m_EditorClassIdentifier: 
   itemName: Amethyst
-  physicalRepresentation: {fileID: 1984972379849668, guid: a9f777a2cabe2554f94e62609bca9882,
+  physicalRepresentation: {fileID: 1767433151587682, guid: b4d2f5c5bd8234f45b7ecc511dde9b13,
     type: 2}
   stackLimit: 1
   mergeable: 0

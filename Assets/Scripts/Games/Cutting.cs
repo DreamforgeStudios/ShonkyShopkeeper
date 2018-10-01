@@ -7,13 +7,26 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 
-public class Cutting : MonoBehaviour {
-	[BoxGroup("Game Properties")]
+[System.Serializable]
+public class DifficultyCuttingDictionary : SerializableDictionary<Difficulty, CuttingDifficultySettings> {}
+
+[System.Serializable]
+public class CuttingDifficultySettings {
 	public float InitialSpawnInterval;
-	[BoxGroup("Game Properties")]
 	public float EndSpawnInterval;
-	[BoxGroup("Game Properties")]
 	public AnimationCurve SpawnCurve;
+	// If the length of the player's cut vector is longer / shorter by this amount, they will receive a 1 (0%).
+	public float MaximumLengthDifference;
+	// If (one minus) (player's vector (dot) optimal vector) is larger than this amount, they will receive a 1 (0%).
+	public float MaximumVectorCloseness;
+	// The value which determines whether or not a particular cut was a success or fail.  Calculated based on the average
+	//  of the previous two criterion.
+	public float AcceptanceThreshold;
+	// The overall closeness value (0-1) is multiplier by this value and added to the points system.
+	public float CutRewardMultiplier;
+}
+
+public class Cutting : MonoBehaviour {
 	[BoxGroup("Game Properties")]
 	[MinMaxSlider(2.5f, 6f)]
 	public Vector2 MinMaxDistance;
@@ -22,7 +35,20 @@ public class Cutting : MonoBehaviour {
 	[BoxGroup("Game Properties")]
 	public float MaxAngle;
 
-	
+	[BoxGroup("Balance")]
+	public DifficultyCuttingDictionary DifficultySettings;
+	[BoxGroup("Balance")]
+	public bool ManualDifficultyOverride;
+	[BoxGroup("Balance")]
+	[EnableIf("ManualDifficultyOverride")]
+	public Difficulty ManualDifficulty;
+	/*
+	[BoxGroup("Balance")]
+	public float InitialSpawnInterval;
+	[BoxGroup("Balance")]
+	public float EndSpawnInterval;
+	[BoxGroup("Balance")]
+	public AnimationCurve SpawnCurve;
 	[BoxGroup("Balance")]
 	[Tooltip("If the length of the player's cut vector is longer / shorter by this amount, they will receive a 1 (0%)" +
 	         "for that cut.")]
@@ -41,6 +67,7 @@ public class Cutting : MonoBehaviour {
 	[BoxGroup("Balance")]
 	[Tooltip("The overall closeness value (0-1) is multiplied by this value and added to the quality bar.")]
 	public float CutRewardMultiplier = .25f;
+	*/
 	
 	[BoxGroup("Feel")]
 	[Tooltip("The punch duration is decided by the closeness of the cut.  Multiply it by something else using this value.")]
@@ -58,23 +85,30 @@ public class Cutting : MonoBehaviour {
 	[BoxGroup("Feel")]
 	[Range(0, 360)]
 	public float RotatePower;
+	[BoxGroup("Feel")]
+	[Tooltip("How long should the player not have any successes before showing the instruction text again?")]
+	public float MissDurationTimeout;
 	
+	//[BoxGroup("Object Assignments")]
+	//public QualityBar QualityBar;
 	[BoxGroup("Object Assignments")]
-	public QualityBar QualityBar;
+	public PointsManager PointsManager;
 	[BoxGroup("Object Assignments")]
 	public GameObject ReturnOrRetryButtons;
 	[BoxGroup("Object Assignments")]
 	public Countdown CountdownObj;
 	[BoxGroup("Object Assignments")]
-	public CutPoint CutPrefab;
+	public NewCutPoint CutPrefab;
 	[BoxGroup("Object Assignments")]
 	public GemSpawnManager GemSpawnManager;
 	[BoxGroup("Object Assignments")]
 	public TextMeshProUGUI GradeText;
+	[BoxGroup("Object Assignments")]
+	public InstructionHandler InstructionManager;
 	
 	
 	// List of all cuts.
-	private LinkedList<CutPoint> activeCuts;
+	private LinkedList<NewCutPoint> activeCuts;
 	
 	private bool start = false;
 	// Keeps track of the time the game has been ongoing.
@@ -84,13 +118,17 @@ public class Cutting : MonoBehaviour {
 	// Touch origin needs to be passed between frames.
 	private Vector3 touchOrigin;
 	// Keeps track of what cut is currently active.
-	private CutPoint activeCut = null;
+	private NewCutPoint activeCut = null;
 	// Keeps track of the active punch tween, so we don't do multiple at once.
 	private Tween activePunch = null;
 	// Keeps track of the active rotation tween, so we don't do multiple at once.
 	private Tween activeRotation = null;
 	// Holds cut points, and keeps the scene a bit tidier.
 	private GameObject cutContainer;
+	// Keeps track of how long it's been since the player's last successful swipe.  If too long, show text again.
+	private float missDurationCounter;
+	// Active difficulty setting.
+	private CuttingDifficultySettings activeDifficultySettings;
 
     void Awake() {
         // Don't start until we're ready.
@@ -102,9 +140,18 @@ public class Cutting : MonoBehaviour {
     {
 	    SFX.Play("CraftingGem", 1f, 1f, 0f, true, 0f);
 		Countdown.onComplete += GameOver;
-	    activeCuts = new LinkedList<CutPoint>();
+
+	    Difficulty d = ManualDifficultyOverride ? ManualDifficulty : PersistentData.Instance.Difficulty;
+	    if (!DifficultySettings.TryGetValue(d, out activeDifficultySettings)) {
+		    Debug.LogError("The current difficulty (" + PersistentData.Instance.Difficulty.ToString() +
+		                     ") does not have a CuttingDifficultySettings associated with it.");
+	    }
 	    
+	    activeCuts = new LinkedList<NewCutPoint>();
 	    cutContainer = new GameObject("CutContainer");
+
+	    // Spawn our first cut straight away instead of waiting.
+	    timeIntervalCounter = activeDifficultySettings.InitialSpawnInterval;
     }
 
 	void Update () {
@@ -126,21 +173,30 @@ public class Cutting : MonoBehaviour {
 	
 	private void GameLoop() {
 		// If it's time to spawn another cut.
-		if (timeIntervalCounter > Mathf.Lerp(InitialSpawnInterval, EndSpawnInterval, SpawnCurve.Evaluate(timeCounter)) &&
+		if (timeIntervalCounter > Mathf.Lerp(activeDifficultySettings.InitialSpawnInterval,
+											 activeDifficultySettings.EndSpawnInterval,
+											 activeDifficultySettings.SpawnCurve.Evaluate(timeCounter / CountdownObj.StartTime)) &&
 		    CutPrefab.SpawnTime < CountdownObj.CurrentTimeRemaining) {
 			// TODO: maybe add a parent to keep the scene clean.
 			var cutPosition = GenerateNewCutPosition();
-			CutPoint clone = Instantiate(CutPrefab, cutPosition, Quaternion.identity, cutContainer.transform);
+			NewCutPoint clone = Instantiate(CutPrefab, cutPosition, Quaternion.identity, cutContainer.transform);
 			// TODO: this is a bit messy, move GemObject calculation somewhere else.
-			clone.CutVector = -(cutPosition - GemSpawnManager.Gem.transform.position)*1.8f;
+			clone.CutVector = -(cutPosition - GemSpawnManager.Gem.transform.position)*1.8f; // make the vector a bit longer.
 			clone.onSpawnComplete += cut => activeCuts.AddLast(cut);
-			//SFX.Play("sound");
+            SFX.Play("Cutting_circle_appears");
 
-			timeIntervalCounter = 0;
+            timeIntervalCounter = 0;
+		}
+		
+		// If player is struggling, show instructions again.
+		if (missDurationCounter > MissDurationTimeout) {
+			missDurationCounter = 0;
+			InstructionManager.PushInstruction();
 		}
 		
 		timeIntervalCounter += Time.deltaTime;
 		timeCounter += Time.deltaTime;
+	    missDurationCounter += Time.deltaTime;
 	}
 
 	private void ProcessTouch() {
@@ -192,14 +248,16 @@ public class Cutting : MonoBehaviour {
 		}
 	}
 
-	private void PerformCut(CutPoint cut, Vector3 cutVector) {
+	private void PerformCut(NewCutPoint cut, Vector3 cutVector) {
         float val = CalculateCloseness(cut.CutVector, cutVector);
         //Debug.Log("Calculated a closeness value of: " + val);
-        if (val < AcceptanceThreshold) {
+        if (val < activeDifficultySettings.AcceptanceThreshold) {
 	        // TODO: animation.
-	        SFX.Play("bump_small");
+	        SFX.Play("Cutting_good_cut");
+	        missDurationCounter = 0;
 	        PushGem(cutVector, 1 - val);
-			QualityBar.Add((1-val) * CutRewardMultiplier, true);
+	        PointsManager.AddPoints((1-val) * activeDifficultySettings.CutRewardMultiplier);
+			//QualityBar.Add((1-val) * CutRewardMultiplier, true);
 			activeCuts.Remove(cut);
 			Destroy(cut.gameObject);
 	        activeCut = null;
@@ -234,17 +292,18 @@ public class Cutting : MonoBehaviour {
 		Vector3 vecPos = Utility.RotateAroundPivot(MaxStartPoint.normalized * distance, Vector3.forward,
 			new Vector3(0, 0, Random.Range(0f, MaxAngle)));
 		    
+		// Move the cut to be relative to the gem.
 		return vecPos + GemSpawnManager.Gem.transform.position;
 	}
 
 	// Find cut point closest to another position.
-	private CutPoint FindClosestCutPoint(Vector3 worldPoint) {
+	private NewCutPoint FindClosestCutPoint(Vector3 worldPoint) {
 		if (activeCuts.Count == 0)
 			return null;
 
-		CutPoint closest = null;
+		NewCutPoint closest = null;
 		float minDistance = Mathf.Infinity;
-		foreach (CutPoint cut in activeCuts) {
+		foreach (var cut in activeCuts) {
 			float dist = Vector3.Distance(cut.transform.position, worldPoint);
 			if (dist < minDistance) {
 				closest = cut;
@@ -257,19 +316,20 @@ public class Cutting : MonoBehaviour {
 	}
 	
 	// Produce a scalar value representing how well a user performed a cut.
-	private float CalculateCloseness(Vector3 guideVector, Vector3 userVector) {
-		float vectorCloseness = 0f;
+	private float CalculateCloseness(Vector2 guideVector, Vector2 userVector) {
 		float lengthCloseness = 0f;
+		float vectorCloseness = 0f;
 
-		Vector3 gvn = Vector3.Normalize(guideVector);
-		Vector3 uvn = Vector3.Normalize(userVector);
-		vectorCloseness = 1 - Vector3.Dot(gvn, uvn);
-		vectorCloseness = Mathf.InverseLerp(0, MaximumVectorCloseness, vectorCloseness);
+		float gvl = guideVector.magnitude;
+		float uvl = userVector.magnitude;
+		lengthCloseness = Mathf.InverseLerp(0, activeDifficultySettings.MaximumLengthDifference, Mathf.Abs(gvl - uvl));
+		
+		guideVector.Normalize();
+		userVector.Normalize();;
+		vectorCloseness = 1 - Vector3.Dot(guideVector, userVector);
+		vectorCloseness = Mathf.InverseLerp(0, activeDifficultySettings.MaximumVectorCloseness, vectorCloseness);
 		//Debug.Log("Vector similarity: " + vectorCloseness);
 
-		float gvl = Vector3.Magnitude(guideVector);
-		float uvl = Vector3.Magnitude(userVector);
-		lengthCloseness = Mathf.InverseLerp(0, MaximumLengthDifference, Mathf.Abs(gvl - uvl));
 		//Debug.Log("Length similarity: " + lengthCloseness);
 
 		return (vectorCloseness + lengthCloseness) / 2f;
@@ -279,19 +339,19 @@ public class Cutting : MonoBehaviour {
 	private void GameOver() {
 		Countdown.onComplete -= GameOver;
 		start = false;
-		grade = QualityBar.Finish();
-		QualityBar.Disappear();
-		//Quality.QualityGrade grade = Quality.FloatToGrade(grade, 3);
-		GradeText.text = Quality.GradeToString(grade);
-		GradeText.color = Quality.GradeToColor(grade);
-		GradeText.gameObject.SetActive(true);
-		if (grade == Quality.QualityGrade.Junk)
-			GemSpawnManager.UpgradeGem(false);
-		else
-			GemSpawnManager.UpgradeGem(true);
+		grade = Quality.CalculateGradeFromPoints(PointsManager.GetPoints());
+		PointsManager.onFinishLeveling += () => {
+            GemSpawnManager.UpgradeGem(grade);
+			
+			PointsManager.gameObject.SetActive(false);
+            GradeText.text = Quality.GradeToString(grade);
+            GradeText.color = Quality.GradeToColor(grade);
+            GradeText.gameObject.SetActive(true);
+		};
 		
-
-		foreach (CutPoint cut in activeCuts) {
+		PointsManager.DoEndGameTransition();
+		
+		foreach (NewCutPoint cut in activeCuts) {
 			Destroy(cut.gameObject);
 		}
 

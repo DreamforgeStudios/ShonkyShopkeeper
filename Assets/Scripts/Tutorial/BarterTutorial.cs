@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class BarterTutorial : MonoBehaviour {
+public class BarterTutorial : MonoBehaviour
+{
 
 	private static BarterTutorial _instance;
 
@@ -45,55 +46,58 @@ public class BarterTutorial : MonoBehaviour {
 		else
 			Destroy(this.gameObject);
 	}
-	
+
 	//START BARTER TUTORIAL
-	public GameObject textObj, particles, particleChild;
-	public TextMeshProUGUI textBox;
-	public int currentTextNumber;
+	public GameObject particles, particleChild, speechBubblePrefab, dialogueTarget;
+	public Canvas mainCanvas;
 	private bool textEnabled = false;
-	public bool clickedNPC  = false;
-	public List<string> tutorialDialogue = new List<string>();
-	
+	public bool clickedNPC = false;
+	public List<string> tutorialDialogue, tutorialInstructions;
+	private InstructionBubble clone;
+	public PhysicalShonkyInventory shonkyInv;
+
 	private void CheckForTutProgressChecker()
 	{
 		Debug.Log("Started barter tutorial manager");
 		DontDestroyOnLoad(gameObject);
 		GameObject obj = GameObject.FindGameObjectWithTag("TutorialProgress");
 		Destroy(obj);
-		currentTextNumber = 0;
-		ShowCanvas();
+	}
+
+	private void Start()
+	{
+		GameManager.Instance.BarterNPC = true;
+        StartDialogue(tutorialDialogue, tutorialInstructions, mainCanvas,dialogueTarget, true);
 	}
 	
-	private void ShowCanvas()
-	{
-		textObj.SetActive(true);
-		DetermineText();
-	}
-	
-	private void DetermineText()
-	{
-		OnlyShowTextBox(tutorialDialogue[currentTextNumber]);
-	}
-	
-	private IEnumerator FadeCanvas()
-	{
-		yield return new WaitForSeconds(3);
-		if (currentTextNumber == 0)
-		{
-			currentTextNumber++;
-			DetermineText();
-			yield return new WaitForSeconds(3);
-		}
-		textEnabled = false;
-		textObj.SetActive(false);
+	public void StartDialogue(List<string> dialogue, List<string> instruction, Canvas canvas, GameObject target, bool canvasElement)
+	{	
+		if (clone != null)
+			clone.DestroyItem();
 		
+		clone = Instantiate(speechBubblePrefab, mainCanvas.transform)
+			.GetComponentInChildren<InstructionBubble>();
+		clone.SetText(dialogue,instruction);
+		clone.Init(target,canvasElement,canvas);
 	}
 	
-	public void OnlyShowTextBox(string text)
+	public void NextInstruction()
 	{
-		textObj.SetActive(true);
-		textEnabled = true;
-		textBox.text = text;
-		StartCoroutine(FadeCanvas());
+		clone.NextInstructionText();
+	}
+
+	public void PreviousInstruction()
+	{
+		clone.PreviousInstructionText();
+	}
+
+	public void StartShonkyParticles()
+	{
+		shonkyInv.HighlightGolems();
+	}
+
+	public void RemoveShonkyParticles()
+	{
+		shonkyInv.RemoveParticles();
 	}
 }

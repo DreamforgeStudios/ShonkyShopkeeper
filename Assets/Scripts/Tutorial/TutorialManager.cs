@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using TMPro;
+//using UnityEditor.PackageManager.Requests;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class TutorialManager : MonoBehaviour
@@ -12,62 +14,109 @@ public class TutorialManager : MonoBehaviour
 	public ShonkyInventory EmptyInventory, RegularGolemInventory;
 	public TutorialPhysicalInventory physicalInv;
 	public PhysicalShonkyInventory golemInv;
+	public TutorialToolbox toolbox;
 
 	//Tools to inspect and have been inspected
 	public List<GameObject> ItemsToInspect;
 	public List<GameObject> ItemsInspected;
 	public GameObject currentToolToInspect;
-	
+
 	//UI Elements
-	public List<string> TutorialDialogue;
-	public List<string> ToolDialogue;
-	public Canvas tutorialCanvas;
-	public TextMeshProUGUI tutorialText;
+	[FormerlySerializedAs("TutorialDialogue")] public List<string> TutorialCameraExpo;
+	public List<string> TutorialCameraInstruction;
+	public List<string> ToolIntro;
+	public List<string> forceps;
+	public List<string> magnifier;
+	public List<string> magnifierInstruction;
+	public List<string> wand;
+	public List<string> wandInstruction;
+	public List<string> introduceGolem;
+	public List<string> introduceGolemInstruction;
+	public List<string> pickUpGolem;
+	public List<string> golemMineInstruction;
+	public List<string> retrieveGolem;
+	public List<string> retrieveGolemInstruction;
+	public List<string> tapPouch;
+	public List<string> openPouch;
+	public List<string> tutorialFinish;
+
 	private int currentDialogue = 0;
 	public Button travelButton;
+
 	public Button cameraButton;
+
 	//Image used to highlight cameraButton
 	public Image cameraHighlight;
 	
+	//Gameobject to be used with the mine
+	public GameObject mineTarget;
+
 	//Particle system to highlight items to be inspected
 	public GameObject particles;
+	//public GameObject binParticles;
 	private GameObject particleChild;
-	
+	private bool InspectedItem, inspectedMagnifyer, inspectedWand = false;
+
+	//For text
+	public GameObject speechBubblePrefab;
+	private InstructionBubble clone;
+	public Canvas mainCanvas;
+
 	// Use this for initialization
-	void Start () {
+	void Start()
+	{
 		SetupInventories();
-		//StartParticles();
-		tutorialCanvas.gameObject.SetActive(false);
 		if (!GameManager.Instance.TutorialIntroComplete)
+		{
 			TutorialProgressChecker.Instance.HideCanvas();
+			EnableCameraTap(false, false);
+		}
+
 
 		if (GameManager.Instance.InTutorial)
 		{
 			travelButton.gameObject.SetActive(false);
 			cameraButton.gameObject.SetActive(false);
 			if (!GameManager.Instance.TutorialIntroComplete)
-				StartDialogue();
+			{
+				StartDialogue(TutorialCameraExpo, TutorialCameraInstruction, mainCanvas, cameraButton.gameObject, true);
+			}
 		}
 	}
-	
+
 	// Update is called once per frame
-	void Update ()
+	void Update()
 	{
 		CheckForInput();
 
 		if (!GameManager.Instance.InTutorial)
-		{
-			tutorialCanvas.enabled = false;
 			travelButton.gameObject.SetActive(true);
+
+		if (travelButton.gameObject.activeSelf && clone != null)
+		{
+			if (clone.Instruction)
+				HideExposition();
 		}
-			
 	}
 
-	private void StartDialogue()
+	public void StartDialogue(List<string> dialogue, List<string> instruction, Canvas mainCanvas, GameObject target, 
+		bool canvasElement)
 	{
-		tutorialCanvas.gameObject.SetActive(true);
-		tutorialText.text = TutorialDialogue[0];
+		toolbox.canSelect = false;
 		
+		if (clone != null)
+			clone.DestroyItem();
+		
+        clone = Instantiate(speechBubblePrefab, mainCanvas.transform)
+	        .GetComponentInChildren<InstructionBubble>();
+		clone.SetText(dialogue,instruction);
+		clone.Init(target,canvasElement, mainCanvas);
+
+	}
+
+	public void MoveInstructions()
+	{
+		clone.MoveInstructionScroll();
 	}
 
 	public void SkipTutorial()
@@ -79,99 +128,155 @@ public class TutorialManager : MonoBehaviour
 
 	private void CheckForInput()
 	{
+		//Debug.Log("Can select" + toolbox.canSelect);
 		
-		if (Input.GetMouseButtonDown(0) && !GameManager.Instance.TutorialIntroTopComplete)
+		if (!GameManager.Instance.TutorialIntroTopComplete && clone.Instruction)
 		{
-			NextDialogue();
-		} else if (Input.GetMouseButtonDown(0) && GameManager.Instance.TutorialIntroComplete &&
-		           TutorialProgressChecker.Instance.CanvasEnabled())
+			InstructionBubble.onInstruction += EnableCameraTap(true, true);
+		} else if (!GameManager.Instance.TutorialIntroComplete && ItemsToInspect.Contains(currentToolToInspect) && clone.Instruction)
 		{
-			TutorialProgressChecker.Instance.HideCanvas();
-		}
-
-		if (TutorialProgressChecker.Instance.golemMade && !GameManager.Instance.MineGoleminteractGolem)
-			CheckForCamera();
-		else if (GameManager.Instance.MineGoleminteractGolem && GameManager.Instance.OpenPouch)
-		{
-			PouchText();
-			cameraButton.gameObject.SetActive(true);
-		}
-			
-	}
-
-	public void NextDialogue()
-	{
-		//Debug.Log(currentDialogue + " out of " + TutorialDialogue.Count);
-		if (currentDialogue != 2)
-		{
-			currentDialogue += 1;
-			if (currentDialogue == 2)
+			//List is Forceps, ResourceBin, Magnifying Glass & Wand
+			string toolString = currentToolToInspect.gameObject.name;
+			switch (toolString)
 			{
-				cameraButton.enabled = true;
-				cameraButton.gameObject.SetActive(true);
-				cameraHighlight.gameObject.SetActive(true);
-			} else if (currentDialogue == 3)
-			{
-				cameraHighlight.gameObject.SetActive(false);
-				StartParticles(ItemsToInspect[0]);
+				case "Forceps":
+					if (!InspectedItem)
+					{
+						particleChild = Instantiate(particles, currentToolToInspect.transform.position, currentToolToInspect.transform.rotation);
+						particleChild.transform.parent = currentToolToInspect.transform;
+						InspectedItem = true;
+					}
+					toolbox.canSelect = true;
+					break;
+				case "Magnifying Glass":
+					if (!InspectedItem)
+					{
+						particleChild = Instantiate(particles, currentToolToInspect.transform.position, currentToolToInspect.transform.rotation);
+						particleChild.transform.parent = currentToolToInspect.transform;
+						InspectedItem = true;
+					}
+					toolbox.canSelect = true;
+					break;
+				case "Wand":
+					if (!InspectedItem)
+					{
+						particleChild = Instantiate(particles, currentToolToInspect.transform.position, currentToolToInspect.transform.rotation);
+						particleChild.transform.parent = currentToolToInspect.transform;
+						InspectedItem = true;
+					}
+					toolbox.canSelect = true;
+					break;
+				default:
+					toolbox.canSelect = true;
+					break;
 			}
-		} else if (currentDialogue == 2)
+
+			//toolbox.canSelect = true;
+		}
+		else if (InspectedAllItems())
 		{
-			if (GameManager.Instance.TutorialIntroTopComplete)
+			toolbox.canSelect = true;
+		}
+		else if (clone != null)
+		{
+			InstructionBubble.onInstruction += () => toolbox.canSelect = true;
+			InstructionBubble.onInstruction -= () => toolbox.canSelect = true;
+			if (!InspectedAllItems())
 			{
-				cameraHighlight.gameObject.SetActive(false);
-				currentDialogue++;
+				//Debug.Log("inspected all items " + InspectedAllItems());
+				if (ItemsToInspect[0].gameObject.name == "Magnifying Glass" && !inspectedMagnifyer)
+				{
+					currentToolToInspect = ItemsToInspect[0];
+					inspectedMagnifyer = true;
+				}
+
+				if (ItemsToInspect[0].gameObject.name == "Wand" && !inspectedWand)
+				{
+					currentToolToInspect = ItemsToInspect[0];
+					inspectedWand = true;
+				}
 			}
 		} 
-		if (currentDialogue < TutorialDialogue.Count)
-		{
-			tutorialText.text = TutorialDialogue[currentDialogue];
-		}
 		else
 		{
-			GameManager.Instance.TutorialIntroComplete = true;
-			tutorialCanvas.gameObject.SetActive(false);
+			toolbox.canSelect = false;
+		}
+
+		
+		if (TutorialProgressChecker.Instance.golemMade && !GameManager.Instance.MineGoleminteractGolem)
+			CheckForCamera();
+		else if (GameManager.Instance.MineGoleminteractGolem)// && GameManager.Instance.OpenPouch)
+		{
+			//PouchText();
+			cameraButton.gameObject.SetActive(true);
 		}
 		
-		//Need to start particles for tools		
 	}
 
+	//Self explanatory
+	public InstructionBubble.Instruct EnableCameraTap(bool button, bool glow)
+	{
+		//Debug.Log("enabling camera");
+		cameraButton.enabled = button;
+		cameraButton.gameObject.SetActive(button);
+		cameraHighlight.gameObject.SetActive(glow);
+		return () => {InstructionBubble.onInstruction -= EnableCameraTap(false, false); };
+	}
+
+	public void IntroduceGolem()
+	{
+		StartDialogue(introduceGolem, introduceGolemInstruction, mainCanvas, mineTarget, true);
+		GameManager.Instance.SendToMine = true;
+	}
+
+	public void FinishForcepsMovement()
+	{
+		physicalInv.DestroyParticlesOnItems();
+		InspectItem(currentToolToInspect);
+	}
+
+	public void FinishInspectorUse()
+	{
+		physicalInv.DestroyParticlesOnItems();
+		InspectItem(currentToolToInspect);
+	}
+
+	public void FinishWandUse()
+	{
+		InspectItem(currentToolToInspect);
+		GameManager.Instance.HasInspectedAllInventoryItems = true;
+	}
+	
 	private void CheckForCamera()
 	{
 		if (GameManager.Instance.CameraRotTransfer <= 9f)
 		{
 			cameraButton.gameObject.SetActive(false);
-			tutorialCanvas.gameObject.SetActive(false);
 			if (GameManager.Instance.SendToMine)
 			{
-				TutorialProgressChecker.Instance.OnlyShowTextBox("Try picking up your golem and sending it to the mine");
+				StartDialogue(pickUpGolem, golemMineInstruction, mainCanvas, mineTarget, true);
 				GameManager.Instance.SendToMine = false;
-				HideCanvas();
 			}
 		}
-		else 
+		else
 		{
 			cameraButton.gameObject.SetActive(true);
-		}	
+			cameraButton.enabled = true;
+		}
 	}
 
-	private void PouchText()
+	public void PouchText()
 	{
 		cameraButton.gameObject.SetActive(true);
-		TutorialProgressChecker.Instance.OnlyShowTextBox("Use the magnifying glass on the pouch to see what is inside");
+		StartDialogue(openPouch, null, mainCanvas, mineTarget, true);
 		GameManager.Instance.OpenPouch = false;
 	}
-	public void StartForcepParticles()
+
+	public void StartToolText()
 	{
 		GameObject tool = ItemsToInspect[0];
-		particleChild = Instantiate(particles, tool.transform.position, tool.transform.rotation);
-		particleChild.transform.parent = tool.transform;
+		StartDialogue(ToolIntro,forceps, mainCanvas,tool,false);
 		currentToolToInspect = tool;
-	}
-
-	public void HideCanvas()
-	{
-		tutorialCanvas.gameObject.SetActive(false);
 	}
 
 	private void SetupInventories()
@@ -186,35 +291,32 @@ public class TutorialManager : MonoBehaviour
 			golemInv.PopulateInitial();
 		}
 	}
-	
+
 	public void LoadNormalInventory()
 	{
 		SaveManager.LoadFromTemplate(RegularInventory);
+		SaveManager.LoadFromShonkyTemplate(RegularGolemInventory);
 		SaveManager.SaveInventory();
 		SaveManager.SaveShonkyInventory();
 		//physicalInv.PopulateInitial();
-		tutorialCanvas.gameObject.SetActive(true);
 		travelButton.gameObject.SetActive(true);
-		tutorialText.text =
-			"Congratulations on making your first golem! I have filled your inventory with more resources." +
-			" you can continue to practice or click the map to start your journey";
+	}
+
+	public void FinishTutorial()
+	{
+		StartDialogue(tutorialFinish, tutorialFinish, mainCanvas, travelButton.gameObject, true);
+		SaveManager.SaveInventory();
+		SaveManager.SaveShonkyInventory();
+		travelButton.gameObject.SetActive(true);
+		GameManager.Instance.CameraRotTransfer = 8f;
 	}
 
 	private void StartParticles(GameObject tool)
 	{
 		if (!GameManager.Instance.HasInspectedAllInventoryItems)
 		{
-			
 			particleChild = Instantiate(particles, tool.transform.position, tool.transform.rotation);
 			particleChild.transform.parent = tool.transform;
-			/*
-			foreach (GameObject obj in ItemsToInspect)
-			{
-				particleChild = Instantiate(particles, obj.transform.position, obj.transform.rotation);
-				particleChild.transform.parent = obj.transform;
-			}
-			*/
-			
 		}
 	}
 
@@ -241,64 +343,78 @@ public class TutorialManager : MonoBehaviour
 		return false;
 	}
 
-	private void StopParticle(GameObject tool)
+	public void StopParticle(GameObject tool)
 	{
-		particleChild = tool.transform.Find("TutorialShine(Clone)").gameObject;
-		Destroy(particleChild);
+		if (tool.transform.Find("TutorialShine(Clone)") != null)
+		{
+			particleChild = tool.transform.Find("TutorialShine(Clone)").gameObject;
+			Destroy(particleChild);
+		}			
 	}
 
-	public void InspectItem(GameObject tool)
+	public InstructionBubble.Instruct InspectItem(GameObject tool)
 	{
-		if (!GameManager.Instance.HasInspectedAllInventoryItems && !GameManager.Instance.InspectedItems.Contains(tool.name) &&
+		if (!GameManager.Instance.HasInspectedAllInventoryItems &&
+		    !GameManager.Instance.InspectedItems.Contains(tool.name) &&
 		    !GameManager.Instance.TutorialIntroComplete)
 		{
 			ItemsToInspect.Remove(tool);
 			ItemsInspected.Add(tool);
 			GameManager.Instance.InspectedItems.Add(tool.name);
 			StopParticle(tool);
+			toolbox.canSelect = false;
+			InspectedItem = false;
+			//Now need to transfer to next tool
 			switch (tool.tag)
 			{
 				case "Forceps":
-					tutorialCanvas.gameObject.SetActive(true);
-					tutorialText.text = ToolDialogue[2];
-					Debug.Log("Forceps text");
-					StartParticles(ItemsToInspect[0]);
-					currentToolToInspect = ItemsToInspect[0];
+					//StartParticles(ItemsToInspect[0]);
+					//currentToolToInspect = ItemsToInspect[0];
+					StartDialogue(magnifier, magnifierInstruction, mainCanvas, ItemsToInspect[0], false);
 					break;
 				case "Magnifyer":
-					tutorialCanvas.gameObject.SetActive(true);
-					tutorialText.text = ToolDialogue[0];
-					StartParticles(ItemsToInspect[0]);
-					currentToolToInspect = ItemsToInspect[0];
+					//StartParticles(ItemsToInspect[0]);
+					StartDialogue(wand, wandInstruction, mainCanvas, ItemsToInspect[0], false);
 					break;
 				case "Wand":
-					tutorialCanvas.gameObject.SetActive(true);
-					tutorialText.text = ToolDialogue[3];
 					physicalInv.HighlightOreAndGem();
-					StartCoroutine(WandInteraction());
-					break;
-				case "Bin":
-					tutorialCanvas.gameObject.SetActive(true);
-					tutorialText.text = ToolDialogue[1];
-					StartParticles(ItemsToInspect[0]);
-					currentToolToInspect = ItemsToInspect[0];
+					toolbox.canSelect = true;
 					break;
 			}
 		}
-
-		//Time.timeScale = 0f;
+		else
+		{
+			toolbox.canSelect = true;
+		}
+		return () => { InstructionBubble.onInstruction -= InspectItem(currentToolToInspect); };
 	}
 
-	IEnumerator WandInteraction()
+	public void NextInstruction()
 	{
-		yield return new WaitForSeconds(1f);
-		tutorialText.text = ToolDialogue[4];
-		StopCoroutine(WandInteraction());
+		clone.NextInstructionText();
 	}
 
-	IEnumerator WaitforsecondsCanvasHide(float seconds)
+	public void HideExposition()
 	{
-		yield return new WaitForSeconds(seconds);
-		tutorialCanvas.gameObject.SetActive(false);
+		Debug.Log("Hiding Exposition");
+		clone.DestroyItem();
+	}
+
+	public void StartFinalComponentParticles()
+	{
+		physicalInv.HighlightShellAndChargedJewel();
+	}
+
+	public void StartItemParticles()
+	{
+		if (!physicalInv.createdParticles)
+			InstructionBubble.onInstruction += physicalInv.HighlightOreAndGem();
+
+		toolbox.canSelect = true;
+	}
+
+	public void StartItemParticle()
+	{
+		
 	}
 }

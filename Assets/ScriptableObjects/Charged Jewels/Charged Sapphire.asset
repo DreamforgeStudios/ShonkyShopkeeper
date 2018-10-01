@@ -3,7 +3,7 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: Charged Sapphire
   m_EditorClassIdentifier: 
   itemName: Charged Sapphire
-  physicalRepresentation: {fileID: 1351568647732424, guid: 1b678915a80681e4b881f67a058d99ba,
+  physicalRepresentation: {fileID: 1994391804648196, guid: 0828e68b8af8a22468fcb88450400a8c,
     type: 2}
   stackLimit: 1
   mergeable: 1

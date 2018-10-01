@@ -79,9 +79,6 @@ public class ShonkyInventory : ScriptableObject {
         }
         
         item = shonkyInventory[index];
-        /*
-        UnlockTrueGolem(item);
-        */
         return true;
     }
 
@@ -103,10 +100,31 @@ public class ShonkyInventory : ScriptableObject {
             if (SlotEmpty(i)) { //|| PossibleEmpties(i)) {
                 //Debug.Log("Inserted at slot " + i);
                 shonkyInventory[i] = item;
+                PersistentData.Instance.GolemsCrafted++;
                 if (CheckIfTrueGolem(item))
                 {
                     UnlockTrueGolem(item);
+                    //Need to remove golem as the user isn't given a normal golem when a true golem is created
+                    RemoveItem(i);
+                    switch (Inventory.Instance.GetUnlockedTrueGolems().Count) {
+                        case 1:
+                            NarrativeManager.Read("true_golem_01");
+                            break;
+                        case 2:
+                            NarrativeManager.Read("true_golem_02");
+                            break;
+                        case 3:
+                            NarrativeManager.Read("true_golem_03");
+                            break;
+                        case 4:
+                            NarrativeManager.Read("true_golem_04");
+                            break;
+                        default:
+                            break;
+                    }
                 }
+                
+                PersistentData.Instance.Save();
                 Save();
                 return i;
             }
@@ -136,10 +154,10 @@ public class ShonkyInventory : ScriptableObject {
         return false;
     }
 
-    private bool UnlockTrueGolem(ItemInstance item)
+    private void UnlockTrueGolem(ItemInstance item)
     {
         string gemType = (item.item as Shonky).type.ToString();
-        return Inventory.Instance.UnlockTrueGolem(TrueGolems.GemStringToGolem(gemType));
+        Inventory.Instance.UnlockTrueGolem(TrueGolems.GemStringToGolem(gemType));
     }
 
     public bool SlotEmpty(int index) {

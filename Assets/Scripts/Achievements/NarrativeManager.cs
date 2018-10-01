@@ -16,8 +16,8 @@ public class NarrativeManager : MonoBehaviour {
         }
     }
 
+    // Returns true if successfully unlocked.  If false, already unlocked.
     private static bool DoRead(string key) {
-        // If true, successfully unlocked.  If false, already unlocked.
         NarrativeElement e;
         if (narrativeDB.TryFindNarrativeWithKey(key, out e)) {
             //SFX.Play("Achieve_Popup", 1f, 1f, 0f, false, 0f);

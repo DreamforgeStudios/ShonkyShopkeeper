@@ -7,6 +7,12 @@ using UnityEngine.Audio;
 public static class SFX {
     private static SoundDatabase
         soundDB = Object.Instantiate((SoundDatabase) Resources.Load("SFXDatabase"));
+
+    public static void Prewarm() {
+        // Forces the soundDB object to be instantiated.
+        //  Makes it so the scene doesn't pause while waiting for SFXDatabase to load.
+        soundDB.GetInstanceID();
+    }
     
     public static void Play(string sound, float volume = 1, float pitch = 1, float delay = 0, bool looping = false, float playaAt = 0) {
         if (GameManager.Instance.PlayingAudio) {

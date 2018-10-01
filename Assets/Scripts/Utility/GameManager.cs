@@ -40,6 +40,9 @@ public class GameManager : MonoBehaviour {
 		}
 		
 		SetupGameManager();
+		// Prewarm the audio manager to reduce stuttering.
+		// Not sure if this will work after scene changes because Awake() is only called once on GameManager -- do static C# variables get destroyed?
+		SFX.Prewarm();
 	}
 
 	private void SetupGameManager() {
@@ -60,7 +63,7 @@ public class GameManager : MonoBehaviour {
 
 	public bool PlayingAudio = true;
 	public bool InTutorial = false;
-	public bool TutorialIntroTopComplete, TutorialIntroComplete, InMap, BarterTutorial = false;
+	public bool TutorialIntroTopComplete, TutorialIntroComplete, InMap, BarterTutorial, BarterNPC, OfferNPC = false;
 	public bool HasInspectedAllInventoryItems = false;
 	public bool TutorialGolemMade = false;
 	public bool MineGoleminteractGolem = false;
@@ -69,7 +72,7 @@ public class GameManager : MonoBehaviour {
 	public Item.GemType GemTypeTransfer;
 	public Quality.QualityGrade QualityTransfer;
 	public Personality PersonalityTransfer;
-	public Sprite SpriteTransfer;
+	public string WizardTransfer;
     public int RetriesRemaining = 0;
 	public int ShonkyIndexTransfer = 0;
 	public float CameraRotTransfer = 8;

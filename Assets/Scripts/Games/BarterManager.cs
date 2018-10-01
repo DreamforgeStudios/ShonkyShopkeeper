@@ -12,6 +12,9 @@ using Random = UnityEngine.Random;
 public class SegmentInfoDictionary : SerializableDictionary<BarterManager.Segment, SegmentInfo> {}
 
 [System.Serializable]
+public class PriceInfoDictionary : SerializableDictionary<Quality.QualityGrade, float> {}
+
+[System.Serializable]
 public class SegmentInfo {
 	//[SerializeField]
 	//public BarterManager.Segment Segment;
@@ -32,7 +35,7 @@ public class SegmentInfo {
 public class BarterManager : MonoBehaviour {
 	private Quality.QualityGrade golemQuality;
 	private ItemInstance golem;
-	private GameObject golemClone;
+	private GameObject golemClone, wizardClone;
 	private bool start = false;
 	private float price = 0f;
 	private float happiness = 0.5f;
@@ -41,9 +44,17 @@ public class BarterManager : MonoBehaviour {
 	public int NumberOfSegments;
 	[BoxGroup("Balance")]
 	public SegmentInfoDictionary SegmentInfoDict;
+	[BoxGroup("Balance")]
+	public PriceInfoDictionary PriceInfoDict;
+
+	// TODO, enter position?
+	[BoxGroup("Properties")]
+	public Vector3 ExitPosition;
 
 	[BoxGroup("Object Assignments")]
 	public GameObject GolemSpawnPoint;
+	[BoxGroup("Object Assignments")]
+	public GameObject WizardSpawnPoint;
 	[BoxGroup("Object Assignments")]
 	public RadialBar RadialBar;
 	[BoxGroup("Object Assignments")]
@@ -53,17 +64,23 @@ public class BarterManager : MonoBehaviour {
 	[BoxGroup("Object Assignments")]
 	public TextMeshProUGUI PriceText;
 	[BoxGroup("Object Assignments")]
+	public TextMeshProUGUI SoldText;
+	[BoxGroup("Object Assignments")]
 	public TextMeshProUGUI HappinessText;
 	[BoxGroup("Object Assignments")]
 	public Countdown HourGlass;
 	[BoxGroup("Object Assignments")]
-	public SpriteRenderer WizardRenderer;
-	[BoxGroup("Object Assignments")]
 	public GameObject Wand;
+	[BoxGroup("Object Assignments")]
+	public ParticleSystem WandParticleSystem;
 	[BoxGroup("Object Assignments")]
 	public GameObject BackToShop;
 	[BoxGroup("Object Assignments")]
 	public ParticleSystem CoinFallParticles;
+	[BoxGroup("Object Assignments")]
+	public List<string> NPCNames;
+	[BoxGroup("Object Assignments")]
+	public List<GameObject> NPCPrefabs;
 	
 	public enum Segment {
 		Best, Good, Bad, Ok
@@ -81,8 +98,9 @@ public class BarterManager : MonoBehaviour {
 		SFX.Play("BiddingTrack",1f,1f,0f,true,0f);
 		Countdown.onComplete += GameOver;
 		
+		// If no golem has been transfered (maybe we're launching directly from the scene), then use a default.
+		//  otherwise, use the golem which was transfered.
         ItemInstance tmp;
-		// TODO: ShonkyInventory and Inventory should automatically initialise, without having to use InitializeFromDefault somewhere.
         if (ShonkyInventory.Instance != null && ShonkyInventory.Instance.GetItem(GameManager.Instance.ShonkyIndexTransfer, out tmp)) {
             golem = tmp;
 	        golemQuality = golem.Quality;
@@ -93,19 +111,42 @@ public class BarterManager : MonoBehaviour {
         }
 
 		golemClone = Instantiate(golem.item.physicalRepresentation, GolemSpawnPoint.transform.position, GolemSpawnPoint.transform.rotation, GolemSpawnPoint.transform);
+		//golemClone = Instantiate(golem.item.physicalRepresentation, GolemSpawnPoint.transform);
 		golemClone.GetComponent<Rigidbody>().isKinematic = true;
 
+		// If no wizard has been transfered, use a default.
+		//  otherwise, use the wizard which was transfered.
+		GameObject wizardPrefab;
+		int index;
+		string name = GameManager.Instance.WizardTransfer;
+		if (!string.IsNullOrEmpty(name) && (index = NPCNames.IndexOf(name)) >= 0) {
+			wizardPrefab = NPCPrefabs[index];
+		} else {
+	        Debug.LogWarning("Wizard was not transfered or is incorrect.  Will use default wizard.");
+			wizardPrefab = NPCPrefabs[0];
+		}
+
+		// This isn't a walking NPC, so disable the walking script.  If we don't we'll have errors about detecting spawn point.
+		wizardClone = Instantiate(wizardPrefab, WizardSpawnPoint.transform);
+		wizardClone.GetComponent<NPCWalker>().enabled = false;
+		wizardClone.GetComponent<NPC>().ShowFront();
+		wizardClone.GetComponent<NPC>().FrontIdle();
+
+		/*
 		if (GameManager.Instance.SpriteTransfer != null) {
 			WizardRenderer.sprite = GameManager.Instance.SpriteTransfer;
 		} else {
 			Debug.LogWarning("Wizard sprite was not transfered, will use defaut.");
 		}
+		*/
 
 		// Build a dictionary based on the list, which is easier for code to use.
 		//SegmentInfosDict = BuildDictionary(SegmentInfos);
 		// TODO: this isn't very obvious, is there a better way?
 		RadialBar.DefaultColor = SegmentInfoDict[Segment.Ok].Color;
 
+		price = PriceInfoDict[golemQuality];
+		PriceText.text = "Price: <sprite=0>" + price;
 		c = PriceText.color;
 
 		GeneratePoints();
@@ -167,8 +208,11 @@ public class BarterManager : MonoBehaviour {
 
 		// TODO, base speed and stuff off how well they're doing.
 		Animator anim = golemClone.GetComponent<Animator>();
-		anim.SetBool("Pickup", true);
+		anim.SetBool("Dance", true);
 		anim.speed += .5f;
+		
+		//Play relevant SFX based on point hit
+		PlaySFX(value);
 		
 		RadialBar.ChangePoint(point, SegmentInfoDict[Segment.Bad].Color);
 
@@ -176,7 +220,7 @@ public class BarterManager : MonoBehaviour {
 		price += info.PriceAdd;
 		happiness = Mathf.Clamp01(happiness + info.HappinessAdd);
 
-		PriceText.text = "Price: $" + price;
+		PriceText.text = "Price: <sprite=0>" + price;
 		// TODO: when the design is finalised, allow these to be altered through parameters.
 		// BUG: its possible that the transform gets punched into space if the user spams hard enough.
 		PriceText.rectTransform.DOPunchAnchorPos(Vector2.up * 5, .7f);
@@ -190,6 +234,7 @@ public class BarterManager : MonoBehaviour {
 		DebugText.color = info.Color;
 
 		Wand.transform.DORotate(Vector3.right * 150f, .7f, RotateMode.LocalAxisAdd).SetEase(Ease.OutCirc);
+		WandParticleSystem.Play();
 
 		if (info.PriceAdd > 0) {
 			var burst = CoinFallParticles.emission.GetBurst(0);
@@ -201,6 +246,14 @@ public class BarterManager : MonoBehaviour {
 		}
 		
 		RadialSlider.PauseForDuration(.2f);
+	}
+
+	private void PlaySFX(Segment value)
+	{
+		if (value == Segment.Best || value == Segment.Good)
+			SFX.Play("Bidding_GreenTap",1f,1f,0f,false);
+		if (value == Segment.Bad)
+			SFX.Play("Bidding_FailTap",1f,1f,0f,false,0f);
 	}
 
 	private void GeneratePoints() {
@@ -230,6 +283,21 @@ public class BarterManager : MonoBehaviour {
 		Countdown.onComplete -= GameOver;
 		start = false;
 		
+		PriceText.gameObject.SetActive(false);
+		DebugText.gameObject.SetActive(false);
+		SoldText.text = "<color=red>SOLD</color>\n<sprite=0>" + price;
+		SoldText.gameObject.SetActive(true);
 		BackToShop.SetActive(true);
+		RadialBar.gameObject.SetActive(false);
+		
+		var anim = golemClone.GetComponent<Animator>();
+		anim.SetBool("Dance", false);
+		anim.SetBool("Idle", true);
+		golemClone.transform.SetParent(wizardClone.transform);
+		golemClone.transform.DOMove(wizardClone.transform.position, .9f).OnComplete(() => {
+			wizardClone.GetComponent<NPC>().ShowSide();
+			wizardClone.GetComponent<NPC>().Turn();
+			wizardClone.transform.DOMove(ExitPosition, 4f);
+		});
 	}
 }

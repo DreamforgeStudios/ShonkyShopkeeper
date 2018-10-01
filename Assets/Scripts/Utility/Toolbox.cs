@@ -169,70 +169,93 @@ public class Toolbox : MonoBehaviour {
     }
 
     // Switch tools, animations and all.
-    public void SwitchTool(Tool tool) {
+    public void SwitchTool(Tool tool)
+    {
+        
         GameObject curToolObj = ToolToObject(currentTool),
-                   newToolObj = ToolToObject(tool);
-
-        Debug.Log(curToolObj.transform.position);
-        // Return old tool to bench.
-        switch (curToolObj.tag)
-        {
-            case "Forceps":
-                curToolObj.transform.DORotate(ForcepRot, 0.4f).SetEase(Ease.InOutSine);//.OnComplete(() =>
-                curToolObj.transform.DOMove(ForcepPos, 0.4f).SetEase(Ease.InOutSine);
-                curToolObj.GetComponent<ToolFloat>().EndFloat();
-                break;
-            case "Wand":
-                curToolObj.transform.DORotate(WandRot, 0.5f).SetEase(Ease.InOutSine);//.OnComplete(() =>
-                curToolObj.transform.DOMove(WandPos, 1f).SetEase(Ease.InOutSine);
-                curToolObj.GetComponent<ToolFloat>().EndFloat();
-                break;
-            case "Magnifyer":
-                curToolObj.transform.DORotate(InspectRot, 0.5f).SetEase(Ease.InOutSine);//.OnComplete(() =>
-                curToolObj.transform.DOMove(halfwayInspectPos , 0.1f).SetEase(Ease.InOutSine).OnComplete(() => 
-                curToolObj.transform.DOMove(InspectPos, 0.1f).SetEase(Ease.InOutSine));
-                curToolObj.GetComponent<ToolFloat>().EndFloat();
-                break;
-        }
+            newToolObj = ToolToObject(tool);
         
-        //Raise new tool to position
-        switch (newToolObj.tag)
+        if (canSelect && curToolObj != newToolObj)
         {
-            case "Forceps":
-                //SFX.Play("sound");
-                SFX.Play("cursor_select");
-                newToolObj.transform.DORotate(desiredForcepRot, 0.9f).SetEase(Ease.InOutSine);//.OnComplete(() =>
-                newToolObj.transform.DOMove(desiredForcepPos, 1f).SetEase(Ease.InOutSine).OnComplete(() =>
-                    newToolObj.GetComponent<ToolFloat>().StartFloat());
-                break;
-            case "Wand":
-                //SFX.Play("sound");
-                SFX.Play("Wand_select", 1f, 1f, 0f, false, 0f);
-                newToolObj.transform.DORotate(desiredWandRot, 0.5f).SetEase(Ease.InOutSine);//.OnComplete(() =>
-                newToolObj.transform.DOMove(desiredWandPos, 1f).SetEase(Ease.InOutSine).OnComplete(() =>
-                    newToolObj.GetComponent<ToolFloat>().StartFloat());
-                break;
-            case "Magnifyer":
-                //SFX.Play("sound");
-                SFX.Play("Magnifier_Select", 1f, 1f, 0f, false, 0f);
-                newToolObj.transform.DORotate(desiredInspectRot, 1.1f).SetEase(Ease.InOutSine);//.OnComplete(() =>
-                newToolObj.transform.DOMove(halfwayInspectPos , 0.5f).SetEase(Ease.InOutSine).OnComplete(() => 
-                    newToolObj.transform.DOMove(desiredInspectPos, 0.5f).SetEase(Ease.InOutSine).OnComplete(() =>
-                    newToolObj.GetComponent<ToolFloat>().StartFloat()));
-                break;
+            //Debug.Log(curToolObj.transform.position);
+            Sequence newTool = DOTween.Sequence();
+            Sequence oldTool = DOTween.Sequence();
+            // Return old tool to bench.
+            canSelect = false;
+            switch (curToolObj.tag)
+            {
+                case "Forceps":
+                    oldTool.Append(curToolObj.transform.DORotate(ForcepRot, 0.2f).SetEase(Ease.InOutSine));
+                    oldTool.Join(curToolObj.transform.DOMove(ForcepPos, 0.2f).SetEase(Ease.InOutSine)
+                        .OnComplete(() => canSelect = true));
+                    curToolObj.GetComponent<ToolFloat>().EndFloat();
+                    oldTool.Play();
+                    break;
+                case "Wand":
+                    oldTool.Append(curToolObj.transform.DORotate(WandRot, 0.2f).SetEase(Ease.InOutSine));
+                    oldTool.Join(curToolObj.transform.DOMove(WandPos, 0.2f).SetEase(Ease.InOutSine).OnComplete(() =>
+                        canSelect = true));
+                    curToolObj.GetComponent<ToolFloat>().EndFloat();
+                    oldTool.Play();
+                    break;
+                case "Magnifyer":
+                    oldTool.Append(curToolObj.transform.DORotate(InspectRot, 0.2f).SetEase(Ease.InOutSine));
+                    oldTool.Join(curToolObj.transform.DOMove(halfwayInspectPos, 0.1f).SetEase(Ease.InOutSine)
+                        .OnComplete(() =>
+                            curToolObj.transform.DOMove(InspectPos, 0.1f).SetEase(Ease.InOutSine)
+                                .OnComplete(() => canSelect = true)));
+                    curToolObj.GetComponent<ToolFloat>().EndFloat();
+                    oldTool.Play();
+                    break;
+            }
+
+            //Raise new tool to position
+            switch (newToolObj.tag)
+            {
+                case "Forceps":
+                    //SFX.Play("sound");
+                    SFX.Play("cursor_select");
+                    newTool.Append(newToolObj.transform.DORotate(desiredForcepRot, 0.2f).SetEase(Ease.InOutSine));
+                    newTool.Join(newToolObj.transform.DOMove(desiredForcepPos, 0.2f).SetEase(Ease.InOutSine).OnComplete(
+                        () =>
+                            canSelect = true).OnComplete(() => newToolObj.GetComponent<ToolFloat>().StartFloat()));
+                    newTool.Play();
+                    break;
+                case "Wand":
+                    //SFX.Play("sound");
+                    SFX.Play("Wand_select", 1f, 1f, 0f, false, 0f);
+                    newTool.Append(newToolObj.transform.DORotate(desiredWandRot, 0.2f).SetEase(Ease.InOutSine));
+                    newTool.Join(newToolObj.transform.DOMove(desiredWandPos, 0.2f).SetEase(Ease.InOutSine).OnComplete(() => 
+                        canSelect = true).OnComplete(() => newToolObj.GetComponent<ToolFloat>().StartFloat()));                
+                    newTool.Play();
+                    break;
+                case "Magnifyer":
+                    //SFX.Play("sound");
+                    SFX.Play("Magnifier_Select", 1f, 1f, 0f, false, 0f);
+                    newTool.Append(newToolObj.transform.DORotate(desiredInspectRot,0.2f).SetEase(Ease.InOutSine));
+                    newTool.Join(newToolObj.transform.DOMove(halfwayInspectPos, 0.1f).SetEase(Ease.InOutSine)
+                        .OnComplete(() =>
+                            newToolObj.transform.DOMove(desiredInspectPos, 0.1f).SetEase(Ease.InOutSine).OnComplete(
+                                    () =>
+                                        canSelect = true)
+                                .OnComplete(() => newToolObj.GetComponent<ToolFloat>().StartFloat())));
+                    newTool.Play();        
+                    break;
+            }
+
+            //curToolObj.transform.DOScale(1f, 0.7f).SetEase(Ease.InElastic);
+            //newToolObj.transform.DOScale(2f, 0.7f).SetEase(Ease.InElastic);
+
+            curToolObj.GetComponent<Outline>().OutlineWidth = 0;
+            newToolObj.GetComponent<Outline>().OutlineWidth = selectedOutlineThickness;
+
+            // Finally actually swap tools.
+            currentTool = tool;
+
+
+            // Hide the inspector, kinda annoying.
+            HideInspector();
         }
-        
-        //curToolObj.transform.DOScale(1f, 0.7f).SetEase(Ease.InElastic);
-        //newToolObj.transform.DOScale(2f, 0.7f).SetEase(Ease.InElastic);
-
-        curToolObj.GetComponent<Outline>().OutlineWidth = 0;
-        newToolObj.GetComponent<Outline>().OutlineWidth = selectedOutlineThickness;
-
-        // Finally actually swap tools.
-        currentTool = tool;
-
-        // Hide the inspector, kinda annoying.
-        HideInspector();
     }
 
     // Use the right tool on the slot.
@@ -422,7 +445,7 @@ public class Toolbox : MonoBehaviour {
                 canSelect = false;
                 Transform t1 = obj1.transform;
 
-                //SFX.Play("item_lift");
+                SFX.Play("Item_shifted", 1f, 1f, 0f, false, 0f);
                 MoveUp(slot1)
                     .OnComplete(() => t1.DOMove(slot2.transform.position + Vector3.up, 0.6f).SetEase(Ease.OutBack)
                         .OnComplete(() =>
@@ -567,6 +590,7 @@ public class Toolbox : MonoBehaviour {
 
         //SFX.Play("sound");
         SFX.Play("Res_pouch_open", 1f, 1f, 0f, false, 0f);
+        AchievementManager.Get("pouch_open_01");
 
         var drops = new List<ItemInstance>();
         for (int i = 0; i < numberItems; i++) {
@@ -687,22 +711,22 @@ public class Toolbox : MonoBehaviour {
     {
         switch (item.GetType().ToString()) {
             case "Gem":
-                Inventory.Instance.AddGold(10);
+                Inventory.Instance.AddGold(5);
                 break;
             case "Jewel":
-                Inventory.Instance.AddGold(20);
+                SellJewelOrBrick(slot);
                 break;
             case "Ore":
-                Inventory.Instance.AddGold(10);
+                Inventory.Instance.AddGold(5);
                 break;
             case "Brick":
-                Inventory.Instance.AddGold(20);
+                SellJewelOrBrick(slot);
                 break;
             case "ChargedJewel":
-                Inventory.Instance.AddGold(50);
+                SellChargedJewelOrShell(slot);
                 break;
             case "Shell":
-                Inventory.Instance.AddGold(50);
+                SellChargedJewelOrShell(slot);
                 break;
         }
         //SFX.Play("sound");
@@ -717,6 +741,68 @@ public class Toolbox : MonoBehaviour {
         SaveManager.SaveInventory();
         canSelect = true;
 
+    }
+
+    private void SellChargedJewelOrShell(Slot slot)
+    {
+        Quality.QualityGrade grade;
+        ItemInstance instance;
+        if (slot.GetItemInstance(out instance))
+        {
+            grade = instance.Quality;
+            switch (grade)
+            {
+                case Quality.QualityGrade.Brittle:
+                    Inventory.Instance.AddGold(10);
+                    break;
+                case Quality.QualityGrade.Passable:
+                    Inventory.Instance.AddGold(10);
+                    break;
+                case Quality.QualityGrade.Sturdy:
+                    Inventory.Instance.AddGold(12);
+                    break;
+                case Quality.QualityGrade.Magical:
+                    Inventory.Instance.AddGold(15);
+                    break;
+                case Quality.QualityGrade.Mystic:
+                    Inventory.Instance.AddGold(20);
+                    break;
+                case Quality.QualityGrade.Junk:
+                    Inventory.Instance.AddGold(5);
+                    break;
+            }
+        }
+    }
+    
+    private void SellJewelOrBrick(Slot slot)
+    {
+        Quality.QualityGrade grade;
+        ItemInstance instance;
+        if (slot.GetItemInstance(out instance))
+        {
+            grade = instance.Quality;
+            switch (grade)
+            {
+                case Quality.QualityGrade.Brittle:
+                    Inventory.Instance.AddGold(7);
+                    break;
+                case Quality.QualityGrade.Passable:
+                    Inventory.Instance.AddGold(7);
+                    break;
+                case Quality.QualityGrade.Sturdy:
+                    Inventory.Instance.AddGold(9);
+                    break;
+                case Quality.QualityGrade.Magical:
+                    Inventory.Instance.AddGold(10);
+                    break;
+                case Quality.QualityGrade.Mystic:
+                    Inventory.Instance.AddGold(15);
+                    break;
+                case Quality.QualityGrade.Junk:
+                    Inventory.Instance.AddGold(5);
+                    break;
+            }
+        }
     }
 
     // Load a sync in the background.

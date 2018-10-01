@@ -26,12 +26,19 @@ public static class AchievementManager {
         }
     }
 
-    private static bool DoGet(string key) {
-        // If true, successfully unlocked.  If false, already unlocked.
+    public static bool CheckUnlocked(string key) {
         Achievement a;
         if (achievementDB.TryFindAchievementWithKey(key, out a)) {
-            //SFX.Play("sound");
-            SFX.Play("Achieve_Popup", 1f, 1f, 0f, false, 0f);
+            return a.Unlocked;
+        }
+
+        return false;
+    }
+
+    // Returns true if successfully unlocked.  If false, already unlocked.
+    private static bool DoGet(string key) {
+        Achievement a;
+        if (achievementDB.TryFindAchievementWithKey(key, out a)) {
             return achievementDB.Unlock(a);
         }
         

@@ -11,7 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b76cb02d7e630064c944beb11c90a3ce, type: 3}
   m_Name: NarrativeDatabase
   m_EditorClassIdentifier: 
-  GizmoPrefab: {fileID: 1332457355533254, guid: 11da7b10b3ad39f47bcf3ad8559d85dd,
+  GizmoPrefab: {fileID: 1668627367969516, guid: 7ee18a29f02ec0145a189d1fce7433d9,
     type: 2}
   KeyedNarrativeElements:
     m_keys:
@@ -20,6 +20,12 @@ MonoBehaviour:
     - mystic_charged_jewel_01
     - true_golem_01
     - true_golem_02
+    - true_golem_03
+    - true_golem_04
+    - tap_giants_pass
+    - tap_flaming_peak
+    - tap_sky_city
+    - tap_wicked_grove
     m_values:
     - Texts:
       - There was once a humble shopkeeper possessed of a rare and obscure talent.
@@ -54,5 +60,59 @@ MonoBehaviour:
         a greater conjuring.
       - All at once there came a violent burst and the head sockets of the Golem shell
         lit up.  It fixed it's newly glowing eyes on the Golemancer and said...
+      Unlocked: 0
+    - Texts:
+      - The golem shell shook with a violent locomotion as the energy from it's embedded
+        jewel coursed through it.
+      - It finally came to a halt, slumping into a kneeling crouch on the floor.
+      - The newly created golem raised it's still glowing head to look up at the Golemancer
+        and said...
+      Unlocked: 0
+    - Texts:
+      - Rolling ripples of force and mana eddied around the workshop and a confluence
+        of spellcraft clung to the merging shell and jewel.
+      - For a moment the stone figure's form was obscured in a brilliant sphere of
+        light.
+      - When the blinding radiance subsided, a newly formed golem stood.  It locked
+        it's gaze on the Golemancer and said...
+      Unlocked: 0
+    - Texts:
+      - In the northlands, the vast valley of Giant's Pass winds through the frigid
+        tundra.  Many say that it was created when the great sky serpent descended
+        in welcome of the first winter.
+      - The inhabitants of Giant's Pass liberally employ windmills and turbines to
+        harness the powerful winds of their valley.  They use the resultant energy
+        to power their homes and launch great airships.
+      - Thanks to these feats of ingenuity, Giant's Pass artificers are celebrated
+        all over Zauberheim.  Many brave the long journey North in search of innovation
+        and knowledge.
+      Unlocked: 0
+    - Texts:
+      - Scorching waves of magma and sooty air are not what most folk would call comfy,
+        but the Pyrochemisters of Flaming Peak would have it no other way.
+      - Living atop an active volcano affords them easy access to the volatile energies
+        they require to carry out their enigmatic experiments.
+      - Despite their eccentricities, the townsfolk of Flaming Peak are known for
+        being excellent hosts.  Visitors often leave with smiles on their faces, despite
+        many a missing eyebrow.
+      Unlocked: 0
+    - Texts:
+      - "Often referred to as \u201Cthe crown\u201D, the warm gleam of Sky City\u2019s
+        walls can be seen from nearly any point in Zauberheim.  The Sky Witches who
+        make their home there are known for being simultaneously welcoming and haughty."
+      - 'They maintain a vibrant trade hub on the ground, where all are free to buy
+        and sell.  However, access to the lofty city gates is gained only through
+        express invitation, an honour rarely extended. '
+      - 'This strict boundary does little to tarnish the image of Sky City, and it
+        remains one of the most popular locations in Zauberheim.    '
+      Unlocked: 0
+    - Texts:
+      - Many view the druids of Wicked Grove as deceptively doddery, belying their
+        secretive and conniving natures.
+      - Though all agree as to the vast knowledge kept beneath the oaks and willows,
+        few dare venture past the forest borders.
+      - This reputation suits the druids just fine, as they prefer to deal with the
+        bold and ambitious, over the conservative and complacent.  Visitors displaying
+        sufficient wit are welcomed, and once earnt a druid's friendship lasts a lifetime.
       Unlocked: 0
   key: mystic_charged_jewel_01

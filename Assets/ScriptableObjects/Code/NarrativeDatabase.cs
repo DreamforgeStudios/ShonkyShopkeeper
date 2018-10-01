@@ -49,7 +49,7 @@ public class NarrativeDatabase : ScriptableObject {
     }
 
     private void Display(NarrativeElement element) {
-        PopupTextManager clone = Instantiate(GizmoPrefab, GameObject.FindGameObjectWithTag("MainCamera").transform).GetComponent<PopupTextManager>();
+        PopupTextManager clone = Instantiate(GizmoPrefab, GameObject.FindGameObjectWithTag("MainCamera").transform).GetComponentInChildren<PopupTextManager>();
         clone.PopupTexts = element.Texts;
         clone.Init();
         clone.DoEnterAnimation();

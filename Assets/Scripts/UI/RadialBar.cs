@@ -6,7 +6,7 @@ using UnityEngine;
 public class RadialBar : MonoBehaviour {
 	[ShowNonSerializedField]
 	public const int MAX_POINTS = 30;
-	public Material RadialMaterial;
+	private Material radialMaterial;
 	public List<Vector4> Points;
 	public List<Color> Colors;
 	public Color DefaultColor;
@@ -16,15 +16,16 @@ public class RadialBar : MonoBehaviour {
 		get { return cursorPosition; }
 		set {
 			cursorPosition = value;
-			RadialMaterial.SetFloat("_CursorPosition", cursorPosition);
+			radialMaterial.SetFloat("_CursorPosition", cursorPosition);
 		}
 	}
 
 	// Use this for initialization
 	void Start () {
-		RadialMaterial.SetVectorArray("_Points", new Vector4[MAX_POINTS]);
-		RadialMaterial.SetVectorArray("_Colors", new Vector4[MAX_POINTS]);
-		RadialMaterial.SetColor("_DefaultColor", DefaultColor);
+		radialMaterial = GetComponent<MeshRenderer>().material;
+		radialMaterial.SetVectorArray("_Points", new Vector4[MAX_POINTS]);
+		radialMaterial.SetVectorArray("_Colors", new Vector4[MAX_POINTS]);
+		radialMaterial.SetColor("_DefaultColor", DefaultColor);
 	}
 	
 	// Update is called once per frame
@@ -35,11 +36,11 @@ public class RadialBar : MonoBehaviour {
 	private void UpdateMaterial() {
 		if (Points.Count <= 0 || Colors.Count <= 0) return;
 		
-		RadialMaterial.SetVectorArray("_Points", Points);
-		RadialMaterial.SetColorArray("_Colors", Colors);
-		RadialMaterial.SetInt("_PointsLength", Points.Count);
+		radialMaterial.SetVectorArray("_Points", Points);
+		radialMaterial.SetColorArray("_Colors", Colors);
+		radialMaterial.SetInt("_PointsLength", Points.Count);
 		
-		RadialMaterial.SetColor("_DefaultColor", DefaultColor);
+		radialMaterial.SetColor("_DefaultColor", DefaultColor);
 	}
 
 	public void AddPoint(Vector4 point, Color color) {

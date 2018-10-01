@@ -17,7 +17,7 @@ public class BrickSpawnManager : MonoBehaviour {
 	public float ScaleOverrideShine, ScaleOverrideSmoke;
 	public Vector3 RotationOverrideShine, RotationOverrideSmoke;
 	
-	public bool Debug;
+	public bool EnableDebug;
 
 	// Use this for initialization
 	void Start() {
@@ -25,10 +25,13 @@ public class BrickSpawnManager : MonoBehaviour {
 		//spawnedClone.transform.DOMove(Vector3.zero, InitialTweenDuration).SetEase(Ease.InBack);
 	}
 
-	public void Upgrade(bool Success) {
+	public void Upgrade(Quality.QualityGrade grade) {
 		TracingSceneBrick.SetActive(false);
 
-		if (Success) {
+		if (grade == Quality.QualityGrade.Junk) {
+			var clone = Instantiate(SmokeParticleSystem, SmokePosition, Quaternion.Euler(RotationOverrideSmoke), transform);
+			clone.transform.localScale = new Vector3(ScaleOverrideSmoke, ScaleOverrideSmoke, ScaleOverrideSmoke);
+		} else {
 			var clone = Instantiate(SmokeParticleSystem, SmokePosition, Quaternion.Euler(RotationOverrideShine), transform);
 			clone.transform.localScale = new Vector3(ScaleOverrideSmoke, ScaleOverrideSmoke, ScaleOverrideSmoke);
 
@@ -37,15 +40,11 @@ public class BrickSpawnManager : MonoBehaviour {
 
 			clone = Instantiate(Shell, AfterPosition, Shell.transform.rotation, transform);
 			//clone.transform.localScale = new Vector3(ScaleOverrideShell, ScaleOverrideShell, ScaleOverrideShell);
-		} else {
-			var clone = Instantiate(SmokeParticleSystem, SmokePosition, Quaternion.Euler(RotationOverrideSmoke), transform);
-			clone.transform.localScale = new Vector3(ScaleOverrideSmoke, ScaleOverrideSmoke, ScaleOverrideSmoke);
-			
 		}
 	}
 	
 	private void OnDrawGizmos() {
-		if (Debug) {
+		if (EnableDebug) {
 			Gizmos.color = Color.yellow;
 			Gizmos.DrawWireSphere(BeforePosition, 1);
 			Gizmos.color = Color.green;

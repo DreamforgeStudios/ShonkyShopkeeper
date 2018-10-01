@@ -45,119 +45,75 @@ public class MapTutorial : MonoBehaviour
 			CheckForTutProgressChecker();
 		else
 		{
-			HideCanvas();
 			CanMoveCamera = true;
-			//Destroy(this.gameObject);
+			Destroy(this.gameObject);
 		}
 	}
 
 	//MAP TUTORIAL START
 
-	public GameObject textObj, shopButtonObj, sphere, particles, particleChild;
-	public TextMeshProUGUI textBox;
-	public int currentTextNumber;
-	private bool textEnabled = false;
+	public GameObject shopButtonObj, sphere, particles, particleChild, speechBubblePrefab, introTarget;
 	public bool clickedOrb, CanMoveCamera  = false;
-	public List<string> tutorialDialogue = new List<string>();
+	public List<string> intro, introInstructions, map, mapInstructions;
+	public InstructionBubble clone;
+	public Canvas mainCanvas;
 
+
+	private void Start()
+	{
+		CanMoveCamera = false;
+		StartDialogue(intro,introInstructions, mainCanvas, sphere, false);
+		StartSphereParticles();
+	}
+	
 	private void CheckForTutProgressChecker()
 	{
 		DontDestroyOnLoad(gameObject);
 		GameObject obj = GameObject.FindGameObjectWithTag("TutorialProgress");
 		Destroy(obj);
-		currentTextNumber = 0;
 		shopButtonObj.SetActive(false);
-		ShowCanvas();
 	}
+	
+	public void StartDialogue(List<string> dialogue, List<string> instruction, Canvas canvas, GameObject target, bool canvasElement)
+	{	
+		if (clone != null)
+			clone.DestroyItem();
+		
+		clone = Instantiate(speechBubblePrefab, mainCanvas.transform)
+			.GetComponentInChildren<InstructionBubble>();
+		clone.SetText(dialogue,instruction);
+		clone.Init(target,canvasElement,canvas);
 
+	}
+	
 	private void Update()
 	{
-		if (!GameManager.Instance.InMap)
-			textObj.SetActive(false);
 		
-		if (textEnabled && Input.GetMouseButtonDown(0) && currentTextNumber > 3)
+		if (!CanMoveCamera && clone.Instruction)
 		{
-			DetermineTutorialProgress();
-		}
-	}
-
-	private void DetermineTutorialProgress()
-	{
-		if (currentTextNumber == 4)
-		{
-			ShowCanvas();
-		} else if (currentTextNumber == 5 && clickedOrb)
-		{
-			ShowCanvas();
-		} else if (currentTextNumber == 6 && clickedOrb)
-		{
-			ShowCanvas();
-		}
-	}
-
-	private void ShowCanvas()
-	{
-		textObj.SetActive(true);
-		DetermineText();
-	}
-
-	private void HideCanvas()
-	{
-		textObj.SetActive(false);
-	}
-
-	private void DetermineText()
-	{
-		OnlyShowTextBox(tutorialDialogue[currentTextNumber]);
-	}
-
-	private IEnumerator FadeCanvas()
-	{
-		yield return new WaitForSeconds(3);
-		if (currentTextNumber < 4)
-		{
-			currentTextNumber++;
-			if (currentTextNumber == 4)
-			{
-				CanMoveCamera = true;
-				StartSphereParticles();
-			}
-
-			DetermineText();
-			yield return new WaitForSeconds(3f);
-		}
-		else
-		{
-			textEnabled = false;
-			textObj.SetActive(false);
-			if (currentTextNumber == 5)
-			{
-				currentTextNumber++;
-				DetermineText();
-			}
+			CanMoveCamera = true;
 		}
 	}
 
 	public void ClickedSphere()
 	{
+		CanMoveCamera = true;
 		StopSphereParticle();
 		clickedOrb = true;
-		currentTextNumber++;
-		DetermineText();
-	}
-
-	public void OnlyShowTextBox(string text)
-	{
-		textObj.SetActive(true);
-		textEnabled = true;
-		textBox.text = text;
-		StartCoroutine(FadeCanvas());
+		StartDialogue(map, mapInstructions, mainCanvas, introTarget,true);
 	}
 	
-	private void StartSphereParticles()
+	public void NextInstruction()
 	{
+		clone.NextInstructionText();
+	}
+	
+	private InstructionBubble.Instruct StartSphereParticles()
+	{
+		Debug.Log("starting sphere particles");
 		particleChild = Instantiate(particles, sphere.transform.position, sphere.transform.rotation);
 		particleChild.transform.parent = sphere.transform;
+		return () => { InstructionBubble.onInstruction -= StartSphereParticles(); };
 	}
 	
 	private void StopSphereParticle()

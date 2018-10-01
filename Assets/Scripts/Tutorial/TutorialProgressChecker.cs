@@ -69,40 +69,77 @@ public class TutorialProgressChecker : MonoBehaviour {
 	}
 	
 	//Manager start
-	public Canvas Progress;
+	public Canvas Progress, mainCanvas;
 	public Image BrickFade, ShellFade, JewelFade, ChargedJewelFade, TopArrow,BottomArrow,CombineArrow, GolemFade;
 	private string brick = "Brick", shell = "Shell", jewel = "Jewel", chargedJewel = "Charged Jewel", golem = "Golem";
 	private Dictionary<string, ImageStatus> schematicProgress;
 	private string componentMessage;
 	private bool newComponent = false;
-	public bool golemMade, readyGolem = false;
-	public TextMeshProUGUI textbox;
-	public GameObject textBackground;
+	public bool golemMade, readyGolem, golemTextDone = false;
 	public GameObject UIProgressImages;
+	public bool canvasEnabled = false;
 	
+	//For text
+	public List<string> dialogue, dialogueInstruction;
+	public TutorialManager tutManager;
+
+	private void Update()
+	{
+		//Debug.Log("Canvas enabled is " + canvasEnabled);
+		if (canvasEnabled && Input.GetMouseButtonDown(0))
+		{
+			HideCanvas();
+		}
+	}
+
 	//Used to store edits to the dictionary
 	private List<string> stringsToUpdate;
 
 	public void ShowCanvas(bool showImage)
 	{
+		Debug.Log("Canvas is shown");
 		Progress.gameObject.SetActive(true);
 		Progress.GetComponent<CanvasGroup>().alpha = 1f;
-		textBackground.SetActive(true);
-		
-		if (!showImage){UIProgressImages.SetActive(false);}
-		else {UIProgressImages.SetActive(true);}
-		
+
+		if (!showImage)
+		{
+			UIProgressImages.SetActive(false);
+		}
+		else
+		{
+			UIProgressImages.SetActive(true);
+		}
+
 		UpdateCanvas();
 	}
 
 	public void HideCanvas()
 	{
+		Progress.GetComponent<CanvasGroup>().alpha = 0f;
 		Progress.gameObject.SetActive(false);
-		textBackground.SetActive(false);
+		
+		//If ready to make a golem give text help
+		if (schematicProgress[chargedJewel] == ImageStatus.Achieved && schematicProgress[shell] == ImageStatus.Achieved 
+									&& schematicProgress[golem] == ImageStatus.UnAchieved && !readyGolem)
+		{
+			readyGolem = true;
+			tutManager = GameObject.FindGameObjectWithTag("TutorialManager").GetComponent<TutorialManager>();
+			tutManager.StartDialogue(dialogue,dialogueInstruction, tutManager.mainCanvas, UIProgressImages, true);
+			tutManager.StartFinalComponentParticles();
+		}
+
+		if (golemMade && !golemTextDone)
+		{
+			canvasEnabled = false;
+			golemTextDone = true;
+			tutManager = GameObject.FindGameObjectWithTag("TutorialManager").GetComponent<TutorialManager>();
+			tutManager.IntroduceGolem();
+		}
 	}
 
 	private void UpdateCanvas()
 	{
+		canvasEnabled = true;
 		stringsToUpdate = new List<string>();
 		foreach (KeyValuePair<string, ImageStatus> entry in schematicProgress)
 		{
@@ -114,24 +151,6 @@ public class TutorialProgressChecker : MonoBehaviour {
 		if (schematicProgress[golem] == ImageStatus.Achieved)
 		{
 			golemMade = true;
-		}
-
-		//Update text box
-		if (newComponent)
-		{
-			textbox.text = componentMessage;
-			newComponent = false;
-		}
-		//Fade Canvas
-		StartCoroutine(FadeCanvas());
-
-		//If ready to make a golem give text help
-		if (schematicProgress[chargedJewel] == ImageStatus.Achieved && schematicProgress[shell] == ImageStatus.Achieved 
-		                                                      && schematicProgress[golem] == ImageStatus.UnAchieved)
-		{
-			readyGolem = true;
-			textbox.text = "Now you can use your wand to combine the shell and charged jewel into a golem!";
-			ShowCanvas(false);
 		}
 	}
 
@@ -219,7 +238,7 @@ public class TutorialProgressChecker : MonoBehaviour {
 				schematicProgress[chargedJewel] = achieved;
 				break;
 			case "Golem":
-				schematicProgress[chargedJewel] = achieved;
+				schematicProgress[golem] = achieved;
 				break;
 		}
 	}
@@ -230,21 +249,10 @@ public class TutorialProgressChecker : MonoBehaviour {
 		newComponent = true;
 	}
 
-	private IEnumerator FadeCanvas()
-	{
-		yield return new WaitForSeconds(5);
-		Progress.GetComponent<CanvasGroup>().alpha = 0f;
-		HideCanvas();
-	}
-
 	public void OnlyShowTextBox(string text)
 	{
 		Progress.gameObject.SetActive(true);
 		Progress.GetComponent<CanvasGroup>().alpha = 1f;
-		textBackground.SetActive(true);
 		UIProgressImages.SetActive(false);
-		textbox.text = text;
-		StartCoroutine(FadeCanvas());
-		StopCoroutine(FadeCanvas());
 	}
 }

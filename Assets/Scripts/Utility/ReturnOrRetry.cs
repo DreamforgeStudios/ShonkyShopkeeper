@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 public class ReturnOrRetry {
 	public static void Return(string itemString, Quality.QualityGrade grade) {
 		//SFX.Play("sound");
+		Debug.Log("grade is " + grade);
 		if (grade != Quality.QualityGrade.Junk)
 			Inventory.Instance.InsertItem(new ItemInstance(itemString, 1, grade, true));
 		//SceneManager.LoadScene("Shop");
@@ -20,6 +21,8 @@ public class ReturnOrRetry {
         SFX.Play("Mini_Game_Retry_Button", 1f, 1f, 0f, false, 0f);
         Inventory.Instance.AddGold(goldAmount);
         ShonkyInventory.Instance.RemoveItem(shonkyIndex);
+		GameManager.pickedUpGolem = false;
+		SaveManager.SaveShonkyInventory();
 		//SceneManager.LoadScene("Shop");
 		// TODO: tutorial consideration for bartering.
 		if (!GameManager.Instance.InTutorial)

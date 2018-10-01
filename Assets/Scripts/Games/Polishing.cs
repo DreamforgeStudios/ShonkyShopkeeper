@@ -1,30 +1,48 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 
+[System.Serializable]
+public class DifficultyPolishingDictionary : SerializableDictionary<Difficulty, PolishingDifficultySettings> {}
+
+[System.Serializable]
+public class PolishingDifficultySettings {
+    public float SwipeContribution;
+}
+
 public class Polishing : MonoBehaviour {
     //Misc variables and objects
     private Camera mainCamera;
     public GameObject gemObject;
-    public QualityBar qualityBar;
+    public PointsManager pointsManager;
     public GemSpawnManager GemSpawnManager;
+    public InstructionHandler InstructionManager;
+    
 
     //Time Variables
     private float startTime;
     private float currentTime;
     private float finishTime;
+    private float missDurationCounter;
     public float timeLimit;
+    public float missDurationTimeout;
 
     //Score and Grading
     public int numberOfSwipes = 0;
     public static Quality.QualityGrade finalGrade;
 
     // Hwom uch will swipes contribute to the grade increasing.
-    public float swipeContribution;
+    //public float swipeContribution;
+    public DifficultyPolishingDictionary DifficultySettings;
+	public bool ManualDifficultyOverride;
+	[EnableIf("ManualDifficultyOverride")]
+	public Difficulty ManualDifficulty;
+    private PolishingDifficultySettings activeDifficultySettings;
 
     //State Tracking
     private bool isMouseDown;
@@ -33,7 +51,7 @@ public class Polishing : MonoBehaviour {
     private Vector3 mWorldPosition;
 
     //UI elements
-    public TextMeshProUGUI text;
+    //public TextMeshProUGUI text;
     public TextMeshProUGUI qualityText;
     public Slider timerSlider;
     public Image sliderImage;
@@ -50,6 +68,9 @@ public class Polishing : MonoBehaviour {
     public ParticleSystem particle;
     public int amountOfParticles;
     private ParticleSystem.EmitParams emitParams;
+    
+    //Quick and dirty sound tracking
+    private bool pulse1, pulse2, pulse3 = false;
 
     // DB.
     //public ItemDatabase db;
@@ -65,6 +86,13 @@ public class Polishing : MonoBehaviour {
     // Use this for initialization
     void Start() {
         SFX.Play("CraftingGem",1f,1f,0f,true,0f);
+        
+	    Difficulty d = ManualDifficultyOverride ? ManualDifficulty : PersistentData.Instance.Difficulty;
+	    if (!DifficultySettings.TryGetValue(d, out activeDifficultySettings)) {
+		    Debug.LogError("The current difficulty (" + PersistentData.Instance.Difficulty.ToString() +
+		                     ") does not have a CuttingDifficultySettings associated with it.");
+	    }
+        
         mainCamera = Camera.main;
         //keyPoint = gemObject.transform.position;
         keyPoint = gemObject.transform.position;
@@ -88,6 +116,14 @@ public class Polishing : MonoBehaviour {
             timerSlider.maxValue = finishTime;
             Color sliderColour = Color.Lerp(Color.green, Color.red, timerSlider.value / timerSlider.maxValue);
             sliderImage.color = sliderColour;
+            CalculateRelevantSFX();
+            
+            if (missDurationCounter > missDurationTimeout) {
+                missDurationCounter = 0;
+                InstructionManager.PushInstruction();
+            }
+
+            missDurationCounter += Time.deltaTime;
         } else {
             //GameOver();
         }
@@ -97,13 +133,84 @@ public class Polishing : MonoBehaviour {
         //gemObject.GetComponent<Renderer>().material.color = Color.Lerp(colourStart, ColourEnd, (numberOfSwipes + 1) / (timeLimit * 10));
     }
 
+    //Really quick and dirty
+    private void CalculateRelevantSFX()
+    {
+        // Integrating this is a bit annoying, and probably not very efficient.
+        Quality.QualityGrade grade = Quality.CalculateGradeFromPoints(pointsManager.GetPoints());
+        //Debug.Log("grade is " + grade);
+        if (grade == Quality.QualityGrade.Junk || grade == Quality.QualityGrade.Brittle)
+        {
+            if (!pulse1)
+            {
+                Debug.Log("Playing pulse 1");
+                pulse1 = true;
+                SFX.Play("Polishing_Pulse1", 1f, 1f, 0f, true, 0f);
+            }
+
+            if (pulse2)
+            {
+                SFX.StopSpecific("Polishing_Pulse2");
+                pulse2 = false;
+            }
+
+            if (pulse3)
+            {
+                SFX.StopSpecific("Polishing_Pulse3");
+                pulse3 = false;
+            }
+
+        } else if (grade == Quality.QualityGrade.Passable || grade == Quality.QualityGrade.Sturdy)
+        {
+            if (pulse1)
+            {
+                pulse1 = false;
+                SFX.StopSpecific("Polishing_Pulse1");
+            }
+
+            if (!pulse2)
+            {
+                Debug.Log("Playing pulse 2");
+                SFX.Play("Polishing_Pulse2",1f,1f,0f,true,0f);
+                pulse2 = true;
+            }
+
+            if (pulse3)
+            {
+                SFX.StopSpecific("Polishing_Pulse3");
+                pulse3 = false;
+            } 
+        }
+        else
+        {
+            if (pulse1)
+            {
+                pulse1 = false;
+                SFX.StopSpecific("Polishing_Pulse1");
+            }
+
+            if (pulse2)
+            {
+                SFX.StopSpecific("Polishing_Pulse2");
+                pulse2 = false;
+            }
+
+            if (!pulse3)
+            {
+                Debug.Log("Playing pulse 3");
+                SFX.Play("Polishing_Pulse3",1f,1f,0f,true,0f);
+                pulse3 = true;
+            } 
+        }
+    }
+
     private void GetInput()
     {
         mWorldPosition = Camera.main.ScreenPointToRay(Input.mousePosition).GetPoint(15f);
         currentTime = Time.time;
-        text.text = "Swipes: " + numberOfSwipes;
+        //text.text = "Swipes: " + numberOfSwipes;
         //if (Input.touchCount > 0) {
-        if (Input.GetMouseButtonDown(0)) {
+        if (Input.GetMouseButton(0)) {
             isMouseDown = true;
             if (!coroutineRunning) {
                 startTime = Time.time;
@@ -161,10 +268,12 @@ public class Polishing : MonoBehaviour {
         //StopCoroutine(CalculateSwipes(false));
     }
 
-    private void AddSwipe() {
-        //SFX.Play("sound");
+    private void AddSwipe()
+    {
+        SFX.Play("Polish_swipe", 1f, 1f, 0f, false, 0f);
         numberOfSwipes++;
-        qualityBar.Add(swipeContribution, true);
+        pointsManager.AddPoints(activeDifficultySettings.SwipeContribution);
+        missDurationCounter = 0;
     }
 
 	private Quality.QualityGrade grade = Quality.QualityGrade.Unset;
@@ -174,20 +283,21 @@ public class Polishing : MonoBehaviour {
         //if (gameOver) {
         //CalculateGrade();
         gameOver = true;
-        grade = qualityBar.Finish();
-        qualityText.text = Quality.GradeToString(grade);
-        qualityText.color = Quality.GradeToColor(grade);
-        qualityText.gameObject.SetActive(true);
-        qualityBar.Disappear();
 
-		grade = Quality.CalculateCombinedQuality(GameManager.Instance.QualityTransfer, grade);
-        
-        if (grade == Quality.QualityGrade.Junk)
-            GemSpawnManager.UpgradeGem(false);
-        else
+        var tmpGrade = Quality.CalculateGradeFromPoints(pointsManager.GetPoints());
+        pointsManager.onFinishLeveling += () =>
         {
-            GemSpawnManager.UpgradeGem(true);
-        }
+            GemSpawnManager.UpgradeGem(tmpGrade);
+            pointsManager.gameObject.SetActive(false);
+            qualityText.text = Quality.GradeToString(tmpGrade);
+            qualityText.color = Quality.GradeToColor(tmpGrade);
+            qualityText.gameObject.SetActive(true);
+        };
+            
+        pointsManager.DoEndGameTransition();
+
+        // Combine grade at the end for when we return to shop.
+		grade = Quality.CalculateCombinedQuality(GameManager.Instance.QualityTransfer, tmpGrade);
 
         ShowUIButtons();
     }

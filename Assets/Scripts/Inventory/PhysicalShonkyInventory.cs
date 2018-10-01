@@ -17,6 +17,10 @@ public class PhysicalShonkyInventory : MonoBehaviour {
     //Mine inv
     public Mine mineInventory;
 
+    //Used for particles in bartering tutorial
+    public GameObject particlePrefab;
+    private List<GameObject> particleGolems;
+
     /*
     private static PhysicalShonkyInventory _instance;
     public static PhysicalShonkyInventory Instance {
@@ -60,16 +64,40 @@ public class PhysicalShonkyInventory : MonoBehaviour {
 
     }
 
+    public void HighlightGolems()
+    {
+        particleGolems = new List<GameObject>();
+        for (int i = 0; i < shonkySlots.Count; i++)
+        {
+            GameObject obj;
+            if (shonkySlots[i].GetPrefabInstance(out obj))
+            {
+                GameObject particleChild = Instantiate(particlePrefab, obj.transform.position, obj.transform.rotation);
+                particleChild.transform.parent = obj.transform;
+                particleChild.transform.localScale = new Vector3(1f, 1f, 1f);
+                particleGolems.Add(particleChild);
+            }
+        }
+    }
+
+    public void RemoveParticles()
+    {
+        foreach (GameObject particle in particleGolems)
+        {
+            Destroy(particle);
+        }
+    }
+
     public void PopulateInitial() {
         for (int i = 0; i < shonkySlots.Count; i++) {
             ItemInstance instance;
             // If an object exists at the specified location.
             //Debug.Log("index is " + i);
-            Debug.Log("Checking Shonky Slot: " + i);
+            //Debug.Log("Checking Shonky Slot: " + i);
             if (ShonkyInventory.Instance.GetItem(i, out instance)) {
                 shonkySlots[i].SetItem(instance);
                 GameObject obj;
-                Debug.Log("Found Shonky at slot " + i);
+                //Debug.Log("Found Shonky at slot " + i);
                 if (shonkySlots[i].GetPrefabInstance(out obj)) {
                     if (CheckIfInMine(i))
                     {
@@ -96,11 +124,11 @@ public class PhysicalShonkyInventory : MonoBehaviour {
         {
             if (item.InMine)
             {
-                Debug.Log(index + " is in the mine");
+                //Debug.Log(index + " is in the mine");
                 return true;
             }
         }
-        Debug.Log(index + " Not in Mine");
+        //Debug.Log(index + " Not in Mine");
         return false;
     }
 

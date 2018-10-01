@@ -99,9 +99,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4848982749792620}
+  - component: {fileID: 114572403293254388}
+  - component: {fileID: 65024177427920802}
   m_Layer: 0
   m_Name: Green Wizard Side
-  m_TagString: Untagged
+  m_TagString: NPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -256,7 +258,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1746279674538164}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -15.5, y: -2.7, z: 0}
+  m_LocalPosition: {x: 0.39450693, y: 0.24002409, z: 6.607357}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4811596754166446}
@@ -279,6 +281,18 @@ Transform:
   m_Father: {fileID: 4811596754166446}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &65024177427920802
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1746279674538164}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 5, y: 10, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!95 &95641560043244632
 Animator:
   serializedVersion: 3
@@ -297,6 +311,21 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &114572403293254388
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1746279674538164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e007f6f4578bcf40a07408acf392993, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  walkDirection: 0
+  walkSpeed: 0
+  WizardFront: {fileID: 1746279674538164}
+  walkNormal: 1
 --- !u!212 &212172688249622916
 SpriteRenderer:
   m_ObjectHideFlags: 1
