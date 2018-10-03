@@ -55,6 +55,10 @@ public class TutorialRuneIndicator : MonoBehaviour
 			pos = Camera.main.ViewportToScreenPoint(pos);
 			runeT.position = pos;
 		}
+		//Reset Coroutine
+		StopCoroutine(KeepOverElement());
+		startedCoroutine = false;
+
 	}
 
 	//Need to handle when objects need to move
@@ -74,7 +78,7 @@ public class TutorialRuneIndicator : MonoBehaviour
 					runeT.position = Camera.main.WorldToScreenPoint(objectOver.transform.position);
 			}
 			
-			yield return new WaitForSeconds(0.1f);
+			yield return new WaitForSeconds(0.05f);
 		}
 	}
 }

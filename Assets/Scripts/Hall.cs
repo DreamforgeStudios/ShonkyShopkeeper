@@ -214,6 +214,12 @@ public class Hall : MonoBehaviour
 		int nextPosition = currentPositionIndex + 1;
 		if (nextPosition == 4)
 			nextPosition = 0;
+		
+		//If in tutorial hide rune overlays
+		if (GameManager.Instance.InMap)
+		{
+			mapTutorialManager.ReactivateALlTownHighlights();
+		}
 		if (canMoveAround)
 		{
 			townTransform.DOMove(startingPositions[nextPosition].transform.position, 5f, false).SetEase(Ease.InOutQuad)
@@ -234,7 +240,12 @@ public class Hall : MonoBehaviour
 			town.transform.DOKill();
 			town.transform.DOMove(startingPosition.transform.position, 0.5f, false);
 			town.transform.gameObject.GetComponent<SpriteRenderer>().sortingLayerName = "Behind";
-		}		
+		}	
+		//If in tutorial hide rune overlays
+		if (GameManager.Instance.InMap)
+		{
+			mapTutorialManager.DeactivateAllTownHighlights();
+		}
 	}
 
 	//Rescales the selected town, moves the camera back and then starts them circling the sphere again

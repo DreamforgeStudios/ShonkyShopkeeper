@@ -117,7 +117,11 @@ public class NPCSpawner : MonoBehaviour {
 	public IEnumerator HideAfterSeconds(GameObject obj, float seconds) {
 		yield return new WaitForSeconds(seconds);
 		if (obj.GetComponent<NPCWalker>().walkNormal)
+		{
 			obj.SetActive(false);
+			obj.GetComponent<NPCWalker>().DisableParticles();
+			obj.GetComponent<NPCWalker>().DisableRunes();
+		}
 		else 
 			yield return  new WaitForSeconds(3.0f);
 	}

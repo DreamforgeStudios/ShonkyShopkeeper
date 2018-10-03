@@ -79,6 +79,7 @@ public class BarterTutorial : MonoBehaviour
 			.GetComponentInChildren<InstructionBubble>();
 		clone.SetText(dialogue,instruction);
 		clone.Init(target,canvasElement,canvas);
+		clone.MoveScrollsToFront();
 	}
 	
 	public void NextInstruction()
@@ -93,6 +94,7 @@ public class BarterTutorial : MonoBehaviour
 
 	public void StartShonkyParticles()
 	{
+		GameManager.Instance.introducedNPC = true;
 		shonkyInv.HighlightGolems();
 	}
 

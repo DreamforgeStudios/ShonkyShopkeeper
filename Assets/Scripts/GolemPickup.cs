@@ -313,6 +313,17 @@ public class GolemPickup : MonoBehaviour {
             pickedupGolem = null;
             overNPC = false;
             overPortal = false;
+            
+            if (GameManager.Instance.BarterTutorial)
+            {
+                if (GameManager.Instance.introducedNPC)
+                {
+                    BarterTutorial.Instance.StartShonkyParticles();
+                    GameManager.Instance.OfferNPC = true;
+                    GameManager.Instance.BarterNPC = false;
+                    
+                }
+            }
         }
     }
 
@@ -445,6 +456,8 @@ public class GolemPickup : MonoBehaviour {
             if (GameManager.Instance.OfferNPC)
             {
                 BarterTutorial.Instance.RemoveShonkyParticles();
+                GameManager.Instance.OfferNPC = false;
+                GameManager.Instance.BarterNPC = true;
                 NPCinteraction.NPCHit.GetComponent<NPCWalker>().EnableParticles();
             }
         }

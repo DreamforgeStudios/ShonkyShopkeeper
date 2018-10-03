@@ -4942,6 +4942,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 114374969198963020, guid: 25dd6878305a78d42bb9578ec9c719c1,
         type: 2}
+      propertyPath: towns.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114374969198963020, guid: 25dd6878305a78d42bb9578ec9c719c1,
+        type: 2}
       propertyPath: mapInstructions.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -5089,6 +5094,32 @@ Prefab:
       propertyPath: introTarget
       value: 
       objectReference: {fileID: 1072370059}
+    - target: {fileID: 114374969198963020, guid: 25dd6878305a78d42bb9578ec9c719c1,
+        type: 2}
+      propertyPath: runeIndicatorPrefab
+      value: 
+      objectReference: {fileID: 1733438058752716, guid: c440f3fbca0bd3a458e3aa1e634f01e7,
+        type: 2}
+    - target: {fileID: 114374969198963020, guid: 25dd6878305a78d42bb9578ec9c719c1,
+        type: 2}
+      propertyPath: towns.Array.data[0]
+      value: 
+      objectReference: {fileID: 1370296369}
+    - target: {fileID: 114374969198963020, guid: 25dd6878305a78d42bb9578ec9c719c1,
+        type: 2}
+      propertyPath: towns.Array.data[1]
+      value: 
+      objectReference: {fileID: 2036039732}
+    - target: {fileID: 114374969198963020, guid: 25dd6878305a78d42bb9578ec9c719c1,
+        type: 2}
+      propertyPath: towns.Array.data[2]
+      value: 
+      objectReference: {fileID: 1102933774}
+    - target: {fileID: 114374969198963020, guid: 25dd6878305a78d42bb9578ec9c719c1,
+        type: 2}
+      propertyPath: towns.Array.data[3]
+      value: 
+      objectReference: {fileID: 1247743673}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 25dd6878305a78d42bb9578ec9c719c1, type: 2}
   m_IsPrefabAsset: 0
