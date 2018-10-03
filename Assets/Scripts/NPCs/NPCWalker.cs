@@ -25,7 +25,10 @@ public class NPCWalker : MonoBehaviour {
 	public NPCSpawner Spawner;
 	public Vector3 endPosition;
 
-	public GameObject particleChild, particlePrefab;
+	//For tutorial
+	public GameObject particleChild, particlePrefab, runeIndicatorPrefab;
+	private GameObject runeIndicator;
+	private Canvas mainCanvas;
 
 	// Use this for initialization
 	void Start () {
@@ -33,6 +36,7 @@ public class NPCWalker : MonoBehaviour {
         //walkNormal = true;
 		NPC.ShowSide();
 		Spawner = GameObject.FindWithTag("NPCSpawner").GetComponent<NPCSpawner>();
+		mainCanvas = GameObject.FindWithTag("ShopCanvas").GetComponent<Canvas>();
 		EnableParticles();
 	}
 	
@@ -87,22 +91,36 @@ public class NPCWalker : MonoBehaviour {
 
 	public void EnableParticles()
 	{
-		if ((GameManager.Instance.BarterNPC || GameManager.Instance.OfferNPC) && particleChild == null && 
-		    GameManager.Instance.BarterTutorial)
+		if (GameManager.Instance.BarterNPC && particleChild == null && 
+		    GameManager.Instance.BarterTutorial && runeIndicator == null)
 		{
+			//Normal Particles
 			Debug.Log("Enabling particles");
 			particleChild = Instantiate(particlePrefab, this.transform);
 			particleChild.transform.localScale = new Vector3(1f, 1f, 1f);
+			
+			//Rune indicators
+			runeIndicator = Instantiate(runeIndicatorPrefab, mainCanvas.transform);
+			runeIndicator.GetComponent<TutorialRuneIndicator>().SetPosition(this.gameObject, false);
+			runeIndicator.transform.localScale = new Vector3(1f, 1f, 1f);
 		}
 	}
 
 	public void DisableParticles()
 	{
-		if (particleChild != null && (!GameManager.Instance.BarterNPC && !GameManager.Instance.OfferNPC))
+		//if (particleChild != null && (!GameManager.Instance.BarterNPC && !GameManager.Instance.OfferNPC))
+		if (particleChild != null && GameManager.Instance.OfferNPC)
 		{
 			Destroy(particleChild);
 			Debug.Log("Disabling particles");
+			DisableRunes();
 		}
+	}
+
+	public void DisableRunes()
+	{
+		if (runeIndicator != null && GameManager.Instance.OfferNPC)
+			Destroy(runeIndicator);
 	}
 
 	/*

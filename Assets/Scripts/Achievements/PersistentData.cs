@@ -115,13 +115,18 @@ public class PersistentData : ScriptableObject {
             pd = CreateInstance<PersistentData>();
             JsonUtility.FromJsonOverwrite(File.ReadAllText(path), pd);
             pd.hideFlags = HideFlags.HideAndDontSave;
-            
         } else {
             pd = Instantiate((PersistentData) Resources.Load("PersistentData"));
             pd.hideFlags = HideFlags.HideAndDontSave;
         }
 
         return pd;
+    }
+
+    public static void LoadFromTemplate() {
+        if (_instance) DestroyImmediate(_instance);
+        _instance = Instantiate((PersistentData) Resources.Load("PersistentData"));
+        _instance.hideFlags = HideFlags.HideAndDontSave;
     }
 
     public void Save() {
