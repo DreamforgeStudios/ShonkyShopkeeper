@@ -33,7 +33,7 @@ public class Hall : MonoBehaviour
 	//New system for map screen and objects going around it
 	public List<GameObject> townObjects, startingPositions, townCanvasElements;
 	public GameObject startingPosition, townInspectPosition;
-	private bool canMoveAround = false;
+	private bool canMoveAround, playingLoop = false;
 	
 	//Need to keep track of select hit town due to scaling
 	private RaycastHit townHit;
@@ -50,6 +50,9 @@ public class Hall : MonoBehaviour
 		Camera.main.transform.position = backPos;
 
 		Setup();
+		
+		//ambient SFX
+		SFX.Play("Globe_Touch_Loop", 0.75f, 1f, 0f, false, 0f);
 		//Load the shop screen in the background as that is the only one which can be travelled to
 		//StartCoroutine(LoadAsyncScene("Shop"));
 	}
@@ -96,7 +99,7 @@ public class Hall : MonoBehaviour
 					mapTutorialManager.ClickedSphere();
 					canMoveAround = false;
 				}
-				mapInteraction = true;
+				mapInteraction = false;
 			}
 			else
 			{
@@ -154,6 +157,9 @@ public class Hall : MonoBehaviour
 		mapInteraction = true;
 		canMoveAround = false;
 		townHit = hit;
+		
+		//Sound effect
+		SFX.Play("Map_location_select", 1f, 1f, 0f, false, 0f);
 		
 		//Move all townObjs to globe by first killing current tweens and then sending them back to the initial pos
 		ReturnToGlobe();
@@ -326,12 +332,16 @@ public class Hall : MonoBehaviour
 		travelButton.gameObject.SetActive(false);
 		backButton.gameObject.SetActive(false);
 		goldText.gameObject.SetActive(false);
+		
+		//Need SFX for this back button
+		SFX.Play("Fail_Tap", 1f, 1f, 0f, false, 0f);
 	}
 	
 	//Method used to send user back to shop by 'travelling'
 	public void TravelButton()
 	{
 		Travel.Towns currentTownSelected = CurrentTownObject(townHit.transform.gameObject);
+		SFX.Play("Traveling_chimes", 1f, 1f, 0f, false, 0f);
 		Travel.ChangeCurrentTown(currentTownSelected);
 		SaveManager.SaveInventory();
 		Initiate.Fade("Shop", Color.black, 2f);
@@ -347,6 +357,7 @@ public class Hall : MonoBehaviour
 		Debug.Log("Complete transaction " + completeTransaction);
 		if (Inventory.Instance.GetUnlockedTowns().Count == 1 && completeTransaction) {
 			Travel.ChangeCurrentTown(currentTownSelected);
+			SFX.Play("Location_query_purchase", 1f, 1f, 0f, false, 0f);
 			SaveManager.SaveInventory();
 			PlayerPrefs.SetInt("FirstStart", 1);
 			if (GameManager.Instance.InMap)
