@@ -141,6 +141,8 @@ public class CombineIntoGolem : MonoBehaviour
 		golemText.enabled = true;
 		golemBottomText.enabled = true;
 		golemText.text = string.Format("New {0} {1} Golem!", grade, gemType);
+		golemText.color = Quality.GradeToColor(grade);
+		golemBottomText.color = Quality.GradeToColor(grade);
 		yield return new WaitForSeconds(3f);
 		if (golemObj != null)
 			golemObj.transform.DOMove(slot.transform.position, 1f, false).OnComplete(() => RestartGolem(golemObj));
