@@ -298,12 +298,12 @@ Prefab:
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 627045910}
     - target: {fileID: 114337464001686920, guid: e3a1b7124e4ff434896218a837c9dfc6,
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 627045910}
     - target: {fileID: 1580125511671102, guid: e3a1b7124e4ff434896218a837c9dfc6, type: 2}
       propertyPath: m_IsActive
       value: 0
@@ -317,7 +317,7 @@ Prefab:
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 627045910}
     - target: {fileID: 114630251607773514, guid: e3a1b7124e4ff434896218a837c9dfc6,
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -327,7 +327,7 @@ Prefab:
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 627045910}
     - target: {fileID: 114536812827750112, guid: e3a1b7124e4ff434896218a837c9dfc6,
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -945,6 +945,8 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 0
+  ManualDifficultyOverride: 0
+  ManualDifficulty: 0
   heldTickrate: 0.15
   accelerationCurve:
     serializedVersion: 2
@@ -6699,6 +6701,10 @@ Prefab:
         type: 2}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4619944489351972, guid: c3343ff29546f9948b4ab5bb24f03d50, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -0.55
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114247710891375066, guid: c3343ff29546f9948b4ab5bb24f03d50, type: 2}
