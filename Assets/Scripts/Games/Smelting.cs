@@ -126,7 +126,7 @@ public class Smelting : MonoBehaviour {
 	    }
 		
 		rb = Dial.GetComponent<Rigidbody>();
-		prevRotation = Dial.transform.eulerAngles;
+		prevRotation = Dial.transform.localEulerAngles;
         Countdown.onComplete += GameOver;
     }
 	
@@ -151,7 +151,7 @@ public class Smelting : MonoBehaviour {
         UpdateBar();
 
 		// Record previous location.
-		prevRotation = Dial.transform.eulerAngles;
+		prevRotation = Dial.transform.localEulerAngles;
 	}
 
     void Update() {
@@ -227,8 +227,8 @@ public class Smelting : MonoBehaviour {
 
 	private void Constrain() {
 		// If we've made too big of a jump (probably looped), then don't allow the rotation.
-		if (Mathf.Abs(Dial.eulerAngles.z - prevRotation.z) > maxJump) {
-			Dial.eulerAngles = prevRotation;
+		if (Mathf.Abs(Dial.localEulerAngles.z - prevRotation.z) > maxJump) {
+			Dial.localEulerAngles = prevRotation;
 		}
 	}
 
