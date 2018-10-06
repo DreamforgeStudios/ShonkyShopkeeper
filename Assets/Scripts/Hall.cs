@@ -14,7 +14,7 @@ public class Hall : MonoBehaviour
 
 	//Variables for handling camera and globe movement
 	private bool forward, mapInteraction = false;
-	public Vector3 frontPos, backPos, inspectPos;
+	public Vector3  defaultRotation, frontPos, backPos, inspectPos;
 	public GameObject globe;
 	public float speed = 100.0f;
 	public float Xrot, Yrot = 0f;
@@ -44,26 +44,39 @@ public class Hall : MonoBehaviour
 	//Gold Text
 	public TextMeshProUGUI goldText;
 	
+	//True Golem Intro Handler
+	public TrueGolemIntro trueGolemHandler;
+	
 	// Use this for initialization
 	void Start ()
 	{
 		Camera.main.transform.position = backPos;
+		Camera.main.transform.localRotation = Quaternion.Euler(defaultRotation);
 
 		Setup();
 		
 		//ambient SFX
 		SFX.Play("Globe_Touch_Loop", 0.75f, 1f, 0f, false, 0f);
-		//Load the shop screen in the background as that is the only one which can be travelled to
-		//StartCoroutine(LoadAsyncScene("Shop"));
+		
+		//If introducing true golem, set the camera at the relevant position and load the relevant dialogue
+		if (GameManager.Instance.introduceTrueGolem)
+		{
+			trueGolemHandler.IntroduceTrueGolem();
+		}
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
 		goldAmount.text = string.Format("<sprite=0> {0}",Inventory.Instance.goldCount);
-		CheckCamera();
-		if (!GameManager.Instance.InMap)
-			ShopButton.SetActive(true);
+		
+		//If not introducing a true golem, allow for normal movement.
+		if (!GameManager.Instance.introduceTrueGolem)
+		{
+			CheckCamera();
+			if (!GameManager.Instance.InMap)
+				ShopButton.SetActive(true);
+		}
 	}
 
 	private void CheckCamera()
@@ -77,7 +90,7 @@ public class Hall : MonoBehaviour
 
 	private void Setup()
 	{
-		SaveManager.LoadFromTemplate(defaultInv);
+		//SaveManager.LoadFromTemplate(defaultInv);
 		goldAmount.enabled = false;
 		ShopButton.SetActive(false);
 	}
@@ -387,6 +400,5 @@ public class Hall : MonoBehaviour
                 SFX.Play("Fail_Tap", 1f, 1f, 0f, false, 0f);
             }
 		}
-	
 	}
 }

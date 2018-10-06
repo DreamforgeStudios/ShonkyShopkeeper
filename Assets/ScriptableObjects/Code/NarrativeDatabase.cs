@@ -49,6 +49,7 @@ public class NarrativeDatabase : ScriptableObject {
     }
 
     private void Display(NarrativeElement element) {
+        Debug.Log("Displaying relevant narrative element");
         PopupTextManager clone = Instantiate(GizmoPrefab, GameObject.FindGameObjectWithTag("MainCamera").transform).GetComponentInChildren<PopupTextManager>();
         clone.PopupTexts = element.Texts;
         clone.Init();
