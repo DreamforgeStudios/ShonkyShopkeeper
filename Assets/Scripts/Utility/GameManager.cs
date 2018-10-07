@@ -77,6 +77,11 @@ public class GameManager : MonoBehaviour {
 	public int ShonkyIndexTransfer = 0;
 	public float CameraRotTransfer = 8;
 	
+	// Party Variables.
+	// TODO: use a queue or similar structure to construct a play table.
+	public Queue<RoundInfo> RoundQueue;
+	
+	
 	public Travel.Towns CurrentTown {
 		get { return Inventory.Instance.GetCurrentTown(); }
 	}
