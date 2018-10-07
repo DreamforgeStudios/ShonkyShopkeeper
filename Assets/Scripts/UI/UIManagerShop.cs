@@ -11,8 +11,14 @@ public class UIManagerShop : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	    SetTownBackground(Inventory.Instance.currentTown);
-		SetTownMusic(Inventory.Instance.currentTown);
+		if (Inventory.Instance != null) {
+            SetTownBackground(Inventory.Instance.currentTown);
+            SetTownMusic(Inventory.Instance.currentTown);
+		} else {
+			Debug.Log("Inventory was not initialized, will use default.");
+            SetTownBackground(Travel.Towns.WickedGrove);
+            SetTownMusic(Travel.Towns.WickedGrove);
+		}
 	}
 
 	//Set all backgrounds as inactive then activate select one

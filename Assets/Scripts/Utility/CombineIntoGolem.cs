@@ -128,6 +128,10 @@ public class CombineIntoGolem : MonoBehaviour
 			//Move new golem to pen
 			pSlot.SetItemInstantiated(newGolem,clone);
 			toolbox.ClearGolemCreation(slot);
+			if (TrueGolems.PotentialUnlockTrueGolem(TrueGolems.GemStringToGolem(gemType)))
+			{
+				pSlot.RemoveItem();
+			}
 			StartCoroutine(ShowText(gem,avg, pSlot, clone));
 		}
 	}
@@ -137,15 +141,24 @@ public class CombineIntoGolem : MonoBehaviour
 		golemText.enabled = true;
 		golemBottomText.enabled = true;
 		golemText.text = string.Format("New {0} {1} Golem!", grade, gemType);
+		golemText.color = Quality.GradeToColor(grade);
+		golemBottomText.color = Quality.GradeToColor(grade);
 		yield return new WaitForSeconds(3f);
-		golemObj.transform.DOMove(slot.transform.position, 1f, false).OnComplete(() => RestartGolem(golemObj));
+		if (golemObj != null)
+			golemObj.transform.DOMove(slot.transform.position, 1f, false).OnComplete(() => RestartGolem(golemObj));
+		else
+			RestartGolem(null);
 	}
 
 	private void RestartGolem(GameObject clone)
 	{
-		clone.GetComponent<ShonkyWander>().enabled = true;
-		clone.GetComponent<NavMeshAgent>().enabled = true;
-		clone.GetComponent<Rigidbody>().useGravity = true;
+		if (clone != null)
+		{
+			clone.GetComponent<ShonkyWander>().enabled = true;
+			clone.GetComponent<NavMeshAgent>().enabled = true;
+			clone.GetComponent<Rigidbody>().useGravity = true;
+		}
+
 		StopAllCoroutines();
 		ChangeCameras(true);
 	}
@@ -177,16 +190,6 @@ public class CombineIntoGolem : MonoBehaviour
 			BGFader.gameObject.SetActive(true);
 			BGFader.CrossFadeAlpha(0.95f,5f,false);
 			BGFader.transform.localEulerAngles = new Vector3(BGFaderXRot,0f,0f);
-			/*
-			mainCamera.cullingMask = (1 << LayerMask.NameToLayer("Tools"))
-			                         | (1 << LayerMask.NameToLayer("Shop"))
-			                         | (1 << LayerMask.NameToLayer("InventoryBin"))
-			                         | (1 << LayerMask.NameToLayer("Slots"))
-			                         | (1 << LayerMask.NameToLayer("Items"));
-			                         //| (1 << LayerMask.NameToLayer("UI"));
-			mainCamera.gameObject.layer = 16;
-			canvasOverlay.gameObject.layer = 16;
-			*/
 		}
 	}
 }

@@ -61,10 +61,8 @@ public class NewCutPoint : MonoBehaviour {
 				  lineOriginalScale;
 	private Color spinnerOriginalColor,
 				  lineOriginalColor;
-	// Use this for initialization
-	void Awake () {
-	}
-
+	private Sequence animationSeq;
+	
 	void Start() {
 		// NOTE: we assume that all axis' are scaled the same.
 		spinnerOriginalScale = SpinnerSpriteRenderer.transform.localScale;
@@ -73,7 +71,7 @@ public class NewCutPoint : MonoBehaviour {
 		lineOriginalColor = LineSpriteRenderer.color;
 		
 		Initialize();
-		RunAnimation();
+		animationSeq = RunAnimation();
 	}
 
 	[Button("Reset Values")]
@@ -84,29 +82,31 @@ public class NewCutPoint : MonoBehaviour {
 	}
 
 	[Button("Run Animation")]
-	private void RunAnimation() {
+	private Sequence RunAnimation() {
 		AlignWithCutVector();
 		
+		// Spawning instantly now.
+		OnSpawnCompleteTick();
+		
 		var seq = DOTween.Sequence();
-		/*
-		for (int i = 0; i < NumberOfSpins; i++) {
-            seq.Append(CircleSpriteRenderer.transform.DOLocalRotate(Vector3.forward * 360, RotationSpeed, RotateMode.LocalAxisAdd)
-                .SetEase(EasePerLoop ? RotationEase : Ease.Linear));
-		}
-		*/
         seq.Append(SpinnerSpriteRenderer.transform.DOLocalRotate(Vector3.forward * 360, RotationSpeed, RotateMode.LocalAxisAdd)
             .SetEase(EasePerLoop ? RotationEase : Ease.Linear).SetLoops(NumberOfSpins));
 		// TODO: make this use parameters.
 		seq.Insert(0, SpinnerSpriteRenderer.transform.DOScale(1, .5f).SetEase(Ease.OutBack));
 		
+		// A bit messy, but seems necessary for this kind of approach.
 		Tween drawLine =  DOTween.To(() => LineSpriteMask.alphaCutoff, x => LineSpriteMask.alphaCutoff = x, 0, MaskWipeTime)
-			.SetEase(MaskWipeEase);
+			.SetEase(MaskWipeEase).OnComplete(() => {
+				LineSpriteMask.enabled = false;
+				LineSpriteRenderer.maskInteraction = SpriteMaskInteraction.None;
+			});
 		seq.Insert(LineAppearAtTime, drawLine);
-		seq.InsertCallback(LineAppearAtTime, OnSpawnCompleteTick);
+		//seq.InsertCallback(LineAppearAtTime, OnSpawnCompleteTick);
 		
 		seq.SetEase(EasePerLoop ? Ease.Linear : RotationEase);
 		seq.Play();
-		
+
+		return seq;
 		// TODO: change color as the circle "warms up"?
 	}
 
@@ -125,6 +125,9 @@ public class NewCutPoint : MonoBehaviour {
 	
 	[Button("Set Selected")]
 	public void SetSelected() {
+		if (animationSeq.Elapsed() < LineAppearAtTime)
+			animationSeq.Goto(LineAppearAtTime, true);
+		
 		SpinnerSpriteRenderer.transform.DOScale(SpinnerSelectedScale, SpinnerSelectedEaseTime)
 			.SetEase(SpinnerSelectedEase);
 		SpinnerSpriteRenderer.DOColor(SpinnerSelectedColor, SpinnerSelectedEaseTime).SetEase(SpinnerSelectedEase);
@@ -149,12 +152,6 @@ public class NewCutPoint : MonoBehaviour {
 		
 		SpinnerSpriteRenderer.sortingOrder = 0;
 		LineSpriteRenderer.sortingOrder = 0;
-	}
-	
-	// Update is called once per frame
-	private float spawnTimeCounter = 0;
-	private bool spawned = false;
-	void Update () {
 	}
 
 	private void OnSpawnCompleteTick() {

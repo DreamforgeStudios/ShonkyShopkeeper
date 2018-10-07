@@ -29,6 +29,9 @@ public class GolemPickup : MonoBehaviour {
 
     //Exit Portal Location - used for 'respawning' returning golems
     public Vector3 exitPortalLocation;
+    
+    //Portal location used for tutorial
+    public GameObject portal;
 
     //Reference to the pouch itemInstance
     public ItemInstance pouch;
@@ -49,6 +52,12 @@ public class GolemPickup : MonoBehaviour {
     //Particle system to highlight items to be inspected
     public GameObject particles;
     private GameObject particleChild;
+    
+    //Rune indicator for tutorial
+    public GameObject runeIndicatorPrefab;
+    private GameObject runeIndicator;
+    public Canvas mainCanvas;
+    private bool enabledPortalRune;
     
     //To reset NPC spawner interaction
     public NPCSpawner spawner;
@@ -78,6 +87,8 @@ public class GolemPickup : MonoBehaviour {
                 GameManager.Instance.WaitingForTimer = true;
                 if (!GameManager.Instance.SendToMine)
                     tutManager.NextInstruction();
+                
+                RemovePortalRune();
             }
             SFX.Play("Portal_Suck",1f,1f,0f,false,0f);
             int index = GetGolemSlot();
@@ -238,21 +249,21 @@ public class GolemPickup : MonoBehaviour {
                             GameObject obj;
                             if (insertedSlot.GetPrefabInstance(out obj))
                                 obj.GetComponent<SackHueChange>().UpdateCurrentColor(instance.pouchType);
-                            
-                            //Causes spasms with golem
-                            //ResetGolem();
-                            pickedupGolem = null;
-                            
+                                                 
                             if (GameManager.Instance.InTutorial && !GameManager.Instance.MineGoleminteractGolem)
                             {
                                 if (GameManager.Instance.ReturnPouch)
                                 {
                                     tutManager.NextInstruction();
+                                    tutShonkyInv.RemoveSpecificRune(pickedupGolem);
                                     GameManager.Instance.ReturnPouch = false;
                                     GameManager.Instance.MineGoleminteractGolem = true;
-                                    //GameManager.Instance.OpenPouch = true;
+                                    RemovePortalRune();
+                                    Camera.main.GetComponent<CameraTap>().HighlightButton();
                                 }
                             }
+                            
+                            pickedupGolem = null;
                         }
                         else
                         {
@@ -302,6 +313,17 @@ public class GolemPickup : MonoBehaviour {
             pickedupGolem = null;
             overNPC = false;
             overPortal = false;
+            
+            if (GameManager.Instance.BarterTutorial)
+            {
+                if (GameManager.Instance.introducedNPC)
+                {
+                    BarterTutorial.Instance.StartShonkyParticles();
+                    GameManager.Instance.OfferNPC = true;
+                    GameManager.Instance.BarterNPC = false;
+                    
+                }
+            }
         }
     }
 
@@ -328,8 +350,10 @@ public class GolemPickup : MonoBehaviour {
             if (GameManager.Instance.HasMinePouch)
             {
                 tutManager.HideExposition();
+                GameObject highlightedGolem = tutShonkyInv.ReturnSingleGolem();
                 tutManager.StartDialogue(tutManager.tapPouch, tutManager.openPouch, tutManager.mainCanvas, 
-                    tutManager.mineTarget, true);
+                    highlightedGolem, false);
+                tutManager.MoveInstructionScroll();
                 GameManager.Instance.ReturnPouch = true;
             }
         }
@@ -407,6 +431,19 @@ public class GolemPickup : MonoBehaviour {
             SFX.Play("Golem Struggle Voices",1f,1f,0f,true,0f);
             holdingSound = true;
         }
+
+        if (GameManager.Instance.InTutorial)
+        {
+            if (!GameManager.Instance.SendToMine && !enabledPortalRune && !GameManager.Instance.MineGoleminteractGolem)
+            {
+                Debug.Log("Starting portal rune indicator");
+                //Remove rune indicator from this golem and add to portal
+                runeIndicator = Instantiate(runeIndicatorPrefab, mainCanvas.transform);
+                runeIndicator.GetComponent<TutorialRuneIndicator>().SetPosition(portal,false);
+                enabledPortalRune = true;
+            }
+        }
+
         CheckIfOverPortal();
         CheckIfOverNPC();
     }
@@ -419,6 +456,8 @@ public class GolemPickup : MonoBehaviour {
             if (GameManager.Instance.OfferNPC)
             {
                 BarterTutorial.Instance.RemoveShonkyParticles();
+                GameManager.Instance.OfferNPC = false;
+                GameManager.Instance.BarterNPC = true;
                 NPCinteraction.NPCHit.GetComponent<NPCWalker>().EnableParticles();
             }
         }
@@ -448,8 +487,28 @@ public class GolemPickup : MonoBehaviour {
             SFX.Play("Golem Struggle Voices",1f,1f,0f,true,0f);
             holdingSound = true;
         }
+        
+        if (GameManager.Instance.InTutorial)
+        {
+            if (!GameManager.Instance.SendToMine && !enabledPortalRune && !GameManager.Instance.MineGoleminteractGolem)
+            {
+                Debug.Log("Starting portal rune indicator");
+                //Remove rune indicator from this golem and add to portal
+                runeIndicator = Instantiate(runeIndicatorPrefab, mainCanvas.transform);
+                runeIndicator.GetComponent<TutorialRuneIndicator>().SetPosition(portal,false);
+                enabledPortalRune = true;
+            }
+        }
         CheckIfOverPortal();
         CheckIfOverNPC();
+    }
+
+    private void RemovePortalRune()
+    {
+        if (runeIndicator != null)
+            Destroy(runeIndicator);
+
+        enabledPortalRune = false;
     }
 
     private bool CheckAccuracy() {
@@ -570,7 +629,8 @@ public class GolemPickup : MonoBehaviour {
             if (GameManager.Instance.TimerComplete && !textboxShowing)
             {
                 tutManager.HideExposition();
-                tutManager.StartDialogue(tutManager.retrieveGolem, tutManager.retrieveGolemInstruction, tutManager.mainCanvas, tutManager.mineTarget, true);
+                tutManager.StartDialogue(tutManager.retrieveGolem, tutManager.retrieveGolemInstruction, tutManager.mainCanvas, portal, false);
+                tutManager.MoveInstructionScroll();
                 GameManager.Instance.HasMinePouch = true;
                 GameManager.Instance.TimerComplete = false;
                 textboxShowing = true;

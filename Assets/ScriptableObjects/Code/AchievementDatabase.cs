@@ -87,6 +87,8 @@ public class AchievementDatabase : ScriptableObject {
     
     // Display a given achievement on the screen.
     private void Display(Achievement achievement) {
+        SFX.Play("Achieve_Popup", 1f, 1f, 0f, false, 0f);
+        
         var clone = AchievementPrefabInstance;
         clone.Icon.sprite = achievement.Icon;
         clone.Heading.text = achievement.Heading;

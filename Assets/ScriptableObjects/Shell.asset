@@ -11,7 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a335072ffa7098c44a716ec5c2f8cf74, type: 3}
   m_Name: Shell
   m_EditorClassIdentifier: 
-  itemName: Shonky Shell
+  itemName: Golem Shell
   physicalRepresentation: {fileID: 1991232834625290, guid: 6b9051cdc891b5048ae8a9674570b2e3,
     type: 2}
   stackLimit: 1
