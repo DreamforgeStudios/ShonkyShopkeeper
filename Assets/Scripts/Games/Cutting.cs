@@ -96,6 +96,8 @@ public class Cutting : MonoBehaviour {
 	[BoxGroup("Object Assignments")]
 	public GameObject ReturnOrRetryButtons;
 	[BoxGroup("Object Assignments")]
+	public GameObject PartyReturnButtons;
+	[BoxGroup("Object Assignments")]
 	public Countdown CountdownObj;
 	[BoxGroup("Object Assignments")]
 	public NewCutPoint CutPrefab;
@@ -139,7 +141,11 @@ public class Cutting : MonoBehaviour {
     void Start ()
     {
 	    SFX.Play("CraftingGem", 1f, 1f, 0f, true, 0f);
-		Countdown.onComplete += GameOver;
+	    if (GameManager.Instance.ActiveGameMode == GameMode.Story) {
+			Countdown.onComplete += GameOver;
+	    } else if (GameManager.Instance.ActiveGameMode == GameMode.Party) {
+		    Countdown.onComplete += GameOverParty;
+	    }
 
 	    Difficulty d = ManualDifficultyOverride ? ManualDifficulty : PersistentData.Instance.Difficulty;
 	    if (!DifficultySettings.TryGetValue(d, out activeDifficultySettings)) {
@@ -378,7 +384,25 @@ public class Cutting : MonoBehaviour {
 	    ReturnOrRetryButtons.SetActive(true);
         ReturnOrRetryButtons.GetComponent<UpdateRetryButton>().SetText();
     }
+	
+	private void GameOverParty() {
+		Countdown.onComplete -= GameOverParty;
+		start = false;
+		
+		PointsManager.DoEndGameTransitionParty();
+		
+		foreach (NewCutPoint cut in activeCuts) {
+			Destroy(cut.gameObject);
+		}
+		
+		ShowUIButtonsParty();
+	}
+	
+	public void PartyModeReturn() {
+		ReturnOrRetry.ReturnParty(PointsManager.GetPoints());
+	}
 
-	private void OnDrawGizmos() {
+	public void ShowUIButtonsParty() {
+		PartyReturnButtons.SetActive(true);
 	}
 }

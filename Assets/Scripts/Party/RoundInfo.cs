@@ -4,5 +4,26 @@ using UnityEngine;
 
 public class RoundInfo {
     public int PlayerIndex;
+    public int RoundNumber;
     public string GameSceneName;
+
+    public RoundInfo(int playerIdx, int roundNumber, string gameSceneName) {
+        PlayerIndex = playerIdx;
+        RoundNumber = roundNumber;
+        GameSceneName = gameSceneName;
+    }
+}
+
+public class PlayerInfo {
+    public int Index;
+    public Sprite Avatar;
+    public float Points;
+    public int Gold;
+
+    public PlayerInfo(int idx, Sprite avatar, float startPoints = 0, int startGold = 0) {
+        Index = idx;
+        Avatar = avatar;
+        Points = startPoints;
+        Gold = startGold;
+    }
 }

@@ -90,6 +90,7 @@ public class Tracing : MonoBehaviour {
     //Quality bar.
     public PointsManager PointsManager;
     public GameObject returnOrRetryButtons;
+    public GameObject PartyReturnButtons;
     public BrickSpawnManager brickSpawnmanager;
     private bool start = false;
     
@@ -459,7 +460,24 @@ public class Tracing : MonoBehaviour {
         returnOrRetryButtons.GetComponent<UpdateRetryButton>().SetText();
     }
 
-    
+	private void GameOverParty() {
+		Countdown.onComplete -= GameOverParty;
+		
+		PointsManager.DoEndGameTransitionParty();
+	    FollowSphere.SetActive(false);
+	    _currentRuneSprite.SetActive(false);
+	    ResetOptimalPoints();
+	    
+	    ShowUIButtonsParty();
+	    _dataBase.HideUI();
+		_canTrace = false;
+	}
+	
+	public void PartyModeReturn() {
+	    ReturnOrRetry.ReturnParty(PointsManager.GetPoints());
+	}
 
-   
+	public void ShowUIButtonsParty() {
+		PartyReturnButtons.SetActive(true);
+	}
 }

@@ -56,6 +56,7 @@ public class Polishing : MonoBehaviour {
     public Slider timerSlider;
     public Image sliderImage;
     public GameObject returnOrRetryButtons;
+    public GameObject PartyReturnButtons;
 
     //Vector to swipe over
     private Vector3 keyPoint;
@@ -86,6 +87,11 @@ public class Polishing : MonoBehaviour {
     // Use this for initialization
     void Start() {
         SFX.Play("CraftingGem",1f,1f,0f,true,0f);
+	    if (GameManager.Instance.ActiveGameMode == GameMode.Story) {
+			Countdown.onComplete += GameOver;
+	    } else if (GameManager.Instance.ActiveGameMode == GameMode.Party) {
+		    Countdown.onComplete += GameOverParty;
+	    }
         
 	    Difficulty d = ManualDifficultyOverride ? ManualDifficulty : PersistentData.Instance.Difficulty;
 	    if (!DifficultySettings.TryGetValue(d, out activeDifficultySettings)) {
@@ -100,7 +106,6 @@ public class Polishing : MonoBehaviour {
         //retryScene.enabled = false;
         //qualityText.enabled = false;
         emitParams = new ParticleSystem.EmitParams();
-        Countdown.onComplete += GameOver;
     }
 
     // Update is called once per frame
@@ -324,6 +329,24 @@ public class Polishing : MonoBehaviour {
 	    returnOrRetryButtons.SetActive(true);
         returnOrRetryButtons.GetComponent<UpdateRetryButton>().SetText();
     }
+    
+	private void GameOverParty() {
+	    StopCoroutine(CalculateSwipes(false));
+		Countdown.onComplete -= GameOverParty;
+		gameOver = true;
+		
+		pointsManager.DoEndGameTransitionParty();
+	    
+	    ShowUIButtonsParty();
+	}
+	
+	public void PartyModeReturn() {
+	    ReturnOrRetry.ReturnParty(pointsManager.GetPoints());
+	}
+
+	public void ShowUIButtonsParty() {
+		PartyReturnButtons.SetActive(true);
+	}
 
 /*
     private void CalculateGrade() {

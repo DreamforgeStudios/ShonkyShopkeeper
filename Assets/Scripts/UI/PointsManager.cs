@@ -119,22 +119,18 @@ public class PointsManager : MonoBehaviour {
 		});
 		
 		seq.Play();
-				
+	}
+
+	[Button("Do EndGameTransitionParty")]
+	public void DoEndGameTransitionParty() {
+		var rect = PointsText.GetComponent<RectTransform>();
+
+		var seq = DOTween.Sequence();
+		seq.Append(rect.DOScale(0, PointsTextEndEaseDuration).SetEase(PointsTextEndEaseOut));
+		seq.Append(rect.DOScale(1, PointsTextEndEaseDuration).SetEase(PointsTextEndEaseIn));
+		seq.AppendCallback(OnFinishLevelingTick);
 		
-		/*
-		// Version without sequence.
-		rect.DOScale(0, PointsTextEndEaseDuration).SetEase(PointsTextEndEaseOut)
-			.OnComplete(() => {
-				UpgradeBar.Appear();
-				rect.anchoredPosition = PointsTextEndPosition;
-				rect.DOScale(1, PointsTextEndEaseDuration).SetEase(PointsTextEndEaseIn)
-					.OnComplete(() => {
-						float upgradeDuration = UpgradeBar.PerformFill(points);
-                        DOTween.To(() => points, x => { points = x; UpdateText(); }, 0, upgradeDuration)
-                            .SetEase(PointsTextDiminishEase);
-					});
-			});
-        */
+		seq.Play();
 	}
 	
 }

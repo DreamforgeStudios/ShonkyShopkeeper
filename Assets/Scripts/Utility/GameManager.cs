@@ -5,6 +5,11 @@ using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+public enum GameMode {
+	Story,
+	Party
+}
+
 public class GameManager : MonoBehaviour {
 	private static GameManager _instance;
 
@@ -61,6 +66,7 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
+	public GameMode ActiveGameMode = GameMode.Story;
 	public bool PlayingAudio = true;
 	public bool InTutorial = false;
 	public bool TutorialIntroTopComplete, TutorialIntroComplete, InMap, BarterTutorial, BarterNPC, OfferNPC, introducedNPC = false;
@@ -78,8 +84,8 @@ public class GameManager : MonoBehaviour {
 	public float CameraRotTransfer = 8;
 	
 	// Party Variables.
-	// TODO: use a queue or similar structure to construct a play table.
 	public Queue<RoundInfo> RoundQueue;
+	public List<PlayerInfo> PlayerInfos;
 	
 	
 	public Travel.Towns CurrentTown {

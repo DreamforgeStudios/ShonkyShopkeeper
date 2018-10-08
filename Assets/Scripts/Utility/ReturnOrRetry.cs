@@ -43,4 +43,10 @@ public class ReturnOrRetry {
 	        Initiate.Fade(SceneManager.GetActiveScene().name, Color.black, 2f);
         }
 	}
+
+	public static void ReturnParty(float points) {
+		// Dequeue the round, because it has been completed.
+		var roundInfo = GameManager.Instance.RoundQueue.Dequeue();
+		GameManager.Instance.PlayerInfos[roundInfo.PlayerIndex].Points += points;
+	}
 }
