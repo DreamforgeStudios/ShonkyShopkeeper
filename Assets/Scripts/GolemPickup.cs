@@ -77,7 +77,7 @@ public class GolemPickup : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         //Debug.Log(overPortal + " is over portal");
-        if (Input.GetMouseButton(0)) {
+        if (Input.GetMouseButton(0) && GameManager.Instance.canUseTools) {
             GolemGrab();
         } 
         else if (overPortal) {

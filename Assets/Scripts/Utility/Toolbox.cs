@@ -110,7 +110,7 @@ public class Toolbox : MonoBehaviour {
     }
 
     private void ProcessMouse() {
-        if (Input.GetMouseButtonDown(0)) {
+        if (Input.GetMouseButtonDown(0) && GameManager.Instance.canUseTools) {
             Cast();
         }
     }
@@ -121,7 +121,7 @@ public class Toolbox : MonoBehaviour {
         }
 
         foreach (Touch touch in Input.touches) {
-            if (touch.phase == TouchPhase.Began) {
+            if (touch.phase == TouchPhase.Began && GameManager.Instance.canUseTools) {
                 Cast();
             }
         }
