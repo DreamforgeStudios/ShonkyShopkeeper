@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311992, g: 0.38074034, b: 0.35872713, a: 1}
+  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.35872692, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -8116,10 +8116,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54e90377472c1fb4c83014b593d20116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  defaultRotation: {x: 13.892, y: 0, z: 0}
   frontPos: {x: 0, y: 0.736, z: -9.134}
   backPos: {x: 0.0114, y: 1.062, z: -10.081}
   inspectPos: {x: 0.049, y: 0.697, z: -9.081}
-  defaultRotation: {x: 13.892, y: 0, z: 0, w: 0}
   globe: {fileID: 808627608}
   speed: 100
   Xrot: 0
@@ -8149,20 +8149,20 @@ MonoBehaviour:
   travelButton: {fileID: 1647669151}
   backButton: {fileID: 744268301}
   goldText: {fileID: 1545452347}
-  trueGolemHandler: {fileID: 0}
+  trueGolemHandler: {fileID: 1308212488}
 --- !u!4 &1308212487
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1308212485}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.015073833, y: -0, z: -0, w: 0.9998864}
   m_LocalPosition: {x: 0.045134664, y: 0.8863279, z: -9.006198}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 1.7270001, y: 0, z: 0}
 --- !u!114 &1308212488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8179,11 +8179,15 @@ MonoBehaviour:
   sapphirePedestal: {x: 0.294, y: 0.478, z: -8.362}
   emeraldPedestal: {x: -0.292, y: 0.537, z: -8.399}
   amethystPedestal: {x: 0.634, y: 0.554, z: -8.996}
-  rubyCamera: {x: 0, y: 0, z: 0}
-  sapphireCamera: {x: 0, y: 0, z: 0}
-  emeraldCamera: {x: 0, y: 0, z: 0}
-  amethystCamera: {x: 0, y: 0, z: 0}
+  rubyCamera: {x: 0, y: 0.69, z: -9.188}
+  sapphireCamera: {x: -0.141, y: 0.771, z: -8.872}
+  emeraldCamera: {x: 0.035, y: 0.771, z: -8.872}
+  amethystCamera: {x: 0.019, y: 0.771, z: -9.195}
   cameraDefaultPosition: {x: 0.0114, y: 1.062, z: -10.081}
+  rubyCameraRot: {x: 7.766, y: -76.314, z: 0}
+  sapphireCameraRot: {x: 2.676, y: 45.226, z: 0}
+  emeraldCameraRot: {x: 8.876, y: -32.778, z: 0}
+  amethystCameraRot: {x: 2.676, y: 76.591, z: 0}
 --- !u!1 &1308543535
 GameObject:
   m_ObjectHideFlags: 0
@@ -9902,13 +9906,13 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1990576544}
-  m_LocalRotation: {x: 0.12093705, y: -0, z: -0, w: 0.99266016}
-  m_LocalPosition: {x: -0.405, y: 0.741, z: -9.477}
+  m_LocalRotation: {x: 0.01832602, y: 0.6195459, z: -0.0144705465, w: 0.78461313}
+  m_LocalPosition: {x: 0.019, y: 0.771, z: -9.195}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 13.892, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 2.676, y: 76.591, z: 0}
 --- !u!4 &1999659087 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400018, guid: bcbb7639f54f53647b657d9ceda7d411,
