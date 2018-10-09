@@ -14,6 +14,30 @@ public class RoundInfo {
     }
 }
 
+public class PostRoundInfo {
+    public int PlayerIndex;
+    public int RoundNumber;
+    public string GameSceneName;
+    public int PointsGained;
+    public int GoldGained;
+
+    public PostRoundInfo(int playerIdx, int roundNumber, string gameSceneName, int points = 0, int gold = 0) {
+        PlayerIndex = playerIdx;
+        RoundNumber = roundNumber;
+        GameSceneName = gameSceneName;
+        PointsGained = points;
+        GoldGained = gold;
+    }
+
+    public PostRoundInfo(RoundInfo roundInfo, int points = 0, int gold = 0) {
+        PlayerIndex = roundInfo.PlayerIndex;
+        RoundNumber = roundInfo.RoundNumber;
+        GameSceneName = roundInfo.GameSceneName;
+        PointsGained = points;
+        GoldGained = gold;
+    }
+}
+
 public class PlayerInfo {
     public int Index;
     public Sprite Avatar;

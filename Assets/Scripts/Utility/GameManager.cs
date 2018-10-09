@@ -85,7 +85,7 @@ public class GameManager : MonoBehaviour {
 	
 	// Party Variables.
 	public Queue<RoundInfo> RoundQueue;
-	public LinkedList<RoundInfo> RoundHistory;
+	public LinkedList<PostRoundInfo> RoundHistory;
 	public List<PlayerInfo> PlayerInfos;
 	public int CurrentRound = 0;
 	
