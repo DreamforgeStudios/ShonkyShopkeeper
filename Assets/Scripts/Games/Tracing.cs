@@ -121,7 +121,7 @@ public class Tracing : MonoBehaviour {
         
         finishTime = Time.time + 10f;
         GeneralSetup();
-        SetupLineRenderer();
+        //SetupLineRenderer();
         GetNecessaryPositions();
         SetupColliders();
     }
@@ -192,6 +192,7 @@ public class Tracing : MonoBehaviour {
     }
     */
 
+    /*
     private void SetupLineRenderer() {
         lineRenderer = GetComponent<LineRenderer>();
         lineRenderer.useWorldSpace = true;
@@ -203,6 +204,8 @@ public class Tracing : MonoBehaviour {
         lineRenderer.endWidth = width;
         lineRenderer.sortingLayerName = "LineRenderer";
     }
+    */
+    
     private void GetNecessaryPositions() {
         for (int i = 0; i < _currentRuneHitPoints.transform.childCount; i++)
         {
@@ -264,8 +267,8 @@ public class Tracing : MonoBehaviour {
             if (!playerPoints.Contains(mWorldPosition)) {
                 FollowSphere.SetActive(true);
                 playerPoints.Add(mWorldPosition);
-                lineRenderer.positionCount = playerPoints.Count;
-                lineRenderer.SetPosition(playerPoints.Count - 1, playerPoints[playerPoints.Count - 1]);
+                //lineRenderer.positionCount = playerPoints.Count;
+                //lineRenderer.SetPosition(playerPoints.Count - 1, playerPoints[playerPoints.Count - 1]);
             }
         }
 
@@ -402,7 +405,7 @@ public class Tracing : MonoBehaviour {
 
     private void ResetOptimalPoints() {
         hitPoints = 0;
-        lineRenderer.positionCount = 0;
+        //lineRenderer.positionCount = 0;
         optimalPoints.Clear();
         playerPoints.RemoveRange(0, playerPoints.Count);
         optimalPointIndex.RemoveRange(0, optimalPointIndex.Count);
