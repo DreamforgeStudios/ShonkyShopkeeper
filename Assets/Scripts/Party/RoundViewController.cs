@@ -15,7 +15,7 @@ public class RoundViewController : PseudoScene {
 		
 		// Only peek, because info is still needed during the games.
 		RoundInfo nextRound = GameManager.Instance.RoundQueue.Peek();
-		Game game = gd.Games.Find(x => x.SceneName == nextRound.GameSceneName);
+		Game game = gd.GetGameBySceneName(nextRound.GameSceneName);
 		
 		// + 1 because computers start from 0 but humans dont.
 		RoundText.text = string.Format("Round {0}", nextRound.RoundNumber + 1);
@@ -25,6 +25,9 @@ public class RoundViewController : PseudoScene {
 		ScreenshotHolder.sprite = game.Screenshot;
 		
 		// Change button behaviour to match the correct scene.
-		BeginButton.onClick.AddListener(() => Initiate.Fade(game.SceneName, Color.black, 2f));
+		BeginButton.onClick.AddListener(() => {
+			GameManager.Instance.CurrentRound = nextRound.RoundNumber;
+			Initiate.Fade(game.SceneName, Color.black, 2f);
+		});
 	}
 }

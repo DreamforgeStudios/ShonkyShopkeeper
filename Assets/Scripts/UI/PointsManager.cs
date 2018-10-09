@@ -127,6 +127,7 @@ public class PointsManager : MonoBehaviour {
 
 		var seq = DOTween.Sequence();
 		seq.Append(rect.DOScale(0, PointsTextEndEaseDuration).SetEase(PointsTextEndEaseOut));
+		seq.AppendCallback(() => rect.anchoredPosition = PointsTextEndPosition);
 		seq.Append(rect.DOScale(1, PointsTextEndEaseDuration).SetEase(PointsTextEndEaseIn));
 		seq.AppendCallback(OnFinishLevelingTick);
 		

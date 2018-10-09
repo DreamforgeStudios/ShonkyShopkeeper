@@ -55,7 +55,7 @@ GameObject:
   - component: {fileID: 114735864672085892}
   - component: {fileID: 114671456940730356}
   m_Layer: 5
-  m_Name: Shop
+  m_Name: Next
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -89,8 +89,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4290309877
+  m_fontColor: {r: 0.9622642, g: 0.93661636, b: 0.72169816, a: 1}
   m_enableVertexGradient: 0
   m_fontColorGradient:
     topLeft: {r: 1, g: 1, b: 1, a: 1}
@@ -107,8 +107,8 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 26.58
+  m_fontSizeBase: 26.58
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 0
@@ -134,7 +134,7 @@ MonoBehaviour:
   checkPaddingRequired: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
-  m_isOrthographic: 0
+  m_isOrthographic: 1
   m_isCullingEnabled: 0
   m_ignoreRectMaskCulling: 0
   m_ignoreCulling: 1
@@ -193,7 +193,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0.9339623, g: 0.7766088, b: 0.022027409, a: 1}
+    m_NormalColor: {r: 1, g: 0.7762793, b: 0.0047169924, a: 1}
     m_HighlightedColor: {r: 0.8113208, g: 0.6718809, b: 0.14925243, a: 1}
     m_PressedColor: {r: 0.6603774, g: 0.57890606, b: 0.22739409, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
@@ -245,7 +245,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 21300000, guid: ac300c0437ac8b446bf35f5e334142d9, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -302,8 +302,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 203.8, y: -121.48}
-  m_SizeDelta: {x: 189.05, y: 82.09}
+  m_AnchoredPosition: {x: 185.62, y: -108.22}
+  m_SizeDelta: {x: 225.4, y: 108.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224731208873638102
 RectTransform:

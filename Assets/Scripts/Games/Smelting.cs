@@ -133,7 +133,6 @@ public class Smelting : MonoBehaviour {
 		
 		rb = Dial.GetComponent<Rigidbody>();
 		prevRotation = Dial.transform.localEulerAngles;
-        Countdown.onComplete += GameOver;
     }
 	
 	// Don't waste frames on mobile...
@@ -320,7 +319,8 @@ public class Smelting : MonoBehaviour {
 		Countdown.onComplete -= GameOverParty;
 		start = false;
 		feedbackParticleSystem.Stop();
-		
+
+		pointsManager.onFinishLeveling += () => OreSpawnManager.Upgrade(Quality.QualityGrade.Mystic);
 		pointsManager.DoEndGameTransitionParty();
 	    
 	    ShowUIButtonsParty();

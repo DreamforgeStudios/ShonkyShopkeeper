@@ -76,6 +76,8 @@ public class BarterManager : MonoBehaviour {
 	[BoxGroup("Object Assignments")]
 	public GameObject BackToShop;
 	[BoxGroup("Object Assignments")]
+	public GameObject PartyReturnButtons;
+	[BoxGroup("Object Assignments")]
 	public ParticleSystem CoinFallParticles;
 	[BoxGroup("Object Assignments")]
 	public List<string> NPCNames;
@@ -96,7 +98,11 @@ public class BarterManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		SFX.Play("BiddingTrack",1f,1f,0f,true,0f);
-		Countdown.onComplete += GameOver;
+	    if (GameManager.Instance.ActiveGameMode == GameMode.Story) {
+			Countdown.onComplete += GameOver;
+	    } else if (GameManager.Instance.ActiveGameMode == GameMode.Party) {
+		    Countdown.onComplete += GameOverParty;
+	    }
 		
 		// If no golem has been transfered (maybe we're launching directly from the scene), then use a default.
 		//  otherwise, use the golem which was transfered.
@@ -299,5 +305,36 @@ public class BarterManager : MonoBehaviour {
 			wizardClone.GetComponent<NPC>().Turn();
 			wizardClone.transform.DOMove(ExitPosition, 4f);
 		});
+	}
+	
+	private void GameOverParty() {
+		Countdown.onComplete -= GameOverParty;
+		start = false;
+		
+		PriceText.gameObject.SetActive(false);
+		DebugText.gameObject.SetActive(false);
+		SoldText.text = "<color=red>SOLD</color>\n<sprite=0>" + price;
+		SoldText.gameObject.SetActive(true);
+		RadialBar.gameObject.SetActive(false);
+		
+		var anim = golemClone.GetComponent<Animator>();
+		anim.SetBool("Dance", false);
+		anim.SetBool("Idle", true);
+		golemClone.transform.SetParent(wizardClone.transform);
+		golemClone.transform.DOMove(wizardClone.transform.position, .9f).OnComplete(() => {
+			wizardClone.GetComponent<NPC>().ShowSide();
+			wizardClone.GetComponent<NPC>().Turn();
+			wizardClone.transform.DOMove(ExitPosition, 4f);
+		});
+	    
+	    ShowUIButtonsParty();
+	}
+	
+	public void PartyModeReturn() {
+	    ReturnOrRetry.ReturnParty((int)price);
+	}
+
+	public void ShowUIButtonsParty() {
+		PartyReturnButtons.SetActive(true);
 	}
 }

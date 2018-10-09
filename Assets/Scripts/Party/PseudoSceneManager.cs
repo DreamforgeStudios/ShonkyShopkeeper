@@ -20,7 +20,7 @@ public class PseudoSceneManager : MonoBehaviour {
 	private PseudoScene[] scenes, canvasScenes;
 	private PseudoScene activeSceneObject, activeSceneCanvasObject;
 
-	void Start() {
+	void Awake() {
 		scenes = Scenes.transform.GetComponentsInChildren<PseudoScene>(true);
 		canvasScenes = CanvasScenes.transform.GetComponentsInChildren<PseudoScene>(true);
 		

@@ -17,10 +17,11 @@ public class RoundInfo {
 public class PlayerInfo {
     public int Index;
     public Sprite Avatar;
+    public Item.GemType GemType;
     public float Points;
     public int Gold;
 
-    public PlayerInfo(int idx, Sprite avatar, float startPoints = 0, int startGold = 0) {
+    public PlayerInfo(int idx, Sprite avatar, Item.GemType gemType = Item.GemType.Ruby, float startPoints = 0, int startGold = 0) {
         Index = idx;
         Avatar = avatar;
         Points = startPoints;

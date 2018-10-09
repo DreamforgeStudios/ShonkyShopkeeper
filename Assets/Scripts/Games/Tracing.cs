@@ -107,14 +107,18 @@ public class Tracing : MonoBehaviour {
     // Use this for initialization
     void Start() {
         SFX.Play("CraftingOre",1f,1f,0f,true,0f);
+	    if (GameManager.Instance.ActiveGameMode == GameMode.Story) {
+			Countdown.onComplete += GameOver;
+	    } else if (GameManager.Instance.ActiveGameMode == GameMode.Party) {
+		    Countdown.onComplete += GameOverParty;
+	    }
         
 	    Difficulty d = ManualDifficultyOverride ? ManualDifficulty : PersistentData.Instance.Difficulty;
 	    if (!DifficultySettings.TryGetValue(d, out activeDifficultySettings)) {
 		    Debug.LogError("The current difficulty (" + PersistentData.Instance.Difficulty.ToString() +
 		                     ") does not have a TracingDifficultySettings associated with it.");
 	    }
-        //SFX.Play();
-        Countdown.onComplete += GameOver;
+        
         finishTime = Time.time + 10f;
         GeneralSetup();
         SetupLineRenderer();
@@ -462,8 +466,10 @@ public class Tracing : MonoBehaviour {
 
 	private void GameOverParty() {
 		Countdown.onComplete -= GameOverParty;
-		
+
+	    PointsManager.onFinishLeveling += () => brickSpawnmanager.Upgrade(Quality.QualityGrade.Mystic);
 		PointsManager.DoEndGameTransitionParty();
+	    
 	    FollowSphere.SetActive(false);
 	    _currentRuneSprite.SetActive(false);
 	    ResetOptimalPoints();

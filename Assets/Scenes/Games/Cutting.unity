@@ -2292,14 +2292,6 @@ Prefab:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1003326666}
-    - target: {fileID: 0}
-      propertyPath: NormalButtons
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: JunkWarning
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 114465639663344334, guid: 5bb36700ee1c32646b283b28318b44a0,
         type: 2}
       propertyPath: m_havePropertiesChanged

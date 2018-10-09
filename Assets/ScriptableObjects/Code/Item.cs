@@ -11,6 +11,7 @@ public abstract class Item : ScriptableObject {
     
     public string itemName;
     public GameObject physicalRepresentation;
+    public Sprite spriteRepresentation;
     public int stackLimit;
     public bool mergeable;
 }

@@ -334,7 +334,8 @@ public class Polishing : MonoBehaviour {
 	    StopCoroutine(CalculateSwipes(false));
 		Countdown.onComplete -= GameOverParty;
 		gameOver = true;
-		
+
+	    pointsManager.onFinishLeveling += () => GemSpawnManager.UpgradeGem(Quality.QualityGrade.Mystic);
 		pointsManager.DoEndGameTransitionParty();
 	    
 	    ShowUIButtonsParty();

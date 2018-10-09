@@ -17,7 +17,8 @@ public class AvatarConfirmationController : PseudoScene {
 		GameManager.Instance.RoundQueue = new Queue<RoundInfo>();
 		GameManager.Instance.PlayerInfos = new List<PlayerInfo>();
 		for (int i = 0; i < numberOfPlayers; i++) {
-			GameManager.Instance.PlayerInfos.Add(new PlayerInfo(i, AvatarSelectController.SelectedAvatars[i]));
+			// TODO: change gem type depending on avatar.
+			GameManager.Instance.PlayerInfos.Add(new PlayerInfo(i, AvatarSelectController.SelectedAvatars[i], Item.GemType.Ruby));
 		}
 		
 		// Create a queue of all the games and who should play them.
@@ -33,15 +34,16 @@ public class AvatarConfirmationController : PseudoScene {
 		
 		// Clear any already selected avatars.
 		int childCount = LayoutObject.transform.childCount;
-		for (int i = childCount; i >= 0; i--) {
-			Destroy(LayoutObject.transform.GetChild(i));
+		for (int i = childCount-1; i >= 0; i--) {
+			Destroy(LayoutObject.transform.GetChild(i).gameObject);
 		}
 		
 		// Display each selected sprite.
 		foreach (var sprite in AvatarSelectController.SelectedAvatars) {
 			GameObject clone = Instantiate(AvatarPrefab);
 			clone.GetComponent<Image>().sprite = sprite;
-			clone.transform.SetParent(LayoutObject.transform);
+			// Must use worldPositionStays = false or Unity FUCKS you... https://answers.unity.com/questions/868484/why-is-instantiated-objects-scale-changing.html
+			clone.transform.SetParent(LayoutObject.transform, false);
 		}
 		
 		// NOTE: is there a better place for this than Arrive()?

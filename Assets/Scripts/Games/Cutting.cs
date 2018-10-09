@@ -388,7 +388,8 @@ public class Cutting : MonoBehaviour {
 	private void GameOverParty() {
 		Countdown.onComplete -= GameOverParty;
 		start = false;
-		
+
+		PointsManager.onFinishLeveling += () => GemSpawnManager.UpgradeGem(Quality.QualityGrade.Mystic);
 		PointsManager.DoEndGameTransitionParty();
 		
 		foreach (NewCutPoint cut in activeCuts) {
