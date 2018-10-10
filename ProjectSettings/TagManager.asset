@@ -32,6 +32,7 @@ TagManager:
   - NPCSpawner
   - TutorialManager
   - ShopCanvas
+  - TrueGolem
   layers:
   - Default
   - TransparentFX
