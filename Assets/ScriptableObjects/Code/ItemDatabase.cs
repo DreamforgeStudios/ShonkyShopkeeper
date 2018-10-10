@@ -61,7 +61,7 @@ public class ItemDatabase : ScriptableObject {
             case "amethystgolem1": return AmethystGolem1;
 
             default: 
-	            Debug.Log("Could not find an Item for key \"" + name + "\", is it typed correctly?");
+	            Debug.LogWarning("Could not find an Item for key \"" + name + "\", is it typed correctly?");
 	            return null;
 		}
 	}

@@ -5172,14 +5172,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AvatarImage: {fileID: 2013158905}
   AvailableAvatars:
-  - {fileID: 21300000, guid: 9f0794a3d54562645aa308f151a04f0e, type: 3}
-  - {fileID: 21300000, guid: f11f533070c6cb844889146f60e39334, type: 3}
-  - {fileID: 21300000, guid: 73d095d9b4bedce4ab89b51992310f9a, type: 3}
-  - {fileID: 21300000, guid: 9732086b7353a4843969810e654a564a, type: 3}
-  - {fileID: 21300000, guid: 7092b318e3e9fd2448fd0bde7d25bfde, type: 3}
-  - {fileID: 21300000, guid: 0e36f4365572a4a4a81a16814604c8c1, type: 3}
-  - {fileID: 21300000, guid: 76459fc07badcc14ca0ba75f72bf3934, type: 3}
-  - {fileID: 21300000, guid: 68d314c44e38fb54a88711b84a31cab2, type: 3}
+  - {fileID: 11400000, guid: 6a8ae5b9c01ca7a448a9193240eaf3f0, type: 2}
+  - {fileID: 11400000, guid: 333fd6eb6bd263f4fa1eb464af825a73, type: 2}
+  - {fileID: 11400000, guid: d79bed774fb7ab148a8b80073363d7da, type: 2}
+  - {fileID: 11400000, guid: a32f48afa30f4964793f035372a417f0, type: 2}
+  - {fileID: 11400000, guid: 33af50c40394bf2448b1ac6fcfd0bf3c, type: 2}
+  - {fileID: 11400000, guid: 8a2639876483d3440a59b69c42b58100, type: 2}
+  - {fileID: 11400000, guid: 9b3d49abb027f434b9e2f55603db09bd, type: 2}
+  - {fileID: 11400000, guid: 48980648b04af904f9e370f2dd72ab54, type: 2}
   PlayerSelectController: {fileID: 947803796}
   PseudoSceneManager: {fileID: 1452768230}
   SelectedAvatars: []
@@ -5388,6 +5388,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Scenes: {fileID: 931010055}
   CanvasScenes: {fileID: 1192400114}
+  DebugSceneName: 
 --- !u!4 &1452768231
 Transform:
   m_ObjectHideFlags: 0

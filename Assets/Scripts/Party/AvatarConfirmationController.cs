@@ -15,10 +15,11 @@ public class AvatarConfirmationController : PseudoScene {
 		int numberOfPlayers = AvatarSelectController.SelectedAvatars.Count;
 		
 		GameManager.Instance.RoundQueue = new Queue<RoundInfo>();
+		GameManager.Instance.RoundHistory = new LinkedList<PostRoundInfo>();
 		GameManager.Instance.PlayerInfos = new List<PlayerInfo>();
 		for (int i = 0; i < numberOfPlayers; i++) {
-			// TODO: change gem type depending on avatar.
-			GameManager.Instance.PlayerInfos.Add(new PlayerInfo(i, AvatarSelectController.SelectedAvatars[i], Item.GemType.Ruby));
+			GameManager.Instance.PlayerInfos.Add(new PlayerInfo(i, AvatarSelectController.SelectedAvatars[i].Sprite,
+				AvatarSelectController.SelectedAvatars[i].GemType));
 		}
 		
 		// Create a queue of all the games and who should play them.
@@ -39,9 +40,9 @@ public class AvatarConfirmationController : PseudoScene {
 		}
 		
 		// Display each selected sprite.
-		foreach (var sprite in AvatarSelectController.SelectedAvatars) {
+		foreach (var avatar in AvatarSelectController.SelectedAvatars) {
 			GameObject clone = Instantiate(AvatarPrefab);
-			clone.GetComponent<Image>().sprite = sprite;
+			clone.GetComponent<Image>().sprite = avatar.Sprite;
 			// Must use worldPositionStays = false or Unity FUCKS you... https://answers.unity.com/questions/868484/why-is-instantiated-objects-scale-changing.html
 			clone.transform.SetParent(LayoutObject.transform, false);
 		}

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using NaughtyAttributes;
 
 [System.Serializable]
 public class SceneObjectDictionary : SerializableDictionary<string, GameObject> {}
@@ -16,6 +17,7 @@ public class PseudoSceneManager : MonoBehaviour {
 	//public GameObject DefaultScene, DefaultCanvasScene;
 
 	public GameObject Scenes, CanvasScenes;
+	public string DebugSceneName;
 
 	private PseudoScene[] scenes, canvasScenes;
 	private PseudoScene activeSceneObject, activeSceneCanvasObject;
@@ -56,5 +58,10 @@ public class PseudoSceneManager : MonoBehaviour {
 		} else {
 			Debug.LogWarning("Couldn't find scene with name: " + to + " , is it typed correctly?");
 		}
+	}
+
+	[Button("ChangeSceneDebug")]
+	private void ChangeSceneDebug() {
+		ChangeScene(DebugSceneName);
 	}
 }

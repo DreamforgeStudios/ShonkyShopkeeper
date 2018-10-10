@@ -48,6 +48,7 @@ public class PlayerInfo {
     public PlayerInfo(int idx, Sprite avatar, Item.GemType gemType = Item.GemType.Ruby, float startPoints = 0, int startGold = 0) {
         Index = idx;
         Avatar = avatar;
+        GemType = gemType;
         Points = startPoints;
         Gold = startGold;
     }

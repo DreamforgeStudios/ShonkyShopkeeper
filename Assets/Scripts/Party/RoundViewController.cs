@@ -9,8 +9,9 @@ public class RoundViewController : PseudoScene {
 	public Image ScreenshotHolder;
 	public Button BeginButton;
 
-	// Use this for initialization
-	void Start () {
+	public override void Arrive() {
+		base.Arrive();
+
 		GameDatabase gd = Resources.Load<GameDatabase>("GameDatabase");
 		
 		// Only peek, because info is still needed during the games.
@@ -26,7 +27,8 @@ public class RoundViewController : PseudoScene {
 		
 		// Change button behaviour to match the correct scene.
 		BeginButton.onClick.AddListener(() => {
-			GameManager.Instance.CurrentRound = nextRound.RoundNumber;
+			// Even though we don't need it every time, it's cleaner to transfer every time anyway.
+			GameManager.Instance.GemTypeTransfer = GameManager.Instance.PlayerInfos[nextRound.PlayerIndex].GemType;
 			Initiate.Fade(game.SceneName, Color.black, 2f);
 		});
 	}

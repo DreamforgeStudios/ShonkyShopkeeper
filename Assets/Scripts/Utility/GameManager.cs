@@ -87,8 +87,6 @@ public class GameManager : MonoBehaviour {
 	public Queue<RoundInfo> RoundQueue;
 	public LinkedList<PostRoundInfo> RoundHistory;
 	public List<PlayerInfo> PlayerInfos;
-	public int CurrentRound = 0;
-	
 	
 	public Travel.Towns CurrentTown {
 		get { return Inventory.Instance.GetCurrentTown(); }

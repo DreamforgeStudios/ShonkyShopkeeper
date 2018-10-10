@@ -14,6 +14,8 @@ MonoBehaviour:
   itemName: Amethyst
   physicalRepresentation: {fileID: 1767433151587682, guid: b4d2f5c5bd8234f45b7ecc511dde9b13,
     type: 2}
+  spriteRepresentation: {fileID: 21300000, guid: e3ab66d08c621624fa8a1cad4f2854f3,
+    type: 3}
   stackLimit: 1
   mergeable: 0
   gemType: 1

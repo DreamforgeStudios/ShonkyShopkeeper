@@ -6,12 +6,12 @@ using UnityEngine.UI;
 
 public class AvatarSelectController : PseudoScene {
 	public Image AvatarImage;
-	public List<Sprite> AvailableAvatars;
+	public List<Avatar> AvailableAvatars;
 	public PlayerSelectController PlayerSelectController;
 	public PseudoSceneManager PseudoSceneManager;
 
 	[ReadOnly]
-	public List<Sprite> SelectedAvatars = new List<Sprite>();
+	public List<Avatar> SelectedAvatars = new List<Avatar>();
 	[ReadOnly]
 	public int ActiveIndex = 0;
 
@@ -24,7 +24,7 @@ public class AvatarSelectController : PseudoScene {
 		SelectedAvatars.Add(AvailableAvatars[ActiveIndex]);
 
 		if (SelectedAvatars.Count >= PlayerSelectController.ActiveNumberOfPlayers) {
-			// TODO: don't hard code this.
+			// TODO: don't hard code this?
 			PseudoSceneManager.ChangeScene("AvatarConfirmation");
 		}
 
@@ -50,7 +50,7 @@ public class AvatarSelectController : PseudoScene {
 	}
 
 	public void UpdateImage() {
-		AvatarImage.sprite = AvailableAvatars[ActiveIndex];
+		AvatarImage.sprite = AvailableAvatars[ActiveIndex].Sprite;
 	}
 	
 	public override void Arrive() {
