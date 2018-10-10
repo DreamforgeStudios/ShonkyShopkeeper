@@ -5188,7 +5188,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Hall
+          m_StringArgument: Shop
           m_BoolArgument: 0
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
@@ -5485,6 +5485,10 @@ Prefab:
       propertyPath: m_TagString
       value: TrueGolem
       objectReference: {fileID: 0}
+    - target: {fileID: 1891562408693158, guid: 36ec79de21c27c446b62bbe70e2438da, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 36ec79de21c27c446b62bbe70e2438da, type: 2}
   m_IsPrefabAsset: 0
@@ -5564,6 +5568,10 @@ Prefab:
       propertyPath: m_TagString
       value: TrueGolem
       objectReference: {fileID: 0}
+    - target: {fileID: 1266607459956728, guid: f02aca866f15de043987e522f7507a68, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f02aca866f15de043987e522f7507a68, type: 2}
   m_IsPrefabAsset: 0
@@ -5612,6 +5620,47 @@ Transform:
   m_Father: {fileID: 554772992}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &518145766
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 518145767}
+  - component: {fileID: 518145768}
+  m_Layer: 5
+  m_Name: PlaceholderForBanner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &518145767
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 518145766}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.5000059, y: 0.5000059, z: 0.5000059}
+  m_Children: []
+  m_Father: {fileID: 1669225273}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -144}
+  m_SizeDelta: {x: 824, y: 300}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &518145768
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 518145766}
+  m_CullTransparentMesh: 0
 --- !u!1 &554772991
 GameObject:
   m_ObjectHideFlags: 0
@@ -5685,7 +5734,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1074254214474928, guid: 95f70d15c8f16a94bb3ac22451f5118d, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 95502025179280050, guid: 95f70d15c8f16a94bb3ac22451f5118d,
         type: 2}
@@ -7448,6 +7497,75 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 52fad95081f0b9f41b8d545909bc745d, type: 2}
   m_IsPrefabAsset: 0
+--- !u!1 &923256169
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 923256170}
+  - component: {fileID: 923256172}
+  - component: {fileID: 923256171}
+  m_Layer: 5
+  m_Name: FinalBanner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &923256170
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 923256169}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_Children: []
+  m_Father: {fileID: 1669225273}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 338}
+  m_SizeDelta: {x: 824, y: 300}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &923256171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 923256169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 21300000, guid: c6dbaaafc55210a47b53942951a14233, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+--- !u!222 &923256172
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 923256169}
+  m_CullTransparentMesh: 0
 --- !u!1001 &990724088
 Prefab:
   m_ObjectHideFlags: 0
@@ -8528,6 +8646,7 @@ MonoBehaviour:
   hallFunctionality: {fileID: 1308212486}
   golemSelected: {fileID: 0}
   inspectingGolem: 0
+  readingDialogue: 0
   rubyGolemDialogue:
   - "\u201CHo, Shemsmith! From the raging flames and molten violence, you bring me
     forth. I greet you gladly, for this is indeed no mean feat.\""
@@ -8561,6 +8680,15 @@ MonoBehaviour:
     all."'
   gizmoPrefab: {fileID: 1668627367969516, guid: 7ee18a29f02ec0145a189d1fce7433d9,
     type: 2}
+  mainCanvas: {fileID: 1669225272}
+  golemancerBanner: {fileID: 923256171}
+  bannerFinalPosition: {fileID: 518145766}
+  trueGolemParticles:
+  - {fileID: 1830145517477572, guid: b8d6f313004c359419135ab91d1a30be, type: 2}
+  - {fileID: 1830145517477572, guid: 35fc0546adc40dd44973169bbc0a932c, type: 2}
+  - {fileID: 1830145517477572, guid: d42e9d90ef01ce04f93b42ec0e752b64, type: 2}
+  - {fileID: 1830145517477572, guid: 4f32ea6eac8367a498390a849571ce0b, type: 2}
+  sceneChanger: {fileID: 266292165}
 --- !u!1 &1308543535
 GameObject:
   m_ObjectHideFlags: 0
@@ -9094,6 +9222,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 1530783669290190, guid: 1fe68aeb1ede25a4ab69a6bcfcf9a145, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1fe68aeb1ede25a4ab69a6bcfcf9a145, type: 2}
   m_IsPrefabAsset: 0
@@ -9402,6 +9534,8 @@ RectTransform:
   - {fileID: 328897234}
   - {fileID: 321683703}
   - {fileID: 1904902983}
+  - {fileID: 923256170}
+  - {fileID: 518145767}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9473,6 +9607,10 @@ Prefab:
     - target: {fileID: 1557267802009066, guid: 3d0710cf4bc0fb74ca34345807f14d00, type: 2}
       propertyPath: m_TagString
       value: TrueGolem
+      objectReference: {fileID: 0}
+    - target: {fileID: 1557267802009066, guid: 3d0710cf4bc0fb74ca34345807f14d00, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3d0710cf4bc0fb74ca34345807f14d00, type: 2}

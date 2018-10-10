@@ -4,6 +4,7 @@ using System.Linq;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 /*
  * This class is designed to be used in conjunction with the Hall scene to provide the relevant narrative associated
@@ -44,6 +45,17 @@ public class TrueGolemIntro : MonoBehaviour {
 	
 	//Gizmo prefab and holder
 	public GameObject gizmoPrefab;
+	
+	//Canvas and master golemancer banner for game ending
+	public Canvas mainCanvas;
+	public Image golemancerBanner;
+	public GameObject bannerFinalPosition;
+	
+	//True Golem Particle Systems
+	public List<GameObject> trueGolemParticles;
+	
+	//sceneChanger
+	public ChangeScene sceneChanger;
 	
 	//Initial method to start True golem animation and dialogue
 	public void IntroduceTrueGolem()
@@ -233,7 +245,8 @@ public class TrueGolemIntro : MonoBehaviour {
 		}
 		else
 		{
-			PopupTextManager.onClose += () => FinishSequence();
+			//Transition to the game ending
+			PopupTextManager.onClose += () => FinishGame();
 		}
 	}
 	
@@ -247,6 +260,37 @@ public class TrueGolemIntro : MonoBehaviour {
 		
 		hallFunctionality.MoveCameraBackButton.SetActive(true);
 		PopupTextManager.ResetEvents();
+	}
+	
+	//Finish game
+	private void FinishGame()
+	{
+		inspectingGolem = false;
+		PopupTextManager.ResetEvents();
+		
+		//Move camera back to default
+		hallFunctionality.MoveCameraBack();
+		
+		//Golems pose (Not currently using as no animations have been provided yet)
+		foreach (GameObject golem in trueGolemObjects)
+		{
+			//golem.GetComponent<Animator>().Play("Dance");
+		}
+		
+		//Start True Golem Particles
+		for (int i = 0; i < trueGolemParticles.Count; i++)
+		{
+			GameObject particle = Instantiate(trueGolemParticles[i], trueGolemObjects[i].transform);
+			particle.transform.localPosition = new Vector3(0f,0f,0f);
+			particle.transform.localScale = new Vector3(1f,1f,1f);
+		}
+		
+		//Make golemancer banner appear and slide down
+		golemancerBanner.gameObject.SetActive(true);
+		golemancerBanner.gameObject.transform.DOMove(bannerFinalPosition.transform.position, 2f, false).SetEase(Ease.OutBack);
+		
+		//Start Coroutine to handle movement
+		StartCoroutine(GameEnding());
 	}
 
 	//Starts relevant particles and then morphs
@@ -297,7 +341,7 @@ public class TrueGolemIntro : MonoBehaviour {
 
 		golemSelected = trueGolem;
 		
-		yield return new WaitForSeconds(3f);
+		yield return new WaitForSeconds(2f);
 		
 		//Stop transformation particles from emitting.
 		transformationObject.GetComponent<ParticleSystem>().Stop();
@@ -308,6 +352,26 @@ public class TrueGolemIntro : MonoBehaviour {
 		UpdateAchievements();
 	}
 
+	//Handles the golems jumping into the globe and transitioning to the final cinematic
+	private IEnumerator GameEnding()
+	{
+		yield return new WaitForSeconds(3.5f);
+
+		foreach (var VARIABLE in trueGolemObjects)
+		{
+			VARIABLE.transform.DOJump(hallFunctionality.globe.transform.position, 0.5f, 1, 3f).SetEase(Ease.OutBounce);
+		}
+		
+		yield return new WaitForSeconds(2f);
+		
+		GameManager.Instance.introduceTrueGolem = false;
+		GameManager.Instance.canUseTools = true;
+		
+		//Change scene to video however currently it just reloads the hall.
+		sceneChanger.ChangeOrRestartScene("Hall");
+	}
+
+	//Moves scene camera to respective golem
 	public void HighlightTrueGolem(GameObject golemHit)
 	{
 		golemSelected = golemHit;
@@ -337,6 +401,7 @@ public class TrueGolemIntro : MonoBehaviour {
 		inspectingGolem = true;
 	}
 
+	//Makes dialogue reappear when clicking on an inspected golem
 	public void ReshowDialogue()
 	{
 		readingDialogue = true;
