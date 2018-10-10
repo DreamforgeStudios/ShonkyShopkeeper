@@ -33,6 +33,9 @@ public class CombineIntoGolemTut : MonoBehaviour
 		//Change Cameras to highlight sequence
 		ChangeCameras(false);
 		
+		//Disable use of the toolbox
+		GameManager.Instance.canUseTools = false;
+		
 		//Get objects and move up
 		GameObject obj1, obj2;
 		if (currentSelection.GetPrefabInstance(out obj1) && slot.GetPrefabInstance(out obj2)) {
@@ -137,6 +140,8 @@ public class CombineIntoGolemTut : MonoBehaviour
 		golemText.enabled = true;
 		golemBottomText.enabled = true;
 		golemText.text = string.Format("New {0} {1} Golem!", grade, gemType);
+		golemText.color = Quality.GradeToColor(grade);
+		golemBottomText.color = Quality.GradeToColor(grade);
 		yield return new WaitForSeconds(3f);
 		golemObj.transform.DOMove(slot.transform.position, 1f, false).OnComplete(() => RestartGolem(golemObj));
 		//Need to show golem schematic
@@ -150,6 +155,10 @@ public class CombineIntoGolemTut : MonoBehaviour
 		clone.GetComponent<NavMeshAgent>().enabled = true;
 		clone.GetComponent<Rigidbody>().useGravity = true;
 		StopAllCoroutines();
+		
+		//Enable use of the toolbox
+		GameManager.Instance.canUseTools = true;
+		
 		ChangeCameras(true);
 	}
 

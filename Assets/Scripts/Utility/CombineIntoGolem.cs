@@ -26,12 +26,21 @@ public class CombineIntoGolem : MonoBehaviour
 	public Vector3 obj1Rotation, obj2Rotation;
 	private float BGFaderXRot;
 	private Vector3 shellPos;
-
+	
+	//Capture gem type in case the golem is a true golem
+	private string gemType;
+	
+	//Scene Changer to transition when closing popup
+	public ChangeScene sceneChanger;
+	
 	public void GolemAnimationSequence(Slot currentSelection, Item currentSelectType, Slot slot, Item slotType)
 	{
 		oldCameraCullingMask = mainCamera.cullingMask;
 		//Change Cameras to highlight sequence
 		ChangeCameras(false);
+		
+		//Disable use of the toolbox
+		GameManager.Instance.canUseTools = false;
 		
 		//Get objects and move up
 		GameObject obj1, obj2;
@@ -100,7 +109,7 @@ public class CombineIntoGolem : MonoBehaviour
 	private void FinaliseCombination(Slot current, Slot slot)
 	{
 		StopAllCoroutines();
-		string gemType = toolbox.FindGemType(current, slot);
+		gemType = toolbox.FindGemType(current, slot);
 		
 		int index1, index2;
 		index1 = current.index;
@@ -113,6 +122,7 @@ public class CombineIntoGolem : MonoBehaviour
 		Quality.QualityGrade avg = Quality.CalculateCombinedQuality(item1, item2);
 		ItemInstance newGolem = new ItemInstance(gemType, 1, avg, true);
 		string gem = (newGolem.item as Shonky).type.ToString();
+		
 		int index = ShonkyInventory.Instance.InsertItem(newGolem);
 		if (index != -1)
 		{
@@ -128,11 +138,19 @@ public class CombineIntoGolem : MonoBehaviour
 			//Move new golem to pen
 			pSlot.SetItemInstantiated(newGolem,clone);
 			toolbox.ClearGolemCreation(slot);
+			
+			//If a true golem, do narrative handling
 			if (TrueGolems.PotentialUnlockTrueGolem(TrueGolems.GemStringToGolem(gemType)))
 			{
-				pSlot.RemoveItem();
+				//Currently only reads first but needs to handle all four
+				NarrativeManager.Read("true_golem_01");
+				PopupTextManager.onClose += () => TransitionToHall();
 			}
-			StartCoroutine(ShowText(gem,avg, pSlot, clone));
+			else
+			{
+				StartCoroutine(ShowText(gem,avg, pSlot, clone));
+			}
+			
 		}
 	}
 
@@ -141,6 +159,8 @@ public class CombineIntoGolem : MonoBehaviour
 		golemText.enabled = true;
 		golemBottomText.enabled = true;
 		golemText.text = string.Format("New {0} {1} Golem!", grade, gemType);
+		golemText.color = Quality.GradeToColor(grade);
+		golemBottomText.color = Quality.GradeToColor(grade);
 		yield return new WaitForSeconds(3f);
 		if (golemObj != null)
 			golemObj.transform.DOMove(slot.transform.position, 1f, false).OnComplete(() => RestartGolem(golemObj));
@@ -159,6 +179,9 @@ public class CombineIntoGolem : MonoBehaviour
 
 		StopAllCoroutines();
 		ChangeCameras(true);
+		
+		//Reenable toolbox use
+		GameManager.Instance.canUseTools = true;
 	}
 
 	private IEnumerator StartParticles(Slot current, Slot slot, GameObject shell)
@@ -189,5 +212,14 @@ public class CombineIntoGolem : MonoBehaviour
 			BGFader.CrossFadeAlpha(0.95f,5f,false);
 			BGFader.transform.localEulerAngles = new Vector3(BGFaderXRot,0f,0f);
 		}
+	}
+	
+	//Used to transition to Hall
+	private PopupTextManager.OnClose TransitionToHall()
+	{
+		GameManager.Instance.introduceTrueGolem = true;
+		GameManager.Instance.typeOfTrueGolem = gemType;
+		sceneChanger.ChangeOrRestartScene("Hall");
+		return () => {PopupTextManager.onClose -= TransitionToHall(); };
 	}
 }

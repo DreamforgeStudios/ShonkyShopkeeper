@@ -115,7 +115,7 @@ public class TutorialToolbox : MonoBehaviour {
     }
 
     private void ProcessMouse() {
-        if (Input.GetMouseButtonDown(0)) {
+        if (Input.GetMouseButtonDown(0) && GameManager.Instance.canUseTools) {
             //Debug.Log("CanSelect is " + canSelect);
             if (GameManager.Instance.TutorialIntroTopComplete && canSelect)
                 Cast();
@@ -125,12 +125,12 @@ public class TutorialToolbox : MonoBehaviour {
     }
 
     private void ProcessTouch() {
-        if (Input.touchCount == 0) {
+        if (Input.touchCount == 0 ) {
             return;
         }
 
         foreach (Touch touch in Input.touches) {
-            if (touch.phase == TouchPhase.Began && GameManager.Instance.TutorialIntroTopComplete) {
+            if (touch.phase == TouchPhase.Began && GameManager.Instance.TutorialIntroTopComplete && GameManager.Instance.canUseTools) {
                 Cast();
             }
         }

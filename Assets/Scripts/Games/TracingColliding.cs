@@ -21,6 +21,7 @@ public class TracingColliding : MonoBehaviour {
     
     private void OnCollisionEnter(Collision collision) {
         if (collision.gameObject.tag == "TracingCollider") {
+            Debug.Log("Hit + " + collision.gameObject.name);
             counter++;
             if (Time.time > nextTime) {
                 SFX.Play("Tracing_badtouch",1f,1f,0f,false,0f);
@@ -35,7 +36,7 @@ public class TracingColliding : MonoBehaviour {
     private void OnCollisionStay(Collision collision) {
         if (collision.gameObject.tag == "TracingCollider") {
             counter++;
-            //Debug.Log(counter);
+            Debug.Log("In collider + " + collision.gameObject.name);
             if (Time.time > nextTime) {
                 SFX.Play("Tracing_badtouch",1f,1f,0f,false,0f);
                 Vector3 newPos = transform.position;

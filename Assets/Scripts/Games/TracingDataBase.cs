@@ -8,13 +8,13 @@ public class TracingDataBase : MonoBehaviour
 
 	//These Runes will need a specific structure. Currently it is
 	// tracing colliders, Sprite, Points to hit.
-	public GameObject Rune1, Rune2, Rune3, Rune4, Rune5;
+	public GameObject Rune1, Rune2, Rune3, Rune4, Rune5, Rune6, Rune7;
 	private List<GameObject> _allRunes;
 	private SpriteRenderer _spriteRenderer;
 	
 	//These are all the rune effects Justin has made and the relevant UI object
 	public RawImage runeEffect;
-	public Texture effect1, effect2, effect3, effect4, effect5;
+	public Texture effect1, effect2, effect3, effect4, effect5, effect6, effect7;
 	private List<Texture> _allEffects;
 	
 	
@@ -54,14 +54,13 @@ public class TracingDataBase : MonoBehaviour
 		_allRunes = new List<GameObject>()
 		{
 			Rune1,
-			Rune2
+			Rune2,
+			Rune3,
+			Rune4,
+			Rune5,
+			Rune6,
+			Rune7
 		};
-
-		/*
-		_allRunes.Add(Rune3);
-		_allRunes.Add(Rune4);
-		_allRunes.Add(Rune5);
-		*/
 	}
 
 	public void HideUI()
@@ -75,9 +74,13 @@ public class TracingDataBase : MonoBehaviour
 		_allEffects = new List<Texture>()
 		{
 			effect1,
-			effect2
+			effect2,
+			effect3,
+			effect4,
+			effect5,
+			effect6,
+			effect7
 		};
-		//effect3, effect4, effect5
 	}
 	
 	private void RotateRune(int runeIndex)

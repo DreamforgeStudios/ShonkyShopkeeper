@@ -7867,7 +7867,7 @@ Transform:
   m_GameObject: {fileID: 1247743673}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -0.00004}
-  m_LocalScale: {x: 0.0022, y: 0.0022, z: 0.002}
+  m_LocalScale: {x: 0.0007, y: 0.0007, z: 0.0007}
   m_Children: []
   m_Father: {fileID: 1720727433}
   m_RootOrder: 4
@@ -7907,7 +7907,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 4437b92aa18e7cb49aa18e09cf89f3d0, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 73b2e976248ef1447bbcf77634f00f44, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -8097,6 +8097,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1308212487}
   - component: {fileID: 1308212486}
+  - component: {fileID: 1308212488}
   m_Layer: 0
   m_Name: CameraManagement
   m_TagString: Untagged
@@ -8118,6 +8119,7 @@ MonoBehaviour:
   frontPos: {x: 0, y: 0.736, z: -9.134}
   backPos: {x: 0.0114, y: 1.062, z: -10.081}
   inspectPos: {x: 0.049, y: 0.697, z: -9.081}
+  defaultRotation: {x: 13.892, y: 0, z: 0, w: 0}
   globe: {fileID: 808627608}
   speed: 100
   Xrot: 0
@@ -8147,6 +8149,7 @@ MonoBehaviour:
   travelButton: {fileID: 1647669151}
   backButton: {fileID: 744268301}
   goldText: {fileID: 1545452347}
+  trueGolemHandler: {fileID: 0}
 --- !u!4 &1308212487
 Transform:
   m_ObjectHideFlags: 0
@@ -8160,6 +8163,27 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1308212488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1308212485}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cbceb1c1ad3ce0459fc9261937b02dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  golemStartPoint: {x: 0, y: 0, z: 0}
+  rubyPedestal: {x: -0.667, y: 0.538, z: -9.044}
+  sapphirePedestal: {x: 0.294, y: 0.478, z: -8.362}
+  emeraldPedestal: {x: -0.292, y: 0.537, z: -8.399}
+  amethystPedestal: {x: 0.634, y: 0.554, z: -8.996}
+  rubyCamera: {x: 0, y: 0, z: 0}
+  sapphireCamera: {x: 0, y: 0, z: 0}
+  emeraldCamera: {x: 0, y: 0, z: 0}
+  amethystCamera: {x: 0, y: 0, z: 0}
+  cameraDefaultPosition: {x: 0.0114, y: 1.062, z: -10.081}
 --- !u!1 &1308543535
 GameObject:
   m_ObjectHideFlags: 0
@@ -8420,7 +8444,7 @@ Transform:
   m_GameObject: {fileID: 1370296369}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.00005, y: 0, z: -0.000039958955}
-  m_LocalScale: {x: 0.002, y: 0.002, z: 0.002}
+  m_LocalScale: {x: 0.0007, y: 0.0007, z: 0.0007}
   m_Children: []
   m_Father: {fileID: 1720727433}
   m_RootOrder: 1
@@ -8460,7 +8484,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 15a1bc6151293f7478d2ce60429c2c0a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7c14965b874f8c54e8927bc31e28477b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -9879,7 +9903,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1990576544}
   m_LocalRotation: {x: 0.12093705, y: -0, z: -0, w: 0.99266016}
-  m_LocalPosition: {x: 0.049, y: 0.697, z: -9.081}
+  m_LocalPosition: {x: -0.405, y: 0.741, z: -9.477}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -10255,7 +10279,7 @@ Transform:
   m_GameObject: {fileID: 2036039732}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -0.000039958955}
-  m_LocalScale: {x: 0.002, y: 0.002, z: 0.002}
+  m_LocalScale: {x: 0.0007, y: 0.0007, z: 0.0007}
   m_Children: []
   m_Father: {fileID: 1720727433}
   m_RootOrder: 2
@@ -10295,7 +10319,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 4d95537392d8cda488bbd3126bc11d1d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 27ef8150a585bc24ca6ddf2e6cd98a3a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

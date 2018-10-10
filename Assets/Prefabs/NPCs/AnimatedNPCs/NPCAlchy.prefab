@@ -52,7 +52,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4151454450473692}
   m_Layer: 0
-  m_Name: Alchy Guy Front
+  m_Name: Front
   m_TagString: NPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

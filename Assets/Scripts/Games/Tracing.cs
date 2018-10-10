@@ -243,6 +243,7 @@ public class Tracing : MonoBehaviour {
             hitPoints = 0;
             CheckPositions();
             score = CalculateColliderPenalties(CalculateAccuracy(CalculateWin()));
+            Debug.Log(string.Format("Total score is {0}", score));
             if (score > 0)
             {
                 //Debug.Log("adding score of " + score);
@@ -333,7 +334,7 @@ public class Tracing : MonoBehaviour {
     private int CalculateColliderPenalties(int score) {
         int colliderHits = FollowSphere.GetComponent<TracingColliding>().counter;
         FollowSphere.GetComponent<TracingColliding>().ResetCounter();
-        //Debug.Log("collider hits: " + colliderHits);
+        Debug.Log("collider hits: " + colliderHits);
         // TODO: this is a bit rough...
         //qualityBar.Subtract(colliderHits * 0.1f);
         if (colliderHits == 0)
