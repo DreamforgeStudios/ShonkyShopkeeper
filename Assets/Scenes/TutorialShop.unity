@@ -22743,6 +22743,11 @@ Prefab:
       propertyPath: m_isInputParsingRequired
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114017439058476178, guid: a5818ee78976c024ab3d284df43a9945,
+        type: 2}
+      propertyPath: sceneCanvas
+      value: 
+      objectReference: {fileID: 86322998}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a5818ee78976c024ab3d284df43a9945, type: 2}
   m_IsPrefabAsset: 0

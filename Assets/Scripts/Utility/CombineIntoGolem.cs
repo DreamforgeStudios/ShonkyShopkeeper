@@ -12,7 +12,7 @@ public class CombineIntoGolem : MonoBehaviour
 {
 	public GameObject item1Position, item2Position, desiredPosition;
 	public Camera mainCamera;
-	public Canvas canvasOverlay;
+	public Canvas canvasOverlay, sceneCanvas;
 	private int oldCameraCullingMask;
 	public ParticleSystem smoke;
 	public Toolbox toolbox;
@@ -43,8 +43,12 @@ public class CombineIntoGolem : MonoBehaviour
 		//Change Cameras to highlight sequence
 		ChangeCameras(false);
 		
+		//Disable scene Canvas to remove all buttons and overlay text
+		sceneCanvas.gameObject.SetActive(false);
+		
 		//Disable use of the toolbox
 		GameManager.Instance.canUseTools = false;
+		GameManager.Instance.introduceTrueGolem = true;
 		
 		//Get objects and move up
 		GameObject obj1, obj2;
@@ -206,6 +210,10 @@ public class CombineIntoGolem : MonoBehaviour
 		
 		//Reenable toolbox use
 		GameManager.Instance.canUseTools = true;
+		GameManager.Instance.introduceTrueGolem = false;
+		
+		//Reenable scene canvas
+		sceneCanvas.gameObject.SetActive(true);
 	}
 
 	private IEnumerator StartParticles(Slot current, Slot slot, GameObject shell)
