@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class IntroScene : MonoBehaviour {
     public List<Button> startButtons;
-    public GameObject optionsScreenObject;
+    public GameObject optionsScreenObject, titleScreenPrefab, creditsCanvas;
     public List<string> narrative;
     private bool text1enabled, continueNarrative, goToTutorial = false;
     private int currentNarrativeString = 0;
@@ -52,7 +52,9 @@ public class IntroScene : MonoBehaviour {
 
     public void RollCredits()
     {
-        
+        titleScreenPrefab.SetActive(false);
+        gameObject.SetActive(false);
+        creditsCanvas.SetActive(true);
     }
 
     public void Quit()
