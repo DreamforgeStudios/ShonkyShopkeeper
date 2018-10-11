@@ -266,8 +266,9 @@ public class TrueGolemIntro : MonoBehaviour {
 	private void FinishGame()
 	{
 		inspectingGolem = false;
+
 		PopupTextManager.ResetEvents();
-		
+
 		//Move camera back to default
 		hallFunctionality.MoveCameraBack();
 		

@@ -292,7 +292,11 @@ public class TutorialToolbox : MonoBehaviour {
         {
             //tutorialManager.InspectItem(tool);
             tutorialManager.StopParticle(tool);
-            tutorialManager.MoveInstructionScroll();
+            if (tool.name != "Magnifying Glass")
+                tutorialManager.MoveInstructionScroll();
+            else 
+                tutorialManager.MoveInstructionScrollLower();
+            
             tutorialManager.NextInstruction();
             tutorialManager.StartItemParticles();
         }
@@ -349,9 +353,9 @@ public class TutorialToolbox : MonoBehaviour {
         if (currentSelection == slot) {
             HideInspector();
             return;
-        } else if (currentSelection) {
+        } else if (currentSelection && GameManager.Instance.TutorialIntroComplete) {
             HideInspector();
-        }
+        } 
 
         // To avoid null errors, always use the x.Get() methods, they check for you.
         Item item;
@@ -362,6 +366,8 @@ public class TutorialToolbox : MonoBehaviour {
             }
             else
             {
+                Slot previousSelection = currentSelection;
+                
                 currentSelection = slot;
                 inspectionPanel.SetActive(true);
                 SFX.Play("Mag_item_select", 1f, 1f, 0f, false, 0f);
@@ -369,14 +375,19 @@ public class TutorialToolbox : MonoBehaviour {
                 textInfo.text = instance.itemInfo;
 
                 MoveUp(slot);
-                if (!GameManager.Instance.TutorialIntroComplete)
-                    tutorialManager.FinishInspectorUse();
 
                 if (!GameManager.Instance.TutorialGolemMade)
                 {
                     GameObject obj;
                     if (slot.GetPrefabInstance(out obj))
                         tutorialManager.DestroySpecificItemIndicator(obj);
+                }
+
+                if (!GameManager.Instance.TutorialIntroComplete && currentSelection != previousSelection &&
+                    previousSelection != null)
+                {
+                    MoveDown(currentSelection);
+                    HideInspector();
                 }
             }
         } else {
@@ -395,6 +406,8 @@ public class TutorialToolbox : MonoBehaviour {
             
             MoveDown(currentSelection);
             currentSelection = null;
+            if (!GameManager.Instance.TutorialIntroComplete)
+                tutorialManager.FinishInspectorUse();
         }
     }
 

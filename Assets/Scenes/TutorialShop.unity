@@ -42191,11 +42191,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 114149839654519324, guid: d513a5c0aa8a3874daef39eacae2e7a4,
-        type: 2}
-      propertyPath: dialogueInstruction.Array.size
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 4551864088301852, guid: d513a5c0aa8a3874daef39eacae2e7a4, type: 2}
       propertyPath: m_LocalPosition.x
       value: -0.44656277
@@ -42233,32 +42228,6 @@ Prefab:
       propertyPath: tutManager
       value: 
       objectReference: {fileID: 1779903459}
-    - target: {fileID: 114149839654519324, guid: d513a5c0aa8a3874daef39eacae2e7a4,
-        type: 2}
-      propertyPath: gizmoPrefab
-      value: 
-      objectReference: {fileID: 1668627367969516, guid: 7ee18a29f02ec0145a189d1fce7433d9,
-        type: 2}
-    - target: {fileID: 1506298042784998, guid: d513a5c0aa8a3874daef39eacae2e7a4, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114149839654519324, guid: d513a5c0aa8a3874daef39eacae2e7a4,
-        type: 2}
-      propertyPath: dialogue.Array.data[0]
-      value: Now you can use your wand to combine the shell and charged jewel into
-        a golem!
-      objectReference: {fileID: 0}
-    - target: {fileID: 114149839654519324, guid: d513a5c0aa8a3874daef39eacae2e7a4,
-        type: 2}
-      propertyPath: dialogueInstruction.Array.data[0]
-      value: Click your wand and then click the first component
-      objectReference: {fileID: 0}
-    - target: {fileID: 114149839654519324, guid: d513a5c0aa8a3874daef39eacae2e7a4,
-        type: 2}
-      propertyPath: dialogueInstruction.Array.data[1]
-      value: Now click the other
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d513a5c0aa8a3874daef39eacae2e7a4, type: 2}
   m_IsPrefabAsset: 0

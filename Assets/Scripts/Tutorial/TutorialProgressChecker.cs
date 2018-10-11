@@ -69,7 +69,7 @@ public class TutorialProgressChecker : MonoBehaviour {
 	}
 	
 	//Manager start
-	public Canvas Progress, mainCanvas;
+	public Canvas Progress;
 	public Image BrickFade, ShellFade, JewelFade, ChargedJewelFade, TopArrow,BottomArrow,CombineArrow, GolemFade;
 	private string brick = "Brick", shell = "Shell", jewel = "Jewel", chargedJewel = "Charged Jewel", golem = "Golem";
 	private Dictionary<string, ImageStatus> schematicProgress;
