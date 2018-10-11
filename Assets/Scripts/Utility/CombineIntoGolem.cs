@@ -12,7 +12,7 @@ public class CombineIntoGolem : MonoBehaviour
 {
 	public GameObject item1Position, item2Position, desiredPosition;
 	public Camera mainCamera;
-	public Canvas canvasOverlay;
+	public Canvas canvasOverlay, sceneCanvas;
 	private int oldCameraCullingMask;
 	public ParticleSystem smoke;
 	public Toolbox toolbox;
@@ -30,6 +30,10 @@ public class CombineIntoGolem : MonoBehaviour
 	//Capture gem type in case the golem is a true golem
 	private string gemType;
 	
+	//Particle variables to showcase true golem
+	public GameObject glowParticle;
+	private GameObject glowObject;
+	
 	//Scene Changer to transition when closing popup
 	public ChangeScene sceneChanger;
 	
@@ -39,8 +43,12 @@ public class CombineIntoGolem : MonoBehaviour
 		//Change Cameras to highlight sequence
 		ChangeCameras(false);
 		
+		//Disable scene Canvas to remove all buttons and overlay text
+		sceneCanvas.gameObject.SetActive(false);
+		
 		//Disable use of the toolbox
 		GameManager.Instance.canUseTools = false;
+		GameManager.Instance.introduceTrueGolem = true;
 		
 		//Get objects and move up
 		GameObject obj1, obj2;
@@ -79,10 +87,6 @@ public class CombineIntoGolem : MonoBehaviour
 								StartAnimations(obj1, currentSelectType, obj2, currentSelection, slot))));
 			}
 		}
-		
-		
-		//Return Cameras to normal
-		//ChangeCameras(true);
 	}
 
 	private void StartAnimations(GameObject obj1, Item currentSelectType, GameObject obj2, Slot current, Slot slot)
@@ -135,16 +139,40 @@ public class CombineIntoGolem : MonoBehaviour
 			clone.GetComponent<Rigidbody>().useGravity = false;
 			Inventory.Instance.RemoveItem(index1);
 			Inventory.Instance.RemoveItem(index2);
-			//Move new golem to pen
+			//Reset Variables in toolbox and remove held references to deleted objects
 			pSlot.SetItemInstantiated(newGolem,clone);
 			toolbox.ClearGolemCreation(slot);
 			
 			//If a true golem, do narrative handling
 			if (TrueGolems.PotentialUnlockTrueGolem(TrueGolems.GemStringToGolem(gemType)))
 			{
-				//Currently only reads first but needs to handle all four
-				NarrativeManager.Read("true_golem_01");
+				//Show relevant dialogue based on amount of true golems previously made
+				List<TrueGolems.TrueGolem> golemsUnlocked = Inventory.Instance.GetUnlockedTrueGolems();
+				switch (golemsUnlocked.Count)
+				{
+					case 0:
+						NarrativeManager.Read("true_golem_01");
+						break;
+					case 1:
+						NarrativeManager.Read("true_golem_02");
+						break;
+					case 2:
+						NarrativeManager.Read("true_golem_03");
+						break;
+					case 3:
+						NarrativeManager.Read("true_golem_04");
+						break;
+				}
 				PopupTextManager.onClose += () => TransitionToHall();
+				
+				//Instantiate glow on golem and make it dance
+				glowObject = Instantiate(glowParticle, clone.transform);
+				glowObject.transform.localPosition = new Vector3(0f,0f,0f);
+				glowObject.transform.localScale = new Vector3(1f,1f,1f);
+				clone.GetComponent<Animator>().Play("Dance");
+				
+				//Remove golem from golem inventory as the player does not receive one when first creating a true golem
+				ShonkyInventory.Instance.RemoveItem(index);
 			}
 			else
 			{
@@ -182,6 +210,10 @@ public class CombineIntoGolem : MonoBehaviour
 		
 		//Reenable toolbox use
 		GameManager.Instance.canUseTools = true;
+		GameManager.Instance.introduceTrueGolem = false;
+		
+		//Reenable scene canvas
+		sceneCanvas.gameObject.SetActive(true);
 	}
 
 	private IEnumerator StartParticles(Slot current, Slot slot, GameObject shell)
@@ -219,6 +251,7 @@ public class CombineIntoGolem : MonoBehaviour
 	{
 		GameManager.Instance.introduceTrueGolem = true;
 		GameManager.Instance.typeOfTrueGolem = gemType;
+		PopupTextManager.ResetEvents();
 		sceneChanger.ChangeOrRestartScene("Hall");
 		return () => {PopupTextManager.onClose -= TransitionToHall(); };
 	}

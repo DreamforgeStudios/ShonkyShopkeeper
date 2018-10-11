@@ -10,7 +10,7 @@ public class PhysicalInventory : MonoBehaviour {
 	// Maybe change this to slot evenutally.
 	public List<Slot> inventorySlots;
 	// In the situation where we haven't saved an inventory before.
-	public Inventory defaultInventory;
+	public Inventory defaultInventory, testInventory;
 	
 	// Particles which are used before an item transition.
 	public GameObject TransitionParticle;
@@ -121,6 +121,13 @@ public class PhysicalInventory : MonoBehaviour {
 
 	public void LoadDefaultInventory() {
 		SaveManager.LoadFromTemplate(defaultInventory);
+		Clear();
+		PopulateInitial();
+	}
+
+	public void LoadTrueGolemTestInv()
+	{
+		SaveManager.LoadFromTemplate(testInventory);
 		Clear();
 		PopulateInitial();
 	}

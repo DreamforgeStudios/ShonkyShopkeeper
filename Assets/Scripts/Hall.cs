@@ -13,7 +13,7 @@ public class Hall : MonoBehaviour
 {
 
 	//Variables for handling camera and globe movement
-	private bool forward, mapInteraction = false;
+	public bool forward, mapInteraction = false;
 	public Vector3  defaultRotation, frontPos, backPos, inspectPos;
 	public GameObject globe;
 	public float speed = 100.0f;
@@ -22,7 +22,7 @@ public class Hall : MonoBehaviour
 	//UI Text
 	public TextMeshProUGUI goldAmount;
 	private string spriteString = "<sprite=0>";
-	public GameObject ShopButton;
+	public GameObject ShopButton, MoveCameraBackButton;
 	
 	//Tutorial Element
 	public MapTutorial mapTutorialManager;
@@ -74,8 +74,10 @@ public class Hall : MonoBehaviour
 		if (!GameManager.Instance.introduceTrueGolem)
 		{
 			CheckCamera();
-			if (!GameManager.Instance.InMap)
+			if (!GameManager.Instance.InMap && !forward)
 				ShopButton.SetActive(true);
+			else
+				ShopButton.SetActive(false);
 		}
 	}
 
@@ -84,7 +86,6 @@ public class Hall : MonoBehaviour
 		if (Input.GetMouseButton(0))
 		{
 			RayCastSphere();
-			MoveCamera();
 		}
 	}
 
@@ -93,6 +94,7 @@ public class Hall : MonoBehaviour
 		//SaveManager.LoadFromTemplate(defaultInv);
 		goldAmount.enabled = false;
 		ShopButton.SetActive(false);
+		MoveCameraBackButton.SetActive(false);
 	}
 
 	private void MoveCamera()
@@ -107,22 +109,34 @@ public class Hall : MonoBehaviour
 				Camera.main.transform.DOMove(frontPos, 1f).SetEase(Ease.InOutSine).OnComplete(() => forward = true);
 				goldAmount.enabled = true;
 				MoveAroundGlobe();
+				MoveCameraBackButton.SetActive(true);
+				ShopButton.gameObject.SetActive(false);
 				if (GameManager.Instance.InMap && !mapTutorialManager.clickedOrb)
 				{
 					mapTutorialManager.ClickedSphere();
 					canMoveAround = false;
+					MoveCameraBackButton.SetActive(false);
 				}
 				mapInteraction = false;
+				
 			}
 			else
 			{
 				Debug.Log("Moving Back");
 				Camera.main.transform.DOMove(backPos, 1f).SetEase(Ease.InOutSine).OnComplete(() => forward = false);
+				Camera.main.transform.DORotate(defaultRotation, 1f, RotateMode.Fast);
 				goldAmount.enabled = false;
 				canMoveAround = false;
+				MoveCameraBackButton.SetActive(false);
 				ReturnToGlobe();
 			}
 		}
+	}
+
+	public void MoveCameraBack()
+	{
+		MoveCamera();
+		trueGolemHandler.inspectingGolem = false;
 	}
 
 	private void RayCastSphere()
@@ -153,13 +167,33 @@ public class Hall : MonoBehaviour
 				{
 					Debug.Log("Exiting map interaction");
 					ExitMapInteraction();
+				} else if (trueGolemHandler.inspectingGolem &&
+				           hit.transform.gameObject == trueGolemHandler.golemSelected && !trueGolemHandler.readingDialogue)
+				{
+					trueGolemHandler.ReshowDialogue();
 				}
 			}
 		}
 		else
 		{
-			Debug.Log("not sphere");
-			mapInteraction = false;
+			RaycastHit hit;
+			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+			Debug.DrawLine(ray.origin,ray.direction,Color.red,4f);
+			Debug.Log("Drawing ray");
+			if (Physics.Raycast(ray, out hit, 5))
+			{
+				Debug.Log("Hit " + hit.transform.gameObject.tag );
+				if (hit.transform.gameObject.CompareTag("Globe"))
+				{
+					MoveCamera();
+				} else if (hit.transform.gameObject.CompareTag("TrueGolem"))
+				{
+					trueGolemHandler.HighlightTrueGolem(hit.transform.gameObject);
+					forward = true;
+					MoveCameraBackButton.SetActive(true);
+				}
+			}
+			//mapInteraction = false;
 		}
 	}
 

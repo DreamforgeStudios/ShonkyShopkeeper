@@ -45,40 +45,47 @@ public class NPCSpawner : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		timer += Time.deltaTime;
-		// Instantiate an NPC and set them walking.
-		if (timer > spawnInterval && !isInteracting) {
-			// Find a clone to use.
-			GameObject clone = null;
-			for (int i = 0; i < spawnPool.Length; i++) {
-				if (!spawnPool[i].activeSelf) {
-					clone = spawnPool[i];
-					break;
+	void Update()
+	{
+		if (!GameManager.Instance.introduceTrueGolem)
+		{
+			timer += Time.deltaTime;
+			// Instantiate an NPC and set them walking.
+			if (timer > spawnInterval && !isInteracting)
+			{
+				// Find a clone to use.
+				GameObject clone = null;
+				for (int i = 0; i < spawnPool.Length; i++)
+				{
+					if (!spawnPool[i].activeSelf)
+					{
+						clone = spawnPool[i];
+						break;
+					}
 				}
+
+				// No object is available at this time.
+				if (clone == null)
+					return;
+
+				clone.SetActive(true);
+				int positionToSpawn = Random.Range(0, spawns.Length);
+				clone.transform.position = spawns[positionToSpawn];
+
+				NPCWalker walker = clone.GetComponent<NPCWalker>();
+				walker.SetWalkDirection(spawnDirections[positionToSpawn]);
+				walker.SetWalkSpeed(walkSpeed);
+				walker.SetScale(Random.Range(scaleMin, scaleMax));
+
+				if (positionToSpawn == 0)
+					walker.endPosition = spawns[1];
+				else
+					walker.endPosition = spawns[0];
+
+				StartCoroutine(HideAfterSeconds(clone, walkTime));
+
+				timer = 0f;
 			}
-
-			// No object is available at this time.
-			if (clone == null)
-				return;
-			
-			clone.SetActive(true);
-			int positionToSpawn = Random.Range(0, spawns.Length);
-			clone.transform.position = spawns[positionToSpawn];
-
-			NPCWalker walker = clone.GetComponent<NPCWalker>();
-			walker.SetWalkDirection(spawnDirections[positionToSpawn]);
-			walker.SetWalkSpeed(walkSpeed);
-			walker.SetScale(Random.Range(scaleMin, scaleMax));
-
-			if (positionToSpawn == 0)
-				walker.endPosition = spawns[1];
-			else
-				walker.endPosition = spawns[0];
-
-			StartCoroutine(HideAfterSeconds(clone, walkTime));
-
-			timer = 0f;
 		}
 	}
 

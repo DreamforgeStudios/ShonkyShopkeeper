@@ -14,6 +14,8 @@ MonoBehaviour:
   itemName: Charged Sapphire
   physicalRepresentation: {fileID: 1994391804648196, guid: 0828e68b8af8a22468fcb88450400a8c,
     type: 2}
+  spriteRepresentation: {fileID: 21300000, guid: 8ec1a34fda639ff4c984c397647bd4d0,
+    type: 3}
   stackLimit: 1
   mergeable: 1
   gemType: 2

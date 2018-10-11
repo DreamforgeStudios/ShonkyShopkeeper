@@ -77,6 +77,8 @@ public class Smelting : MonoBehaviour {
 	[BoxGroup("Object Assignments")]
 	public GameObject returnOrRetryButtons;
 	[BoxGroup("Object Assignments")]
+	public GameObject PartyReturnButtons;
+	[BoxGroup("Object Assignments")]
 	public TextMeshProUGUI qualityText;
 	[BoxGroup("Object Assignments")]
     public Sprite feedbackPositive;
@@ -117,7 +119,11 @@ public class Smelting : MonoBehaviour {
 		//Debug.Log(gameObject.name);
 		SFX.Play("CraftingOre", looping: true);
 		SFX.Play("fire_loop", looping: true);
-		
+	    if (GameManager.Instance.ActiveGameMode == GameMode.Story) {
+			Countdown.onComplete += GameOver;
+	    } else if (GameManager.Instance.ActiveGameMode == GameMode.Party) {
+		    Countdown.onComplete += GameOverParty;
+	    }
 		
 	    Difficulty d = ManualDifficultyOverride ? ManualDifficulty : PersistentData.Instance.Difficulty;
 	    if (!DifficultySettings.TryGetValue(d, out activeDifficultySettings)) {
@@ -127,7 +133,6 @@ public class Smelting : MonoBehaviour {
 		
 		rb = Dial.GetComponent<Rigidbody>();
 		prevRotation = Dial.transform.localEulerAngles;
-        Countdown.onComplete += GameOver;
     }
 	
 	// Don't waste frames on mobile...
@@ -309,4 +314,23 @@ public class Smelting : MonoBehaviour {
 	    returnOrRetryButtons.SetActive(true);
         returnOrRetryButtons.GetComponent<UpdateRetryButton>().SetText();
     }
+	
+	private void GameOverParty() {
+		Countdown.onComplete -= GameOverParty;
+		start = false;
+		feedbackParticleSystem.Stop();
+
+		pointsManager.onFinishLeveling += () => OreSpawnManager.Upgrade(Quality.QualityGrade.Mystic);
+		pointsManager.DoEndGameTransitionParty();
+	    
+	    ShowUIButtonsParty();
+	}
+	
+	public void PartyModeReturn() {
+	    ReturnOrRetry.ReturnParty(pointsManager.GetPoints());
+	}
+
+	public void ShowUIButtonsParty() {
+		PartyReturnButtons.SetActive(true);
+	}
 }

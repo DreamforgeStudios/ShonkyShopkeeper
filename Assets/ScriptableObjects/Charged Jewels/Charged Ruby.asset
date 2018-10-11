@@ -14,6 +14,8 @@ MonoBehaviour:
   itemName: Charged Ruby
   physicalRepresentation: {fileID: 1055008095443328, guid: 0ab23a3574d5cac419627bd5d6c67712,
     type: 2}
+  spriteRepresentation: {fileID: 21300000, guid: 6545efc858a37b24fa04d76518f47c74,
+    type: 3}
   stackLimit: 1
   mergeable: 1
   gemType: 0
