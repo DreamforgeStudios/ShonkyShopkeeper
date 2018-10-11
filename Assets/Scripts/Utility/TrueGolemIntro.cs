@@ -263,11 +263,13 @@ public class TrueGolemIntro : MonoBehaviour {
 	}
 	
 	//Finish game
-	private void FinishGame()
+	public void FinishGame()
 	{
 		inspectingGolem = false;
 
-		PopupTextManager.ResetEvents();
+		hallFunctionality.forward = true;
+
+		//PopupTextManager.ResetEvents();
 
 		//Move camera back to default
 		hallFunctionality.MoveCameraBack();
@@ -275,7 +277,7 @@ public class TrueGolemIntro : MonoBehaviour {
 		//Golems pose (Not currently using as no animations have been provided yet)
 		foreach (GameObject golem in trueGolemObjects)
 		{
-			//golem.GetComponent<Animator>().Play("Dance");
+			golem.SetActive(true);
 		}
 		
 		//Start True Golem Particles
@@ -363,13 +365,13 @@ public class TrueGolemIntro : MonoBehaviour {
 			VARIABLE.transform.DOJump(hallFunctionality.globe.transform.position, 0.5f, 1, 3f).SetEase(Ease.OutBounce);
 		}
 		
-		yield return new WaitForSeconds(2f);
+		yield return new WaitForSeconds(1f);
 		
 		GameManager.Instance.introduceTrueGolem = false;
 		GameManager.Instance.canUseTools = true;
 		
 		//Change scene to video however currently it just reloads the hall.
-		sceneChanger.ChangeOrRestartScene("Hall");
+		Initiate.Fade("End Game Cinematic",Color.black,2f);
 	}
 
 	//Moves scene camera to respective golem

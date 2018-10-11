@@ -50,4 +50,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Party/RoundLobby.unity
     guid: 572bb9edbd8d3b9429fa87dbe90df70f
+  - enabled: 1
+    path: Assets/Sprite Sheets/End Game Cinematic/End Game Cinematic.unity
+    guid: df9f1ada2726b8b4bb9768c737465054
   m_configObjects: {}

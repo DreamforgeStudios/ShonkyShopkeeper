@@ -15,7 +15,7 @@ public class IntroNarrative : MonoBehaviour
 	public TextMeshProUGUI textHolder;
 	private int currentIndex = 0;
 
-	private float cooldown = 3.0f, lastClick;
+	private float cooldown = 0.05f, lastClick;
 
 	public IntroScene introHandler;
 	
