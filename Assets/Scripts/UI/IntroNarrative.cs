@@ -16,6 +16,8 @@ public class IntroNarrative : MonoBehaviour
 	private int currentIndex = 0;
 
 	private float cooldown = 3.0f, lastClick;
+
+	public IntroScene introHandler;
 	
 	// Use this for initialization
 	void Start ()
@@ -29,18 +31,38 @@ public class IntroNarrative : MonoBehaviour
 	void Update () {
 		if (Input.GetMouseButton(0) && Time.time > lastClick + cooldown)
 		{
-			if (currentIndex < dialogue.Count)
+			if (currentIndex < introImages.Count - 1)
 			{
 				lastClick = Time.time;
+				currentIndex++;
 				//Fade old Image and text
 				imageHolder.DOFade(0.01f, 1f).OnComplete(() => ShowNewNarrative());
-				//Fade in new image and next
+				textHolder.DOFade(0.01f, 1f).OnComplete(() => ShowNewText());
+			} else if (currentIndex == 3)
+			{
+				currentIndex++;
+				lastClick = Time.time;
+				imageHolder.DOFade(0.01f, 1f).OnComplete(() => ShowNewText());
+			}
+			else
+			{
+				if (introHandler.goToTutorial)
+					Initiate.Fade("TutorialShop", Color.black, 2.0f);
+				else 
+					Initiate.Fade("Shop", Color.black, 2f);
 			}
 		}
 	}
 
 	private void ShowNewNarrative()
 	{
-		
+		imageHolder.sprite = introImages[currentIndex];
+		imageHolder.DOFade(1.0f, 1f);
+	}
+
+	private void ShowNewText()
+	{
+		textHolder.text = dialogue[currentIndex];
+		textHolder.DOFade(1.0f, 1f);
 	}
 }

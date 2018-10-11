@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311992, g: 0.38074034, b: 0.35872713, a: 1}
+  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.35872692, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -140,6 +140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79e77e8152f47b44ca1c917f938974cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ActiveGameMode: 0
   PlayingAudio: 1
   InTutorial: 1
   TutorialIntroTopComplete: 0
@@ -1018,9 +1019,19 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 58ebf07b221cf42df8e6109f0cb8fd89, type: 3}
   - {fileID: 21300000, guid: c761c563365484a25ad26f49ec06a315, type: 3}
   - {fileID: 21300000, guid: 47e65d1472bd04a08bb49336582a03b4, type: 3}
-  dialogue: []
+  dialogue:
+  - 'There was once a humble shopkeeper possessed of a rare and obscure talent. '
+  - By taking mystically infused gems and binding them to rock figurines, they could
+    bring stone to life and create golems.
+  - By taking mystically infused gems and binding them to rock figurines, they could
+    bring stone to life and create golems.
+  - "Though small and simple, there was something captivating about the Golems. Watching
+    them romp and cavort, the Golemancer couldn\u2019t shake the feeling that there
+    was more to them. "
+  - A secret....
   imageHolder: {fileID: 520025119}
-  textHolder: {fileID: 0}
+  textHolder: {fileID: 1435686288}
+  introHandler: {fileID: 1620230484}
 --- !u!114 &582172190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1354,11 +1365,11 @@ MonoBehaviour:
     lineCount: 1
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 0
+  m_havePropertiesChanged: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 0
+  m_isInputParsingRequired: 1
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
@@ -2132,11 +2143,11 @@ MonoBehaviour:
     lineCount: 1
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 0
+  m_havePropertiesChanged: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 0
+  m_isInputParsingRequired: 1
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
@@ -2503,6 +2514,7 @@ MonoBehaviour:
   optionsScreenObject: {fileID: 487845972}
   titleScreenPrefab: {fileID: 567814770}
   creditsCanvas: {fileID: 500906449}
+  narrativeCanvas: {fileID: 582172188}
   narrative:
   - 'There was once a humble shopkeeper possessed of a rare and obscure talent. '
   - By taking mystically infused gems and binding them to rock figurines, they could
@@ -2513,6 +2525,9 @@ MonoBehaviour:
     them romp and cavort, the Golemancer couldn\u2019t shake the feeling that there
     was more to them. "
   - A secret.
+  text1enabled: 0
+  continueNarrative: 0
+  goToTutorial: 0
   defaultInventory: {fileID: 11400000, guid: 03db1b1ae1f799345a1713cd54fc60d0, type: 2}
   tutorialInventory: {fileID: 11400000, guid: 5e9141a398679b243bfb4dc05a470ffa, type: 2}
   defaultShonkyInventory: {fileID: 11400000, guid: b785a8ded8912054e83bfa10fd17d75a,

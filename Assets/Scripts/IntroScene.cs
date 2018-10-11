@@ -8,9 +8,9 @@ using UnityEngine.UI;
 
 public class IntroScene : MonoBehaviour {
     public List<Button> startButtons;
-    public GameObject optionsScreenObject, titleScreenPrefab, creditsCanvas;
+    public GameObject optionsScreenObject, titleScreenPrefab, creditsCanvas, narrativeCanvas;
     public List<string> narrative;
-    private bool text1enabled, continueNarrative, goToTutorial = false;
+    public bool text1enabled, continueNarrative, goToTutorial = false;
     private int currentNarrativeString = 0;
 
     public Inventory defaultInventory, tutorialInventory;
@@ -24,30 +24,36 @@ public class IntroScene : MonoBehaviour {
     public void StartTutorial()
     {
         goToTutorial = true;
+        GameManager.Instance.ActiveGameMode = GameMode.Story;
         GameManager.Instance.InTutorial = true;
         SaveManager.LoadFromTemplate(tutorialInventory);
         SaveManager.LoadFromShonkyTemplate(TutorialShonkyInventory);
         SaveManager.SaveInventory();
         SaveManager.SaveShonkyInventory();
-        //StartCoroutine(StartIntro());
-        Initiate.Fade("TutorialShop", Color.black, 2f);
+        titleScreenPrefab.SetActive(false);
+        narrativeCanvas.SetActive(true);
+        gameObject.SetActive(false);
     }
 
     public void StartNoTutorial()
     {
+        goToTutorial = false;
+        GameManager.Instance.ActiveGameMode = GameMode.Story;
         GameManager.Instance.InTutorial = false;
         GameManager.Instance.TutorialIntroComplete = true;
         SaveManager.LoadFromTemplate(defaultInventory);
         SaveManager.LoadFromShonkyTemplate(defaultShonkyInventory);
         SaveManager.SaveInventory();
         SaveManager.SaveShonkyInventory();
-        //StartCoroutine(StartIntro());
-        Initiate.Fade("Shop", Color.black, 2f);
+        titleScreenPrefab.SetActive(false);
+        narrativeCanvas.SetActive(true);
+        gameObject.SetActive(false);
     }
 
     public void StartPartyMode()
     {
-        //TO BE IMPLEMENTED BY MIKE
+        GameManager.Instance.ActiveGameMode = GameMode.Party;
+        Initiate.Fade("Setup", Color.black, 2f);
     }
 
     public void RollCredits()
@@ -61,64 +67,6 @@ public class IntroScene : MonoBehaviour {
     {
         Application.Quit();
     }
-    
-    
-/*
-    private IEnumerator StartIntro()
-    {
-        BG.DOColor(Color.black, 2f);
-        FadeButtonCompletely(startGame1);
-        FadeButtonCompletely(startGame2);
-        FadeButtonCompletely(optionsButton);
-        yield return new WaitForSeconds(2f);
-        text1.text = ProgressNarrative();
-        currentNarrativeString++;
-        yield return new WaitForSeconds(4f);
-        StartCoroutine(ShowText());
-        yield return new WaitForSeconds(7f);
-        StartCoroutine(ShowText());
-        yield return new WaitForSeconds(8f);
-        StartCoroutine(ShowText());
-        yield return new WaitForSeconds(3f);
-        if (goToTutorial)
-        {
-            Initiate.Fade("TutorialShop", Color.black, 2f);
-        }
-        else
-        {
-            Initiate.Fade("Shop", Color.black, 2f);
-            NarrativeManager.Read("new_game_01");
-        }
-    }
-    */
-    /*
-    private void FadeButtonCompletely(Button button)
-    {
-        button.GetComponent<Image>().DOFade(0f, 2f);
-        button.transform.GetChild(0).GetComponent<TextMeshProUGUI>().DOFade(0f, 2f);
-    }
-
-    private IEnumerator ShowText()
-    {   
-        text1.CrossFadeAlpha(0f,1f,false);
-        yield return new WaitForSeconds(1f);
-        text1.text = ProgressNarrative();
-        text1.CrossFadeAlpha(255f,5f,false);
-        StopCoroutine(ShowText());
-    }
-    
-    private string ProgressNarrative()
-    {
-        if (!text1enabled && currentNarrativeString == 0)
-        {
-            text1.CrossFadeAlpha(255f, 3f, false);
-            text1enabled = false;
-            return narrative[currentNarrativeString];
-        }
-        Debug.Log("Current text " + currentNarrativeString);
-        currentNarrativeString++;
-        return narrative[currentNarrativeString];
-    }*/
 
     public void EnableOptionsScreen()
     {
