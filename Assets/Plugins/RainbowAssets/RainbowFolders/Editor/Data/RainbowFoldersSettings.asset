@@ -387,7 +387,7 @@ MonoBehaviour:
     LargeIcon: {fileID: 2800000, guid: ff70a75a2a9f7234f9275e259bbc93bc, type: 3}
     IsIconRecursive: 0
     IsIconCustom: 0
-    Background: {fileID: 2800000, guid: ca4530bd51581dc47847c3e5b35f4c91, type: 3}
+    Background: {fileID: 2800000, guid: 5dfa5d4a4f1bc2346956ee4259d0444d, type: 3}
     IsBackgroundRecursive: 0
     IsBackgroundCustom: 0
   - Type: 1

@@ -20,7 +20,7 @@ MonoBehaviour:
     InMine: 0
     pouchType: 2
   - Quantity: 1
-    Quality: 6
+    Quality: 5
     IsNew: 0
     ItemIdentifier: shell
     InMine: 0
@@ -68,7 +68,7 @@ MonoBehaviour:
     InMine: 0
     pouchType: 3
   - Quantity: 1
-    Quality: 4
+    Quality: 5
     IsNew: 0
     ItemIdentifier: charged amethyst
     InMine: 0
@@ -87,3 +87,4 @@ MonoBehaviour:
     pouchType: 0
   unlockedTowns: 
   currentTown: 0
+  unlockedTrueGolems: 

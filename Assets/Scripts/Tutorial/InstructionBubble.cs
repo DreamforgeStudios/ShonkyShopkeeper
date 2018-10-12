@@ -264,6 +264,18 @@ public class InstructionBubble : MonoBehaviour
 		pos = Camera.main.ViewportToScreenPoint(pos);
 		InstructionBubbleObj.transform.DOMove(pos, 2f, false);
 	}
+	
+	public void MoveInstructionScrollLower()
+	{
+		//Make it the 'top' element
+		InstructionBubbleObj.transform.SetAsLastSibling();
+		
+		//Move it
+		RectTransform rectTransform = InstructionBubbleObj.GetComponent<RectTransform>();
+		Vector2 pos = new Vector3(0.85f, 0.25f);
+		pos = Camera.main.ViewportToScreenPoint(pos);
+		InstructionBubbleObj.transform.DOMove(pos, 2f, false);
+	}
 
 	public void MoveRuneIndicator(GameObject newObject)
 	{

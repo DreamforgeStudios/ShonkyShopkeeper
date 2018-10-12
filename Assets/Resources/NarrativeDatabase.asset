@@ -26,6 +26,10 @@ MonoBehaviour:
     - tap_flaming_peak
     - tap_sky_city
     - tap_wicked_grove
+    - true_ruby_speech
+    - true_sapphire_speech
+    - true_emerald_speech
+    - true_amethyst_speech
     m_values:
     - Texts:
       - There was once a humble shopkeeper possessed of a rare and obscure talent.
@@ -49,32 +53,22 @@ MonoBehaviour:
     - Texts:
       - The mystic energies dissipated to reveal a golem, but this one was nothing
         like what had come before.
-      - It was larger and more elegant of form, a magicial nimbus clinging to it.
-      - As the Golemancer stood stunned, it held its stone hands up and surveyed the
-        shop interior.  It looked at the Golemancer and said...
       Unlocked: 0
     - Texts:
-      - As the exquisite jewel entered the golem shell, the Golemancer could see a
-        familiarity to the eddies of magical energy forming.
+      - 'As the exquisite jewel entered the golem shell, the Golemancer could see
+        a familiarity to the eddies of magical energy forming. '
       - The cadence and motion of the mystic currents had the distinct puissance of
-        a greater conjuring.
-      - All at once there came a violent burst and the head sockets of the Golem shell
-        lit up.  It fixed it's newly glowing eyes on the Golemancer and said...
+        a greater conjuring...
       Unlocked: 0
     - Texts:
-      - The golem shell shook with a violent locomotion as the energy from it's embedded
-        jewel coursed through it.
-      - It finally came to a halt, slumping into a kneeling crouch on the floor.
-      - The newly created golem raised it's still glowing head to look up at the Golemancer
-        and said...
+      - "The golem shell shook with a violent locomotion as the energy from it\u2019s
+        embedded jewel coursed through it\u2026"
       Unlocked: 0
     - Texts:
-      - Rolling ripples of force and mana eddied around the workshop and a confluence
-        of spellcraft clung to the merging shell and jewel.
-      - For a moment the stone figure's form was obscured in a brilliant sphere of
-        light.
-      - When the blinding radiance subsided, a newly formed golem stood.  It locked
-        it's gaze on the Golemancer and said...
+      - 'Roiling ripples of force and mana eddied around the workshop and a confluence
+        of spellcraft clung to the merging shell and jewel. '
+      - "For a moment the stone figure\u2019s form was obscured in a brilliant sphere
+        of light. "
       Unlocked: 0
     - Texts:
       - In the northlands, the vast valley of Giant's Pass winds through the frigid
@@ -114,5 +108,40 @@ MonoBehaviour:
       - This reputation suits the druids just fine, as they prefer to deal with the
         bold and ambitious, over the conservative and complacent.  Visitors displaying
         sufficient wit are welcomed, and once earnt a druid's friendship lasts a lifetime.
+      Unlocked: 0
+    - Texts:
+      - '"Ho, Shemsmith! From the raging flames and molten violence, you bring me
+        forth. I greet you gladly, for this is indeed no mean feat."'
+      - '"I am inferno and I am spirit! I bring the will of the great flame that none
+        may quench!"'
+      - '"A boon indeed, for nothing made to last was forged from a dull heat."'
+      Unlocked: 0
+    - Texts:
+      - "\u201CGreetings golemancer. My my,  you must be skilled indeed. Bonding base
+        element and clay into life\u2019s imitation is an amusing chicanery.\""
+      - '"But turning trick to truth, and making one such as I...most impressive."'
+      - '"I am the rush of epiphany and the tranquility of wisdom. At my coming, knowledge
+        floods and the trickling notions of imagination become tsunami."'
+      - '"Mine is no frivolous virtuosity, as I afford the vision to make what could
+        be into what is."'
+      Unlocked: 0
+    - Texts:
+      - '"Orecharmer. From your craft, my seeds were nourished. And now, from their
+        binding I am born."'
+      - '"I thank you for this gift. May the nutrients of the earth flow ever through
+        you."'
+      - '"I am unshakeable roots. I am endless vigor. The youngest saplings know me
+        as friend. The most ancient mountains call me companion."'
+      - '"I herald the times of burgeoning, flourishing, and thriving. I provide an
+        unshakeable foundation, conducive to the most enduring growth."'
+      Unlocked: 0
+    - Texts:
+      - "\"\u201CSaluton, vivamago! A fair wind blows on the hour of our meeting.\""
+      - '"Though I find myself bound in stone, part of me still feels as though it
+        glides amongst the clouds. Dankegon!"'
+      - '"I am floating zephyrs and the unbound sky. Soaring, I kiss cumulonimbus
+        and caress the heights of the stratosphere."'
+      - '"From me the unconditional gift of true freedom flies forth and is bestowed
+        to all."'
       Unlocked: 0
   key: mystic_charged_jewel_01

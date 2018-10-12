@@ -13,7 +13,7 @@ public class PhysicalShonkyInventory : MonoBehaviour {
     private Vector3 spawnPos;
 
     //Default Shonky Pen
-    public ShonkyInventory inventory;
+    public ShonkyInventory inventory, testInventory;
     //Mine inv
     public Mine mineInventory;
 
@@ -174,4 +174,11 @@ public class PhysicalShonkyInventory : MonoBehaviour {
 		Clear();
 		PopulateInitial();
 	}
+
+    public void LoadTrueGolemTestInv()
+    {
+        SaveManager.LoadFromShonkyTemplate(testInventory);
+        Clear();
+        PopulateInitial();
+    }
 }

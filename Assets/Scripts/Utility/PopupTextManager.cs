@@ -211,4 +211,11 @@ public class PopupTextManager : MonoBehaviour {
 			onPageTurn();
 		}
 	}
+	
+	// Method to reset events when using the onclose to transition scenes
+	public static void ResetEvents()
+	{
+		foreach (var d in onClose.GetInvocationList())
+			onClose -= (d as OnClose);
+	}
 }

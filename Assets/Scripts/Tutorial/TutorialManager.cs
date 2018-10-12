@@ -443,6 +443,14 @@ public class TutorialManager : MonoBehaviour
 		}
 	}
 
+	public void MoveInstructionScrollLower()
+	{
+		if (clone != null)
+		{
+			clone.MoveInstructionScrollLower();
+		}
+	}
+
 	public void StartItemIndicators()
 	{
 		physicalInv.DestroyParticlesOnItems();

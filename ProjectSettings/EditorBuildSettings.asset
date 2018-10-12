@@ -44,4 +44,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Loading.unity
     guid: 18450e29562873641a26a009a1ff6ad6
+  - enabled: 1
+    path: Assets/Scenes/Party/Setup.unity
+    guid: 846dff7362b8d684bad330c5ddfbbbfd
+  - enabled: 1
+    path: Assets/Scenes/Party/RoundLobby.unity
+    guid: 572bb9edbd8d3b9429fa87dbe90df70f
+  - enabled: 1
+    path: Assets/Sprite Sheets/End Game Cinematic/End Game Cinematic.unity
+    guid: df9f1ada2726b8b4bb9768c737465054
   m_configObjects: {}

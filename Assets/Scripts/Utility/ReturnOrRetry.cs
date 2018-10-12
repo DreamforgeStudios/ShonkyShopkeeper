@@ -43,4 +43,22 @@ public class ReturnOrRetry {
 	        Initiate.Fade(SceneManager.GetActiveScene().name, Color.black, 2f);
         }
 	}
+
+	public static void ReturnParty(float points) {
+		// Dequeue the round, because it has been completed.
+		var roundInfo = GameManager.Instance.RoundQueue.Dequeue();
+		// Keep a history of rounds that we've played.
+		GameManager.Instance.RoundHistory.AddFirst(new PostRoundInfo(roundInfo, (int)points));
+		GameManager.Instance.PlayerInfos[roundInfo.PlayerIndex].Points += points;
+		Initiate.Fade("RoundLobby", Color.black, 2f);
+	}
+	
+	public static void ReturnParty(int gold) {
+		// Dequeue the round, because it has been completed.
+		var roundInfo = GameManager.Instance.RoundQueue.Dequeue();
+		// Keep a history of rounds that we've played.
+		GameManager.Instance.RoundHistory.AddFirst(new PostRoundInfo(roundInfo, 0, gold));
+		GameManager.Instance.PlayerInfos[roundInfo.PlayerIndex].Gold += gold;
+		Initiate.Fade("RoundLobby", Color.black, 2f);
+	}
 }

@@ -101,6 +101,9 @@ public class ShonkyInventory : ScriptableObject {
                 //Debug.Log("Inserted at slot " + i);
                 shonkyInventory[i] = item;
                 PersistentData.Instance.GolemsCrafted++;
+                
+                //This is now redundant as True Golem handling is done in the Golem Combiner and Hall
+                /*
                 if (CheckIfTrueGolem(item))
                 {
                     UnlockTrueGolem(item);
@@ -123,6 +126,7 @@ public class ShonkyInventory : ScriptableObject {
                             break;
                     }
                 }
+                */
                 
                 PersistentData.Instance.Save();
                 Save();
