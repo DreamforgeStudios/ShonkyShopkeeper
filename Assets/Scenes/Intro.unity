@@ -159,6 +159,7 @@ MonoBehaviour:
   TimerComplete: 0
   ReturnPouch: 0
   OpenPouch: 0
+  firstTownSelect: 0
   InspectedItems: []
   GemTypeTransfer: 0
   QualityTransfer: 0
@@ -306,6 +307,18 @@ Prefab:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114494645884624908, guid: e8edc8e8c18801a48b29e92eebc6ce85,
+        type: 2}
+      propertyPath: defaultInventory
+      value: 
+      objectReference: {fileID: 11400000, guid: 795ea9e38024078418ecb7d4b7e61703,
+        type: 2}
+    - target: {fileID: 114494645884624908, guid: e8edc8e8c18801a48b29e92eebc6ce85,
+        type: 2}
+      propertyPath: defaultShonkyInventory
+      value: 
+      objectReference: {fileID: 11400000, guid: d531f2fb957998d4d8d3a1a693418ac0,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e8edc8e8c18801a48b29e92eebc6ce85, type: 2}
   m_IsPrefabAsset: 0
@@ -2510,7 +2523,6 @@ GameObject:
   - component: {fileID: 1620230481}
   - component: {fileID: 1620230480}
   - component: {fileID: 1620230484}
-  - component: {fileID: 1620230485}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -2635,26 +2647,12 @@ MonoBehaviour:
   text1enabled: 0
   continueNarrative: 0
   goToTutorial: 0
-  defaultInventory: {fileID: 11400000, guid: 03db1b1ae1f799345a1713cd54fc60d0, type: 2}
+  defaultInventory: {fileID: 11400000, guid: 795ea9e38024078418ecb7d4b7e61703, type: 2}
   tutorialInventory: {fileID: 11400000, guid: 5e9141a398679b243bfb4dc05a470ffa, type: 2}
-  defaultShonkyInventory: {fileID: 11400000, guid: b785a8ded8912054e83bfa10fd17d75a,
+  defaultShonkyInventory: {fileID: 11400000, guid: d531f2fb957998d4d8d3a1a693418ac0,
     type: 2}
   TutorialShonkyInventory: {fileID: 11400000, guid: 25584f92be5183a43b7b4083317763e8,
     type: 2}
---- !u!114 &1620230485
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1620230479}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc77d646c8572c04d837287ed39bd976, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inventory: {fileID: 11400000, guid: 03db1b1ae1f799345a1713cd54fc60d0, type: 2}
-  shonkyInventory: {fileID: 11400000, guid: b785a8ded8912054e83bfa10fd17d75a, type: 2}
-  mineInventory: {fileID: 11400000, guid: 32e3adeb065b0ee4dad061ca97a13179, type: 2}
 --- !u!1 &1640584899
 GameObject:
   m_ObjectHideFlags: 0

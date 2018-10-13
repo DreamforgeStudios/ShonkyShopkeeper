@@ -162,7 +162,7 @@ public class PopupTextManager : MonoBehaviour {
 		if (ActivePage + 1 >= PopupTexts.Count) return;
 		
 		//Play animation
-		animator.Play("Front Animation");
+		animator.Play("Next");
 		textBackTween.Complete();
 		textFrontTween.Complete();
 		
@@ -186,7 +186,7 @@ public class PopupTextManager : MonoBehaviour {
 		if (ActivePage <= 0) return;
 		
 		//Play animation
-		animator.Play("Back Animation");
+		animator.Play("Back");
 		
 		textBackTween.Complete();
 		textFrontTween.Complete();

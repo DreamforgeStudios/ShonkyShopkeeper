@@ -41,6 +41,7 @@ public class IntroScene : MonoBehaviour {
         GameManager.Instance.ActiveGameMode = GameMode.Story;
         GameManager.Instance.InTutorial = false;
         GameManager.Instance.TutorialIntroComplete = true;
+        GameManager.Instance.firstTownSelect = true;
         SaveManager.LoadFromTemplate(defaultInventory);
         SaveManager.LoadFromShonkyTemplate(defaultShonkyInventory);
         SaveManager.SaveInventory();

@@ -97,4 +97,14 @@ public class NarrativeDatabase : ScriptableObject {
     private void UnlockString() {
         NarrativeManager.Read(key);
     }
+    
+    public void ResetNarrativeFile()
+    {
+        string[] emptyString =
+        {
+
+        };
+        var path = Path.Combine(Application.persistentDataPath, "narratives.txt");
+        File.WriteAllLines(path, emptyString);
+    }
 }

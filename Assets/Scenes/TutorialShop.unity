@@ -6705,6 +6705,18 @@ Prefab:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114233668356253156, guid: 2f3ff1fd9d3e8b64f99be296f5fe8aaf,
+        type: 2}
+      propertyPath: defaultInventory
+      value: 
+      objectReference: {fileID: 11400000, guid: 795ea9e38024078418ecb7d4b7e61703,
+        type: 2}
+    - target: {fileID: 114233668356253156, guid: 2f3ff1fd9d3e8b64f99be296f5fe8aaf,
+        type: 2}
+      propertyPath: defaultShonkyInventory
+      value: 
+      objectReference: {fileID: 11400000, guid: d531f2fb957998d4d8d3a1a693418ac0,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2f3ff1fd9d3e8b64f99be296f5fe8aaf, type: 2}
   m_IsPrefabAsset: 0
