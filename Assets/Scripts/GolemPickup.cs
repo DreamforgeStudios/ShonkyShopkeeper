@@ -82,6 +82,11 @@ public class GolemPickup : MonoBehaviour {
         } 
         else if (overPortal) {
             Debug.Log("Sending to Mine");
+            if (GameManager.Instance.BarterTutorial)
+            {
+                ResetGolem();
+                return;
+            }
             if (GameManager.Instance.InTutorial)
             {
                 GameManager.Instance.WaitingForTimer = true;
@@ -105,6 +110,8 @@ public class GolemPickup : MonoBehaviour {
             if (GameManager.Instance.BarterTutorial)
             {
                 GameManager.Instance.BarterTutorial = false;
+                GameManager.Instance.BarterNPC = false;
+                GameManager.Instance.introducedNPC = false;
                 PlayerPrefs.SetInt("TutorialDone", 1);
             }
             
@@ -131,11 +138,6 @@ public class GolemPickup : MonoBehaviour {
         {
             ResetGolem();
         }
-        /*
-        else if (pickedupGolem != null) {
-            ResetGolem();
-        }
-        */
 
         UpdateUITimer();
     }
@@ -268,8 +270,6 @@ public class GolemPickup : MonoBehaviour {
                         }
                         else
                         {
-                            //SFX.Play("sound");
-                            //pickedupGolem = null;
                             HoldGolem(hit);
                         }
                     }
@@ -351,9 +351,11 @@ public class GolemPickup : MonoBehaviour {
             if (GameManager.Instance.HasMinePouch)
             {
                 tutManager.HideExposition();
+                GameManager.Instance.canUseTools = false;
                 GameObject highlightedGolem = tutShonkyInv.ReturnSingleGolem();
                 tutManager.StartDialogue(tutManager.tapPouch, tutManager.openPouch, tutManager.mainCanvas, 
                     highlightedGolem, false);
+                InstructionBubble.onInstruction += () => GameManager.Instance.canUseTools = true;
                 tutManager.MoveInstructionScroll();
                 GameManager.Instance.ReturnPouch = true;
             }
@@ -630,8 +632,10 @@ public class GolemPickup : MonoBehaviour {
             if (GameManager.Instance.TimerComplete && !textboxShowing)
             {
                 tutManager.HideExposition();
+                GameManager.Instance.canUseTools = false;
                 tutManager.StartDialogue(tutManager.retrieveGolem, tutManager.retrieveGolemInstruction, tutManager.mainCanvas, portal, false);
                 tutManager.MoveInstructionScroll();
+                InstructionBubble.onInstruction += () => GameManager.Instance.canUseTools = true;
                 GameManager.Instance.HasMinePouch = true;
                 GameManager.Instance.TimerComplete = false;
                 textboxShowing = true;

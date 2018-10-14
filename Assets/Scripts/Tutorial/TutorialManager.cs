@@ -222,8 +222,10 @@ public class TutorialManager : MonoBehaviour
 
 	public void IntroduceGolem()
 	{
+		GameManager.Instance.canUseTools = false;
 		StartDialogue(introduceGolem, introduceGolemInstruction, mainCanvas, cameraButton.gameObject, true);
 		GameManager.Instance.SendToMine = true;
+		InstructionBubble.onInstruction += () => GameManager.Instance.canUseTools = true;
 	}
 
 	public void FinishForcepsMovement()
@@ -254,9 +256,11 @@ public class TutorialManager : MonoBehaviour
 			{
 				Debug.Log("Enabling single golem highlight");
 				GameObject highlightedGolem = golemInv.ReturnSingleGolem();
+				GameManager.Instance.canUseTools = false;
 				StartDialogue(pickUpGolem, golemMineInstruction, mainCanvas, highlightedGolem, false);
 				MoveInstructionScroll();
 				GameManager.Instance.SendToMine = false;
+				InstructionBubble.onInstruction += () => GameManager.Instance.canUseTools = true;
 			}
 		}
 		else
@@ -265,16 +269,6 @@ public class TutorialManager : MonoBehaviour
 			cameraButton.enabled = true;
 		}
 	}
-
-	/*
-	public void PouchText()
-	{
-		cameraButton.gameObject.SetActive(true);
-		StartDialogue(openPouch, null, mainCanvas, mineTarget, true);
-		clone.tutorialRuneObj.SetActive(false);
-		GameManager.Instance.OpenPouch = false;
-	}
-	*/
 
 	public void StartToolText()
 	{
@@ -310,6 +304,8 @@ public class TutorialManager : MonoBehaviour
 	{
 		physicalInv.DestroyParticlesOnItems();
 		StartDialogue(tutorialFinish, tutorialFinish, mainCanvas, travelButton.gameObject, true);
+		GameManager.Instance.canUseTools = false;
+		InstructionBubble.onInstruction += () => GameManager.Instance.canUseTools = true;
 		
 		if (runeIndicatorMagnifyer != null)
 			runeIndicatorMagnifyer.GetComponent<TutorialRuneIndicator>().SetPosition(travelButton.gameObject,true);

@@ -132,6 +132,7 @@ public class MapTutorial : MonoBehaviour
 
 	public void HighlightAllTowns()
 	{
+		/*
 		if (!createdRunes)
 		{
 			runeIndicators = new List<GameObject>();
@@ -144,7 +145,8 @@ public class MapTutorial : MonoBehaviour
 			}
 			//Set instructions to front
 			clone.MoveScrollsToFront();
-		}
+		}*/
+		clone.MoveScrollsToFront();
 		
 	}
 
