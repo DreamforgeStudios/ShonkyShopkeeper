@@ -90,6 +90,7 @@ public class GolemPickup : MonoBehaviour {
                 
                 RemovePortalRune();
             }
+            SFX.StopSpecific("Golem Struggle Voices");
             SFX.Play("Portal_Suck",1f,1f,0f,false,0f);
             int index = GetGolemSlot();
             Mine.Instance.AddGolemAndTime(System.DateTime.Now, index);
@@ -219,7 +220,7 @@ public class GolemPickup : MonoBehaviour {
                         int golemIndex = GetGolemSlot();
                         if (pouchSlot > -1) {
                             //Reset golem and set pouch to inventory
-                            SFX.Play("Golem Exlaim Voices",1f,1f,0f,false,0f);
+                            SFX.Play("Golem Exclaim Voices",1f,1f,0f,false,0f);
                             hit.transform.gameObject.GetComponent<ShonkyWander>().RemovePouch();
                             Slot insertedSlot;
                             if (!GameManager.Instance.InTutorial)

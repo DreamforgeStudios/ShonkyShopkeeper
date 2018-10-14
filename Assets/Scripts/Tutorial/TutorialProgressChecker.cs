@@ -124,10 +124,12 @@ public class TutorialProgressChecker : MonoBehaviour {
 		{
 			readyGolem = true;
 			tutManager = GameObject.FindGameObjectWithTag("TutorialManager").GetComponent<TutorialManager>();
+			tutManager.toolbox.canSelect = false;
 			tutManager.StartDialogue(dialogue,dialogueInstruction, tutManager.mainCanvas, tutManager.toolbox.wand, false);
 			tutManager.MoveInstructionScroll();
 			tutManager.StartFinalComponentParticles();
 			tutManager.MoveScrollsToFront();
+			InstructionBubble.onInstruction += () => tutManager.toolbox.canSelect = true;
 		}
 
 		if (golemMade && !golemTextDone)
