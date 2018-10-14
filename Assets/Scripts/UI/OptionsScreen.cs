@@ -189,6 +189,11 @@ public class OptionsScreen : MonoBehaviour
 		ResetVariables();
 		Initiate.Fade("Intro",Color.black,2f);
 	}
+
+	public void Quit()
+	{
+		Application.Quit();
+	}
 	
 	
 }

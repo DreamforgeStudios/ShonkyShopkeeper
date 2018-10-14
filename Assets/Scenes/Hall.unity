@@ -5169,7 +5169,7 @@ Prefab:
     - target: {fileID: 114374969198963020, guid: 25dd6878305a78d42bb9578ec9c719c1,
         type: 2}
       propertyPath: intro.Array.data[3]
-      value: Looks like you have just enough <color="yellow">gold</color> to travel
+      value: Looks like you have just enough <color=#e5c100>gold</color> to travel
         your shop to one town!
       objectReference: {fileID: 0}
     - target: {fileID: 114374969198963020, guid: 25dd6878305a78d42bb9578ec9c719c1,

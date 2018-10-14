@@ -132,6 +132,11 @@ public class ShonkyWander : MonoBehaviour {
         PickUpAnimation(false);
         StartCoroutine(Float());
     }
+
+    public void StopFloat()
+    {
+        StopCoroutine(Float());
+    }
     
     IEnumerator Float()
     {
