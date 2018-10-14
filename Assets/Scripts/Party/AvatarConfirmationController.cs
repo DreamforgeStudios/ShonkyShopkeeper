@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -30,8 +31,8 @@ public class AvatarConfirmationController : PseudoScene {
         }
 	}
 
-	public override void Arrive() {
-		base.Arrive();
+	public override Tween Arrive() {
+		Tween t = base.Arrive();
 		
 		// Clear any already selected avatars.
 		int childCount = LayoutObject.transform.childCount;
@@ -49,5 +50,7 @@ public class AvatarConfirmationController : PseudoScene {
 		
 		// NOTE: is there a better place for this than Arrive()?
 		GenerateGame();
+
+		return t;
 	}
 }

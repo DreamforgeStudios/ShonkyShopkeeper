@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 
@@ -9,11 +10,11 @@ public class IntermissionController : PseudoScene {
 	public ItemDatabase ItemDB;
 	public TextMeshProUGUI HeadingText;
 
-	public override void Arrive() {
-		base.Arrive();
+	public override Tween Arrive() {
+		Tween t = base.Arrive();
 
 		if (GameManager.Instance.RoundHistory.Count <= 0) {
-			return;
+			return t;
 		}
 
 		// Clear any previous things.
@@ -67,5 +68,7 @@ public class IntermissionController : PseudoScene {
 
 			idxRoundNode = idxRoundNode.Next;
 		}
+
+		return t;
 	}
 }

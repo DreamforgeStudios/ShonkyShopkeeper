@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using DG.Tweening;
 using TMPro;
 
 public class FinalScoresController : PseudoScene {
@@ -10,8 +11,8 @@ public class FinalScoresController : PseudoScene {
 	public TextMeshProUGUI RoundText;
 	public PseudoSceneManager PseudoSceneManager;
 
-	public override void Arrive() {
-		base.Arrive();
+	public override Tween Arrive() {
+		Tween t = base.Arrive();
 
 		// Clear any previous items (although there shouldn't be any).
 		int childCount = PlayerScoresLayout.transform.childCount;
@@ -40,6 +41,8 @@ public class FinalScoresController : PseudoScene {
 		
 		// For now, just do this.
 		Invoke("LoadNextScene", 4f);
+
+		return t;
 	}
 
 	// Temp function for now.
