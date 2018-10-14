@@ -9,10 +9,9 @@ public class FinalScoresController : PseudoScene {
 	public GameObject PlayerScoresLayout;
 	public PlayerScoreElement PlayerScoreElementPrefab;
 	public TextMeshProUGUI RoundText;
-	public PseudoSceneManager PseudoSceneManager;
 
-	public override Tween Arrive() {
-		Tween t = base.Arrive();
+	public override Tween Arrive(bool animate = true) {
+		Tween t = base.Arrive(animate);
 
 		// Clear any previous items (although there shouldn't be any).
 		int childCount = PlayerScoresLayout.transform.childCount;
@@ -23,7 +22,7 @@ public class FinalScoresController : PseudoScene {
 		float highestScore = GameManager.Instance.PlayerInfos.Max(x => x.Points);
 		foreach (var player in GameManager.Instance.PlayerInfos) {
 			PlayerScoreElement clone = Instantiate(PlayerScoreElementPrefab);
-			clone.Avatar.sprite = player.Avatar;
+			clone.Avatar.sprite = player.Avatar.Sprite;
 			clone.PointsText.text = player.Points.ToString("N0");
 			float maxHeight = clone.FillBG.rectTransform.rect.height;
 			float fill = Mathf.Lerp(0, maxHeight, player.Points / highestScore);

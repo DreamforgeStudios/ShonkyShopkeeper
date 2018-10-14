@@ -9,8 +9,8 @@ public class WinnerController : PseudoScene {
 	public Image AvatarImage;
 	public TextMeshProUGUI PointsText, WinnerText;
 
-	public override Tween Arrive() {
-		Tween t = base.Arrive();
+	public override Tween Arrive(bool animate = true) {
+		Tween t = base.Arrive(animate);
 		
 		if (GameManager.Instance.PlayerInfos.Count <= 0)
 			return t;
@@ -23,7 +23,7 @@ public class WinnerController : PseudoScene {
 			}
 		}
 
-		AvatarImage.sprite = winner.Avatar;
+		AvatarImage.sprite = winner.Avatar.Sprite;
 		PointsText.text = string.Format("{0:N0} points", winner.Points);
 		WinnerText.text = string.Format("Player {0} is the WINNER!!!", winner.Index + 1);
 

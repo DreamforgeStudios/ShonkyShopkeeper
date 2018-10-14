@@ -54,8 +54,8 @@ public class AvatarSelectController : PseudoScene {
 		AvatarImage.sprite = AvailableAvatars[ActiveIndex].Sprite;
 	}
 	
-	public override Tween Arrive() {
-		Tween t = base.Arrive();
+	public override Tween Arrive(bool animate = true) {
+		Tween t = base.Arrive(animate);
 		
 		// Reset avatars each time we load in.
 		SelectedAvatars.Clear();

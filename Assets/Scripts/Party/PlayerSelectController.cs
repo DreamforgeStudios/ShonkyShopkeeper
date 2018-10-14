@@ -36,8 +36,8 @@ public class PlayerSelectController : PseudoScene {
 		Text.text = ActiveNumberOfPlayers.ToString();
 	}
 
-	public override Tween Arrive() {
-		Tween t = base.Arrive();
+	public override Tween Arrive(bool animate = true) {
+		Tween t = base.Arrive(animate);
 		
 		ActiveNumberOfPlayers = DefaultPlayers;
 		UpdateText();

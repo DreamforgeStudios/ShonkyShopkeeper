@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Name: Witch
   m_EditorClassIdentifier: 
   Sprite: {fileID: 21300000, guid: 0e36f4365572a4a4a81a16814604c8c1, type: 3}
-  Color: {r: 0.7902996, g: 0.23740657, b: 0.9150943, a: 1}
+  Color: {r: 0.8444219, g: 0.13679248, b: 1, a: 1}
   GemType: 1

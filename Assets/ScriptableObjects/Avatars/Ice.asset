@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Name: Ice
   m_EditorClassIdentifier: 
   Sprite: {fileID: 21300000, guid: 9732086b7353a4843969810e654a564a, type: 3}
-  Color: {r: 0.43614277, g: 0.7525195, b: 0.764151, a: 1}
+  Color: {r: 0.2783019, g: 0.9742248, b: 1, a: 1}
   GemType: 2

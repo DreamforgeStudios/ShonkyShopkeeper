@@ -4629,6 +4629,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Fader: {fileID: 1252061876}
   CanvasScenes: {fileID: 1192400114}
+  SetPartyMode: 1
   DebugSceneName: 
 --- !u!4 &1452768231
 Transform:

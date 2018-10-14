@@ -19,6 +19,7 @@ public class PseudoSceneManager : MonoBehaviour {
 
 	public Image Fader;
 	public GameObject CanvasScenes;
+	public bool SetPartyMode;
 	public string DebugSceneName;
 
 	private PseudoScene[] canvasScenes;
@@ -30,18 +31,13 @@ public class PseudoSceneManager : MonoBehaviour {
 		
 		//activeSceneObject = scenes[0];
 		activeSceneCanvasObject = canvasScenes[0];
+
+		if (SetPartyMode)
+			GameManager.Instance.ActiveGameMode = GameMode.Party;
 	}
 
 	public void ChangeScene(string to) {
 		PseudoScene canvasObj = null;
-		
-		/*
-		foreach (var pseudoScene in scenes) {
-			if (pseudoScene.gameObject.name == to) {
-				obj = pseudoScene;
-			}
-		}
-		*/
 		
 		foreach (var canvasScene in canvasScenes) {
 			if (canvasScene.gameObject.name == to) {
@@ -50,19 +46,31 @@ public class PseudoSceneManager : MonoBehaviour {
 		}
 
 		if (canvasObj) {
-			// Perform packup routine (probably means animations).
-			//activeSceneObject.Depart();
-			activeSceneCanvasObject.Depart()
-				.onComplete += () => canvasObj.Arrive();
+            activeSceneCanvasObject.Depart()
+                .onComplete += () => canvasObj.Arrive();
 			activeSceneCanvasObject = canvasObj;
-
-			//obj.Arrive();
-			//canvasObj.Arrive();
-
-			//activeSceneObject = obj;
 		} else {
 			Debug.LogWarning("Couldn't find scene with name: " + to + " , is it typed correctly?");
 		}
+	}
+
+	public void ChangeSceneWithoutAnimation(string to) {
+		PseudoScene canvasObj = null;
+		
+		foreach (var canvasScene in canvasScenes) {
+			if (canvasScene.gameObject.name == to) {
+				canvasObj = canvasScene;
+			}
+		}
+
+		if (canvasObj) {
+            activeSceneCanvasObject.Depart(false);
+            canvasObj.Arrive(false);
+			activeSceneCanvasObject = canvasObj;
+		} else {
+			Debug.LogWarning("Couldn't find scene with name: " + to + " , is it typed correctly?");
+		}
+		
 	}
 
 	[Button("ChangeSceneDebug")]
