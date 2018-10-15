@@ -44,7 +44,9 @@ public class OptionsScreen : MonoBehaviour
 		{
 			//Variable used to stop any interactions during golem creation process so I can reuse it here
 			ResetVariables();
-			tutorialProgressChecker.SetActive(true);
+			if (tutorialProgressChecker != null)
+				tutorialProgressChecker.SetActive(true);
+			
 			tutorialShopCanvas.gameObject.SetActive(true);
 		}
 		this.gameObject.SetActive(false);
@@ -54,12 +56,12 @@ public class OptionsScreen : MonoBehaviour
 	{
 		if (GameManager.Instance.PlayingAudio)
 		{
-			soundButtonText.text = "Disable Sound";
+			soundButtonText.text = "Sound: On";
 		}
 		else
 		{
-			soundButtonText.text = "Enable Sound";
-			SFX.StopAll();
+			soundButtonText.text = "Sound: Off";
+			SFX.MuteAll();
 		}
 	}
 
@@ -103,10 +105,12 @@ public class OptionsScreen : MonoBehaviour
 		if (GameManager.Instance.PlayingAudio)
 		{
 			GameManager.Instance.PlayingAudio = false;
+			SFX.MuteAll();
 			DetermineSoundButtonStatus();
 			return;
 		}
 		GameManager.Instance.PlayingAudio = true;
+		SFX.UnMuteAll();
 		DetermineSoundButtonStatus();
 	}
 
@@ -184,6 +188,11 @@ public class OptionsScreen : MonoBehaviour
 		SaveManager.SaveShonkyInventory();
 		ResetVariables();
 		Initiate.Fade("Intro",Color.black,2f);
+	}
+
+	public void Quit()
+	{
+		Application.Quit();
 	}
 	
 	

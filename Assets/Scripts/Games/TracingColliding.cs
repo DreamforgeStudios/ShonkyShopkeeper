@@ -27,7 +27,7 @@ public class TracingColliding : MonoBehaviour {
                 SFX.Play("Tracing_badtouch",1f,1f,0f,false,0f);
                 Vector3 newPos = transform.position;
                 newPos.z += 1;
-                Instantiate(badFeedback, newPos, badFeedback.transform.rotation);
+                //Instantiate(badFeedback, newPos, badFeedback.transform.rotation);
                 nextTime = Time.time + cooldown;
             }
         }

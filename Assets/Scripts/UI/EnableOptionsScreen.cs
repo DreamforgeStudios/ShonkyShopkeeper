@@ -21,7 +21,9 @@ public class EnableOptionsScreen : MonoBehaviour
 			GameManager.Instance.introduceTrueGolem = true;
 			GameManager.Instance.canUseTools = false;
 			tutorialShopCanvas.SetActive(false);
-			tutorialProgressChecker.SetActive(false);
+			if (tutorialProgressChecker != null)
+				tutorialProgressChecker.SetActive(false);
+			
 			optionsScreenInScene.SetActive(true);
 		}
 	}

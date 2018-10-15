@@ -38,43 +38,50 @@ public class CameraTap : MonoBehaviour {
         }
     }
 
-    public void RotateCamera() {
-        if (topScreen) {
-            //SFX.Play("sound");
-            SFX.Play("Tap_to_look_DOWN", 1f, 1f, 0f, false, 0f);
-            transform.DORotate(bottomScreenRotation, 0.4f).SetEase(Ease.InOutSine);
-            img.transform.DORotate(bottomScreenRotationImg, 0.4f).SetEase(Ease.InOutSine);
-            GameManager.Instance.CameraRotTransfer = bottomScreenRotation.x;
-            topScreen = false;
-            if (tutGlass != null)
-                tutGlass.Index = 1;
-        } else {
-            //SFX.Play("sound");
-            SFX.Play("Tap_to_look_UP", 1f, 1f, 0f, false, 0f);
-            transform.DORotate(topScreenRotation, 0.4f).SetEase(Ease.InOutSine);
-            img.transform.DORotate(topScreenRotationImg, 0.4f).SetEase(Ease.InOutSine);
-            GameManager.Instance.CameraRotTransfer = topScreenRotation.x;
-            topScreen = true;
-            if (tutGlass != null)
-                tutGlass.Index = 0;
-        }
-
-        if (!GameManager.Instance.TutorialIntroTopComplete && GameManager.Instance.InTutorial)
+    public void RotateCamera()
+    {
+        if (GameManager.Instance.canUseTools)
         {
-            GameManager.Instance.TutorialIntroTopComplete = true;
-            //tutManager.NextDialogue();
-            tutManager.HideExposition();
-            tutManager.StartToolText();
-            tutManager.EnableCameraTap(false);
-            
-        }
+            if (topScreen)
+            {
+                //SFX.Play("sound");
+                SFX.Play("Tap_to_look_DOWN", 1f, 1f, 0f, false, 0f);
+                transform.DORotate(bottomScreenRotation, 0.4f).SetEase(Ease.InOutSine);
+                img.transform.DORotate(bottomScreenRotationImg, 0.4f).SetEase(Ease.InOutSine);
+                GameManager.Instance.CameraRotTransfer = bottomScreenRotation.x;
+                topScreen = false;
+                if (tutGlass != null)
+                    tutGlass.Index = 1;
+            }
+            else
+            {
+                //SFX.Play("sound");
+                SFX.Play("Tap_to_look_UP", 1f, 1f, 0f, false, 0f);
+                transform.DORotate(topScreenRotation, 0.4f).SetEase(Ease.InOutSine);
+                img.transform.DORotate(topScreenRotationImg, 0.4f).SetEase(Ease.InOutSine);
+                GameManager.Instance.CameraRotTransfer = topScreenRotation.x;
+                topScreen = true;
+                if (tutGlass != null)
+                    tutGlass.Index = 0;
+            }
 
-        if (GameManager.Instance.MineGoleminteractGolem && !topScreen)
-        {
-            GameManager.Instance.OpenPouch = true;
-            tutManager.NextInstruction();
-            RemoveHighlight();
-            tutManager.HighlightMagnifyerAndResourcePouch();
+            if (!GameManager.Instance.TutorialIntroTopComplete && GameManager.Instance.InTutorial)
+            {
+                GameManager.Instance.TutorialIntroTopComplete = true;
+                //tutManager.NextDialogue();
+                tutManager.HideExposition();
+                tutManager.StartToolText();
+                tutManager.EnableCameraTap(false);
+
+            }
+
+            if (GameManager.Instance.MineGoleminteractGolem && !topScreen)
+            {
+                GameManager.Instance.OpenPouch = true;
+                tutManager.NextInstruction();
+                RemoveHighlight();
+                tutManager.HighlightMagnifyerAndResourcePouch();
+            }
         }
     }
 

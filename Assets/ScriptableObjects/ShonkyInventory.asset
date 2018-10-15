@@ -13,7 +13,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shonkyInventory:
   - Quantity: 1
-    Quality: 1
+    Quality: 2
     IsNew: 0
     ItemIdentifier: rubygolem1
     InMine: 0

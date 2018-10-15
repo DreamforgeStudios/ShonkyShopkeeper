@@ -86,7 +86,24 @@ public class SoundDatabase : ScriptableObject {
     public void RemoveSource(AudioSourceHelper source) {
         audioSourceInstances.Remove(source);
     }
-    
+
+    public void MuteAll()
+    {
+        for (int i = 0; i < audioSourceInstances.Count; i++)
+        {
+            audioSourceInstances[i].source.mute = true;
+            audioSourceInstances[i].source.Pause();
+        }
+    }
+
+    public void UnMuteAll()
+    {
+        for (int i = 0; i < audioSourceInstances.Count; i++)
+        {
+            audioSourceInstances[i].source.mute = false;
+            audioSourceInstances[i].source.UnPause();
+        }
+    }
     
     // Testing functions.
     public string ClipKey;

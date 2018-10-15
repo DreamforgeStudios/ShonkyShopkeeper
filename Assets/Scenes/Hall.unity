@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.35872692, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311992, g: 0.38074034, b: 0.35872713, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5135,7 +5135,7 @@ Prefab:
         type: 2}
       propertyPath: shopButtonObj
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 235812955}
     - target: {fileID: 1016147938190816, guid: 25dd6878305a78d42bb9578ec9c719c1, type: 2}
       propertyPath: m_TagString
       value: TutorialProgress
@@ -5169,7 +5169,8 @@ Prefab:
     - target: {fileID: 114374969198963020, guid: 25dd6878305a78d42bb9578ec9c719c1,
         type: 2}
       propertyPath: intro.Array.data[3]
-      value: Looks like you have just enough gold to travel your shop to one town!
+      value: Looks like you have just enough <color=#e5c100>gold</color> to travel
+        your shop to one town!
       objectReference: {fileID: 0}
     - target: {fileID: 114374969198963020, guid: 25dd6878305a78d42bb9578ec9c719c1,
         type: 2}
@@ -7990,7 +7991,7 @@ Transform:
   m_GameObject: {fileID: 1102933774}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -0.000039958955}
-  m_LocalScale: {x: 0.003, y: 0.003, z: 0.003}
+  m_LocalScale: {x: 0.0007, y: 0.0007, z: 0.0007}
   m_Children: []
   m_Father: {fileID: 1720727433}
   m_RootOrder: 3
@@ -8030,7 +8031,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: a077ba7a5db329a40b9dba512b16ddfc, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b5a23b986b83245459aad041a933dfdb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -8051,8 +8052,8 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.9650001
-  m_Center: {x: 0, y: 0.0000019073486, z: 0.000030517578}
+  m_Radius: 1.415
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!4 &1105113085 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400016, guid: bcbb7639f54f53647b657d9ceda7d411,
