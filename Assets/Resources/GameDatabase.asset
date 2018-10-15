@@ -14,21 +14,26 @@ MonoBehaviour:
   Games:
   - Name: Smelting
     Description: Skillfully control the heat of the fire by <color=#45eaf9>tapping</color>.
+    IntermissionText: MASTER FORGER
     SceneName: Smelting
     Screenshot: {fileID: 0}
   - Name: Shaping
     Description: Quickly and accurately <color=#45eaf9>trace</color> runes.
+    IntermissionText: RUNE MANIAC
     SceneName: Tracing
     Screenshot: {fileID: 0}
   - Name: Cutting
     Description: Quickly and accurately <color=#45eaf9>cut</color> the gem.
+    IntermissionText: GEM NINJA
     SceneName: Cutting
     Screenshot: {fileID: 0}
   - Name: Polishing
     Description: Frantically <color=#45eaf9>swipe</color> the gem to polish it!
+    IntermissionText: FRICTION KING
     SceneName: Polishing
     Screenshot: {fileID: 0}
   - Name: Barter
     Description: <color=#45eaf9>Aim</color> your zaps to make your golem dance.
+    IntermissionText: 
     SceneName: Barter
     Screenshot: {fileID: 0}

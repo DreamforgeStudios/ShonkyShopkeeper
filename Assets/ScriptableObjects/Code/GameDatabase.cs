@@ -6,6 +6,7 @@ using UnityEngine;
 public class Game {
     public string Name;
     public string Description;
+    public string IntermissionText;
     // Annoyingly, Unity won't let you load a scene by reference, so we have to use name.
     // This could cause some problems when scenes are renamed...
     public string SceneName;

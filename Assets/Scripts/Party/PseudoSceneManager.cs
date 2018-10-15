@@ -77,4 +77,9 @@ public class PseudoSceneManager : MonoBehaviour {
 	private void ChangeSceneDebug() {
 		ChangeScene(DebugSceneName);
 	}
+
+	[Button("ChangeSceneDebugNoAnimations")]
+	private void ChangeSceneDebugNoAnimation() {
+		ChangeSceneWithoutAnimation(DebugSceneName);
+	}
 }
