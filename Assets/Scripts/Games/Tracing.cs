@@ -9,6 +9,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Experimental.XR;
 using Random = UnityEngine.Random;
 
 [System.Serializable]
@@ -98,12 +99,17 @@ public class Tracing : MonoBehaviour {
     
     //Canvas flash
     public RawImage WhiteFlash;
+    
+    //Particle system used to give feedback
+    public GameObject particlePrefab;
+    private bool startedParticle;
+    private GameObject feedbackParticleSystem;
+    public Material goodTraceFeedback, badTraceFeedback;
 
     void Awake() {
         // Don't start until we're ready.
         Time.timeScale = 0;
         ReadyGo.onComplete += (() => { Time.timeScale = 1; start = true; });
-        //qualityBar.Subtract(1f,false);
     }
 
     // Use this for initialization
@@ -168,7 +174,9 @@ public class Tracing : MonoBehaviour {
         averageDistanceAway = 0;
         score = 0;
         totalDistanceAway = 0;
-        
+        //Setup feedback Particle system
+        feedbackParticleSystem = Instantiate(particlePrefab);
+        feedbackParticleSystem.GetComponent<ParticleSystem>().Stop();
     }
 
     private void SplitRuneObject()
@@ -217,7 +225,13 @@ public class Tracing : MonoBehaviour {
             hitPoints = 0;
             CheckPositions();
             score = CalculateColliderPenalties(CalculateAccuracy(CalculateWin()));
-            Debug.Log(string.Format("Total score is {0}", score));
+            //Reset Particle System
+            if (startedParticle)
+            {
+                feedbackParticleSystem.GetComponent<ParticleSystem>().Stop();
+                startedParticle = false;
+            }
+            //Add Score if greater than 0
             if (score > 0)
             {
                 PointsManager.AddPoints(score * activeDifficultySettings.ScoreMultiplier);
@@ -231,6 +245,7 @@ public class Tracing : MonoBehaviour {
             if (!playerPoints.Contains(mWorldPosition)) {
                 FollowSphere.SetActive(true);
                 playerPoints.Add(mWorldPosition);
+                CheckForRune(mWorldPosition, ray);
             }
         }
 
@@ -243,7 +258,7 @@ public class Tracing : MonoBehaviour {
         lineRenderer.startWidth = 0.008f;
         lineRenderer.endWidth = 0.008f;
         lineRenderer.SetPositions(previousRuneLinger.ToArray());
-        Debug.Log("Score is " + score);
+        //Debug.Log("Score is " + score);
         Color customColor = Color.Lerp(Color.red,Color.green, score / 1200);
         lineRenderer.startColor = customColor;
         lineRenderer.endColor = customColor;
@@ -423,7 +438,37 @@ public class Tracing : MonoBehaviour {
         flashAlpha.a = 0f;
         WhiteFlash.color = flashAlpha;
         WhiteFlash.enabled = true;
-        WhiteFlash.DOFade(0.95f, 0.15f).OnComplete(() => WhiteFlash.DOFade(0f, 1f));
+        WhiteFlash.DOFade(0.95f, 0.15f).OnComplete(() => WhiteFlash.DOFade(0f, 1f));   
+    }
+    
+    //Method that raycasts the rune sprite to see if on the rune or on alpha
+    private void CheckForRune(Vector3 mousePosition, Ray originalRaycast)
+    {
+        //Debug.Log("Added point was " + mousePosition);
+        Debug.DrawRay(originalRaycast.origin,mousePosition,Color.red,0.1f);
+        //If particle system not started, start it
+        if (!startedParticle)
+        {
+            feedbackParticleSystem.GetComponent<ParticleSystem>().Play();
+            startedParticle = true;
+        }
+        //Place particle system at point
+        feedbackParticleSystem.transform.position = mousePosition;
+
+        RaycastHit2D hit;
+        hit = Physics2D.GetRayIntersection(originalRaycast, Mathf.Infinity);
+        if (hit.collider != null)
+        {
+            Debug.Log("Collider tag " + hit.collider.tag);
+            if (hit.collider.CompareTag("TracingRune"))
+                feedbackParticleSystem.GetComponent<ParticleSystemRenderer>().material = goodTraceFeedback;
+            else 
+                feedbackParticleSystem.GetComponent<ParticleSystemRenderer>().material = badTraceFeedback;
+        }
+        else
+        {
+            feedbackParticleSystem.GetComponent<ParticleSystemRenderer>().material = badTraceFeedback;
+        }
         
     }
 

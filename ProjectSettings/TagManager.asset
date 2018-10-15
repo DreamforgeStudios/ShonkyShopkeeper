@@ -33,6 +33,7 @@ TagManager:
   - TutorialManager
   - ShopCanvas
   - TrueGolem
+  - TracingRune
   layers:
   - Default
   - TransparentFX
