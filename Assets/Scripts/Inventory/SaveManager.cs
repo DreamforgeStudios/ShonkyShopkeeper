@@ -34,6 +34,10 @@ public class SaveManager {
         ShonkyInventory.Instance.SaveToJSON(Path.Combine(Application.persistentDataPath, "shonkyinventory.json"));
     }
 
+    public static void SavePersistentData() {
+        PersistentData.Instance.Save();
+    }
+
     public static void LoadOrInitializeMineInventory(Mine mineTemplate) {
         // Saving and loading.
         if (File.Exists(Path.Combine(Application.persistentDataPath, "mineinventory.json"))) {
@@ -54,6 +58,10 @@ public class SaveManager {
     // Load from default.
     public static void LoadFromTemplate(Inventory template) {
         Inventory.InitializeFromDefault(template);
+    }
+
+    public static void LoadFromPersistentDataTemplate() {
+        PersistentData.LoadFromTemplate();
     }
 
 

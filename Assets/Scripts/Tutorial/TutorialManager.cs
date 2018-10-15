@@ -13,7 +13,7 @@ public class TutorialManager : MonoBehaviour
 	public Inventory TutorialInventory, RegularInventory;
 	public ShonkyInventory EmptyInventory, RegularGolemInventory;
 	public TutorialPhysicalInventory physicalInv;
-	public PhysicalShonkyInventory golemInv;
+	public TutorialPhysicalShonkyInventory golemInv;
 	public TutorialToolbox toolbox;
 
 	//Tools to inspect and have been inspected
@@ -44,9 +44,6 @@ public class TutorialManager : MonoBehaviour
 	public Button travelButton;
 
 	public Button cameraButton;
-
-	//Image used to highlight cameraButton
-	public Image cameraHighlight;
 	
 	//Gameobject to be used with the mine
 	public GameObject mineTarget;
@@ -61,6 +58,11 @@ public class TutorialManager : MonoBehaviour
 	public GameObject speechBubblePrefab;
 	private InstructionBubble clone;
 	public Canvas mainCanvas;
+	
+	//Local Rune Indicator highlights for the final stages of phase one tutorial
+	public GameObject runeIndicatorPrefab;
+	private GameObject runeIndicatorMagnifyer;
+	private bool runeIndicatorsCreated;
 
 	// Use this for initialization
 	void Start()
@@ -69,7 +71,7 @@ public class TutorialManager : MonoBehaviour
 		if (!GameManager.Instance.TutorialIntroComplete)
 		{
 			TutorialProgressChecker.Instance.HideCanvas();
-			EnableCameraTap(false, false);
+			EnableCameraTap(false);
 		}
 
 
@@ -111,12 +113,8 @@ public class TutorialManager : MonoBehaviour
 	        .GetComponentInChildren<InstructionBubble>();
 		clone.SetText(dialogue,instruction);
 		clone.Init(target,canvasElement, mainCanvas);
+		clone.MoveScrollsToFront();
 
-	}
-
-	public void MoveInstructions()
-	{
-		clone.MoveInstructionScroll();
 	}
 
 	public void SkipTutorial()
@@ -132,7 +130,7 @@ public class TutorialManager : MonoBehaviour
 		
 		if (!GameManager.Instance.TutorialIntroTopComplete && clone.Instruction)
 		{
-			InstructionBubble.onInstruction += EnableCameraTap(true, true);
+			InstructionBubble.onInstruction += EnableCameraTap(true);
 		} else if (!GameManager.Instance.TutorialIntroComplete && ItemsToInspect.Contains(currentToolToInspect) && clone.Instruction)
 		{
 			//List is Forceps, ResourceBin, Magnifying Glass & Wand
@@ -207,25 +205,23 @@ public class TutorialManager : MonoBehaviour
 			CheckForCamera();
 		else if (GameManager.Instance.MineGoleminteractGolem)// && GameManager.Instance.OpenPouch)
 		{
-			//PouchText();
 			cameraButton.gameObject.SetActive(true);
 		}
 		
 	}
 
 	//Self explanatory
-	public InstructionBubble.Instruct EnableCameraTap(bool button, bool glow)
+	public InstructionBubble.Instruct EnableCameraTap(bool button)
 	{
 		//Debug.Log("enabling camera");
 		cameraButton.enabled = button;
 		cameraButton.gameObject.SetActive(button);
-		cameraHighlight.gameObject.SetActive(glow);
-		return () => {InstructionBubble.onInstruction -= EnableCameraTap(false, false); };
+		return () => {InstructionBubble.onInstruction -= EnableCameraTap(false); };
 	}
 
 	public void IntroduceGolem()
 	{
-		StartDialogue(introduceGolem, introduceGolemInstruction, mainCanvas, mineTarget, true);
+		StartDialogue(introduceGolem, introduceGolemInstruction, mainCanvas, cameraButton.gameObject, true);
 		GameManager.Instance.SendToMine = true;
 	}
 
@@ -239,6 +235,7 @@ public class TutorialManager : MonoBehaviour
 	{
 		physicalInv.DestroyParticlesOnItems();
 		InspectItem(currentToolToInspect);
+		
 	}
 
 	public void FinishWandUse()
@@ -254,7 +251,10 @@ public class TutorialManager : MonoBehaviour
 			cameraButton.gameObject.SetActive(false);
 			if (GameManager.Instance.SendToMine)
 			{
-				StartDialogue(pickUpGolem, golemMineInstruction, mainCanvas, mineTarget, true);
+				Debug.Log("Enabling single golem highlight");
+				GameObject highlightedGolem = golemInv.ReturnSingleGolem();
+				StartDialogue(pickUpGolem, golemMineInstruction, mainCanvas, highlightedGolem, false);
+				MoveInstructionScroll();
 				GameManager.Instance.SendToMine = false;
 			}
 		}
@@ -265,12 +265,15 @@ public class TutorialManager : MonoBehaviour
 		}
 	}
 
+	/*
 	public void PouchText()
 	{
 		cameraButton.gameObject.SetActive(true);
 		StartDialogue(openPouch, null, mainCanvas, mineTarget, true);
+		clone.tutorialRuneObj.SetActive(false);
 		GameManager.Instance.OpenPouch = false;
 	}
+	*/
 
 	public void StartToolText()
 	{
@@ -304,7 +307,12 @@ public class TutorialManager : MonoBehaviour
 
 	public void FinishTutorial()
 	{
+		physicalInv.DestroyParticlesOnItems();
 		StartDialogue(tutorialFinish, tutorialFinish, mainCanvas, travelButton.gameObject, true);
+		
+		if (runeIndicatorMagnifyer != null)
+			runeIndicatorMagnifyer.GetComponent<TutorialRuneIndicator>().SetPosition(travelButton.gameObject,true);
+		
 		SaveManager.SaveInventory();
 		SaveManager.SaveShonkyInventory();
 		travelButton.gameObject.SetActive(true);
@@ -375,9 +383,10 @@ public class TutorialManager : MonoBehaviour
 				case "Magnifyer":
 					//StartParticles(ItemsToInspect[0]);
 					StartDialogue(wand, wandInstruction, mainCanvas, ItemsToInspect[0], false);
+					//physicalInv.DestroyParticlesOnItems();
 					break;
 				case "Wand":
-					physicalInv.HighlightOreAndGem();
+					//physicalInv.HighlightOreAndGem();
 					toolbox.canSelect = true;
 					break;
 			}
@@ -394,9 +403,13 @@ public class TutorialManager : MonoBehaviour
 		clone.NextInstructionText();
 	}
 
+	public void PreviousInstruction()
+	{
+		clone.PreviousInstructionText();
+	}
+
 	public void HideExposition()
 	{
-		Debug.Log("Hiding Exposition");
 		clone.DestroyItem();
 	}
 
@@ -407,14 +420,50 @@ public class TutorialManager : MonoBehaviour
 
 	public void StartItemParticles()
 	{
+		
 		if (!physicalInv.createdParticles)
-			InstructionBubble.onInstruction += physicalInv.HighlightOreAndGem();
+			InstructionBubble.onInstruction += physicalInv.HighlightOreAndGem() ;
 
 		toolbox.canSelect = true;
 	}
 
-	public void StartItemParticle()
+	public void MoveScrollsToFront()
 	{
-		
+		if (clone != null)
+		{
+			clone.MoveScrollsToFront();
+		}
+	}
+
+	public void MoveInstructionScroll()
+	{
+		if (clone != null)
+		{
+			clone.MoveInstructionScroll();
+		}
+	}
+
+	public void StartItemIndicators()
+	{
+		physicalInv.DestroyParticlesOnItems();
+		physicalInv.HighlightOreAndGem();
+	}
+	public void DestroySpecificItemIndicator(GameObject objSelected)
+	{
+		physicalInv.DestroyParticleOverItem(objSelected);
+	}
+
+	public void HighlightMagnifyerAndResourcePouch()
+	{
+		if (!runeIndicatorsCreated)
+		{
+			runeIndicatorMagnifyer = Instantiate(runeIndicatorPrefab, mainCanvas.transform);
+			runeIndicatorMagnifyer.GetComponent<TutorialRuneIndicator>().SetPosition(toolbox.magnifyer, false);
+
+			physicalInv.DestroyParticlesOnItems();
+			physicalInv.HighlightResourcePouch();
+			
+			runeIndicatorsCreated = true;
+		}
 	}
 }

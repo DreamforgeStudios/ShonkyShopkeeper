@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -15,7 +16,7 @@ public class InstructionBubble : MonoBehaviour
 
 	public int activePage;
 	public List<string> informationTextToDisplay, instructionText;
-	public GameObject ExpositionBubbleObj, InstructionBubbleObj, expositionBubblePrefab, instructionBubblePrefab;
+	public GameObject ExpositionBubbleObj, InstructionBubbleObj, tutorialRuneObj, expositionBubblePrefab, instructionBubblePrefab, TutorialRunePrefab;
 	public Vector2 instructionSecondPos;
 	private RectTransform expoBubbleRectT, instrBubbleRectT;
 	public Button nextButton, exitButton;
@@ -80,12 +81,13 @@ public class InstructionBubble : MonoBehaviour
 		targetObj = itemToTarget;
 		canvasRectTransform = canvasToApply.GetComponent<RectTransform>();
 
-		Debug.Log("Setting exposition to active");
+		//Debug.Log("Setting exposition to active");
 		/*
 		 * Link all variables. Really dirty right now
 		 */
 		ExpositionBubbleObj = Instantiate(expositionBubblePrefab, canvasToApply.transform);
 		InstructionBubbleObj = Instantiate(instructionBubblePrefab, canvasToApply.transform);
+		tutorialRuneObj = Instantiate(TutorialRunePrefab, canvasToApply.transform);
 		nextButton = ExpositionBubbleObj.transform.GetChild(1).GetComponent<Button>();
 		exitButton = ExpositionBubbleObj.transform.GetChild(2).GetComponent<Button>();
 		expositionTextBox = ExpositionBubbleObj.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
@@ -93,8 +95,18 @@ public class InstructionBubble : MonoBehaviour
 		expositionTextBox.text = informationTextToDisplay[activePage];
 		ExpositionBubbleObj.SetActive(true);
 		InstructionBubbleObj.SetActive(false);
+		tutorialRuneObj.SetActive(false);
 		Instruction = false;
 		nextButton.onClick.AddListener(NextText);
+		//clear old events
+		if (onInstruction != null)
+		{
+			Delegate[] clientList = onInstruction.GetInvocationList();
+			foreach (var d in onInstruction.GetInvocationList())
+				onInstruction -= (d as Instruct);
+		}
+
+		//Add listener
 		exitButton.onClick.AddListener(delegate { ShowInstructionBubbleNextTo(instructionText); });
 		
 		//Set position to middle of screen
@@ -112,7 +124,7 @@ public class InstructionBubble : MonoBehaviour
 
 	public void ShowInstructionBubbleNextTo(List<string> instructions)
 	{
-		Debug.Log("Showing instruction bubble and canvasElement is " + canvasElement);
+		//Debug.Log("Showing instruction bubble and canvasElement is " + canvasElement);
 		if (instructions == null)
 		{
 			HideBubble();
@@ -121,7 +133,7 @@ public class InstructionBubble : MonoBehaviour
 		
 		activePage = 0;
 		Instruction = true;
-		Debug.Log(instructions.Count + " is instruction length");
+		//Debug.Log(instructions.Count + " is instruction length");
 		instructionTextBox.text = instructions[activePage];
 		Vector2 pos = new Vector2(0f,0f);
 		RectTransform rectTransform = InstructionBubbleObj.GetComponent<RectTransform>();
@@ -150,16 +162,23 @@ public class InstructionBubble : MonoBehaviour
 			}
 			
 		}
-
-		//InstructionBubbleObj.GetComponent<RectTransform>().anchoredPosition = pos;
-		
 		InstructionBubbleObj.SetActive(true);
 		ExpositionBubbleObj.SetActive(false);
+		
+		//Put tutorial indicator over item
+		tutorialRuneObj.GetComponent<TutorialRuneIndicator>().SetPosition(targetObj,canvasElement);
+		tutorialRuneObj.SetActive(true);
+		
 		OnInstruct();
 	}
 
 	public void NextInstructionText()
 	{
+		//Need to destroy the indicator as changing the instruction means changing its location. Right now it is easier
+		//To instantiate the indicator within the inventory than through the instruction bubble
+		if (tutorialRuneObj != null)
+			Destroy(tutorialRuneObj);
+		
 		if (activePage + 1 < instructionText.Count)
 		{
 			instructionTextBox.text = instructionText[++activePage];
@@ -183,6 +202,8 @@ public class InstructionBubble : MonoBehaviour
 			Destroy(ExpositionBubbleObj);
 		if (InstructionBubbleObj != null)
 			Destroy(InstructionBubbleObj);
+		if (tutorialRuneObj != null)
+			Destroy(tutorialRuneObj);
 		
 		Destroy(this.gameObject);
 	}
@@ -197,9 +218,18 @@ public class InstructionBubble : MonoBehaviour
 		
 		Instruction = false;
 	}
+
+	public void MoveScrollsToFront()
+	{
+		if (ExpositionBubbleObj != null)
+			ExpositionBubbleObj.transform.SetAsLastSibling();
+		
+		if (InstructionBubbleObj != null)
+			InstructionBubbleObj.transform.SetAsLastSibling();
+	}
 	
 	public void NextText() {
-		Debug.Log(activePage + " is active page and textCount is " + informationTextToDisplay.Count);
+		//Debug.Log(activePage + " is active page and textCount is " + informationTextToDisplay.Count);
 		if (activePage + 1 >= informationTextToDisplay.Count) return;
 		activePage++;
 		expositionTextBox.text = informationTextToDisplay[activePage];
@@ -225,10 +255,19 @@ public class InstructionBubble : MonoBehaviour
 
 	public void MoveInstructionScroll()
 	{
+		//Make it the 'top' element
+		InstructionBubbleObj.transform.SetAsLastSibling();
+		
+		//Move it
 		RectTransform rectTransform = InstructionBubbleObj.GetComponent<RectTransform>();
 		Vector2 pos = new Vector3(0.85f, 0.75f);
 		pos = Camera.main.ViewportToScreenPoint(pos);
 		InstructionBubbleObj.transform.DOMove(pos, 2f, false);
+	}
+
+	public void MoveRuneIndicator(GameObject newObject)
+	{
+		tutorialRuneObj.GetComponent<TutorialRuneIndicator>().SetPosition(newObject,canvasElement);
 	}
 	
 	// Update the closer so that if we're on the last page it can be closed.

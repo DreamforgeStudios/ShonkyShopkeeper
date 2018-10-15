@@ -94,8 +94,12 @@ public class NewCutPoint : MonoBehaviour {
 		// TODO: make this use parameters.
 		seq.Insert(0, SpinnerSpriteRenderer.transform.DOScale(1, .5f).SetEase(Ease.OutBack));
 		
+		// A bit messy, but seems necessary for this kind of approach.
 		Tween drawLine =  DOTween.To(() => LineSpriteMask.alphaCutoff, x => LineSpriteMask.alphaCutoff = x, 0, MaskWipeTime)
-			.SetEase(MaskWipeEase);
+			.SetEase(MaskWipeEase).OnComplete(() => {
+				LineSpriteMask.enabled = false;
+				LineSpriteRenderer.maskInteraction = SpriteMaskInteraction.None;
+			});
 		seq.Insert(LineAppearAtTime, drawLine);
 		//seq.InsertCallback(LineAppearAtTime, OnSpawnCompleteTick);
 		
@@ -121,10 +125,8 @@ public class NewCutPoint : MonoBehaviour {
 	
 	[Button("Set Selected")]
 	public void SetSelected() {
-		/*
 		if (animationSeq.Elapsed() < LineAppearAtTime)
 			animationSeq.Goto(LineAppearAtTime, true);
-			*/
 		
 		SpinnerSpriteRenderer.transform.DOScale(SpinnerSelectedScale, SpinnerSelectedEaseTime)
 			.SetEase(SpinnerSelectedEase);
