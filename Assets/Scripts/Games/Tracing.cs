@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using DG.Tweening;
 using DG.Tweening.Core.Easing;
 using NaughtyAttributes;
@@ -27,7 +28,7 @@ public class Tracing : MonoBehaviour {
     private List<Vector3> playerPoints = new List<Vector3>();
     private List<Vector3> optimalPoints = new List<Vector3>();
     private List<int> optimalPointIndex = new List<int>();
-    private List<Vector3> previousRuneLinger = new List<Vector3>();
+    public List<Vector3> previousRuneLinger = new List<Vector3>();
 
     //Gameobject that holds the database of all Runes
     public GameObject TracingManager;
@@ -237,28 +238,32 @@ public class Tracing : MonoBehaviour {
 
     private void GiveFeedback()
     {
-        previousRuneLinger = playerPoints;
+        previousRuneLinger = ReverseList(playerPoints);
         lineRenderer.positionCount = previousRuneLinger.Count;
-        lineRenderer.startWidth = 0.006f;
-        lineRenderer.endWidth = 0.006f;
+        lineRenderer.startWidth = 0.008f;
+        lineRenderer.endWidth = 0.008f;
         lineRenderer.SetPositions(previousRuneLinger.ToArray());
         Debug.Log("Score is " + score);
-        if (score > 900)
+        Color customColor = Color.Lerp(Color.red,Color.green, score / 1200);
+        lineRenderer.startColor = customColor;
+        lineRenderer.endColor = customColor;
+        //Stop previous coroutine and start new one
+        StopCoroutine(FadePosition());
+        StartCoroutine(FadePosition());
+    }
+
+    private List<Vector3> ReverseList(List<Vector3> listToReverse)
+    {
+        listToReverse.Reverse();
+        return listToReverse;
+    }
+
+    private IEnumerator FadePosition()
+    {
+        while (lineRenderer.positionCount > 1)
         {
-            Color customGreen = new Color(0,255,0,0.5f);
-            lineRenderer.startColor = customGreen;
-            lineRenderer.endColor = customGreen;
-        } else if (score > 700)
-        {
-            Color customColor = new Color(204,255,102,0.5f);
-            lineRenderer.startColor = customColor;
-            lineRenderer.endColor = customColor;
-        }
-        else
-        {
-            Color customColor = new Color(255,0,0,0.5f);
-            lineRenderer.startColor = customColor;
-            lineRenderer.endColor = customColor;
+            lineRenderer.positionCount = lineRenderer.positionCount - 1;
+            yield return new WaitForSeconds(0.05f);
         }
     }
 
