@@ -70,7 +70,7 @@ public class PersistentData : ScriptableObject {
     public int GoldEarnt,
         GoldSpent;
 
-    public Difficulty Difficulty;
+    public Difficulty Difficulty = Difficulty.Normal;
 
     public void AddItem(ItemInstance item) {
         switch (item.Quality) {

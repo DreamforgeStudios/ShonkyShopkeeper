@@ -10,7 +10,7 @@ public static class PartyHelper {
 			Sprite s = Sprite.Create(tex, new Rect(0, 0, 1, 1), new Vector2(.5f, .5f));
 			Avatar a = ScriptableObject.CreateInstance<Avatar>();
 			a.Color = Color.red;
-			a.Sprite = s;
+			a.Sprite = Resources.Load<Sprite>("Avatar");
 			a.GemType = Item.GemType.Ruby;
 			GameManager.Instance.PlayerInfos.Add(new PlayerInfo(i, a, 0, 0));
 			GameManager.Instance.PlayerInfos[i].Points = Random.Range(8000, 30000);

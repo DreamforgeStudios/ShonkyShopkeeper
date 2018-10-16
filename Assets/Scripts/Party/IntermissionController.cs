@@ -30,7 +30,9 @@ public class IntermissionController : PseudoScene {
 
 	private const float POP_DURATION = .4f;
 
-	private PlayerInfoElement winner = null;
+	private PlayerInfoElement winningClone = null;
+	private PlayerInfo winningPlayer = null;
+	
 	public override Tween Arrive(bool animate = true) {
 		Tween t = base.Arrive(animate);
 
@@ -69,7 +71,8 @@ public class IntermissionController : PseudoScene {
 			
 			// Store the winner to use in assigning the zap later on.
 			if (i == 0 || rounds[i].PointsGained == maxScore) {
-				winner = clone;
+				winningPlayer = player;
+				winningClone = clone;
 			}
 			
 			// Pop in avatar, points text, and creation image.
@@ -78,9 +81,9 @@ public class IntermissionController : PseudoScene {
 			clone.CreationImage.transform.localScale = Vector3.zero;
 			clone.PointsText.text = "0";
 			seq.Insert(PopDuration * i, clone.Avatar.transform.DOScale(1, PopDuration).SetEase(PopEase));
-			seq.Insert(PopDuration * i + .2f, clone.PointsText.transform.DOScale(1, PopDuration).SetEase(PopEase));
-			seq.Insert(PopDuration * i + .3f, clone.CreationImage.transform.DOScale(1, PopDuration).SetEase(PopEase));
-			seq.Insert(PopDuration * rounds.Length + .35f,
+			seq.Insert(PopDuration * i, clone.PointsText.transform.DOScale(1, PopDuration).SetEase(PopEase));
+			seq.Insert(PopDuration * i, clone.CreationImage.transform.DOScale(1, PopDuration).SetEase(PopEase));
+			seq.Insert(PopDuration * rounds.Length + .2f,
 				DOTween.To(() => 0, x => clone.PointsText.text = x.ToString(), rounds[i].PointsGained, TextRiseDuration * (rounds[i].PointsGained / maxScore))
 				.SetEase(TextRiseEase));
 
@@ -96,8 +99,8 @@ public class IntermissionController : PseudoScene {
 
 		// Force Unity to update the layout so that we can position things.
 		LayoutRebuilder.ForceRebuildLayoutImmediate(PlayerInfoLayout.GetComponent<RectTransform>());
-		Zap.Text.color = winner.Avatar.color;
-		Zap.transform.position = winner.Avatar.transform.position;
+		Zap.Text.color = winningPlayer.Avatar.Color;
+		Zap.transform.position = winningClone.Avatar.transform.position;
 		seq.Append(Zap.transform.DOScale(Vector3.one, .4f).SetEase(Ease.OutBack)
 			.OnComplete(() =>
 				Zap.Image.transform.DORotate(Vector3.forward * 360, 2f, RotateMode.LocalAxisAdd).SetEase(Ease.Linear)
