@@ -105,6 +105,7 @@ public class Tracing : MonoBehaviour {
     private bool startedParticle;
     private GameObject feedbackParticleSystem;
     public Material goodTraceFeedback, badTraceFeedback;
+    public LayerMask runeCollisionMask;
 
     void Awake() {
         // Don't start until we're ready.
@@ -445,7 +446,7 @@ public class Tracing : MonoBehaviour {
     private void CheckForRune(Vector3 mousePosition, Ray originalRaycast)
     {
         //Debug.Log("Added point was " + mousePosition);
-        Debug.DrawRay(originalRaycast.origin,mousePosition,Color.red,0.1f);
+        Debug.DrawRay(originalRaycast.origin,mousePosition,Color.red,1f);
         //If particle system not started, start it
         if (!startedParticle)
         {
@@ -455,9 +456,8 @@ public class Tracing : MonoBehaviour {
         //Place particle system at point
         feedbackParticleSystem.transform.position = mousePosition;
 
-        RaycastHit2D hit;
-        hit = Physics2D.GetRayIntersection(originalRaycast, Mathf.Infinity);
-        if (hit.collider != null)
+        RaycastHit hit;
+        if (Physics.Raycast(originalRaycast.origin,originalRaycast.direction,out hit,1f,runeCollisionMask))
         {
             Debug.Log("Collider tag " + hit.collider.tag);
             if (hit.collider.CompareTag("TracingRune"))
