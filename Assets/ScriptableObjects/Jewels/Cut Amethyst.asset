@@ -14,7 +14,7 @@ MonoBehaviour:
   itemName: Cut Amethyst
   physicalRepresentation: {fileID: 1269611735117156, guid: ecbdf08905729994ea332a56a41a5940,
     type: 2}
-  spriteRepresentation: {fileID: 21300000, guid: f2efccacd5dbb514991d893791d5616c,
+  spriteRepresentation: {fileID: 21300000, guid: 2edbb0d0bb9fc1647b40ef248ae50e66,
     type: 3}
   stackLimit: 1
   mergeable: 0

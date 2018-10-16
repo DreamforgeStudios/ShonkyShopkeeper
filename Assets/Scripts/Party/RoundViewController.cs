@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,8 +10,8 @@ public class RoundViewController : PseudoScene {
 	public Image ScreenshotHolder;
 	public Button BeginButton;
 
-	public override void Arrive() {
-		base.Arrive();
+	public override Tween Arrive(bool animate = true) {
+		Tween t = base.Arrive(animate);
 
 		GameDatabase gd = Resources.Load<GameDatabase>("GameDatabase");
 		
@@ -28,8 +29,10 @@ public class RoundViewController : PseudoScene {
 		// Change button behaviour to match the correct scene.
 		BeginButton.onClick.AddListener(() => {
 			// Even though we don't need it every time, it's cleaner to transfer every time anyway.
-			GameManager.Instance.GemTypeTransfer = GameManager.Instance.PlayerInfos[nextRound.PlayerIndex].GemType;
+			GameManager.Instance.GemTypeTransfer = GameManager.Instance.PlayerInfos[nextRound.PlayerIndex].Avatar.GemType;
 			Initiate.Fade(game.SceneName, Color.black, 2f);
 		});
+
+		return t;
 	}
 }

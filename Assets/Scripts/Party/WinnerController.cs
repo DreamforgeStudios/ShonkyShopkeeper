@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,23 +9,22 @@ using UnityEngine.UI;
 public class WinnerController : PseudoScene {
 	public Image AvatarImage;
 	public TextMeshProUGUI PointsText, WinnerText;
+	
+	private const int GOLD_MULTIPLIER = 20;
 
-	public override void Arrive() {
-		base.Arrive();
+	public override Tween Arrive(bool animate = true) {
+		Tween t = base.Arrive(animate);
 		
 		if (GameManager.Instance.PlayerInfos.Count <= 0)
-			return;
+			return t;
 
-		// TODO factor gold into points calculation.
-		PlayerInfo winner = GameManager.Instance.PlayerInfos[0];
-		foreach (var playerInfo in GameManager.Instance.PlayerInfos) {
-			if (playerInfo.Points > winner.Points) {
-				winner = playerInfo;
-			}
-		}
+		PlayerInfo winner = GameManager.Instance.PlayerInfos.Aggregate((a, b) =>
+			a.Points + a.Gold * GOLD_MULTIPLIER >= b.Points + b.Gold * GOLD_MULTIPLIER ? a : b);
 
-		AvatarImage.sprite = winner.Avatar;
-		PointsText.text = string.Format("{0:N0} points", winner.Points);
+		AvatarImage.sprite = winner.Avatar.Sprite;
+		PointsText.text = string.Format("{0:N0} points", winner.Points + winner.Gold * GOLD_MULTIPLIER);
 		WinnerText.text = string.Format("Player {0} is the WINNER!!!", winner.Index + 1);
+
+		return t;
 	}
 }

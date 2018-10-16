@@ -8,9 +8,13 @@ public static class PartyHelper {
 		for (int i = 0; i < 4; i++) {
 			Texture2D tex = Texture2D.whiteTexture;
 			Sprite s = Sprite.Create(tex, new Rect(0, 0, 1, 1), new Vector2(.5f, .5f));
-			GameManager.Instance.PlayerInfos.Add(new PlayerInfo(i, s, Item.GemType.Ruby, 0, 0));
-			GameManager.Instance.PlayerInfos[i].Points = Random.Range(0, 30000);
-			GameManager.Instance.PlayerInfos[i].Gold = Random.Range(0, 600);
+			Avatar a = ScriptableObject.CreateInstance<Avatar>();
+			a.Color = Color.red;
+			a.Sprite = s;
+			a.GemType = Item.GemType.Ruby;
+			GameManager.Instance.PlayerInfos.Add(new PlayerInfo(i, a, 0, 0));
+			GameManager.Instance.PlayerInfos[i].Points = Random.Range(8000, 30000);
+			GameManager.Instance.PlayerInfos[i].Gold = Random.Range(100, 600);
 		}
     }
 
@@ -18,7 +22,7 @@ public static class PartyHelper {
 		GameDatabase gd = Resources.Load<GameDatabase>("GameDatabase");
 		
 		GameManager.Instance.RoundQueue = new Queue<RoundInfo>();
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < gd.GameCount; i++) {
 			for (int j = 0; j < 4; j++) {
 				GameManager.Instance.RoundQueue.Enqueue(new RoundInfo(j, i, gd.Games[i].SceneName));
 			}
@@ -29,7 +33,7 @@ public static class PartyHelper {
 	public static void InsertMockHistory() {
 		GameManager.Instance.RoundHistory = new LinkedList<PostRoundInfo>();
 		for (int i = 0; i < 4; i++) {
-			GameManager.Instance.RoundHistory.AddFirst(new PostRoundInfo(i, 0, "Smelting", Random.Range(0, 8000), 0));
+			GameManager.Instance.RoundHistory.AddFirst(new PostRoundInfo(i, 0, "Smelting", Random.Range(1000, 8000), 0));
 		}
 	}
 }

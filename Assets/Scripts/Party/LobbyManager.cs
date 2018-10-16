@@ -21,15 +21,14 @@ public class LobbyManager : MonoBehaviour {
 		}
 		
 		if (GameManager.Instance.RoundQueue.Count <= 0) {
-			// TODO, load FinalScores rather than Winner.
-			PseudoSceneManager.ChangeScene("FinalScores");
+			PseudoSceneManager.ChangeSceneWithoutAnimation("FinalScores");
 		// If the round has ended and a new round is about to begin.
 		} else if (GameManager.Instance.RoundHistory.First != null &&
 		           GameManager.Instance.RoundHistory.First.Value.RoundNumber !=
 		           GameManager.Instance.RoundQueue.Peek().RoundNumber) {
-			PseudoSceneManager.ChangeScene("Intermission");
+			PseudoSceneManager.ChangeSceneWithoutAnimation("Intermission");
 		} else {
-			PseudoSceneManager.ChangeScene("RoundView");
+			PseudoSceneManager.ChangeSceneWithoutAnimation("RoundView");
 		}
 	}
 }

@@ -14,7 +14,7 @@ MonoBehaviour:
   itemName: Cut Emerald
   physicalRepresentation: {fileID: 1626619446807838, guid: 09fbe65714aea7f4ebd23824e0ea5e7a,
     type: 2}
-  spriteRepresentation: {fileID: 21300000, guid: ff5e57192fd899146bb9f9b87e05974e,
+  spriteRepresentation: {fileID: 21300000, guid: 8e104304198e383449b2f5286ee068cf,
     type: 3}
   stackLimit: 1
   mergeable: 0

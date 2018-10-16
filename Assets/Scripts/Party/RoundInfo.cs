@@ -40,15 +40,13 @@ public class PostRoundInfo {
 
 public class PlayerInfo {
     public int Index;
-    public Sprite Avatar;
-    public Item.GemType GemType;
+    public Avatar Avatar;
     public float Points;
     public int Gold;
 
-    public PlayerInfo(int idx, Sprite avatar, Item.GemType gemType = Item.GemType.Ruby, float startPoints = 0, int startGold = 0) {
+    public PlayerInfo(int idx, Avatar avatar, float startPoints = 0, int startGold = 0) {
         Index = idx;
         Avatar = avatar;
-        GemType = gemType;
         Points = startPoints;
         Gold = startGold;
     }

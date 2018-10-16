@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using NaughtyAttributes;
+using UnityEngine.UI;
 
 [System.Serializable]
 public class SceneObjectDictionary : SerializableDictionary<string, GameObject> {}
@@ -16,28 +17,27 @@ public class PseudoSceneManager : MonoBehaviour {
 
 	//public GameObject DefaultScene, DefaultCanvasScene;
 
-	public GameObject Scenes, CanvasScenes;
+	public Image Fader;
+	public GameObject CanvasScenes;
+	public bool SetPartyMode;
 	public string DebugSceneName;
 
-	private PseudoScene[] scenes, canvasScenes;
-	private PseudoScene activeSceneObject, activeSceneCanvasObject;
+	private PseudoScene[] canvasScenes;
+	private PseudoScene activeSceneCanvasObject;
 
 	void Awake() {
-		scenes = Scenes.transform.GetComponentsInChildren<PseudoScene>(true);
+		//scenes = Scenes.transform.GetComponentsInChildren<PseudoScene>(true);
 		canvasScenes = CanvasScenes.transform.GetComponentsInChildren<PseudoScene>(true);
 		
-		activeSceneObject = scenes[0];
+		//activeSceneObject = scenes[0];
 		activeSceneCanvasObject = canvasScenes[0];
+
+		if (SetPartyMode)
+			GameManager.Instance.ActiveGameMode = GameMode.Party;
 	}
 
 	public void ChangeScene(string to) {
-		PseudoScene obj = null, canvasObj = null;
-		
-		foreach (var pseudoScene in scenes) {
-			if (pseudoScene.gameObject.name == to) {
-				obj = pseudoScene;
-			}
-		}
+		PseudoScene canvasObj = null;
 		
 		foreach (var canvasScene in canvasScenes) {
 			if (canvasScene.gameObject.name == to) {
@@ -45,23 +45,41 @@ public class PseudoSceneManager : MonoBehaviour {
 			}
 		}
 
-		if (obj && canvasObj) {
-			// Perform packup routine (probably means animations).
-			activeSceneObject.Depart();
-			activeSceneCanvasObject.Depart();
-			
-			obj.Arrive();
-			canvasObj.Arrive();
-
-			activeSceneObject = obj;
+		if (canvasObj) {
+            activeSceneCanvasObject.Depart()
+                .onComplete += () => canvasObj.Arrive();
 			activeSceneCanvasObject = canvasObj;
 		} else {
 			Debug.LogWarning("Couldn't find scene with name: " + to + " , is it typed correctly?");
 		}
 	}
 
+	public void ChangeSceneWithoutAnimation(string to) {
+		PseudoScene canvasObj = null;
+		
+		foreach (var canvasScene in canvasScenes) {
+			if (canvasScene.gameObject.name == to) {
+				canvasObj = canvasScene;
+			}
+		}
+
+		if (canvasObj) {
+            activeSceneCanvasObject.Depart(false);
+            canvasObj.Arrive(false);
+			activeSceneCanvasObject = canvasObj;
+		} else {
+			Debug.LogWarning("Couldn't find scene with name: " + to + " , is it typed correctly?");
+		}
+		
+	}
+
 	[Button("ChangeSceneDebug")]
 	private void ChangeSceneDebug() {
 		ChangeScene(DebugSceneName);
+	}
+
+	[Button("ChangeSceneDebugNoAnimations")]
+	private void ChangeSceneDebugNoAnimation() {
+		ChangeSceneWithoutAnimation(DebugSceneName);
 	}
 }

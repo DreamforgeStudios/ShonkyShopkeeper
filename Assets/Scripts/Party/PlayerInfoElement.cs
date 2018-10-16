@@ -8,4 +8,5 @@ public class PlayerInfoElement : MonoBehaviour {
 	public Image CreationImage;
 	public TextMeshProUGUI PointsText;
 	public Image Avatar;
+	public ParticleSystem GlowParticles;
 }
