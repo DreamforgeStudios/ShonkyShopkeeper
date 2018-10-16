@@ -14,7 +14,7 @@ MonoBehaviour:
   itemName: Charged Amethyst
   physicalRepresentation: {fileID: 1610013884849470, guid: 93dfc67dee049df42a6fb143e49cb5b7,
     type: 2}
-  spriteRepresentation: {fileID: 21300000, guid: f2efccacd5dbb514991d893791d5616c,
+  spriteRepresentation: {fileID: 21300000, guid: 1257d5ac5a92ece459794034651f2ee3,
     type: 3}
   stackLimit: 1
   mergeable: 0

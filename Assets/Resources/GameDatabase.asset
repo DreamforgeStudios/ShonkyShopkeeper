@@ -16,24 +16,24 @@ MonoBehaviour:
     Description: Skillfully control the heat of the fire by <color=#45eaf9>tapping</color>.
     IntermissionText: MASTER FORGER
     SceneName: Smelting
-    Screenshot: {fileID: 0}
+    Screenshot: {fileID: 21300000, guid: e6eee653b0d78ee42bd67334448427ae, type: 3}
   - Name: Shaping
     Description: Quickly and accurately <color=#45eaf9>trace</color> runes.
     IntermissionText: RUNE MANIAC
     SceneName: Tracing
-    Screenshot: {fileID: 0}
+    Screenshot: {fileID: 21300000, guid: 3b2782124b3e6f746b8166512b26e31c, type: 3}
   - Name: Cutting
     Description: Quickly and accurately <color=#45eaf9>cut</color> the gem.
     IntermissionText: GEM NINJA
     SceneName: Cutting
-    Screenshot: {fileID: 0}
+    Screenshot: {fileID: 21300000, guid: d595f629a5f4f284f87a151b5e028794, type: 3}
   - Name: Polishing
     Description: Frantically <color=#45eaf9>swipe</color> the gem to polish it!
     IntermissionText: FRICTION KING
     SceneName: Polishing
-    Screenshot: {fileID: 0}
+    Screenshot: {fileID: 21300000, guid: 1fc5194221a9dfe46bc67b87ff83b135, type: 3}
   - Name: Barter
     Description: <color=#45eaf9>Aim</color> your zaps to make your golem dance.
     IntermissionText: 
     SceneName: Barter
-    Screenshot: {fileID: 0}
+    Screenshot: {fileID: 21300000, guid: ef07590cd4fa20f4aa2cc24b0254ecdc, type: 3}

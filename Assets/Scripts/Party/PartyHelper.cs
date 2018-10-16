@@ -13,7 +13,7 @@ public static class PartyHelper {
 			a.Sprite = s;
 			a.GemType = Item.GemType.Ruby;
 			GameManager.Instance.PlayerInfos.Add(new PlayerInfo(i, a, 0, 0));
-			GameManager.Instance.PlayerInfos[i].Points = Random.Range(3000, 30000);
+			GameManager.Instance.PlayerInfos[i].Points = Random.Range(8000, 30000);
 			GameManager.Instance.PlayerInfos[i].Gold = Random.Range(100, 600);
 		}
     }
@@ -22,7 +22,7 @@ public static class PartyHelper {
 		GameDatabase gd = Resources.Load<GameDatabase>("GameDatabase");
 		
 		GameManager.Instance.RoundQueue = new Queue<RoundInfo>();
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < gd.GameCount; i++) {
 			for (int j = 0; j < 4; j++) {
 				GameManager.Instance.RoundQueue.Enqueue(new RoundInfo(j, i, gd.Games[i].SceneName));
 			}

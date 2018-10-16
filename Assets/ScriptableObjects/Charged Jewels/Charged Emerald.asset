@@ -14,7 +14,7 @@ MonoBehaviour:
   itemName: Charged Emerald
   physicalRepresentation: {fileID: 1512066894238248, guid: a9d279fe7fe632f4699a2eb6c485664b,
     type: 2}
-  spriteRepresentation: {fileID: 21300000, guid: ff5e57192fd899146bb9f9b87e05974e,
+  spriteRepresentation: {fileID: 21300000, guid: aa0282ccd2c5b554fa0ca01760584ef3,
     type: 3}
   stackLimit: 1
   mergeable: 1

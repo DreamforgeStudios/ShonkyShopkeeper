@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224557148251308332}
   - component: {fileID: 114284620692661658}
+  - component: {fileID: 223215010925778348}
   m_Layer: 0
   m_Name: Zap
   m_TagString: Untagged
@@ -153,7 +154,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 4
+  m_fontStyle: 0
   m_textAlignment: 513
   m_isAlignmentEnumConverted: 1
   m_characterSpacing: 0
@@ -228,6 +229,26 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1758585154243874}
   m_CullTransparentMesh: 0
+--- !u!223 &223215010925778348
+Canvas:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1078249817319770}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 25
+  m_SortingLayerID: 1533453589
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!224 &224023766302049164
 RectTransform:
   m_ObjectHideFlags: 1

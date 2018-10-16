@@ -18,16 +18,27 @@ public class IntermissionController : PseudoScene {
 	public ItemDatabase ItemDB;
 	[BoxGroup("Object Assignments")]
 	public TextMeshProUGUI HeadingText;
+	
+	[BoxGroup("Feel")]
+	public float PopDuration;
+	[BoxGroup("Feel")]
+	public Ease PopEase;
+	[BoxGroup("Feel")]
+	public float TextRiseDuration;
+	[BoxGroup("Feel")]
+	public Ease TextRiseEase;
 
-	private const float POP_DURATION = .6f;
+	private const float POP_DURATION = .4f;
 
 	private PlayerInfoElement winner = null;
 	public override Tween Arrive(bool animate = true) {
 		Tween t = base.Arrive(animate);
 
+		/*
 		if (GameManager.Instance.RoundHistory.Count <= 0) {
 			return t;
 		}
+		*/
 
 		// Clear any previous things.
 		int childCount = PlayerInfoLayout.transform.childCount;
@@ -56,10 +67,9 @@ public class IntermissionController : PseudoScene {
 			clone.Avatar.sprite = player.Avatar.Sprite;
 			clone.CreationImage.sprite = FindSpriteRepresentation(rounds[i].GameSceneName, player.Avatar.GemType);
 			
-			// Store the variable at its current state, for use in the dotween closure later on.
+			// Store the winner to use in assigning the zap later on.
 			if (i == 0 || rounds[i].PointsGained == maxScore) {
 				winner = clone;
-				//Zap.transform.position = clone.Avatar.transform.position;
 			}
 			
 			// Pop in avatar, points text, and creation image.
@@ -67,11 +77,12 @@ public class IntermissionController : PseudoScene {
 			clone.PointsText.transform.localScale = Vector3.zero;
 			clone.CreationImage.transform.localScale = Vector3.zero;
 			clone.PointsText.text = "0";
-			seq.Insert(POP_DURATION * i, clone.Avatar.transform.DOScale(1, POP_DURATION).SetEase(Ease.OutBack));
-			seq.Insert(POP_DURATION * i + .2f, clone.PointsText.transform.DOScale(1, POP_DURATION).SetEase(Ease.OutBack));
-			seq.Insert(POP_DURATION * i + .3f, clone.CreationImage.transform.DOScale(1, POP_DURATION).SetEase(Ease.OutBack));
-			seq.Insert(POP_DURATION * i + .35f, DOTween.To(() => 0, x => clone.PointsText.text = x.ToString(), rounds[i].PointsGained, 5f)
-				.SetEase(Ease.OutCirc));
+			seq.Insert(PopDuration * i, clone.Avatar.transform.DOScale(1, PopDuration).SetEase(PopEase));
+			seq.Insert(PopDuration * i + .2f, clone.PointsText.transform.DOScale(1, PopDuration).SetEase(PopEase));
+			seq.Insert(PopDuration * i + .3f, clone.CreationImage.transform.DOScale(1, PopDuration).SetEase(PopEase));
+			seq.Insert(PopDuration * rounds.Length + .35f,
+				DOTween.To(() => 0, x => clone.PointsText.text = x.ToString(), rounds[i].PointsGained, TextRiseDuration * (rounds[i].PointsGained / maxScore))
+				.SetEase(TextRiseEase));
 
 			var m = clone.GlowParticles.main;
 			m.startColor = new ParticleSystem.MinMaxGradient(Color.white, player.Avatar.Color);
@@ -85,14 +96,21 @@ public class IntermissionController : PseudoScene {
 
 		// Force Unity to update the layout so that we can position things.
 		LayoutRebuilder.ForceRebuildLayoutImmediate(PlayerInfoLayout.GetComponent<RectTransform>());
+		Zap.Text.color = winner.Avatar.color;
 		Zap.transform.position = winner.Avatar.transform.position;
 		seq.Append(Zap.transform.DOScale(Vector3.one, .4f).SetEase(Ease.OutBack)
 			.OnComplete(() =>
 				Zap.Image.transform.DORotate(Vector3.forward * 360, 2f, RotateMode.LocalAxisAdd).SetEase(Ease.Linear)
 					.SetLoops(-1))); // Loop won't be infinite if we add this to the sequence.
 
-		seq.Play();
-		
+		if (t != null) {
+			seq.Pause();
+			t.onComplete += () => seq.Play();
+		} else if (Initiate.IsLoading) {
+			seq.Pause();
+			Initiate.onFinishFading += () => seq.Play();
+		}
+
 		return t;
 	}
 	
