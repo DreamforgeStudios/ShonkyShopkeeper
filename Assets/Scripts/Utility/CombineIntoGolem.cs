@@ -252,7 +252,7 @@ public class CombineIntoGolem : MonoBehaviour
 		GameManager.Instance.introduceTrueGolem = true;
 		GameManager.Instance.typeOfTrueGolem = gemType;
 		PopupTextManager.ResetEvents();
-		sceneChanger.ChangeOrRestartScene("Hall");
+		Initiate.Fade("Hall", Color.black,2.0f);
 		return () => {PopupTextManager.onClose -= TransitionToHall(); };
 	}
 }

@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "71307445964",
+    "firebase_url": "https://golemancer-58640215.firebaseio.com",
+    "project_id": "golemancer-58640215",
+    "storage_bucket": "golemancer-58640215.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:71307445964:android:6fc8e23b4db43155",
+        "android_client_info": {
+          "package_name": "com.Dreamforge.Golemancer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "71307445964-49if8083j5nvel2dn38dm60632pdh9ai.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD3aeMNkHOuYHMruMItBqLGhmSRbQWJNu0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
