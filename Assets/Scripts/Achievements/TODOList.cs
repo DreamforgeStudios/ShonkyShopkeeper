@@ -11,15 +11,15 @@ public class TODOList : MonoBehaviour {
 		// Mess.............
 		string txt = "";
 		if (PersistentData.Instance.TownsUnlocked < 4) {
-			txt += "Travel to a new town.\n" +
-			       "<color=#ffd253>" + Mathf.Clamp(0, Travel.NextPurchaseCost(), Inventory.Instance.goldCount) + "</color>"  +
-				   "/" + "<color=#ffd253>" + Travel.NextPurchaseCost() + "</color> gold.\n\n";
+			txt += "Travel to a new town\n" +
+			       "<color=#D2009D>" + Mathf.Clamp(0, Travel.NextPurchaseCost(), Inventory.Instance.goldCount) + "</color>"  +
+				   "/" + "<color=#D2009D>" + Travel.NextPurchaseCost() + "</color> gold\n\n";
 		}
 
 		if (PersistentData.Instance.TrueGolemsCrafted == 0) {
 			txt += "Create <color=#" + ColorUtility.ToHtmlStringRGB(Quality.GradeToColor(Quality.QualityGrade.Mystic)) +
-			       ">Mystic</color> Components.\n" + "+\n" +
-			       "Create more Golems.";
+			       ">Mystic</color> Components\n" + "+\n" +
+			       "Create more Golems";
 		} else if (PersistentData.Instance.TrueGolemsCrafted < 4) {
 			txt += "Create remaining " + (4 - PersistentData.Instance.TrueGolemsCrafted) + "True Golems";
 		}
