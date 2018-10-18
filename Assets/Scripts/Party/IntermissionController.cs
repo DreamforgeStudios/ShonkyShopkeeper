@@ -84,8 +84,9 @@ public class IntermissionController : PseudoScene {
 			seq.Insert(PopDuration * i, clone.PointsText.transform.DOScale(1, PopDuration).SetEase(PopEase));
 			seq.Insert(PopDuration * i, clone.CreationImage.transform.DOScale(1, PopDuration).SetEase(PopEase));
 			seq.Insert(PopDuration * rounds.Length + .2f,
-				DOTween.To(() => 0, x => clone.PointsText.text = x.ToString(), rounds[i].PointsGained, TextRiseDuration * (rounds[i].PointsGained / maxScore))
+				DOTween.To(() => 0, x => clone.PointsText.text = x.ToString("N0"), rounds[i].PointsGained, TextRiseDuration * (rounds[i].PointsGained / maxScore))
 				.SetEase(TextRiseEase));
+
 
 			var m = clone.GlowParticles.main;
 			m.startColor = new ParticleSystem.MinMaxGradient(Color.white, player.Avatar.Color);
@@ -96,6 +97,13 @@ public class IntermissionController : PseudoScene {
 			// We're actually working backwards here, so reorder the hierarchy.
 			clone.transform.SetAsFirstSibling();
 		}
+
+		seq.InsertCallback(PopDuration * rounds.Length + .2f, () => {
+			SFX.Play("score_start");
+			var src = SFX.Play("score_tick", looping: true, volume: 0);
+			src.DOFade(1, 2f).SetEase(Ease.OutCirc).OnComplete(() => src.DOFade(0, 2f).SetEase(Ease.OutExpo));
+			//source.DOPitch(0f, TextRiseDuration - .5f).OnComplete(() => SFX.StopSpecific("score_tick")).SetEase(Ease.OutQuad).OnComplete(() => source.DOFade(0, .5f));
+		});
 
 		// Force Unity to update the layout so that we can position things.
 		LayoutRebuilder.ForceRebuildLayoutImmediate(PlayerInfoLayout.GetComponent<RectTransform>());

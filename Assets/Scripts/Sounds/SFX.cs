@@ -14,7 +14,7 @@ public static class SFX {
         soundDB.GetInstanceID();
     }
     
-    public static void Play(string sound, float volume = 1, float pitch = 1, float delay = 0, bool looping = false, float playaAt = 0) {
+    public static AudioSource Play(string sound, float volume = 1, float pitch = 1, float delay = 0, bool looping = false, float playaAt = 0) {
             var clip = soundDB.GetClip(sound);
 
             var source = soundDB.AudioSourceInstance;
@@ -25,8 +25,11 @@ public static class SFX {
             source.loop = looping;
 
             source.PlayDelayed(delay);
+        
         if (!GameManager.Instance.PlayingAudio)
             MuteAll();
+
+        return source;
     }
 
     public static void StopAll() {
@@ -41,13 +44,11 @@ public static class SFX {
         soundDB.RemoveSource(source);
     }
 
-    public static void MuteAll()
-    {
+    public static void MuteAll() {
         soundDB.MuteAll();
     }
 
-    public static void UnMuteAll()
-    {
+    public static void UnMuteAll() {
         soundDB.UnMuteAll();
     }
 }
