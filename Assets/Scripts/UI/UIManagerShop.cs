@@ -7,17 +7,21 @@ using DG.Tweening;
 public class UIManagerShop : MonoBehaviour {
 	//Order is WickedGrove, FlamingPeak, GiantsPass, SkyCity
     public List<GameObject> animatedTowns;
-
+	public bool EnableMusic = true;
 
 	// Use this for initialization
 	void Start () {
 		if (Inventory.Instance != null) {
             SetTownBackground(Inventory.Instance.currentTown);
-            SetTownMusic(Inventory.Instance.currentTown);
+            if (EnableMusic) {
+				SetTownMusic(Inventory.Instance.currentTown);
+			}
 		} else {
 			Debug.Log("Inventory was not initialized, will use default.");
             SetTownBackground(Travel.Towns.WickedGrove);
-            SetTownMusic(Travel.Towns.WickedGrove);
+            if (EnableMusic) {
+            	SetTownMusic(Travel.Towns.WickedGrove);
+			}
 		}
 	}
 
