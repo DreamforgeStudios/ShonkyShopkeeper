@@ -3701,18 +3701,18 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 0
       ClosenessContribution: 800
-      MinVolatilityNegativeMomentum: 0.3
-      MaxVolatilityNegativeMomentum: 1.5
-      MinVolatilityTapForce: 10
-      MaxVolatilityTapForce: 70
+      MinVolatilityNegativeMomentum: 1
+      MaxVolatilityNegativeMomentum: 10
+      MinVolatilityTapForce: 50
+      MaxVolatilityTapForce: 200
       VolatilityCurve:
         serializedVersion: 2
         m_Curve:
         - serializedVersion: 3
           time: 0
           value: 0
-          inSlope: 2
-          outSlope: 2
+          inSlope: 0
+          outSlope: 0
           tangentMode: 0
           weightedMode: 0
           inWeight: 0
@@ -3720,8 +3720,8 @@ MonoBehaviour:
         - serializedVersion: 3
           time: 1
           value: 1
-          inSlope: 0
-          outSlope: 0
+          inSlope: 2
+          outSlope: 2
           tangentMode: 0
           weightedMode: 0
           inWeight: 0
@@ -3755,17 +3755,17 @@ MonoBehaviour:
         m_RotationOrder: 0
       ClosenessContribution: 800
       MinVolatilityNegativeMomentum: 1
-      MaxVolatilityNegativeMomentum: 10
-      MinVolatilityTapForce: 50
-      MaxVolatilityTapForce: 350
+      MaxVolatilityNegativeMomentum: 30
+      MinVolatilityTapForce: 80
+      MaxVolatilityTapForce: 310
       VolatilityCurve:
         serializedVersion: 2
         m_Curve:
         - serializedVersion: 3
           time: 0
           value: 0
-          inSlope: 2
-          outSlope: 2
+          inSlope: 0
+          outSlope: 0
           tangentMode: 0
           weightedMode: 0
           inWeight: 0
@@ -3773,8 +3773,8 @@ MonoBehaviour:
         - serializedVersion: 3
           time: 1
           value: 1
-          inSlope: 0
-          outSlope: 0
+          inSlope: 2
+          outSlope: 2
           tangentMode: 0
           weightedMode: 0
           inWeight: 0
@@ -3808,8 +3808,8 @@ MonoBehaviour:
         m_RotationOrder: 0
       ClosenessContribution: 700
       MinVolatilityNegativeMomentum: 1
-      MaxVolatilityNegativeMomentum: 10
-      MinVolatilityTapForce: 50
+      MaxVolatilityNegativeMomentum: 35
+      MinVolatilityTapForce: 70
       MaxVolatilityTapForce: 350
       VolatilityCurve:
         serializedVersion: 2
@@ -3817,8 +3817,8 @@ MonoBehaviour:
         - serializedVersion: 3
           time: 0
           value: 0
-          inSlope: 2
-          outSlope: 2
+          inSlope: 0
+          outSlope: 0
           tangentMode: 0
           weightedMode: 0
           inWeight: 0
@@ -3826,8 +3826,8 @@ MonoBehaviour:
         - serializedVersion: 3
           time: 1
           value: 1
-          inSlope: 0
-          outSlope: 0
+          inSlope: 2
+          outSlope: 2
           tangentMode: 0
           weightedMode: 0
           inWeight: 0
@@ -3835,7 +3835,7 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 0
-  ManualDifficultyOverride: 0
+  ManualDifficultyOverride: 1
   ManualDifficulty: 0
   heldTickrate: 0.15
   accelerationCurve:
