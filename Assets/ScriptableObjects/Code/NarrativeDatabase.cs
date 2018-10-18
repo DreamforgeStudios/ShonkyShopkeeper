@@ -98,13 +98,11 @@ public class NarrativeDatabase : ScriptableObject {
         NarrativeManager.Read(key);
     }
     
-    public void ResetNarrativeFile()
-    {
-        string[] emptyString =
-        {
-
-        };
+    public void ResetNarrativeFile() {
+        string[] emptyString = { };
         var path = Path.Combine(Application.persistentDataPath, "narratives.txt");
         File.WriteAllLines(path, emptyString);
+        // Mark narrativeElementDictionary as dirty so that it will be re-initialized next time.
+        narrativeElementDictionary = null;
     }
 }

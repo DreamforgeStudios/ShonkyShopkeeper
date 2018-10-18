@@ -163,13 +163,11 @@ public class AchievementDatabase : ScriptableObject {
         }
     }
 
-    public void ResetAchievementFile()
-    {
-        string[] emptyString =
-        {
-
-        };
+    public void ResetAchievementFile() {
+        string[] emptyString = { };
         var path = Path.Combine(Application.persistentDataPath, "achievements.txt");
         File.WriteAllLines(path, emptyString);
+        // Mark achievementDictionary as dirty so that it will be re-initialized next time.
+        achievementDictionary = null;
     }
 }
