@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,8 +19,7 @@ public class AvatarConfirmationController : PseudoScene {
 		GameManager.Instance.RoundHistory = new LinkedList<PostRoundInfo>();
 		GameManager.Instance.PlayerInfos = new List<PlayerInfo>();
 		for (int i = 0; i < numberOfPlayers; i++) {
-			GameManager.Instance.PlayerInfos.Add(new PlayerInfo(i, AvatarSelectController.SelectedAvatars[i].Sprite,
-				AvatarSelectController.SelectedAvatars[i].GemType));
+			GameManager.Instance.PlayerInfos.Add(new PlayerInfo(i, AvatarSelectController.SelectedAvatars[i]));
 		}
 		
 		// Create a queue of all the games and who should play them.
@@ -30,8 +30,8 @@ public class AvatarConfirmationController : PseudoScene {
         }
 	}
 
-	public override void Arrive() {
-		base.Arrive();
+	public override Tween Arrive(bool animate = true) {
+		Tween t = base.Arrive(animate);
 		
 		// Clear any already selected avatars.
 		int childCount = LayoutObject.transform.childCount;
@@ -49,5 +49,7 @@ public class AvatarConfirmationController : PseudoScene {
 		
 		// NOTE: is there a better place for this than Arrive()?
 		GenerateGame();
+
+		return t;
 	}
 }

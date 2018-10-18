@@ -13,7 +13,7 @@ public class StringAudioClipDictionary : SerializableDictionary<string, AudioCli
 public class SoundDatabase : ScriptableObject {
     public AudioSourceHelper AudioSourcePrefab;
     [ShowNonSerializedField]
-    public const int MAX_AUDIO_SOURCES = 5;
+    public const int MAX_AUDIO_SOURCES = 10;
     
     // To keep the scene neat...
     private GameObject audioParent = null;
@@ -86,7 +86,24 @@ public class SoundDatabase : ScriptableObject {
     public void RemoveSource(AudioSourceHelper source) {
         audioSourceInstances.Remove(source);
     }
-    
+
+    public void MuteAll()
+    {
+        for (int i = 0; i < audioSourceInstances.Count; i++)
+        {
+            audioSourceInstances[i].source.mute = true;
+            audioSourceInstances[i].source.Pause();
+        }
+    }
+
+    public void UnMuteAll()
+    {
+        for (int i = 0; i < audioSourceInstances.Count; i++)
+        {
+            audioSourceInstances[i].source.mute = false;
+            audioSourceInstances[i].source.UnPause();
+        }
+    }
     
     // Testing functions.
     public string ClipKey;

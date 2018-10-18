@@ -33,6 +33,7 @@ TagManager:
   - TutorialManager
   - ShopCanvas
   - TrueGolem
+  - TracingRune
   layers:
   - Default
   - TransparentFX
@@ -53,7 +54,7 @@ TagManager:
   - Items
   - WorldUI
   - NPC
-  - 
+  - RuneRaycast
   - 
   - 
   - 

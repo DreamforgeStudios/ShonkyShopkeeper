@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using NaughtyAttributes;
 using UnityEngine.UI;
@@ -8,7 +9,7 @@ public class AvatarSelectController : PseudoScene {
 	public Image AvatarImage;
 	public List<Avatar> AvailableAvatars;
 	public PlayerSelectController PlayerSelectController;
-	public PseudoSceneManager PseudoSceneManager;
+	//public PseudoSceneManager PseudoSceneManager;
 
 	[ReadOnly]
 	public List<Avatar> SelectedAvatars = new List<Avatar>();
@@ -53,9 +54,12 @@ public class AvatarSelectController : PseudoScene {
 		AvatarImage.sprite = AvailableAvatars[ActiveIndex].Sprite;
 	}
 	
-	public override void Arrive() {
-		base.Arrive();
+	public override Tween Arrive(bool animate = true) {
+		Tween t = base.Arrive(animate);
+		
 		// Reset avatars each time we load in.
 		SelectedAvatars.Clear();
+
+		return t;
 	}
 }

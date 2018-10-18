@@ -14,7 +14,7 @@ MonoBehaviour:
   itemName: Emerald
   physicalRepresentation: {fileID: 1202478177869996, guid: ebde02e4a89d06f4c846a0c7100a2494,
     type: 2}
-  spriteRepresentation: {fileID: 21300000, guid: 189eda89c3dcaf646a0e52c6610929ce,
+  spriteRepresentation: {fileID: 21300000, guid: 16e30bd46d42a2743b41a6a3ed14ade1,
     type: 3}
   stackLimit: 1
   mergeable: 0

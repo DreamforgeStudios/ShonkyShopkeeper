@@ -38,15 +38,15 @@ public class OptionsScreen : MonoBehaviour
 		} else if (SceneManager.GetActiveScene().name == "Shop")
 		{
 			//Variable used to stop any interactions during golem creation process so I can reuse it here
-			GameManager.Instance.introduceTrueGolem = false;
-			GameManager.Instance.canUseTools = true;
+			ResetVariables();
 			mainShopCanvas.gameObject.SetActive(true);
 		} else if (SceneManager.GetActiveScene().name == "TutorialShop")
 		{
 			//Variable used to stop any interactions during golem creation process so I can reuse it here
-			GameManager.Instance.introduceTrueGolem = false;
-			GameManager.Instance.canUseTools = true;
-			tutorialProgressChecker.SetActive(true);
+			ResetVariables();
+			if (tutorialProgressChecker != null)
+				tutorialProgressChecker.SetActive(true);
+			
 			tutorialShopCanvas.gameObject.SetActive(true);
 		}
 		this.gameObject.SetActive(false);
@@ -56,12 +56,12 @@ public class OptionsScreen : MonoBehaviour
 	{
 		if (GameManager.Instance.PlayingAudio)
 		{
-			soundButtonText.text = "Disable Sound";
+			soundButtonText.text = "Sound: On";
 		}
 		else
 		{
-			soundButtonText.text = "Enable Sound";
-			SFX.StopAll();
+			soundButtonText.text = "Sound: Off";
+			SFX.MuteAll();
 		}
 	}
 
@@ -105,10 +105,12 @@ public class OptionsScreen : MonoBehaviour
 		if (GameManager.Instance.PlayingAudio)
 		{
 			GameManager.Instance.PlayingAudio = false;
+			SFX.MuteAll();
 			DetermineSoundButtonStatus();
 			return;
 		}
 		GameManager.Instance.PlayingAudio = true;
+		SFX.UnMuteAll();
 		DetermineSoundButtonStatus();
 	}
 
@@ -122,12 +124,32 @@ public class OptionsScreen : MonoBehaviour
 		SaveManager.SaveShonkyInventory();
 		SaveManager.SavePersistentData();
 		
+		//Reset narrative db
+		NarrativeDatabase narrativeDB = Object.Instantiate((NarrativeDatabase) Resources.Load("NarrativeDatabase"));
+		narrativeDB.ResetNarrativeFile();
+		
+		//Reset achievement db
+		AchievementDatabase achievementDB = Object.Instantiate((AchievementDatabase) Resources.Load("AchievementDatabase"));
+		achievementDB.ResetAchievementFile();
+
+		ResetVariables();
+		
 		//Send back to main menu
 		Initiate.Fade("Intro", Color.black, 2f);
 	}
 
 	public void ResetInventory()
 	{
+		//Reset narrative db
+		NarrativeDatabase narrativeDB = Object.Instantiate((NarrativeDatabase) Resources.Load("NarrativeDatabase"));
+		narrativeDB.ResetNarrativeFile();
+		
+		//Reset achievement db
+		AchievementDatabase achievementDB = Object.Instantiate((AchievementDatabase) Resources.Load("AchievementDatabase"));
+		achievementDB.ResetAchievementFile();
+		
+		ResetVariables();
+		
 		if (SceneManager.GetActiveScene().name == "Shop")
 		{
 			SaveManager.LoadFromTemplate(defaultInventory);
@@ -141,6 +163,8 @@ public class OptionsScreen : MonoBehaviour
 
 	public void ResetGolems()
 	{
+		ResetVariables();
+		
 		if (SceneManager.GetActiveScene().name == "Shop")
 		{
 			SaveManager.LoadFromShonkyTemplate(defaultShonkyInventory);
@@ -152,12 +176,23 @@ public class OptionsScreen : MonoBehaviour
 		}
 	}
 
+	private void ResetVariables()
+	{
+		GameManager.Instance.introduceTrueGolem = false;
+		GameManager.Instance.canUseTools = true;
+	}
+
 	public void BackToMenu()
 	{
 		SaveManager.SaveInventory();
 		SaveManager.SaveShonkyInventory();
-		
+		ResetVariables();
 		Initiate.Fade("Intro",Color.black,2f);
+	}
+
+	public void Quit()
+	{
+		Application.Quit();
 	}
 	
 	

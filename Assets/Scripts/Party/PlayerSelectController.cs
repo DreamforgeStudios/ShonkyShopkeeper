@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using NaughtyAttributes;
@@ -12,11 +13,6 @@ public class PlayerSelectController : PseudoScene {
 	public int ActiveNumberOfPlayers;
 	
 	public TextMeshProUGUI Text;
-
-	void Start() {
-		ActiveNumberOfPlayers = DefaultPlayers;
-		UpdateText();
-	}
 
 	public void LessPlayers() {
 		if (ActiveNumberOfPlayers <= MinPlayers) {
@@ -38,5 +34,14 @@ public class PlayerSelectController : PseudoScene {
 
 	private void UpdateText() {
 		Text.text = ActiveNumberOfPlayers.ToString();
+	}
+
+	public override Tween Arrive(bool animate = true) {
+		Tween t = base.Arrive(animate);
+		
+		ActiveNumberOfPlayers = DefaultPlayers;
+		UpdateText();
+
+		return t;
 	}
 }

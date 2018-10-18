@@ -74,7 +74,7 @@ public class Hall : MonoBehaviour
 		if (!GameManager.Instance.introduceTrueGolem)
 		{
 			CheckCamera();
-			if (!GameManager.Instance.InMap && !forward)
+			if ((!GameManager.Instance.InMap && !GameManager.Instance.firstTownSelect) && !forward)
 				ShopButton.SetActive(true);
 			else
 				ShopButton.SetActive(false);
@@ -414,6 +414,7 @@ public class Hall : MonoBehaviour
 			}
 			Travel.ChangeCurrentTown(currentTownSelected);
 			SaveManager.SaveInventory();
+			GameManager.Instance.firstTownSelect = false;
 			Initiate.Fade("Shop", Color.black, 2f);
 		}
 		//Else if it was a subsequent town, check the purchase was successful
@@ -428,6 +429,7 @@ public class Hall : MonoBehaviour
 				}
 				Travel.ChangeCurrentTown(currentTownSelected);
 				SaveManager.SaveInventory();
+				GameManager.Instance.firstTownSelect = false;
 				Initiate.Fade("Shop", Color.black, 2f);		
 			}
 			else {

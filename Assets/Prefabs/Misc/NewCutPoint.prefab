@@ -130,7 +130,10 @@ MonoBehaviour:
   LineSelectedColor: {r: 0.21568629, g: 0.8588236, b: 0.3921569, a: 1}
   LineSelectedEase: 27
   LineSelectedEaseTime: 0.5
+  FadeDuration: 0.5
+  FadeEase: 20
   CutVector: {x: 0, y: 1, z: 0}
+  CutTimeout: 3
 --- !u!212 &212025349014014604
 SpriteRenderer:
   m_ObjectHideFlags: 1

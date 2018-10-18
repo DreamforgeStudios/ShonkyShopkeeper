@@ -48,7 +48,7 @@ public class ReturnOrRetry {
 		// Dequeue the round, because it has been completed.
 		var roundInfo = GameManager.Instance.RoundQueue.Dequeue();
 		// Keep a history of rounds that we've played.
-		GameManager.Instance.RoundHistory.AddFirst(new PostRoundInfo(roundInfo, (int)points));
+		GameManager.Instance.RoundHistory.AddFirst(new PostRoundInfo(roundInfo, points));
 		GameManager.Instance.PlayerInfos[roundInfo.PlayerIndex].Points += points;
 		Initiate.Fade("RoundLobby", Color.black, 2f);
 	}

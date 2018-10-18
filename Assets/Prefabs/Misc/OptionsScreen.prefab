@@ -1474,12 +1474,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   soundButtonText: {fileID: 114949875989312608}
-  defaultInventory: {fileID: 11400000, guid: 03db1b1ae1f799345a1713cd54fc60d0, type: 2}
+  difficultyButtonText: {fileID: 0}
+  defaultInventory: {fileID: 11400000, guid: 795ea9e38024078418ecb7d4b7e61703, type: 2}
   TutorialInventory: {fileID: 11400000, guid: 5e9141a398679b243bfb4dc05a470ffa, type: 2}
-  defaultShonkyInventory: {fileID: 11400000, guid: b785a8ded8912054e83bfa10fd17d75a,
+  defaultShonkyInventory: {fileID: 11400000, guid: d531f2fb957998d4d8d3a1a693418ac0,
     type: 2}
   tutorialShonkyInventory: {fileID: 11400000, guid: 25584f92be5183a43b7b4083317763e8,
     type: 2}
+  introHandler: {fileID: 0}
+  mainShopCanvas: {fileID: 0}
+  tutorialShopCanvas: {fileID: 0}
+  tutorialProgressChecker: {fileID: 0}
 --- !u!114 &114949875989312608
 MonoBehaviour:
   m_ObjectHideFlags: 1

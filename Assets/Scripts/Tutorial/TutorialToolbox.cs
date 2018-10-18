@@ -387,6 +387,7 @@ public class TutorialToolbox : MonoBehaviour {
                     previousSelection != null)
                 {
                     MoveDown(currentSelection);
+                    MoveDown(previousSelection);
                     HideInspector();
                 }
             }
@@ -475,6 +476,8 @@ public class TutorialToolbox : MonoBehaviour {
                         // Don't let user select while we're moving.
                         // TODO: let user select while moving?
                         canSelect = false;
+                        
+                        tutorialManager.DestroySpecificItemIndicator(obj2);
 
                         Transform t1 = obj1.transform,
                             t2 = obj2.transform;
@@ -490,7 +493,7 @@ public class TutorialToolbox : MonoBehaviour {
                                 .SetEase(Ease.OutBack)
                                 .OnComplete(() =>
                                     t2.DOMove(slot1.transform.position, 1f).SetEase(Ease.OutBounce)
-                                        .OnComplete(() => canSelect = true)));
+                                        .OnComplete(() => canSelect = true).OnComplete(()=> FinishForceps())));
 
                         // This is a bit janky, but might be doing physics based inventory soon, so not bothering.
                         t1.GetComponent<Rotate>().Enable = false;
@@ -506,10 +509,6 @@ public class TutorialToolbox : MonoBehaviour {
                         }
 
                         currentSelection = null;
-                        //If tutorial of forceps, remove glow from items
-                        if (!GameManager.Instance.TutorialIntroComplete)
-                            tutorialManager.FinishForcepsMovement();
-
                     }
                 }
 
@@ -533,7 +532,7 @@ public class TutorialToolbox : MonoBehaviour {
                         .OnComplete(() => t1.DOMove(slot2.transform.position + Vector3.up, 0.6f).SetEase(Ease.OutBack)
                             .OnComplete(() =>
                                 t1.DOMove(slot2.transform.position, 1f).SetEase(Ease.OutBounce)
-                                    .OnComplete(() => canSelect = true)));
+                                    .OnComplete(() => canSelect = true).OnComplete(()=> FinishForceps())));
                     t1.GetComponent<Rotate>().Enable = false;
                     SFX.Play("item_down", 1, 1, 1.5f);
 
@@ -546,9 +545,6 @@ public class TutorialToolbox : MonoBehaviour {
                     }
 
                     currentSelection = null;
-                    //If tutorial of forceps, remove glow from items
-                    if (!GameManager.Instance.TutorialIntroComplete)
-                        tutorialManager.FinishForcepsMovement();
                 }
 
                 currentSelection = null;
@@ -879,6 +875,13 @@ public class TutorialToolbox : MonoBehaviour {
         slot.GetPrefabInstance(out item);
         GameObject obj = ToolToObject(Tool.Wand);
         obj.GetComponent<ToolFloat>().WandParticles(wandTip.transform.position, item.transform.position);
+    }
+
+    private void FinishForceps()
+    {
+        //If tutorial of forceps, remove glow from items
+        if (!GameManager.Instance.TutorialIntroComplete)
+            tutorialManager.FinishForcepsMovement();
     }
 
     private void OnDrawGizmos() {

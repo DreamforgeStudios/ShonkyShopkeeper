@@ -98,6 +98,10 @@ public class InstructionBubble : MonoBehaviour
 		tutorialRuneObj.SetActive(false);
 		Instruction = false;
 		nextButton.onClick.AddListener(NextText);
+		
+		//Modify size of exposition bubble
+		ExpositionBubbleObj.GetComponent<ExpositionBubbleSizing>().UpdateSize();
+		
 		//clear old events
 		if (onInstruction != null)
 		{
@@ -180,8 +184,12 @@ public class InstructionBubble : MonoBehaviour
 			Destroy(tutorialRuneObj);
 		
 		if (activePage + 1 < instructionText.Count)
-		{
+		{		
 			instructionTextBox.text = instructionText[++activePage];
+			
+			//Modify size of instruction bubble
+			InstructionBubbleObj.GetComponent<InstructionBubbleSizing>().UpdateSize();
+			
 			OnInstruct();
 		}
 	}
@@ -189,8 +197,12 @@ public class InstructionBubble : MonoBehaviour
 	public void PreviousInstructionText()
 	{
 		if (activePage - 1 > 0)
-		{
+		{	
 			instructionTextBox.text = instructionText[--activePage];
+			
+			//Modify size of instruction bubble
+			InstructionBubbleObj.GetComponent<InstructionBubbleSizing>().UpdateSize();
+			
 			OnInstruct();
 		}
 	}
@@ -233,6 +245,9 @@ public class InstructionBubble : MonoBehaviour
 		if (activePage + 1 >= informationTextToDisplay.Count) return;
 		activePage++;
 		expositionTextBox.text = informationTextToDisplay[activePage];
+		
+		//Modify size of exposition bubble
+		ExpositionBubbleObj.GetComponent<ExpositionBubbleSizing>().UpdateSize();
 		
 		UpdateCloser();
 	}

@@ -14,7 +14,7 @@ MonoBehaviour:
   itemName: Sapphire
   physicalRepresentation: {fileID: 1798756650748950, guid: ccd44aee3bf9eb54cbe54d75d4a73d67,
     type: 2}
-  spriteRepresentation: {fileID: 21300000, guid: 8ec1a34fda639ff4c984c397647bd4d0,
+  spriteRepresentation: {fileID: 21300000, guid: 8611e3b1f5408f14d898308df0cc40f0,
     type: 3}
   stackLimit: 1
   mergeable: 0

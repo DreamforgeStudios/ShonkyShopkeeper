@@ -49,7 +49,7 @@ public class IntroNarrative : MonoBehaviour
 				if (introHandler.goToTutorial)
 					Initiate.Fade("TutorialShop", Color.black, 2.0f);
 				else 
-					Initiate.Fade("Shop", Color.black, 2f);
+					Initiate.Fade("Hall", Color.black, 2f);
 			}
 		}
 	}

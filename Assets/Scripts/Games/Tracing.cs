@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using DG.Tweening;
 using DG.Tweening.Core.Easing;
 using NaughtyAttributes;
@@ -8,6 +9,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Experimental.XR;
 using Random = UnityEngine.Random;
 
 [System.Serializable]
@@ -27,6 +29,7 @@ public class Tracing : MonoBehaviour {
     private List<Vector3> playerPoints = new List<Vector3>();
     private List<Vector3> optimalPoints = new List<Vector3>();
     private List<int> optimalPointIndex = new List<int>();
+    public List<Vector3> previousRuneLinger = new List<Vector3>();
 
     //Gameobject that holds the database of all Runes
     public GameObject TracingManager;
@@ -96,12 +99,18 @@ public class Tracing : MonoBehaviour {
     
     //Canvas flash
     public RawImage WhiteFlash;
+    
+    //Particle system used to give feedback
+    public GameObject particlePrefab;
+    private bool startedParticle;
+    private GameObject feedbackParticleSystem;
+    public Material goodTraceFeedback, badTraceFeedback;
+    public LayerMask runeCollisionMask;
 
     void Awake() {
         // Don't start until we're ready.
         Time.timeScale = 0;
         ReadyGo.onComplete += (() => { Time.timeScale = 1; start = true; });
-        //qualityBar.Subtract(1f,false);
     }
 
     // Use this for initialization
@@ -166,7 +175,9 @@ public class Tracing : MonoBehaviour {
         averageDistanceAway = 0;
         score = 0;
         totalDistanceAway = 0;
-        
+        //Setup feedback Particle system
+        feedbackParticleSystem = Instantiate(particlePrefab);
+        feedbackParticleSystem.GetComponent<ParticleSystem>().Stop();
     }
 
     private void SplitRuneObject()
@@ -176,44 +187,13 @@ public class Tracing : MonoBehaviour {
         _currentRuneHitPoints = _currentRune.transform.GetChild(2).gameObject;
         _currentRuneSpriteRenderer = _currentRuneSprite.GetComponent<SpriteRenderer>();
     }
-
-    /*
-    //Helper method to showcase optimal points
-    private void DrawOptimalLines() {
-        int ID = 0;
-        foreach (Vector3 position in optimalPoints) {
-            if (!playerPoints.Contains(position)) {
-                playerPoints.Add(position);
-                lineRenderer.positionCount = playerPoints.Count;
-                lineRenderer.SetPosition(playerPoints.Count - 1, playerPoints[playerPoints.Count - 1]);
-                ID++;
-            }
-        }
-    }
-    */
-
-    /*
-    private void SetupLineRenderer() {
-        lineRenderer = GetComponent<LineRenderer>();
-        lineRenderer.useWorldSpace = true;
-        lineRenderer.alignment = LineAlignment.View;
-        lineRenderer.positionCount = 0;
-        lineRenderer.startColor = chosenStartColour;
-        lineRenderer.endColor = chosenFinishColour;
-        lineRenderer.startWidth = width;
-        lineRenderer.endWidth = width;
-        lineRenderer.sortingLayerName = "LineRenderer";
-    }
-    */
     
     private void GetNecessaryPositions() {
         for (int i = 0; i < _currentRuneHitPoints.transform.childCount; i++)
         {
             Vector3 position = _currentRuneHitPoints.transform.GetChild(i).gameObject.transform.position;
-            //position.z = 14.251f;
             optimalPoints.Add(position);
         }       
-        //DrawOptimalLines();
     }
 
     private void SetupColliders()
@@ -221,17 +201,12 @@ public class Tracing : MonoBehaviour {
         for (int i = 0; i < _currentRuneColliders.transform.childCount; i++)
         {
             GameObject collider = _currentRuneColliders.transform.GetChild(i).gameObject;
-            //Vector3 colliderTransform = collider.transform.position;
-            //colliderTransform.z = 10;
-            //collider.transform.position = colliderTransform;
         }
     }
     
     private void GetInput() {
         Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
         Vector3 mWorldPosition = ray.GetPoint(0.3f);
-        //mWorldPosition.z = 14.251f;
-        //Debug.Log("mworldposition is " + mWorldPosition);
         FollowSphere.transform.position = mWorldPosition;
 
         if (Input.GetMouseButtonDown(0)) {
@@ -251,13 +226,17 @@ public class Tracing : MonoBehaviour {
             hitPoints = 0;
             CheckPositions();
             score = CalculateColliderPenalties(CalculateAccuracy(CalculateWin()));
-            Debug.Log(string.Format("Total score is {0}", score));
+            //Reset Particle System
+            if (startedParticle)
+            {
+                feedbackParticleSystem.GetComponent<ParticleSystem>().Stop();
+                startedParticle = false;
+            }
+            //Add Score if greater than 0
             if (score > 0)
             {
-                //Debug.Log("adding score of " + score);
                 PointsManager.AddPoints(score * activeDifficultySettings.ScoreMultiplier);
-                //_finalScore += score;
-                //scoreText.text = string.Format("Final score is {0}", _finalScore);
+                GiveFeedback();
                 NextRune();
                 missDurationCounter = 0;
             }
@@ -267,11 +246,41 @@ public class Tracing : MonoBehaviour {
             if (!playerPoints.Contains(mWorldPosition)) {
                 FollowSphere.SetActive(true);
                 playerPoints.Add(mWorldPosition);
-                //lineRenderer.positionCount = playerPoints.Count;
-                //lineRenderer.SetPosition(playerPoints.Count - 1, playerPoints[playerPoints.Count - 1]);
+                CheckForRune(mWorldPosition, ray);
             }
         }
 
+    }
+
+    private void GiveFeedback()
+    {
+        previousRuneLinger = ReverseList(playerPoints);
+        lineRenderer.positionCount = previousRuneLinger.Count;
+        lineRenderer.startWidth = 0.008f;
+        lineRenderer.endWidth = 0.008f;
+        lineRenderer.SetPositions(previousRuneLinger.ToArray());
+        //Debug.Log("Score is " + score);
+        Color customColor = Color.Lerp(Color.red,Color.green, score / 1200);
+        lineRenderer.startColor = customColor;
+        lineRenderer.endColor = customColor;
+        //Stop previous coroutine and start new one
+        StopCoroutine(FadePosition());
+        StartCoroutine(FadePosition());
+    }
+
+    private List<Vector3> ReverseList(List<Vector3> listToReverse)
+    {
+        listToReverse.Reverse();
+        return listToReverse;
+    }
+
+    private IEnumerator FadePosition()
+    {
+        while (lineRenderer.positionCount > 1)
+        {
+            lineRenderer.positionCount = lineRenderer.positionCount - 1;
+            yield return new WaitForSeconds(0.05f);
+        }
     }
 
 	public Quality.QualityGrade grade = Quality.QualityGrade.Unset;
@@ -300,35 +309,23 @@ public class Tracing : MonoBehaviour {
         _canTrace = false;
     }
 
-    /*
-    private void DetermineQuality(float finalScore) {
-        float decimalScore = finalScore / 1000;
-        // For transferring quality between scenes.
-        if (GameManager.instance) {
-            GameManager.instance.UpdateQuality(decimalScore, 1);
-        }
-        grade = Quality.FloatToGrade(decimalScore, 3);
-    }
-    */
-
     private int CalculateAccuracy(bool success) {
-        averageDistanceAway = totalDistanceAway / hitPoints;// optimalPointIndex.Count;
-        //Debug.Log("avg dist away = " + averageDistanceAway);
+        averageDistanceAway = totalDistanceAway / hitPoints;
 
         if (success) {
             averageDistanceAway = totalDistanceAway / optimalPointIndex.Count;
             Debug.Log("avg dist away = " + averageDistanceAway);
             if (averageDistanceAway >= 0 && averageDistanceAway <= 0.025) {
-                return 1000;
+                return 1200;
             }
             else if (averageDistanceAway > 0.025 && averageDistanceAway < 0.05) {
-                return 850;
+                return 1000;
             }
             else if (averageDistanceAway > 0.05 && averageDistanceAway < 0.067) {
-                return 700;
+                return 850;
             }
             else if (averageDistanceAway > 0.067 && averageDistanceAway < 0.5) {
-                return 550;
+                return 600;
             }
             else {
                 return 400;
@@ -442,7 +439,36 @@ public class Tracing : MonoBehaviour {
         flashAlpha.a = 0f;
         WhiteFlash.color = flashAlpha;
         WhiteFlash.enabled = true;
-        WhiteFlash.DOFade(0.95f, 0.15f).OnComplete(() => WhiteFlash.DOFade(0f, 1f));
+        WhiteFlash.DOFade(0.95f, 0.15f).OnComplete(() => WhiteFlash.DOFade(0f, 1f));   
+    }
+    
+    //Method that raycasts the rune sprite to see if on the rune or on alpha
+    private void CheckForRune(Vector3 mousePosition, Ray originalRaycast)
+    {
+        //Debug.Log("Added point was " + mousePosition);
+        Debug.DrawRay(originalRaycast.origin,mousePosition,Color.red,1f);
+        //If particle system not started, start it
+        if (!startedParticle)
+        {
+            feedbackParticleSystem.GetComponent<ParticleSystem>().Play();
+            startedParticle = true;
+        }
+        //Place particle system at point
+        feedbackParticleSystem.transform.position = mousePosition;
+
+        RaycastHit hit;
+        if (Physics.Raycast(originalRaycast.origin,originalRaycast.direction,out hit,1f,runeCollisionMask))
+        {
+            Debug.Log("Collider tag " + hit.collider.tag);
+            if (hit.collider.CompareTag("TracingRune"))
+                feedbackParticleSystem.GetComponent<ParticleSystemRenderer>().material = goodTraceFeedback;
+            else 
+                feedbackParticleSystem.GetComponent<ParticleSystemRenderer>().material = badTraceFeedback;
+        }
+        else
+        {
+            feedbackParticleSystem.GetComponent<ParticleSystemRenderer>().material = badTraceFeedback;
+        }
         
     }
 

@@ -14,7 +14,7 @@ MonoBehaviour:
   itemName: Cut Sapphire
   physicalRepresentation: {fileID: 1316769703934902, guid: 4419165768acae444abebcc79eeabd4f,
     type: 2}
-  spriteRepresentation: {fileID: 21300000, guid: 8ec1a34fda639ff4c984c397647bd4d0,
+  spriteRepresentation: {fileID: 21300000, guid: ebb6332a64d56c2449baa7593ea3ff56,
     type: 3}
   stackLimit: 1
   mergeable: 0

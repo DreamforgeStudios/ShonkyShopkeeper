@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Name: Druid
   m_EditorClassIdentifier: 
   Sprite: {fileID: 21300000, guid: f11f533070c6cb844889146f60e39334, type: 3}
-  Color: {r: 0.41664228, g: 0.8584906, b: 0.22272164, a: 1}
+  Color: {r: 0.41762742, g: 1, b: 0.16509432, a: 1}
   GemType: 3

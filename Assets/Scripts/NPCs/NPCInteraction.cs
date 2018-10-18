@@ -45,7 +45,7 @@ public class NPCInteraction : MonoBehaviour {
     */
 
     private void CheckForInput() {
-        if (Input.GetMouseButtonDown(0) && !GameManager.pickedUpGolem)
+        if (Input.GetMouseButtonDown(0) && !GameManager.pickedUpGolem && GameManager.Instance.canUseTools)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             //Debug.Log(Camera.main.ScreenPointToRay(Input.mousePosition));
@@ -59,10 +59,9 @@ public class NPCInteraction : MonoBehaviour {
                     Debug.Log("Hit NPC");
                     //Need to determine if the player has any shonkys and what indexes they are at
                     List<int> shonkyIndexes = ShonkyInventory.Instance.PopulatedShonkySlots();
-                    //If they do, select a random one and pass to the barter screen
-                    //Debug.Log(shonkyIndexes.Count);
-                    if (shonkyIndexes.Count > 0)
-                    {
+
+                    //if (shonkyIndexes.Count > 0)
+                    //{
                         GameManager.Instance.WizardTransfer = hit.transform.GetComponent<NPCWalker>().wizardName;
 
                         //Move NPC to shop front and initiate barter
@@ -90,7 +89,7 @@ public class NPCInteraction : MonoBehaviour {
                         hit.transform.DOMove(shopFrontPos, 2f, false)
                             .OnComplete(() => hit.transform.GetComponent<NPCWalker>().FrontIdle());
                             */
-                    }
+                    //}
                 }
                 Debug.Log("Did not Hit NPC");
             }

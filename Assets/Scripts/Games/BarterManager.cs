@@ -223,7 +223,7 @@ public class BarterManager : MonoBehaviour {
 		RadialBar.ChangePoint(point, SegmentInfoDict[Segment.Bad].Color);
 
 		HourGlass.CurrentTimeRemaining += info.TimeAdd;
-		price += info.PriceAdd;
+		price = price + info.PriceAdd >= PriceInfoDict[golemQuality] ? price + info.PriceAdd : PriceInfoDict[golemQuality];
 		happiness = Mathf.Clamp01(happiness + info.HappinessAdd);
 
 		PriceText.text = "Price: <sprite=0>" + price;
