@@ -31,9 +31,6 @@ public class FinalScoresController : PseudoScene {
 	[BoxGroup("Feel")]
 	public float GoldBonusInbetweenDuration;
 
-
-	private const int GOLD_MULTIPLIER = 20;
-
 	public override Tween Arrive(bool animate = true) {
 		Tween t = base.Arrive(animate);
 
@@ -57,13 +54,10 @@ public class FinalScoresController : PseudoScene {
 			// Avatars pop in at the very start.
 			clone.Avatar.transform.localScale = Vector3.zero;
 			seq.Insert(0, clone.Avatar.transform.DOScale(Vector3.one, AvatarPopDuration).SetEase(AvatarPopEase));
-
-			float winnerAggregate = orderedPlayers[0].Points + orderedPlayers[0].Gold * GOLD_MULTIPLIER;
-			float playerAggregate = playerInfos[i].Points + playerInfos[i].Gold * GOLD_MULTIPLIER;
 				
 			float maxHeight = clone.FillBG.rectTransform.rect.height;
-			float initialFill = Mathf.Lerp(0, maxHeight, playerInfos[i].Points / winnerAggregate);
-			float finalFill = Mathf.Lerp(0, maxHeight, playerAggregate / winnerAggregate);
+			float initialFill = Mathf.Lerp(0, maxHeight, playerInfos[i].Points / orderedPlayers[0].AggregatePoints);
+			float finalFill = Mathf.Lerp(0, maxHeight, playerInfos[i].AggregatePoints / orderedPlayers[0].AggregatePoints);
 			
 			Vector2 initialFillSizeDelta = new Vector2(clone.FillFG.rectTransform.sizeDelta.x, initialFill);
 			Vector2 finalFillSizeDelta = new Vector2(clone.FillFG.rectTransform.sizeDelta.x, finalFill);
@@ -94,7 +88,7 @@ public class FinalScoresController : PseudoScene {
 			// Clone i because it may change between now and when the closure is run.
 			var iclone = i;
 			seq.InsertCallback(AvatarPopDuration + InitialRiseDuration * finalMultiplier + index * GoldBonusInbetweenDuration + GoldBonusDuration,
-                () => DOTween.To(() => playerInfos[iclone].Points, x => clone.PointsText.text = x.ToString("N0"), playerAggregate, FinalRiseDuration));
+                () => DOTween.To(() => playerInfos[iclone].Points, x => clone.PointsText.text = x.ToString("N0"), playerInfos[i].AggregatePoints, FinalRiseDuration));
 
 			clone.transform.SetParent(PlayerScoresLayout.transform, false);
 		}

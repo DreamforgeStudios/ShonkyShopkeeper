@@ -47,8 +47,15 @@ public class NewCutPoint : MonoBehaviour {
 	[BoxGroup("Spinner")]
 	public float LineSelectedEaseTime;
 
+	[BoxGroup("Fade")]
+	public float FadeDuration;
+	[BoxGroup("Fade")]
+	public Ease FadeEase;
+
 	[BoxGroup("Properties")]
 	public Vector3 CutVector;
+	[BoxGroup("Properties")]
+	public float CutTimeout;
 
 	public float SpawnTime {
 		get { return LineAppearAtTime; }
@@ -56,6 +63,9 @@ public class NewCutPoint : MonoBehaviour {
 	
 	public delegate void OnSpawnComplete(NewCutPoint cut);
 	public event OnSpawnComplete onSpawnComplete;
+
+	public delegate void OnTimeoutComplete(NewCutPoint cut);
+	public event OnTimeoutComplete onTimeoutComplete;
 
 	private Vector3 spinnerOriginalScale,
 				  lineOriginalScale;
@@ -101,7 +111,10 @@ public class NewCutPoint : MonoBehaviour {
 				LineSpriteRenderer.maskInteraction = SpriteMaskInteraction.None;
 			});
 		seq.Insert(LineAppearAtTime, drawLine);
-		//seq.InsertCallback(LineAppearAtTime, OnSpawnCompleteTick);
+
+		seq.Insert(CutTimeout, SpinnerSpriteRenderer.DOFade(0, FadeDuration));
+		seq.Insert(CutTimeout, LineSpriteRenderer.DOFade(0, FadeDuration));
+		seq.InsertCallback(CutTimeout + FadeDuration, OnTimeoutTick);
 		
 		seq.SetEase(EasePerLoop ? Ease.Linear : RotationEase);
 		seq.Play();
@@ -127,6 +140,12 @@ public class NewCutPoint : MonoBehaviour {
 	public void SetSelected() {
 		if (animationSeq.Elapsed() < LineAppearAtTime)
 			animationSeq.Goto(LineAppearAtTime, true);
+		else if (animationSeq.Elapsed() > LineAppearAtTime + MaskWipeTime) {
+			animationSeq.Goto(LineAppearAtTime + MaskWipeTime);
+			if (!animationSeq.IsPlaying()) {
+				animationSeq.Play();
+			}
+		}
 		
 		SpinnerSpriteRenderer.transform.DOScale(SpinnerSelectedScale, SpinnerSelectedEaseTime)
 			.SetEase(SpinnerSelectedEase);
@@ -157,6 +176,12 @@ public class NewCutPoint : MonoBehaviour {
 	private void OnSpawnCompleteTick() {
 		if (onSpawnComplete != null) {
 			onSpawnComplete(this);
+		}
+	}
+
+	private void OnTimeoutTick() {
+		if (onTimeoutComplete != null) {
+			onTimeoutComplete(this);
 		}
 	}
 

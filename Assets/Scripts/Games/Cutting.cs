@@ -34,6 +34,8 @@ public class Cutting : MonoBehaviour {
 	public Vector3 MaxStartPoint;
 	[BoxGroup("Game Properties")]
 	public float MaxAngle;
+	[BoxGroup("Game Properties")]
+	public float CutTimeout;
 
 	[BoxGroup("Balance")]
 	public DifficultyCuttingDictionary DifficultySettings;
@@ -189,6 +191,7 @@ public class Cutting : MonoBehaviour {
 			// TODO: this is a bit messy, move GemObject calculation somewhere else.
 			clone.CutVector = -(cutPosition - GemSpawnManager.Gem.transform.position)*1.8f; // make the vector a bit longer.
 			clone.onSpawnComplete += cut => activeCuts.AddLast(cut);
+			clone.onTimeoutComplete += cut => activeCuts.Remove(cut);
             SFX.Play("Cutting_circle_appears");
 
             timeIntervalCounter = 0;

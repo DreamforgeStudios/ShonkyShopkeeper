@@ -18,10 +18,10 @@ public class PostRoundInfo {
     public int PlayerIndex;
     public int RoundNumber;
     public string GameSceneName;
-    public int PointsGained;
+    public float PointsGained;
     public int GoldGained;
 
-    public PostRoundInfo(int playerIdx, int roundNumber, string gameSceneName, int points = 0, int gold = 0) {
+    public PostRoundInfo(int playerIdx, int roundNumber, string gameSceneName, float points = 0, int gold = 0) {
         PlayerIndex = playerIdx;
         RoundNumber = roundNumber;
         GameSceneName = gameSceneName;
@@ -29,7 +29,7 @@ public class PostRoundInfo {
         GoldGained = gold;
     }
 
-    public PostRoundInfo(RoundInfo roundInfo, int points = 0, int gold = 0) {
+    public PostRoundInfo(RoundInfo roundInfo, float points = 0, int gold = 0) {
         PlayerIndex = roundInfo.PlayerIndex;
         RoundNumber = roundInfo.RoundNumber;
         GameSceneName = roundInfo.GameSceneName;
@@ -38,11 +38,18 @@ public class PostRoundInfo {
     }
 }
 
+
 public class PlayerInfo {
     public int Index;
     public Avatar Avatar;
     public float Points;
     public int Gold;
+
+    private const int GOLD_MULTIPLIER = 20;
+
+    public float AggregatePoints {
+        get { return Points + Gold * GOLD_MULTIPLIER; }
+    }
 
     public PlayerInfo(int idx, Avatar avatar, float startPoints = 0, int startGold = 0) {
         Index = idx;

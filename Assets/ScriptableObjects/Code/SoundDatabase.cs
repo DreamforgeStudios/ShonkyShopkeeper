@@ -13,7 +13,7 @@ public class StringAudioClipDictionary : SerializableDictionary<string, AudioCli
 public class SoundDatabase : ScriptableObject {
     public AudioSourceHelper AudioSourcePrefab;
     [ShowNonSerializedField]
-    public const int MAX_AUDIO_SOURCES = 5;
+    public const int MAX_AUDIO_SOURCES = 10;
     
     // To keep the scene neat...
     private GameObject audioParent = null;

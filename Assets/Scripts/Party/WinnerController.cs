@@ -18,8 +18,12 @@ public class WinnerController : PseudoScene {
 		if (GameManager.Instance.PlayerInfos.Count <= 0)
 			return t;
 
-		PlayerInfo winner = GameManager.Instance.PlayerInfos.Aggregate((a, b) =>
-			a.Points + a.Gold * GOLD_MULTIPLIER >= b.Points + b.Gold * GOLD_MULTIPLIER ? a : b);
+		PlayerInfo winner = GameManager.Instance.PlayerInfos[0];
+		foreach (PlayerInfo player in GameManager.Instance.PlayerInfos) {
+			if (player.AggregatePoints > winner.AggregatePoints) {
+				winner = player;
+			}
+		}
 
 		AvatarImage.sprite = winner.Avatar.Sprite;
 		PointsText.text = string.Format("{0:N0} points", winner.Points + winner.Gold * GOLD_MULTIPLIER);
