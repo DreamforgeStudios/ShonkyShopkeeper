@@ -11,6 +11,23 @@ Prefab:
   m_SourcePrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1766029569426598}
   m_IsPrefabAsset: 1
+--- !u!1 &1072384082428224
+GameObject:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 224779449634948892}
+  - component: {fileID: 222824747173420982}
+  - component: {fileID: 114945360090134298}
+  m_Layer: 5
+  m_Name: TMP SubMeshUI [Heroes Legend SDF Material + LiberationSans SDF Atlas]
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1525472122593404
 GameObject:
   m_ObjectHideFlags: 0
@@ -342,6 +359,9 @@ MonoBehaviour:
   titleScreen: {fileID: 0}
   titleCanvas: {fileID: 0}
   optionsScreenPrefab: {fileID: 0}
+  startPosition: {x: 348, y: -180.96, z: 0}
+  endPosition: {x: 348, y: 2400, z: 0}
+  credits: {fileID: 114808866625963356}
 --- !u!114 &114794467209718666
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -388,9 +408,41 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: "Golemancer\nBy the Dreamforge team\nA final year project \n\nProducer\nPierre
-    Medieros\n\nartist\njustin johnston\n\nanimator\nkyle anderson\n\ndesigner\nNicholas
-    Mccarthy\n\nprogrammers\nMatthew Davies & Michael Palmos\n"
+  m_text: "Golemancer\n\nDreamforge game studio\n\nPierre Medeiros - Producer\r\nPierremedeiros121212@gmail.com\r\n@PierreMedeiros3\r\n\r\n\r\nNick
+    McCarthy - Lead Design & Modeling\r\nnp.mccarthy@connect.qut.edu.au\r\n@AceTrainerNich\r\n\r\n\r\nJustine
+    Johnstone - Design & Art\r\njjstonemob@gmail.com\r\n@jaystone72\r\n\r\n\r\nKyle
+    Anderson - Animation & Modeling\r\nKyleanderson891@gmail.com\r\n@KyleAndersonHBG\r\n\r\n\r\nMichael
+    Palmos - Software Tech\r\ntoqoz@hotmail.com\r\n@toqoz\r\n\r\nMatthew Davies -
+    Software Tech\r\nmatthewdavies1212@yahoo.com.au\r\n@mdavies1212\r\n\r\nDavid Upcher
+    - Music Commission\r\ndavidupcher@gmail.com\r\n\r\nGolemancer main theme\r\nFlaming
+    Peak Theme\r\nGiant\u2019s Pass Theme\r\nSkycity Theme\r\nWicked Grove Theme\r\nJewel
+    Theme\r\nOre Theme\r\nBartering Theme\r\n\r\nThis piece of media uses these sounds
+    from www.freesound.org:\r\nWhoosh.wav by Aysonny\r\nfast simple chop 5.aif by
+    dave.des\r\ngame over by fins\r\n04099 magic string spell.wav by Robinhood76\r\nConfirmation
+    Upward by original_sound\r\nConfirmation Downward by original_sound\r\nMagicka-Low.wav
+    by Seidhepriest\r\nFantasy_ui_Button_6.wav by ZenithInfinitiveStudios\r\nMagical
+    Bomb Falling by Seidhepriest \r\nmetal-ring by CosmicEmbers\r\n04099 magic string
+    spell.wav by Robinhood76\r\nSpookyMagic.mp3 by Sclolex\r\nWind Chimes, A.wav by
+    InspectorJ\r\nbeep2.wav by thisusernameis\r\nUI Confirmation Alert, D1.wav by
+    Inspector\r\nYamaha CS-30L - Sly - E#4 (Sly-65-127.aif) by modularsamples\r\nUI
+    Confirmation Alert, C5.wav by InspectorJ\r\nMenu_Click_Sound .wav by Killersmurf96\r\n04056
+    magic chaotic transformations.wav by Robinhood76\r\nMagic wand.wav by olver\r\nMagic.mp3
+    by Bastianhallo\r\nPortal_Continuous_Rumble.wav by zimbot\r\nHealth/item Pick
+    Up by limetoe\r\narpeggelings.wav by symphoid\r\nFairy_sound.wav by AdriMB86\r\ncharging
+    loop 1 by JavierZumer\r\njump.wav by Vicces1212\r\ncoin clatter 1.wav by FenrirFangs\r\nError_04.wav
+    by distillerystudio\r\nMagic.mp3 by LittleRainySeasons\r\nSpell Cast / Buff /
+    High Tone by SypherZent\r\nFire Magic Spell Sound Effect by qubodup\r\nMagic.mp3
+    by LittleRainySeasons\r\nBubbles by Electroviolence\r\nSword Slice by LiamG_SFX\r\nSword
+    4.wav by CpawsMusic\r\nbeep5.wav by thisusernameis\r\nbig_fire1.mp3 by Taira Komori\r\ncollect.wav
+    by Wagna\r\nEgg Shaker Rhythm.wav by Ainigmat\r\nAction 01 by rhodesmas\r\nCoins
+    Purchase 4 by rhodesmas\r\nShort Fart_01 by DSISStudios\r\nremix#2-of-149187-adriann-harp-strum.flac
+    by Timbre\r\nJew's Harp, Single, A (H1).wav by InspectorJ\r\nFantasy windchimes_northern87
+    by northern87\r\nsuccess by fisch12345\r\nsuccess 1 by fins\r\nJingle_Achievement_00.wav
+    by LittleRobotSoundFactory\r\nsuccess_low.wav by grunz\r\nCollected Item by limetoe\r\nMagic
+    Strike.wav by Aleks41\r\nBasic Fire Whoosh 2 by Niedec \r\nMagic by RICHERlandTV\r\nMagic
+    Strike.wav by Aleks41\r\nTwinkle Whoosh and a Twang by fredzed\r\nEchoing metal
+    pings.flac by Timbre\r\n\r\nThank you for playing!\r\n\r\n\xA9 2018 Dreamforge
+    Game Studio. All rights reserved.\r\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1bd14c45ec8452549a8e276ccaca18f6, type: 2}
   m_sharedMaterial: {fileID: 21025233966935222, guid: 1bd14c45ec8452549a8e276ccaca18f6,
@@ -429,14 +481,14 @@ MonoBehaviour:
   m_isAlignmentEnumConverted: 1
   m_characterSpacing: 0
   m_wordSpacing: 0
-  m_lineSpacing: 0
+  m_lineSpacing: 5
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
-  m_firstOverflowCharacterIndex: 171
+  m_firstOverflowCharacterIndex: 245
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
   m_isTextTruncated: 0
@@ -459,14 +511,14 @@ MonoBehaviour:
   m_margin: {x: -304.6071, y: -171.82394, z: -299.03873, w: -184.44943}
   m_textInfo:
     textComponent: {fileID: 114808866625963356}
-    characterCount: 203
+    characterCount: 2818
     spriteCount: 0
-    spaceCount: 33
-    wordCount: 26
+    spaceCount: 361
+    wordCount: 414
     linkCount: 0
-    lineCount: 18
+    lineCount: 113
     pageCount: 1
-    materialCount: 1
+    materialCount: 2
   m_havePropertiesChanged: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
@@ -476,7 +528,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_subTextObjects:
   - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 114945360090134298}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -485,6 +537,34 @@ MonoBehaviour:
   - {fileID: 0}
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &114945360090134298
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1072384082428224}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 058cba836c1846c3aa1c5fd2e28aea77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_spriteAsset: {fileID: 0}
+  m_material: {fileID: 0}
+  m_sharedMaterial: {fileID: 0}
+  m_isDefaultMaterial: 0
+  m_padding: 2.075
+  m_canvasRenderer: {fileID: 222824747173420982}
+  m_TextComponent: {fileID: 114808866625963356}
+  m_materialReferenceIndex: 1
 --- !u!222 &222134260161567848
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -505,6 +585,13 @@ CanvasRenderer:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1525472122593404}
+  m_CullTransparentMesh: 0
+--- !u!222 &222824747173420982
+CanvasRenderer:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1072384082428224}
   m_CullTransparentMesh: 0
 --- !u!222 &222887507559256722
 CanvasRenderer:
@@ -549,7 +636,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -8, y: -210}
+  m_AnchoredPosition: {x: 326.7, y: -221.5}
   m_SizeDelta: {x: 800, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224472163692235142
@@ -558,16 +645,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1525472122593404}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 224779449634948892}
   m_Father: {fileID: 224929445334793030}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 44}
+  m_AnchoredPosition: {x: 0, y: 3017.9998}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224472261183863142
@@ -587,6 +675,24 @@ RectTransform:
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 200, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!224 &224779449634948892
+RectTransform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1072384082428224}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 224472163692235142}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224787577391454422
 RectTransform:

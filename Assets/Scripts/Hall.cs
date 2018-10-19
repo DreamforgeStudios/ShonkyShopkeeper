@@ -421,7 +421,7 @@ public class Hall : MonoBehaviour
 			Travel.ChangeCurrentTown(currentTownSelected);
 			SFX.Play("Location_query_purchase", 1f, 1f, 0f, false, 0f);
 			SaveManager.SaveInventory();
-			PlayerPrefs.SetInt("FirstStart", 1);
+			PlayerPrefs.SetInt("ExistingSave", 1);
 			if (GameManager.Instance.InMap)
 			{
 				GameManager.Instance.InMap = false;
@@ -435,7 +435,7 @@ public class Hall : MonoBehaviour
 		//Else if it was a subsequent town, check the purchase was successful
 		else {
 			if (completeTransaction) {
-                //SFX.Play("sound");
+				PlayerPrefs.SetInt("ExistingSave", 1);
                 SFX.Play("location_purchase", 1f, 1f, 0f, false, 0f);
                 if (GameManager.Instance.InMap)
 				{

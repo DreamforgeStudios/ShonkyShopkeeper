@@ -136,6 +136,9 @@ public class OptionsScreen : MonoBehaviour
 		//Reset achievement db
 		AchievementDatabase achievementDB = Object.Instantiate((AchievementDatabase) Resources.Load("AchievementDatabase"));
 		achievementDB.ResetAchievementFile();
+		
+		//Reset Player prefs
+		PlayerPrefs.SetInt("ExistingSave",0);
 
 		ResetVariables();
 		
@@ -184,12 +187,14 @@ public class OptionsScreen : MonoBehaviour
 	private void ResetVariables()
 	{
 		//Destroy existing gamemanager and tutorialprogresschecker
-		if (GameManager.Instance != null)
+		if (GameManager.Instance.gameObject != null)
 			Destroy(GameManager.Instance.gameObject);
+
+		GameManager.Instance.InMap = false;
 
 		if (GameManager.Instance.InTutorial)
 		{
-			if (TutorialProgressChecker.Instance != null)
+			if (TutorialProgressChecker.Instance.gameObject != null)
 				Destroy(TutorialProgressChecker.Instance.gameObject);
 		}
 
@@ -216,6 +221,7 @@ public class OptionsScreen : MonoBehaviour
 	public void ShowCredits()
 	{
 		credits.gameObject.SetActive(true);
+		credits.gameObject.GetComponent<HideCredits>().StartCredits();
 		optionsCanvas.gameObject.SetActive(false);
 	}
 }

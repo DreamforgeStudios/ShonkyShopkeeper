@@ -37,6 +37,7 @@ public class NarrativeDatabase : ScriptableObject {
     }
 
     public bool Unlock(NarrativeElement e) {
+        Debug.Log("This narrative is unlocked " + e.Unlocked + ". If true, this returned false");
         if (e.Unlocked)
             return false;
 

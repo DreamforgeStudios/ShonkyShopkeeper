@@ -7,11 +7,9 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class IntroScene : MonoBehaviour {
-    public List<Button> startButtons;
+    public List<Button> startButtons, existingSaveButtons, noSaveButtons;
     public GameObject optionsScreenObject, titleScreenPrefab, creditsCanvas, narrativeCanvas;
-    public List<string> narrative;
-    public bool text1enabled, continueNarrative, goToTutorial = false;
-    private int currentNarrativeString = 0;
+    public bool goToTutorial = false;
 
     public Inventory defaultInventory, tutorialInventory;
     public ShonkyInventory defaultShonkyInventory, TutorialShonkyInventory;
@@ -19,6 +17,22 @@ public class IntroScene : MonoBehaviour {
     private void Start()
     {
         SFX.Play("MainMenuTrack", 1f, 1f, 0f, true, 0f);
+        if (PlayerPrefs.GetInt("ExistingSave") == 1)
+        {
+            foreach(Button option in existingSaveButtons)
+                option.gameObject.SetActive(true);
+            
+            foreach(Button option in noSaveButtons)
+                option.gameObject.SetActive(false);
+        }
+        else
+        {
+            foreach(Button option in existingSaveButtons)
+                option.gameObject.SetActive(false);
+            
+            foreach(Button option in noSaveButtons)
+                option.gameObject.SetActive(true);
+        }
     }
 
     public void StartTutorial()
@@ -33,6 +47,14 @@ public class IntroScene : MonoBehaviour {
         titleScreenPrefab.SetActive(false);
         narrativeCanvas.SetActive(true);
         gameObject.SetActive(false);
+        
+        //Reset narrative db
+        NarrativeDatabase narrativeDB = Object.Instantiate((NarrativeDatabase) Resources.Load("NarrativeDatabase"));
+        narrativeDB.ResetNarrativeFile();
+		
+        //Reset achievement db
+        AchievementDatabase achievementDB = Object.Instantiate((AchievementDatabase) Resources.Load("AchievementDatabase"));
+        achievementDB.ResetAchievementFile();
     }
 
     public void StartNoTutorial()
@@ -49,6 +71,21 @@ public class IntroScene : MonoBehaviour {
         titleScreenPrefab.SetActive(false);
         narrativeCanvas.SetActive(true);
         gameObject.SetActive(false);
+        
+        //Reset narrative db
+        NarrativeDatabase narrativeDB = Object.Instantiate((NarrativeDatabase) Resources.Load("NarrativeDatabase"));
+        narrativeDB.ResetNarrativeFile();
+		
+        //Reset achievement db
+        AchievementDatabase achievementDB = Object.Instantiate((AchievementDatabase) Resources.Load("AchievementDatabase"));
+        achievementDB.ResetAchievementFile();
+    }
+
+    public void ResumeGame()
+    {
+        SaveManager.LoadOrInitializeInventory(defaultInventory);
+        SaveManager.LoadOrInitializeShonkyInventory(defaultShonkyInventory);
+        Initiate.Fade("Shop",Color.black,2.0f);
     }
 
     public void StartPartyMode()
@@ -62,6 +99,7 @@ public class IntroScene : MonoBehaviour {
         titleScreenPrefab.SetActive(false);
         gameObject.SetActive(false);
         creditsCanvas.SetActive(true);
+        creditsCanvas.GetComponent<HideCredits>().StartCredits();
     }
 
     public void Quit()
@@ -75,12 +113,28 @@ public class IntroScene : MonoBehaviour {
         {
             option.enabled = false;
         }
+        foreach (Button option in existingSaveButtons)
+        {
+            option.enabled = false;
+        }
+        foreach (Button option in noSaveButtons)
+        {
+            option.enabled = false;
+        }
         optionsScreenObject.SetActive(true);
     }
 
     public void EnableStartScreen()
     {
         foreach (Button option in startButtons)
+        {
+            option.enabled = true;
+        }
+        foreach (Button option in existingSaveButtons)
+        {
+            option.enabled = true;
+        }
+        foreach (Button option in noSaveButtons)
         {
             option.enabled = true;
         }
