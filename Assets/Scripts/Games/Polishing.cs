@@ -122,11 +122,6 @@ public class Polishing : MonoBehaviour {
             Color sliderColour = Color.Lerp(Color.green, Color.red, timerSlider.value / timerSlider.maxValue);
             sliderImage.color = sliderColour;
             //CalculateRelevantSFX();
-            if (!pulse1)
-            {
-                pulse1 = true;
-                SFX.Play("Polishing_Pulse1", 0.3f, 1f, 0f, true, 0f);
-            }
             
             if (missDurationCounter > missDurationTimeout) {
                 missDurationCounter = 0;
@@ -144,6 +139,7 @@ public class Polishing : MonoBehaviour {
     }
 
     //Really quick and dirty
+    /*
     private void CalculateRelevantSFX()
     {
         // Integrating this is a bit annoying, and probably not very efficient.
@@ -213,6 +209,7 @@ public class Polishing : MonoBehaviour {
             } 
         }
     }
+    */
 
     private void GetInput()
     {
@@ -302,8 +299,8 @@ public class Polishing : MonoBehaviour {
             qualityText.text = Quality.GradeToString(tmpGrade);
             qualityText.color = Quality.GradeToColor(tmpGrade);
             qualityText.gameObject.SetActive(true);
+            SFX.Play(Quality.ReturnSFXName(tmpGrade),1f,1f,0f,false,0f);
         };
-        SFX.Play(Quality.ReturnSFXName(grade),1f,1f,0f,false,0f);
             
         pointsManager.DoEndGameTransition();
 

@@ -287,9 +287,8 @@ public class Smelting : MonoBehaviour {
 		    qualityText.text = Quality.GradeToString(grade);
 		    qualityText.color = Quality.GradeToColor(grade);
 		    qualityText.gameObject.SetActive(true);
+	    	SFX.Play(Quality.ReturnSFXName(grade),1f,1f,0f,false,0f);
 	    };
-	    
-	    SFX.Play(Quality.ReturnSFXName(grade),1f,1f,0f,false,0f);
 	    
 	    pointsManager.DoEndGameTransition();
 	    

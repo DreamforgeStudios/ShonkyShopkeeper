@@ -296,9 +296,9 @@ public class Tracing : MonoBehaviour {
             qualityText.text = Quality.GradeToString(tmpGrade);
             qualityText.color = Quality.GradeToColor(tmpGrade);
             qualityText.gameObject.SetActive(true);
+            SFX.Play(Quality.ReturnSFXName(tmpGrade),1f,1f,0f,false,0f);
         };
         
-        SFX.Play(Quality.ReturnSFXName(grade),1f,1f,0f,false,0f);
         feedbackParticleSystem.GetComponent<ParticleSystem>().Stop();
         
         PointsManager.DoEndGameTransition();

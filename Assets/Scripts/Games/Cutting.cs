@@ -356,9 +356,9 @@ public class Cutting : MonoBehaviour {
             GradeText.text = Quality.GradeToString(grade);
             GradeText.color = Quality.GradeToColor(grade);
             GradeText.gameObject.SetActive(true);
+			SFX.Play(Quality.ReturnSFXName(grade),1f,1f,0f,false,0f);
 		};
 		
-		SFX.Play(Quality.ReturnSFXName(grade),1f,1f,0f,false,0f);
 		
 		PointsManager.DoEndGameTransition();
 		
