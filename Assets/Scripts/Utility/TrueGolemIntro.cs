@@ -206,29 +206,29 @@ public class TrueGolemIntro : MonoBehaviour {
 	//Method to Update achievements backend
 	private void UpdateAchievements()
 	{
-		string gemType;
+		string gemType = GameManager.Instance.typeOfTrueGolem;
 		//Trigger dialogue by updating achievements
 		switch (GameManager.Instance.typeOfTrueGolem)
 		{
 			case "EmeraldGolem1":
 				NarrativeManager.Read("true_emerald_speech");
-				gemType = "emerald";
+				//gemType = "emerald";
 				break;
 			case "AmethystGolem1":
 				NarrativeManager.Read("true_amethyst_speech");
-				gemType = "amethyst";
+				//gemType = "amethyst";
 				break;
 			case "RubyGolem1":
 				NarrativeManager.Read("true_ruby_speech");
-				gemType = "ruby";
+				//gemType = "ruby";
 				break;
 			case "SapphireGolem1":
 				NarrativeManager.Read("true_sapphire_speech");
-				gemType = "sapphire";
+				//gemType = "sapphire";
 				break;
 			default:
 				NarrativeManager.Read("true_ruby_speech");
-				gemType = "ruby";
+				//gemType = "ruby";
 				break;
 		}
 		
