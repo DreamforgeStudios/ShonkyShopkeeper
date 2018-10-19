@@ -34,13 +34,13 @@ public static class TrueGolems {
         string caseFixed = input.ToLower();
         switch (caseFixed)
         {
-            case "rubyGolem1":
+            case "rubygolem1":
                 return TrueGolem.rubyGolem;
-            case "sapphireGolem1":
+            case "sapphiregolem1":
                 return TrueGolem.sapphireGolem;
-            case "emeraldGolem1":
+            case "emeraldgolem1":
                 return TrueGolem.emeraldGolem;
-            case "amethystGolem1":
+            case "amethystgolem1":
                 return TrueGolem.amethystGolem;
             default:
                 return TrueGolem.nill;
