@@ -26,7 +26,7 @@ public class Wobble : MonoBehaviour {
 	void Start() {
 		// Accessing the material through the renderer at start is better because it will use the instanced material,
 		//  and so material values wont change for the sake of source control.
-		vialMaterial = vial.GetComponent<Renderer>().materials[0];
+		vialMaterial = vial.GetComponent<Renderer>().materials[1];
 		fontMaterial = text.GetComponent<Renderer>().materials[0];
 		
 		upDirID = Shader.PropertyToID("_UpDirection");

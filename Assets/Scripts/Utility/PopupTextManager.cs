@@ -65,7 +65,6 @@ public class PopupTextManager : MonoBehaviour {
 	public static event OnPageTurn onPageTurn;
 
 	private bool entered = false;
-	private Material closerMaterial;
 
 	void Start() {
 		// Init();
@@ -85,10 +84,8 @@ public class PopupTextManager : MonoBehaviour {
 	// Put the narrative manager back to a default state.
 	[Button("Init")]
 	public void Init() {
-		closerMaterial = Closer.GetComponent<Renderer>().material;
 		ActivePage = 0;
 		TextFront.text = PopupTexts[ActivePage];
-		UpdateCloser();
 	}
 
 	private void ProcessMouse() {
@@ -100,7 +97,7 @@ public class PopupTextManager : MonoBehaviour {
 				if (hit.transform.CompareTag("MainButton"))
 					NextText();
 				else if (hit.transform.CompareTag("Aux"))
-					DoExitAnimation();
+					PreviousText();
 			}
 		}
 	}
@@ -119,7 +116,7 @@ public class PopupTextManager : MonoBehaviour {
 				if (hit.transform.CompareTag("MainButton"))
 					NextText();
 				else if (hit.transform.CompareTag("Aux"))
-					DoExitAnimation();
+					PreviousText();
 			}
 		}
 	}
@@ -145,24 +142,21 @@ public class PopupTextManager : MonoBehaviour {
 			}); // We probably shouldn't destroy, but not sure what else to do atm.
 	}
 
-	// Update the closer so that if we're on the last page it can be closed.
-	private void UpdateCloser() {
-		if (ActivePage >= PopupTexts.Count - 1) {
-			closerMaterial.color = Color.green;
-		} else {
-			closerMaterial.color = Color.red;
-		}
-	}
-	
 	// Keep track of tweens so that going fast doesn't break things.
 	private Tween textBackTween, textFrontTween;
 	// Moves to the next page of text (if there is one).
 	[Button("Next")]
 	public void NextText() {
-		if (ActivePage + 1 >= PopupTexts.Count) return;
+		if (ActivePage + 1 >= PopupTexts.Count) {
+			DoExitAnimation();
+			return;
+		}
+			
 		
 		//Play animation
-		animator.Play("Next");
+		animator.Play("Next", 0, 0.0f);
+		
+		//animator.SetBool("Next", true);
 		textBackTween.Complete();
 		textFrontTween.Complete();
 		
@@ -176,8 +170,6 @@ public class PopupTextManager : MonoBehaviour {
 		textFrontTween = DOTween.To(x => TextFront.alpha = x, 0f, 1f, FadeDurationIn).SetEase(FadeEaseIn);
 
 		OnPageTurnTick();
-
-		UpdateCloser();
 	}
 
 	// Moves to the previous page of text (if there is one).
@@ -186,7 +178,7 @@ public class PopupTextManager : MonoBehaviour {
 		if (ActivePage <= 0) return;
 		
 		//Play animation
-		animator.Play("Back");
+		animator.Play("Back", 0, 0.0f);
 		
 		textBackTween.Complete();
 		textFrontTween.Complete();
@@ -201,8 +193,6 @@ public class PopupTextManager : MonoBehaviour {
 		textFrontTween = DOTween.To(x => TextFront.alpha = x, 0f, 1f, FadeDurationIn).SetEase(FadeEaseIn);
 		
 		OnPageTurnTick();
-		
-		UpdateCloser();
 	}
 
 	// Occurs when the Gizmo has left the scene (just before being destroyed).
