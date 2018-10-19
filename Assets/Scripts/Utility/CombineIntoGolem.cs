@@ -147,6 +147,7 @@ public class CombineIntoGolem : MonoBehaviour
 			if (newGolem.Quality == Quality.QualityGrade.Mystic)
 			{
 				Debug.Log("gem type is " + gemType);
+				// NOTE: gemType == "RubyGolem1", but GemStringToGolem checks for "ruby"? 
 				if (TrueGolems.PotentialUnlockTrueGolem(TrueGolems.GemStringToGolem(gemType)))
 				{
 					//Show relevant dialogue based on amount of true golems previously made
