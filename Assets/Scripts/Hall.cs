@@ -56,7 +56,7 @@ public class Hall : MonoBehaviour
 		Setup();
 		
 		//ambient SFX
-		SFX.Play("Hall_Theme", 0.1f, 1f, 0f, true, 0f);
+		SFX.Play("MainMenuTrack", 0.1f, 1f, 0f, true, 0f);
 		
 		//If introducing true golem, set the camera at the relevant position and load the relevant dialogue
 		if (GameManager.Instance.introduceTrueGolem)
