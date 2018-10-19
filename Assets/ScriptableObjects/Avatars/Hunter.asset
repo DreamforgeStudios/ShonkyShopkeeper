@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Name: Hunter
   m_EditorClassIdentifier: 
   Sprite: {fileID: 21300000, guid: 73d095d9b4bedce4ab89b51992310f9a, type: 3}
+  SpriteAssetName: Hunter Avatar
   Color: {r: 0.21226418, g: 0.24688974, b: 1, a: 1}
   GemType: 2

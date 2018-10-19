@@ -29,6 +29,8 @@ public class WinnerController : PseudoScene {
 		PointsText.text = string.Format("{0:N0} points", winner.Points + winner.Gold * GOLD_MULTIPLIER);
 		WinnerText.text = string.Format("Player {0} is the WINNER!!!", winner.Index + 1);
 
+		SFX.Play("winner_announce");
+
 		return t;
 	}
 }

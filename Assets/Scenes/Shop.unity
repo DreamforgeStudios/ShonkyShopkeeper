@@ -565,12 +565,12 @@ Prefab:
     - target: {fileID: 224924367671327204, guid: fadff37d377d3974981ee0353baee59a,
         type: 2}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224464626008386372, guid: fadff37d377d3974981ee0353baee59a,
         type: 2}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114742649413373940, guid: fadff37d377d3974981ee0353baee59a, type: 2}
@@ -32648,7 +32648,7 @@ MonoBehaviour:
     bottomLeft: {r: 1, g: 1, b: 1, a: 1}
     bottomRight: {r: 1, g: 1, b: 1, a: 1}
   m_fontColorGradientPreset: {fileID: 0}
-  m_spriteAsset: {fileID: 11400000, guid: d866d8ea7cb118d4abfe43799b5a9c00, type: 2}
+  m_spriteAsset: {fileID: 11400000, guid: 0d0178bd8d3f4ad41a64a862cb392464, type: 2}
   m_tintAllSprites: 0
   m_overrideHtmlColors: 0
   m_faceColor:
@@ -37098,7 +37098,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 058cba836c1846c3aa1c5fd2e28aea77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 21712221969837840, guid: d866d8ea7cb118d4abfe43799b5a9c00,
+  m_Material: {fileID: 21232989835320196, guid: 0d0178bd8d3f4ad41a64a862cb392464,
     type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
@@ -37107,10 +37107,10 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_fontAsset: {fileID: 0}
-  m_spriteAsset: {fileID: 11400000, guid: d866d8ea7cb118d4abfe43799b5a9c00, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 1bd14c45ec8452549a8e276ccaca18f6, type: 2}
+  m_spriteAsset: {fileID: 11400000, guid: 0d0178bd8d3f4ad41a64a862cb392464, type: 2}
   m_material: {fileID: 0}
-  m_sharedMaterial: {fileID: 21712221969837840, guid: d866d8ea7cb118d4abfe43799b5a9c00,
+  m_sharedMaterial: {fileID: 21232989835320196, guid: 0d0178bd8d3f4ad41a64a862cb392464,
     type: 2}
   m_isDefaultMaterial: 1
   m_padding: 0

@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Name: Pirate
   m_EditorClassIdentifier: 
   Sprite: {fileID: 21300000, guid: 7092b318e3e9fd2448fd0bde7d25bfde, type: 3}
+  SpriteAssetName: Pirate Avatar
   Color: {r: 0.35540357, g: 0.16509432, b: 1, a: 1}
   GemType: 1

@@ -54,6 +54,7 @@ public class FinalScoresController : PseudoScene {
 			// Avatars pop in at the very start.
 			clone.Avatar.transform.localScale = Vector3.zero;
 			seq.Insert(0, clone.Avatar.transform.DOScale(Vector3.one, AvatarPopDuration).SetEase(AvatarPopEase));
+			seq.InsertCallback(0, () => SFX.Play("sticker_appear"));
 				
 			float maxHeight = clone.FillBG.rectTransform.rect.height;
 			float initialFill = Mathf.Lerp(0, maxHeight, playerInfos[i].Points / orderedPlayers[0].AggregatePoints);
@@ -68,28 +69,33 @@ public class FinalScoresController : PseudoScene {
 			int position = orderedPlayers.FindIndex(x => x == playerInfos[i]);
 			// Find reverse position of the player for use in calculations (0 is worst -- descending order).
 			int index = (orderedPlayers.Count-1) - position;
+			// We want to raise first and second place at the same time, so use the same calculation in that situation.
 			int initialMultiplier = position == 0 || position == 1 ? orderedPlayers.Count - 2 : index;
 			int finalMultiplier = orderedPlayers.Count - 1;
 			
-			// We want to raise first and second place at the same time, so use the same calculation in that situation.
             seq.Insert(AvatarPopDuration + InitialRiseDuration * initialMultiplier,
                 clone.FillFG.rectTransform.DOSizeDelta(initialFillSizeDelta, InitialRiseDuration).SetEase(RiseEase));
             seq.Insert(AvatarPopDuration + InitialRiseDuration * initialMultiplier,
                 clone.Avatar.rectTransform.DOAnchorPos(initialPos, InitialRiseDuration).SetEase(RiseEase));
             seq.Insert(AvatarPopDuration + InitialRiseDuration * initialMultiplier,
                 DOTween.To(() => 0, x => clone.PointsText.text = x.ToString("N0"), playerInfos[i].Points, InitialRiseDuration));
+			seq.InsertCallback(AvatarPopDuration + InitialRiseDuration * initialMultiplier, () => SFX.Play("score_start"));
 
 			// These need to be callbacks because they must be formulated at runtime (they add to the existing position / sizedelta).
 			//  If they aren't callbacks, then they do nothing because they're made at compile time, which has different values.
 			seq.InsertCallback(AvatarPopDuration + InitialRiseDuration * finalMultiplier + index * GoldBonusInbetweenDuration + GoldBonusDuration,
 				() => clone.FillFG.rectTransform.DOSizeDelta(finalFillSizeDelta, FinalRiseDuration).SetEase(RiseEase));
 			seq.InsertCallback(AvatarPopDuration + InitialRiseDuration * finalMultiplier + index * GoldBonusInbetweenDuration + GoldBonusDuration,
-				() => clone.Avatar.rectTransform.DOAnchorPos(finalPos, FinalRiseDuration).SetEase(RiseEase));
+				() => {
+					clone.Avatar.rectTransform.DOAnchorPos(finalPos, FinalRiseDuration).SetEase(RiseEase);
+					SFX.Play("coins");
+				});
 			// Clone i because it may change between now and when the closure is run.
 			var iclone = i;
 			seq.InsertCallback(AvatarPopDuration + InitialRiseDuration * finalMultiplier + index * GoldBonusInbetweenDuration + GoldBonusDuration,
-                () => DOTween.To(() => playerInfos[iclone].Points, x => clone.PointsText.text = x.ToString("N0"), playerInfos[i].AggregatePoints, FinalRiseDuration));
+                () => DOTween.To(() => playerInfos[iclone].Points, x => clone.PointsText.text = x.ToString("N0"), playerInfos[iclone].AggregatePoints, FinalRiseDuration));
 
+					//SFX.Play("score_start");
 			clone.transform.SetParent(PlayerScoresLayout.transform, false);
 		}
 

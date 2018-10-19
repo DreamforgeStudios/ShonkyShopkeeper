@@ -19,6 +19,7 @@ public class PseudoScene : MonoBehaviour {
 		
 		PseudoSceneManager.Fader.fillAmount = 1f;
 		PseudoSceneManager.Fader.fillOrigin = (int) Image.OriginHorizontal.Right;
+		SFX.Play("Screen_wipe");
 		
 		SetObjectsActive(true);
 		
@@ -37,6 +38,7 @@ public class PseudoScene : MonoBehaviour {
 		PseudoSceneManager.Fader.raycastTarget = true; // Prevent button presses.
         PseudoSceneManager.Fader.fillAmount = 0f;
         PseudoSceneManager.Fader.fillOrigin = (int) Image.OriginHorizontal.Left;
+		SFX.Play("Screen_wipe");
 
         return PseudoSceneManager.Fader.DOFillAmount(1, .5f).SetEase(Ease.InCubic)
             .OnComplete(() => { SetObjectsActive(false); });

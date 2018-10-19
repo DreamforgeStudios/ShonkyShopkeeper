@@ -83,6 +83,8 @@ public class IntermissionController : PseudoScene {
 			seq.Insert(PopDuration * i, clone.Avatar.transform.DOScale(1, PopDuration).SetEase(PopEase));
 			seq.Insert(PopDuration * i, clone.PointsText.transform.DOScale(1, PopDuration).SetEase(PopEase));
 			seq.Insert(PopDuration * i, clone.CreationImage.transform.DOScale(1, PopDuration).SetEase(PopEase));
+			seq.InsertCallback(PopDuration * i, () => SFX.Play("sticker_appear"));
+				
 			seq.Insert(PopDuration * rounds.Length + .2f,
 				DOTween.To(() => 0, x => clone.PointsText.text = x.ToString("N0"), rounds[i].PointsGained, TextRiseDuration * (rounds[i].PointsGained / maxScore))
 				.SetEase(TextRiseEase));
@@ -100,8 +102,8 @@ public class IntermissionController : PseudoScene {
 
 		seq.InsertCallback(PopDuration * rounds.Length + .2f, () => {
 			SFX.Play("score_start");
-			var src = SFX.Play("score_tick", looping: true, volume: 0);
-			src.DOFade(1, 2f).SetEase(Ease.OutCirc).OnComplete(() => src.DOFade(0, 2f).SetEase(Ease.OutExpo));
+			//var src = SFX.Play("score_tick", looping: true, volume: 0);
+			//src.DOFade(1, 2f).SetEase(Ease.OutCirc).OnComplete(() => src.DOFade(0, 3f).SetEase(Ease.OutCirc));
 			//source.DOPitch(0f, TextRiseDuration - .5f).OnComplete(() => SFX.StopSpecific("score_tick")).SetEase(Ease.OutQuad).OnComplete(() => source.DOFade(0, .5f));
 		});
 
@@ -109,6 +111,7 @@ public class IntermissionController : PseudoScene {
 		LayoutRebuilder.ForceRebuildLayoutImmediate(PlayerInfoLayout.GetComponent<RectTransform>());
 		Zap.Text.color = winningPlayer.Avatar.Color;
 		Zap.transform.position = winningClone.Avatar.transform.position;
+		seq.AppendCallback(() => SFX.Play("round_title"));
 		seq.Append(Zap.transform.DOScale(Vector3.one, .4f).SetEase(Ease.OutBack)
 			.OnComplete(() =>
 				Zap.Image.transform.DORotate(Vector3.forward * 360, 2f, RotateMode.LocalAxisAdd).SetEase(Ease.Linear)

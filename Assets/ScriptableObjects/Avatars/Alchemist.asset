@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Name: Alchemist
   m_EditorClassIdentifier: 
   Sprite: {fileID: 21300000, guid: 9f0794a3d54562645aa308f151a04f0e, type: 3}
+  SpriteAssetName: Alchy Avatar
   Color: {r: 1, g: 0.3895689, b: 0.24056602, a: 1}
   GemType: 0

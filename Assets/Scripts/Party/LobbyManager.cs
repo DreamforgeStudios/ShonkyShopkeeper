@@ -8,6 +8,8 @@ public class LobbyManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		SFX.Play("game_instrumental", looping: true);
+		
         if (BuildMockData) {
             PartyHelper.InsertMockPlayers();
             PartyHelper.InsertMockHistory();

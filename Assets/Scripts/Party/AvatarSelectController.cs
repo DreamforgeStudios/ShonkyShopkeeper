@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 using NaughtyAttributes;
+using UnityEngine.Experimental.PlayerLoop;
 using UnityEngine.UI;
 
 public class AvatarSelectController : PseudoScene {
@@ -14,6 +15,8 @@ public class AvatarSelectController : PseudoScene {
 	[ReadOnly]
 	public List<Avatar> SelectedAvatars = new List<Avatar>();
 	[ReadOnly]
+	public List<Avatar> AvailableAvatarsInstance = new List<Avatar>();
+	[ReadOnly]
 	public int ActiveIndex = 0;
 
 	// Use this for initialization
@@ -22,18 +25,29 @@ public class AvatarSelectController : PseudoScene {
 	}
 
 	public void SelectAvatar() {
-		SelectedAvatars.Add(AvailableAvatars[ActiveIndex]);
+		SelectedAvatars.Add(AvailableAvatarsInstance[ActiveIndex]);
 
 		if (SelectedAvatars.Count >= PlayerSelectController.ActiveNumberOfPlayers) {
 			// TODO: don't hard code this?
 			PseudoSceneManager.ChangeScene("AvatarConfirmation");
 		}
 
-		//AvailableAvatars.RemoveAt(ActiveIndex);
+		AvailableAvatarsInstance.RemoveAt(ActiveIndex);
+		if (ActiveIndex < 0) {
+			ActiveIndex = 0;
+		} else if (ActiveIndex > AvailableAvatarsInstance.Count - 1) {
+			ActiveIndex = AvailableAvatarsInstance.Count - 1;
+		}
+
+		Sequence seq = DOTween.Sequence();
+		seq.Append(AvatarImage.transform.DOScale(0, .3f).SetEase(Ease.InBack));
+		seq.AppendCallback(() => UpdateImage());
+		seq.Append(AvatarImage.transform.DOScale(1, .5f).SetEase(Ease.OutBack));
+		seq.Play();
 	}
 	
 	public void NextAvatar() {
-		if (ActiveIndex >= AvailableAvatars.Count - 1) {
+		if (ActiveIndex >= AvailableAvatarsInstance.Count - 1) {
 			return;
 		}
 
@@ -51,7 +65,7 @@ public class AvatarSelectController : PseudoScene {
 	}
 
 	public void UpdateImage() {
-		AvatarImage.sprite = AvailableAvatars[ActiveIndex].Sprite;
+		AvatarImage.sprite = AvailableAvatarsInstance[ActiveIndex].Sprite;
 	}
 	
 	public override Tween Arrive(bool animate = true) {
@@ -59,6 +73,9 @@ public class AvatarSelectController : PseudoScene {
 		
 		// Reset avatars each time we load in.
 		SelectedAvatars.Clear();
+		AvailableAvatarsInstance.Clear();
+		AvailableAvatarsInstance.AddRange(AvailableAvatars);
+		UpdateImage();
 
 		return t;
 	}

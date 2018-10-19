@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Name: Druid
   m_EditorClassIdentifier: 
   Sprite: {fileID: 21300000, guid: f11f533070c6cb844889146f60e39334, type: 3}
+  SpriteAssetName: Druid Avatar
   Color: {r: 0.41762742, g: 1, b: 0.16509432, a: 1}
   GemType: 3

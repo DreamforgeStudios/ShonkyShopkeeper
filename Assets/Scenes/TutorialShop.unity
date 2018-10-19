@@ -6282,6 +6282,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animatedTowns: []
+  EnableMusic: 1
 --- !u!4 &240921027
 Transform:
   m_ObjectHideFlags: 0
@@ -32371,7 +32372,7 @@ MonoBehaviour:
     bottomLeft: {r: 1, g: 1, b: 1, a: 1}
     bottomRight: {r: 1, g: 1, b: 1, a: 1}
   m_fontColorGradientPreset: {fileID: 0}
-  m_spriteAsset: {fileID: 11400000, guid: d866d8ea7cb118d4abfe43799b5a9c00, type: 2}
+  m_spriteAsset: {fileID: 11400000, guid: 0d0178bd8d3f4ad41a64a862cb392464, type: 2}
   m_tintAllSprites: 0
   m_overrideHtmlColors: 0
   m_faceColor:
@@ -36613,7 +36614,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_fontAsset: {fileID: 0}
-  m_spriteAsset: {fileID: 11400000, guid: d866d8ea7cb118d4abfe43799b5a9c00, type: 2}
+  m_spriteAsset: {fileID: 0}
   m_material: {fileID: 0}
   m_sharedMaterial: {fileID: 21712221969837840, guid: d866d8ea7cb118d4abfe43799b5a9c00,
     type: 2}

@@ -87,6 +87,10 @@ MonoBehaviour:
     - score_start
     - score_finish
     - score_tick
+    - winner_announce
+    - round_title
+    - sticker_appear
+    - coins
     m_values:
     - {fileID: 8300000, guid: 2c0dcf73926fa024ab5066e2aa7e29d6, type: 3}
     - {fileID: 8300000, guid: bd590c4fc0302fd4387f41d98bf562de, type: 3}
@@ -157,7 +161,11 @@ MonoBehaviour:
     - {fileID: 8300000, guid: ec51049668661f14bb2b745a8ebda426, type: 3}
     - {fileID: 8300000, guid: 22b468a3a9b9c7d499a61a1bda6e2b0b, type: 3}
     - {fileID: 8300000, guid: de4d58ebfbaffe44986cfc79a50ca716, type: 3}
-    - {fileID: 8300000, guid: 5d4a20e94ecfecd41a05e543f16a8c7a, type: 3}
+    - {fileID: 8300000, guid: 5949bddbeb93f894484925eb3411eb5b, type: 3}
     - {fileID: 8300000, guid: 518a14e59ab730448b8ed786b490415d, type: 3}
     - {fileID: 8300000, guid: f8430d80d97f14340bca5368365d711b, type: 3}
+    - {fileID: 8300000, guid: db4a0783c77018840ad54ae6bac1f5b0, type: 3}
+    - {fileID: 8300000, guid: c3f9f6ffe38d5a140bd033f682635c03, type: 3}
+    - {fileID: 8300000, guid: 209f5ecb25b00d845bac7aa7c4208d6c, type: 3}
+    - {fileID: 8300000, guid: d117490a4e468ec4f82431aac1d9af68, type: 3}
   ClipKey: score_tick

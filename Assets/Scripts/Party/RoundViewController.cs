@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class RoundViewController : PseudoScene {
 	public TextMeshProUGUI RoundText, PlayerText, DescriptionText;
-	public Image ScreenshotHolder;
+	public Image ScreenshotHolder, AvatarImage;
 	public Button BeginButton;
 
 	public override Tween Arrive(bool animate = true) {
@@ -21,10 +21,11 @@ public class RoundViewController : PseudoScene {
 		
 		// + 1 because computers start from 0 but humans dont.
 		RoundText.text = string.Format("Round {0}", nextRound.RoundNumber + 1);
-		PlayerText.text = string.Format("Player {0} is next...", nextRound.PlayerIndex + 1);
+		//PlayerText.text = string.Format("Player {0} is next...", nextRound.PlayerIndex + 1);
 		DescriptionText.text = string.Format("{0}", game.Description);
 
 		ScreenshotHolder.sprite = game.Screenshot;
+		AvatarImage.sprite = GameManager.Instance.PlayerInfos[nextRound.PlayerIndex].Avatar.Sprite;
 		
 		// Change button behaviour to match the correct scene.
 		BeginButton.onClick.AddListener(() => {

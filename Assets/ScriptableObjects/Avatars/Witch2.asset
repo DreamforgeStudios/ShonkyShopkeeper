@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Name: Witch2
   m_EditorClassIdentifier: 
   Sprite: {fileID: 21300000, guid: 76459fc07badcc14ca0ba75f72bf3934, type: 3}
+  SpriteAssetName: Witch2 Avatar
   Color: {r: 1, g: 0.49621344, b: 0.06132078, a: 1}
   GemType: 0
