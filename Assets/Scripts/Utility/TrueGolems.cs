@@ -21,11 +21,11 @@ public static class TrueGolems {
     {
         if (unlockedTrueGolems.Contains(golemToUnlock))
         {
-            Debug.Log("not true golem");
+            Debug.Log("Have this true golem");
             return false;
         }
 
-        Debug.Log("True golem");
+        Debug.Log("Don't have this True golem");
         return true;
     }
 

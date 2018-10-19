@@ -146,37 +146,55 @@ public class CombineIntoGolem : MonoBehaviour
 			//If a true golem, do narrative handling
 			if (newGolem.Quality == Quality.QualityGrade.Mystic)
 			{
+				Debug.Log("gem type is " + gemType);
 				if (TrueGolems.PotentialUnlockTrueGolem(TrueGolems.GemStringToGolem(gemType)))
 				{
 					//Show relevant dialogue based on amount of true golems previously made
 					List<TrueGolems.TrueGolem> golemsUnlocked = Inventory.Instance.GetUnlockedTrueGolems();
-					//Need to get boolean to handle if the narrative is not necessary. Waiting for Mike Code.
+					//Need to get boolean to handle if the narrative is not necessary. 
+					bool gizmo;
 					switch (golemsUnlocked.Count)
 					{
 						case 0:
-							NarrativeManager.Read("true_golem_01");
+							gizmo = NarrativeManager.Read("true_golem_01");
 							break;
 						case 1:
-							NarrativeManager.Read("true_golem_02");
+							gizmo = NarrativeManager.Read("true_golem_02");
 							break;
 						case 2:
-							NarrativeManager.Read("true_golem_03");
+							gizmo = NarrativeManager.Read("true_golem_03");
 							break;
 						case 3:
-							NarrativeManager.Read("true_golem_04");
+							gizmo = NarrativeManager.Read("true_golem_04");
+							break;
+						default:
+							gizmo = false;
 							break;
 					}
 
-					PopupTextManager.onClose += () => TransitionToHall();
+					Debug.Log("Gizmo is " + gizmo);
+					if (!gizmo)
+					{
+						PopupTextManager.onClose += () => TransitionToHall();
 
-					//Instantiate glow on golem and make it dance
-					glowObject = Instantiate(glowParticle, clone.transform);
-					glowObject.transform.localPosition = new Vector3(0f, 0f, 0f);
-					glowObject.transform.localScale = new Vector3(1f, 1f, 1f);
-					clone.GetComponent<Animator>().Play("Dance");
+						//Instantiate glow on golem and make it dance
+						glowObject = Instantiate(glowParticle, clone.transform);
+						glowObject.transform.localPosition = new Vector3(0f, 0f, 0f);
+						glowObject.transform.localScale = new Vector3(1f, 1f, 1f);
+						clone.GetComponent<Animator>().Play("Dance");
 
-					//Remove golem from golem inventory as the player does not receive one when first creating a true golem
-					ShonkyInventory.Instance.RemoveItem(index);
+						//Remove golem from golem inventory as the player does not receive one when first creating a true golem
+						ShonkyInventory.Instance.RemoveItem(index);
+					}
+					else
+					{
+						Inventory.Instance.UnlockTrueGolem(TrueGolems.GemStringToGolem(gemType));
+						StartCoroutine(ShowText(gem,avg, pSlot, clone));
+					}
+				}
+				else
+				{
+					StartCoroutine(ShowText(gem,avg, pSlot, clone));
 				}
 			}
 			else
