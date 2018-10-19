@@ -91,6 +91,7 @@ MonoBehaviour:
     - round_title
     - sticker_appear
     - coins
+    - Hall_Theme
     m_values:
     - {fileID: 8300000, guid: 2c0dcf73926fa024ab5066e2aa7e29d6, type: 3}
     - {fileID: 8300000, guid: bd590c4fc0302fd4387f41d98bf562de, type: 3}
@@ -168,4 +169,5 @@ MonoBehaviour:
     - {fileID: 8300000, guid: c3f9f6ffe38d5a140bd033f682635c03, type: 3}
     - {fileID: 8300000, guid: 209f5ecb25b00d845bac7aa7c4208d6c, type: 3}
     - {fileID: 8300000, guid: d117490a4e468ec4f82431aac1d9af68, type: 3}
+    - {fileID: 8300000, guid: 9c5d5739cad4c8144812634d36e4a4c5, type: 3}
   ClipKey: score_tick
