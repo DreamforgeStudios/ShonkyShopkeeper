@@ -15,7 +15,7 @@ public class IntroNarrative : MonoBehaviour
 	public TextMeshProUGUI textHolder;
 	private int currentIndex = 0;
 
-	private float cooldown = 0.05f, lastClick;
+	private float cooldown = 0.2f, lastClick;
 
 	public IntroScene introHandler;
 	
@@ -31,18 +31,18 @@ public class IntroNarrative : MonoBehaviour
 	void Update () {
 		if (Input.GetMouseButton(0) && Time.time > lastClick + cooldown)
 		{
-			if (currentIndex < introImages.Count - 1)
+			Debug.Log("current index is " + currentIndex);
+			if (currentIndex < introImages.Count)
 			{
 				lastClick = Time.time;
 				currentIndex++;
 				//Fade old Image and text
-				imageHolder.DOFade(0.01f, 1f).OnComplete(() => ShowNewNarrative());
-				textHolder.DOFade(0.01f, 1f).OnComplete(() => ShowNewText());
-			} else if (currentIndex == 3)
+				imageHolder.DOFade(0.01f, 0.2f).OnComplete(() => ShowNewNarrative());
+				textHolder.DOFade(0.01f, 0.2f).OnComplete(() => ShowNewText());
+			} else if (currentIndex == 4)
 			{
-				currentIndex++;
 				lastClick = Time.time;
-				imageHolder.DOFade(0.01f, 1f).OnComplete(() => ShowNewText());
+				imageHolder.DOFade(0.01f, 0.2f).OnComplete(() => ShowNewText());
 			}
 			else
 			{
@@ -57,12 +57,14 @@ public class IntroNarrative : MonoBehaviour
 	private void ShowNewNarrative()
 	{
 		imageHolder.sprite = introImages[currentIndex];
-		imageHolder.DOFade(1.0f, 1f);
+		imageHolder.DOFade(1.0f, 0.2f);
 	}
 
 	private void ShowNewText()
 	{
 		textHolder.text = dialogue[currentIndex];
-		textHolder.DOFade(1.0f, 1f);
+		textHolder.DOFade(1.0f, 0.2f);
+		if (currentIndex == 4)
+			currentIndex++;
 	}
 }

@@ -255,7 +255,7 @@ public class Smelting : MonoBehaviour {
     }
 
 	public void Stow() {
-		SFX.Play("Smelting_Flame_Jet");
+		SFX.Play("Bidding_FailTap",0.5f,1f,0f,false);
 		
 		float volatility = Mathf.Lerp(activeDifficultySettings.MinVolatilityTapForce,
 			activeDifficultySettings.MaxVolatilityTapForce,
@@ -288,6 +288,8 @@ public class Smelting : MonoBehaviour {
 		    qualityText.color = Quality.GradeToColor(grade);
 		    qualityText.gameObject.SetActive(true);
 	    };
+	    
+	    SFX.Play(Quality.ReturnSFXName(grade),1f,1f,0f,false,0f);
 	    
 	    pointsManager.DoEndGameTransition();
 	    

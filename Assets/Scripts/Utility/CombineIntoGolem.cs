@@ -144,35 +144,40 @@ public class CombineIntoGolem : MonoBehaviour
 			toolbox.ClearGolemCreation(slot);
 			
 			//If a true golem, do narrative handling
-			if (TrueGolems.PotentialUnlockTrueGolem(TrueGolems.GemStringToGolem(gemType)))
+			if (newGolem.Quality == Quality.QualityGrade.Mystic)
 			{
-				//Show relevant dialogue based on amount of true golems previously made
-				List<TrueGolems.TrueGolem> golemsUnlocked = Inventory.Instance.GetUnlockedTrueGolems();
-				switch (golemsUnlocked.Count)
+				if (TrueGolems.PotentialUnlockTrueGolem(TrueGolems.GemStringToGolem(gemType)))
 				{
-					case 0:
-						NarrativeManager.Read("true_golem_01");
-						break;
-					case 1:
-						NarrativeManager.Read("true_golem_02");
-						break;
-					case 2:
-						NarrativeManager.Read("true_golem_03");
-						break;
-					case 3:
-						NarrativeManager.Read("true_golem_04");
-						break;
+					//Show relevant dialogue based on amount of true golems previously made
+					List<TrueGolems.TrueGolem> golemsUnlocked = Inventory.Instance.GetUnlockedTrueGolems();
+					//Need to get boolean to handle if the narrative is not necessary. Waiting for Mike Code.
+					switch (golemsUnlocked.Count)
+					{
+						case 0:
+							NarrativeManager.Read("true_golem_01");
+							break;
+						case 1:
+							NarrativeManager.Read("true_golem_02");
+							break;
+						case 2:
+							NarrativeManager.Read("true_golem_03");
+							break;
+						case 3:
+							NarrativeManager.Read("true_golem_04");
+							break;
+					}
+
+					PopupTextManager.onClose += () => TransitionToHall();
+
+					//Instantiate glow on golem and make it dance
+					glowObject = Instantiate(glowParticle, clone.transform);
+					glowObject.transform.localPosition = new Vector3(0f, 0f, 0f);
+					glowObject.transform.localScale = new Vector3(1f, 1f, 1f);
+					clone.GetComponent<Animator>().Play("Dance");
+
+					//Remove golem from golem inventory as the player does not receive one when first creating a true golem
+					ShonkyInventory.Instance.RemoveItem(index);
 				}
-				PopupTextManager.onClose += () => TransitionToHall();
-				
-				//Instantiate glow on golem and make it dance
-				glowObject = Instantiate(glowParticle, clone.transform);
-				glowObject.transform.localPosition = new Vector3(0f,0f,0f);
-				glowObject.transform.localScale = new Vector3(1f,1f,1f);
-				clone.GetComponent<Animator>().Play("Dance");
-				
-				//Remove golem from golem inventory as the player does not receive one when first creating a true golem
-				ShonkyInventory.Instance.RemoveItem(index);
 			}
 			else
 			{

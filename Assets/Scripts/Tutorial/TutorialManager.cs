@@ -127,88 +127,97 @@ public class TutorialManager : MonoBehaviour
 
 	private void CheckForInput()
 	{
-		//Debug.Log("Can select" + toolbox.canSelect);
-		
-		if (!GameManager.Instance.TutorialIntroTopComplete && clone.Instruction)
+		if (GameManager.Instance.InTutorial)
 		{
-			InstructionBubble.onInstruction += EnableCameraTap(true);
-		} else if (!GameManager.Instance.TutorialIntroComplete && ItemsToInspect.Contains(currentToolToInspect) && clone.Instruction)
-		{
-			//List is Forceps, ResourceBin, Magnifying Glass & Wand
-			string toolString = currentToolToInspect.gameObject.name;
-			switch (toolString)
-			{
-				case "Forceps":
-					if (!InspectedItem)
-					{
-						particleChild = Instantiate(particles, currentToolToInspect.transform.position, currentToolToInspect.transform.rotation);
-						particleChild.transform.parent = currentToolToInspect.transform;
-						InspectedItem = true;
-					}
-					toolbox.canSelect = true;
-					break;
-				case "Magnifying Glass":
-					if (!InspectedItem)
-					{
-						particleChild = Instantiate(particles, currentToolToInspect.transform.position, currentToolToInspect.transform.rotation);
-						particleChild.transform.parent = currentToolToInspect.transform;
-						InspectedItem = true;
-					}
-					toolbox.canSelect = true;
-					break;
-				case "Wand":
-					if (!InspectedItem)
-					{
-						particleChild = Instantiate(particles, currentToolToInspect.transform.position, currentToolToInspect.transform.rotation);
-						particleChild.transform.parent = currentToolToInspect.transform;
-						InspectedItem = true;
-					}
-					toolbox.canSelect = true;
-					break;
-				default:
-					toolbox.canSelect = true;
-					break;
-			}
 
-			//toolbox.canSelect = true;
-		}
-		else if (InspectedAllItems())
-		{
-			toolbox.canSelect = true;
-		}
-		else if (clone != null)
-		{
-			InstructionBubble.onInstruction += () => toolbox.canSelect = true;
-			InstructionBubble.onInstruction -= () => toolbox.canSelect = true;
-			if (!InspectedAllItems())
+			if (!GameManager.Instance.TutorialIntroTopComplete && clone.Instruction)
 			{
-				//Debug.Log("inspected all items " + InspectedAllItems());
-				if (ItemsToInspect[0].gameObject.name == "Magnifying Glass" && !inspectedMagnifyer)
+				InstructionBubble.onInstruction += EnableCameraTap(true);
+			}
+			else if (!GameManager.Instance.TutorialIntroComplete && ItemsToInspect.Contains(currentToolToInspect) &&
+			         clone.Instruction)
+			{
+				//List is Forceps, ResourceBin, Magnifying Glass & Wand
+				string toolString = currentToolToInspect.gameObject.name;
+				switch (toolString)
 				{
-					currentToolToInspect = ItemsToInspect[0];
-					inspectedMagnifyer = true;
+					case "Forceps":
+						if (!InspectedItem)
+						{
+							particleChild = Instantiate(particles, currentToolToInspect.transform.position,
+								currentToolToInspect.transform.rotation);
+							particleChild.transform.parent = currentToolToInspect.transform;
+							InspectedItem = true;
+						}
+
+						toolbox.canSelect = true;
+						break;
+					case "Magnifying Glass":
+						if (!InspectedItem)
+						{
+							particleChild = Instantiate(particles, currentToolToInspect.transform.position,
+								currentToolToInspect.transform.rotation);
+							particleChild.transform.parent = currentToolToInspect.transform;
+							InspectedItem = true;
+						}
+
+						toolbox.canSelect = true;
+						break;
+					case "Wand":
+						if (!InspectedItem)
+						{
+							particleChild = Instantiate(particles, currentToolToInspect.transform.position,
+								currentToolToInspect.transform.rotation);
+							particleChild.transform.parent = currentToolToInspect.transform;
+							InspectedItem = true;
+						}
+
+						toolbox.canSelect = true;
+						break;
+					default:
+						toolbox.canSelect = true;
+						break;
 				}
 
-				if (ItemsToInspect[0].gameObject.name == "Wand" && !inspectedWand)
+				//toolbox.canSelect = true;
+			}
+			else if (InspectedAllItems())
+			{
+				toolbox.canSelect = true;
+			}
+			else if (clone != null)
+			{
+				InstructionBubble.onInstruction += () => toolbox.canSelect = true;
+				InstructionBubble.onInstruction -= () => toolbox.canSelect = true;
+				if (!InspectedAllItems())
 				{
-					currentToolToInspect = ItemsToInspect[0];
-					inspectedWand = true;
+					//Debug.Log("inspected all items " + InspectedAllItems());
+					if (ItemsToInspect[0].gameObject.name == "Magnifying Glass" && !inspectedMagnifyer)
+					{
+						currentToolToInspect = ItemsToInspect[0];
+						inspectedMagnifyer = true;
+					}
+
+					if (ItemsToInspect[0].gameObject.name == "Wand" && !inspectedWand)
+					{
+						currentToolToInspect = ItemsToInspect[0];
+						inspectedWand = true;
+					}
 				}
 			}
-		} 
-		else
-		{
-			toolbox.canSelect = false;
-		}
+			else
+			{
+				toolbox.canSelect = false;
+			}
 
-		
-		if (TutorialProgressChecker.Instance.golemMade && !GameManager.Instance.MineGoleminteractGolem)
-			CheckForCamera();
-		else if (GameManager.Instance.MineGoleminteractGolem)// && GameManager.Instance.OpenPouch)
-		{
-			cameraButton.gameObject.SetActive(true);
+
+			if (TutorialProgressChecker.Instance.golemMade && !GameManager.Instance.MineGoleminteractGolem)
+				CheckForCamera();
+			else if (GameManager.Instance.MineGoleminteractGolem) // && GameManager.Instance.OpenPouch)
+			{
+				cameraButton.gameObject.SetActive(true);
+			}
 		}
-		
 	}
 
 	//Self explanatory

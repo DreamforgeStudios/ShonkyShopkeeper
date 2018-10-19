@@ -13,14 +13,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   goldCount: 0
   inventory:
-  - Quantity: 0
-    Quality: 0
-    IsNew: 0
-    ItemIdentifier: 
-    InMine: 0
-    pouchType: 0
   - Quantity: 1
-    Quality: 5
+    Quality: 2
     IsNew: 0
     ItemIdentifier: shell
     InMine: 0
@@ -31,10 +25,16 @@ MonoBehaviour:
     ItemIdentifier: shell
     InMine: 0
     pouchType: 0
-  - Quantity: 0
-    Quality: 0
+  - Quantity: 1
+    Quality: 5
     IsNew: 0
-    ItemIdentifier: 
+    ItemIdentifier: shell
+    InMine: 0
+    pouchType: 0
+  - Quantity: 1
+    Quality: 3
+    IsNew: 0
+    ItemIdentifier: charged ruby
     InMine: 0
     pouchType: 0
   - Quantity: 1

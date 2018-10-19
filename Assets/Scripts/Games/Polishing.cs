@@ -121,7 +121,12 @@ public class Polishing : MonoBehaviour {
             timerSlider.maxValue = finishTime;
             Color sliderColour = Color.Lerp(Color.green, Color.red, timerSlider.value / timerSlider.maxValue);
             sliderImage.color = sliderColour;
-            CalculateRelevantSFX();
+            //CalculateRelevantSFX();
+            if (!pulse1)
+            {
+                pulse1 = true;
+                SFX.Play("Polishing_Pulse1", 0.3f, 1f, 0f, true, 0f);
+            }
             
             if (missDurationCounter > missDurationTimeout) {
                 missDurationCounter = 0;
@@ -298,6 +303,7 @@ public class Polishing : MonoBehaviour {
             qualityText.color = Quality.GradeToColor(tmpGrade);
             qualityText.gameObject.SetActive(true);
         };
+        SFX.Play(Quality.ReturnSFXName(grade),1f,1f,0f,false,0f);
             
         pointsManager.DoEndGameTransition();
 
