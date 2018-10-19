@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class ScrollToggle : MonoBehaviour, IPointerClickHandler {
+public class ScrollToggle : MonoBehaviour {
 	public Sprite OpenSprite, ClosedSprite;
 	public Image Image;
 
@@ -26,9 +26,5 @@ public class ScrollToggle : MonoBehaviour, IPointerClickHandler {
 			Heading.SetActive(true);
 			List.SetActive(true);
 		}
-	}
-
-	public void OnPointerClick(PointerEventData eventData) {
-		OpenClose();
 	}
 }

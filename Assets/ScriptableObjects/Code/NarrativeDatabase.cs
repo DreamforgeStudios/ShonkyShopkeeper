@@ -103,7 +103,6 @@ public class NarrativeDatabase : ScriptableObject {
         string[] emptyString = { };
         var path = Path.Combine(Application.persistentDataPath, "narratives.txt");
         File.WriteAllLines(path, emptyString);
-        // Mark narrativeElementDictionary as dirty so that it will be re-initialized next time.
-        narrativeElementDictionary = null;
+        NarrativeManager.Reinit();
     }
 }

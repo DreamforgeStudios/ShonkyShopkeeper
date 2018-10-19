@@ -74,4 +74,8 @@ public static class AchievementManager {
     private static bool DoIncrement(Achievement a, int amount) {
         return achievementDB.Increment(a, amount);
     }
+
+    public static void Reinit() {
+        achievementDB = Object.Instantiate((AchievementDatabase) Resources.Load("AchievementDatabase"));
+    }
 }

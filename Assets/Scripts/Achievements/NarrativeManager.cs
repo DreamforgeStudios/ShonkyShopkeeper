@@ -44,4 +44,8 @@ public class NarrativeManager : MonoBehaviour {
         narrativeDB.TryFindNarrativeWithKey(key, out e);
         return e;
     }
+
+    public static void Reinit() {
+        narrativeDB = Object.Instantiate((NarrativeDatabase) Resources.Load("NarrativeDatabase"));
+    }
 }
