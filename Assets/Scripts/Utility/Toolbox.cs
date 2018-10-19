@@ -16,7 +16,8 @@ public class Toolbox : MonoBehaviour {
     public enum Tool {
         Inspector,
         Forceps,
-        Wand
+        Wand,
+        Unset
     }
 
     public PhysicalInventory physicalInventory;
@@ -89,7 +90,7 @@ public class Toolbox : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-        currentTool = Tool.Inspector;
+        currentTool = Tool.Unset;
         SwitchTool(Tool.Inspector);
         //inventoryhelper = Inventory.Instance;
         //forcepPos = GameObject.FindGameObjectWithTag("forcep").transform.position;
@@ -133,7 +134,7 @@ public class Toolbox : MonoBehaviour {
             case Tool.Inspector: return magnifyer;
             case Tool.Forceps: return forceps;
             case Tool.Wand: return wand;
-            default: return magnifyer;
+            default: return null;
         }
     }
 
@@ -182,31 +183,34 @@ public class Toolbox : MonoBehaviour {
             Sequence oldTool = DOTween.Sequence();
             // Return old tool to bench.
             canSelect = false;
-            switch (curToolObj.tag)
-            {
-                case "Forceps":
-                    oldTool.Append(curToolObj.transform.DORotate(ForcepRot, 0.2f).SetEase(Ease.InOutSine));
-                    oldTool.Join(curToolObj.transform.DOMove(ForcepPos, 0.2f).SetEase(Ease.InOutSine)
-                        .OnComplete(() => canSelect = true));
-                    curToolObj.GetComponent<ToolFloat>().EndFloat();
-                    oldTool.Play();
-                    break;
-                case "Wand":
-                    oldTool.Append(curToolObj.transform.DORotate(WandRot, 0.2f).SetEase(Ease.InOutSine));
-                    oldTool.Join(curToolObj.transform.DOMove(WandPos, 0.2f).SetEase(Ease.InOutSine).OnComplete(() =>
-                        canSelect = true));
-                    curToolObj.GetComponent<ToolFloat>().EndFloat();
-                    oldTool.Play();
-                    break;
-                case "Magnifyer":
-                    oldTool.Append(curToolObj.transform.DORotate(InspectRot, 0.2f).SetEase(Ease.InOutSine));
-                    oldTool.Join(curToolObj.transform.DOMove(halfwayInspectPos, 0.1f).SetEase(Ease.InOutSine)
-                        .OnComplete(() =>
-                            curToolObj.transform.DOMove(InspectPos, 0.1f).SetEase(Ease.InOutSine)
-                                .OnComplete(() => canSelect = true)));
-                    curToolObj.GetComponent<ToolFloat>().EndFloat();
-                    oldTool.Play();
-                    break;
+
+            if (curToolObj != null) {
+                switch (curToolObj.tag)
+                {
+                    case "Forceps":
+                        oldTool.Append(curToolObj.transform.DORotate(ForcepRot, 0.2f).SetEase(Ease.InOutSine));
+                        oldTool.Join(curToolObj.transform.DOMove(ForcepPos, 0.2f).SetEase(Ease.InOutSine)
+                            .OnComplete(() => canSelect = true));
+                        curToolObj.GetComponent<ToolFloat>().EndFloat();
+                        oldTool.Play();
+                        break;
+                    case "Wand":
+                        oldTool.Append(curToolObj.transform.DORotate(WandRot, 0.2f).SetEase(Ease.InOutSine));
+                        oldTool.Join(curToolObj.transform.DOMove(WandPos, 0.2f).SetEase(Ease.InOutSine).OnComplete(() =>
+                            canSelect = true));
+                        curToolObj.GetComponent<ToolFloat>().EndFloat();
+                        oldTool.Play();
+                        break;
+                    case "Magnifyer":
+                        oldTool.Append(curToolObj.transform.DORotate(InspectRot, 0.2f).SetEase(Ease.InOutSine));
+                        oldTool.Join(curToolObj.transform.DOMove(halfwayInspectPos, 0.1f).SetEase(Ease.InOutSine)
+                            .OnComplete(() =>
+                                curToolObj.transform.DOMove(InspectPos, 0.1f).SetEase(Ease.InOutSine)
+                                    .OnComplete(() => canSelect = true)));
+                        curToolObj.GetComponent<ToolFloat>().EndFloat();
+                        oldTool.Play();
+                        break;
+                }
             }
 
             //Raise new tool to position
@@ -216,17 +220,16 @@ public class Toolbox : MonoBehaviour {
                     //SFX.Play("sound");
                     SFX.Play("cursor_select");
                     newTool.Append(newToolObj.transform.DORotate(desiredForcepRot, 0.2f).SetEase(Ease.InOutSine));
-                    newTool.Join(newToolObj.transform.DOMove(desiredForcepPos, 0.2f).SetEase(Ease.InOutSine).OnComplete(
-                        () =>
-                            canSelect = true).OnComplete(() => newToolObj.GetComponent<ToolFloat>().StartFloat()));
+                    newTool.Join(newToolObj.transform.DOMove(desiredForcepPos, 0.2f).SetEase(Ease.InOutSine).OnComplete(() => newToolObj.GetComponent<ToolFloat>().StartFloat()));
+                    newTool.AppendCallback(() => canSelect = true);
                     newTool.Play();
                     break;
                 case "Wand":
                     //SFX.Play("sound");
                     SFX.Play("Wand_select", 1f, 1f, 0f, false, 0f);
                     newTool.Append(newToolObj.transform.DORotate(desiredWandRot, 0.2f).SetEase(Ease.InOutSine));
-                    newTool.Join(newToolObj.transform.DOMove(desiredWandPos, 0.2f).SetEase(Ease.InOutSine).OnComplete(() => 
-                        canSelect = true).OnComplete(() => newToolObj.GetComponent<ToolFloat>().StartFloat()));                
+                    newTool.Join(newToolObj.transform.DOMove(desiredWandPos, 0.2f).SetEase(Ease.InOutSine).OnComplete(() => newToolObj.GetComponent<ToolFloat>().StartFloat()));                
+                    newTool.AppendCallback(() => canSelect = true);
                     newTool.Play();
                     break;
                 case "Magnifyer":
@@ -235,10 +238,8 @@ public class Toolbox : MonoBehaviour {
                     newTool.Append(newToolObj.transform.DORotate(desiredInspectRot,0.2f).SetEase(Ease.InOutSine));
                     newTool.Join(newToolObj.transform.DOMove(halfwayInspectPos, 0.1f).SetEase(Ease.InOutSine)
                         .OnComplete(() =>
-                            newToolObj.transform.DOMove(desiredInspectPos, 0.1f).SetEase(Ease.InOutSine).OnComplete(
-                                    () =>
-                                        canSelect = true)
-                                .OnComplete(() => newToolObj.GetComponent<ToolFloat>().StartFloat())));
+                            newToolObj.transform.DOMove(desiredInspectPos, 0.1f).SetEase(Ease.InOutSine).OnComplete(() => newToolObj.GetComponent<ToolFloat>().StartFloat())));
+                    newTool.AppendCallback(() => canSelect = true);
                     newTool.Play();        
                     break;
             }
@@ -246,7 +247,8 @@ public class Toolbox : MonoBehaviour {
             //curToolObj.transform.DOScale(1f, 0.7f).SetEase(Ease.InElastic);
             //newToolObj.transform.DOScale(2f, 0.7f).SetEase(Ease.InElastic);
 
-            curToolObj.GetComponent<Outline>().OutlineWidth = 0;
+            if (curToolObj != null)
+                curToolObj.GetComponent<Outline>().OutlineWidth = 0;
             newToolObj.GetComponent<Outline>().OutlineWidth = selectedOutlineThickness;
 
             // Finally actually swap tools.
@@ -269,6 +271,8 @@ public class Toolbox : MonoBehaviour {
                 break;
             case Tool.Wand:
                 UseWand(slot);
+                break;
+            default:
                 break;
         }
     }
