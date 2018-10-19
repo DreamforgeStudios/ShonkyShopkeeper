@@ -159,7 +159,7 @@ public class Tracing : MonoBehaviour {
 
         if (Time.time > finishTime && _canTrace)
         {
-            GameOver();
+            //GameOver();
         }
     }
 

@@ -26,7 +26,7 @@ public class WinnerController : PseudoScene {
 		}
 
 		AvatarImage.sprite = winner.Avatar.Sprite;
-		PointsText.text = string.Format("{0:N0} points", winner.Points + winner.Gold * GOLD_MULTIPLIER);
+		PointsText.text = string.Format("{0:N0} points", winner.AggregatePoints);
 		WinnerText.text = string.Format("Player {0} is the WINNER!!!", winner.Index + 1);
 
 		SFX.Play("winner_announce");

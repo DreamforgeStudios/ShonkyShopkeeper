@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311992, g: 0.38074034, b: 0.35872713, a: 1}
+  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073993, b: 0.3587269, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -8969,7 +8969,7 @@ MonoBehaviour:
     caress the heights of the stratosphere."'
   - '"From me the unconditional gift of true freedom flies forth and is bestowed to
     all."'
-  gizmoPrefab: {fileID: 1668627367969516, guid: 7ee18a29f02ec0145a189d1fce7433d9,
+  gizmoPrefab: {fileID: 1548746329834380, guid: 9a283be9cf50bf44fbde91d4a4a074ae,
     type: 2}
   mainCanvas: {fileID: 1669225272}
   golemancerBanner: {fileID: 923256171}
