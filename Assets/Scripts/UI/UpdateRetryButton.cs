@@ -20,6 +20,18 @@ public class UpdateRetryButton : MonoBehaviour {
     {
         JunkWarning.SetActive(true);
         NormalButtons.SetActive(false);
+        
+        //Customise text to explain why they would receive an item in the tutorial
+        if (!GameManager.Instance.InTutorial)
+        {
+            JunkWarning.GetComponent<TextMeshProUGUI>().text =
+                "If you return to the shop, this resource will be destroyed.";
+        }
+        else
+        {
+            JunkWarning.GetComponent<TextMeshProUGUI>().text =
+                "In the normal game, making a junk component will result in it being destroyed";
+        }
     }
 	
 }

@@ -37,7 +37,7 @@ public class NPCWalker : MonoBehaviour {
 		NPC.ShowSide();
 		Spawner = GameObject.FindWithTag("NPCSpawner").GetComponent<NPCSpawner>();
 		mainCanvas = GameObject.FindWithTag("ShopCanvas").GetComponent<Canvas>();
-		EnableParticles();
+		EnableWalkParticles();
 	}
 	
 	// Update is called once per frame
@@ -47,7 +47,7 @@ public class NPCWalker : MonoBehaviour {
 
 		if (GameManager.Instance.BarterTutorial)
 		{
-			EnableParticles();
+			EnableWalkParticles();
 			DisableParticles();
 		}
 	}
@@ -89,7 +89,7 @@ public class NPCWalker : MonoBehaviour {
 	    }
 	}
 
-	public void EnableParticles()
+	public void EnableWalkParticles()
 	{
 		if (GameManager.Instance.BarterNPC && particleChild == null && 
 		    GameManager.Instance.BarterTutorial && runeIndicator == null)
@@ -99,6 +99,17 @@ public class NPCWalker : MonoBehaviour {
 			particleChild = Instantiate(particlePrefab, this.transform);
 			particleChild.transform.localScale = new Vector3(1f, 1f, 1f);
 			
+			//Rune indicators
+			runeIndicator = Instantiate(runeIndicatorPrefab, mainCanvas.transform);
+			runeIndicator.GetComponent<TutorialRuneIndicator>().SetPosition(this.gameObject, false);
+			runeIndicator.transform.localScale = new Vector3(1f, 1f, 1f);
+		}
+	}
+
+	public void EnableOfferParticles()
+	{
+		if (GameManager.Instance.OfferNPC && GameManager.Instance.BarterTutorial && runeIndicator == null)
+		{
 			//Rune indicators
 			runeIndicator = Instantiate(runeIndicatorPrefab, mainCanvas.transform);
 			runeIndicator.GetComponent<TutorialRuneIndicator>().SetPosition(this.gameObject, false);
@@ -166,6 +177,7 @@ public class NPCWalker : MonoBehaviour {
 			BarterTutorial.Instance.RemoveShonkyParticles();
 			GameManager.Instance.BarterNPC = true;
 			GameManager.Instance.OfferNPC = false;
+			EnableWalkParticles();
 		}
 
 		Spawner.isInteracting = false;

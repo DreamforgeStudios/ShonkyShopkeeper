@@ -185,4 +185,26 @@ public static class Quality {
 
 		return level;
 	}
+	
+	//Returns relevant string to play the relevant item quality clip
+	public static string ReturnSFXName(QualityGrade gradeAchived)
+	{
+		switch (gradeAchived)
+		{
+			case QualityGrade.Brittle:
+				return "Game_Quality_Brittle";
+			case QualityGrade.Junk:
+				return "Game_Quality_Junk";
+			case QualityGrade.Sturdy:
+				return "Game_Quality_Sturdy";
+			case QualityGrade.Passable:
+				return "Game_Quality_Passable";
+			case QualityGrade.Magical:
+				return "Game_Quality_Magical";
+			case QualityGrade.Mystic:
+				return "Game_Quality_Mystic";
+			default:
+				return "Game_Quality_Brittle";
+		}
+	}
 }

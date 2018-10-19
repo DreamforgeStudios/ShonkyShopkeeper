@@ -74,7 +74,7 @@ public class GameManager : MonoBehaviour {
 	public bool TutorialGolemMade = false;
 	public bool MineGoleminteractGolem = false;
 	public bool SendToMine,HasMinePouch, WaitingForTimer, TimerComplete, ReturnPouch, OpenPouch, firstTownSelect = false;
-	public List<string> InspectedItems;
+	public List<string> InspectedItems = new List<string>();
 	public Item.GemType GemTypeTransfer;
 	public Quality.QualityGrade QualityTransfer;
 	public Personality PersonalityTransfer;

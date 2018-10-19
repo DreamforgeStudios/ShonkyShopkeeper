@@ -196,7 +196,7 @@ public class InstructionBubble : MonoBehaviour
 
 	public void PreviousInstructionText()
 	{
-		if (activePage - 1 > 0)
+		if (activePage - 1 >= 0)
 		{	
 			instructionTextBox.text = instructionText[--activePage];
 			

@@ -659,32 +659,32 @@ Prefab:
     - target: {fileID: 114602821688293272, guid: e3a1b7124e4ff434896218a837c9dfc6,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114602821688293272, guid: e3a1b7124e4ff434896218a837c9dfc6,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114230937399172260, guid: e3a1b7124e4ff434896218a837c9dfc6,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114230937399172260, guid: e3a1b7124e4ff434896218a837c9dfc6,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114694471169013292, guid: e3a1b7124e4ff434896218a837c9dfc6,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114694471169013292, guid: e3a1b7124e4ff434896218a837c9dfc6,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1580125511671102, guid: e3a1b7124e4ff434896218a837c9dfc6, type: 2}
       propertyPath: m_IsActive
@@ -729,6 +729,45 @@ Prefab:
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: Return
+      objectReference: {fileID: 0}
+    - target: {fileID: 1751879003007022, guid: e3a1b7124e4ff434896218a837c9dfc6, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114506243900948888, guid: e3a1b7124e4ff434896218a837c9dfc6,
+        type: 2}
+      propertyPath: m_firstOverflowCharacterIndex
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114506243900948888, guid: e3a1b7124e4ff434896218a837c9dfc6,
+        type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114506243900948888, guid: e3a1b7124e4ff434896218a837c9dfc6,
+        type: 2}
+      propertyPath: m_isInputParsingRequired
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114175070511222220, guid: e3a1b7124e4ff434896218a837c9dfc6,
+        type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114175070511222220, guid: e3a1b7124e4ff434896218a837c9dfc6,
+        type: 2}
+      propertyPath: m_isInputParsingRequired
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114039039034830026, guid: e3a1b7124e4ff434896218a837c9dfc6,
+        type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114039039034830026, guid: e3a1b7124e4ff434896218a837c9dfc6,
+        type: 2}
+      propertyPath: m_isInputParsingRequired
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e3a1b7124e4ff434896218a837c9dfc6, type: 2}
@@ -984,6 +1023,7 @@ MonoBehaviour:
   MinMaxDistance: {x: 3.5, y: 4.5}
   MaxStartPoint: {x: 1.5, y: -1.5, z: -1.8}
   MaxAngle: 270
+  CutTimeout: 0
   DifficultySettings:
     m_keys: 000000000100000002000000
     m_values:

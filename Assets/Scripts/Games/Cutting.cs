@@ -358,6 +358,8 @@ public class Cutting : MonoBehaviour {
             GradeText.gameObject.SetActive(true);
 		};
 		
+		SFX.Play(Quality.ReturnSFXName(grade),1f,1f,0f,false,0f);
+		
 		PointsManager.DoEndGameTransition();
 		
 		foreach (NewCutPoint cut in activeCuts) {

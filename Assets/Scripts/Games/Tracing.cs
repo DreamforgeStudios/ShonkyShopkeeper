@@ -298,6 +298,9 @@ public class Tracing : MonoBehaviour {
             qualityText.gameObject.SetActive(true);
         };
         
+        SFX.Play(Quality.ReturnSFXName(grade),1f,1f,0f,false,0f);
+        feedbackParticleSystem.GetComponent<ParticleSystem>().Stop();
+        
         PointsManager.DoEndGameTransition();
         FollowSphere.SetActive(false);
         _currentRuneSprite.SetActive(false);

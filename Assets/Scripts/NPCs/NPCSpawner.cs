@@ -47,9 +47,10 @@ public class NPCSpawner : MonoBehaviour {
 	// Update is called once per frame
 	void Update()
 	{
+		
+			timer += Time.deltaTime;
 		if (!GameManager.Instance.introduceTrueGolem)
 		{
-			timer += Time.deltaTime;
 			// Instantiate an NPC and set them walking.
 			if (timer > spawnInterval && !isInteracting)
 			{
