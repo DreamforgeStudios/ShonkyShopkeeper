@@ -60,11 +60,11 @@ public class RotateWithGyro : MonoBehaviour {
 	void Update () {
 		counter = ++counter % SAMPLE_SIZE;
 
-		if (enableGyro) {
+		//if (enableGyro) {
 			// Rudementary support only at this stage -- no hardware.
 			//vialMaterial.SetVector("_UpDirection", Input.gyro.gravity);
-			Shader.SetGlobalVector(updirID, Input.gyro.gravity);
-		} else if (enableAccel) {
+			//Shader.SetGlobalVector(updirID, Input.gyro.gravity);
+		if (enableAccel) {
 			accelerations[counter] = Input.acceleration;
 
 			Vector3 avg = Vector3.zero;
