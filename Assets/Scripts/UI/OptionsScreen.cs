@@ -43,12 +43,14 @@ public class OptionsScreen : MonoBehaviour
 		} else if (SceneManager.GetActiveScene().name == "Shop")
 		{
 			//Variable used to stop any interactions during golem creation process so I can reuse it here
-			ResetVariables();
+			GameManager.Instance.introduceTrueGolem = false;
+			GameManager.Instance.canUseTools = true;
 			mainShopCanvas.gameObject.SetActive(true);
 		} else if (SceneManager.GetActiveScene().name == "TutorialShop")
 		{
 			//Variable used to stop any interactions during golem creation process so I can reuse it here
-			ResetVariables();
+			GameManager.Instance.introduceTrueGolem = false;
+			GameManager.Instance.canUseTools = true;
 			if (tutorialProgressChecker != null)
 				tutorialProgressChecker.SetActive(true);
 			
@@ -196,6 +198,8 @@ public class OptionsScreen : MonoBehaviour
 		{
 			if (TutorialProgressChecker.Instance.gameObject != null)
 				Destroy(TutorialProgressChecker.Instance.gameObject);
+			
+			SetGameManagerToDefault();
 		}
 
 		GameManager.Instance.introduceTrueGolem = false;
@@ -223,5 +227,25 @@ public class OptionsScreen : MonoBehaviour
 		credits.gameObject.SetActive(true);
 		credits.gameObject.GetComponent<HideCredits>().StartCredits();
 		optionsCanvas.gameObject.SetActive(false);
+	}
+
+	private void SetGameManagerToDefault()
+	{
+		GameManager.Instance.InTutorial = false;
+		GameManager.Instance.TutorialIntroComplete = false;
+		GameManager.Instance.TutorialIntroTopComplete = false;
+		GameManager.Instance.InMap = false;
+		GameManager.Instance.BarterTutorial = false;
+		GameManager.Instance.OfferNPC = false;
+		GameManager.Instance.HasInspectedAllInventoryItems = false;
+		GameManager.Instance.TutorialGolemMade = false;
+		GameManager.Instance.MineGoleminteractGolem = false;
+		GameManager.Instance.SendToMine = false;
+		GameManager.Instance.HasMinePouch = false;
+		GameManager.Instance.WaitingForTimer = false;
+		GameManager.Instance.TimerComplete = false;
+		GameManager.Instance.ReturnPouch = false;
+		GameManager.Instance.OpenPouch = false;
+		GameManager.Instance.firstTownSelect = false;
 	}
 }
