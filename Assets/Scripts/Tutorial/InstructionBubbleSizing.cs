@@ -35,6 +35,7 @@ public class InstructionBubbleSizing : MonoBehaviour
 		desiredHeight = text.preferredHeight;
 		
 		//Get desired Height and add padding ~ 20%
-		scrollRect.sizeDelta = new Vector2(scrollRect.sizeDelta.x,(desiredHeight + (desiredHeight/5)));
+		Debug.Log("Size of scroll is " + (desiredHeight + desiredHeight/2));
+		scrollRect.sizeDelta = new Vector2(scrollRect.sizeDelta.x,(desiredHeight + desiredHeight/2));
 	}
 }

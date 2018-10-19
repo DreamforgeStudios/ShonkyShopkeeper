@@ -66,12 +66,20 @@ public class BarterTutorial : MonoBehaviour
 
 	private void Start()
 	{
+		GameManager.Instance.introduceTrueGolem = true;
 		cameraButton.SetActive(false);
 		mapButton.SetActive(false);
 		GameManager.Instance.BarterNPC = true;
 		GameManager.Instance.canUseTools = false;
         StartDialogue(tutorialDialogue, tutorialInstructions, mainCanvas,dialogueTarget, true);
-		InstructionBubble.onInstruction += () => GameManager.Instance.canUseTools = true;
+		InstructionBubble.onInstruction += () => StartNPCSpawning();
+	}
+
+
+	private void StartNPCSpawning()
+	{
+		GameManager.Instance.canUseTools = true;
+		GameManager.Instance.introduceTrueGolem = false;
 	}
 	
 	public void StartDialogue(List<string> dialogue, List<string> instruction, Canvas canvas, GameObject target, bool canvasElement)

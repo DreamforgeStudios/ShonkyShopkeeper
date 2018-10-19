@@ -56,7 +56,7 @@ public class Hall : MonoBehaviour
 		Setup();
 		
 		//ambient SFX
-		SFX.Play("Globe_Touch_Loop", 0.75f, 1f, 0f, false, 0f);
+		SFX.Play("Hall_Theme", 0.1f, 1f, 0f, true, 0f);
 		
 		//If introducing true golem, set the camera at the relevant position and load the relevant dialogue
 		if (GameManager.Instance.introduceTrueGolem)
@@ -163,11 +163,11 @@ public class Hall : MonoBehaviour
 				{
 					mapInteraction = true;
 				}
-				else if (mapInteraction && !hit.transform.gameObject.CompareTag("Town"))
+				/*else if (mapInteraction && !hit.transform.gameObject.CompareTag("Town"))
 				{
 					Debug.Log("Exiting map interaction");
 					ExitMapInteraction();
-				} else if (trueGolemHandler.inspectingGolem &&
+				}*/ else if (trueGolemHandler.inspectingGolem &&
 				           hit.transform.gameObject == trueGolemHandler.golemSelected && !trueGolemHandler.readingDialogue)
 				{
 					trueGolemHandler.ReshowDialogue();
@@ -205,6 +205,9 @@ public class Hall : MonoBehaviour
 		canMoveAround = false;
 		townHit = hit;
 		
+		//Get rid of back button (which moves camera to starting position)
+		MoveCameraBackButton.SetActive(false);
+		
 		//Sound effect
 		SFX.Play("Map_location_select", 1f, 1f, 0f, false, 0f);
 		
@@ -214,10 +217,14 @@ public class Hall : MonoBehaviour
 		//Change layer of chosen town to be above others
 		hit.transform.gameObject.GetComponent<SpriteRenderer>().sortingLayerName = "Default";
 		
+		//Finish all previous tweens
+		foreach (GameObject town in townObjects)
+			town.transform.DOComplete();
+		
 		//Move camera to inspect pos and make chosen town larger
-		Camera.main.transform.DOMove(inspectPos, 1f, false).OnComplete(() => 
-			hit.transform.DOMove(townInspectPosition.transform.position,0.1f,false).OnComplete(()=> 
-			hit.transform.DOScale(hit.transform.localScale * 1.8f,1f)));
+		Camera.main.transform.DOMove(inspectPos, 1f, false).OnComplete(() =>
+			hit.transform.DOMove(townInspectPosition.transform.position, 0.1f, false).OnComplete(() =>
+				hit.transform.DOScale(new Vector3(0.0014f, 0.0014f, 0.0014f), 1f)));
 		
 		//Load Relevant canvas elements
 		Travel.Towns currentTown = CurrentTownObject(hit.transform.gameObject);
@@ -240,6 +247,8 @@ public class Hall : MonoBehaviour
 	//Moves town objects from the centre of the sphere to each of their respective starting points
 	private void MoveAroundGlobe()
 	{
+		mapInteraction = false;
+		
 		if (!GameManager.Instance.InMap)
 			canMoveAround = true;
 		
@@ -290,7 +299,7 @@ public class Hall : MonoBehaviour
 		canMoveAround = false;
 		foreach (GameObject town in townObjects)
 		{
-			town.transform.DOKill();
+			town.transform.DOComplete();
 			town.transform.DOMove(startingPosition.transform.position, 0.5f, false);
 			town.transform.gameObject.GetComponent<SpriteRenderer>().sortingLayerName = "Behind";
 		}	
@@ -304,10 +313,16 @@ public class Hall : MonoBehaviour
 	//Rescales the selected town, moves the camera back and then starts them circling the sphere again
 	public void ExitMapInteraction()
 	{
-		townHit.transform.DOScale(townHit.transform.localScale / 2f, 0.1f).OnComplete(()=> MoveAroundGlobe());
+		//Show back button (which moves camera to starting position)
+		MoveCameraBackButton.SetActive(true);
+		
+		//Finish all existing Tweens
+		foreach (GameObject town in townObjects)
+			town.transform.DOComplete();
+		
+		townHit.transform.DOScale(new Vector3(0.0007f,0.0007f,0.0007f), 0.1f).OnComplete(()=> MoveAroundGlobe());
 		Camera.main.transform.DOMove(frontPos, 1f).SetEase(Ease.InOutSine);
 		HideTownUIAndButtons();
-		mapInteraction = false;
 	}
 	
 	//Return current town
@@ -436,5 +451,10 @@ public class Hall : MonoBehaviour
                 SFX.Play("Fail_Tap", 1f, 1f, 0f, false, 0f);
             }
 		}
+	}
+
+	public void BackToShop()
+	{
+		Initiate.Fade("Shop",Color.black,2.0f);
 	}
 }

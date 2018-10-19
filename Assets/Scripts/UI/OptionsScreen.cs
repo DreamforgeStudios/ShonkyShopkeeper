@@ -12,6 +12,11 @@ public class OptionsScreen : MonoBehaviour
 
 	public Inventory defaultInventory, TutorialInventory;
 	public ShonkyInventory defaultShonkyInventory, tutorialShonkyInventory;
+	//Options screen canvas
+	public Canvas optionsCanvas;
+	
+	//To Show Credits
+	public Canvas credits;
 
 	//Intro specific variables
 	public IntroScene introHandler;
@@ -178,22 +183,39 @@ public class OptionsScreen : MonoBehaviour
 
 	private void ResetVariables()
 	{
+		//Destroy existing gamemanager and tutorialprogresschecker
+		if (GameManager.Instance != null)
+			Destroy(GameManager.Instance.gameObject);
+
+		if (GameManager.Instance.InTutorial)
+		{
+			if (TutorialProgressChecker.Instance != null)
+				Destroy(TutorialProgressChecker.Instance.gameObject);
+		}
+
 		GameManager.Instance.introduceTrueGolem = false;
 		GameManager.Instance.canUseTools = true;
+		
 	}
 
 	public void BackToMenu()
 	{
 		SaveManager.SaveInventory();
 		SaveManager.SaveShonkyInventory();
-		ResetVariables();
 		Initiate.Fade("Intro",Color.black,2f);
+		ResetVariables();
 	}
 
 	public void Quit()
 	{
+		SaveManager.SaveInventory();
+		SaveManager.SaveShonkyInventory();
 		Application.Quit();
 	}
-	
-	
+
+	public void ShowCredits()
+	{
+		credits.gameObject.SetActive(true);
+		optionsCanvas.gameObject.SetActive(false);
+	}
 }

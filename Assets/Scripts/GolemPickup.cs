@@ -322,12 +322,16 @@ public class GolemPickup : MonoBehaviour {
             
             if (GameManager.Instance.BarterTutorial)
             {
-                if (GameManager.Instance.introducedNPC)
+                if (GameManager.Instance.introducedNPC && GameManager.Instance.OfferNPC)
                 {
                     BarterTutorial.Instance.StartShonkyParticles();
+                    
                     GameManager.Instance.OfferNPC = true;
                     GameManager.Instance.BarterNPC = false;
                     
+                } else if (GameManager.Instance.introducedNPC && !GameManager.Instance.OfferNPC)
+                {
+                    BarterTutorial.Instance.RemoveShonkyParticles();
                 }
             }
         }
@@ -465,9 +469,9 @@ public class GolemPickup : MonoBehaviour {
             if (GameManager.Instance.OfferNPC)
             {
                 BarterTutorial.Instance.RemoveShonkyParticles();
-                GameManager.Instance.OfferNPC = false;
-                GameManager.Instance.BarterNPC = true;
-                NPCinteraction.NPCHit.GetComponent<NPCWalker>().EnableParticles();
+                GameManager.Instance.OfferNPC = true;
+                GameManager.Instance.BarterNPC = false;
+                NPCinteraction.NPCHit.GetComponent<NPCWalker>().EnableOfferParticles();
             }
         }
         //SFX.Play("sound");

@@ -158,10 +158,10 @@ public class TutorialToolbox : MonoBehaviour {
             if (hit.transform.CompareTag("Forceps") || hit.transform.CompareTag("Wand") ||
                 hit.transform.CompareTag("Magnifyer"))
             {
-                SFX.Play("cursor_select");
                 if (tutorialManager.currentToolToInspect == hit.transform.gameObject || (
                     GameManager.Instance.TutorialIntroComplete))
                 {
+                    SFX.Play("cursor_select");
                     switch (hit.transform.tag)
                     {
                         case "Forceps":
@@ -186,7 +186,13 @@ public class TutorialToolbox : MonoBehaviour {
             }
             else {
                 if (canSelect)
-                    UseTool(hit.transform.GetComponent<Slot>());
+                {
+                    if (tutorialManager.currentToolToInspect == ToolToObject(currentTool) || (
+                            GameManager.Instance.TutorialIntroComplete))
+                    {
+                        UseTool(hit.transform.GetComponent<Slot>());
+                    }
+                }
             }
         }
         else {
@@ -507,7 +513,7 @@ public class TutorialToolbox : MonoBehaviour {
                             slot2.SetItemInstantiated(inst1, obj1);
                             Inventory.Instance.SwapItem(slot1.index, slot2.index);
                         }
-
+                        SaveManager.SaveInventory();
                         currentSelection = null;
                     }
                 }
@@ -543,6 +549,7 @@ public class TutorialToolbox : MonoBehaviour {
                         slot2.SetItemInstantiated(inst1, obj1);
                         Inventory.Instance.SwapItem(slot1.index, slot2.index);
                     }
+                    SaveManager.SaveInventory();
 
                     currentSelection = null;
                 }
