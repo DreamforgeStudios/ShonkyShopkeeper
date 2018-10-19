@@ -6,14 +6,21 @@ public static class AchievementManager {
     private static AchievementDatabase
         achievementDB = Object.Instantiate((AchievementDatabase) Resources.Load("AchievementDatabase"));
 
-    public static void Get(string key) {
-        // Queue up displays AFTER the scene has loaded.  Avoids things randomly popping up and being jarring while the
-        // wipe is playing.  We lose the boolean return value here.  Bummer
-        if (Initiate.IsLoading) {
-            Initiate.onFinishFading += () => DoGet(key);
-        } else {
-            DoGet(key);
+    public static bool Get(string key) {
+        var achievement = GetAchievement(key);
+        if (achievement == null) {
+            return false;
         }
+
+        bool unlocked = achievement.Unlocked;
+        
+        if (Initiate.IsLoading) {
+            Initiate.onFinishFading += () => DoGet(achievement);
+        } else {
+            DoGet(achievement);
+        }
+
+        return unlocked;
     }
     
     public static void Increment(string key, int amount = 1) {
@@ -35,6 +42,12 @@ public static class AchievementManager {
         return false;
     }
 
+    private static Achievement GetAchievement(string key) {
+        Achievement a;
+        achievementDB.TryFindAchievementWithKey(key, out a);
+        return a;
+    }
+
     // Returns true if successfully unlocked.  If false, already unlocked.
     private static bool DoGet(string key) {
         Achievement a;
@@ -44,6 +57,10 @@ public static class AchievementManager {
         
         return false;
     }
+    
+    private static bool DoGet(Achievement a) {
+        return achievementDB.Unlock(a);
+    }
 
     private static bool DoIncrement(string key, int amount) {
         Achievement a;
@@ -52,5 +69,9 @@ public static class AchievementManager {
         }
         
         return false;
+    }
+    
+    private static bool DoIncrement(Achievement a, int amount) {
+        return achievementDB.Increment(a, amount);
     }
 }
