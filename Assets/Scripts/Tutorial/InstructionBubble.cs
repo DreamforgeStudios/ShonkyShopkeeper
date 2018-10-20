@@ -313,4 +313,14 @@ public class InstructionBubble : MonoBehaviour
 		if (onInstruction != null)
 			onInstruction();
 	}
+
+	public static void ClearOldEvents()
+	{
+		if (onInstruction != null)
+		{
+			Delegate[] clientList = onInstruction.GetInvocationList();
+			foreach (var d in onInstruction.GetInvocationList())
+				onInstruction -= (d as Instruct);
+		}
+	}
 }

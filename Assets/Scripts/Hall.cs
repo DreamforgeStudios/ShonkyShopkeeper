@@ -33,7 +33,7 @@ public class Hall : MonoBehaviour
 	//New system for map screen and objects going around it
 	public List<GameObject> townObjects, startingPositions, townCanvasElements;
 	public GameObject startingPosition, townInspectPosition;
-	private bool canMoveAround, playingLoop = false;
+	public bool canMoveAround, playingLoop = false;
 	
 	//Need to keep track of select hit town due to scaling
 	private RaycastHit townHit;
@@ -111,11 +111,14 @@ public class Hall : MonoBehaviour
 				MoveAroundGlobe();
 				MoveCameraBackButton.SetActive(true);
 				ShopButton.gameObject.SetActive(false);
-				if (GameManager.Instance.InMap && !mapTutorialManager.clickedOrb)
+				if (GameManager.Instance.InMap)
 				{
-					mapTutorialManager.ClickedSphere();
-					canMoveAround = false;
 					MoveCameraBackButton.SetActive(false);
+					if (!mapTutorialManager.clickedOrb)
+					{
+						mapTutorialManager.ClickedSphere();
+						canMoveAround = false;
+					}
 				}
 				mapInteraction = false;
 				
@@ -144,9 +147,9 @@ public class Hall : MonoBehaviour
 		if (forward)
 		{
 			//Just need to handle the tutorial now that the system has changed.
-			if (GameManager.Instance.InMap && mapTutorialManager.clone.Instruction)
+			if (GameManager.Instance.InMap)
 			{
-				canMoveAround = true;
+				MoveCameraBackButton.SetActive(false);
 			}
 			
 			//Raycast for the town  objects.
@@ -156,21 +159,27 @@ public class Hall : MonoBehaviour
 			if (Physics.Raycast(ray, out hit, 1))
 			{
 				Debug.Log(hit.transform.gameObject.name + " hit" + " can select towns " + canMoveAround);
-				if (hit.transform.gameObject.CompareTag("Town") && canMoveAround)
+				if (!GameManager.Instance.InMap)
 				{
-					ChooseTown(hit);
-				} else if (GameManager.Instance.InMap)
-				{
-					mapInteraction = true;
+					if (hit.transform.gameObject.CompareTag("Town") && canMoveAround)
+					{
+						Debug.Log("Choosing town");
+						ChooseTown(hit);
+					}
+					 else if (trueGolemHandler.inspectingGolem &&
+					             hit.transform.gameObject == trueGolemHandler.golemSelected &&
+					             !trueGolemHandler.readingDialogue)
+					{
+						trueGolemHandler.ReshowDialogue();
+					}
 				}
-				/*else if (mapInteraction && !hit.transform.gameObject.CompareTag("Town"))
+				else
 				{
-					Debug.Log("Exiting map interaction");
-					ExitMapInteraction();
-				}*/ else if (trueGolemHandler.inspectingGolem &&
-				           hit.transform.gameObject == trueGolemHandler.golemSelected && !trueGolemHandler.readingDialogue)
-				{
-					trueGolemHandler.ReshowDialogue();
+					if (hit.transform.gameObject.CompareTag("Town") && canMoveAround && mapTutorialManager.canSelectTowns)
+					{
+						Debug.Log("Choosing town");
+						ChooseTown(hit);
+					}
 				}
 			}
 		}
@@ -248,9 +257,8 @@ public class Hall : MonoBehaviour
 	private void MoveAroundGlobe()
 	{
 		mapInteraction = false;
-		
-		if (!GameManager.Instance.InMap)
-			canMoveAround = true;
+
+		canMoveAround = true;
 		
 		//Make sure they are on the right layer
 		foreach (GameObject town in townObjects)
@@ -277,20 +285,11 @@ public class Hall : MonoBehaviour
 		if (nextPosition == 4)
 			nextPosition = 0;
 		
-		//If in tutorial hide rune overlays
-		if (GameManager.Instance.InMap)
-		{
-			mapTutorialManager.ReactivateALlTownHighlights();
-		}
 		if (canMoveAround)
 		{
 			townTransform.DOMove(startingPositions[nextPosition].transform.position, 5f, false).SetEase(Ease.InOutQuad)
 				.OnComplete(() => RotateAroundGlobe(townTransform, nextPosition));
-		} else if (GameManager.Instance.InMap)
-		{
-			townTransform.DOMove(startingPositions[nextPosition].transform.position, 5f, false).SetEase(Ease.InOutQuad)
-				.OnComplete(() => RotateAroundGlobe(townTransform, nextPosition));
-		}
+		} 
 	}
 
 	//Sends all the town objects back into the sphere
@@ -303,18 +302,14 @@ public class Hall : MonoBehaviour
 			town.transform.DOMove(startingPosition.transform.position, 0.5f, false);
 			town.transform.gameObject.GetComponent<SpriteRenderer>().sortingLayerName = "Behind";
 		}	
-		//If in tutorial hide rune overlays
-		if (GameManager.Instance.InMap)
-		{
-			mapTutorialManager.DeactivateAllTownHighlights();
-		}
 	}
 
 	//Rescales the selected town, moves the camera back and then starts them circling the sphere again
 	public void ExitMapInteraction()
 	{
 		//Show back button (which moves camera to starting position)
-		MoveCameraBackButton.SetActive(true);
+		if (!GameManager.Instance.InMap)
+			MoveCameraBackButton.SetActive(true);
 		
 		//Finish all existing Tweens
 		foreach (GameObject town in townObjects)

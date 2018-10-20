@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073993, b: 0.3587269, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311992, g: 0.38074034, b: 0.35872713, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5244,6 +5244,11 @@ Prefab:
       propertyPath: towns.Array.data[3]
       value: 
       objectReference: {fileID: 1247743673}
+    - target: {fileID: 114374969198963020, guid: 25dd6878305a78d42bb9578ec9c719c1,
+        type: 2}
+      propertyPath: hallScript
+      value: 
+      objectReference: {fileID: 1308212486}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 25dd6878305a78d42bb9578ec9c719c1, type: 2}
   m_IsPrefabAsset: 0
@@ -8877,6 +8882,8 @@ MonoBehaviour:
   - {fileID: 1246258638}
   startingPosition: {fileID: 554772991}
   townInspectPosition: {fileID: 1871900421}
+  canMoveAround: 0
+  playingLoop: 0
   purchaseButton: {fileID: 1308543536}
   travelButton: {fileID: 1647669151}
   backButton: {fileID: 744268301}

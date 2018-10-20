@@ -54,17 +54,20 @@ public class MapTutorial : MonoBehaviour
 	//MAP TUTORIAL START
 
 	public GameObject shopButtonObj, sphere, particles, particleChild, speechBubblePrefab, introTarget, runeIndicatorPrefab;
-	public bool clickedOrb, CanMoveCamera, createdRunes  = false;
+	public bool clickedOrb, CanMoveCamera, canSelectTowns, createdRunes  = false;
 	public List<string> intro, introInstructions, map, mapInstructions;
 	private List<GameObject> runeIndicators;
 	public List<GameObject> towns;
 	public InstructionBubble clone;
 	public Canvas mainCanvas;
+	public Hall hallScript;
 
 	private void Start()
 	{
 		CanMoveCamera = false;
+		InstructionBubble.ClearOldEvents();
 		StartDialogue(intro,introInstructions, mainCanvas, sphere, false);
+		InstructionBubble.onInstruction += () => CanMoveCamera = true;
 		StartSphereParticles();
 	}
 	
@@ -72,7 +75,9 @@ public class MapTutorial : MonoBehaviour
 	{
 		DontDestroyOnLoad(gameObject);
 		GameObject obj = GameObject.FindGameObjectWithTag("TutorialProgress");
-		Destroy(obj);
+		if (obj != null)
+			Destroy(obj);
+		
 		shopButtonObj.SetActive(false);
 	}
 	
@@ -87,23 +92,23 @@ public class MapTutorial : MonoBehaviour
 		clone.Init(target,canvasElement,canvas);
 
 	}
-	
-	private void Update()
-	{
-		
-		if (!CanMoveCamera && clone.Instruction)
-		{
-			CanMoveCamera = true;
-		}
-	}
 
 	public void ClickedSphere()
 	{
-		CanMoveCamera = true;
 		StopSphereParticle();
+		InstructionBubble.ClearOldEvents();
 		clickedOrb = true;
+		//hallScript.canMoveAround = false;
+		hallScript.MoveCameraBackButton.SetActive(false);
 		StartDialogue(map, mapInstructions, mainCanvas, introTarget,true);
+		InstructionBubble.onInstruction += () => AllowTownSelection();
 		HighlightAllTowns();
+	}
+
+	private void AllowTownSelection()
+	{
+		hallScript.canMoveAround = true;
+		canSelectTowns = true;
 	}
 	
 	public void NextInstruction()
@@ -149,6 +154,7 @@ public class MapTutorial : MonoBehaviour
 		clone.MoveScrollsToFront();
 		
 	}
+	/*
 
 	public void RemoveHighlightAllTowns()
 	{
@@ -187,5 +193,6 @@ public class MapTutorial : MonoBehaviour
 			HighlightAllTowns();
 		}
 	}
+	*/
 
 }
