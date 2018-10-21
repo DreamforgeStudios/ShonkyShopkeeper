@@ -54,9 +54,6 @@ public class TrueGolemIntro : MonoBehaviour {
 	//True Golem Particle Systems
 	public List<GameObject> trueGolemParticles;
 	
-	//sceneChanger
-	public ChangeScene sceneChanger;
-	
 	//Initial method to start True golem animation and dialogue
 	public void IntroduceTrueGolem()
 	{
@@ -284,6 +281,7 @@ public class TrueGolemIntro : MonoBehaviour {
 		foreach (GameObject golem in trueGolemObjects)
 		{
 			golem.SetActive(true);
+			golem.GetComponent<Animator>().SetBool("Dance",true);
 		}
 		
 		//Start True Golem Particles
@@ -364,7 +362,8 @@ public class TrueGolemIntro : MonoBehaviour {
 	//Handles the golems jumping into the globe and transitioning to the final cinematic
 	private IEnumerator GameEnding()
 	{
-		yield return new WaitForSeconds(3.5f);
+		
+		yield return new WaitForSeconds(5f);
 
 		foreach (var VARIABLE in trueGolemObjects)
 		{

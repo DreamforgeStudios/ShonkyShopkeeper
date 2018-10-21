@@ -48,4 +48,12 @@ public class TrueGolemDisplay : MonoBehaviour
 			obj.SetActive(false);
 		}
 	}
+
+	public void MakeGolemsDance()
+	{
+		foreach (GameObject golem in trueGolemModels)
+		{
+			golem.GetComponent<Animator>().SetBool("Dance",true);
+		}
+	}
 }

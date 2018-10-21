@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 339b344341173894da5f19a12c0a27eb
+guid: 14f82c4842975824ea15bd08175bce3e
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
@@ -59,22 +59,25 @@ ModelImporter:
     2100002: amythest
     2100004: hollow
     4300000: Amythest_Golem2_amythest_golem3
-    7400000: Armature.001|AGGRESSIVE POSE
-    7400002: Armature.001|AGGRESSIVE TRANSITION
-    7400004: Armature.001|BAG WALK
-    7400006: Armature.001|CONFIDANT POSE
-    7400008: Armature.001|CONFIDANT TRANSITION
-    7400010: Armature.001|DANCE
-    7400012: Armature.001|DEFAULT POSE
-    7400014: Armature.001|DROP
-    7400016: Armature.001|IDLE
-    7400018: Armature.001|JOYOUS POSE
-    7400020: Armature.001|JOYOUS TRANSITION
-    7400022: Armature.001|JUMP TO LIFE
-    7400024: Armature.001|NIL
-    7400026: Armature.001|NIL.001
-    7400028: Armature.001|PICKED UP
-    7400030: Armature.001|WALK
+    7400000: IDLE
+    7400002: Armature.001|AGGRESSIVE POSE
+    7400004: Armature.001|AGGRESSIVE TRANSITION
+    7400006: Armature.001|BAG WALK
+    7400008: Armature.001|CONFIDANT POSE
+    7400010: Armature.001|CONFIDANT TRANSITION
+    7400012: Armature.001|DANCE
+    7400014: Armature.001|DEFAULT POSE
+    7400016: Armature.001|DROP
+    7400018: Armature.001|FALL OVER/FLAILING
+    7400020: Armature.001|IDLE
+    7400022: Armature.001|Ignore
+    7400024: Armature.001|JOYOUS POSE
+    7400026: Armature.001|JOYOUS TRANSITION
+    7400028: Armature.001|JUMP TO LIFE
+    7400030: Armature.001|NIL
+    7400032: Armature.001|NIL.001
+    7400034: Armature.001|PICKED UP
+    7400036: Armature.001|WALK
     9500000: //RootNode
     13700000: Amythest_Golem2_amythest_golem3
   externalObjects:
@@ -82,17 +85,17 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: amybase
-    second: {fileID: 2100000, guid: 2a2e46fccf1687c49b1e857e7fefff7c, type: 2}
+    second: {fileID: 2100000, guid: 776bea0fa0c891749b6e897e8a779c68, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: amythest
-    second: {fileID: 2100000, guid: f4d936c4136f8044d805f77a2a32de05, type: 2}
+    second: {fileID: 2100000, guid: bd580eecc2c688c489ee4c2912734ff8, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: hollow
-    second: {fileID: 2100000, guid: 7118a1d232ed19c469cc6167b07b74b0, type: 2}
+    second: {fileID: 2100000, guid: 3c407ebac5eb1094d912d19421448f7c, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -120,6 +123,34 @@ ModelImporter:
     extraExposedTransformPaths: []
     extraUserProperties: []
     clipAnimations:
+    - serializedVersion: 16
+      name: IDLE
+      takeName: IDLE
+      firstFrame: 0
+      lastFrame: 60
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: Armature.001|AGGRESSIVE POSE
       takeName: Armature.001|AGGRESSIVE POSE
@@ -345,6 +376,34 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
+      name: Armature.001|FALL OVER/FLAILING
+      takeName: Armature.001|FALL OVER/FLAILING
+      firstFrame: 0
+      lastFrame: 10
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
       name: Armature.001|IDLE
       takeName: Armature.001|IDLE
       firstFrame: 0
@@ -356,6 +415,34 @@ ModelImporter:
       loop: 0
       hasAdditiveReferencePose: 0
       loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Armature.001|Ignore
+      takeName: Armature.001|Ignore
+      firstFrame: 0
+      lastFrame: 60
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
@@ -432,7 +519,7 @@ ModelImporter:
       name: Armature.001|JUMP TO LIFE
       takeName: Armature.001|JUMP TO LIFE
       firstFrame: 0
-      lastFrame: 30
+      lastFrame: 60
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Name: Golemite Emerald
   m_EditorClassIdentifier: 
   itemName: Emerald Golemite
-  physicalRepresentation: {fileID: 1830940925711490, guid: 6509644017414ce49a3d3d6dfd2c1828,
+  physicalRepresentation: {fileID: 1670540014880724, guid: abd896456b6dd134e95fdddc3685429a,
     type: 2}
+  spriteRepresentation: {fileID: 0}
   stackLimit: 1
   mergeable: 0
   type: 3

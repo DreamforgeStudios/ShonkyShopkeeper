@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 5bcdf6ece85df1e40b61d9e0e2faa699
+guid: 3c9169ce0e1aab24d8275204083f4b8c
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
@@ -71,14 +71,15 @@ ModelImporter:
     7400010: Armature.001|DANCE
     7400012: Armature.001|DEFAULT POSE
     7400014: Armature.001|DROP
-    7400016: Armature.001|IDLE
-    7400018: Armature.001|JOYOUS POSE
-    7400020: Armature.001|JOYOUS TRANSITION
-    7400022: Armature.001|JUMP TO LIFE
-    7400024: Armature.001|NIL1
-    7400026: Armature.001|NIL2
-    7400028: Armature.001|PICKED UP
-    7400030: Armature.001|WALK
+    7400016: Armature.001|FALL OVER/FLAILING
+    7400018: Armature.001|IDLE
+    7400020: Armature.001|JOYOUS POSE
+    7400022: Armature.001|JOYOUS TRANSITION
+    7400024: Armature.001|JUMP TO LIFE
+    7400026: Armature.001|NIL1
+    7400028: Armature.001|NIL2
+    7400030: Armature.001|PICKED UP
+    7400032: Armature.001|WALK
     9500000: //RootNode
     13700000: Sapphire_Golem1_sapphire
   externalObjects:
@@ -86,17 +87,17 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: lambert3SG
-    second: {fileID: 2100000, guid: 0bbb1a2e282adbd4581574ed96ef7cfe, type: 2}
+    second: {fileID: 2100000, guid: 749f4ae35f8621e4394b98efe9c2abfb, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: lambert8SG
-    second: {fileID: 2100000, guid: 7921c0b023d9d4645be2e98d512479db, type: 2}
+    second: {fileID: 2100000, guid: c9fd393d842a5c9408640ada328e2741, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: lambert9SG
-    second: {fileID: 2100000, guid: 4b12a6a78d5c1cf4ca22f648ce0f043f, type: 2}
+    second: {fileID: 2100000, guid: 8b49b008ab1bef2458ea1e9700a27e00, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -349,6 +350,34 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
+      name: Armature.001|FALL OVER/FLAILING
+      takeName: Armature.001|FALL OVER/FLAILING
+      firstFrame: 0
+      lastFrame: 10
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
       name: Armature.001|IDLE
       takeName: Armature.001|IDLE
       firstFrame: 0
@@ -436,7 +465,7 @@ ModelImporter:
       name: Armature.001|JUMP TO LIFE
       takeName: Armature.001|JUMP TO LIFE
       firstFrame: 0
-      lastFrame: 30
+      lastFrame: 60
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -575,13 +604,13 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 0.0005
+    globalScale: 0.0004
     meshCompression: 0
     addColliders: 0
-    importVisibility: 1
+    importVisibility: 0
     importBlendShapes: 1
-    importCameras: 1
-    importLights: 1
+    importCameras: 0
+    importLights: 0
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
@@ -595,7 +624,7 @@ ModelImporter:
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
     useFileScale: 0
-    previousCalculatedGlobalScale: 0.0005
+    previousCalculatedGlobalScale: 0.0004
     hasPreviousCalculatedGlobalScale: 1
   tangentSpace:
     normalSmoothAngle: 60
