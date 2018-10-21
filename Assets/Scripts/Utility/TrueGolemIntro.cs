@@ -270,9 +270,15 @@ public class TrueGolemIntro : MonoBehaviour {
 		hallFunctionality.forward = true;
 
 		//PopupTextManager.ResetEvents();
+		//Hide buttons
+		hallFunctionality.backButton.gameObject.SetActive(false);
+		hallFunctionality.ShopButton.gameObject.SetActive(false);
 
 		//Move camera back to default
 		hallFunctionality.MoveCameraBack();
+		
+		//Disable script to stop being able to move camera
+		hallFunctionality.GetComponent<Hall>().enabled = false;
 		
 		//Golems pose (Not currently using as no animations have been provided yet)
 		foreach (GameObject golem in trueGolemObjects)

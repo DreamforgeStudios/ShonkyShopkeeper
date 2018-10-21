@@ -189,9 +189,10 @@ public class OptionsScreen : MonoBehaviour
 	private void ResetVariables()
 	{
 		//Destroy existing gamemanager and tutorialprogresschecker
+		/*
 		if (GameManager.Instance.gameObject != null)
 			Destroy(GameManager.Instance.gameObject);
-
+		*/
 		GameManager.Instance.InMap = false;
 
 		if (GameManager.Instance.InTutorial)
@@ -199,6 +200,10 @@ public class OptionsScreen : MonoBehaviour
 			if (TutorialProgressChecker.Instance.gameObject != null)
 				Destroy(TutorialProgressChecker.Instance.gameObject);
 			
+			SetGameManagerToDefault();
+		}
+		else
+		{
 			SetGameManagerToDefault();
 		}
 
