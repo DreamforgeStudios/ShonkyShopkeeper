@@ -5,6 +5,11 @@ using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+public enum GameMode {
+	Story,
+	Party
+}
+
 public class GameManager : MonoBehaviour {
 	private static GameManager _instance;
 
@@ -61,13 +66,14 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
+	public GameMode ActiveGameMode = GameMode.Story;
 	public bool PlayingAudio = true;
 	public bool InTutorial = false;
-	public bool TutorialIntroTopComplete, TutorialIntroComplete, InMap, BarterTutorial, BarterNPC, OfferNPC = false;
+	public bool TutorialIntroTopComplete, TutorialIntroComplete, InMap, BarterTutorial, BarterNPC, OfferNPC, introducedNPC = false;
 	public bool HasInspectedAllInventoryItems = false;
 	public bool TutorialGolemMade = false;
 	public bool MineGoleminteractGolem = false;
-	public bool SendToMine,HasMinePouch, WaitingForTimer, TimerComplete, ReturnPouch, OpenPouch = false;
+	public bool SendToMine,HasMinePouch, WaitingForTimer, TimerComplete, ReturnPouch, OpenPouch, firstTownSelect = false;
 	public List<string> InspectedItems;
 	public Item.GemType GemTypeTransfer;
 	public Quality.QualityGrade QualityTransfer;
@@ -76,6 +82,17 @@ public class GameManager : MonoBehaviour {
     public int RetriesRemaining = 0;
 	public int ShonkyIndexTransfer = 0;
 	public float CameraRotTransfer = 8;
+	//Boolean to control tool use during golem combination
+	public bool canUseTools = true;
+	//Boolean to introduce true golem in hall and relevant string variable to state which
+	public bool introduceTrueGolem;
+	public string typeOfTrueGolem;
+	
+	
+	// Party Variables.
+	public Queue<RoundInfo> RoundQueue;
+	public LinkedList<PostRoundInfo> RoundHistory;
+	public List<PlayerInfo> PlayerInfos;
 	
 	public Travel.Towns CurrentTown {
 		get { return Inventory.Instance.GetCurrentTown(); }

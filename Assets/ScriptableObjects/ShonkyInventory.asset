@@ -13,27 +13,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shonkyInventory:
   - Quantity: 1
-    Quality: 5
-    IsNew: 1
+    Quality: 2
+    IsNew: 0
     ItemIdentifier: rubygolem1
     InMine: 0
     pouchType: 0
-  - Quantity: 1
-    Quality: 5
+  - Quantity: 0
+    Quality: 6
     IsNew: 0
-    ItemIdentifier: sapphiregolem1
+    ItemIdentifier: 
     InMine: 0
     pouchType: 0
-  - Quantity: 1
-    Quality: 5
-    IsNew: 1
-    ItemIdentifier: emeraldgolem1
+  - Quantity: 0
+    Quality: 1
+    IsNew: 0
+    ItemIdentifier: 
     InMine: 0
     pouchType: 2
   - Quantity: 0
-    Quality: 0
+    Quality: 6
     IsNew: 0
-    ItemIdentifier: amethystgolem1
+    ItemIdentifier: 
     InMine: 0
     pouchType: 0
   - Quantity: 0

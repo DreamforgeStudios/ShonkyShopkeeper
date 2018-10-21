@@ -27,6 +27,7 @@ public class Tracing : MonoBehaviour {
     private List<Vector3> playerPoints = new List<Vector3>();
     private List<Vector3> optimalPoints = new List<Vector3>();
     private List<int> optimalPointIndex = new List<int>();
+    private List<Vector3> previousRuneLinger = new List<Vector3>();
 
     //Gameobject that holds the database of all Runes
     public GameObject TracingManager;
@@ -90,6 +91,7 @@ public class Tracing : MonoBehaviour {
     //Quality bar.
     public PointsManager PointsManager;
     public GameObject returnOrRetryButtons;
+    public GameObject PartyReturnButtons;
     public BrickSpawnManager brickSpawnmanager;
     private bool start = false;
     
@@ -106,17 +108,21 @@ public class Tracing : MonoBehaviour {
     // Use this for initialization
     void Start() {
         SFX.Play("CraftingOre",1f,1f,0f,true,0f);
+	    if (GameManager.Instance.ActiveGameMode == GameMode.Story) {
+			Countdown.onComplete += GameOver;
+	    } else if (GameManager.Instance.ActiveGameMode == GameMode.Party) {
+		    Countdown.onComplete += GameOverParty;
+	    }
         
 	    Difficulty d = ManualDifficultyOverride ? ManualDifficulty : PersistentData.Instance.Difficulty;
 	    if (!DifficultySettings.TryGetValue(d, out activeDifficultySettings)) {
 		    Debug.LogError("The current difficulty (" + PersistentData.Instance.Difficulty.ToString() +
 		                     ") does not have a TracingDifficultySettings associated with it.");
 	    }
-        //SFX.Play();
-        Countdown.onComplete += GameOver;
+        
         finishTime = Time.time + 10f;
         GeneralSetup();
-        SetupLineRenderer();
+        //SetupLineRenderer();
         GetNecessaryPositions();
         SetupColliders();
     }
@@ -171,41 +177,13 @@ public class Tracing : MonoBehaviour {
         _currentRuneHitPoints = _currentRune.transform.GetChild(2).gameObject;
         _currentRuneSpriteRenderer = _currentRuneSprite.GetComponent<SpriteRenderer>();
     }
-
-    /*
-    //Helper method to showcase optimal points
-    private void DrawOptimalLines() {
-        int ID = 0;
-        foreach (Vector3 position in optimalPoints) {
-            if (!playerPoints.Contains(position)) {
-                playerPoints.Add(position);
-                lineRenderer.positionCount = playerPoints.Count;
-                lineRenderer.SetPosition(playerPoints.Count - 1, playerPoints[playerPoints.Count - 1]);
-                ID++;
-            }
-        }
-    }
-    */
-
-    private void SetupLineRenderer() {
-        lineRenderer = GetComponent<LineRenderer>();
-        lineRenderer.useWorldSpace = true;
-        lineRenderer.alignment = LineAlignment.View;
-        lineRenderer.positionCount = 0;
-        lineRenderer.startColor = chosenStartColour;
-        lineRenderer.endColor = chosenFinishColour;
-        lineRenderer.startWidth = width;
-        lineRenderer.endWidth = width;
-        lineRenderer.sortingLayerName = "LineRenderer";
-    }
+    
     private void GetNecessaryPositions() {
         for (int i = 0; i < _currentRuneHitPoints.transform.childCount; i++)
         {
             Vector3 position = _currentRuneHitPoints.transform.GetChild(i).gameObject.transform.position;
-            //position.z = 14.251f;
             optimalPoints.Add(position);
         }       
-        //DrawOptimalLines();
     }
 
     private void SetupColliders()
@@ -213,17 +191,12 @@ public class Tracing : MonoBehaviour {
         for (int i = 0; i < _currentRuneColliders.transform.childCount; i++)
         {
             GameObject collider = _currentRuneColliders.transform.GetChild(i).gameObject;
-            //Vector3 colliderTransform = collider.transform.position;
-            //colliderTransform.z = 10;
-            //collider.transform.position = colliderTransform;
         }
     }
     
     private void GetInput() {
         Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
         Vector3 mWorldPosition = ray.GetPoint(0.3f);
-        //mWorldPosition.z = 14.251f;
-        //Debug.Log("mworldposition is " + mWorldPosition);
         FollowSphere.transform.position = mWorldPosition;
 
         if (Input.GetMouseButtonDown(0)) {
@@ -243,12 +216,11 @@ public class Tracing : MonoBehaviour {
             hitPoints = 0;
             CheckPositions();
             score = CalculateColliderPenalties(CalculateAccuracy(CalculateWin()));
+            Debug.Log(string.Format("Total score is {0}", score));
             if (score > 0)
             {
-                //Debug.Log("adding score of " + score);
                 PointsManager.AddPoints(score * activeDifficultySettings.ScoreMultiplier);
-                //_finalScore += score;
-                //scoreText.text = string.Format("Final score is {0}", _finalScore);
+                GiveFeedback();
                 NextRune();
                 missDurationCounter = 0;
             }
@@ -258,11 +230,36 @@ public class Tracing : MonoBehaviour {
             if (!playerPoints.Contains(mWorldPosition)) {
                 FollowSphere.SetActive(true);
                 playerPoints.Add(mWorldPosition);
-                lineRenderer.positionCount = playerPoints.Count;
-                lineRenderer.SetPosition(playerPoints.Count - 1, playerPoints[playerPoints.Count - 1]);
             }
         }
 
+    }
+
+    private void GiveFeedback()
+    {
+        previousRuneLinger = playerPoints;
+        lineRenderer.positionCount = previousRuneLinger.Count;
+        lineRenderer.startWidth = 0.006f;
+        lineRenderer.endWidth = 0.006f;
+        lineRenderer.SetPositions(previousRuneLinger.ToArray());
+        Debug.Log("Score is " + score);
+        if (score > 900)
+        {
+            Color customGreen = new Color(0,255,0,0.5f);
+            lineRenderer.startColor = customGreen;
+            lineRenderer.endColor = customGreen;
+        } else if (score > 700)
+        {
+            Color customColor = new Color(204,255,102,0.5f);
+            lineRenderer.startColor = customColor;
+            lineRenderer.endColor = customColor;
+        }
+        else
+        {
+            Color customColor = new Color(255,0,0,0.5f);
+            lineRenderer.startColor = customColor;
+            lineRenderer.endColor = customColor;
+        }
     }
 
 	public Quality.QualityGrade grade = Quality.QualityGrade.Unset;
@@ -291,35 +288,23 @@ public class Tracing : MonoBehaviour {
         _canTrace = false;
     }
 
-    /*
-    private void DetermineQuality(float finalScore) {
-        float decimalScore = finalScore / 1000;
-        // For transferring quality between scenes.
-        if (GameManager.instance) {
-            GameManager.instance.UpdateQuality(decimalScore, 1);
-        }
-        grade = Quality.FloatToGrade(decimalScore, 3);
-    }
-    */
-
     private int CalculateAccuracy(bool success) {
-        averageDistanceAway = totalDistanceAway / hitPoints;// optimalPointIndex.Count;
-        //Debug.Log("avg dist away = " + averageDistanceAway);
+        averageDistanceAway = totalDistanceAway / hitPoints;
 
         if (success) {
             averageDistanceAway = totalDistanceAway / optimalPointIndex.Count;
             Debug.Log("avg dist away = " + averageDistanceAway);
             if (averageDistanceAway >= 0 && averageDistanceAway <= 0.025) {
-                return 1000;
+                return 1200;
             }
             else if (averageDistanceAway > 0.025 && averageDistanceAway < 0.05) {
-                return 850;
+                return 1000;
             }
             else if (averageDistanceAway > 0.05 && averageDistanceAway < 0.067) {
-                return 700;
+                return 850;
             }
             else if (averageDistanceAway > 0.067 && averageDistanceAway < 0.5) {
-                return 550;
+                return 600;
             }
             else {
                 return 400;
@@ -333,7 +318,7 @@ public class Tracing : MonoBehaviour {
     private int CalculateColliderPenalties(int score) {
         int colliderHits = FollowSphere.GetComponent<TracingColliding>().counter;
         FollowSphere.GetComponent<TracingColliding>().ResetCounter();
-        //Debug.Log("collider hits: " + colliderHits);
+        Debug.Log("collider hits: " + colliderHits);
         // TODO: this is a bit rough...
         //qualityBar.Subtract(colliderHits * 0.1f);
         if (colliderHits == 0)
@@ -396,7 +381,7 @@ public class Tracing : MonoBehaviour {
 
     private void ResetOptimalPoints() {
         hitPoints = 0;
-        lineRenderer.positionCount = 0;
+        //lineRenderer.positionCount = 0;
         optimalPoints.Clear();
         playerPoints.RemoveRange(0, playerPoints.Count);
         optimalPointIndex.RemoveRange(0, optimalPointIndex.Count);
@@ -458,7 +443,26 @@ public class Tracing : MonoBehaviour {
         returnOrRetryButtons.GetComponent<UpdateRetryButton>().SetText();
     }
 
-    
+	private void GameOverParty() {
+		Countdown.onComplete -= GameOverParty;
 
-   
+	    PointsManager.onFinishLeveling += () => brickSpawnmanager.Upgrade(Quality.QualityGrade.Mystic);
+		PointsManager.DoEndGameTransitionParty();
+	    
+	    FollowSphere.SetActive(false);
+	    _currentRuneSprite.SetActive(false);
+	    ResetOptimalPoints();
+	    
+	    ShowUIButtonsParty();
+	    _dataBase.HideUI();
+		_canTrace = false;
+	}
+	
+	public void PartyModeReturn() {
+	    ReturnOrRetry.ReturnParty(PointsManager.GetPoints());
+	}
+
+	public void ShowUIButtonsParty() {
+		PartyReturnButtons.SetActive(true);
+	}
 }

@@ -69,7 +69,7 @@ public class TutorialProgressChecker : MonoBehaviour {
 	}
 	
 	//Manager start
-	public Canvas Progress, mainCanvas;
+	public Canvas Progress;
 	public Image BrickFade, ShellFade, JewelFade, ChargedJewelFade, TopArrow,BottomArrow,CombineArrow, GolemFade;
 	private string brick = "Brick", shell = "Shell", jewel = "Jewel", chargedJewel = "Charged Jewel", golem = "Golem";
 	private Dictionary<string, ImageStatus> schematicProgress;
@@ -124,10 +124,12 @@ public class TutorialProgressChecker : MonoBehaviour {
 		{
 			readyGolem = true;
 			tutManager = GameObject.FindGameObjectWithTag("TutorialManager").GetComponent<TutorialManager>();
+			GameManager.Instance.canUseTools = false;
 			tutManager.StartDialogue(dialogue,dialogueInstruction, tutManager.mainCanvas, tutManager.toolbox.wand, false);
-			tutManager.MoveInstructionScroll();
+			tutManager.MoveInstructionScrollLower();
 			tutManager.StartFinalComponentParticles();
 			tutManager.MoveScrollsToFront();
+			InstructionBubble.onInstruction += () => GameManager.Instance.canUseTools = true;
 		}
 
 		if (golemMade && !golemTextDone)

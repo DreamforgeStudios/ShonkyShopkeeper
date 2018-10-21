@@ -110,7 +110,7 @@ public class Toolbox : MonoBehaviour {
     }
 
     private void ProcessMouse() {
-        if (Input.GetMouseButtonDown(0)) {
+        if (Input.GetMouseButtonDown(0) && GameManager.Instance.canUseTools) {
             Cast();
         }
     }
@@ -121,7 +121,7 @@ public class Toolbox : MonoBehaviour {
         }
 
         foreach (Touch touch in Input.touches) {
-            if (touch.phase == TouchPhase.Began) {
+            if (touch.phase == TouchPhase.Began && GameManager.Instance.canUseTools) {
                 Cast();
             }
         }
@@ -519,9 +519,9 @@ public class Toolbox : MonoBehaviour {
                         golemCombiner.GolemAnimationSequence(currentSelection, item1, slot, item2);
                     } else {
                         GameObject itemObj;
-                        if (currentSelection.GetPrefabInstance(out itemObj)) {
-                            Transform t = itemObj.transform;
-                            t.DOMove(slot.transform.position, 0.7f).SetEase(Ease.OutBack);
+                        if (currentSelection.GetPrefabInstance(out itemObj))
+                        {
+                            MoveDown(currentSelection);
                             currentSelection = null;
                         }
                     }

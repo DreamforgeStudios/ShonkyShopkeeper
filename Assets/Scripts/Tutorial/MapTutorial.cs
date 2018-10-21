@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 
 public class MapTutorial : MonoBehaviour
@@ -52,12 +53,13 @@ public class MapTutorial : MonoBehaviour
 
 	//MAP TUTORIAL START
 
-	public GameObject shopButtonObj, sphere, particles, particleChild, speechBubblePrefab, introTarget;
-	public bool clickedOrb, CanMoveCamera  = false;
+	public GameObject shopButtonObj, sphere, particles, particleChild, speechBubblePrefab, introTarget, runeIndicatorPrefab;
+	public bool clickedOrb, CanMoveCamera, createdRunes  = false;
 	public List<string> intro, introInstructions, map, mapInstructions;
+	private List<GameObject> runeIndicators;
+	public List<GameObject> towns;
 	public InstructionBubble clone;
 	public Canvas mainCanvas;
-
 
 	private void Start()
 	{
@@ -101,6 +103,7 @@ public class MapTutorial : MonoBehaviour
 		StopSphereParticle();
 		clickedOrb = true;
 		StartDialogue(map, mapInstructions, mainCanvas, introTarget,true);
+		HighlightAllTowns();
 	}
 	
 	public void NextInstruction()
@@ -125,6 +128,64 @@ public class MapTutorial : MonoBehaviour
 	private void ShowShopButton()
 	{
 		shopButtonObj.SetActive(true);
+	}
+
+	public void HighlightAllTowns()
+	{
+		/*
+		if (!createdRunes)
+		{
+			runeIndicators = new List<GameObject>();
+			createdRunes = true;
+			foreach (GameObject town in towns)
+			{
+				GameObject rune = Instantiate(runeIndicatorPrefab, mainCanvas.transform);
+				rune.GetComponent<TutorialRuneIndicator>().SetPosition(town,false);
+				runeIndicators.Add(rune);
+			}
+			//Set instructions to front
+			clone.MoveScrollsToFront();
+		}*/
+		clone.MoveScrollsToFront();
+		
+	}
+
+	public void RemoveHighlightAllTowns()
+	{
+		if (runeIndicators != null)
+		{
+			runeIndicators.Clear();
+		}
+
+		createdRunes = false;
+	}
+
+	public void DeactivateAllTownHighlights()
+	{
+		if (runeIndicators != null)
+		{
+			foreach (var VARIABLE in runeIndicators)
+			{
+				VARIABLE.SetActive(false);
+			}
+		}
+	}
+
+	public void ReactivateALlTownHighlights()
+	{
+		if (runeIndicators != null)
+		{
+			//Need to reactivate and reset their tracking
+			for (int i = 0; i < runeIndicators.Count; i++)
+			{
+				runeIndicators[i].SetActive(true);
+				runeIndicators[i].GetComponent<TutorialRuneIndicator>().SetPosition(towns[i],false);
+			}
+		}
+		else
+		{
+			HighlightAllTowns();
+		}
 	}
 
 }

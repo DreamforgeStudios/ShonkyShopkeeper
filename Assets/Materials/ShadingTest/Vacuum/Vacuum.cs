@@ -6,6 +6,8 @@ using UnityEngine;
 
 [ExecuteInEditMode]
 public class Vacuum : MonoBehaviour {
+	public bool Enable = true;
+	
 	public GameObject HoleObject;
 	public Vector3 ObjectOffset;
 	public Material[] Materials;
@@ -15,7 +17,7 @@ public class Vacuum : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		UpdateValues();
+        UpdateValues();
 	}
 	
 	// Update is called once per frame
@@ -24,7 +26,10 @@ public class Vacuum : MonoBehaviour {
 
 	[Button("Update Values")]
 	private void UpdateValues() {
+		float enable = Enable ? 1 : 0;
+		
 		for (int i = 0; i < Materials.Length; i++) {
+			Materials[i].SetFloat("_Enabled", enable);
 			Materials[i].SetFloat("_Strength", Strength);
 			Materials[i].SetFloat("_Range", MinMaxRange.x);
 			Materials[i].SetFloat("_SoftRange", MinMaxRange.y);

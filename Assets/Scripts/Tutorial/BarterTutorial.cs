@@ -48,7 +48,7 @@ public class BarterTutorial : MonoBehaviour
 	}
 
 	//START BARTER TUTORIAL
-	public GameObject particles, particleChild, speechBubblePrefab, dialogueTarget;
+	public GameObject particles, particleChild, speechBubblePrefab, dialogueTarget, cameraButton, mapButton;
 	public Canvas mainCanvas;
 	private bool textEnabled = false;
 	public bool clickedNPC = false;
@@ -66,8 +66,12 @@ public class BarterTutorial : MonoBehaviour
 
 	private void Start()
 	{
+		cameraButton.SetActive(false);
+		mapButton.SetActive(false);
 		GameManager.Instance.BarterNPC = true;
+		GameManager.Instance.canUseTools = false;
         StartDialogue(tutorialDialogue, tutorialInstructions, mainCanvas,dialogueTarget, true);
+		InstructionBubble.onInstruction += () => GameManager.Instance.canUseTools = true;
 	}
 	
 	public void StartDialogue(List<string> dialogue, List<string> instruction, Canvas canvas, GameObject target, bool canvasElement)
@@ -79,6 +83,7 @@ public class BarterTutorial : MonoBehaviour
 			.GetComponentInChildren<InstructionBubble>();
 		clone.SetText(dialogue,instruction);
 		clone.Init(target,canvasElement,canvas);
+		clone.MoveScrollsToFront();
 	}
 	
 	public void NextInstruction()
@@ -93,6 +98,7 @@ public class BarterTutorial : MonoBehaviour
 
 	public void StartShonkyParticles()
 	{
+		GameManager.Instance.introducedNPC = true;
 		shonkyInv.HighlightGolems();
 	}
 

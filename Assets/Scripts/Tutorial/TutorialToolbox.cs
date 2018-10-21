@@ -115,7 +115,7 @@ public class TutorialToolbox : MonoBehaviour {
     }
 
     private void ProcessMouse() {
-        if (Input.GetMouseButtonDown(0)) {
+        if (Input.GetMouseButtonDown(0) && GameManager.Instance.canUseTools) {
             //Debug.Log("CanSelect is " + canSelect);
             if (GameManager.Instance.TutorialIntroTopComplete && canSelect)
                 Cast();
@@ -125,12 +125,12 @@ public class TutorialToolbox : MonoBehaviour {
     }
 
     private void ProcessTouch() {
-        if (Input.touchCount == 0) {
+        if (Input.touchCount == 0 ) {
             return;
         }
 
         foreach (Touch touch in Input.touches) {
-            if (touch.phase == TouchPhase.Began && GameManager.Instance.TutorialIntroTopComplete) {
+            if (touch.phase == TouchPhase.Began && GameManager.Instance.TutorialIntroTopComplete && GameManager.Instance.canUseTools) {
                 Cast();
             }
         }
@@ -292,7 +292,11 @@ public class TutorialToolbox : MonoBehaviour {
         {
             //tutorialManager.InspectItem(tool);
             tutorialManager.StopParticle(tool);
-            tutorialManager.MoveInstructionScroll();
+            if (tool.name != "Magnifying Glass")
+                tutorialManager.MoveInstructionScroll();
+            else 
+                tutorialManager.MoveInstructionScrollLower();
+            
             tutorialManager.NextInstruction();
             tutorialManager.StartItemParticles();
         }
@@ -349,9 +353,9 @@ public class TutorialToolbox : MonoBehaviour {
         if (currentSelection == slot) {
             HideInspector();
             return;
-        } else if (currentSelection) {
+        } else if (currentSelection && GameManager.Instance.TutorialIntroComplete) {
             HideInspector();
-        }
+        } 
 
         // To avoid null errors, always use the x.Get() methods, they check for you.
         Item item;
@@ -362,6 +366,8 @@ public class TutorialToolbox : MonoBehaviour {
             }
             else
             {
+                Slot previousSelection = currentSelection;
+                
                 currentSelection = slot;
                 inspectionPanel.SetActive(true);
                 SFX.Play("Mag_item_select", 1f, 1f, 0f, false, 0f);
@@ -369,14 +375,20 @@ public class TutorialToolbox : MonoBehaviour {
                 textInfo.text = instance.itemInfo;
 
                 MoveUp(slot);
-                if (!GameManager.Instance.TutorialIntroComplete)
-                    tutorialManager.FinishInspectorUse();
 
                 if (!GameManager.Instance.TutorialGolemMade)
                 {
                     GameObject obj;
                     if (slot.GetPrefabInstance(out obj))
                         tutorialManager.DestroySpecificItemIndicator(obj);
+                }
+
+                if (!GameManager.Instance.TutorialIntroComplete && currentSelection != previousSelection &&
+                    previousSelection != null)
+                {
+                    MoveDown(currentSelection);
+                    MoveDown(previousSelection);
+                    HideInspector();
                 }
             }
         } else {
@@ -395,6 +407,8 @@ public class TutorialToolbox : MonoBehaviour {
             
             MoveDown(currentSelection);
             currentSelection = null;
+            if (!GameManager.Instance.TutorialIntroComplete)
+                tutorialManager.FinishInspectorUse();
         }
     }
 
@@ -462,6 +476,8 @@ public class TutorialToolbox : MonoBehaviour {
                         // Don't let user select while we're moving.
                         // TODO: let user select while moving?
                         canSelect = false;
+                        
+                        tutorialManager.DestroySpecificItemIndicator(obj2);
 
                         Transform t1 = obj1.transform,
                             t2 = obj2.transform;
@@ -477,7 +493,7 @@ public class TutorialToolbox : MonoBehaviour {
                                 .SetEase(Ease.OutBack)
                                 .OnComplete(() =>
                                     t2.DOMove(slot1.transform.position, 1f).SetEase(Ease.OutBounce)
-                                        .OnComplete(() => canSelect = true)));
+                                        .OnComplete(() => canSelect = true).OnComplete(()=> FinishForceps())));
 
                         // This is a bit janky, but might be doing physics based inventory soon, so not bothering.
                         t1.GetComponent<Rotate>().Enable = false;
@@ -493,10 +509,6 @@ public class TutorialToolbox : MonoBehaviour {
                         }
 
                         currentSelection = null;
-                        //If tutorial of forceps, remove glow from items
-                        if (!GameManager.Instance.TutorialIntroComplete)
-                            tutorialManager.FinishForcepsMovement();
-
                     }
                 }
 
@@ -520,7 +532,7 @@ public class TutorialToolbox : MonoBehaviour {
                         .OnComplete(() => t1.DOMove(slot2.transform.position + Vector3.up, 0.6f).SetEase(Ease.OutBack)
                             .OnComplete(() =>
                                 t1.DOMove(slot2.transform.position, 1f).SetEase(Ease.OutBounce)
-                                    .OnComplete(() => canSelect = true)));
+                                    .OnComplete(() => canSelect = true).OnComplete(()=> FinishForceps())));
                     t1.GetComponent<Rotate>().Enable = false;
                     SFX.Play("item_down", 1, 1, 1.5f);
 
@@ -533,9 +545,6 @@ public class TutorialToolbox : MonoBehaviour {
                     }
 
                     currentSelection = null;
-                    //If tutorial of forceps, remove glow from items
-                    if (!GameManager.Instance.TutorialIntroComplete)
-                        tutorialManager.FinishForcepsMovement();
                 }
 
                 currentSelection = null;
@@ -613,9 +622,9 @@ public class TutorialToolbox : MonoBehaviour {
                         golemCombiner.GolemAnimationSequence(currentSelection, item1, slot, item2);
                     } else {
                         GameObject itemObj;
-                        if (currentSelection.GetPrefabInstance(out itemObj)) {
-                            Transform t = itemObj.transform;
-                            t.DOMove(slot.transform.position, 0.7f).SetEase(Ease.OutBack);
+                        if (currentSelection.GetPrefabInstance(out itemObj))
+                        {
+                            MoveDown(currentSelection);
                             currentSelection = null;
                         }
                     }
@@ -866,6 +875,13 @@ public class TutorialToolbox : MonoBehaviour {
         slot.GetPrefabInstance(out item);
         GameObject obj = ToolToObject(Tool.Wand);
         obj.GetComponent<ToolFloat>().WandParticles(wandTip.transform.position, item.transform.position);
+    }
+
+    private void FinishForceps()
+    {
+        //If tutorial of forceps, remove glow from items
+        if (!GameManager.Instance.TutorialIntroComplete)
+            tutorialManager.FinishForcepsMovement();
     }
 
     private void OnDrawGizmos() {

@@ -77,6 +77,8 @@ public class Smelting : MonoBehaviour {
 	[BoxGroup("Object Assignments")]
 	public GameObject returnOrRetryButtons;
 	[BoxGroup("Object Assignments")]
+	public GameObject PartyReturnButtons;
+	[BoxGroup("Object Assignments")]
 	public TextMeshProUGUI qualityText;
 	[BoxGroup("Object Assignments")]
     public Sprite feedbackPositive;
@@ -117,7 +119,11 @@ public class Smelting : MonoBehaviour {
 		//Debug.Log(gameObject.name);
 		SFX.Play("CraftingOre", looping: true);
 		SFX.Play("fire_loop", looping: true);
-		
+	    if (GameManager.Instance.ActiveGameMode == GameMode.Story) {
+			Countdown.onComplete += GameOver;
+	    } else if (GameManager.Instance.ActiveGameMode == GameMode.Party) {
+		    Countdown.onComplete += GameOverParty;
+	    }
 		
 	    Difficulty d = ManualDifficultyOverride ? ManualDifficulty : PersistentData.Instance.Difficulty;
 	    if (!DifficultySettings.TryGetValue(d, out activeDifficultySettings)) {
@@ -126,8 +132,7 @@ public class Smelting : MonoBehaviour {
 	    }
 		
 		rb = Dial.GetComponent<Rigidbody>();
-		prevRotation = Dial.transform.eulerAngles;
-        Countdown.onComplete += GameOver;
+		prevRotation = Dial.transform.localEulerAngles;
     }
 	
 	// Don't waste frames on mobile...
@@ -151,7 +156,7 @@ public class Smelting : MonoBehaviour {
         UpdateBar();
 
 		// Record previous location.
-		prevRotation = Dial.transform.eulerAngles;
+		prevRotation = Dial.transform.localEulerAngles;
 	}
 
     void Update() {
@@ -227,8 +232,8 @@ public class Smelting : MonoBehaviour {
 
 	private void Constrain() {
 		// If we've made too big of a jump (probably looped), then don't allow the rotation.
-		if (Mathf.Abs(Dial.eulerAngles.z - prevRotation.z) > maxJump) {
-			Dial.eulerAngles = prevRotation;
+		if (Mathf.Abs(Dial.localEulerAngles.z - prevRotation.z) > maxJump) {
+			Dial.localEulerAngles = prevRotation;
 		}
 	}
 
@@ -309,4 +314,23 @@ public class Smelting : MonoBehaviour {
 	    returnOrRetryButtons.SetActive(true);
         returnOrRetryButtons.GetComponent<UpdateRetryButton>().SetText();
     }
+	
+	private void GameOverParty() {
+		Countdown.onComplete -= GameOverParty;
+		start = false;
+		feedbackParticleSystem.Stop();
+
+		pointsManager.onFinishLeveling += () => OreSpawnManager.Upgrade(Quality.QualityGrade.Mystic);
+		pointsManager.DoEndGameTransitionParty();
+	    
+	    ShowUIButtonsParty();
+	}
+	
+	public void PartyModeReturn() {
+	    ReturnOrRetry.ReturnParty(pointsManager.GetPoints());
+	}
+
+	public void ShowUIButtonsParty() {
+		PartyReturnButtons.SetActive(true);
+	}
 }

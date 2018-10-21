@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.IO.IsolatedStorage;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using NaughtyAttributes;
 using DG.Tweening;
@@ -160,5 +161,15 @@ public class AchievementDatabase : ScriptableObject {
                 Debug.Log(kvp.Key);
             }
         }
+    }
+
+    public void ResetAchievementFile()
+    {
+        string[] emptyString =
+        {
+
+        };
+        var path = Path.Combine(Application.persistentDataPath, "achievements.txt");
+        File.WriteAllLines(path, emptyString);
     }
 }

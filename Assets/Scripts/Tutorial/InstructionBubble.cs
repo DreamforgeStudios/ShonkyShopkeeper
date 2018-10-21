@@ -98,6 +98,10 @@ public class InstructionBubble : MonoBehaviour
 		tutorialRuneObj.SetActive(false);
 		Instruction = false;
 		nextButton.onClick.AddListener(NextText);
+		
+		//Modify size of exposition bubble
+		ExpositionBubbleObj.GetComponent<ExpositionBubbleSizing>().UpdateSize();
+		
 		//clear old events
 		if (onInstruction != null)
 		{
@@ -180,8 +184,12 @@ public class InstructionBubble : MonoBehaviour
 			Destroy(tutorialRuneObj);
 		
 		if (activePage + 1 < instructionText.Count)
-		{
+		{		
 			instructionTextBox.text = instructionText[++activePage];
+			
+			//Modify size of instruction bubble
+			InstructionBubbleObj.GetComponent<InstructionBubbleSizing>().UpdateSize();
+			
 			OnInstruct();
 		}
 	}
@@ -189,8 +197,12 @@ public class InstructionBubble : MonoBehaviour
 	public void PreviousInstructionText()
 	{
 		if (activePage - 1 > 0)
-		{
+		{	
 			instructionTextBox.text = instructionText[--activePage];
+			
+			//Modify size of instruction bubble
+			InstructionBubbleObj.GetComponent<InstructionBubbleSizing>().UpdateSize();
+			
 			OnInstruct();
 		}
 	}
@@ -234,6 +246,9 @@ public class InstructionBubble : MonoBehaviour
 		activePage++;
 		expositionTextBox.text = informationTextToDisplay[activePage];
 		
+		//Modify size of exposition bubble
+		ExpositionBubbleObj.GetComponent<ExpositionBubbleSizing>().UpdateSize();
+		
 		UpdateCloser();
 	}
 
@@ -261,6 +276,18 @@ public class InstructionBubble : MonoBehaviour
 		//Move it
 		RectTransform rectTransform = InstructionBubbleObj.GetComponent<RectTransform>();
 		Vector2 pos = new Vector3(0.85f, 0.75f);
+		pos = Camera.main.ViewportToScreenPoint(pos);
+		InstructionBubbleObj.transform.DOMove(pos, 2f, false);
+	}
+	
+	public void MoveInstructionScrollLower()
+	{
+		//Make it the 'top' element
+		InstructionBubbleObj.transform.SetAsLastSibling();
+		
+		//Move it
+		RectTransform rectTransform = InstructionBubbleObj.GetComponent<RectTransform>();
+		Vector2 pos = new Vector3(0.85f, 0.25f);
 		pos = Camera.main.ViewportToScreenPoint(pos);
 		InstructionBubbleObj.transform.DOMove(pos, 2f, false);
 	}

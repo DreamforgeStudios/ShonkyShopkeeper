@@ -47,6 +47,8 @@ public class PopupTextManager : MonoBehaviour {
 	public GameObject Closer;
 	[BoxGroup("Object Assignments")]
 	public Camera RenderCamera;
+	[BoxGroup("Object Assignments")] 
+	public Animator animator;
 	
 	[ReadOnly] // only read only in inspector.
 	public int ActivePage = 0;
@@ -159,6 +161,8 @@ public class PopupTextManager : MonoBehaviour {
 	public void NextText() {
 		if (ActivePage + 1 >= PopupTexts.Count) return;
 		
+		//Play animation
+		animator.Play("Next");
 		textBackTween.Complete();
 		textFrontTween.Complete();
 		
@@ -180,6 +184,9 @@ public class PopupTextManager : MonoBehaviour {
 	[Button("Previous")]
 	public void PreviousText() {
 		if (ActivePage <= 0) return;
+		
+		//Play animation
+		animator.Play("Back");
 		
 		textBackTween.Complete();
 		textFrontTween.Complete();
@@ -210,5 +217,12 @@ public class PopupTextManager : MonoBehaviour {
 		if (onPageTurn != null) {
 			onPageTurn();
 		}
+	}
+	
+	// Method to reset events when using the onclose to transition scenes
+	public static void ResetEvents()
+	{
+		foreach (var d in onClose.GetInvocationList())
+			onClose -= (d as OnClose);
 	}
 }

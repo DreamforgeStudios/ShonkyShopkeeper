@@ -48,7 +48,47 @@ ModelImporter:
     4300008: helixpole
     4300010: forwardbutton
     4300012: backbutton
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GlassInside
+    second: {fileID: 2100000, guid: e1913faf4335c4349826c92191fe88f7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GlassOutside
+    second: {fileID: 2100000, guid: f4d7540fbe2fd4d49a94b8418e30f16d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: button
+    second: {fileID: 2100000, guid: 9b6f09d52ba577b42986450adef44832, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: buttons
+    second: {fileID: 2100000, guid: 981f310f5fe301e4794056919e666979, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: cog2
+    second: {fileID: 2100000, guid: 45dc55a7ef431a045883095071aac161, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: cogs
+    second: {fileID: 2100000, guid: f91d407307b78e54ca931328d64c3f43, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: hollow
+    second: {fileID: 2100000, guid: d1210fe6152c90d4f8d47125110fe8b7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: scrollers
+    second: {fileID: 2100000, guid: 53b95138ba4acef4aa6a0192835881bd, type: 2}
   materials:
     importMaterials: 1
     materialName: 0

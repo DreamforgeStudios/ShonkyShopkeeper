@@ -31,6 +31,8 @@ TagManager:
   - MainButton
   - NPCSpawner
   - TutorialManager
+  - ShopCanvas
+  - TrueGolem
   layers:
   - Default
   - TransparentFX
@@ -85,4 +87,7 @@ TagManager:
     locked: 0
   - name: Customers
     uniqueID: 3400020623
+    locked: 0
+  - name: Options
+    uniqueID: 220974965
     locked: 0

@@ -12,7 +12,7 @@ public class CombineIntoGolemTut : MonoBehaviour
 {
 	public GameObject item1Position, item2Position, desiredPosition;
 	public Camera mainCamera;
-	public Canvas canvasOverlay;
+	public Canvas canvasOverlay, sceneCanvas;
 	private int oldCameraCullingMask;
 	public ParticleSystem smoke;
 	public TutorialToolbox toolbox;
@@ -32,6 +32,12 @@ public class CombineIntoGolemTut : MonoBehaviour
 		oldCameraCullingMask = mainCamera.cullingMask;
 		//Change Cameras to highlight sequence
 		ChangeCameras(false);
+		
+		//disable scene canvas
+		sceneCanvas.gameObject.SetActive(false);
+		
+		//Disable use of the toolbox
+		GameManager.Instance.canUseTools = false;
 		
 		//Get objects and move up
 		GameObject obj1, obj2;
@@ -137,6 +143,8 @@ public class CombineIntoGolemTut : MonoBehaviour
 		golemText.enabled = true;
 		golemBottomText.enabled = true;
 		golemText.text = string.Format("New {0} {1} Golem!", grade, gemType);
+		golemText.color = Quality.GradeToColor(grade);
+		golemBottomText.color = Quality.GradeToColor(grade);
 		yield return new WaitForSeconds(3f);
 		golemObj.transform.DOMove(slot.transform.position, 1f, false).OnComplete(() => RestartGolem(golemObj));
 		//Need to show golem schematic
@@ -150,6 +158,13 @@ public class CombineIntoGolemTut : MonoBehaviour
 		clone.GetComponent<NavMeshAgent>().enabled = true;
 		clone.GetComponent<Rigidbody>().useGravity = true;
 		StopAllCoroutines();
+		
+		//Enable use of the toolbox
+		GameManager.Instance.canUseTools = true;
+		
+		//Enable scene canvas
+		sceneCanvas.gameObject.SetActive(true);
+		
 		ChangeCameras(true);
 	}
 

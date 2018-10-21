@@ -2,6 +2,7 @@
 {
 	Properties
 	{
+	    [MaterialToggle] _Enabled("Enabled", Float) = 0
 		_MainTex ("Texture", 2D) = "white" {}
 		_Noise ("Pull Noise", 2D) = "white" {}
 		_FragNoise ("Fragment Noise", 2D) = "white" {}
@@ -60,6 +61,7 @@
 			float _Range;
 			float _SoftRange;
 			float4 _Color;
+			float _Enabled;
 
 			float _Strength;
 
@@ -67,31 +69,30 @@
 			{
 				v2f o;
 				o.uv = TRANSFORM_TEX(v.uv, _Noise);
+				
+                float3 worldVertex = mul(unity_ObjectToWorld, v.vertex).xyz;
+                float3 worldOrigin = mul(unity_ObjectToWorld, float4(0,0,0,1)).xyz;
 
-				float3 worldVertex = mul(unity_ObjectToWorld, v.vertex).xyz;
-				float3 worldOrigin = mul(unity_ObjectToWorld, float4(0,0,0,1)).xyz;
+                float distvert = distance(_PullPos, worldVertex);
+                float distorigin = distance(_PullPos, worldOrigin);
 
-				float distvert = distance(_PullPos, worldVertex);
-				float distorigin = distance(_PullPos, worldOrigin);
+                o.worldVertex = worldVertex;
 
-				o.worldVertex = worldVertex;
+                // Interp value between _Range and _SoftRange.
+                float val = smoothstep(_Range, _SoftRange, distvert);
+                val = lerp(1, 0, val);
+                val = clamp(0, 1, val);
 
-				// Interp value between _Range and _SoftRange.
-				float val = smoothstep(_Range, _SoftRange, distvert);
-				val = lerp(1, 0, val);
-				val = clamp(0, 1, val);
+                // Sample noise.  (sampling in vertex shader requires )
+                float4 noise = tex2Dlod(_Noise, float4(o.uv.x * _Time.x, o.uv.y * _Time.x, 0, 1));
+                noise += ((1-noise) * (1-clamp(0, 1, distorigin / 3)));
 
-				// Sample noise.  (sampling in vertex shader requires )
-				float4 noise = tex2Dlod(_Noise, float4(o.uv.x * _Time.x, o.uv.y * _Time.x, 0, 1));
-				noise += ((1-noise) * (1-clamp(0, 1, distorigin / 3)));
-
-				// Vertex to add...
-				float3 toAdd = (_PullPos - worldVertex) * val * noise;
-				toAdd = mul(unity_WorldToObject, float4(toAdd.xyz,0.0));
-				// Pass it to the pixel shader.
-				o.add = toAdd; 
-				v.vertex += float4(toAdd, 1);
-
+                // Vertex to add...
+                float3 toAdd = (_PullPos - worldVertex) * val * noise;
+                toAdd = mul(unity_WorldToObject, float4(toAdd.xyz,0.0));
+                // Pass it to the pixel shader.
+                o.add = toAdd; 
+                v.vertex += float4(toAdd, 1) * _Enabled;
 
 				o.vertex = UnityObjectToClipPos(v.vertex);
 				
@@ -117,7 +118,7 @@
 				//col.a = 1;
 
 				float dist = 1-smoothstep(0, length(_PullPos - i.worldVertex), length(i.add));
-				col.a = pow(dist, _Strength);
+				col.a -= (1-pow(dist, _Strength)) * _Enabled;
 
 				return col;
 			}

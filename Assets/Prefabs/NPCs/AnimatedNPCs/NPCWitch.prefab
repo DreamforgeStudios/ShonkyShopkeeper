@@ -1068,9 +1068,10 @@ MonoBehaviour:
   NPC: {fileID: 114954695662169518}
   Spawner: {fileID: 0}
   endPosition: {x: 0, y: 0, z: 0}
-  barterTutorial: {fileID: 0}
   particleChild: {fileID: 0}
   particlePrefab: {fileID: 1518216612490384, guid: 4369c6cff54c6604186e2cdb17984d42,
+    type: 2}
+  runeIndicatorPrefab: {fileID: 1733438058752716, guid: c440f3fbca0bd3a458e3aa1e634f01e7,
     type: 2}
 --- !u!114 &114954695662169518
 MonoBehaviour:
@@ -1085,7 +1086,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WizardFront: {fileID: 1808122714635752}
   WizardSide: {fileID: 1208214024964612}
-  barterTutorial: {fileID: 0}
 --- !u!212 &212000890544908238
 SpriteRenderer:
   m_ObjectHideFlags: 1

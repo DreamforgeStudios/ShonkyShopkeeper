@@ -13,34 +13,21 @@ public class PhysicalShonkyInventory : MonoBehaviour {
     private Vector3 spawnPos;
 
     //Default Shonky Pen
-    public ShonkyInventory inventory;
+    public ShonkyInventory inventory, testInventory;
     //Mine inv
     public Mine mineInventory;
 
     //Used for particles in bartering tutorial
     public GameObject particlePrefab;
     private List<GameObject> particleGolems;
+    
+    //Used for runes in bartering tutorial
+    public Canvas mainCanvas;
+    public GameObject runeIndicatorPrefab;
+    public List<GameObject> runeIndicatorClones;
+    private GameObject runeIndicator;
+    private bool HasRunesMade = false;
 
-    /*
-    private static PhysicalShonkyInventory _instance;
-    public static PhysicalShonkyInventory Instance {
-        get {
-            if (!_instance) {
-                PhysicalShonkyInventory[] tmp = Resources.FindObjectsOfTypeAll<PhysicalShonkyInventory>();
-                if (tmp.Length > 0) {
-                    _instance = tmp[0];
-                    Debug.Log("Found shonky physical inventory as: " + _instance);
-                }
-                else {
-                    Debug.Log("did not find shonky physical inventory.");
-                    _instance = null;
-                }
-            }
-
-            return _instance;
-        }
-    }
-    */
     // Use this for initialization
     void Start() {
         // Load example.
@@ -66,16 +53,41 @@ public class PhysicalShonkyInventory : MonoBehaviour {
 
     public void HighlightGolems()
     {
-        particleGolems = new List<GameObject>();
-        for (int i = 0; i < shonkySlots.Count; i++)
+        if (!HasRunesMade)
         {
-            GameObject obj;
-            if (shonkySlots[i].GetPrefabInstance(out obj))
+            RemoveAllRunes();
+            runeIndicatorClones = new List<GameObject>();
+            particleGolems = new List<GameObject>();
+            for (int i = 0; i < shonkySlots.Count; i++)
             {
-                GameObject particleChild = Instantiate(particlePrefab, obj.transform.position, obj.transform.rotation);
-                particleChild.transform.parent = obj.transform;
-                particleChild.transform.localScale = new Vector3(1f, 1f, 1f);
-                particleGolems.Add(particleChild);
+                GameObject obj;
+                if (shonkySlots[i].GetPrefabInstance(out obj))
+                {
+                    GameObject particleChild =
+                        Instantiate(particlePrefab, obj.transform.position, obj.transform.rotation);
+                    particleChild.transform.parent = obj.transform;
+                    particleChild.transform.localScale = new Vector3(1f, 1f, 1f);
+                    particleGolems.Add(particleChild);
+
+                    //Indicator
+                    runeIndicator = Instantiate(runeIndicatorPrefab, mainCanvas.transform);
+                    runeIndicator.GetComponent<TutorialRuneIndicator>().SetPosition(obj, false);
+                    runeIndicator.transform.localScale = new Vector3(1f, 1f, 1f);
+                    runeIndicatorClones.Add(runeIndicator);
+                }
+            }
+            HasRunesMade = true;
+        }
+    }
+    
+    public void RemoveAllRunes()
+    {
+        HasRunesMade = false;
+        if (runeIndicatorClones != null)
+        {
+            foreach (var VARIABLE in runeIndicatorClones)
+            {
+                Destroy(VARIABLE);
             }
         }
     }
@@ -86,6 +98,7 @@ public class PhysicalShonkyInventory : MonoBehaviour {
         {
             Destroy(particle);
         }
+        RemoveAllRunes();
     }
 
     public void PopulateInitial() {
@@ -161,4 +174,11 @@ public class PhysicalShonkyInventory : MonoBehaviour {
 		Clear();
 		PopulateInitial();
 	}
+
+    public void LoadTrueGolemTestInv()
+    {
+        SaveManager.LoadFromShonkyTemplate(testInventory);
+        Clear();
+        PopulateInitial();
+    }
 }

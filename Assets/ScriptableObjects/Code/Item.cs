@@ -11,6 +11,7 @@ public abstract class Item : ScriptableObject {
     
     public string itemName;
     public GameObject physicalRepresentation;
+    public Sprite spriteRepresentation;
     public int stackLimit;
     public bool mergeable;
 }
@@ -68,8 +69,7 @@ public class ItemInstance {
         string grade = global::Quality.GradeToString(Quality);
         string gradeCol = "#" + ColorUtility.ToHtmlStringRGB(global::Quality.GradeToColor(Quality));
         string str = string.Format("Quality: <color={0}>{1}</color>\n" +
-                                   "Quantity: <color=white>{2}</color>\n" +
-                                   (IsNew ? "<color=#ffc605fc>NEW</color>\n" : ""), gradeCol, grade, Quantity);
+                                   (IsNew ? "<color=#ffc605fc>NEW</color>\n" : ""), gradeCol, grade);
         return str;
     }
 }
