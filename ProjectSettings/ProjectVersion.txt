@@ -1,1 +1,13 @@
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+m_EditorVersion: 2018.2.10f1
+=======
+m_EditorVersion: 2018.2.8f1
+>>>>>>> origin/Nick
+=======
+m_EditorVersion: 2018.2.8f1
+>>>>>>> origin/mike
+=======
 m_EditorVersion: 2018.2.0f2
+>>>>>>> origin/master
