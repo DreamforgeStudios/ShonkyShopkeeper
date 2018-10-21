@@ -246,7 +246,7 @@ PlayerSettings:
   AndroidTargetArchitectures: 5
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: D:/Repositories/Golemancer/Assets/Keystore/golemancer.keystore
+  AndroidKeystoreName: D:/IGB300/Repo/Assets/Keystore/golemancer.keystore
   AndroidKeyaliasName: dreamforge
   AndroidBuildApkPerCpuArchitecture: 0
   AndroidTVCompatibility: 0
