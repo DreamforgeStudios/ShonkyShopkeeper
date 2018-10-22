@@ -27,10 +27,11 @@ public class HideCredits : MonoBehaviour
 
 	public void StartCredits()
 	{
-		credits.transform.position = startPosition;
+		credits.transform.DOComplete();
+		credits.transform.localPosition = startPosition;
 		Sequence seq = DOTween.Sequence();
-		seq.Append(credits.transform.DOMove(endPosition, 60f, false)
-			.OnComplete(() => credits.transform.position = startPosition));
+		seq.Append(credits.transform.DOLocalMove(startPosition,0.1f,false).OnComplete(()=>credits.transform.DOLocalMove(endPosition, 60f, false)
+			.OnComplete(() => credits.transform.localPosition = startPosition)));
 		seq.SetLoops(-1);
 		seq.Play();
 	}

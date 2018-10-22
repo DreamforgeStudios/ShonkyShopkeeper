@@ -385,19 +385,19 @@ public class TrueGolemIntro : MonoBehaviour {
 		golemSelected = golemHit;
 		switch (golemHit.name)
 		{
-			case "TrueRubyGolem":
+			case "True Ruby Golem":
 				Camera.main.transform.DOMove(rubyCamera, 2f, false);
 				Camera.main.transform.DORotate(rubyCameraRot, 1f, RotateMode.FastBeyond360);
 				break;
-			case "TrueAmethystGolem":
+			case "True Amethyse Golem":
 				Camera.main.transform.DOMove(amethystCamera, 2f, false);
 				Camera.main.transform.DORotate(amethystCameraRot, 1f, RotateMode.FastBeyond360);
 				break;
-			case "TrueSapphireGolem":
+			case "True Sapphire Golem":
 				Camera.main.transform.DOMove(sapphireCamera, 2f, false);
 				Camera.main.transform.DORotate(sapphireCameraRot, 1f, RotateMode.FastBeyond360);
 				break;
-			case "TrueEmGolemv1":
+			case "Ture Emerald Golem":
 				Camera.main.transform.DOMove(emeraldCamera, 2f, false);
 				Camera.main.transform.DORotate(emeraldCameraRot, 1f, RotateMode.FastBeyond360);
 				break;

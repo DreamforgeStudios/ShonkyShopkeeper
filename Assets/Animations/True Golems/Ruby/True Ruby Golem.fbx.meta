@@ -77,7 +77,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: rubygemSG
-    second: {fileID: 2100002, guid: 4eba7eabff88f0549b55ea8bfbdd1257, type: 3}
+    second: {fileID: 2100000, guid: 45bc567c0ec48364586df694ca207108, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
