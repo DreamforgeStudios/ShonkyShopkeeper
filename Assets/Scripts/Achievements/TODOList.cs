@@ -6,13 +6,13 @@ using UnityEngine;
 public class TODOList : MonoBehaviour {
 	public TextMeshProUGUI TODOText;
 
-	// Use this for initialization
-	void Start () {
+	public void UpdateScroll() {
+		Debug.Log("Updating...");
 		// Mess.............
 		string txt = "";
-		if (PersistentData.Instance.TownsUnlocked < 4) {
+		if (PersistentData.Instance.TownsUnlocked < 5) {
 			txt += "Travel to a new town\n" +
-			       "<color=#D2009D>" + Mathf.Clamp(0, Travel.NextPurchaseCost(), Inventory.Instance.goldCount) + "</color>"  +
+			       "<color=#D2009D>" + Mathf.Clamp(Inventory.Instance.goldCount, 0, Travel.NextPurchaseCost()) + "</color>"  +
 				   "/" + "<color=#D2009D>" + Travel.NextPurchaseCost() + "</color> gold\n\n";
 		}
 
@@ -25,5 +25,10 @@ public class TODOList : MonoBehaviour {
 		}
 
 		TODOText.text = txt;
+	}
+
+	// Use this for initialization
+	void Start () {
+		InvokeRepeating("UpdateScroll", 0, 3);
 	}
 }

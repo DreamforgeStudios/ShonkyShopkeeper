@@ -115,8 +115,8 @@ MonoBehaviour:
   SpinnerSpriteRenderer: {fileID: 212659657249798184}
   LineSpriteRenderer: {fileID: 212025349014014604}
   LineSpriteMask: {fileID: 331589375597430606}
-  NumberOfSpins: 3
-  RotationSpeed: 0.5
+  NumberOfSpins: 2
+  RotationSpeed: 0.75
   RotationEase: 4
   EasePerLoop: 0
   SpinnerSelectedScale: {x: 2, y: 2, z: 1}

@@ -99,8 +99,12 @@ public class NewCutPoint : MonoBehaviour {
 		OnSpawnCompleteTick();
 		
 		var seq = DOTween.Sequence();
-        seq.Append(SpinnerSpriteRenderer.transform.DOLocalRotate(Vector3.forward * 360, RotationSpeed, RotateMode.LocalAxisAdd)
+		var spinnerseq = DOTween.Sequence();
+        spinnerseq.Append(SpinnerSpriteRenderer.transform.DOLocalRotate(Vector3.forward * 360, RotationSpeed, RotateMode.LocalAxisAdd)
             .SetEase(EasePerLoop ? RotationEase : Ease.Linear).SetLoops(NumberOfSpins));
+		spinnerseq.SetEase(EasePerLoop ? Ease.Linear : RotationEase);
+		
+		seq.Append(spinnerseq);
 		// TODO: make this use parameters.
 		seq.Insert(0, SpinnerSpriteRenderer.transform.DOScale(1, .5f).SetEase(Ease.OutBack));
 		
