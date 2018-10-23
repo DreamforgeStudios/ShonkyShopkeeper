@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.35872692, a: 1}
+  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073993, b: 0.3587269, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -8853,7 +8853,7 @@ MonoBehaviour:
   emeraldCamera: {x: 0.035, y: 0.771, z: -8.872}
   amethystCamera: {x: -0.11, y: 0.771, z: -9.195}
   cameraDefaultPosition: {x: 0.0114, y: 1.062, z: -10.081}
-  rubyCameraRot: {x: 7.766, y: -76.314, z: 0}
+  rubyCameraRot: {x: -2.09, y: -76.314, z: 0}
   sapphireCameraRot: {x: 2.676, y: 45.226, z: 0}
   emeraldCameraRot: {x: 8.876, y: -32.778, z: 0}
   amethystCameraRot: {x: 2.676, y: 73.707, z: 0}
