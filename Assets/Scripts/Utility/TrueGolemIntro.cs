@@ -78,6 +78,16 @@ public class TrueGolemIntro : MonoBehaviour {
 		//Set relevant hall variables
 		hallFunctionality.forward = true;
 		
+		//Pause all existing animations on other golems
+		foreach (GameObject golem in trueGolemObjects)
+		{
+			if (golem.activeSelf)
+			{
+				golem.GetComponent<Animator>().Play("Idle",-1, 0f);
+				golem.GetComponent<Animator>().speed = 0f;
+			}
+		}
+		
 		//Move spawned golem to the relevant pedestal 
 		MoveGolem();
 		
@@ -258,6 +268,15 @@ public class TrueGolemIntro : MonoBehaviour {
 		hallFunctionality.MoveCameraBackButton.SetActive(true);
 		PopupTextManager.ResetEvents();
 	}
+
+	public void ReenableAllActiveTrueGolems()
+	{
+		foreach (GameObject golem in trueGolemObjects)
+		{
+			if (golem.activeSelf)
+				golem.GetComponent<Animator>().speed = 1f;
+		}
+	}
 	
 	//Finish game
 	public void FinishGame()
@@ -405,6 +424,15 @@ public class TrueGolemIntro : MonoBehaviour {
 				Camera.main.transform.DOMove(rubyCamera, 2f, false);
 				Camera.main.transform.DORotate(rubyCameraRot, 1f, RotateMode.FastBeyond360);
 				break;
+		}
+		
+		foreach (GameObject golem in trueGolemObjects)
+		{
+			if (golem.activeSelf && golem != golemHit)
+			{
+				golem.GetComponent<Animator>().Play("Idle",-1, 0.00f);
+				golem.GetComponent<Animator>().speed = 0f;
+			}
 		}
 		inspectingGolem = true;
 	}

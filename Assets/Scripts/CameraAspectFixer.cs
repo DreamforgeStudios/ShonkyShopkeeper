@@ -1,50 +1,34 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 
 public class CameraAspectFixer : MonoBehaviour {
 
+    public Vector2 targetAspect = new Vector2(16,10);
 	     // Use this for initialization
          void Start()
          {
-             // set the desired aspect ratio (the values in this example are
-             // hard-coded for 16:10, but you could make them into public
-             // variables instead so you can set them at design time)
-             float targetaspect = 16.0f / 10.0f;
-             
-             // determine the game window's current aspect ratio
-             float windowaspect = (float)Screen.width / (float)Screen.height;
-             
-             // current viewport height should be scaled by this amount
-             float scaleheight = windowaspect / targetaspect;
-             
-             // obtain camera component so we can modify its viewport
-             Camera camera = GetComponent<Camera>();
-             
-             // if scaled height is less than current height, add letterbox
-             if (scaleheight < 1.0f)
-             {
-                 Rect rect = camera.rect;
-                 
-                 rect.width = 1.0f;
-                 rect.height = scaleheight;
-                 rect.x = 0;
-                 rect.y = (1.0f - scaleheight) / 2.0f;
-                 
-                 camera.rect = rect;
+             Camera _camera = Camera.main;
+             // Determine ratios of screen/window & target, respectively.
+             float screenRatio = Screen.width / (float)Screen.height;
+             float targetRatio = targetAspect.x / targetAspect.y;
+
+             if(Mathf.Approximately(screenRatio, targetRatio)) {
+                 // Screen or window is the target aspect ratio: use the whole area.
+                 _camera.rect = new Rect(0, 0, 1, 1);
              }
-             else // add pillarbox
-             {
-                 float scalewidth = 1.0f / scaleheight;
-                 
-                 Rect rect = camera.rect;
-                 
-                 rect.width = scalewidth;
-                 rect.height = 1.0f;
-                 rect.x = (1.0f - scalewidth) / 2.0f;
-                 rect.y = 0;
-                 
-                 camera.rect = rect;
+             else if(screenRatio > targetRatio) {
+                 // Screen or window is wider than the target: pillarbox.
+                 float normalizedWidth = targetRatio / screenRatio;
+                 float barThickness = (1f - normalizedWidth)/2f;
+                 _camera.rect = new Rect(barThickness, 0, normalizedWidth, 1);
+             }
+             else {
+                 // Screen or window is narrower than the target: letterbox.
+                 float normalizedHeight = screenRatio / targetRatio;
+                 float barThickness = (1f - normalizedHeight) / 2f;
+                 _camera.rect = new Rect(0, barThickness, 1, normalizedHeight);
              }
          }
          

@@ -140,6 +140,7 @@ public class Hall : MonoBehaviour
 	{
 		MoveCamera();
 		trueGolemHandler.inspectingGolem = false;
+		trueGolemHandler.ReenableAllActiveTrueGolems();
 	}
 
 	private void RayCastSphere()

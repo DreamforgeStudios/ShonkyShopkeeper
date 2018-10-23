@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.35872692, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311992, g: 0.38074034, b: 0.35872713, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -907,6 +907,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22c2f236eff7ff145ba725cd4c1e133e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetAspect: {x: 16, y: 9}
 --- !u!1 &471928915
 GameObject:
   m_ObjectHideFlags: 0
@@ -1995,7 +1996,7 @@ Prefab:
     - target: {fileID: 224929445334793030, guid: 64d6173486e7c03438d2b67e537cd11b,
         type: 2}
       propertyPath: m_RootOrder
-      value: 11
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 224929445334793030, guid: 64d6173486e7c03438d2b67e537cd11b,
         type: 2}
@@ -2110,6 +2111,46 @@ Prefab:
         type: 2}
       propertyPath: startPosition.y
       value: -220
+      objectReference: {fileID: 0}
+    - target: {fileID: 114808866625963356, guid: 64d6173486e7c03438d2b67e537cd11b,
+        type: 2}
+      propertyPath: m_text
+      value: "Golemancer\n\nDreamforge game studio\n\nPierre Medeiros - Producer\r\nPierremedeiros121212@gmail.com\r\n@PierreMedeiros3\r\n\r\n\r\nNick
+        McCarthy - Lead Design & Modeling\r\nnp.mccarthy@connect.qut.edu.au\r\n@AceTrainerNich\r\n\r\n\r\nJustin
+        Johnstone - Design & Art\r\njjstonemob@gmail.com\r\n@jaystone72\r\n\r\n\r\nKyle
+        Anderson - Animation & Modeling\r\nKyleanderson891@gmail.com\r\n@KyleAndersonHBG\r\n\r\n\r\nMichael
+        Palmos - Software Tech\r\ntoqoz@hotmail.com\r\n@toqoz\r_\n\r\nMatthew Davies
+        - Software Tech\r\nmatthewdavies1212@yahoo.com.au\r\n@mdavies1212\r\n\r\nDavid
+        Upcher - Music Commission\r\ndavidupcher@gmail.com\r\n\r\nGolemancer main
+        theme\r\nFlaming Peak Theme\r\nGiant\u2019s Pass Theme\r\nSkycity Theme\r\nWicked
+        Grove Theme\r\nJewel Theme\r\nOre Theme\r\nBartering Theme\r\n\r\nThis piece
+        of media uses these sounds from www.freesound.org:\r\nWhoosh.wav by Aysonny\r\nfast
+        simple chop 5.aif by dave.des\r\ngame over by fins\r\n04099 magic string spell.wav
+        by Robinhood76\r\nConfirmation Upward by original_sound\r\nConfirmation Downward
+        by original_sound\r\nMagicka-Low.wav by Seidhepriest\r\nFantasy_ui_Button_6.wav
+        by ZenithInfinitiveStudios\r\nMagical Bomb Falling by Seidhepriest \r\nmetal-ring
+        by CosmicEmbers\r\n04099 magic string spell.wav by Robinhood76\r\nSpookyMagic.mp3
+        by Sclolex\r\nWind Chimes, A.wav by InspectorJ\r\nbeep2.wav by thisusernameis\r\nUI
+        Confirmation Alert, D1.wav by Inspector\r\nYamaha CS-30L - Sly - E#4 (Sly-65-127.aif)
+        by modularsamples\r\nUI Confirmation Alert, C5.wav by InspectorJ\r\nMenu_Click_Sound
+        .wav by Killersmurf96\r\n04056 magic chaotic transformations.wav by Robinhood76\r\nMagic
+        wand.wav by olver\r\nMagic.mp3 by Bastianhallo\r\nPortal_Continuous_Rumble.wav
+        by zimbot\r\nHealth/item Pick Up by limetoe\r\narpeggelings.wav by symphoid\r\nFairy_sound.wav
+        by AdriMB86\r\ncharging loop 1 by JavierZumer\r\njump.wav by Vicces1212\r\ncoin
+        clatter 1.wav by FenrirFangs\r\nError_04.wav by distillerystudio\r\nMagic.mp3
+        by LittleRainySeasons\r\nSpell Cast / Buff / High Tone by SypherZent\r\nFire
+        Magic Spell Sound Effect by qubodup\r\nMagic.mp3 by LittleRainySeasons\r\nBubbles
+        by Electroviolence\r\nSword Slice by LiamG_SFX\r\nSword 4.wav by CpawsMusic\r\nbeep5.wav
+        by thisusernameis\r\nbig_fire1.mp3 by Taira Komori\r\ncollect.wav by Wagna\r\nEgg
+        Shaker Rhythm.wav by Ainigmat\r\nAction 01 by rhodesmas\r\nCoins Purchase
+        4 by rhodesmas\r\nShort Fart_01 by DSISStudios\r\nremix#2-of-149187-adriann-harp-strum.flac
+        by Timbre\r\nJew's Harp, Single, A (H1).wav by InspectorJ\r\nFantasy windchimes_northern87
+        by northern87\r\nsuccess by fisch12345\r\nsuccess 1 by fins\r\nJingle_Achievement_00.wav
+        by LittleRobotSoundFactory\r\nsuccess_low.wav by grunz\r\nCollected Item by
+        limetoe\r\nMagic Strike.wav by Aleks41\r\nBasic Fire Whoosh 2 by Niedec \r\nMagic
+        by RICHERlandTV\r\nMagic Strike.wav by Aleks41\r\nTwinkle Whoosh and a Twang
+        by fredzed\r\nEchoing metal pings.flac by Timbre\r\n\r\nThank you for playing!\r\n\r\n\xA9
+        2018 Dreamforge Game Studio. All rights reserved.\r\n"
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 64d6173486e7c03438d2b67e537cd11b, type: 2}
@@ -2289,6 +2330,46 @@ Prefab:
         type: 2}
       propertyPath: m_AnchoredPosition.y
       value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 114808866625963356, guid: 64d6173486e7c03438d2b67e537cd11b,
+        type: 2}
+      propertyPath: m_text
+      value: "Golemancer\n\nDreamforge game studio\n\nPierre Medeiros - Producer\r\nPierremedeiros121212@gmail.com\r\n@PierreMedeiros3\r\n\r\n\r\nNick
+        McCarthy - Lead Design & Modeling\r\nnp.mccarthy@connect.qut.edu.au\r\n@AceTrainerNich\r\n\r\n\r\nJustin
+        Johnstone - Design & Art\r\njjstonemob@gmail.com\r\n@jaystone72\r\n\r\n\r\nKyle
+        Anderson - Animation & Modeling\r\nKyleanderson891@gmail.com\r\n@KyleAndersonHBG\r\n\r\n\r\nMichael
+        Palmos - Software Tech\r\ntoqoz@hotmail.com\r\n@toqoz\r_\n\r\nMatthew Davies
+        - Software Tech\r\nmatthewdavies1212@yahoo.com.au\r\n@mdavies1212\r\n\r\nDavid
+        Upcher - Music Commission\r\ndavidupcher@gmail.com\r\n\r\nGolemancer main
+        theme\r\nFlaming Peak Theme\r\nGiant\u2019s Pass Theme\r\nSkycity Theme\r\nWicked
+        Grove Theme\r\nJewel Theme\r\nOre Theme\r\nBartering Theme\r\n\r\nThis piece
+        of media uses these sounds from www.freesound.org:\r\nWhoosh.wav by Aysonny\r\nfast
+        simple chop 5.aif by dave.des\r\ngame over by fins\r\n04099 magic string spell.wav
+        by Robinhood76\r\nConfirmation Upward by original_sound\r\nConfirmation Downward
+        by original_sound\r\nMagicka-Low.wav by Seidhepriest\r\nFantasy_ui_Button_6.wav
+        by ZenithInfinitiveStudios\r\nMagical Bomb Falling by Seidhepriest \r\nmetal-ring
+        by CosmicEmbers\r\n04099 magic string spell.wav by Robinhood76\r\nSpookyMagic.mp3
+        by Sclolex\r\nWind Chimes, A.wav by InspectorJ\r\nbeep2.wav by thisusernameis\r\nUI
+        Confirmation Alert, D1.wav by Inspector\r\nYamaha CS-30L - Sly - E#4 (Sly-65-127.aif)
+        by modularsamples\r\nUI Confirmation Alert, C5.wav by InspectorJ\r\nMenu_Click_Sound
+        .wav by Killersmurf96\r\n04056 magic chaotic transformations.wav by Robinhood76\r\nMagic
+        wand.wav by olver\r\nMagic.mp3 by Bastianhallo\r\nPortal_Continuous_Rumble.wav
+        by zimbot\r\nHealth/item Pick Up by limetoe\r\narpeggelings.wav by symphoid\r\nFairy_sound.wav
+        by AdriMB86\r\ncharging loop 1 by JavierZumer\r\njump.wav by Vicces1212\r\ncoin
+        clatter 1.wav by FenrirFangs\r\nError_04.wav by distillerystudio\r\nMagic.mp3
+        by LittleRainySeasons\r\nSpell Cast / Buff / High Tone by SypherZent\r\nFire
+        Magic Spell Sound Effect by qubodup\r\nMagic.mp3 by LittleRainySeasons\r\nBubbles
+        by Electroviolence\r\nSword Slice by LiamG_SFX\r\nSword 4.wav by CpawsMusic\r\nbeep5.wav
+        by thisusernameis\r\nbig_fire1.mp3 by Taira Komori\r\ncollect.wav by Wagna\r\nEgg
+        Shaker Rhythm.wav by Ainigmat\r\nAction 01 by rhodesmas\r\nCoins Purchase
+        4 by rhodesmas\r\nShort Fart_01 by DSISStudios\r\nremix#2-of-149187-adriann-harp-strum.flac
+        by Timbre\r\nJew's Harp, Single, A (H1).wav by InspectorJ\r\nFantasy windchimes_northern87
+        by northern87\r\nsuccess by fisch12345\r\nsuccess 1 by fins\r\nJingle_Achievement_00.wav
+        by LittleRobotSoundFactory\r\nsuccess_low.wav by grunz\r\nCollected Item by
+        limetoe\r\nMagic Strike.wav by Aleks41\r\nBasic Fire Whoosh 2 by Niedec \r\nMagic
+        by RICHERlandTV\r\nMagic Strike.wav by Aleks41\r\nTwinkle Whoosh and a Twang
+        by fredzed\r\nEchoing metal pings.flac by Timbre\r\n\r\nThank you for playing!\r\n\r\n\xA9
+        2018 Dreamforge Game Studio. All rights reserved.\r\n"
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 64d6173486e7c03438d2b67e537cd11b, type: 2}
@@ -2623,6 +2704,86 @@ Prefab:
         type: 2}
       propertyPath: m_SizeDelta.x
       value: 220
+      objectReference: {fileID: 0}
+    - target: {fileID: 224091856689946010, guid: e8edc8e8c18801a48b29e92eebc6ce85,
+        type: 2}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 224026644478684528, guid: e8edc8e8c18801a48b29e92eebc6ce85,
+        type: 2}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 224166901172450114, guid: e8edc8e8c18801a48b29e92eebc6ce85,
+        type: 2}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 224330859194385110, guid: e8edc8e8c18801a48b29e92eebc6ce85,
+        type: 2}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 224906056843508216, guid: e8edc8e8c18801a48b29e92eebc6ce85,
+        type: 2}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 224693077990392306, guid: e8edc8e8c18801a48b29e92eebc6ce85,
+        type: 2}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224102745826154422, guid: e8edc8e8c18801a48b29e92eebc6ce85,
+        type: 2}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4217159668260424, guid: e8edc8e8c18801a48b29e92eebc6ce85, type: 2}
+      propertyPath: m_RootOrder
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4275624660617982, guid: e8edc8e8c18801a48b29e92eebc6ce85, type: 2}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4299656194272788, guid: e8edc8e8c18801a48b29e92eebc6ce85, type: 2}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4974068340575112, guid: e8edc8e8c18801a48b29e92eebc6ce85, type: 2}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4465777263868924, guid: e8edc8e8c18801a48b29e92eebc6ce85, type: 2}
+      propertyPath: m_RootOrder
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 4697114009158700, guid: e8edc8e8c18801a48b29e92eebc6ce85, type: 2}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4421428074643068, guid: e8edc8e8c18801a48b29e92eebc6ce85, type: 2}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4738353528808404, guid: e8edc8e8c18801a48b29e92eebc6ce85, type: 2}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4417247303680724, guid: e8edc8e8c18801a48b29e92eebc6ce85, type: 2}
+      propertyPath: m_RootOrder
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 224973441926345896, guid: e8edc8e8c18801a48b29e92eebc6ce85,
+        type: 2}
+      propertyPath: m_RootOrder
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 4744211033516126, guid: e8edc8e8c18801a48b29e92eebc6ce85, type: 2}
+      propertyPath: m_RootOrder
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e8edc8e8c18801a48b29e92eebc6ce85, type: 2}

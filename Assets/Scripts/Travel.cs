@@ -85,9 +85,9 @@ public static class Travel {
                 case Towns.FlamingPeak:
                     return Item.GemType.Ruby;
                 case Towns.SkyCity:
-                    return Item.GemType.Sapphire;
-                case Towns.GiantsPass:
                     return Item.GemType.Amethyst;
+                case Towns.GiantsPass:
+                    return Item.GemType.Sapphire;
                 default:
                     return Item.GemType.Ruby;
         }

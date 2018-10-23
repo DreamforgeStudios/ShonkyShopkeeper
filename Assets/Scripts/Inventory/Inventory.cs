@@ -125,9 +125,9 @@ public class Inventory : ScriptableObject {
                 case Item.GemType.Emerald:
                     return Travel.Towns.WickedGrove;
                 case Item.GemType.Sapphire:
-                    return Travel.Towns.SkyCity;
-                case Item.GemType.Amethyst:
                     return Travel.Towns.GiantsPass;
+                case Item.GemType.Amethyst:
+                    return Travel.Towns.SkyCity;
                 default:
                     return Travel.Towns.FlamingPeak;
         }
