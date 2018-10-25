@@ -375,6 +375,7 @@ public class Cutting : MonoBehaviour {
 	}
 
 	public void Return() {
+		ReturnOrRetryButtons.SetActive(false);
 		if (grade != Quality.QualityGrade.Junk)
 			ReturnOrRetry.Return("Cut " + GameManager.Instance.GemTypeTransfer, grade);
 		else
@@ -382,6 +383,7 @@ public class Cutting : MonoBehaviour {
 	}
 
 	public void Retry() {
+		ReturnOrRetryButtons.SetActive(false);
 		ReturnOrRetry.Retry();
 	}
 
@@ -405,6 +407,7 @@ public class Cutting : MonoBehaviour {
 	}
 	
 	public void PartyModeReturn() {
+		PartyReturnButtons.SetActive(false);
 		ReturnOrRetry.ReturnParty(PointsManager.GetPoints());
 	}
 

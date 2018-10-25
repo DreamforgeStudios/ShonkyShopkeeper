@@ -301,6 +301,7 @@ public class Smelting : MonoBehaviour {
 	}
 
 	public void Return() {
+		returnOrRetryButtons.SetActive(false);
 		if (grade != Quality.QualityGrade.Junk)
 			ReturnOrRetry.Return("Brick", grade);
 		else
@@ -308,6 +309,7 @@ public class Smelting : MonoBehaviour {
 	}
 
 	public void Retry() {
+		returnOrRetryButtons.SetActive(false);
 		ReturnOrRetry.Retry();
 	}
 
@@ -328,6 +330,7 @@ public class Smelting : MonoBehaviour {
 	}
 	
 	public void PartyModeReturn() {
+		PartyReturnButtons.SetActive(false);
 	    ReturnOrRetry.ReturnParty(pointsManager.GetPoints());
 	}
 
