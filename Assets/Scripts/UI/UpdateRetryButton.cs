@@ -1,11 +1,15 @@
 ﻿using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class UpdateRetryButton : MonoBehaviour {
 
     public TextMeshProUGUI ButtonText;
 
     public GameObject NormalButtons, JunkWarning;
+
+    public Button ButtonShop, ButtonRetry;
+    
 	// Use this for initialization
 	void Start () {
         ButtonText = GetComponent<TextMeshProUGUI>();
@@ -32,6 +36,11 @@ public class UpdateRetryButton : MonoBehaviour {
             JunkWarning.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text =
                 "In the normal game, making a junk component will result in it being destroyed";
         }
+    }
+
+    public void DisableButtons() {
+        ButtonShop.interactable = false;
+        ButtonRetry.interactable = false;
     }
 	
 }

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.5067863, g: 0.82332146, b: 1.5908622, a: 1}
+  m_IndirectSpecularColor: {r: 0.5064891, g: 0.82348794, b: 1.5931888, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5369,8 +5369,8 @@ MonoBehaviour:
   timeLimit: 20
   MissDurationTimeout: 4
   PointsManager: {fileID: 1216092334}
-  returnOrRetryButtons: {fileID: 1615380213}
-  PartyReturnButtons: {fileID: 915484871}
+  returnOrRetryButtons: {fileID: 2122210363}
+  PartyReturnButtons: {fileID: 915484873}
   brickSpawnmanager: {fileID: 228471296}
   WhiteFlash: {fileID: 1610749197}
   particlePrefab: {fileID: 1182122632004096, guid: 431bc67995010624dae05b72856f0737,
@@ -7822,6 +7822,24 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1069181834580832, guid: 5bb36700ee1c32646b283b28318b44a0,
     type: 2}
   m_PrefabInternal: {fileID: 915484869}
+--- !u!114 &915484872 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114671456940730356, guid: 5bb36700ee1c32646b283b28318b44a0,
+    type: 2}
+  m_PrefabInternal: {fileID: 915484869}
+  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+--- !u!114 &915484873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 915484871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a29c918383f2b0e4ead63cc33fadbdfd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ButtonNext: {fileID: 915484872}
 --- !u!1 &915941650
 GameObject:
   m_ObjectHideFlags: 0
@@ -15635,11 +15653,6 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1610749195}
   m_CullTransparentMesh: 0
---- !u!1 &1615380213 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1580125511671102, guid: e3a1b7124e4ff434896218a837c9dfc6,
-    type: 2}
-  m_PrefabInternal: {fileID: 2122210362}
 --- !u!224 &1615380214 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 224802857461512426, guid: e3a1b7124e4ff434896218a837c9dfc6,
@@ -20435,9 +20448,37 @@ Prefab:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 537076436}
+    - target: {fileID: 114907986880451764, guid: e3a1b7124e4ff434896218a837c9dfc6,
+        type: 2}
+      propertyPath: ButtonRetry
+      value: 
+      objectReference: {fileID: 2122210364}
+    - target: {fileID: 114907986880451764, guid: e3a1b7124e4ff434896218a837c9dfc6,
+        type: 2}
+      propertyPath: ButtonShop
+      value: 
+      objectReference: {fileID: 2122210365}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e3a1b7124e4ff434896218a837c9dfc6, type: 2}
   m_IsPrefabAsset: 0
+--- !u!114 &2122210363 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114907986880451764, guid: e3a1b7124e4ff434896218a837c9dfc6,
+    type: 2}
+  m_PrefabInternal: {fileID: 2122210362}
+  m_Script: {fileID: 11500000, guid: 13f5411a8b02caa40b9211e89b8285f7, type: 3}
+--- !u!114 &2122210364 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114630251607773514, guid: e3a1b7124e4ff434896218a837c9dfc6,
+    type: 2}
+  m_PrefabInternal: {fileID: 2122210362}
+  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+--- !u!114 &2122210365 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114536812827750112, guid: e3a1b7124e4ff434896218a837c9dfc6,
+    type: 2}
+  m_PrefabInternal: {fileID: 2122210362}
+  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!1 &2136385162
 GameObject:
   m_ObjectHideFlags: 0

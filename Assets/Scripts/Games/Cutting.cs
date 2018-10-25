@@ -96,9 +96,9 @@ public class Cutting : MonoBehaviour {
 	[BoxGroup("Object Assignments")]
 	public PointsManager PointsManager;
 	[BoxGroup("Object Assignments")]
-	public GameObject ReturnOrRetryButtons;
+	public UpdateRetryButton ReturnOrRetryButtons;
 	[BoxGroup("Object Assignments")]
-	public GameObject PartyReturnButtons;
+	public PartyButtonManager PartyReturnButtons;
 	[BoxGroup("Object Assignments")]
 	public Countdown CountdownObj;
 	[BoxGroup("Object Assignments")]
@@ -375,20 +375,20 @@ public class Cutting : MonoBehaviour {
 	}
 
 	public void Return() {
-		ReturnOrRetryButtons.SetActive(false);
+		ReturnOrRetryButtons.DisableButtons();
 		if (grade != Quality.QualityGrade.Junk)
 			ReturnOrRetry.Return("Cut " + GameManager.Instance.GemTypeTransfer, grade);
 		else
-			ReturnOrRetryButtons.GetComponent<UpdateRetryButton>().WarningTextEnable();
+			ReturnOrRetryButtons.WarningTextEnable();
 	}
 
 	public void Retry() {
-		ReturnOrRetryButtons.SetActive(false);
+		ReturnOrRetryButtons.DisableButtons();
 		ReturnOrRetry.Retry();
 	}
 
     public void ShowUIButtons() {
-	    ReturnOrRetryButtons.SetActive(true);
+	    ReturnOrRetryButtons.gameObject.SetActive(true);
         ReturnOrRetryButtons.GetComponent<UpdateRetryButton>().SetText();
     }
 	
@@ -407,11 +407,11 @@ public class Cutting : MonoBehaviour {
 	}
 	
 	public void PartyModeReturn() {
-		PartyReturnButtons.SetActive(false);
+		PartyReturnButtons.DisableButtons();
 		ReturnOrRetry.ReturnParty(PointsManager.GetPoints());
 	}
 
 	public void ShowUIButtonsParty() {
-		PartyReturnButtons.SetActive(true);
+		PartyReturnButtons.gameObject.SetActive(true);
 	}
 }

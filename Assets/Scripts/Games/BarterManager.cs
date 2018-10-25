@@ -74,9 +74,9 @@ public class BarterManager : MonoBehaviour {
 	[BoxGroup("Object Assignments")]
 	public ParticleSystem WandParticleSystem;
 	[BoxGroup("Object Assignments")]
-	public GameObject BackToShop;
+	public PartyButtonManager BackToShop;
 	[BoxGroup("Object Assignments")]
-	public GameObject PartyReturnButtons;
+	public PartyButtonManager PartyReturnButtons;
 	[BoxGroup("Object Assignments")]
 	public ParticleSystem CoinFallParticles;
 	[BoxGroup("Object Assignments")]
@@ -282,7 +282,7 @@ public class BarterManager : MonoBehaviour {
 	}
 	
 	public void Return() {
-		BackToShop.SetActive(false);
+		BackToShop.DisableButtons();
 		ReturnOrRetry.Return((int)price, GameManager.Instance.ShonkyIndexTransfer);
 	}
 	
@@ -294,7 +294,7 @@ public class BarterManager : MonoBehaviour {
 		DebugText.gameObject.SetActive(false);
 		SoldText.text = "<color=red>SOLD</color>\n<sprite=0>" + price;
 		SoldText.gameObject.SetActive(true);
-		BackToShop.SetActive(true);
+		BackToShop.gameObject.SetActive(true);
 		RadialBar.gameObject.SetActive(false);
 		
 		var anim = golemClone.GetComponent<Animator>();
@@ -332,11 +332,11 @@ public class BarterManager : MonoBehaviour {
 	}
 	
 	public void PartyModeReturn() {
-		PartyReturnButtons.SetActive(false);
+		PartyReturnButtons.DisableButtons();
 	    ReturnOrRetry.ReturnParty((int)price);
 	}
 
 	public void ShowUIButtonsParty() {
-		PartyReturnButtons.SetActive(true);
+		PartyReturnButtons.gameObject.SetActive(true);
 	}
 }

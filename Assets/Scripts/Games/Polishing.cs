@@ -55,8 +55,8 @@ public class Polishing : MonoBehaviour {
     public TextMeshProUGUI qualityText;
     public Slider timerSlider;
     public Image sliderImage;
-    public GameObject returnOrRetryButtons;
-    public GameObject PartyReturnButtons;
+    public UpdateRetryButton returnOrRetryButtons;
+    public PartyButtonManager PartyReturnButtons;
 
     //Vector to swipe over
     private Vector3 keyPoint;
@@ -316,7 +316,7 @@ public class Polishing : MonoBehaviour {
     }
 
     public void Return() {
-        returnOrRetryButtons.SetActive(false);
+        returnOrRetryButtons.DisableButtons();
         if (grade != Quality.QualityGrade.Junk)
             ReturnOrRetry.Return("Charged " + GameManager.Instance.GemTypeTransfer, grade);
         else
@@ -326,12 +326,12 @@ public class Polishing : MonoBehaviour {
 
     // Retry (roload scene).
 	public void Retry() {
-        returnOrRetryButtons.SetActive(false);
+        returnOrRetryButtons.DisableButtons();
 		ReturnOrRetry.Retry();
 	}
 
     public void ShowUIButtons() {
-	    returnOrRetryButtons.SetActive(true);
+	    returnOrRetryButtons.gameObject.SetActive(true);
         returnOrRetryButtons.GetComponent<UpdateRetryButton>().SetText();
     }
     
@@ -347,12 +347,12 @@ public class Polishing : MonoBehaviour {
 	}
 	
 	public void PartyModeReturn() {
-        PartyReturnButtons.SetActive(false);
+        PartyReturnButtons.DisableButtons();
 	    ReturnOrRetry.ReturnParty(pointsManager.GetPoints());
 	}
 
 	public void ShowUIButtonsParty() {
-		PartyReturnButtons.SetActive(true);
+		PartyReturnButtons.gameObject.SetActive(true);
 	}
 
 /*

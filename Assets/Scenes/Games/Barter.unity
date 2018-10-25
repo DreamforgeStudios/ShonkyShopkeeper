@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.4964127, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1488,8 +1488,8 @@ MonoBehaviour:
   HourGlass: {fileID: 1849908883}
   Wand: {fileID: 1137359051}
   WandParticleSystem: {fileID: 47101787}
-  BackToShop: {fileID: 1229323824}
-  PartyReturnButtons: {fileID: 969202375}
+  BackToShop: {fileID: 1229323826}
+  PartyReturnButtons: {fileID: 969202376}
   CoinFallParticles: {fileID: 632655637}
   NPCNames:
   - alchy
@@ -1850,6 +1850,18 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1069181834580832, guid: 5bb36700ee1c32646b283b28318b44a0,
     type: 2}
   m_PrefabInternal: {fileID: 969202373}
+--- !u!114 &969202376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 969202375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a29c918383f2b0e4ead63cc33fadbdfd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ButtonNext: {fileID: 1996939086}
 --- !u!1 &988318339
 GameObject:
   m_ObjectHideFlags: 0
@@ -2381,6 +2393,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1229323825}
+  - component: {fileID: 1229323826}
   m_Layer: 5
   m_Name: Return
   m_TagString: Untagged
@@ -2408,6 +2421,18 @@ RectTransform:
   m_AnchoredPosition: {x: 291.1, y: -147.6}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1229323826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1229323824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a29c918383f2b0e4ead63cc33fadbdfd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ButtonNext: {fileID: 671801111}
 --- !u!1001 &1251428992
 Prefab:
   m_ObjectHideFlags: 0
@@ -3539,6 +3564,12 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 1251428992}
   m_Script: {fileID: 11500000, guid: 0dd58bbb2735bfb46836d2f831c96513, type: 3}
+--- !u!114 &1996939086 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114671456940730356, guid: 5bb36700ee1c32646b283b28318b44a0,
+    type: 2}
+  m_PrefabInternal: {fileID: 969202373}
+  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!1 &2002511443
 GameObject:
   m_ObjectHideFlags: 0

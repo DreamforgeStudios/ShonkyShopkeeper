@@ -92,8 +92,8 @@ public class Tracing : MonoBehaviour {
 
     //Quality bar.
     public PointsManager PointsManager;
-    public GameObject returnOrRetryButtons;
-    public GameObject PartyReturnButtons;
+    public UpdateRetryButton returnOrRetryButtons;
+    public PartyButtonManager PartyReturnButtons;
     public BrickSpawnManager brickSpawnmanager;
     private bool start = false;
     
@@ -481,7 +481,7 @@ public class Tracing : MonoBehaviour {
     }
 
     public void Return() {
-        returnOrRetryButtons.SetActive(false);
+        returnOrRetryButtons.DisableButtons();
         if (grade != Quality.QualityGrade.Junk)
 		    ReturnOrRetry.Return("shell", grade);
         else
@@ -489,12 +489,12 @@ public class Tracing : MonoBehaviour {
 	}
 
 	public void Retry() {
-        returnOrRetryButtons.SetActive(false);
+        returnOrRetryButtons.DisableButtons();
 		ReturnOrRetry.Retry();
 	}
 
     public void ShowUIButtons() {
-	    returnOrRetryButtons.SetActive(true);
+	    returnOrRetryButtons.gameObject.SetActive(true);
         returnOrRetryButtons.GetComponent<UpdateRetryButton>().SetText();
     }
 
@@ -514,11 +514,11 @@ public class Tracing : MonoBehaviour {
 	}
 	
 	public void PartyModeReturn() {
-        PartyReturnButtons.SetActive(false);
+	    PartyReturnButtons.DisableButtons();
 	    ReturnOrRetry.ReturnParty(PointsManager.GetPoints());
 	}
 
 	public void ShowUIButtonsParty() {
-		PartyReturnButtons.SetActive(true);
+		PartyReturnButtons.gameObject.SetActive(true);
 	}
 }

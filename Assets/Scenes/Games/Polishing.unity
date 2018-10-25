@@ -691,19 +691,42 @@ Prefab:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: Return
       objectReference: {fileID: 0}
+    - target: {fileID: 114907986880451764, guid: e3a1b7124e4ff434896218a837c9dfc6,
+        type: 2}
+      propertyPath: ButtonShop
+      value: 
+      objectReference: {fileID: 280896013}
+    - target: {fileID: 114907986880451764, guid: e3a1b7124e4ff434896218a837c9dfc6,
+        type: 2}
+      propertyPath: ButtonRetry
+      value: 
+      objectReference: {fileID: 280896012}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e3a1b7124e4ff434896218a837c9dfc6, type: 2}
   m_IsPrefabAsset: 0
---- !u!1 &280896010 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1580125511671102, guid: e3a1b7124e4ff434896218a837c9dfc6,
+--- !u!114 &280896010 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114907986880451764, guid: e3a1b7124e4ff434896218a837c9dfc6,
     type: 2}
   m_PrefabInternal: {fileID: 280896009}
+  m_Script: {fileID: 11500000, guid: 13f5411a8b02caa40b9211e89b8285f7, type: 3}
 --- !u!224 &280896011 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 224802857461512426, guid: e3a1b7124e4ff434896218a837c9dfc6,
     type: 2}
   m_PrefabInternal: {fileID: 280896009}
+--- !u!114 &280896012 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114630251607773514, guid: e3a1b7124e4ff434896218a837c9dfc6,
+    type: 2}
+  m_PrefabInternal: {fileID: 280896009}
+  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+--- !u!114 &280896013 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114536812827750112, guid: e3a1b7124e4ff434896218a837c9dfc6,
+    type: 2}
+  m_PrefabInternal: {fileID: 280896009}
+  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!1 &332335483
 GameObject:
   m_ObjectHideFlags: 0
@@ -5882,7 +5905,7 @@ MonoBehaviour:
   timerSlider: {fileID: 1162780407}
   sliderImage: {fileID: 1705503373}
   returnOrRetryButtons: {fileID: 280896010}
-  PartyReturnButtons: {fileID: 1053284049}
+  PartyReturnButtons: {fileID: 1053284051}
   particle: {fileID: 434264677}
   amountOfParticles: 0
 --- !u!4 &437673340
@@ -6771,6 +6794,24 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1069181834580832, guid: 5bb36700ee1c32646b283b28318b44a0,
     type: 2}
   m_PrefabInternal: {fileID: 1053284047}
+--- !u!114 &1053284050 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114671456940730356, guid: 5bb36700ee1c32646b283b28318b44a0,
+    type: 2}
+  m_PrefabInternal: {fileID: 1053284047}
+  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+--- !u!114 &1053284051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1053284049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a29c918383f2b0e4ead63cc33fadbdfd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ButtonNext: {fileID: 1053284050}
 --- !u!224 &1160936292 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 224706118457682044, guid: f059a73a081d6a444b14588d4bf825c7,

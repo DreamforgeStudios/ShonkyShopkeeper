@@ -75,9 +75,9 @@ public class Smelting : MonoBehaviour {
 	[BoxGroup("Object Assignments")]
     public PointsManager pointsManager;
 	[BoxGroup("Object Assignments")]
-	public GameObject returnOrRetryButtons;
+	public UpdateRetryButton returnOrRetryButtons;
 	[BoxGroup("Object Assignments")]
-	public GameObject PartyReturnButtons;
+	public PartyButtonManager PartyReturnButtons;
 	[BoxGroup("Object Assignments")]
 	public TextMeshProUGUI qualityText;
 	[BoxGroup("Object Assignments")]
@@ -301,7 +301,7 @@ public class Smelting : MonoBehaviour {
 	}
 
 	public void Return() {
-		returnOrRetryButtons.SetActive(false);
+		returnOrRetryButtons.DisableButtons();
 		if (grade != Quality.QualityGrade.Junk)
 			ReturnOrRetry.Return("Brick", grade);
 		else
@@ -309,12 +309,12 @@ public class Smelting : MonoBehaviour {
 	}
 
 	public void Retry() {
-		returnOrRetryButtons.SetActive(false);
+		returnOrRetryButtons.DisableButtons();
 		ReturnOrRetry.Retry();
 	}
 
     public void ShowUIButtons() {
-	    returnOrRetryButtons.SetActive(true);
+	    returnOrRetryButtons.gameObject.SetActive(true);
         returnOrRetryButtons.GetComponent<UpdateRetryButton>().SetText();
     }
 	
@@ -330,11 +330,11 @@ public class Smelting : MonoBehaviour {
 	}
 	
 	public void PartyModeReturn() {
-		PartyReturnButtons.SetActive(false);
+		PartyReturnButtons.DisableButtons();
 	    ReturnOrRetry.ReturnParty(pointsManager.GetPoints());
 	}
 
 	public void ShowUIButtonsParty() {
-		PartyReturnButtons.SetActive(true);
+		PartyReturnButtons.gameObject.SetActive(true);
 	}
 }
