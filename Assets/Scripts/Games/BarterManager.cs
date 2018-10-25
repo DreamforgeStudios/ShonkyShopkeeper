@@ -282,6 +282,7 @@ public class BarterManager : MonoBehaviour {
 	}
 	
 	public void Return() {
+		BackToShop.SetActive(false);
 		ReturnOrRetry.Return((int)price, GameManager.Instance.ShonkyIndexTransfer);
 	}
 	
@@ -331,6 +332,7 @@ public class BarterManager : MonoBehaviour {
 	}
 	
 	public void PartyModeReturn() {
+		PartyReturnButtons.SetActive(false);
 	    ReturnOrRetry.ReturnParty((int)price);
 	}
 

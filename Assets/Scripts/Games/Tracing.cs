@@ -481,6 +481,7 @@ public class Tracing : MonoBehaviour {
     }
 
     public void Return() {
+        returnOrRetryButtons.SetActive(false);
         if (grade != Quality.QualityGrade.Junk)
 		    ReturnOrRetry.Return("shell", grade);
         else
@@ -488,6 +489,7 @@ public class Tracing : MonoBehaviour {
 	}
 
 	public void Retry() {
+        returnOrRetryButtons.SetActive(false);
 		ReturnOrRetry.Retry();
 	}
 
@@ -512,6 +514,7 @@ public class Tracing : MonoBehaviour {
 	}
 	
 	public void PartyModeReturn() {
+        PartyReturnButtons.SetActive(false);
 	    ReturnOrRetry.ReturnParty(PointsManager.GetPoints());
 	}
 

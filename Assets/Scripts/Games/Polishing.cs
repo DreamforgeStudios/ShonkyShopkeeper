@@ -316,6 +316,7 @@ public class Polishing : MonoBehaviour {
     }
 
     public void Return() {
+        returnOrRetryButtons.SetActive(false);
         if (grade != Quality.QualityGrade.Junk)
             ReturnOrRetry.Return("Charged " + GameManager.Instance.GemTypeTransfer, grade);
         else
@@ -325,6 +326,7 @@ public class Polishing : MonoBehaviour {
 
     // Retry (roload scene).
 	public void Retry() {
+        returnOrRetryButtons.SetActive(false);
 		ReturnOrRetry.Retry();
 	}
 
@@ -345,6 +347,7 @@ public class Polishing : MonoBehaviour {
 	}
 	
 	public void PartyModeReturn() {
+        PartyReturnButtons.SetActive(false);
 	    ReturnOrRetry.ReturnParty(pointsManager.GetPoints());
 	}
 
