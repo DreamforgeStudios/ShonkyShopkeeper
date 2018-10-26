@@ -63,7 +63,7 @@ public class Tracing : MonoBehaviour {
 
     //Distance and tracking variables
     public int hitPoints = 0;
-    public float maxDistanceAway = 0.5f;
+    public float maxDistanceAway = 0.08f;
     private bool foundNumber = false;
     private int lastIndex = 0;
     private float bestDistanceSoFar;
@@ -89,6 +89,7 @@ public class Tracing : MonoBehaviour {
     public float timeLimit = 10.00f;
     private bool startTimer = false;
     public float MissDurationTimeout;
+    private float runeFadeDuration;
 
     //Quality bar.
     public PointsManager PointsManager;
@@ -264,6 +265,7 @@ public class Tracing : MonoBehaviour {
         lineRenderer.startColor = customColor;
         lineRenderer.endColor = customColor;
         //Stop previous coroutine and start new one
+        runeFadeDuration = 2.0f / lineRenderer.positionCount;
         StopCoroutine(FadePosition());
         StartCoroutine(FadePosition());
     }
@@ -279,7 +281,7 @@ public class Tracing : MonoBehaviour {
         while (lineRenderer.positionCount > 1)
         {
             lineRenderer.positionCount = lineRenderer.positionCount - 1;
-            yield return new WaitForSeconds(0.05f);
+            yield return new WaitForSeconds(runeFadeDuration);
         }
     }
 
@@ -327,11 +329,11 @@ public class Tracing : MonoBehaviour {
             else if (averageDistanceAway > 0.05 && averageDistanceAway < 0.067) {
                 return 850;
             }
-            else if (averageDistanceAway > 0.067 && averageDistanceAway < 0.5) {
+            else if (averageDistanceAway > 0.067 && averageDistanceAway < 0.12) {
                 return 600;
             }
             else {
-                return 400;
+                return 0;
             }
         }
         else {
@@ -394,6 +396,7 @@ public class Tracing : MonoBehaviour {
                     bestDistanceSoFar = Vector3.Distance(playerPoints[j], positionArea);
                     lastIndex = j;
                     foundNumber = true;
+                    Debug.Log("Best distance so far is " + bestDistanceSoFar);
                 }
         }
         
