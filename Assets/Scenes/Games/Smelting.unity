@@ -3858,7 +3858,7 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 0
-  ManualDifficultyOverride: 1
+  ManualDifficultyOverride: 0
   ManualDifficulty: 0
   heldTickrate: 0.15
   accelerationCurve:

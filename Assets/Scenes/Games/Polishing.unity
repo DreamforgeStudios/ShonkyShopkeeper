@@ -5899,7 +5899,7 @@ MonoBehaviour:
     - SwipeContribution: 50
     - SwipeContribution: 42
     - SwipeContribution: 35
-  ManualDifficultyOverride: 1
+  ManualDifficultyOverride: 0
   ManualDifficulty: 2
   qualityText: {fileID: 332335485}
   timerSlider: {fileID: 1162780407}

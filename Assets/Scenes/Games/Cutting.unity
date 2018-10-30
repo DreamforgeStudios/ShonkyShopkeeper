@@ -1136,7 +1136,7 @@ MonoBehaviour:
       MaximumVectorCloseness: 0.2
       AcceptanceThreshold: 0.3
       CutRewardMultiplier: 270
-  ManualDifficultyOverride: 1
+  ManualDifficultyOverride: 0
   ManualDifficulty: 2
   PunchDurationMultiplier: 0.7
   PunchVibration: 6

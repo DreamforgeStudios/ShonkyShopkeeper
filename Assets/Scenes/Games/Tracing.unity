@@ -5361,7 +5361,7 @@ MonoBehaviour:
     - ScoreMultiplier: 1.2
     - ScoreMultiplier: 1
     - ScoreMultiplier: 0.8
-  ManualDifficultyOverride: 1
+  ManualDifficultyOverride: 0
   ManualDifficulty: 0
   startTime: 0
   currentTime: 0
